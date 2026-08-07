@@ -1,0 +1,115 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#f4f9ff;
+}
+
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+    background:white;
+}
+
+
+nav h2{
+    color:#0066cc;
+}
+
+
+nav ul{
+    display:flex;
+    list-style:none;
+}
+
+
+nav li{
+    margin-left:25px;
+}
+
+
+nav a{
+    text-decoration:none;
+    color:#333;
+}
+
+
+.hero{
+    text-align:center;
+    margin-top:120px;
+}
+
+
+.hero h1{
+    font-size:55px;
+    color:#0066cc;
+}
+
+
+.hero p{
+    font-size:22px;
+    margin:25px;
+}
+
+
+button{
+    background:#0066cc;
+    color:white;
+    padding:15px 30px;
+    border:none;
+    border-radius:8px;
+    margin:10px;
+    font-size:18px;
+}.page-title{
+    text-align:center;
+    margin-top:50px;
+    color:#0066cc;
+}
+
+.doctor-container{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    margin-top:50px;
+    flex-wrap:wrap;
+}
+
+.doctor-card{
+    background:white;
+    width:300px;
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+.doctor-card h2{
+    color:#0066cc;
+    margin-bottom:15px;
+}
+
+.doctor-card p{
+    margin-bottom:20px;
+    color:#555;
+}.appointment-form{
+    width:400px;
+    margin:50px auto;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.appointment-form input,
+.appointment-form select{
+    padding:15px;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}

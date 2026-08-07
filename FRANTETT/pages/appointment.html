@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<h1 class="page-title">Book an Appointment</h1>
+
+<form class="appointment-form">
+
+    <input type="text" placeholder="Full Name" required>
+
+    <input type="email" placeholder="Email Address" required>
+
+    <input type="date" required>
+
+    <input type="phone number" placeholder="phone number" required>
+
+
+    <select required>
+        <option>Select a Doctor</option>
+        <option>Dr. Francis Tetteh</option>
+        <option>Dr. Talent</option>
+        <option>Dr. Emily Brown</option>
+        <option>Dr. Sam</option>
+    </select>
+
+    <button type="submit">Book Appointment</button>
+
+</form>
+
+<h2 style="text-align:center; margin-top:40px;">Booked Appointments</h2>
+
+<div id="appointments"></div>
+
+
+<script src="../script.js"></script>
+
+
