@@ -1,43 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Appointment</title>
-    <link rel="stylesheet" href="../style.css">
-</head>
-<body>
+<form id="appointmentForm">
 
-<h1 class="page-title">Book an Appointment</h1>
+    <input type="text" name="name" placeholder="Full Name" required>
 
-<form class="appointment-form">
+    <input type="email" name="email" placeholder="Email Address" required>
 
-    <input type="text" placeholder="Full Name" required>
+    <input type="date" name="date" required>
 
-    <input type="email" placeholder="Email Address" required>
+    <input type="tel" name="phone" placeholder="Phone Number" required>
 
-    <input type="date" required>
-
-    <input type="phone number" placeholder="phone number" required>
-
-
-    <select required>
-        <option>Select a Doctor</option>
-        <option>Dr. Francis Tetteh</option>
-        <option>Dr. Talent</option>
-        <option>Dr. Emily Brown</option>
-        <option>Dr. Sam</option>
+    <select name="doctor" required>
+        <option value="">Select a Doctor</option>
+        <option value="Dr. Francis Tetteh">Dr. Francis Tetteh</option>
+        <option value="Dr. Talent">Dr. Talent</option>
+        <option value="Dr. Emily Brown">Dr. Emily Brown</option>
+        <option value="Dr. Sam">Dr. Sam</option>
     </select>
 
     <button type="submit">Book Appointment</button>
 
 </form>
 
-<h2 style="text-align:center; margin-top:40px;">Booked Appointments</h2>
+<script>
+    const appointmentForm = document.getElementById("appointmentForm");
 
-<div id="appointments"></div>
+    appointmentForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
 
+        const appointment = {
+            name: appointmentForm.elements["name"].value,
+            email: appointmentForm.elements["email"].value,
+            date: appointmentForm.elements["date"].value,
+            phone: appointmentForm.elements["phone"].value,
+            doctor: appointmentForm.elements["doctor"].value
+        };
 
-<script src="../script.js"></script>
+        try {
+            const response = await fetch("http://localhost:3000/api/appointments", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(appointment)
+            });
 
+            const data = await response.json();
 
+            console.log(data);
+
+            alert(data.message);
+
+            appointmentForm.reset();
+
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Something went wrong. Please try again.");
+        }
+    });
+</script>
