@@ -113,3 +113,85 @@ button{
     border:1px solid #ccc;
     border-radius:8px;
 }
+
+.appointment-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.appointment-card p {
+    margin: 8px 0;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.status.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status.confirmed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status.cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Appointment cards */
+
+#appointments {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.appointment-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.appointment-card p {
+    margin: 8px 0;
+}
+
+.appointment-card button {
+    padding: 10px 16px;
+    margin: 10px 5px 5px 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.appointment-card button:first-of-type {
+    background-color: #28a745;
+    color: white;
+}
+
+.appointment-card button:last-of-type {
+    background-color: #dc3545;
+    color: white;
+}
+
+.appointment-card button:hover {
+    opacity: 0.85;
+}
+
+.appointment-card button:hover {
+    opacity: 0.85;
+}

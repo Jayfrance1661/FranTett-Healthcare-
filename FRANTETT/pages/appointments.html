@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FranTett Healthcare Appointments</title>
+
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+    <h1>FranTett Healthcare Appointments</h1>
+
+    <div id="appointments"></div>
+
+    <script>
+
+        async function loadAppointments() {
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:3000/api/appointments"
+                );
+
+                const appointments = await response.json();
+
+                const container =
+                    document.getElementById("appointments");
+
+                container.innerHTML = "";
+
+                if (appointments.length === 0) {
+
+                    container.innerHTML =
+                        "<p>No appointments found.</p>";
+
+                    return;
+                }
+
+                appointments.forEach(function (appointment) {
+
+                    const div = document.createElement("div");
+
+                    div.className = "appointment-card";
+
+                    div.innerHTML = `
+                        <p>
+                            <strong>ID:</strong>
+                            ${appointment.id}
+                        </p>
+
+                        <p>
+                            <strong>Name:</strong>
+                            ${appointment.patient_name}
+                        </p>
+
+                        <p>
+                            <strong>Email:</strong>
+                            ${appointment.patient_email}
+                        </p>
+
+                        <p>
+                            <strong>Phone:</strong>
+                            ${appointment.phone}
+                        </p>
+
+                        <p>
+                            <strong>Doctor:</strong>
+                            ${appointment.doctor}
+                        </p>
+
+                        <p>
+                            <strong>Specialty:</strong>
+                            ${appointment.specialty}
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            ${appointment.appointment_date}
+                        </p>
+
+                        <p>
+                            <strong>Time:</strong>
+                            ${appointment.appointment_time}
+                        </p>
+
+                        <p>
+                            <strong>Status:</strong>
+                            <span class="status ${appointment.status.toLowerCase()}">
+                                ${appointment.status}
+                            </span>
+                        </p>
+
+                        ${
+                            appointment.status === "Pending"
+                            ? `
+                                <button onclick="confirmAppointment(${appointment.id})">
+                                    Confirm Appointment
+                                </button>
+
+                                <button onclick="cancelAppointment(${appointment.id})">
+                                    Cancel Appointment
+                                </button>
+                            `
+                            : appointment.status === "Confirmed"
+                            ? `
+                                <button onclick="cancelAppointment(${appointment.id})">
+                                    Cancel Appointment
+                                </button>
+                            `
+                            : ""
+                        }
+
+                        <hr>
+                    `;
+
+                    container.appendChild(div);
+
+                });
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading appointments:",
+                    error
+                );
+
+                document.getElementById("appointments").innerHTML =
+                    "<p>Unable to load appointments.</p>";
+            }
+        }
+
+
+        async function confirmAppointment(id) {
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:3000/api/appointments/" + id,
+                    {
+                        method: "PATCH",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            status: "Confirmed"
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                console.log(data);
+
+                location.reload();
+
+            } catch (error) {
+
+                console.error(
+                    "Error confirming appointment:",
+                    error
+                );
+
+                alert(
+                    "Unable to confirm appointment."
+                );
+            }
+        }
+
+
+        async function cancelAppointment(id) {
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:3000/api/appointments/" + id,
+                    {
+                        method: "PATCH",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            status: "Cancelled"
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                console.log(data);
+
+                location.reload();
+
+            } catch (error) {
+
+                console.error(
+                    "Error cancelling appointment:",
+                    error
+                );
+
+                alert(
+                    "Unable to cancel appointment."
+                );
+            }
+        }
+
+
+        loadAppointments();
+
+    </script>
+
+</body>
+</html>
