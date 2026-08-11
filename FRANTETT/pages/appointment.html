@@ -1,62 +1,141 @@
-<form id="appointmentForm">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - FranTett Healthcare</title>
 
-    <input type="text" name="name" placeholder="Full Name" required>
+    <link rel="stylesheet" href="../style.css">
+</head>
 
-    <input type="email" name="email" placeholder="Email Address" required>
+<body>
 
-    <input type="date" name="date" required>
+    <nav>
+        <h2>FranTett Healthcare</h2>
 
-    <input type="time" name="time" required>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="doctors.html">Doctors</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="appointment.html">Appointments</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
 
-    <input type="tel" name="phone" placeholder="Phone Number" required>
+    <main>
+        <h1>Book an Appointment</h1>
 
-    <select name="doctor" required>
-        <option value="">Select a Doctor</option>
-        <option value="Dr. Francis Tetteh">Dr. Francis Tetteh</option>
-        <option value="Dr. Talent">Dr. Talent</option>
-        <option value="Dr. Emily Brown">Dr. Emily Brown</option>
-        <option value="Dr. Sam">Dr. Sam</option>
-    </select>
+        <form id="appointmentForm">
 
-    <button type="submit">Book Appointment</button>
+            <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                required
+            >
 
-</form>
+            <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                required
+            >
 
-<script>
-    const appointmentForm = document.getElementById("appointmentForm");
+            <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number"
+                required
+            >
 
-    appointmentForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
+            <select name="doctor" required>
+                <option value="">Select a Doctor</option>
+                <option value="Dr. Francis Tetteh">Dr. Francis Tetteh</option>
+                <option value="Dr. Talent">Dr. Talent</option>
+                <option value="Dr. Emily Brown">Dr. Emily Brown</option>
+                <option value="Dr. Sam">Dr. Sam</option>
+            </select>
 
-        const appointment = {
-            name: appointmentForm.elements["name"].value,
-            email: appointmentForm.elements["email"].value,
-            date: appointmentForm.elements["date"].value,
-            time: appointmentForm.elements["time"].value,
-            phone: appointmentForm.elements["phone"].value,
-            doctor: appointmentForm.elements["doctor"].value
-        };
+            <label for="appointment_date">Appointment Date</label>
 
-        try {
-            const response = await fetch("http://localhost:3000/api/appointments", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(appointment)
-            });
+            <input
+                type="date"
+                id="appointment_date"
+                name="appointment_date"
+                required
+            >
 
-            const data = await response.json();
+            <label for="appointment_time">Appointment Time</label>
 
-            console.log(data);
+            <input
+                type="time"
+                id="appointment_time"
+                name="appointment_time"
+                required
+            >
 
-            alert(data.message);
+            <textarea
+                name="reason"
+                placeholder="Reason for appointment"
+                rows="5"
+            ></textarea>
 
-            appointmentForm.reset();
+            <button type="submit">Book Appointment</button>
 
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Something went wrong. Please try again.");
-        }
-    });
-</script>
+        </form>
+
+        <p id="message"></p>
+
+    </main>
+
+    <script>
+        const form = document.getElementById("appointmentForm");
+        const message = document.getElementById("message");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const appointment = {
+                name: formData.get("name"),
+                email: formData.get("email"),
+                phone: formData.get("phone"),
+                doctor: formData.get("doctor"),
+                appointment_date: formData.get("appointment_date"),
+                appointment_time: formData.get("appointment_time"),
+                reason: formData.get("reason")
+            };
+
+            try {
+                const response = await fetch(
+                    "http://localhost:3000/api/appointments",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(appointment)
+                    }
+                );
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    message.textContent = "Appointment booked successfully!";
+                    form.reset();
+                } else {
+                    message.textContent =
+                        data.message || "Failed to book appointment.";
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                message.textContent =
+                    "Unable to connect to the server.";
+            }
+        });
+    </script>
+
+</body>
+</html>
