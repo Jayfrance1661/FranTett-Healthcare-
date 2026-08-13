@@ -10,12 +10,9 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Staff Dashboard - FranTett Healthcare</title>
-
-    <link
-        rel="stylesheet"
-        href="../style.css"
-    >
+    <title>
+        FranTett Healthcare - Staff Dashboard
+    </title>
 
     <style>
 
@@ -25,22 +22,23 @@
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7f9;
             color: #222;
         }
 
-        /* =========================
+        /* ==========================================
            NAVIGATION
-        ========================= */
+        ========================================== */
 
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #0b6b50;
+            color: white;
             padding: 15px 30px;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
         }
 
         nav h2 {
@@ -48,232 +46,141 @@
         }
 
         nav ul {
-            display: flex;
             list-style: none;
+            display: flex;
             gap: 20px;
             margin: 0;
             padding: 0;
             flex-wrap: wrap;
         }
 
-        nav a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        nav a:hover {
-            color: #007bff;
-        }
-
-        /* =========================
-           LOGIN
-        ========================= */
-
-        .login-container {
-            max-width: 420px;
-            margin: 100px auto;
-            padding: 30px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
-        }
-
-        .login-container h1 {
-            margin-bottom: 10px;
-        }
-
-        .login-container p {
-            color: #666;
-            margin-bottom: 25px;
-        }
-
-        .login-container input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            background: #007bff;
+        nav ul li a {
             color: white;
-            font-size: 16px;
-            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
         }
 
-        .login-btn:hover {
-            background: #0069d9;
+        nav ul li a:hover {
+            text-decoration: underline;
         }
 
-        #loginMessage {
-            margin-top: 15px;
-            color: #dc3545;
-        }
+        /* ==========================================
+           MAIN
+        ========================================== */
 
-        /* =========================
-           DASHBOARD
-        ========================= */
-
-        .dashboard {
-            padding: 30px;
-        }
-
-        .hidden {
-            display: none !important;
+        .container {
+            width: 95%;
+            max-width: 1500px;
+            margin: 30px auto;
         }
 
         .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            gap: 20px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .dashboard-header h1 {
+            margin-top: 0;
             margin-bottom: 8px;
         }
 
         .dashboard-header p {
+            margin-bottom: 0;
             color: #666;
         }
 
-        .logout-btn {
-            background: #dc3545;
-            color: white;
-            padding: 10px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .logout-btn:hover {
-            background: #bb2d3b;
-        }
-
-        /* =========================
+        /* ==========================================
            TABS
-        ========================= */
+        ========================================== */
 
         .tabs {
             display: flex;
             gap: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        .tab-btn {
-            padding: 12px 22px;
+        .tab-button {
             border: none;
-            border-radius: 6px;
+            padding: 12px 25px;
             background: #ddd;
             cursor: pointer;
-            font-size: 15px;
+            border-radius: 6px;
+            font-weight: bold;
         }
 
-        .tab-btn.active {
-            background: #007bff;
+        .tab-button.active {
+            background: #0b6b50;
             color: white;
         }
 
-        .tab-btn:hover {
-            background: #0069d9;
-            color: white;
-        }
-
-        /* =========================
-           STATISTICS
-        ========================= */
+        /* ==========================================
+           STAT CARDS
+        ========================================== */
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns:
+                repeat(auto-fit, minmax(150px, 1fr));
+
             gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .stat-card {
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
         }
 
         .stat-card h3 {
             margin: 0 0 10px;
-            font-size: 15px;
+            color: #555;
         }
 
-        .stat-card p {
-            font-size: 28px;
+        .stat-number {
+            font-size: 30px;
             font-weight: bold;
-            margin: 0;
+            color: #0b6b50;
         }
 
-        /* =========================
-           SECTION HEADER
-        ========================= */
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 15px;
-        }
-
-        .section-header h2 {
-            margin: 0;
-        }
-
-        .add-btn {
-            background: #28a745;
-            color: white;
-            padding: 10px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .add-btn:hover {
-            background: #218838;
-        }
-
-        /* =========================
+        /* ==========================================
            FILTERS
-        ========================= */
+        ========================================== */
 
         .filters {
             background: white;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .filters input,
         .filters select {
-            padding: 10px;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            padding: 11px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 6px;
+            min-width: 200px;
+            font-size: 14px;
         }
 
-        /* =========================
+        /* ==========================================
            TABLE
-        ========================= */
+        ========================================== */
 
         .table-container {
-            overflow-x: auto;
             background: white;
-            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         table {
@@ -285,20 +192,67 @@
         th,
         td {
             padding: 12px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eee;
             text-align: left;
+            vertical-align: middle;
         }
 
         th {
-            background: #f5f5f5;
+            background: #0b6b50;
+            color: white;
         }
 
+        tr:hover {
+            background: #f8fbfa;
+        }
+
+        /* ==========================================
+           STATUS
+        ========================================== */
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* ==========================================
+           BUTTONS
+        ========================================== */
+
         button {
-            padding: 7px 10px;
+            cursor: pointer;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
-            margin: 2px;
+            padding: 8px 12px;
+            font-weight: bold;
+        }
+
+        .view-btn {
+            background: #007bff;
+            color: white;
         }
 
         .confirm-btn {
@@ -316,200 +270,170 @@
             color: white;
         }
 
-        .view-btn {
-            background: #007bff;
-            color: white;
-        }
-
-        .edit-btn {
-            background: #ffc107;
-            color: #222;
-        }
-
         .delete-btn {
-            background: #dc3545;
+            background: #6c757d;
             color: white;
         }
 
-        .status-select {
-            padding: 6px;
+        .edit-patient-btn {
+            background: #0b6b50;
+            color: white;
+            padding: 10px 16px;
+            margin-top: 10px;
         }
 
-        .action-buttons {
-            white-space: nowrap;
+        button:hover {
+            opacity: 0.85;
         }
 
-        /* =========================
+        .actions {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        /* ==========================================
            MODAL
-        ========================= */
+        ========================================== */
 
         .modal {
-            display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
+
+            background: rgba(0,0,0,0.6);
+
+            display: none;
+
             justify-content: center;
+            align-items: center;
+
             padding: 20px;
+
+            z-index: 9999;
         }
 
         .modal-content {
             background: white;
-            width: 100%;
-            max-width: 650px;
+            width: 95%;
+            max-width: 800px;
             max-height: 90vh;
             overflow-y: auto;
-            padding: 30px;
-            border-radius: 12px;
+            border-radius: 10px;
+            padding: 25px;
             position: relative;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
         }
 
-        .close-modal {
-            position: absolute;
-            right: 20px;
-            top: 12px;
-            font-size: 30px;
-            cursor: pointer;
-            color: #666;
+        .modal-content h2 {
+            margin-top: 0;
+            color: #0b6b50;
         }
 
-        .close-modal:hover {
-            color: #000;
+        .modal-content h3 {
+            margin-top: 25px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
         }
 
-        .appointment-details p {
-            padding: 10px 0;
-            margin: 0;
-            border-bottom: 1px solid #eee;
+        .modal-row {
+            margin-bottom: 10px;
         }
 
-        .appointment-details strong {
+        .modal-row strong {
             display: inline-block;
-            width: 150px;
+            min-width: 150px;
         }
 
-        /* =========================
-           PATIENT FORM
-        ========================= */
-
-        .patient-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+        .patient-record-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f5f8f7;
+            border-radius: 8px;
         }
 
-        .patient-form .full-width {
-            grid-column: 1 / -1;
+        .patient-record-section p {
+            margin: 8px 0;
+            word-break: break-word;
         }
 
-        .patient-form label {
+        .close-btn {
+            margin-top: 20px;
+            background: #555;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        /* ==========================================
+           FORM
+        ========================================== */
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
             display: block;
             margin-bottom: 6px;
             font-weight: bold;
         }
 
-        .patient-form input,
-        .patient-form select,
-        .patient-form textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 10px;
+            padding: 11px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            font-family: Arial, sans-serif;
+            font-size: 14px;
         }
 
-        .patient-form textarea {
-            min-height: 90px;
+        .form-group textarea {
             resize: vertical;
         }
 
-        .form-actions {
-            grid-column: 1 / -1;
-            margin-top: 10px;
+        .form-buttons {
             display: flex;
-            justify-content: flex-end;
             gap: 10px;
+            margin-top: 20px;
         }
 
-        .save-btn {
-            background: #28a745;
-            color: white;
-            padding: 10px 20px;
+        .message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            display: none;
         }
 
-        .close-btn {
-            background: #6c757d;
-            color: white;
-            padding: 10px 20px;
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #666;
         }
 
-        .form-message {
-            grid-column: 1 / -1;
-            margin-top: 5px;
-        }
-
-        .success-message {
-            color: #198754;
-        }
-
-        .error-message {
-            color: #dc3545;
-        }
-
-        /* =========================
+        /* ==========================================
            MOBILE
-        ========================= */
+        ========================================== */
 
-        @media (max-width: 900px) {
-
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        @media (max-width: 700px) {
 
             nav {
                 flex-direction: column;
+                align-items: flex-start;
                 gap: 15px;
             }
 
-            .patient-form {
-                grid-template-columns: 1fr;
+            nav ul {
+                gap: 10px;
             }
 
-            .patient-form .full-width,
-            .form-actions,
-            .form-message {
-                grid-column: auto;
+            .container {
+                width: 97%;
             }
 
-        }
-
-        @media (max-width: 600px) {
-
-            .dashboard {
-                padding: 15px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .dashboard-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .tabs {
-                flex-direction: column;
-            }
-
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
+            .modal-content {
+                width: 100%;
             }
 
         }
@@ -518,44 +442,54 @@
 
 </head>
 
+
 <body>
 
-<!-- =========================
+
+<!-- ==========================================
      NAVIGATION
-========================= -->
+========================================== -->
 
 <nav>
 
-    <h2>FranTett Healthcare</h2>
+    <h2>
+        FranTett Healthcare
+    </h2>
 
     <ul>
 
         <li>
-            <a href="home.html">Home</a>
+            <a href="../index.html">
+                Home
+            </a>
         </li>
 
         <li>
-            <a href="doctors.html">Doctors</a>
+            <a href="../pages/doctors.html">
+                Doctors
+            </a>
         </li>
 
         <li>
-            <a href="services.html">Services</a>
+            <a href="../pages/services.html">
+                Services
+            </a>
         </li>
 
         <li>
-            <a href="appointment.html">
+            <a href="../pages/appointment.html">
                 Book Appointment
             </a>
         </li>
 
         <li>
-            <a href="appointments.html">
+            <a href="./appointments.html">
                 Staff Dashboard
             </a>
         </li>
 
         <li>
-            <a href="contact.html">
+            <a href="../pages/contact.html">
                 Contact
             </a>
         </li>
@@ -565,81 +499,26 @@
 </nav>
 
 
-<!-- =========================
-     LOGIN
-========================= -->
+<!-- ==========================================
+     MAIN
+========================================== -->
 
-<section
-    id="loginSection"
-    class="login-container"
->
-
-    <h1>Staff Login</h1>
-
-    <p>
-        Sign in to access the FranTett Healthcare
-        appointment and patient dashboard.
-    </p>
-
-    <form id="loginForm">
-
-        <input
-            type="email"
-            id="loginEmail"
-            placeholder="Staff Email"
-            autocomplete="username"
-            required
-        >
-
-        <input
-            type="password"
-            id="loginPassword"
-            placeholder="Password"
-            autocomplete="current-password"
-            required
-        >
-
-        <button
-            type="submit"
-            class="login-btn"
-        >
-            Login
-        </button>
-
-    </form>
-
-    <div id="loginMessage"></div>
-
-</section>
-
-
-<!-- =========================
-     DASHBOARD
-========================= -->
-
-<main
-    id="dashboardSection"
-    class="dashboard hidden"
->
+<div class="container">
 
     <div class="dashboard-header">
 
-        <div>
+        <h1>
+            Staff Dashboard
+        </h1>
 
-            <h1>
-                Staff Dashboard
-            </h1>
-
-            <p>
-                Manage FranTett Healthcare
-                appointments and patients.
-            </p>
-
-        </div>
+        <p>
+            Manage FranTett Healthcare appointments and patients.
+        </p>
 
         <button
-            class="logout-btn"
             onclick="logout()"
+            class="cancel-btn"
+            style="margin-top:15px;"
         >
             Logout
         </button>
@@ -647,24 +526,22 @@
     </div>
 
 
-    <!-- =========================
+    <!-- ==========================================
          TABS
-    ========================= -->
+    ========================================== -->
 
     <div class="tabs">
 
         <button
-            id="appointmentsTab"
-            class="tab-btn active"
-            onclick="showSection('appointments')"
+            class="tab-button active"
+            onclick="showAppointments()"
         >
             Appointments
         </button>
 
         <button
-            id="patientsTab"
-            class="tab-btn"
-            onclick="showSection('patients')"
+            class="tab-button"
+            onclick="goToPatients()"
         >
             Patients
         </button>
@@ -672,239 +549,209 @@
     </div>
 
 
-    <!-- =========================
-         APPOINTMENTS SECTION
-    ========================= -->
+    <div
+        id="message"
+        class="message"
+    ></div>
 
-    <section id="appointmentsSection">
 
-        <div class="stats">
+    <!-- ==========================================
+         APPOINTMENT STATISTICS
+    ========================================== -->
 
-            <div class="stat-card">
-                <h3>Total</h3>
-                <p id="totalCount">0</p>
-            </div>
+    <div class="stats">
 
-            <div class="stat-card">
-                <h3>Pending</h3>
-                <p id="pendingCount">0</p>
-            </div>
+        <div class="stat-card">
 
-            <div class="stat-card">
-                <h3>Confirmed</h3>
-                <p id="confirmedCount">0</p>
-            </div>
+            <h3>Total</h3>
 
-            <div class="stat-card">
-                <h3>Cancelled</h3>
-                <p id="cancelledCount">0</p>
-            </div>
-
-            <div class="stat-card">
-                <h3>Completed</h3>
-                <p id="completedCount">0</p>
+            <div
+                id="totalCount"
+                class="stat-number"
+            >
+                0
             </div>
 
         </div>
 
 
-        <div class="filters">
+        <div class="stat-card">
 
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search patient..."
-                oninput="filterAppointments()"
+            <h3>Pending</h3>
+
+            <div
+                id="pendingCount"
+                class="stat-number"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Confirmed</h3>
+
+            <div
+                id="confirmedCount"
+                class="stat-number"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Cancelled</h3>
+
+            <div
+                id="cancelledCount"
+                class="stat-number"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Completed</h3>
+
+            <div
+                id="completedCount"
+                class="stat-number"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         FILTERS
+    ========================================== -->
+
+    <div class="filters">
+
+        <input
+            type="text"
+            id="searchPatient"
+            placeholder="Search patient..."
+            oninput="applyFilters()"
+        >
+
+
+        <select
+            id="doctorFilter"
+            onchange="applyFilters()"
+        >
+
+            <option value="">
+                All Doctors
+            </option>
+
+        </select>
+
+
+        <select
+            id="statusFilter"
+            onchange="applyFilters()"
+        >
+
+            <option value="">
+                All Statuses
+            </option>
+
+            <option value="Pending">
+                Pending
+            </option>
+
+            <option value="Confirmed">
+                Confirmed
+            </option>
+
+            <option value="Cancelled">
+                Cancelled
+            </option>
+
+            <option value="Completed">
+                Completed
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- ==========================================
+         APPOINTMENTS TABLE
+    ========================================== -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Patient</th>
+
+                    <th>Email</th>
+
+                    <th>Phone</th>
+
+                    <th>Doctor</th>
+
+                    <th>Date</th>
+
+                    <th>Time</th>
+
+                    <th>Reason</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody
+                id="appointmentsTableBody"
             >
 
-            <select
-                id="doctorFilter"
-                onchange="filterAppointments()"
-            >
+                <tr>
 
-                <option value="">
-                    All Doctors
-                </option>
+                    <td
+                        colspan="10"
+                        class="loading"
+                    >
+                        Loading appointments...
+                    </td>
 
-                <option value="Dr. Francis Tetteh">
-                    Dr. Francis Tetteh
-                </option>
+                </tr>
 
-                <option value="Dr. Talent">
-                    Dr. Talent
-                </option>
+            </tbody>
 
-                <option value="Dr. Emily Brown">
-                    Dr. Emily Brown
-                </option>
+        </table>
 
-                <option value="Dr. Sam">
-                    Dr. Sam
-                </option>
+    </div>
 
-            </select>
+</div>
 
 
-            <select
-                id="statusFilter"
-                onchange="filterAppointments()"
-            >
-
-                <option value="">
-                    All Statuses
-                </option>
-
-                <option value="Pending">
-                    Pending
-                </option>
-
-                <option value="Confirmed">
-                    Confirmed
-                </option>
-
-                <option value="Cancelled">
-                    Cancelled
-                </option>
-
-                <option value="Completed">
-                    Completed
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="table-container">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>ID</th>
-                        <th>Patient</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Doctor</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Reason</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="appointmentsTable">
-
-                    <tr>
-
-                        <td colspan="10">
-                            Loading appointments...
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         PATIENTS SECTION
-    ========================= -->
-
-    <section
-        id="patientsSection"
-        class="hidden"
-    >
-
-        <div class="section-header">
-
-            <div>
-
-                <h2>Patients</h2>
-
-                <p>
-                    View and manage patient records.
-                </p>
-
-            </div>
-
-            <button
-                class="add-btn"
-                onclick="openAddPatientModal()"
-            >
-                + Add Patient
-            </button>
-
-        </div>
-
-
-        <div class="filters">
-
-            <input
-                type="text"
-                id="patientSearch"
-                placeholder="Search patient..."
-                oninput="filterPatients()"
-            >
-
-        </div>
-
-
-        <div class="table-container">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Date of Birth</th>
-                        <th>Gender</th>
-                        <th>Actions</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="patientsTable">
-
-                    <tr>
-
-                        <td colspan="8">
-                            Loading patients...
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<!-- =========================
-     APPOINTMENT VIEW MODAL
-========================= -->
+<!-- ==========================================
+     APPOINTMENT DETAILS MODAL
+========================================== -->
 
 <div
     id="appointmentModal"
@@ -913,458 +760,248 @@
 
     <div class="modal-content">
 
-        <span
-            class="close-modal"
-            onclick="closeAppointmentModal()"
-        >
-            &times;
-        </span>
-
-        <h2>Appointment Details</h2>
-
-        <div class="appointment-details">
-
-            <p>
-                <strong>Patient:</strong>
-                <span id="modalPatient"></span>
-            </p>
-
-            <p>
-                <strong>Email:</strong>
-                <span id="modalEmail"></span>
-            </p>
-
-            <p>
-                <strong>Phone:</strong>
-                <span id="modalPhone"></span>
-            </p>
-
-            <p>
-                <strong>Doctor:</strong>
-                <span id="modalDoctor"></span>
-            </p>
-
-            <p>
-                <strong>Date:</strong>
-                <span id="modalDate"></span>
-            </p>
-
-            <p>
-                <strong>Time:</strong>
-                <span id="modalTime"></span>
-            </p>
-
-            <p>
-                <strong>Reason:</strong>
-                <span id="modalReason"></span>
-            </p>
-
-            <p>
-                <strong>Status:</strong>
-                <span id="modalStatus"></span>
-            </p>
-
-        </div>
-
-<!-- ==========================================
-     LINKED PATIENT RECORD
-========================================== -->
-
-<div class="patient-record-section">
-
-    <h3>Linked Patient Record</h3>
-
-    <p>
-        <strong>Patient ID:</strong>
-        <span id="modalPatientId"></span>
-    </p>
-
-    <p>
-        <strong>Name:</strong>
-        <span id="modalPatientRecord"></span>
-    </p>
-
-    <p>
-        <strong>Email:</strong>
-        <span id="modalPatientEmail"></span>
-    </p>
-
-    <p>
-        <strong>Phone:</strong>
-        <span id="modalPatientPhone"></span>
-    </p>
-
-    <p>
-        <strong>Date of Birth:</strong>
-        <span id="modalPatientDOB"></span>
-    </p>
-
-    <p>
-        <strong>Gender:</strong>
-        <span id="modalPatientGender"></span>
-    </p>
-
-    <p>
-        <strong>Address:</strong>
-        <span id="modalPatientAddress"></span>
-    </p>
-
-    <p>
-        <strong>Medical History:</strong>
-        <span id="modalPatientHistory"></span>
-    </p>
-
-    <p>
-        <strong>Allergies:</strong>
-        <span id="modalPatientAllergies"></span>
-    </p>
-
-    <p>
-        <strong>Medications:</strong>
-        <span id="modalPatientMedications"></span>
-    </p>
-
-    <p>
-        <strong>Clinical Notes:</strong>
-        <span id="modalPatientNotes"></span>
-    </p>
-
-</div>
-
-<button
-    class="close-btn"
-    onclick="closeAppointmentModal()"
->
-    Close
-</button>
-
-    </div>
-
-</div>
-
-
-<!-- =========================
-     PATIENT FORM MODAL
-========================= -->
-
-<div
-    id="patientFormModal"
-    class="modal"
->
-
-    <div class="modal-content">
-
-        <span
-            class="close-modal"
-            onclick="closePatientFormModal()"
-        >
-            &times;
-        </span>
-
-        <h2 id="patientFormTitle">
-            Add Patient
+        <h2>
+            Appointment Details
         </h2>
 
-        <form
-            id="patientForm"
-            class="patient-form"
-        >
 
-            <input
-                type="hidden"
-                id="patientId"
-            >
+        <div class="modal-row">
 
-            <div>
+            <strong>
+                Patient:
+            </strong>
 
-                <label for="firstName">
-                    First Name
-                </label>
-
-                <input
-                    type="text"
-                    id="firstName"
-                    required
-                >
-
-            </div>
-
-
-            <div>
-
-                <label for="lastName">
-                    Last Name
-                </label>
-
-                <input
-                    type="text"
-                    id="lastName"
-                    required
-                >
-
-            </div>
-
-
-            <div>
-
-                <label for="patientEmail">
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="patientEmail"
-                    autocomplete="email"
-                >
-
-            </div>
-
-
-            <div>
-
-                <label for="patientPhone">
-                    Phone
-                </label>
-
-                <input
-                    type="tel"
-                    id="patientPhone"
-                    autocomplete="tel"
-                >
-
-            </div>
-
-
-            <div>
-
-                <label for="dateOfBirth">
-                    Date of Birth
-                </label>
-
-                <input
-                    type="date"
-                    id="dateOfBirth"
-                >
-
-            </div>
-
-
-            <div>
-
-                <label for="gender">
-                    Gender
-                </label>
-
-                <select id="gender">
-
-                    <option value="">
-                        Select gender
-                    </option>
-
-                    <option value="Male">
-                        Male
-                    </option>
-
-                    <option value="Female">
-                        Female
-                    </option>
-
-                    <option value="Other">
-                        Other
-                    </option>
-
-                    <option value="Prefer not to say">
-                        Prefer not to say
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="full-width">
-
-                <label for="address">
-                    Address
-                </label>
-
-                <textarea
-                    id="address"
-                ></textarea>
-
-            </div>
-
-
-            <div class="full-width">
-
-                <label for="medicalHistory">
-                    Medical History
-                </label>
-
-                <textarea
-                    id="medicalHistory"
-                    placeholder="For staff clinical records"
-                ></textarea>
-
-            </div>
-
-
-            <div class="full-width">
-
-                <label for="allergies">
-                    Allergies
-                </label>
-
-                <textarea
-                    id="allergies"
-                    placeholder="For staff clinical records"
-                ></textarea>
-
-            </div>
-
-
-            <div class="full-width">
-
-                <label for="medications">
-                    Medications
-                </label>
-
-                <textarea
-                    id="medications"
-                    placeholder="For staff clinical records"
-                ></textarea>
-
-            </div>
-
-
-            <div class="full-width">
-
-                <label for="notes">
-                    Clinical Notes
-                </label>
-
-                <textarea
-                    id="notes"
-                    placeholder="For authorized staff"
-                ></textarea>
-
-            </div>
-
-
-            <div
-                id="patientFormMessage"
-                class="form-message"
-            ></div>
-
-
-            <div class="form-actions">
-
-                <button
-                    type="button"
-                    class="close-btn"
-                    onclick="closePatientFormModal()"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    class="save-btn"
-                >
-                    Save Patient
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<!-- =========================
-     PATIENT VIEW MODAL
-========================= -->
-
-<div
-    id="patientViewModal"
-    class="modal"
->
-
-    <div class="modal-content">
-
-        <span
-            class="close-modal"
-            onclick="closePatientViewModal()"
-        >
-            &times;
-        </span>
-
-        <h2>Patient Details</h2>
-
-        <div class="appointment-details">
-
-            <p>
-                <strong>ID:</strong>
-                <span id="viewPatientId"></span>
-            </p>
-
-            <p>
-                <strong>Name:</strong>
-                <span id="viewPatientName"></span>
-            </p>
-
-            <p>
-                <strong>Email:</strong>
-                <span id="viewPatientEmail"></span>
-            </p>
-
-            <p>
-                <strong>Phone:</strong>
-                <span id="viewPatientPhone"></span>
-            </p>
-
-            <p>
-                <strong>Date of Birth:</strong>
-                <span id="viewPatientDOB"></span>
-            </p>
-
-            <p>
-                <strong>Gender:</strong>
-                <span id="viewPatientGender"></span>
-            </p>
-
-            <p>
-                <strong>Address:</strong>
-                <span id="viewPatientAddress"></span>
-            </p>
-
-            <p>
-                <strong>Medical History:</strong>
-                <span id="viewPatientHistory"></span>
-            </p>
-
-            <p>
-                <strong>Allergies:</strong>
-                <span id="viewPatientAllergies"></span>
-            </p>
-
-            <p>
-                <strong>Medications:</strong>
-                <span id="viewPatientMedications"></span>
-            </p>
-
-            <p>
-                <strong>Notes:</strong>
-                <span id="viewPatientNotes"></span>
-            </p>
+            <span id="modalPatient"></span>
 
         </div>
 
+
+        <div class="modal-row">
+
+            <strong>
+                Email:
+            </strong>
+
+            <span id="modalEmail"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Phone:
+            </strong>
+
+            <span id="modalPhone"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Doctor:
+            </strong>
+
+            <span id="modalDoctor"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Date:
+            </strong>
+
+            <span id="modalDate"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Time:
+            </strong>
+
+            <span id="modalTime"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Reason:
+            </strong>
+
+            <span id="modalReason"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Status:
+            </strong>
+
+            <span id="modalStatus"></span>
+
+        </div>
+
+
+        <!-- ==========================================
+             LINKED PATIENT
+        ========================================== -->
+
+        <div class="patient-record-section">
+
+            <h3>
+                Linked Patient Record
+            </h3>
+
+
+            <p>
+
+                <strong>
+                    Patient ID:
+                </strong>
+
+                <span id="modalPatientId">
+                    Not linked
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Name:
+                </strong>
+
+                <span id="modalPatientRecord"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Email:
+                </strong>
+
+                <span id="modalPatientEmail"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Phone:
+                </strong>
+
+                <span id="modalPatientPhone"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Date of Birth:
+                </strong>
+
+                <span id="modalPatientDOB"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Gender:
+                </strong>
+
+                <span id="modalPatientGender"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Address:
+                </strong>
+
+                <span id="modalPatientAddress"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Medical History:
+                </strong>
+
+                <span id="modalPatientHistory"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Allergies:
+                </strong>
+
+                <span id="modalPatientAllergies"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Medications:
+                </strong>
+
+                <span id="modalPatientMedications"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Clinical Notes:
+                </strong>
+
+                <span id="modalPatientNotes"></span>
+
+            </p>
+
+
+            <button
+                type="button"
+                onclick="editLinkedPatient()"
+                class="edit-patient-btn"
+            >
+                Edit Patient
+            </button>
+
+        </div>
+
+
         <button
+            type="button"
+            onclick="closeAppointmentModal()"
             class="close-btn"
-            onclick="closePatientViewModal()"
         >
             Close
         </button>
@@ -1374,269 +1011,444 @@
 </div>
 
 
+<!-- ==========================================
+     EDIT PATIENT MODAL
+========================================== -->
+
+<div
+    id="patientEditModal"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+        <h2>
+            Edit Patient
+        </h2>
+
+
+        <input
+            type="hidden"
+            id="editPatientId"
+        >
+
+
+        <div class="form-group">
+
+            <label for="editFirstName">
+                First Name
+            </label>
+
+            <input
+                type="text"
+                id="editFirstName"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editLastName">
+                Last Name
+            </label>
+
+            <input
+                type="text"
+                id="editLastName"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editEmail">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="editEmail"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editPhone">
+                Phone
+            </label>
+
+            <input
+                type="text"
+                id="editPhone"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editDOB">
+                Date of Birth
+            </label>
+
+            <input
+                type="date"
+                id="editDOB"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editGender">
+                Gender
+            </label>
+
+            <select id="editGender">
+
+                <option value="">
+                    Select Gender
+                </option>
+
+                <option value="Male">
+                    Male
+                </option>
+
+                <option value="Female">
+                    Female
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editAddress">
+                Address
+            </label>
+
+            <textarea
+                id="editAddress"
+                rows="3"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editMedicalHistory">
+                Medical History
+            </label>
+
+            <textarea
+                id="editMedicalHistory"
+                rows="4"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editAllergies">
+                Allergies
+            </label>
+
+            <textarea
+                id="editAllergies"
+                rows="3"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editMedications">
+                Medications
+            </label>
+
+            <textarea
+                id="editMedications"
+                rows="3"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editNotes">
+                Clinical Notes
+            </label>
+
+            <textarea
+                id="editNotes"
+                rows="4"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-buttons">
+
+            <button
+                type="button"
+                onclick="savePatientChanges()"
+                class="confirm-btn"
+            >
+                Save Changes
+            </button>
+
+
+            <button
+                type="button"
+                onclick="closePatientEditModal()"
+                class="cancel-btn"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
 
-    const API_URL = "http://localhost:3000";
+/* ==========================================
+   CONFIGURATION
+========================================== */
 
-    let appointments = [];
-
-    let patients = [];
-
-
-    // ==========================================
-    // AUTHORIZATION HEADER
-    // ==========================================
-
-    function getAuthHeaders() {
-
-        const token =
-            localStorage.getItem("frantett_token");
-
-        return {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-        };
-
-    }
+const API_URL =
+    "http://localhost:3000";
 
 
-    // ==========================================
-    // LOGIN
-    // ==========================================
+let appointments = [];
 
-    document
-        .getElementById("loginForm")
-        .addEventListener(
-            "submit",
-            async function(event) {
+let patients = [];
 
-                event.preventDefault();
-
-                const email =
-                    document
-                        .getElementById("loginEmail")
-                        .value
-                        .trim();
-
-                const password =
-                    document
-                        .getElementById("loginPassword")
-                        .value;
-
-                const message =
-                    document.getElementById(
-                        "loginMessage"
-                    );
-
-                message.textContent =
-                    "Logging in...";
-
-                try {
-
-                    const response =
-                        await fetch(
-                            `${API_URL}/api/login`,
-                            {
-                                method: "POST",
-
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
-
-                                body:
-                                    JSON.stringify({
-                                        email,
-                                        password
-                                    })
-                            }
-                        );
-
-                    const data =
-                        await response.json();
-
-                    if (!response.ok) {
-
-                        message.textContent =
-                            data.message ||
-                            "Login failed.";
-
-                        return;
-
-                    }
-
-                    if (!data.token) {
-
-                        message.textContent =
-                            "Login succeeded but no token was received.";
-
-                        return;
-
-                    }
-
-                    localStorage.setItem(
-                        "frantett_token",
-                        data.token
-                    );
-
-                    message.textContent = "";
-
-                    showDashboard();
-
-                } catch (error) {
-
-                    console.error(
-                        "Login error:",
-                        error
-                    );
-
-                    message.textContent =
-                        "Unable to connect to the server.";
-
-                }
-
-            }
-        );
+let doctors = [];
 
 
-    // ==========================================
-    // SHOW DASHBOARD
-    // ==========================================
+/* ==========================================
+   AUTH HEADERS
+========================================== */
 
-    function showDashboard() {
+function getAuthHeaders() {
 
-        document
-            .getElementById("loginSection")
-            .classList
-            .add("hidden");
-
-        document
-            .getElementById("dashboardSection")
-            .classList
-            .remove("hidden");
-
-        loadAppointments();
-
-        loadPatients();
-
-    }
-
-
-    // ==========================================
-    // LOGOUT
-    // ==========================================
-
-    function logout() {
-
-        localStorage.removeItem(
+    const token =
+        localStorage.getItem(
             "frantett_token"
         );
 
-        document
-            .getElementById("dashboardSection")
-            .classList
-            .add("hidden");
+    return {
 
-        document
-            .getElementById("loginSection")
-            .classList
-            .remove("hidden");
+        "Content-Type":
+            "application/json",
 
-        document
-            .getElementById("loginPassword")
-            .value = "";
+        "Authorization":
+            `Bearer ${token}`
 
-        appointments = [];
+    };
 
-        patients = [];
+}
+
+
+/* ==========================================
+   CHECK LOGIN
+========================================== */
+
+function checkLogin() {
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+    if (!token) {
+
+        window.location.href =
+            "./login.html";
+
+        return false;
 
     }
 
+    return true;
 
-    // ==========================================
-    // SECTION TABS
-    // ==========================================
+}
 
-    function showSection(section) {
 
-        const appointmentsSection =
-            document.getElementById(
-                "appointmentsSection"
+/* ==========================================
+   LOGOUT
+========================================== */
+
+function logout() {
+
+    localStorage.removeItem(
+        "frantett_token"
+    );
+
+    window.location.href =
+        "./login.html";
+
+}
+
+
+/* ==========================================
+   GO TO PATIENTS
+========================================== */
+
+function goToPatients() {
+
+    window.location.href =
+        "./patients.html";
+
+}
+
+
+/* ==========================================
+   SHOW APPOINTMENTS
+========================================== */
+
+function showAppointments() {
+
+    window.location.href =
+        "./appointments.html";
+
+}
+
+
+/* ==========================================
+   LOAD DOCTORS
+========================================== */
+
+async function loadDoctors() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/doctors`
             );
 
-        const patientsSection =
-            document.getElementById(
-                "patientsSection"
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load doctors"
             );
-
-        const appointmentsTab =
-            document.getElementById(
-                "appointmentsTab"
-            );
-
-        const patientsTab =
-            document.getElementById(
-                "patientsTab"
-            );
-
-
-        if (section === "appointments") {
-
-            appointmentsSection
-                .classList
-                .remove("hidden");
-
-            patientsSection
-                .classList
-                .add("hidden");
-
-            appointmentsTab
-                .classList
-                .add("active");
-
-            patientsTab
-                .classList
-                .remove("active");
-
-            loadAppointments();
-
-        } else {
-
-            appointmentsSection
-                .classList
-                .add("hidden");
-
-            patientsSection
-                .classList
-                .remove("hidden");
-
-            appointmentsTab
-                .classList
-                .remove("active");
-
-            patientsTab
-                .classList
-                .add("active");
-
-            loadPatients();
 
         }
 
+        doctors =
+            await response.json();
+
+        populateDoctorFilter();
+
+    } catch (error) {
+
+        console.error(
+            "Doctor loading error:",
+            error
+        );
+
     }
 
+}
 
-    // ==========================================
-    // LOAD APPOINTMENTS
-    // ==========================================
 
-    async function loadAppointments() {
+/* ==========================================
+   POPULATE DOCTOR FILTER
+========================================== */
 
-        const token =
-            localStorage.getItem(
-                "frantett_token"
+function populateDoctorFilter() {
+
+    const select =
+        document.getElementById(
+            "doctorFilter"
+        );
+
+    select.innerHTML = `
+        <option value="">
+            All Doctors
+        </option>
+    `;
+
+    doctors.forEach(
+        doctor => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                doctor.name;
+
+            option.textContent =
+                doctor.name;
+
+            select.appendChild(
+                option
             );
 
-        if (!token) {
+        }
+    );
+
+}
+
+
+/* ==========================================
+   LOAD PATIENTS
+========================================== */
+
+async function loadPatients() {
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+    if (!token) {
+
+        logout();
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients`,
+                {
+                    headers:
+                        getAuthHeaders()
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
 
             logout();
 
@@ -1644,431 +1456,584 @@
 
         }
 
-        const table =
-            document.getElementById(
-                "appointmentsTable"
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load patients"
             );
-
-        table.innerHTML = `
-            <tr>
-                <td colspan="10">
-                    Loading appointments...
-                </td>
-            </tr>
-        `;
-
-        try {
-
-            const response =
-                await fetch(
-                    `${API_URL}/api/appointments`,
-                    {
-                        method: "GET",
-
-                        headers: {
-                            "Authorization":
-                                `Bearer ${token}`
-                        }
-                    }
-                );
-
-
-            if (
-                response.status === 401 ||
-                response.status === 403
-            ) {
-
-                logout();
-
-                return;
-
-            }
-
-
-            const data =
-                await response.json();
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.message ||
-                    "Failed to load appointments"
-                );
-
-            }
-
-
-            appointments =
-                Array.isArray(data)
-                    ? data
-                    : [];
-
-
-            updateAppointmentStats();
-
-            renderAppointments(
-                appointments
-            );
-
-        } catch (error) {
-
-            console.error(
-                "Load appointments error:",
-                error
-            );
-
-            table.innerHTML = `
-                <tr>
-                    <td colspan="10">
-                        Unable to load appointments.
-                    </td>
-                </tr>
-            `;
 
         }
 
-    }
+        patients =
+            await response.json();
 
+        /*
+         * Attach the complete patient record
+         * to each appointment using patient_id.
+         */
 
-    // ==========================================
-    // UPDATE APPOINTMENT STATS
-    // ==========================================
+        appointments =
+            appointments.map(
+                appointment => {
 
-    function updateAppointmentStats() {
+                    const patient =
+                        patients.find(
+                            item =>
+                                Number(item.id) ===
+                                Number(
+                                    appointment.patient_id
+                                )
+                        );
 
-        const total =
-            appointments.length;
+                    if (patient) {
 
-        const pending =
-            appointments.filter(
-                appointment =>
-                    appointment.status === "Pending"
-            ).length;
+                        appointment.patient_first_name =
+                            patient.first_name;
 
-        const confirmed =
-            appointments.filter(
-                appointment =>
-                    appointment.status === "Confirmed"
-            ).length;
+                        appointment.patient_last_name =
+                            patient.last_name;
 
-        const cancelled =
-            appointments.filter(
-                appointment =>
-                    appointment.status === "Cancelled"
-            ).length;
+                        appointment.patient_email =
+                            patient.email;
 
-        const completed =
-            appointments.filter(
-                appointment =>
-                    appointment.status === "Completed"
-            ).length;
+                        appointment.patient_phone =
+                            patient.phone;
 
+                        appointment.patient_date_of_birth =
+                            patient.date_of_birth;
 
-        document.getElementById(
-            "totalCount"
-        ).textContent = total;
+                        appointment.patient_gender =
+                            patient.gender;
 
-        document.getElementById(
-            "pendingCount"
-        ).textContent = pending;
+                        appointment.patient_address =
+                            patient.address;
 
-        document.getElementById(
-            "confirmedCount"
-        ).textContent = confirmed;
+                        appointment.patient_medical_history =
+                            patient.medical_history;
 
-        document.getElementById(
-            "cancelledCount"
-        ).textContent = cancelled;
+                        appointment.patient_allergies =
+                            patient.allergies;
 
-        document.getElementById(
-            "completedCount"
-        ).textContent = completed;
+                        appointment.patient_medications =
+                            patient.medications;
 
-    }
+                        appointment.patient_notes =
+                            patient.notes;
 
+                    }
 
-    // ==========================================
-    // RENDER APPOINTMENTS
-    // ==========================================
+                    return appointment;
 
-    function renderAppointments(
-        appointmentList
-    ) {
-
-        const table =
-            document.getElementById(
-                "appointmentsTable"
+                }
             );
 
+    } catch (error) {
+
+        console.error(
+            "Patient loading error:",
+            error
+        );
+
+        showMessage(
+            "Unable to load patient records.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   LOAD APPOINTMENTS
+========================================== */
+
+async function loadAppointments() {
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+    if (!token) {
+
+        logout();
+
+        return;
+
+    }
+
+    const tableBody =
+        document.getElementById(
+            "appointmentsTableBody"
+        );
+
+    tableBody.innerHTML = `
+        <tr>
+            <td
+                colspan="10"
+                class="loading"
+            >
+                Loading appointments...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/appointments`,
+                {
+                    headers:
+                        getAuthHeaders()
+                }
+            );
+
+        const data =
+            await response.json();
 
         if (
-            !appointmentList ||
-            appointmentList.length === 0
+            response.status === 401 ||
+            response.status === 403
         ) {
 
-            table.innerHTML = `
-                <tr>
-                    <td colspan="10">
-                        No appointments found.
-                    </td>
-                </tr>
-            `;
+            logout();
 
             return;
 
         }
 
+        if (!response.ok) {
 
-        table.innerHTML =
-            appointmentList
-                .map(appointment => {
-
-                    const id =
-                        appointment.id;
-
-                    const name =
-                        appointment.name ||
-                        appointment.patient_name ||
-                        "";
-
-                    const email =
-                        appointment.email ||
-                        "";
-
-                    const phone =
-                        appointment.phone ||
-                        "";
-
-                    const doctor =
-                        appointment.doctor ||
-                        "";
-
-                    const date =
-                        formatDate(
-                            appointment.appointment_date
-                        );
-
-                    const time =
-                        formatTime(
-                            appointment.appointment_time
-                        );
-
-                    const reason =
-                        appointment.reason ||
-                        "";
-
-                    const status =
-                        appointment.status ||
-                        "Pending";
-
-
-                    let buttons = `
-                        <button
-                            class="view-btn"
-                            onclick="viewAppointment(${id})"
-                        >
-                            View
-                        </button>
-                    `;
-
-
-                    if (
-                        status !== "Confirmed" &&
-                        status !== "Cancelled" &&
-                        status !== "Completed"
-                    ) {
-
-                        buttons += `
-                            <button
-                                class="confirm-btn"
-                                onclick="updateAppointmentStatus(${id}, 'Confirmed')"
-                            >
-                                Confirm
-                            </button>
-                        `;
-
-                    }
-
-
-                    if (
-                        status !== "Cancelled" &&
-                        status !== "Completed"
-                    ) {
-
-                        buttons += `
-                            <button
-                                class="cancel-btn"
-                                onclick="updateAppointmentStatus(${id}, 'Cancelled')"
-                            >
-                                Cancel
-                            </button>
-                        `;
-
-                    }
-
-
-                    if (
-                        status !== "Completed" &&
-                        status !== "Cancelled"
-                    ) {
-
-                        buttons += `
-                            <button
-                                class="complete-btn"
-                                onclick="updateAppointmentStatus(${id}, 'Completed')"
-                            >
-                                Complete
-                            </button>
-                        `;
-
-                    }
-
-
-                    buttons += `
-                        <button
-                            class="delete-btn"
-                            onclick="deleteAppointment(${id})"
-                        >
-                            Delete
-                        </button>
-                    `;
-
-
-                    return `
-                        <tr>
-
-                            <td>
-                                ${escapeHtml(id)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(name)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(email)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(phone)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(doctor)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(date)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(time)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(reason)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(status)}
-                            </td>
-
-                            <td class="action-buttons">
-                                ${buttons}
-                            </td>
-
-                        </tr>
-                    `;
-
-                })
-                .join("");
-
-    }
-
-
-    // ==========================================
-    // FILTER APPOINTMENTS
-    // ==========================================
-
-    function filterAppointments() {
-
-        const search =
-            document
-                .getElementById(
-                    "searchInput"
-                )
-                .value
-                .toLowerCase()
-                .trim();
-
-        const doctor =
-            document
-                .getElementById(
-                    "doctorFilter"
-                )
-                .value;
-
-        const status =
-            document
-                .getElementById(
-                    "statusFilter"
-                )
-                .value;
-
-
-        const filtered =
-            appointments.filter(
-                appointment => {
-
-                    const name =
-                        (
-                            appointment.name ||
-                            appointment.patient_name ||
-                            ""
-                        )
-                        .toLowerCase();
-
-                    const email =
-                        (
-                            appointment.email ||
-                            ""
-                        )
-                        .toLowerCase();
-
-                    const matchesSearch =
-                        !search ||
-                        name.includes(search) ||
-                        email.includes(search);
-
-                    const matchesDoctor =
-                        !doctor ||
-                        appointment.doctor === doctor;
-
-                    const matchesStatus =
-                        !status ||
-                        appointment.status === status;
-
-                    return (
-                        matchesSearch &&
-                        matchesDoctor &&
-                        matchesStatus
-                    );
-
-                }
+            throw new Error(
+                data.message ||
+                "Unable to load appointments"
             );
 
+        }
 
-        renderAppointments(filtered);
+        appointments =
+            Array.isArray(data)
+                ? data
+                : [];
+
+
+        /*
+         * Load patient records and connect them
+         * to the appointments through patient_id.
+         */
+
+        await loadPatients();
+
+
+        updateStatistics();
+
+        applyFilters();
+
+    } catch (error) {
+
+        console.error(
+            "Load appointments error:",
+            error
+        );
+
+        tableBody.innerHTML = `
+            <tr>
+                <td
+                    colspan="10"
+                    style="
+                        text-align:center;
+                        padding:30px;
+                        color:#c00;
+                    "
+                >
+                    Unable to connect to the server.
+                    <br><br>
+                    ${error.message || ""}
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   UPDATE STATISTICS
+========================================== */
+
+function updateStatistics() {
+
+    const total =
+        appointments.length;
+
+    const pending =
+        appointments.filter(
+            item =>
+                item.status === "Pending"
+        ).length;
+
+    const confirmed =
+        appointments.filter(
+            item =>
+                item.status === "Confirmed"
+        ).length;
+
+    const cancelled =
+        appointments.filter(
+            item =>
+                item.status === "Cancelled"
+        ).length;
+
+    const completed =
+        appointments.filter(
+            item =>
+                item.status === "Completed"
+        ).length;
+
+
+    document.getElementById(
+        "totalCount"
+    ).textContent =
+        total;
+
+    document.getElementById(
+        "pendingCount"
+    ).textContent =
+        pending;
+
+    document.getElementById(
+        "confirmedCount"
+    ).textContent =
+        confirmed;
+
+    document.getElementById(
+        "cancelledCount"
+    ).textContent =
+        cancelled;
+
+    document.getElementById(
+        "completedCount"
+    ).textContent =
+        completed;
+
+}
+
+
+/* ==========================================
+   APPLY FILTERS
+========================================== */
+
+function applyFilters() {
+
+    const search =
+        document.getElementById(
+            "searchPatient"
+        ).value
+        .toLowerCase()
+        .trim();
+
+
+    const doctor =
+        document.getElementById(
+            "doctorFilter"
+        ).value;
+
+
+    const status =
+        document.getElementById(
+            "statusFilter"
+        ).value;
+
+
+    const filtered =
+        appointments.filter(
+            appointment => {
+
+                const patientName =
+                    appointment.name ||
+                    appointment.patient_name ||
+                    "";
+
+                const matchesSearch =
+                    patientName
+                        .toLowerCase()
+                        .includes(search) ||
+                    (
+                        appointment.email ||
+                        ""
+                    )
+                        .toLowerCase()
+                        .includes(search);
+
+
+                const matchesDoctor =
+                    !doctor ||
+                    appointment.doctor ===
+                    doctor;
+
+
+                const matchesStatus =
+                    !status ||
+                    appointment.status ===
+                    status;
+
+
+                return (
+                    matchesSearch &&
+                    matchesDoctor &&
+                    matchesStatus
+                );
+
+            }
+        );
+
+
+    renderAppointments(
+        filtered
+    );
+
+}
+
+
+/* ==========================================
+   RENDER APPOINTMENTS
+========================================== */
+
+function renderAppointments(
+    list
+) {
+
+    const tableBody =
+        document.getElementById(
+            "appointmentsTableBody"
+        );
+
+
+    if (!list.length) {
+
+        tableBody.innerHTML = `
+            <tr>
+                <td
+                    colspan="10"
+                    style="
+                        text-align:center;
+                        padding:30px;
+                    "
+                >
+                    No appointments found.
+                </td>
+            </tr>
+        `;
+
+        return;
 
     }
 
 
-    // ==========================================
-    // VIEW APPOINTMENT
-    // ==========================================
+    tableBody.innerHTML =
+        list.map(
+            appointment => {
 
-   function viewAppointment(id) {
+                const status =
+                    appointment.status ||
+                    "Pending";
+
+
+                const statusClass =
+                    status
+                        .toLowerCase()
+                        .replace(
+                            " ",
+                            "-"
+                        );
+
+
+                let actions = `
+                    <button
+                        class="view-btn"
+                        onclick="viewAppointment(${appointment.id})"
+                    >
+                        View
+                    </button>
+                `;
+
+
+                if (
+                    status === "Pending"
+                ) {
+
+                    actions += `
+                        <button
+                            class="confirm-btn"
+                            onclick="updateAppointmentStatus(
+                                ${appointment.id},
+                                'Confirmed'
+                            )"
+                        >
+                            Confirm
+                        </button>
+
+                        <button
+                            class="cancel-btn"
+                            onclick="updateAppointmentStatus(
+                                ${appointment.id},
+                                'Cancelled'
+                            )"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            class="complete-btn"
+                            onclick="updateAppointmentStatus(
+                                ${appointment.id},
+                                'Completed'
+                            )"
+                        >
+                            Complete
+                        </button>
+                    `;
+
+                }
+
+
+                if (
+                    status === "Confirmed"
+                ) {
+
+                    actions += `
+                        <button
+                            class="cancel-btn"
+                            onclick="updateAppointmentStatus(
+                                ${appointment.id},
+                                'Cancelled'
+                            )"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            class="complete-btn"
+                            onclick="updateAppointmentStatus(
+                                ${appointment.id},
+                                'Completed'
+                            )"
+                        >
+                            Complete
+                        </button>
+                    `;
+
+                }
+
+
+                actions += `
+                    <button
+                        class="delete-btn"
+                        onclick="deleteAppointment(
+                            ${appointment.id}
+                        )"
+                    >
+                        Delete
+                    </button>
+                `;
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${appointment.id}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.name ||
+                                ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.email ||
+                                ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.phone ||
+                                ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.doctor ||
+                                ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${formatDate(
+                                appointment.appointment_date
+                            )}
+                        </td>
+
+                        <td>
+                            ${formatTime(
+                                appointment.appointment_time
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.reason ||
+                                ""
+                            )}
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="
+                                    status
+                                    status-${statusClass}
+                                "
+                            >
+                                ${status}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                ${actions}
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* ==========================================
+   VIEW APPOINTMENT
+========================================== */
+
+function viewAppointment(id) {
 
     const appointment =
         appointments.find(
@@ -2076,6 +2041,7 @@
                 Number(item.id) ===
                 Number(id)
         );
+
 
     if (!appointment) {
 
@@ -2087,9 +2053,6 @@
 
     }
 
-    // ==========================================
-    // APPOINTMENT INFORMATION
-    // ==========================================
 
     document.getElementById(
         "modalPatient"
@@ -2097,11 +2060,13 @@
         appointment.name ||
         "";
 
+
     document.getElementById(
         "modalEmail"
     ).textContent =
         appointment.email ||
         "";
+
 
     document.getElementById(
         "modalPhone"
@@ -2109,11 +2074,13 @@
         appointment.phone ||
         "";
 
+
     document.getElementById(
         "modalDoctor"
     ).textContent =
         appointment.doctor ||
         "";
+
 
     document.getElementById(
         "modalDate"
@@ -2122,6 +2089,7 @@
             appointment.appointment_date
         );
 
+
     document.getElementById(
         "modalTime"
     ).textContent =
@@ -2129,11 +2097,13 @@
             appointment.appointment_time
         );
 
+
     document.getElementById(
         "modalReason"
     ).textContent =
         appointment.reason ||
         "";
+
 
     document.getElementById(
         "modalStatus"
@@ -2142,9 +2112,16 @@
         "Pending";
 
 
-    // ==========================================
-    // LINKED PATIENT INFORMATION
-    // ==========================================
+    /* ==========================================
+       LINKED PATIENT
+    ========================================== */
+
+    document.getElementById(
+        "modalPatientId"
+    ).textContent =
+        appointment.patient_id ||
+        "Not linked";
+
 
     const patientName =
         [
@@ -2159,14 +2136,8 @@
         "modalPatientRecord"
     ).textContent =
         patientName ||
+        appointment.name ||
         "No linked patient";
-
-
-    document.getElementById(
-        "modalPatientId"
-    ).textContent =
-        appointment.patient_id ||
-        "Not linked";
 
 
     document.getElementById(
@@ -2189,10 +2160,10 @@
         "modalPatientDOB"
     ).textContent =
         appointment.patient_date_of_birth
-        ? formatDate(
-            appointment.patient_date_of_birth
-        )
-        : "";
+            ? formatDate(
+                appointment.patient_date_of_birth
+            )
+            : "";
 
 
     document.getElementById(
@@ -2237,1141 +2208,765 @@
         "";
 
 
-    // ==========================================
-    // SHOW MODAL
-    // ==========================================
+    document.getElementById(
+        "appointmentModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* ==========================================
+   CLOSE APPOINTMENT MODAL
+========================================== */
+
+function closeAppointmentModal() {
 
     document.getElementById(
         "appointmentModal"
-    ).style.display = "flex";
+    ).style.display =
+        "none";
 
 }
-    // ==========================================
-    // DELETE APPOINTMENT
-    // ==========================================
 
-    async function deleteAppointment(id) {
 
-        const confirmed =
-            confirm(
-                "Are you sure you want to delete this appointment?"
-            );
+/* ==========================================
+   EDIT LINKED PATIENT
+========================================== */
 
+function editLinkedPatient() {
 
-        if (!confirmed) {
+    const patientId =
+        document.getElementById(
+            "modalPatientId"
+        ).textContent.trim();
 
-            return;
 
-        }
-
-
-        const token =
-            localStorage.getItem(
-                "frantett_token"
-            );
-
-
-        if (!token) {
-
-            logout();
-
-            return;
-
-        }
-
-
-        try {
-
-            const response =
-                await fetch(
-                    `${API_URL}/api/appointments/${id}`,
-                    {
-                        method: "DELETE",
-
-                        headers:
-                            getAuthHeaders()
-                    }
-                );
-
-
-            const data =
-                await response.json();
-
-
-            if (
-                response.status === 401 ||
-                response.status === 403
-            ) {
-
-                logout();
-
-                return;
-
-            }
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.message ||
-                    "Unable to delete appointment"
-                );
-
-            }
-
-
-            await loadAppointments();
-
-
-        } catch (error) {
-
-            console.error(
-                "Delete appointment error:",
-                error
-            );
-
-            alert(
-                error.message ||
-                "Unable to connect to the server."
-            );
-
-        }
-
-    }
-
-
-    // ==========================================
-    // LOAD PATIENTS
-    // ==========================================
-
-    async function loadPatients() {
-
-        const token =
-            localStorage.getItem(
-                "frantett_token"
-            );
-
-
-        if (!token) {
-
-            logout();
-
-            return;
-
-        }
-
-
-        const table =
-            document.getElementById(
-                "patientsTable"
-            );
-
-
-        table.innerHTML = `
-            <tr>
-                <td colspan="8">
-                    Loading patients...
-                </td>
-            </tr>
-        `;
-
-
-        try {
-
-            const response =
-                await fetch(
-                    `${API_URL}/api/patients`,
-                    {
-                        method: "GET",
-
-                        headers: {
-                            "Authorization":
-                                `Bearer ${token}`
-                        }
-                    }
-                );
-
-
-            if (
-                response.status === 401 ||
-                response.status === 403
-            ) {
-
-                logout();
-
-                return;
-
-            }
-
-
-            const data =
-                await response.json();
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.message ||
-                    "Failed to load patients"
-                );
-
-            }
-
-
-            patients =
-                Array.isArray(data)
-                    ? data
-                    : [];
-
-
-            renderPatients(
-                patients
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "Load patients error:",
-                error
-            );
-
-            table.innerHTML = `
-                <tr>
-                    <td colspan="8">
-                        Unable to load patients.
-                    </td>
-                </tr>
-            `;
-
-        }
-
-    }
-
-
-    // ==========================================
-    // RENDER PATIENTS
-    // ==========================================
-
-    function renderPatients(
-        patientList
+    if (
+        !patientId ||
+        patientId === "Not linked"
     ) {
 
-        const table =
-            document.getElementById(
-                "patientsTable"
-            );
+        alert(
+            "This appointment is not linked to a patient record."
+        );
 
-
-        if (
-            !patientList ||
-            patientList.length === 0
-        ) {
-
-            table.innerHTML = `
-                <tr>
-                    <td colspan="8">
-                        No patients found.
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
-
-
-        table.innerHTML =
-            patientList
-                .map(patient => {
-
-                    return `
-                        <tr>
-
-                            <td>
-                                ${escapeHtml(patient.id)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(patient.first_name)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(patient.last_name)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(patient.email)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(patient.phone)}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    formatDate(
-                                        patient.date_of_birth
-                                    )
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(patient.gender)}
-                            </td>
-
-                            <td class="action-buttons">
-
-                                <button
-                                    class="view-btn"
-                                    onclick="viewPatient(${patient.id})"
-                                >
-                                    View
-                                </button>
-
-                                <button
-                                    class="edit-btn"
-                                    onclick="editPatient(${patient.id})"
-                                >
-                                    Edit
-                                </button>
-
-                                <button
-                                    class="delete-btn"
-                                    onclick="deletePatient(${patient.id})"
-                                >
-                                    Delete
-                                </button>
-
-                            </td>
-
-                        </tr>
-                    `;
-
-                })
-                .join("");
+        return;
 
     }
 
 
-    // ==========================================
-    // FILTER PATIENTS
-    // ==========================================
-
-    function filterPatients() {
-
-        const search =
-            document
-                .getElementById(
-                    "patientSearch"
-                )
-                .value
-                .toLowerCase()
-                .trim();
-
-
-        const filtered =
-            patients.filter(
-                patient => {
-
-                    const firstName =
-                        (
-                            patient.first_name ||
-                            ""
-                        )
-                        .toLowerCase();
-
-                    const lastName =
-                        (
-                            patient.last_name ||
-                            ""
-                        )
-                        .toLowerCase();
-
-                    const email =
-                        (
-                            patient.email ||
-                            ""
-                        )
-                        .toLowerCase();
-
-                    const phone =
-                        (
-                            patient.phone ||
-                            ""
-                        )
-                        .toLowerCase();
-
-
-                    return (
-                        firstName.includes(search) ||
-                        lastName.includes(search) ||
-                        email.includes(search) ||
-                        phone.includes(search)
-                    );
-
-                }
-            );
-
-
-        renderPatients(filtered);
-
-    }
-
-
-    // ==========================================
-    // OPEN ADD PATIENT MODAL
-    // ==========================================
-
-    function openAddPatientModal() {
-
-        document.getElementById(
-            "patientForm"
-        ).reset();
-
-
-        document.getElementById(
-            "patientId"
-        ).value = "";
-
-
-        document.getElementById(
-            "patientFormTitle"
-        ).textContent =
-            "Add Patient";
-
-
-        document.getElementById(
-            "patientFormMessage"
-        ).textContent = "";
-
-
-        document.getElementById(
-            "patientFormModal"
-        ).style.display = "flex";
-
-    }
-
-
-    // ==========================================
-    // EDIT PATIENT
-    // ==========================================
-
-    function editPatient(id) {
-
-        const patient =
-            patients.find(
-                item =>
-                    Number(item.id) ===
-                    Number(id)
-            );
-
-
-        if (!patient) {
-
-            alert(
-                "Patient not found."
-            );
-
-            return;
-
-        }
-
-
-        document.getElementById(
-            "patientId"
-        ).value =
-            patient.id;
-
-
-        document.getElementById(
-            "firstName"
-        ).value =
-            patient.first_name || "";
-
-
-        document.getElementById(
-            "lastName"
-        ).value =
-            patient.last_name || "";
-
-
-        document.getElementById(
-            "patientEmail"
-        ).value =
-            patient.email || "";
-
-
-        document.getElementById(
-            "patientPhone"
-        ).value =
-            patient.phone || "";
-
-
-        document.getElementById(
-            "dateOfBirth"
-        ).value =
-            patient.date_of_birth
-                ? String(
-                    patient.date_of_birth
-                ).substring(0, 10)
-                : "";
-
-
-        document.getElementById(
-            "gender"
-        ).value =
-            patient.gender || "";
-
-
-        document.getElementById(
-            "address"
-        ).value =
-            patient.address || "";
-
-
-        document.getElementById(
-            "medicalHistory"
-        ).value =
-            patient.medical_history || "";
-
-
-        document.getElementById(
-            "allergies"
-        ).value =
-            patient.allergies || "";
-
-
-        document.getElementById(
-            "medications"
-        ).value =
-            patient.medications || "";
-
-
-        document.getElementById(
-            "notes"
-        ).value =
-            patient.notes || "";
-
-
-        document.getElementById(
-            "patientFormTitle"
-        ).textContent =
-            "Edit Patient";
-
-
-        document.getElementById(
-            "patientFormMessage"
-        ).textContent = "";
-
-
-        document.getElementById(
-            "patientFormModal"
-        ).style.display = "flex";
-
-    }
-
-
-    // ==========================================
-    // SAVE PATIENT
-    // ==========================================
-
-    document
-        .getElementById("patientForm")
-        .addEventListener(
-            "submit",
-            async function(event) {
-
-                event.preventDefault();
-
-
-                const token =
-                    localStorage.getItem(
-                        "frantett_token"
-                    );
-
-
-                if (!token) {
-
-                    logout();
-
-                    return;
-
-                }
-
-
-                const patientId =
-                    document.getElementById(
-                        "patientId"
-                    ).value;
-
-
-                const patientData = {
-
-                    first_name:
-                        document.getElementById(
-                            "firstName"
-                        ).value.trim(),
-
-                    last_name:
-                        document.getElementById(
-                            "lastName"
-                        ).value.trim(),
-
-                    email:
-                        document.getElementById(
-                            "patientEmail"
-                        ).value.trim(),
-
-                    phone:
-                        document.getElementById(
-                            "patientPhone"
-                        ).value.trim(),
-
-                    date_of_birth:
-                        document.getElementById(
-                            "dateOfBirth"
-                        ).value,
-
-                    gender:
-                        document.getElementById(
-                            "gender"
-                        ).value,
-
-                    address:
-                        document.getElementById(
-                            "address"
-                        ).value.trim(),
-
-                    medical_history:
-                        document.getElementById(
-                            "medicalHistory"
-                        ).value.trim(),
-
-                    allergies:
-                        document.getElementById(
-                            "allergies"
-                        ).value.trim(),
-
-                    medications:
-                        document.getElementById(
-                            "medications"
-                        ).value.trim(),
-
-                    notes:
-                        document.getElementById(
-                            "notes"
-                        ).value.trim()
-
-                };
-
-
-                const message =
-                    document.getElementById(
-                        "patientFormMessage"
-                    );
-
-
-                message.className =
-                    "form-message";
-
-                message.textContent =
-                    "Saving patient...";
-
-
-                try {
-
-                    const url =
-                        patientId
-                            ? `${API_URL}/api/patients/${patientId}`
-                            : `${API_URL}/api/patients`;
-
-
-                    const method =
-                        patientId
-                            ? "PUT"
-                            : "POST";
-
-
-                    const response =
-                        await fetch(
-                            url,
-                            {
-                                method,
-
-                                headers:
-                                    getAuthHeaders(),
-
-                                body:
-                                    JSON.stringify(
-                                        patientData
-                                    )
-                            }
-                        );
-
-
-                    const data =
-                        await response.json();
-
-
-                    if (
-                        response.status === 401 ||
-                        response.status === 403
-                    ) {
-
-                        logout();
-
-                        return;
-
-                    }
-
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            data.message ||
-                            "Unable to save patient"
-                        );
-
-                    }
-
-
-                    message.className =
-                        "form-message success-message";
-
-                    message.textContent =
-                        patientId
-                            ? "Patient updated successfully!"
-                            : "Patient created successfully!";
-
-
-                    await loadPatients();
-
-
-                    setTimeout(
-                        function() {
-
-                            closePatientFormModal();
-
-                        },
-                        700
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Save patient error:",
-                        error
-                    );
-
-                    message.className =
-                        "form-message error-message";
-
-                    message.textContent =
-                        error.message ||
-                        "Unable to connect to the server.";
-
-                }
-
-            }
+    const patient =
+        patients.find(
+            item =>
+                Number(item.id) ===
+                Number(patientId)
         );
 
 
-    // ==========================================
-    // VIEW PATIENT
-    // ==========================================
+    if (!patient) {
 
-    function viewPatient(id) {
+        alert(
+            "Unable to find the linked patient record."
+        );
 
-        const patient =
-            patients.find(
-                item =>
-                    Number(item.id) ===
-                    Number(id)
-            );
+        return;
+
+    }
 
 
-        if (!patient) {
-
-            alert(
-                "Patient not found."
-            );
-
-            return;
-
-        }
+    document.getElementById(
+        "editPatientId"
+    ).value =
+        patient.id;
 
 
-        document.getElementById(
-            "viewPatientId"
-        ).textContent =
-            patient.id || "";
+    document.getElementById(
+        "editFirstName"
+    ).value =
+        patient.first_name ||
+        "";
 
 
-        document.getElementById(
-            "viewPatientName"
-        ).textContent =
-            `${patient.first_name || ""} ${patient.last_name || ""}`.trim();
+    document.getElementById(
+        "editLastName"
+    ).value =
+        patient.last_name ||
+        "";
 
 
-        document.getElementById(
-            "viewPatientEmail"
-        ).textContent =
-            patient.email || "";
+    document.getElementById(
+        "editEmail"
+    ).value =
+        patient.email ||
+        "";
 
 
-        document.getElementById(
-            "viewPatientPhone"
-        ).textContent =
-            patient.phone || "";
+    document.getElementById(
+        "editPhone"
+    ).value =
+        patient.phone ||
+        "";
 
 
-        document.getElementById(
-            "viewPatientDOB"
-        ).textContent =
-            formatDate(
+    document.getElementById(
+        "editDOB"
+    ).value =
+        patient.date_of_birth
+            ? String(
                 patient.date_of_birth
-            );
+            ).substring(0, 10)
+            : "";
 
 
-        document.getElementById(
-            "viewPatientGender"
-        ).textContent =
-            patient.gender || "";
+    document.getElementById(
+        "editGender"
+    ).value =
+        patient.gender ||
+        "";
 
 
-        document.getElementById(
-            "viewPatientAddress"
-        ).textContent =
-            patient.address || "";
+    document.getElementById(
+        "editAddress"
+    ).value =
+        patient.address ||
+        "";
 
 
-        document.getElementById(
-            "viewPatientHistory"
-        ).textContent =
-            patient.medical_history || "";
+    document.getElementById(
+        "editMedicalHistory"
+    ).value =
+        patient.medical_history ||
+        "";
 
 
-        document.getElementById(
-            "viewPatientAllergies"
-        ).textContent =
-            patient.allergies || "";
+    document.getElementById(
+        "editAllergies"
+    ).value =
+        patient.allergies ||
+        "";
 
 
-        document.getElementById(
-            "viewPatientMedications"
-        ).textContent =
-            patient.medications || "";
+    document.getElementById(
+        "editMedications"
+    ).value =
+        patient.medications ||
+        "";
 
 
-        document.getElementById(
-            "viewPatientNotes"
-        ).textContent =
-            patient.notes || "";
+    document.getElementById(
+        "editNotes"
+    ).value =
+        patient.notes ||
+        "";
 
 
-        document.getElementById(
-            "patientViewModal"
-        ).style.display = "flex";
+    document.getElementById(
+        "appointmentModal"
+    ).style.display =
+        "none";
 
-    }
 
+    document.getElementById(
+        "patientEditModal"
+    ).style.display =
+        "flex";
 
-    // ==========================================
-    // DELETE PATIENT
-    // ==========================================
+}
 
-    async function deletePatient(id) {
 
-        const confirmed =
-            confirm(
-                "Are you sure you want to delete this patient record?"
-            );
+/* ==========================================
+   CLOSE PATIENT EDIT MODAL
+========================================== */
 
+function closePatientEditModal() {
 
-        if (!confirmed) {
+    document.getElementById(
+        "patientEditModal"
+    ).style.display =
+        "none";
 
-            return;
+}
 
-        }
 
+/* ==========================================
+   SAVE PATIENT CHANGES
+========================================== */
 
-        const token =
-            localStorage.getItem(
-                "frantett_token"
-            );
+async function savePatientChanges() {
 
-
-        if (!token) {
-
-            logout();
-
-            return;
-
-        }
-
-
-        try {
-
-            const response =
-                await fetch(
-                    `${API_URL}/api/patients/${id}`,
-                    {
-                        method: "DELETE",
-
-                        headers:
-                            getAuthHeaders()
-                    }
-                );
-
-
-            const data =
-                await response.json();
-
-
-            if (
-                response.status === 401 ||
-                response.status === 403
-            ) {
-
-                logout();
-
-                return;
-
-            }
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.message ||
-                    "Unable to delete patient"
-                );
-
-            }
-
-
-            await loadPatients();
-
-
-        } catch (error) {
-
-            console.error(
-                "Delete patient error:",
-                error
-            );
-
-            alert(
-                error.message ||
-                "Unable to connect to the server."
-            );
-
-        }
-
-    }
-
-
-    // ==========================================
-    // CLOSE APPOINTMENT MODAL
-    // ==========================================
-
-    function closeAppointmentModal() {
-
-        document.getElementById(
-            "appointmentModal"
-        ).style.display =
-            "none";
-
-    }
-
-
-    // ==========================================
-    // CLOSE PATIENT FORM
-    // ==========================================
-
-    function closePatientFormModal() {
-
-        document.getElementById(
-            "patientFormModal"
-        ).style.display =
-            "none";
-
-    }
-
-
-    // ==========================================
-    // CLOSE PATIENT VIEW
-    // ==========================================
-
-    function closePatientViewModal() {
-
-        document.getElementById(
-            "patientViewModal"
-        ).style.display =
-            "none";
-
-    }
-
-
-    // ==========================================
-    // FORMAT DATE
-    // ==========================================
-
-    function formatDate(dateValue) {
-
-        if (!dateValue) {
-
-            return "";
-
-        }
-
-
-        const date =
-            new Date(dateValue);
-
-
-        if (isNaN(date.getTime())) {
-
-            return String(dateValue);
-
-        }
-
-
-        return date.toLocaleDateString();
-
-    }
-
-
-    // ==========================================
-    // FORMAT TIME
-    // ==========================================
-
-    function formatTime(timeValue) {
-
-        if (!timeValue) {
-
-            return "";
-
-        }
-
-
-        return String(timeValue).substring(
-            0,
-            5
-        );
-
-    }
-
-
-    // ==========================================
-    // ESCAPE HTML
-    // ==========================================
-
-    function escapeHtml(value) {
-
-        return String(value ?? "")
-
-            .replace(
-                /&/g,
-                "&amp;"
-            )
-
-            .replace(
-                /</g,
-                "&lt;"
-            )
-
-            .replace(
-                />/g,
-                "&gt;"
-            )
-
-            .replace(
-                /"/g,
-                "&quot;"
-            )
-
-            .replace(
-                /'/g,
-                "&#039;"
-            );
-
-    }
-
-
-    // ==========================================
-    // CLOSE MODALS WHEN CLICKING OUTSIDE
-    // ==========================================
-
-    window.addEventListener(
-        "click",
-        function(event) {
-
-            const appointmentModal =
-                document.getElementById(
-                    "appointmentModal"
-                );
-
-            const patientFormModal =
-                document.getElementById(
-                    "patientFormModal"
-                );
-
-            const patientViewModal =
-                document.getElementById(
-                    "patientViewModal"
-                );
-
-
-            if (
-                event.target ===
-                appointmentModal
-            ) {
-
-                closeAppointmentModal();
-
-            }
-
-
-            if (
-                event.target ===
-                patientFormModal
-            ) {
-
-                closePatientFormModal();
-
-            }
-
-
-            if (
-                event.target ===
-                patientViewModal
-            ) {
-
-                closePatientViewModal();
-
-            }
-
-        }
-    );
-
-
-    // ==========================================
-    // CHECK EXISTING LOGIN
-    // ==========================================
-
-    const existingToken =
+    const token =
         localStorage.getItem(
             "frantett_token"
         );
 
 
-    if (existingToken) {
+    if (!token) {
 
-        showDashboard();
+        logout();
+
+        return;
 
     }
+
+
+    const patientId =
+        document.getElementById(
+            "editPatientId"
+        ).value;
+
+
+    const first_name =
+        document.getElementById(
+            "editFirstName"
+        ).value.trim();
+
+
+    const last_name =
+        document.getElementById(
+            "editLastName"
+        ).value.trim();
+
+
+    if (
+        !first_name ||
+        !last_name
+    ) {
+
+        alert(
+            "First name and last name are required."
+        );
+
+        return;
+
+    }
+
+
+    const patientData = {
+
+        first_name,
+
+        last_name,
+
+        email:
+            document.getElementById(
+                "editEmail"
+            ).value.trim() || null,
+
+        phone:
+            document.getElementById(
+                "editPhone"
+            ).value.trim() || null,
+
+        date_of_birth:
+            document.getElementById(
+                "editDOB"
+            ).value || null,
+
+        gender:
+            document.getElementById(
+                "editGender"
+            ).value || null,
+
+        address:
+            document.getElementById(
+                "editAddress"
+            ).value.trim() || null,
+
+        medical_history:
+            document.getElementById(
+                "editMedicalHistory"
+            ).value.trim() || null,
+
+        allergies:
+            document.getElementById(
+                "editAllergies"
+            ).value.trim() || null,
+
+        medications:
+            document.getElementById(
+                "editMedications"
+            ).value.trim() || null,
+
+        notes:
+            document.getElementById(
+                "editNotes"
+            ).value.trim() || null
+
+    };
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}`,
+                {
+                    method: "PUT",
+
+                    headers:
+                        getAuthHeaders(),
+
+                    body:
+                        JSON.stringify(
+                            patientData
+                        )
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            logout();
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to update patient"
+            );
+
+        }
+
+
+        alert(
+            "Patient updated successfully!"
+        );
+
+
+        closePatientEditModal();
+
+
+        /*
+         * Reload appointments and patients
+         * so the modal displays the new data.
+         */
+
+        await loadAppointments();
+
+
+    } catch (error) {
+
+        console.error(
+            "Save patient error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   UPDATE APPOINTMENT STATUS
+========================================== */
+
+async function updateAppointmentStatus(
+    id,
+    status
+) {
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+
+    if (!token) {
+
+        logout();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/appointments/${id}/status`,
+                {
+                    method: "PUT",
+
+                    headers:
+                        getAuthHeaders(),
+
+                    body:
+                        JSON.stringify({
+                            status
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            logout();
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to update appointment"
+            );
+
+        }
+
+
+        await loadAppointments();
+
+
+    } catch (error) {
+
+        console.error(
+            "Update appointment error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   DELETE APPOINTMENT
+========================================== */
+
+async function deleteAppointment(id) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this appointment?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+
+    if (!token) {
+
+        logout();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/appointments/${id}`,
+                {
+                    method: "DELETE",
+
+                    headers:
+                        getAuthHeaders()
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            logout();
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to delete appointment"
+            );
+
+        }
+
+
+        alert(
+            "Appointment deleted successfully!"
+        );
+
+
+        await loadAppointments();
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete appointment error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   FORMAT DATE
+========================================== */
+
+function formatDate(date) {
+
+    if (!date) {
+
+        return "";
+
+    }
+
+    const value =
+        String(date)
+            .substring(0, 10);
+
+
+    const parts =
+        value.split("-");
+
+
+    if (
+        parts.length !== 3
+    ) {
+
+        return value;
+
+    }
+
+
+    return `${parts[0]}-${parts[1]}-${parts[2]}`;
+
+}
+
+
+/* ==========================================
+   FORMAT TIME
+========================================== */
+
+function formatTime(time) {
+
+    if (!time) {
+
+        return "";
+
+    }
+
+    const value =
+        String(time)
+            .substring(0, 5);
+
+    return value;
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* ==========================================
+   MESSAGE
+========================================== */
+
+function showMessage(
+    text,
+    type
+) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.textContent =
+        text;
+
+
+    message.style.display =
+        "block";
+
+
+    if (type === "error") {
+
+        message.style.background =
+            "#f8d7da";
+
+        message.style.color =
+            "#721c24";
+
+    } else {
+
+        message.style.background =
+            "#d4edda";
+
+        message.style.color =
+            "#155724";
+
+    }
+
+
+    setTimeout(
+        () => {
+
+            message.style.display =
+                "none";
+
+        },
+        4000
+    );
+
+}
+
+
+/* ==========================================
+   CLOSE MODALS WHEN CLICKING OUTSIDE
+========================================== */
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        const appointmentModal =
+            document.getElementById(
+                "appointmentModal"
+            );
+
+        const patientEditModal =
+            document.getElementById(
+                "patientEditModal"
+            );
+
+
+        if (
+            event.target ===
+            appointmentModal
+        ) {
+
+            closeAppointmentModal();
+
+        }
+
+
+        if (
+            event.target ===
+            patientEditModal
+        ) {
+
+            closePatientEditModal();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   START DASHBOARD
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+        if (!checkLogin()) {
+
+            return;
+
+        }
+
+
+        await loadDoctors();
+
+        await loadAppointments();
+
+    }
+);
 
 </script>
 
