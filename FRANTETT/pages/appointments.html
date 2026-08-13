@@ -966,12 +966,77 @@
 
         </div>
 
-        <button
-            class="close-btn"
-            onclick="closeAppointmentModal()"
-        >
-            Close
-        </button>
+<!-- ==========================================
+     LINKED PATIENT RECORD
+========================================== -->
+
+<div class="patient-record-section">
+
+    <h3>Linked Patient Record</h3>
+
+    <p>
+        <strong>Patient ID:</strong>
+        <span id="modalPatientId"></span>
+    </p>
+
+    <p>
+        <strong>Name:</strong>
+        <span id="modalPatientRecord"></span>
+    </p>
+
+    <p>
+        <strong>Email:</strong>
+        <span id="modalPatientEmail"></span>
+    </p>
+
+    <p>
+        <strong>Phone:</strong>
+        <span id="modalPatientPhone"></span>
+    </p>
+
+    <p>
+        <strong>Date of Birth:</strong>
+        <span id="modalPatientDOB"></span>
+    </p>
+
+    <p>
+        <strong>Gender:</strong>
+        <span id="modalPatientGender"></span>
+    </p>
+
+    <p>
+        <strong>Address:</strong>
+        <span id="modalPatientAddress"></span>
+    </p>
+
+    <p>
+        <strong>Medical History:</strong>
+        <span id="modalPatientHistory"></span>
+    </p>
+
+    <p>
+        <strong>Allergies:</strong>
+        <span id="modalPatientAllergies"></span>
+    </p>
+
+    <p>
+        <strong>Medications:</strong>
+        <span id="modalPatientMedications"></span>
+    </p>
+
+    <p>
+        <strong>Clinical Notes:</strong>
+        <span id="modalPatientNotes"></span>
+    </p>
+
+</div>
+
+<button
+    class="close-btn"
+    onclick="closeAppointmentModal()"
+>
+    Close
+</button>
 
     </div>
 
@@ -2003,170 +2068,184 @@
     // VIEW APPOINTMENT
     // ==========================================
 
-    function viewAppointment(id) {
+   function viewAppointment(id) {
 
-        const appointment =
-            appointments.find(
-                item =>
-                    Number(item.id) ===
-                    Number(id)
-            );
+    const appointment =
+        appointments.find(
+            item =>
+                Number(item.id) ===
+                Number(id)
+        );
 
+    if (!appointment) {
 
-        if (!appointment) {
+        alert(
+            "Appointment not found."
+        );
 
-            alert(
-                "Appointment not found."
-            );
-
-            return;
-
-        }
-
-
-        document.getElementById(
-            "modalPatient"
-        ).textContent =
-            appointment.name ||
-            appointment.patient_name ||
-            "";
-
-        document.getElementById(
-            "modalEmail"
-        ).textContent =
-            appointment.email || "";
-
-        document.getElementById(
-            "modalPhone"
-        ).textContent =
-            appointment.phone || "";
-
-        document.getElementById(
-            "modalDoctor"
-        ).textContent =
-            appointment.doctor || "";
-
-        document.getElementById(
-            "modalDate"
-        ).textContent =
-            formatDate(
-                appointment.appointment_date
-            );
-
-        document.getElementById(
-            "modalTime"
-        ).textContent =
-            formatTime(
-                appointment.appointment_time
-            );
-
-        document.getElementById(
-            "modalReason"
-        ).textContent =
-            appointment.reason || "";
-
-        document.getElementById(
-            "modalStatus"
-        ).textContent =
-            appointment.status || "Pending";
-
-
-        document.getElementById(
-            "appointmentModal"
-        ).style.display = "flex";
+        return;
 
     }
 
+    // ==========================================
+    // APPOINTMENT INFORMATION
+    // ==========================================
+
+    document.getElementById(
+        "modalPatient"
+    ).textContent =
+        appointment.name ||
+        "";
+
+    document.getElementById(
+        "modalEmail"
+    ).textContent =
+        appointment.email ||
+        "";
+
+    document.getElementById(
+        "modalPhone"
+    ).textContent =
+        appointment.phone ||
+        "";
+
+    document.getElementById(
+        "modalDoctor"
+    ).textContent =
+        appointment.doctor ||
+        "";
+
+    document.getElementById(
+        "modalDate"
+    ).textContent =
+        formatDate(
+            appointment.appointment_date
+        );
+
+    document.getElementById(
+        "modalTime"
+    ).textContent =
+        formatTime(
+            appointment.appointment_time
+        );
+
+    document.getElementById(
+        "modalReason"
+    ).textContent =
+        appointment.reason ||
+        "";
+
+    document.getElementById(
+        "modalStatus"
+    ).textContent =
+        appointment.status ||
+        "Pending";
+
 
     // ==========================================
-    // UPDATE APPOINTMENT STATUS
+    // LINKED PATIENT INFORMATION
     // ==========================================
 
-    async function updateAppointmentStatus(
-        id,
-        status
-    ) {
-
-        const token =
-            localStorage.getItem(
-                "frantett_token"
-            );
+    const patientName =
+        [
+            appointment.patient_first_name,
+            appointment.patient_last_name
+        ]
+        .filter(Boolean)
+        .join(" ");
 
 
-        if (!token) {
-
-            logout();
-
-            return;
-
-        }
+    document.getElementById(
+        "modalPatientRecord"
+    ).textContent =
+        patientName ||
+        "No linked patient";
 
 
-        try {
-
-            const response =
-                await fetch(
-                    `${API_URL}/api/appointments/${id}/status`,
-                    {
-                        method: "PUT",
-
-                        headers:
-                            getAuthHeaders(),
-
-                        body:
-                            JSON.stringify({
-                                status
-                            })
-                    }
-                );
+    document.getElementById(
+        "modalPatientId"
+    ).textContent =
+        appointment.patient_id ||
+        "Not linked";
 
 
-            const data =
-                await response.json();
+    document.getElementById(
+        "modalPatientEmail"
+    ).textContent =
+        appointment.patient_email ||
+        appointment.email ||
+        "";
 
 
-            if (
-                response.status === 401 ||
-                response.status === 403
-            ) {
-
-                logout();
-
-                return;
-
-            }
+    document.getElementById(
+        "modalPatientPhone"
+    ).textContent =
+        appointment.patient_phone ||
+        appointment.phone ||
+        "";
 
 
-            if (!response.ok) {
-
-                throw new Error(
-                    data.message ||
-                    "Unable to update appointment"
-                );
-
-            }
-
-
-            await loadAppointments();
+    document.getElementById(
+        "modalPatientDOB"
+    ).textContent =
+        appointment.patient_date_of_birth
+        ? formatDate(
+            appointment.patient_date_of_birth
+        )
+        : "";
 
 
-        } catch (error) {
-
-            console.error(
-                "Update appointment error:",
-                error
-            );
-
-            alert(
-                error.message ||
-                "Unable to connect to the server."
-            );
-
-        }
-
-    }
+    document.getElementById(
+        "modalPatientGender"
+    ).textContent =
+        appointment.patient_gender ||
+        "";
 
 
+    document.getElementById(
+        "modalPatientAddress"
+    ).textContent =
+        appointment.patient_address ||
+        "";
+
+
+    document.getElementById(
+        "modalPatientHistory"
+    ).textContent =
+        appointment.patient_medical_history ||
+        "";
+
+
+    document.getElementById(
+        "modalPatientAllergies"
+    ).textContent =
+        appointment.patient_allergies ||
+        "";
+
+
+    document.getElementById(
+        "modalPatientMedications"
+    ).textContent =
+        appointment.patient_medications ||
+        "";
+
+
+    document.getElementById(
+        "modalPatientNotes"
+    ).textContent =
+        appointment.patient_notes ||
+        "";
+
+
+    // ==========================================
+    // SHOW MODAL
+    // ==========================================
+
+    document.getElementById(
+        "appointmentModal"
+    ).style.display = "flex";
+
+}
     // ==========================================
     // DELETE APPOINTMENT
     // ==========================================
