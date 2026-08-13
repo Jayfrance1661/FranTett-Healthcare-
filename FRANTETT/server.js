@@ -625,7 +625,7 @@ app.get(
  LEFT JOIN patients p
     ON a.patient_id = p.id
  ORDER BY a.created_at DESC`
- 
+
                 );
 
             res.json(
@@ -881,6 +881,73 @@ app.get(
             res.status(500).json({
                 message:
                     "Failed to fetch patient"
+            });
+
+        }
+
+    }
+);
+
+// ==========================================
+// GET APPOINTMENT HISTORY FOR A PATIENT
+// ==========================================
+
+app.get(
+    "/api/patients/:id/appointments",
+    authenticateToken,
+    async (req, res) => {
+
+        const patientId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(patientId)) {
+
+            return res.status(400).json({
+                message: "Invalid patient ID."
+            });
+
+        }
+
+        try {
+
+            const result = await pool.query(
+                `
+                SELECT
+                    id,
+                    patient_id,
+                    name,
+                    email,
+                    phone,
+                    doctor,
+                    appointment_date,
+                    appointment_time,
+                    reason,
+                    status,
+                    created_at
+
+                FROM appointments
+
+                WHERE patient_id = $1
+
+                ORDER BY
+                    appointment_date DESC,
+                    appointment_time DESC
+                `,
+                [patientId]
+            );
+
+            res.json(result.rows);
+
+        } catch (error) {
+
+            console.error(
+                "Error loading patient appointment history:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to load appointment history."
             });
 
         }

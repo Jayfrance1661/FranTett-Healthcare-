@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Staff Login - FranTett Healthcare</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <style>
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f4f6f8;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-container {
+            width: 90%;
+            max-width: 420px;
+        }
+
+        .login-card {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .login-card h1 {
+            margin: 0 0 8px;
+            text-align: center;
+            color: #222;
+        }
+
+        .login-card .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background: #0069d9;
+        }
+
+        .login-btn:disabled {
+            background: #8bb9e8;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <h1>
+                FranTett Healthcare
+            </h1>
+
+            <p class="subtitle">
+                Staff Login
+            </p>
+
+
+            <!-- =========================
+                 MESSAGE
+            ========================= -->
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+
+            <!-- =========================
+                 LOGIN FORM
+            ========================= -->
+
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                    id="loginButton"
+                >
+                    Login
+                </button>
+
+            </form>
+
+
+            <a
+                href="appointment.html"
+                class="back-link"
+            >
+                Back to booking
+            </a>
+
+        </div>
+
+    </div>
+
+
+<script>
+
+    const API_URL =
+        "http://localhost:3000";
+
+
+    // ==========================================
+    // LOGIN FORM
+    // ==========================================
+
+    document
+        .getElementById("loginForm")
+        .addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
+
+
+                const message =
+                    document
+                        .getElementById("message");
+
+
+                const loginButton =
+                    document
+                        .getElementById("loginButton");
+
+
+                // ==================================
+                // CLEAR PREVIOUS MESSAGE
+                // ==================================
+
+                message.style.display =
+                    "none";
+
+
+                message.textContent =
+                    "";
+
+
+                // ==================================
+                // DISABLE BUTTON
+                // ==================================
+
+                loginButton.disabled =
+                    true;
+
+
+                loginButton.textContent =
+                    "Logging in...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `${API_URL}/api/login`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        email:
+                                            email,
+
+                                        password:
+                                            password
+                                    })
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    // ==================================
+                    // LOGIN FAILED
+                    // ==================================
+
+                    if (!response.ok) {
+
+                        message.className =
+                            "message error";
+
+
+                        message.textContent =
+                            data.message ||
+                            "Invalid email or password.";
+
+
+                        message.style.display =
+                            "block";
+
+
+                        loginButton.disabled =
+                            false;
+
+
+                        loginButton.textContent =
+                            "Login";
+
+
+                        return;
+
+                    }
+
+
+                    // ==================================
+                    // STORE JWT TOKEN
+                    // ==================================
+
+                    if (!data.token) {
+
+                        message.className =
+                            "message error";
+
+
+                        message.textContent =
+                            "Login succeeded but no authentication token was received.";
+
+
+                        message.style.display =
+                            "block";
+
+
+                        loginButton.disabled =
+                            false;
+
+
+                        loginButton.textContent =
+                            "Login";
+
+
+                        return;
+
+                    }
+
+
+                    localStorage.setItem(
+                        "frantett_token",
+                        data.token
+                    );
+
+
+                    // ==================================
+                    // SUCCESS MESSAGE
+                    // ==================================
+
+                    message.className =
+                        "message success";
+
+
+                    message.textContent =
+                        "Login successful. Redirecting...";
+
+
+                    message.style.display =
+                        "block";
+
+
+                    // ==================================
+                    // REDIRECT
+                    // ==================================
+
+                    setTimeout(
+                        function() {
+
+                            window.location.href =
+                                "./appointments.html";
+
+                        },
+                        500
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Login error:",
+                        error
+                    );
+
+
+                    message.className =
+                        "message error";
+
+
+                    message.textContent =
+                        "Unable to connect to the server. Make sure the server is running.";
+
+
+                    message.style.display =
+                        "block";
+
+
+                    loginButton.disabled =
+                        false;
+
+
+                    loginButton.textContent =
+                        "Login";
+
+                }
+
+            }
+        );
+
+</script>
+
+</body>
+
+</html>
