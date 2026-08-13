@@ -55,10 +55,6 @@
             color: #333;
         }
 
-        nav a:hover {
-            color: #007bff;
-        }
-
         /* =========================
            MAIN
         ========================= */
@@ -155,26 +151,14 @@
             color: white;
         }
 
-        .view-btn:hover {
-            background: #0069d9;
-        }
-
         .edit-btn {
             background: #ffc107;
             color: #212529;
         }
 
-        .edit-btn:hover {
-            background: #e0a800;
-        }
-
         .delete-btn {
             background: #dc3545;
             color: white;
-        }
-
-        .delete-btn:hover {
-            background: #c82333;
         }
 
         button {
@@ -206,7 +190,7 @@
         .modal-content {
             background: white;
             width: 90%;
-            max-width: 950px;
+            max-width: 850px;
             margin: 30px auto;
             padding: 30px;
             border-radius: 12px;
@@ -273,131 +257,85 @@
             padding: 10px 18px;
         }
 
-        .save-btn:hover {
-            background: #218838;
-        }
-
         .cancel-btn {
             background: #6c757d;
             color: white;
             padding: 10px 18px;
         }
 
-        .cancel-btn:hover {
-            background: #5a6268;
-        }
-
         /* =========================
-           PATIENT PROFILE
+           PATIENT DETAILS
         ========================= */
 
-        .profile-header {
-            background: #f5f7fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border: 1px solid #e1e5e9;
-        }
-
-        .profile-header h2 {
-            margin: 0 0 8px;
-            color: #222;
-        }
-
-        .profile-header p {
-            margin: 4px 0;
-            color: #666;
-        }
-
-        .profile-section {
-            margin-bottom: 25px;
-        }
-
-        .profile-section h3 {
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #007bff;
-            color: #333;
-        }
-
-        .patient-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0 30px;
-        }
-
-        .patient-detail-item {
-            padding: 12px 0;
+        .patient-details p {
+            padding: 10px 0;
+            margin: 0;
             border-bottom: 1px solid #eee;
         }
 
-        .patient-detail-item strong {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
+        .patient-details strong {
+            display: inline-block;
+            width: 180px;
+            vertical-align: top;
         }
 
-        .patient-detail-item span {
-            color: #222;
-            white-space: pre-wrap;
-            word-break: break-word;
+        /* =========================
+           PROFILE SECTIONS
+        ========================= */
+
+        .profile-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
         }
 
-        .clinical-box {
-            background: #fafafa;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 12px;
+        .profile-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
         }
 
-        .clinical-box strong {
-            display: block;
-            margin-bottom: 8px;
-            color: #444;
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
-        .clinical-box div {
-            white-space: pre-wrap;
-            word-break: break-word;
-            color: #555;
+        .section-header h3 {
+            margin: 0;
+        }
+
+        .add-consultation-btn {
+            background: #28a745;
+            color: white;
+            padding: 9px 14px;
+        }
+
+        .add-consultation-btn:hover {
+            background: #218838;
         }
 
         /* =========================
            APPOINTMENT HISTORY
         ========================= */
 
-        .appointment-history-container {
+        .history-table-container {
             overflow-x: auto;
-            border: 1px solid #ddd;
-            border-radius: 8px;
         }
 
-        .appointment-history-table {
-            width: 100%;
+        .history-table {
             min-width: 700px;
-            border-collapse: collapse;
         }
 
-        .appointment-history-table th,
-        .appointment-history-table td {
-            padding: 11px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-
-        .appointment-history-table th {
+        .history-table th {
             background: #f5f5f5;
         }
 
-        .appointment-history-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .status-badge {
+        .status {
             display: inline-block;
             padding: 5px 9px;
-            border-radius: 20px;
+            border-radius: 12px;
             font-size: 12px;
             font-weight: bold;
         }
@@ -413,8 +351,8 @@
         }
 
         .status-completed {
-            background: #d1ecf1;
-            color: #0c5460;
+            background: #cce5ff;
+            color: #004085;
         }
 
         .status-cancelled {
@@ -422,30 +360,74 @@
             color: #721c24;
         }
 
-        .status-default {
-            background: #e2e3e5;
-            color: #383d41;
+        /* =========================
+           CONSULTATION CARDS
+        ========================= */
+
+        .consultation-card {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 15px;
         }
 
-        .loading-history {
+        .consultation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .consultation-header h4 {
+            margin: 0 0 5px;
+        }
+
+        .consultation-date {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .consultation-field {
+            margin-bottom: 10px;
+        }
+
+        .consultation-field strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .consultation-field span {
+            white-space: pre-wrap;
+        }
+
+        .consultation-actions {
+            white-space: nowrap;
+        }
+
+        .small-view-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .small-edit-btn {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .small-delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .empty-state {
             padding: 20px;
             text-align: center;
             color: #666;
-        }
-
-        .no-history {
-            padding: 20px;
-            text-align: center;
-            color: #666;
-            background: #fafafa;
+            background: #f8f9fa;
             border-radius: 8px;
-        }
-
-        .history-error {
-            padding: 15px;
-            background: #f8d7da;
-            color: #721c24;
-            border-radius: 8px;
+            border: 1px dashed #ccc;
         }
 
         /* =========================
@@ -490,13 +472,19 @@
                 align-items: flex-start;
             }
 
-            .patient-details {
-                grid-template-columns: 1fr;
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            .modal-content {
-                width: 92%;
-                padding: 20px;
+            .consultation-header {
+                flex-direction: column;
+            }
+
+            .patient-details strong {
+                display: block;
+                width: auto;
+                margin-bottom: 4px;
             }
 
         }
@@ -595,10 +583,6 @@
     </div>
 
 
-    <!-- =========================
-         MESSAGE
-    ========================= -->
-
     <div
         id="message"
         class="message"
@@ -634,17 +618,11 @@
                 <tr>
 
                     <th>ID</th>
-
                     <th>Patient</th>
-
                     <th>Email</th>
-
                     <th>Phone</th>
-
                     <th>Date of Birth</th>
-
                     <th>Gender</th>
-
                     <th>Actions</th>
 
                 </tr>
@@ -804,9 +782,7 @@
                     Address
                 </label>
 
-                <textarea
-                    id="address"
-                ></textarea>
+                <textarea id="address"></textarea>
 
             </div>
 
@@ -816,9 +792,7 @@
                     Medical History
                 </label>
 
-                <textarea
-                    id="medicalHistory"
-                ></textarea>
+                <textarea id="medicalHistory"></textarea>
 
             </div>
 
@@ -828,9 +802,7 @@
                     Allergies
                 </label>
 
-                <textarea
-                    id="allergies"
-                ></textarea>
+                <textarea id="allergies"></textarea>
 
             </div>
 
@@ -840,9 +812,7 @@
                     Current Medications
                 </label>
 
-                <textarea
-                    id="medications"
-                ></textarea>
+                <textarea id="medications"></textarea>
 
             </div>
 
@@ -852,9 +822,7 @@
                     Notes
                 </label>
 
-                <textarea
-                    id="notes"
-                ></textarea>
+                <textarea id="notes"></textarea>
 
             </div>
 
@@ -885,7 +853,7 @@
 
 
 <!-- =========================
-     PATIENT PROFILE MODAL
+     VIEW PATIENT MODAL
 ========================= -->
 
 <div
@@ -902,27 +870,12 @@
             &times;
         </span>
 
+        <h2>
+            Patient Profile
+        </h2>
 
         <!-- =========================
-             PROFILE HEADER
-        ========================= -->
-
-        <div class="profile-header">
-
-            <h2 id="profileName">
-                Patient Profile
-            </h2>
-
-            <p>
-                Patient ID:
-                <strong id="profilePatientId"></strong>
-            </p>
-
-        </div>
-
-
-        <!-- =========================
-             BASIC INFORMATION
+             PATIENT INFORMATION
         ========================= -->
 
         <div class="profile-section">
@@ -933,77 +886,35 @@
 
             <div class="patient-details">
 
-                <div class="patient-detail-item">
+                <p>
+                    <strong>Full Name</strong>
+                    <span id="viewName"></span>
+                </p>
 
-                    <strong>
-                        Full Name
-                    </strong>
+                <p>
+                    <strong>Email</strong>
+                    <span id="viewEmail"></span>
+                </p>
 
-                    <span id="viewName">
-                        —
-                    </span>
+                <p>
+                    <strong>Phone</strong>
+                    <span id="viewPhone"></span>
+                </p>
 
-                </div>
+                <p>
+                    <strong>Date of Birth</strong>
+                    <span id="viewDateOfBirth"></span>
+                </p>
 
-                <div class="patient-detail-item">
+                <p>
+                    <strong>Gender</strong>
+                    <span id="viewGender"></span>
+                </p>
 
-                    <strong>
-                        Email
-                    </strong>
-
-                    <span id="viewEmail">
-                        —
-                    </span>
-
-                </div>
-
-                <div class="patient-detail-item">
-
-                    <strong>
-                        Phone
-                    </strong>
-
-                    <span id="viewPhone">
-                        —
-                    </span>
-
-                </div>
-
-                <div class="patient-detail-item">
-
-                    <strong>
-                        Date of Birth
-                    </strong>
-
-                    <span id="viewDateOfBirth">
-                        —
-                    </span>
-
-                </div>
-
-                <div class="patient-detail-item">
-
-                    <strong>
-                        Gender
-                    </strong>
-
-                    <span id="viewGender">
-                        —
-                    </span>
-
-                </div>
-
-                <div class="patient-detail-item">
-
-                    <strong>
-                        Address
-                    </strong>
-
-                    <span id="viewAddress">
-                        —
-                    </span>
-
-                </div>
+                <p>
+                    <strong>Address</strong>
+                    <span id="viewAddress"></span>
+                </p>
 
             </div>
 
@@ -1020,55 +931,27 @@
                 Clinical Information
             </h3>
 
+            <div class="patient-details">
 
-            <div class="clinical-box">
+                <p>
+                    <strong>Medical History</strong>
+                    <span id="viewMedicalHistory"></span>
+                </p>
 
-                <strong>
-                    Medical History
-                </strong>
+                <p>
+                    <strong>Allergies</strong>
+                    <span id="viewAllergies"></span>
+                </p>
 
-                <div id="viewMedicalHistory">
-                    None recorded
-                </div>
+                <p>
+                    <strong>Current Medications</strong>
+                    <span id="viewMedications"></span>
+                </p>
 
-            </div>
-
-
-            <div class="clinical-box">
-
-                <strong>
-                    Allergies
-                </strong>
-
-                <div id="viewAllergies">
-                    None recorded
-                </div>
-
-            </div>
-
-
-            <div class="clinical-box">
-
-                <strong>
-                    Current Medications
-                </strong>
-
-                <div id="viewMedications">
-                    None recorded
-                </div>
-
-            </div>
-
-
-            <div class="clinical-box">
-
-                <strong>
-                    Notes
-                </strong>
-
-                <div id="viewNotes">
-                    None recorded
-                </div>
+                <p>
+                    <strong>Notes</strong>
+                    <span id="viewNotes"></span>
+                </p>
 
             </div>
 
@@ -1081,14 +964,19 @@
 
         <div class="profile-section">
 
-            <h3>
-                Appointment History
-            </h3>
+            <div class="section-header">
 
+                <h3>
+                    Appointment History
+                </h3>
 
-            <div id="appointmentHistory">
+            </div>
 
-                <div class="loading-history">
+            <div
+                id="appointmentHistory"
+            >
+
+                <div class="empty-state">
                     Loading appointment history...
                 </div>
 
@@ -1098,14 +986,287 @@
 
 
         <!-- =========================
-             CLOSE BUTTON
+             CONSULTATION HISTORY
         ========================= -->
+
+        <div class="profile-section">
+
+            <div class="section-header">
+
+                <h3>
+                    Clinical Consultation Records
+                </h3>
+
+                <button
+                    class="add-consultation-btn"
+                    onclick="openAddConsultationModal()"
+                >
+                    + Add Consultation
+                </button>
+
+            </div>
+
+            <div
+                id="consultationHistory"
+            >
+
+                <div class="empty-state">
+                    Loading consultation records...
+                </div>
+
+            </div>
+
+        </div>
+
 
         <div class="form-actions">
 
             <button
                 class="cancel-btn"
                 onclick="closeViewPatientModal()"
+            >
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     ADD / EDIT CONSULTATION MODAL
+========================= -->
+
+<div
+    id="consultationFormModal"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+        <span
+            class="close-modal"
+            onclick="closeConsultationFormModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="consultationFormTitle">
+            Add Consultation
+        </h2>
+
+        <form id="consultationForm">
+
+            <input
+                type="hidden"
+                id="consultationId"
+            >
+
+            <div class="form-group">
+
+                <label>
+                    Doctor
+                </label>
+
+                <input
+                    type="text"
+                    id="consultationDoctor"
+                    placeholder="Doctor name"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Consultation Date *
+                </label>
+
+                <input
+                    type="date"
+                    id="consultationDate"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Chief Complaint
+                </label>
+
+                <textarea
+                    id="chiefComplaint"
+                    placeholder="Reason for consultation..."
+                ></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Assessment
+                </label>
+
+                <textarea
+                    id="assessment"
+                    placeholder="Clinical assessment..."
+                ></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Diagnosis
+                </label>
+
+                <textarea
+                    id="diagnosis"
+                    placeholder="Diagnosis..."
+                ></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Treatment / Plan
+                </label>
+
+                <textarea
+                    id="treatment"
+                    placeholder="Treatment and management plan..."
+                ></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Clinical Notes
+                </label>
+
+                <textarea
+                    id="clinicalNotes"
+                    placeholder="Additional clinical notes..."
+                ></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Follow-up Date
+                </label>
+
+                <input
+                    type="date"
+                    id="followUpDate"
+                >
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Consultation
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeConsultationFormModal()"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     VIEW CONSULTATION MODAL
+========================= -->
+
+<div
+    id="viewConsultationModal"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+        <span
+            class="close-modal"
+            onclick="closeViewConsultationModal()"
+        >
+            &times;
+        </span>
+
+        <h2>
+            Consultation Record
+        </h2>
+
+        <div class="patient-details">
+
+            <p>
+                <strong>Doctor</strong>
+                <span id="viewConsultationDoctor"></span>
+            </p>
+
+            <p>
+                <strong>Consultation Date</strong>
+                <span id="viewConsultationDate"></span>
+            </p>
+
+            <p>
+                <strong>Chief Complaint</strong>
+                <span id="viewChiefComplaint"></span>
+            </p>
+
+            <p>
+                <strong>Assessment</strong>
+                <span id="viewAssessment"></span>
+            </p>
+
+            <p>
+                <strong>Diagnosis</strong>
+                <span id="viewDiagnosis"></span>
+            </p>
+
+            <p>
+                <strong>Treatment / Plan</strong>
+                <span id="viewTreatment"></span>
+            </p>
+
+            <p>
+                <strong>Clinical Notes</strong>
+                <span id="viewClinicalNotes"></span>
+            </p>
+
+            <p>
+                <strong>Follow-up Date</strong>
+                <span id="viewFollowUpDate"></span>
+            </p>
+
+        </div>
+
+        <div class="form-actions">
+
+            <button
+                class="cancel-btn"
+                onclick="closeViewConsultationModal()"
             >
                 Close
             </button>
@@ -1125,9 +1286,13 @@
 
     let patients = [];
 
+    let currentPatientId = null;
+
+    let currentConsultations = [];
+
 
     // ==========================================
-    // GET LOGIN TOKEN
+    // GET TOKEN
     // ==========================================
 
     function getToken() {
@@ -1140,21 +1305,28 @@
 
 
     // ==========================================
-    // HANDLE AUTHORIZATION ERRORS
+    // CHECK LOGIN
     // ==========================================
 
-    function handleAuthError() {
+    function checkAuthentication() {
 
-        localStorage.removeItem(
-            "frantett_token"
-        );
+        const token =
+            getToken();
 
-        alert(
-            "Your session has expired. Please log in again."
-        );
+        if (!token) {
 
-        window.location.href =
-            "appointments.html";
+            alert(
+                "Please log in to access patient records."
+            );
+
+            window.location.href =
+                "./login.html";
+
+            return false;
+
+        }
+
+        return true;
 
     }
 
@@ -1165,29 +1337,17 @@
 
     async function loadPatients() {
 
-        const token =
-            getToken();
-
-
-        if (!token) {
-
-            alert(
-                "Please log in to access patient records."
-            );
-
-            window.location.href =
-                "appointments.html";
-
+        if (!checkAuthentication()) {
             return;
-
         }
-
 
         const table =
             document.getElementById(
                 "patientsTable"
             );
 
+        const token =
+            getToken();
 
         try {
 
@@ -1210,7 +1370,7 @@
                 response.status === 403
             ) {
 
-                handleAuthError();
+                handleSessionExpired();
 
                 return;
 
@@ -1240,9 +1400,7 @@
 
 
             patients =
-                Array.isArray(data)
-                    ? data
-                    : [];
+                data;
 
 
             displayPatients(
@@ -1278,11 +1436,10 @@
                 "patientsTable"
             );
 
-
         table.innerHTML = "";
 
 
-        if (!data.length) {
+        if (data.length === 0) {
 
             table.innerHTML = `
                 <tr>
@@ -1300,14 +1457,11 @@
         data.forEach(patient => {
 
             const row =
-                document.createElement(
-                    "tr"
-                );
+                document.createElement("tr");
 
 
             const fullName =
-                `${patient.first_name || ""} ${patient.last_name || ""}`
-                    .trim();
+                `${patient.first_name || ""} ${patient.last_name || ""}`.trim();
 
 
             row.innerHTML = `
@@ -1321,15 +1475,11 @@
                 </td>
 
                 <td>
-                    ${escapeHtml(
-                        patient.email || ""
-                    )}
+                    ${escapeHtml(patient.email || "")}
                 </td>
 
                 <td>
-                    ${escapeHtml(
-                        patient.phone || ""
-                    )}
+                    ${escapeHtml(patient.phone || "")}
                 </td>
 
                 <td>
@@ -1373,7 +1523,6 @@
 
             `;
 
-
             table.appendChild(row);
 
         });
@@ -1393,8 +1542,7 @@
                     "searchInput"
                 )
                 .value
-                .toLowerCase()
-                .trim();
+                .toLowerCase();
 
 
         const filtered =
@@ -1405,13 +1553,11 @@
                         `${patient.first_name || ""} ${patient.last_name || ""}`
                             .toLowerCase();
 
-
                     const email =
                         (
                             patient.email ||
                             ""
                         ).toLowerCase();
-
 
                     const phone =
                         (
@@ -1468,7 +1614,7 @@
 
 
     // ==========================================
-    // CLOSE PATIENT FORM MODAL
+    // CLOSE PATIENT FORM
     // ==========================================
 
     function closePatientFormModal() {
@@ -1502,9 +1648,7 @@
 
                 if (!token) {
 
-                    alert(
-                        "Please log in again."
-                    );
+                    handleSessionExpired();
 
                     return;
 
@@ -1622,7 +1766,7 @@
                         response.status === 403
                     ) {
 
-                        handleAuthError();
+                        handleSessionExpired();
 
                         return;
 
@@ -1654,7 +1798,6 @@
 
                     closePatientFormModal();
 
-
                     await loadPatients();
 
 
@@ -1673,7 +1816,7 @@
 
 
     // ==========================================
-    // VIEW PATIENT PROFILE
+    // VIEW PATIENT
     // ==========================================
 
     async function viewPatient(id) {
@@ -1684,42 +1827,41 @@
 
         if (!token) {
 
-            handleAuthError();
+            handleSessionExpired();
 
             return;
 
         }
 
 
-        // Show profile modal immediately
-        document.getElementById(
-            "viewPatientModal"
-        ).style.display =
-            "flex";
+        currentPatientId =
+            id;
 
 
-        // Reset appointment history
         document.getElementById(
             "appointmentHistory"
         ).innerHTML = `
-            <div class="loading-history">
+            <div class="empty-state">
                 Loading appointment history...
+            </div>
+        `;
+
+
+        document.getElementById(
+            "consultationHistory"
+        ).innerHTML = `
+            <div class="empty-state">
+                Loading consultation records...
             </div>
         `;
 
 
         try {
 
-            // ==================================
-            // LOAD PATIENT
-            // ==================================
-
-            const patientResponse =
+            const response =
                 await fetch(
                     `${API_URL}/api/patients/${id}`,
                     {
-                        method: "GET",
-
                         headers: {
                             "Authorization":
                                 `Bearer ${token}`
@@ -1729,11 +1871,11 @@
 
 
             if (
-                patientResponse.status === 401 ||
-                patientResponse.status === 403
+                response.status === 401 ||
+                response.status === 403
             ) {
 
-                handleAuthError();
+                handleSessionExpired();
 
                 return;
 
@@ -1741,64 +1883,37 @@
 
 
             const patient =
-                await patientResponse.json();
+                await response.json();
 
 
-            if (!patientResponse.ok) {
+            if (!response.ok) {
 
                 alert(
                     patient.message ||
                     "Unable to load patient."
                 );
 
-                closeViewPatientModal();
-
                 return;
 
             }
 
 
-            // ==================================
-            // DISPLAY PATIENT INFORMATION
-            // ==================================
-
-            const fullName =
-                `${patient.first_name || ""} ${patient.last_name || ""}`
-                    .trim();
-
-
-            document.getElementById(
-                "profileName"
-            ).textContent =
-                fullName ||
-                "Patient Profile";
-
-
-            document.getElementById(
-                "profilePatientId"
-            ).textContent =
-                patient.id;
-
-
             document.getElementById(
                 "viewName"
             ).textContent =
-                fullName ||
-                "Not provided";
+                `${patient.first_name || ""} ${patient.last_name || ""}`.trim();
 
 
             document.getElementById(
                 "viewEmail"
             ).textContent =
-                patient.email ||
-                "Not provided";
+                patient.email || "Not provided";
 
 
             document.getElementById(
                 "viewPhone"
             ).textContent =
-                patient.phone ||
-                "Not provided";
+                patient.phone || "Not provided";
 
 
             document.getElementById(
@@ -1806,22 +1921,19 @@
             ).textContent =
                 formatDate(
                     patient.date_of_birth
-                ) ||
-                "Not provided";
+                ) || "Not provided";
 
 
             document.getElementById(
                 "viewGender"
             ).textContent =
-                patient.gender ||
-                "Not provided";
+                patient.gender || "Not provided";
 
 
             document.getElementById(
                 "viewAddress"
             ).textContent =
-                patient.address ||
-                "Not provided";
+                patient.address || "Not provided";
 
 
             document.getElementById(
@@ -1849,34 +1961,32 @@
                 "viewNotes"
             ).textContent =
                 patient.notes ||
-                "None recorded";
+                "None";
 
 
-            // ==================================
-            // LOAD APPOINTMENT HISTORY
-            // ==================================
+            document.getElementById(
+                "viewPatientModal"
+            ).style.display =
+                "flex";
+
 
             await loadAppointmentHistory(
-                id,
-                token
+                id
+            );
+
+
+            await loadConsultations(
+                id
             );
 
 
         } catch (error) {
 
-            console.error(
-                "Patient profile error:",
-                error
+            console.error(error);
+
+            alert(
+                "Unable to connect to the server."
             );
-
-
-            document.getElementById(
-                "appointmentHistory"
-            ).innerHTML = `
-                <div class="history-error">
-                    Unable to load patient information.
-                </div>
-            `;
 
         }
 
@@ -1888,8 +1998,7 @@
     // ==========================================
 
     async function loadAppointmentHistory(
-        patientId,
-        token
+        patientId
     ) {
 
         const container =
@@ -1898,11 +2007,8 @@
             );
 
 
-        container.innerHTML = `
-            <div class="loading-history">
-                Loading appointment history...
-            </div>
-        `;
+        const token =
+            getToken();
 
 
         try {
@@ -1911,7 +2017,983 @@
                 await fetch(
                     `${API_URL}/api/patients/${patientId}/appointments`,
                     {
-                        method: "GET",
+                        headers: {
+                            "Authorization":
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
+
+                handleSessionExpired();
+
+                return;
+
+            }
+
+
+            const appointments =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                container.innerHTML = `
+                    <div class="empty-state">
+                        ${escapeHtml(
+                            appointments.message ||
+                            "Failed to load appointment history."
+                        )}
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            if (
+                appointments.length === 0
+            ) {
+
+                container.innerHTML = `
+                    <div class="empty-state">
+                        No appointment history found.
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML = `
+
+                <div class="history-table-container">
+
+                    <table class="history-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Doctor</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            ${appointments.map(
+                                appointment => {
+
+                                    return `
+
+                                        <tr>
+
+                                            <td>
+                                                ${escapeHtml(
+                                                    formatDate(
+                                                        appointment.appointment_date
+                                                    )
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                ${escapeHtml(
+                                                    formatTime(
+                                                        appointment.appointment_time
+                                                    )
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                ${escapeHtml(
+                                                    appointment.doctor ||
+                                                    "Not specified"
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                ${escapeHtml(
+                                                    appointment.reason ||
+                                                    "Not provided"
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                ${getStatusBadge(
+                                                    appointment.status
+                                                )}
+                                            </td>
+
+                                        </tr>
+
+                                    `;
+
+                                }
+                            ).join("")}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            `;
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            container.innerHTML = `
+                <div class="empty-state">
+                    Failed to load appointment history.
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    // ==========================================
+    // LOAD CONSULTATIONS
+    // ==========================================
+
+    async function loadConsultations(
+        patientId
+    ) {
+
+        const container =
+            document.getElementById(
+                "consultationHistory"
+            );
+
+
+        const token =
+            getToken();
+
+
+        container.innerHTML = `
+            <div class="empty-state">
+                Loading consultation records...
+            </div>
+        `;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/patients/${patientId}/consultations`,
+                    {
+                        headers: {
+                            "Authorization":
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
+
+                handleSessionExpired();
+
+                return;
+
+            }
+
+
+            const consultations =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                container.innerHTML = `
+                    <div class="empty-state">
+                        ${escapeHtml(
+                            consultations.message ||
+                            "Failed to load consultation records."
+                        )}
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            currentConsultations =
+                consultations;
+
+
+            if (
+                consultations.length === 0
+            ) {
+
+                container.innerHTML = `
+                    <div class="empty-state">
+                        No consultation records found.
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            displayConsultations(
+                consultations
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            container.innerHTML = `
+                <div class="empty-state">
+                    Failed to load consultation records.
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    // ==========================================
+    // DISPLAY CONSULTATIONS
+    // ==========================================
+
+    function displayConsultations(
+        consultations
+    ) {
+
+        const container =
+            document.getElementById(
+                "consultationHistory"
+            );
+
+
+        container.innerHTML =
+            consultations.map(
+                consultation => {
+
+                    const diagnosis =
+                        consultation.diagnosis ||
+                        "Not recorded";
+
+
+                    return `
+
+                        <div class="consultation-card">
+
+                            <div class="consultation-header">
+
+                                <div>
+
+                                    <h4>
+                                        Consultation
+                                    </h4>
+
+                                    <div class="consultation-date">
+
+                                        ${escapeHtml(
+                                            formatDate(
+                                                consultation.consultation_date
+                                            )
+                                        )}
+
+                                        ${
+                                            consultation.doctor
+                                                ? ` • ${escapeHtml(consultation.doctor)}`
+                                                : ""
+                                        }
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="consultation-actions">
+
+                                    <button
+                                        class="small-view-btn"
+                                        onclick="viewConsultation(${consultation.id})"
+                                    >
+                                        View
+                                    </button>
+
+                                    <button
+                                        class="small-edit-btn"
+                                        onclick="editConsultation(${consultation.id})"
+                                    >
+                                        Edit
+                                    </button>
+
+                                    <button
+                                        class="small-delete-btn"
+                                        onclick="deleteConsultation(${consultation.id})"
+                                    >
+                                        Delete
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="consultation-field">
+
+                                <strong>
+                                    Chief Complaint
+                                </strong>
+
+                                <span>
+                                    ${escapeHtml(
+                                        consultation.chief_complaint ||
+                                        "Not recorded"
+                                    )}
+                                </span>
+
+                            </div>
+
+
+                            <div class="consultation-field">
+
+                                <strong>
+                                    Diagnosis
+                                </strong>
+
+                                <span>
+                                    ${escapeHtml(
+                                        diagnosis
+                                    )}
+                                </span>
+
+                            </div>
+
+
+                            <div class="consultation-field">
+
+                                <strong>
+                                    Treatment / Plan
+                                </strong>
+
+                                <span>
+                                    ${escapeHtml(
+                                        consultation.treatment ||
+                                        "Not recorded"
+                                    )}
+                                </span>
+
+                            </div>
+
+
+                            ${
+                                consultation.follow_up_date
+                                    ? `
+                                        <div class="consultation-field">
+
+                                            <strong>
+                                                Follow-up Date
+                                            </strong>
+
+                                            <span>
+                                                ${escapeHtml(
+                                                    formatDate(
+                                                        consultation.follow_up_date
+                                                    )
+                                                )}
+                                            </span>
+
+                                        </div>
+                                    `
+                                    : ""
+                            }
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    // ==========================================
+    // OPEN ADD CONSULTATION
+    // ==========================================
+
+    function openAddConsultationModal() {
+
+        if (!currentPatientId) {
+
+            alert(
+                "Please open a patient profile first."
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "consultationFormTitle"
+        ).textContent =
+            "Add Consultation";
+
+
+        document.getElementById(
+            "consultationForm"
+        ).reset();
+
+
+        document.getElementById(
+            "consultationId"
+        ).value = "";
+
+
+        document.getElementById(
+            "consultationDate"
+        ).value =
+            getTodayDate();
+
+
+        document.getElementById(
+            "consultationFormModal"
+        ).style.display =
+            "flex";
+
+    }
+
+
+    // ==========================================
+    // CLOSE CONSULTATION FORM
+    // ==========================================
+
+    function closeConsultationFormModal() {
+
+        document.getElementById(
+            "consultationFormModal"
+        ).style.display =
+            "none";
+
+    }
+
+
+    // ==========================================
+    // SAVE CONSULTATION
+    // ==========================================
+
+    document
+        .getElementById(
+            "consultationForm"
+        )
+        .addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const token =
+                    getToken();
+
+
+                if (!token) {
+
+                    handleSessionExpired();
+
+                    return;
+
+                }
+
+
+                if (!currentPatientId) {
+
+                    alert(
+                        "No patient selected."
+                    );
+
+                    return;
+
+                }
+
+
+                const consultationId =
+                    document.getElementById(
+                        "consultationId"
+                    ).value;
+
+
+                const consultationData = {
+
+                    doctor:
+                        document.getElementById(
+                            "consultationDoctor"
+                        ).value.trim(),
+
+                    consultation_date:
+                        document.getElementById(
+                            "consultationDate"
+                        ).value,
+
+                    chief_complaint:
+                        document.getElementById(
+                            "chiefComplaint"
+                        ).value.trim(),
+
+                    assessment:
+                        document.getElementById(
+                            "assessment"
+                        ).value.trim(),
+
+                    diagnosis:
+                        document.getElementById(
+                            "diagnosis"
+                        ).value.trim(),
+
+                    treatment:
+                        document.getElementById(
+                            "treatment"
+                        ).value.trim(),
+
+                    clinical_notes:
+                        document.getElementById(
+                            "clinicalNotes"
+                        ).value.trim(),
+
+                    follow_up_date:
+                        document.getElementById(
+                            "followUpDate"
+                        ).value
+
+                };
+
+
+                const url =
+                    consultationId
+                        ? `${API_URL}/api/consultations/${consultationId}`
+                        : `${API_URL}/api/patients/${currentPatientId}/consultations`;
+
+
+                const method =
+                    consultationId
+                        ? "PUT"
+                        : "POST";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            url,
+                            {
+                                method:
+                                    method,
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json",
+
+                                    "Authorization":
+                                        `Bearer ${token}`
+
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        consultationData
+                                    )
+
+                            }
+                        );
+
+
+                    if (
+                        response.status === 401 ||
+                        response.status === 403
+                    ) {
+
+                        handleSessionExpired();
+
+                        return;
+
+                    }
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        alert(
+                            data.message ||
+                            "Failed to save consultation."
+                        );
+
+                        return;
+
+                    }
+
+
+                    showMessage(
+                        data.message ||
+                        "Consultation saved successfully.",
+                        "success"
+                    );
+
+
+                    closeConsultationFormModal();
+
+
+                    await loadConsultations(
+                        currentPatientId
+                    );
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    alert(
+                        "Unable to connect to the server."
+                    );
+
+                }
+
+            }
+        );
+
+
+    // ==========================================
+    // VIEW CONSULTATION
+    // ==========================================
+
+    async function viewConsultation(
+        id
+    ) {
+
+        const token =
+            getToken();
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/consultations/${id}`,
+                    {
+                        headers: {
+                            "Authorization":
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
+
+                handleSessionExpired();
+
+                return;
+
+            }
+
+
+            const consultation =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                alert(
+                    consultation.message ||
+                    "Unable to load consultation."
+                );
+
+                return;
+
+            }
+
+
+            document.getElementById(
+                "viewConsultationDoctor"
+            ).textContent =
+                consultation.doctor ||
+                "Not provided";
+
+
+            document.getElementById(
+                "viewConsultationDate"
+            ).textContent =
+                formatDate(
+                    consultation.consultation_date
+                ) ||
+                "Not provided";
+
+
+            document.getElementById(
+                "viewChiefComplaint"
+            ).textContent =
+                consultation.chief_complaint ||
+                "Not recorded";
+
+
+            document.getElementById(
+                "viewAssessment"
+            ).textContent =
+                consultation.assessment ||
+                "Not recorded";
+
+
+            document.getElementById(
+                "viewDiagnosis"
+            ).textContent =
+                consultation.diagnosis ||
+                "Not recorded";
+
+
+            document.getElementById(
+                "viewTreatment"
+            ).textContent =
+                consultation.treatment ||
+                "Not recorded";
+
+
+            document.getElementById(
+                "viewClinicalNotes"
+            ).textContent =
+                consultation.clinical_notes ||
+                "Not recorded";
+
+
+            document.getElementById(
+                "viewFollowUpDate"
+            ).textContent =
+                consultation.follow_up_date
+                    ? formatDate(
+                        consultation.follow_up_date
+                    )
+                    : "No follow-up scheduled";
+
+
+            document.getElementById(
+                "viewConsultationModal"
+            ).style.display =
+                "flex";
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to connect to the server."
+            );
+
+        }
+
+    }
+
+
+    // ==========================================
+    // EDIT CONSULTATION
+    // ==========================================
+
+    async function editConsultation(
+        id
+    ) {
+
+        const token =
+            getToken();
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/consultations/${id}`,
+                    {
+                        headers: {
+                            "Authorization":
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
+
+                handleSessionExpired();
+
+                return;
+
+            }
+
+
+            const consultation =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                alert(
+                    consultation.message ||
+                    "Unable to load consultation."
+                );
+
+                return;
+
+            }
+
+
+            document.getElementById(
+                "consultationFormTitle"
+            ).textContent =
+                "Edit Consultation";
+
+
+            document.getElementById(
+                "consultationId"
+            ).value =
+                consultation.id;
+
+
+            document.getElementById(
+                "consultationDoctor"
+            ).value =
+                consultation.doctor || "";
+
+
+            document.getElementById(
+                "consultationDate"
+            ).value =
+                consultation.consultation_date
+                    ? consultation.consultation_date.substring(
+                        0,
+                        10
+                    )
+                    : "";
+
+
+            document.getElementById(
+                "chiefComplaint"
+            ).value =
+                consultation.chief_complaint || "";
+
+
+            document.getElementById(
+                "assessment"
+            ).value =
+                consultation.assessment || "";
+
+
+            document.getElementById(
+                "diagnosis"
+            ).value =
+                consultation.diagnosis || "";
+
+
+            document.getElementById(
+                "treatment"
+            ).value =
+                consultation.treatment || "";
+
+
+            document.getElementById(
+                "clinicalNotes"
+            ).value =
+                consultation.clinical_notes || "";
+
+
+            document.getElementById(
+                "followUpDate"
+            ).value =
+                consultation.follow_up_date
+                    ? consultation.follow_up_date.substring(
+                        0,
+                        10
+                    )
+                    : "";
+
+
+            document.getElementById(
+                "consultationFormModal"
+            ).style.display =
+                "flex";
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to connect to the server."
+            );
+
+        }
+
+    }
+
+
+    // ==========================================
+    // DELETE CONSULTATION
+    // ==========================================
+
+    async function deleteConsultation(
+        id
+    ) {
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to delete this consultation record?"
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        const token =
+            getToken();
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/consultations/${id}`,
+                    {
+                        method: "DELETE",
 
                         headers: {
                             "Authorization":
@@ -1926,7 +3008,7 @@
                 response.status === 403
             ) {
 
-                handleAuthError();
+                handleSessionExpired();
 
                 return;
 
@@ -1939,262 +3021,37 @@
 
             if (!response.ok) {
 
-                container.innerHTML = `
-                    <div class="history-error">
-                        ${escapeHtml(
-                            data.message ||
-                            "Unable to load appointment history."
-                        )}
-                    </div>
-                `;
+                alert(
+                    data.message ||
+                    "Failed to delete consultation."
+                );
 
                 return;
 
             }
 
 
-            const appointments =
-                Array.isArray(data)
-                    ? data
-                    : [];
+            showMessage(
+                data.message ||
+                "Consultation deleted successfully.",
+                "success"
+            );
 
 
-            displayAppointmentHistory(
-                appointments
+            await loadConsultations(
+                currentPatientId
             );
 
 
         } catch (error) {
 
-            console.error(
-                "Appointment history error:",
-                error
+            console.error(error);
+
+            alert(
+                "Unable to connect to the server."
             );
 
-
-            container.innerHTML = `
-                <div class="history-error">
-                    Unable to connect to the server while loading appointment history.
-                </div>
-            `;
-
         }
-
-    }
-
-
-    // ==========================================
-    // DISPLAY APPOINTMENT HISTORY
-    // ==========================================
-
-    function displayAppointmentHistory(
-        appointments
-    ) {
-
-        const container =
-            document.getElementById(
-                "appointmentHistory"
-            );
-
-
-        if (
-            !appointments ||
-            appointments.length === 0
-        ) {
-
-            container.innerHTML = `
-                <div class="no-history">
-                    No appointments found for this patient.
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        const rows =
-            appointments.map(
-                appointment => {
-
-                    const doctorName =
-                        appointment.doctor_name ||
-                        appointment.doctor ||
-                        "Not assigned";
-
-
-                    const reason =
-                        appointment.reason ||
-                        "Not provided";
-
-
-                    const status =
-                        appointment.status ||
-                        "Pending";
-
-
-                    const statusClass =
-                        getStatusClass(
-                            status
-                        );
-
-
-                    return `
-
-                        <tr>
-
-                            <td>
-                                ${escapeHtml(
-                                    formatDate(
-                                        appointment.appointment_date
-                                    ) ||
-                                    "—"
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    formatTime(
-                                        appointment.appointment_time
-                                    ) ||
-                                    "—"
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    doctorName
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    reason
-                                )}
-                            </td>
-
-                            <td>
-
-                                <span
-                                    class="status-badge ${statusClass}"
-                                >
-                                    ${escapeHtml(
-                                        status
-                                    )}
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                    `;
-
-                }
-            ).join("");
-
-
-        container.innerHTML = `
-
-            <div class="appointment-history-container">
-
-                <table class="appointment-history-table">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Date
-                            </th>
-
-                            <th>
-                                Time
-                            </th>
-
-                            <th>
-                                Doctor
-                            </th>
-
-                            <th>
-                                Reason
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        ${rows}
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        `;
-
-    }
-
-
-    // ==========================================
-    // GET STATUS CLASS
-    // ==========================================
-
-    function getStatusClass(status) {
-
-        const normalized =
-            String(
-                status || ""
-            )
-                .toLowerCase()
-                .trim();
-
-
-        if (
-            normalized === "pending"
-        ) {
-
-            return "status-pending";
-
-        }
-
-
-        if (
-            normalized === "confirmed" ||
-            normalized === "approved"
-        ) {
-
-            return "status-confirmed";
-
-        }
-
-
-        if (
-            normalized === "completed"
-        ) {
-
-            return "status-completed";
-
-        }
-
-
-        if (
-            normalized === "cancelled" ||
-            normalized === "canceled"
-        ) {
-
-            return "status-cancelled";
-
-        }
-
-
-        return "status-default";
 
     }
 
@@ -2211,7 +3068,7 @@
 
         if (!token) {
 
-            handleAuthError();
+            handleSessionExpired();
 
             return;
 
@@ -2224,8 +3081,6 @@
                 await fetch(
                     `${API_URL}/api/patients/${id}`,
                     {
-                        method: "GET",
-
                         headers: {
                             "Authorization":
                                 `Bearer ${token}`
@@ -2239,7 +3094,7 @@
                 response.status === 403
             ) {
 
-                handleAuthError();
+                handleSessionExpired();
 
                 return;
 
@@ -2302,9 +3157,7 @@
                 "dateOfBirth"
             ).value =
                 patient.date_of_birth
-                    ? String(
-                        patient.date_of_birth
-                    ).substring(
+                    ? patient.date_of_birth.substring(
                         0,
                         10
                     )
@@ -2375,7 +3228,7 @@
         const patient =
             patients.find(
                 patient =>
-                    Number(patient.id) === Number(id)
+                    patient.id === id
             );
 
 
@@ -2407,15 +3260,6 @@
             getToken();
 
 
-        if (!token) {
-
-            handleAuthError();
-
-            return;
-
-        }
-
-
         try {
 
             const response =
@@ -2437,7 +3281,7 @@
                 response.status === 403
             ) {
 
-                handleAuthError();
+                handleSessionExpired();
 
                 return;
 
@@ -2484,7 +3328,7 @@
 
 
     // ==========================================
-    // CLOSE VIEW PATIENT MODAL
+    // CLOSE VIEW PATIENT
     // ==========================================
 
     function closeViewPatientModal() {
@@ -2493,6 +3337,40 @@
             "viewPatientModal"
         ).style.display =
             "none";
+
+    }
+
+
+    // ==========================================
+    // CLOSE VIEW CONSULTATION
+    // ==========================================
+
+    function closeViewConsultationModal() {
+
+        document.getElementById(
+            "viewConsultationModal"
+        ).style.display =
+            "none";
+
+    }
+
+
+    // ==========================================
+    // SESSION EXPIRED
+    // ==========================================
+
+    function handleSessionExpired() {
+
+        localStorage.removeItem(
+            "frantett_token"
+        );
+
+        alert(
+            "Your session has expired. Please log in again."
+        );
+
+        window.location.href =
+            "./login.html";
 
     }
 
@@ -2520,9 +3398,7 @@
             )
         ) {
 
-            return String(
-                dateValue
-            );
+            return dateValue;
 
         }
 
@@ -2545,29 +3421,13 @@
         }
 
 
-        const timeString =
-            String(
-                timeValue
-            );
-
-
-        /*
-         * Handles PostgreSQL TIME values such as:
-         *
-         * 09:30:00
-         *
-         * 14:00:00
-         */
-
         const parts =
-            timeString.split(":");
+            String(timeValue).split(":");
 
 
-        if (
-            parts.length < 2
-        ) {
+        if (parts.length < 2) {
 
-            return timeString;
+            return timeValue;
 
         }
 
@@ -2583,35 +3443,128 @@
             parts[1];
 
 
-        if (
-            isNaN(hours)
-        ) {
+        if (isNaN(hours)) {
 
-            return timeString;
+            return timeValue;
 
         }
 
 
-        const period =
+        const ampm =
             hours >= 12
                 ? "PM"
                 : "AM";
 
 
         hours =
-            hours % 12;
+            hours % 12 ||
+            12;
+
+
+        return `${hours}:${minutes} ${ampm}`;
+
+    }
+
+
+    // ==========================================
+    // STATUS BADGE
+    // ==========================================
+
+    function getStatusBadge(status) {
+
+        const value =
+            status ||
+            "Pending";
+
+
+        const normalized =
+            value
+                .toLowerCase()
+                .replace(
+                    /\s+/g,
+                    "-"
+                );
+
+
+        let className =
+            "status-pending";
 
 
         if (
-            hours === 0
+            normalized ===
+            "confirmed"
         ) {
 
-            hours = 12;
+            className =
+                "status-confirmed";
 
         }
 
 
-        return `${hours}:${minutes} ${period}`;
+        if (
+            normalized ===
+            "completed"
+        ) {
+
+            className =
+                "status-completed";
+
+        }
+
+
+        if (
+            normalized ===
+            "cancelled"
+        ) {
+
+            className =
+                "status-cancelled";
+
+        }
+
+
+        return `
+            <span class="status ${className}">
+                ${escapeHtml(value)}
+            </span>
+        `;
+
+    }
+
+
+    // ==========================================
+    // TODAY'S DATE
+    // ==========================================
+
+    function getTodayDate() {
+
+        const today =
+            new Date();
+
+
+        const year =
+            today.getFullYear();
+
+
+        const month =
+            String(
+                today.getMonth() + 1
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        const day =
+            String(
+                today.getDate()
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        return `${year}-${month}-${day}`;
 
     }
 
@@ -2662,9 +3615,7 @@
 
     function escapeHtml(value) {
 
-        return String(
-            value ?? ""
-        )
+        return String(value)
             .replace(
                 /&/g,
                 "&amp;"
@@ -2702,10 +3653,19 @@
                     "patientFormModal"
                 );
 
-
             const viewModal =
                 document.getElementById(
                     "viewPatientModal"
+                );
+
+            const consultationFormModal =
+                document.getElementById(
+                    "consultationFormModal"
+                );
+
+            const viewConsultationModal =
+                document.getElementById(
+                    "viewConsultationModal"
                 );
 
 
@@ -2726,25 +3686,21 @@
 
             }
 
-        }
-    );
-
-
-    // ==========================================
-    // ESC KEY CLOSES MODALS
-    // ==========================================
-
-    window.addEventListener(
-        "keydown",
-        function(event) {
 
             if (
-                event.key === "Escape"
+                event.target === consultationFormModal
             ) {
 
-                closePatientFormModal();
+                closeConsultationFormModal();
 
-                closeViewPatientModal();
+            }
+
+
+            if (
+                event.target === viewConsultationModal
+            ) {
+
+                closeViewConsultationModal();
 
             }
 

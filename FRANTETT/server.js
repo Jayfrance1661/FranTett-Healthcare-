@@ -954,6 +954,691 @@ app.get(
 
     }
 );
+// ==========================================
+// CLINICAL CONSULTATION RECORDS
+// ==========================================
+
+
+// ==========================================
+// GET ALL CONSULTATIONS FOR A PATIENT
+// ==========================================
+
+app.get(
+    "/api/patients/:id/consultations",
+    authenticateToken,
+    async (req, res) => {
+
+        const patientId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(patientId)) {
+
+            return res.status(400).json({
+                message: "Invalid patient ID."
+            });
+
+        }
+
+        try {
+
+            const result = await pool.query(
+                `
+                SELECT
+                    id,
+                    patient_id,
+                    doctor,
+                    consultation_date,
+
+                    chief_complaint,
+                    history_of_presenting_complaint,
+                    past_medical_history,
+                    drug_allergy_history,
+                    family_history,
+                    social_history,
+                    systems_review,
+                    summary,
+                    examination,
+                    investigations,
+                    differential_diagnosis,
+                    diagnosis,
+                    management_plan,
+                    treatment,
+
+                    assessment,
+                    clinical_notes,
+                    follow_up_date,
+
+                    created_at,
+                    updated_at
+
+                FROM consultations
+
+                WHERE patient_id = $1
+
+                ORDER BY
+                    consultation_date DESC,
+                    created_at DESC
+                `,
+                [patientId]
+            );
+
+            res.json(result.rows);
+
+        } catch (error) {
+
+            console.error(
+                "Error loading consultations:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to load consultation records."
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// GET ONE CONSULTATION
+// ==========================================
+
+app.get(
+    "/api/consultations/:id",
+    authenticateToken,
+    async (req, res) => {
+
+        const consultationId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(consultationId)) {
+
+            return res.status(400).json({
+                message: "Invalid consultation ID."
+            });
+
+        }
+
+        try {
+
+            const result = await pool.query(
+                `
+                SELECT
+                    id,
+                    patient_id,
+                    doctor,
+                    consultation_date,
+
+                    chief_complaint,
+                    history_of_presenting_complaint,
+                    past_medical_history,
+                    drug_allergy_history,
+                    family_history,
+                    social_history,
+                    systems_review,
+                    summary,
+                    examination,
+                    investigations,
+                    differential_diagnosis,
+                    diagnosis,
+                    management_plan,
+                    treatment,
+
+                    assessment,
+                    clinical_notes,
+                    follow_up_date,
+
+                    created_at,
+                    updated_at
+
+                FROM consultations
+
+                WHERE id = $1
+                `,
+                [consultationId]
+            );
+
+            if (result.rows.length === 0) {
+
+                return res.status(404).json({
+                    message:
+                        "Consultation not found."
+                });
+
+            }
+
+            res.json(result.rows[0]);
+
+        } catch (error) {
+
+            console.error(
+                "Error loading consultation:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to load consultation."
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// CREATE CONSULTATION
+// ==========================================
+
+app.post(
+    "/api/patients/:id/consultations",
+    authenticateToken,
+    async (req, res) => {
+
+        const patientId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(patientId)) {
+
+            return res.status(400).json({
+                message: "Invalid patient ID."
+            });
+
+        }
+
+        const {
+            doctor,
+            consultation_date,
+
+            chief_complaint,
+            history_of_presenting_complaint,
+            past_medical_history,
+            drug_allergy_history,
+            family_history,
+            social_history,
+            systems_review,
+            summary,
+            examination,
+            investigations,
+            differential_diagnosis,
+            diagnosis,
+            management_plan,
+            treatment,
+
+            assessment,
+            clinical_notes,
+            follow_up_date
+        } = req.body;
+
+
+        try {
+
+            // ==================================
+            // CHECK PATIENT EXISTS
+            // ==================================
+
+            const patientResult =
+                await pool.query(
+                    `
+                    SELECT id
+                    FROM patients
+                    WHERE id = $1
+                    `,
+                    [patientId]
+                );
+
+
+            if (
+                patientResult.rows.length === 0
+            ) {
+
+                return res.status(404).json({
+                    message:
+                        "Patient not found."
+                });
+
+            }
+
+
+            // ==================================
+            // INSERT CONSULTATION
+            // ==================================
+
+            const result =
+                await pool.query(
+                    `
+                    INSERT INTO consultations (
+
+                        patient_id,
+                        doctor,
+                        consultation_date,
+
+                        chief_complaint,
+                        history_of_presenting_complaint,
+                        past_medical_history,
+                        drug_allergy_history,
+                        family_history,
+                        social_history,
+                        systems_review,
+                        summary,
+                        examination,
+                        investigations,
+                        differential_diagnosis,
+                        diagnosis,
+                        management_plan,
+                        treatment,
+
+                        assessment,
+                        clinical_notes,
+                        follow_up_date
+
+                    )
+
+                    VALUES (
+
+                        $1,
+                        $2,
+                        $3,
+
+                        $4,
+                        $5,
+                        $6,
+                        $7,
+                        $8,
+                        $9,
+                        $10,
+                        $11,
+                        $12,
+                        $13,
+                        $14,
+                        $15,
+                        $16,
+                        $17,
+
+                        $18,
+                        $19,
+                        $20
+
+                    )
+
+                    RETURNING *
+                    `,
+
+                    [
+
+                        patientId,
+                        doctor || null,
+                        consultation_date || null,
+
+                        chief_complaint || null,
+                        history_of_presenting_complaint || null,
+                        past_medical_history || null,
+                        drug_allergy_history || null,
+                        family_history || null,
+                        social_history || null,
+                        systems_review || null,
+                        summary || null,
+                        examination || null,
+                        investigations || null,
+                        differential_diagnosis || null,
+                        diagnosis || null,
+                        management_plan || null,
+                        treatment || null,
+
+                        assessment || null,
+                        clinical_notes || null,
+                        follow_up_date || null
+
+                    ]
+                );
+
+
+            res.status(201).json({
+
+                message:
+                    "Consultation record created successfully.",
+
+                consultation:
+                    result.rows[0]
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error creating consultation:",
+                error
+            );
+
+            res.status(500).json({
+
+                message:
+                    "Failed to create consultation record."
+
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// UPDATE CONSULTATION
+// ==========================================
+
+app.put(
+    "/api/consultations/:id",
+    authenticateToken,
+    async (req, res) => {
+
+        const consultationId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(consultationId)) {
+
+            return res.status(400).json({
+                message:
+                    "Invalid consultation ID."
+            });
+
+        }
+
+
+        const {
+            doctor,
+            consultation_date,
+
+            chief_complaint,
+            history_of_presenting_complaint,
+            past_medical_history,
+            drug_allergy_history,
+            family_history,
+            social_history,
+            systems_review,
+            summary,
+            examination,
+            investigations,
+            differential_diagnosis,
+            diagnosis,
+            management_plan,
+            treatment,
+
+            assessment,
+            clinical_notes,
+            follow_up_date
+        } = req.body;
+
+
+        try {
+
+            const result =
+                await pool.query(
+                    `
+                    UPDATE consultations
+
+                    SET
+
+                        doctor = $1,
+                        consultation_date = $2,
+
+                        chief_complaint = $3,
+                        history_of_presenting_complaint = $4,
+                        past_medical_history = $5,
+                        drug_allergy_history = $6,
+                        family_history = $7,
+                        social_history = $8,
+                        systems_review = $9,
+                        summary = $10,
+                        examination = $11,
+                        investigations = $12,
+                        differential_diagnosis = $13,
+                        diagnosis = $14,
+                        management_plan = $15,
+                        treatment = $16,
+
+                        assessment = $17,
+                        clinical_notes = $18,
+                        follow_up_date = $19,
+
+                        updated_at =
+                            CURRENT_TIMESTAMP
+
+                    WHERE id = $20
+
+                    RETURNING *
+                    `,
+
+                    [
+
+                        doctor || null,
+                        consultation_date || null,
+
+                        chief_complaint || null,
+                        history_of_presenting_complaint || null,
+                        past_medical_history || null,
+                        drug_allergy_history || null,
+                        family_history || null,
+                        social_history || null,
+                        systems_review || null,
+                        summary || null,
+                        examination || null,
+                        investigations || null,
+                        differential_diagnosis || null,
+                        diagnosis || null,
+                        management_plan || null,
+                        treatment || null,
+
+                        assessment || null,
+                        clinical_notes || null,
+                        follow_up_date || null,
+
+                        consultationId
+
+                    ]
+                );
+
+
+            if (
+                result.rows.length === 0
+            ) {
+
+                return res.status(404).json({
+
+                    message:
+                        "Consultation not found."
+
+                });
+
+            }
+
+
+            res.json({
+
+                message:
+                    "Consultation updated successfully.",
+
+                consultation:
+                    result.rows[0]
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error updating consultation:",
+                error
+            );
+
+            res.status(500).json({
+
+                message:
+                    "Failed to update consultation."
+
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// DELETE CONSULTATION
+// ==========================================
+
+app.delete(
+    "/api/consultations/:id",
+    authenticateToken,
+    async (req, res) => {
+
+        const consultationId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(consultationId)) {
+
+            return res.status(400).json({
+
+                message:
+                    "Invalid consultation ID."
+
+            });
+
+        }
+
+
+        try {
+
+            const result =
+                await pool.query(
+                    `
+                    DELETE FROM consultations
+
+                    WHERE id = $1
+
+                    RETURNING id
+                    `,
+                    [consultationId]
+                );
+
+
+            if (
+                result.rows.length === 0
+            ) {
+
+                return res.status(404).json({
+
+                    message:
+                        "Consultation not found."
+
+                });
+
+            }
+
+
+            res.json({
+
+                message:
+                    "Consultation deleted successfully."
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error deleting consultation:",
+                error
+            );
+
+            res.status(500).json({
+
+                message:
+                    "Failed to delete consultation."
+
+            });
+
+        }
+
+    }
+);
+// ==========================================
+// DELETE CONSULTATION
+// ==========================================
+
+app.delete(
+    "/api/consultations/:id",
+    authenticateToken,
+    async (req, res) => {
+
+        const consultationId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(consultationId)) {
+
+            return res.status(400).json({
+                message:
+                    "Invalid consultation ID."
+            });
+
+        }
+
+
+        try {
+
+            const result =
+                await pool.query(
+                    `
+                    DELETE FROM consultations
+
+                    WHERE id = $1
+
+                    RETURNING id
+                    `,
+                    [consultationId]
+                );
+
+
+            if (
+                result.rows.length === 0
+            ) {
+
+                return res.status(404).json({
+                    message:
+                        "Consultation not found."
+                });
+
+            }
+
+
+            res.json({
+
+                message:
+                    "Consultation deleted successfully."
+
+            });
+
+
+        } catch (error) {
+
+            console.error(
+                "Error deleting consultation:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to delete consultation."
+            });
+
+        }
+
+    }
+);
+
 
 // ==========================================
 // CREATE PATIENT MANUALLY
