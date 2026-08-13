@@ -361,7 +361,7 @@ async function createOrUpdatePatient({
 }
 
 // ==========================================
-// CREATE APPOINTMENT
+// 
 // ALSO CREATES/UPDATES PATIENT
 // ==========================================
 
@@ -514,43 +514,46 @@ app.post(
             }
 
             // ----------------------------------
-            // CREATE APPOINTMENT
-            // ----------------------------------
+// CREATE APPOINTMENT
+// LINK APPOINTMENT TO PATIENT
+// ----------------------------------
 
-            const appointmentResult =
-                await client.query(
-                    `INSERT INTO appointments
-                    (
-                        name,
-                        email,
-                        phone,
-                        doctor,
-                        appointment_date,
-                        appointment_time,
-                        reason
-                    )
-                    VALUES
-                    (
-                        $1,
-                        $2,
-                        $3,
-                        $4,
-                        $5,
-                        $6,
-                        $7
-                    )
-                    RETURNING *`,
-                    [
-                        name,
-                        email,
-                        phone,
-                        doctor,
-                        appointment_date,
-                        appointment_time,
-                        reason
-                    ]
-                );
-
+const appointmentResult =
+    await client.query(
+        `INSERT INTO appointments
+        (
+            name,
+            email,
+            phone,
+            doctor,
+            appointment_date,
+            appointment_time,
+            reason,
+            patient_id
+        )
+        VALUES
+        (
+            $1,
+            $2,
+            $3,
+            $4,
+            $5,
+            $6,
+            $7,
+            $8
+        )
+        RETURNING *`,
+        [
+            name,
+            email,
+            phone,
+            doctor,
+            appointment_date,
+            appointment_time,
+            reason,
+            patient.id
+        ]
+    );
             await client.query("COMMIT");
 
             console.log("New Patient:");
@@ -605,9 +608,24 @@ app.get(
 
             const result =
                 await pool.query(
-                    `SELECT *
-                     FROM appointments
-                     ORDER BY created_at DESC`
+                    `SELECT
+    a.*,
+    p.first_name AS patient_first_name,
+    p.last_name AS patient_last_name,
+    p.email AS patient_email,
+    p.phone AS patient_phone,
+    p.date_of_birth AS patient_date_of_birth,
+    p.gender AS patient_gender,
+    p.address AS patient_address,
+    p.medical_history AS patient_medical_history,
+    p.allergies AS patient_allergies,
+    p.medications AS patient_medications,
+    p.notes AS patient_notes
+ FROM appointments a
+ LEFT JOIN patients p
+    ON a.patient_id = p.id
+ ORDER BY a.created_at DESC`
+ 
                 );
 
             res.json(
