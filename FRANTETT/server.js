@@ -1816,53 +1816,188 @@ app.delete(
     authenticateToken,
     async (req, res) => {
 
+        const client = await pool.connect();
+
         try {
 
-            const { id } =
-                req.params;
+            const patientId =
+                parseInt(req.params.id, 10);
 
-            const result =
-                await pool.query(
-                    `DELETE FROM patients
-                     WHERE id = $1
-                     RETURNING *`,
-                    [id]
-                );
+            // ==================================
+            // VALIDATE PATIENT ID
+            // ==================================
 
-            if (
-                result.rows.length === 0
-            ) {
+            if (isNaN(patientId)) {
 
-                return res.status(404).json({
+                return res.status(400).json({
                     message:
-                        "Patient not found"
+                        "Invalid patient ID."
                 });
 
             }
 
+
+            // ==================================
+            // START TRANSACTION
+            // ==================================
+
+            await client.query("BEGIN");
+
+
+            // ==================================
+            // CHECK PATIENT EXISTS
+            // ==================================
+
+            const patientResult =
+                await client.query(
+                    `
+                    SELECT *
+                    FROM patients
+                    WHERE id = $1
+                    FOR UPDATE
+                    `,
+                    [patientId]
+                );
+
+
+            if (
+                patientResult.rows.length === 0
+            ) {
+
+                await client.query("ROLLBACK");
+
+                return res.status(404).json({
+                    message:
+                        "Patient not found."
+                });
+
+            }
+
+
+            // ==================================
+            // DELETE CONSULTATIONS
+            // ==================================
+
+            await client.query(
+                `
+                DELETE FROM consultations
+                WHERE patient_id = $1
+                `,
+                [patientId]
+            );
+
+
+            // ==================================
+            // DELETE APPOINTMENTS
+            // ==================================
+
+            await client.query(
+                `
+                DELETE FROM appointments
+                WHERE patient_id = $1
+                `,
+                [patientId]
+            );
+
+
+            // ==================================
+            // DELETE PATIENT
+            // ==================================
+
+            const deleteResult =
+                await client.query(
+                    `
+                    DELETE FROM patients
+                    WHERE id = $1
+                    RETURNING *
+                    `,
+                    [patientId]
+                );
+
+
+            if (
+                deleteResult.rows.length === 0
+            ) {
+
+                await client.query("ROLLBACK");
+
+                return res.status(404).json({
+                    message:
+                        "Patient could not be deleted."
+                });
+
+            }
+
+
+            // ==================================
+            // COMMIT TRANSACTION
+            // ==================================
+
+            await client.query("COMMIT");
+
+
+            // ==================================
+            // SUCCESS RESPONSE
+            // ==================================
+
             res.json({
+
                 message:
-                    "Patient deleted successfully!",
+                    "Patient and associated records deleted successfully.",
+
                 patient:
-                    result.rows[0]
+                    deleteResult.rows[0]
+
             });
 
+
         } catch (error) {
+
+            // ==================================
+            // ROLLBACK IF ERROR
+            // ==================================
+
+            try {
+
+                await client.query("ROLLBACK");
+
+            } catch (rollbackError) {
+
+                console.error(
+                    "Rollback error:",
+                    rollbackError
+                );
+
+            }
+
 
             console.error(
                 "Error deleting patient:",
                 error
             );
 
+
             res.status(500).json({
+
                 message:
-                    "Failed to delete patient"
+                    "Failed to delete patient and associated records."
+
             });
+
+
+        } finally {
+
+            // ==================================
+            // RELEASE DATABASE CONNECTION
+            // ==================================
+
+            client.release();
 
         }
 
     }
 );
+
 
 // ==========================================
 // START SERVER
