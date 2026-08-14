@@ -739,6 +739,73 @@ app.put(
 );
 
 // ==========================================
+// GET SINGLE APPOINTMENT
+// STAFF ONLY
+// ==========================================
+
+app.get(
+    "/api/appointments/:id",
+    authenticateToken,
+    async (req, res) => {
+
+        try {
+
+            const { id } =
+                req.params;
+
+            const result =
+                await pool.query(
+                    `SELECT
+                        id,
+                        patient_id,
+                        name,
+                        email,
+                        phone,
+                        doctor,
+                        appointment_date,
+                        appointment_time,
+                        reason,
+                        status,
+                        created_at
+                     FROM appointments
+                     WHERE id = $1`,
+                    [id]
+                );
+
+            if (
+                result.rows.length === 0
+            ) {
+
+                return res.status(404).json({
+                    message:
+                        "Appointment not found"
+                });
+
+            }
+
+            res.json(
+                result.rows[0]
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Error fetching appointment:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to fetch appointment"
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
 // DELETE APPOINTMENT
 // STAFF ONLY
 // ==========================================
