@@ -1998,6 +1998,513 @@ app.delete(
     }
 );
 
+// ==========================================
+// PRESCRIPTION ROUTES
+// ==========================================
+
+
+// ==========================================
+// GET ALL PRESCRIPTIONS FOR A PATIENT
+// ==========================================
+
+app.get(
+    "/api/patients/:id/prescriptions",
+    authenticateToken,
+    async (req, res) => {
+
+        const patientId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(patientId)) {
+
+            return res.status(400).json({
+                message: "Invalid patient ID."
+            });
+
+        }
+
+        try {
+
+            const patientResult =
+                await pool.query(
+                    `
+                    SELECT id
+                    FROM patients
+                    WHERE id = $1
+                    `,
+                    [patientId]
+                );
+
+            if (patientResult.rows.length === 0) {
+
+                return res.status(404).json({
+                    message: "Patient not found."
+                });
+
+            }
+
+            const result =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        patient_id,
+                        doctor,
+                        prescription_date,
+                        medication_name,
+                        dose,
+                        route,
+                        frequency,
+                        duration,
+                        quantity,
+                        instructions,
+                        notes,
+                        created_at,
+                        updated_at
+
+                    FROM prescriptions
+
+                    WHERE patient_id = $1
+
+                    ORDER BY
+                        prescription_date DESC,
+                        created_at DESC
+                    `,
+                    [patientId]
+                );
+
+            res.json(result.rows);
+
+        } catch (error) {
+
+            console.error(
+                "Error loading prescriptions:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to load prescription records."
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// GET ONE PRESCRIPTION
+// ==========================================
+
+app.get(
+    "/api/prescriptions/:id",
+    authenticateToken,
+    async (req, res) => {
+
+        const prescriptionId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(prescriptionId)) {
+
+            return res.status(400).json({
+                message: "Invalid prescription ID."
+            });
+
+        }
+
+        try {
+
+            const result =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        patient_id,
+                        doctor,
+                        prescription_date,
+                        medication_name,
+                        dose,
+                        route,
+                        frequency,
+                        duration,
+                        quantity,
+                        instructions,
+                        notes,
+                        created_at,
+                        updated_at
+
+                    FROM prescriptions
+
+                    WHERE id = $1
+                    `,
+                    [prescriptionId]
+                );
+
+            if (result.rows.length === 0) {
+
+                return res.status(404).json({
+                    message: "Prescription not found."
+                });
+
+            }
+
+            res.json(result.rows[0]);
+
+        } catch (error) {
+
+            console.error(
+                "Error loading prescription:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to load prescription."
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// CREATE PRESCRIPTION
+// ==========================================
+
+app.post(
+    "/api/patients/:id/prescriptions",
+    authenticateToken,
+    async (req, res) => {
+
+        const patientId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(patientId)) {
+
+            return res.status(400).json({
+                message: "Invalid patient ID."
+            });
+
+        }
+
+        const {
+            doctor,
+            prescription_date,
+            medication_name,
+            dose,
+            route,
+            frequency,
+            duration,
+            quantity,
+            instructions,
+            notes
+        } = req.body;
+
+        if (
+            !medication_name ||
+            !medication_name.trim()
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Medication name is required."
+            });
+
+        }
+
+        try {
+
+            const patientResult =
+                await pool.query(
+                    `
+                    SELECT id
+                    FROM patients
+                    WHERE id = $1
+                    `,
+                    [patientId]
+                );
+
+            if (patientResult.rows.length === 0) {
+
+                return res.status(404).json({
+                    message: "Patient not found."
+                });
+
+            }
+
+            const result =
+                await pool.query(
+                    `
+                    INSERT INTO prescriptions (
+
+                        patient_id,
+                        doctor,
+                        prescription_date,
+                        medication_name,
+                        dose,
+                        route,
+                        frequency,
+                        duration,
+                        quantity,
+                        instructions,
+                        notes
+
+                    )
+
+                    VALUES (
+
+                        $1,
+                        $2,
+                        $3,
+                        $4,
+                        $5,
+                        $6,
+                        $7,
+                        $8,
+                        $9,
+                        $10,
+                        $11
+
+                    )
+
+                    RETURNING *
+                    `,
+                    [
+                        patientId,
+                        doctor || null,
+                        prescription_date || null,
+                        medication_name.trim(),
+                        dose || null,
+                        route || null,
+                        frequency || null,
+                        duration || null,
+                        quantity || null,
+                        instructions || null,
+                        notes || null
+                    ]
+                );
+
+            res.status(201).json({
+
+                message:
+                    "Prescription created successfully.",
+
+                prescription:
+                    result.rows[0]
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error creating prescription:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to create prescription."
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// UPDATE PRESCRIPTION
+// ==========================================
+
+app.put(
+    "/api/prescriptions/:id",
+    authenticateToken,
+    async (req, res) => {
+
+        const prescriptionId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(prescriptionId)) {
+
+            return res.status(400).json({
+                message: "Invalid prescription ID."
+            });
+
+        }
+
+        const {
+            doctor,
+            prescription_date,
+            medication_name,
+            dose,
+            route,
+            frequency,
+            duration,
+            quantity,
+            instructions,
+            notes
+        } = req.body;
+
+        if (
+            !medication_name ||
+            !medication_name.trim()
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Medication name is required."
+            });
+
+        }
+
+        try {
+
+            const result =
+                await pool.query(
+                    `
+                    UPDATE prescriptions
+
+                    SET
+
+                        doctor = $1,
+                        prescription_date = $2,
+                        medication_name = $3,
+                        dose = $4,
+                        route = $5,
+                        frequency = $6,
+                        duration = $7,
+                        quantity = $8,
+                        instructions = $9,
+                        notes = $10,
+                        updated_at = CURRENT_TIMESTAMP
+
+                    WHERE id = $11
+
+                    RETURNING *
+                    `,
+                    [
+                        doctor || null,
+                        prescription_date || null,
+                        medication_name.trim(),
+                        dose || null,
+                        route || null,
+                        frequency || null,
+                        duration || null,
+                        quantity || null,
+                        instructions || null,
+                        notes || null,
+                        prescriptionId
+                    ]
+                );
+
+            if (result.rows.length === 0) {
+
+                return res.status(404).json({
+                    message:
+                        "Prescription not found."
+                });
+
+            }
+
+            res.json({
+
+                message:
+                    "Prescription updated successfully.",
+
+                prescription:
+                    result.rows[0]
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error updating prescription:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to update prescription."
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// DELETE PRESCRIPTION
+// ==========================================
+
+app.delete(
+    "/api/prescriptions/:id",
+    authenticateToken,
+    async (req, res) => {
+
+        const prescriptionId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(prescriptionId)) {
+
+            return res.status(400).json({
+                message: "Invalid prescription ID."
+            });
+
+        }
+
+        try {
+
+            const result =
+                await pool.query(
+                    `
+                    DELETE FROM prescriptions
+
+                    WHERE id = $1
+
+                    RETURNING *
+                    `,
+                    [prescriptionId]
+                );
+
+            if (result.rows.length === 0) {
+
+                return res.status(404).json({
+                    message:
+                        "Prescription not found."
+                });
+
+            }
+
+            res.json({
+
+                message:
+                    "Prescription deleted successfully.",
+
+                prescription:
+                    result.rows[0]
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error deleting prescription:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to delete prescription."
+            });
+
+        }
+
+    }
+);
 
 // ==========================================
 // START SERVER
