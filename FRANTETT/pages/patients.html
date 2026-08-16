@@ -1785,6 +1785,20 @@ function formatDate(value) {
 
 }
 
+function formatDateTime(value) {
+
+    if (!value) {
+        return "";
+    }
+
+    const date = new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return String(value);
+    }
+
+    return date.toLocaleString();
+}
 
 /* =====================================================
    TIME
@@ -3140,22 +3154,26 @@ function displayConsultations(
                             </h4>
 
                             <div>
+    ${escapeHtml(
+        formatDate(
+            consultation.consultation_date
+        )
+    )}
 
-                                ${escapeHtml(
-                                    formatDate(
-                                        consultation.consultation_date
-                                    )
-                                )}
+    ${
+        consultation.doctor
+            ? ` • ${escapeHtml(consultation.doctor)}`
+            : ""
+    }
 
-                                ${
-                                    consultation.doctor
-                                        ? ` • ${escapeHtml(
-                                            consultation.doctor
-                                        )}`
-                                        : ""
-                                }
-
-                            </div>
+    ${
+        consultation.created_at
+            ? ` • Entered ${escapeHtml(
+                formatDateTime(consultation.created_at)
+            )}`
+            : ""
+    }
+</div>
 
                         </div>
 
@@ -3496,22 +3514,26 @@ function displayPrescriptions(
                                 </strong>
 
                                 <div class="clinical-date">
+    ${escapeHtml(
+        formatDate(
+            prescription.prescription_date
+        )
+    )}
 
-                                    ${escapeHtml(
-                                        formatDate(
-                                            prescription.prescription_date
-                                        )
-                                    )}
+    ${
+        prescription.doctor
+            ? ` • ${escapeHtml(prescription.doctor)}`
+            : ""
+    }
 
-                                    ${
-                                        prescription.doctor
-                                            ? ` • ${escapeHtml(
-                                                prescription.doctor
-                                            )}`
-                                            : ""
-                                    }
-
-                                </div>
+    ${
+        prescription.created_at
+            ? ` • Entered ${escapeHtml(
+                formatDateTime(prescription.created_at)
+            )}`
+            : ""
+    }
+</div>
 
                             </div>
 
