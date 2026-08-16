@@ -1634,10 +1634,7 @@
    CONFIGURATION
 ===================================================== */
 
-const API_URL =
-    window.location.protocol === "file:"
-        ? "http://localhost:3000"
-        : "";
+const API_URL = "http://localhost:3000";
 
 
 /* =====================================================
@@ -2623,24 +2620,32 @@ async function viewPatient(id) {
 
 }
 
-
 /* =====================================================
    LOAD APPOINTMENT HISTORY
 ===================================================== */
 
-async function loadAppointmentHistory(
-    patientId
-) {
+async function loadAppointmentHistory(patientId) {
 
     const container =
-        document.getElementById(
-            "appointmentHistory"
-        );
-
+        document.getElementById("appointmentHistory");
 
     const token =
         getToken();
 
+    if (!container) {
+        return;
+    }
+
+    if (!token) {
+        handleSessionExpired();
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="loading">
+            Loading appointment history...
+        </div>
+    `;
 
     try {
 
@@ -2648,6 +2653,7 @@ async function loadAppointmentHistory(
             await fetch(
                 `${API_URL}/api/patients/${patientId}/appointments`,
                 {
+                    method: "GET",
                     headers: {
                         "Authorization":
                             `Bearer ${token}`
@@ -2655,26 +2661,18 @@ async function loadAppointmentHistory(
                 }
             );
 
-
         if (
             response.status === 401 ||
             response.status === 403
         ) {
-
             handleSessionExpired();
-
             return;
-
         }
-
 
         const appointments =
             await response.json();
 
-
-        if (
-            !response.ok
-        ) {
+        if (!response.ok) {
 
             container.innerHTML = `
                 <div class="no-records">
@@ -2686,9 +2684,7 @@ async function loadAppointmentHistory(
             `;
 
             return;
-
         }
-
 
         if (
             !Array.isArray(appointments) ||
@@ -2702,18 +2698,14 @@ async function loadAppointmentHistory(
             `;
 
             return;
-
         }
 
-
         let html = `
-
             <div class="table-wrapper">
 
                 <table>
 
                     <thead>
-
                         <tr>
                             <th>Date</th>
                             <th>Time</th>
@@ -2722,19 +2714,15 @@ async function loadAppointmentHistory(
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
-
                     </thead>
 
                     <tbody>
-
         `;
-
 
         appointments.forEach(
             appointment => {
 
                 html += `
-
                     <tr>
 
                         <td>
@@ -2767,53 +2755,48 @@ async function loadAppointmentHistory(
                             )}
                         </td>
 
-                       <td>
-    ${escapeHtml(
-        appointment.status ||
-        "Pending"
-    )}
-</td>
+                        <td>
+                            ${escapeHtml(
+                                appointment.status ||
+                                "Pending"
+                            )}
+                        </td>
 
-<td>
+                        <td>
 
-    <button
-        type="button"
-        onclick="viewAppointment(${appointment.id})"
-    >
-        View
-    </button>
+                            <button
+                                type="button"
+                                class="view-btn"
+                                onclick="viewAppointment(${Number(appointment.id)})"
+                            >
+                                View
+                            </button>
 
-    <button
-        type="button"
-        onclick="deleteAppointmentFromPatient(${appointment.id})"
-    >
-        Delete
-    </button>
+                            <button
+                                type="button"
+                                class="danger-btn"
+                                onclick="deleteAppointmentFromPatient(${Number(appointment.id)})"
+                            >
+                                Delete
+                            </button>
 
-</td>
+                        </td>
 
                     </tr>
-
                 `;
-
             }
         );
 
-
         html += `
-
                     </tbody>
 
                 </table>
 
             </div>
-
         `;
-
 
         container.innerHTML =
             html;
-
 
     } catch (error) {
 
@@ -2833,91 +2816,55 @@ async function loadAppointmentHistory(
 }
 
 /* =====================================================
-   VIEW APPOINTMENT FROM PATIENT PROFILE
+   VIEW APPOINTMENT
 ===================================================== */
 
-async function viewAppointment(
-    id
-) {
+async function viewAppointment(id) {
 
-    const token =
-        getToken();
+    const token = getToken();
 
     if (!token) {
-
         handleSessionExpired();
-
         return;
-
     }
 
     try {
 
-        const response =
-            await fetch(
-                `${API_URL}/api/appointments/${id}`,
-                {
-                    headers: {
-                        "Authorization":
-                            `Bearer ${token}`
-                    }
+        const response = await fetch(
+            `${API_URL}/api/appointments/${id}`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
                 }
-            );
+            }
+        );
 
-        if (
-            response.status === 401 ||
-            response.status === 403
-        ) {
-
+        if (response.status === 401 || response.status === 403) {
             handleSessionExpired();
-
             return;
-
         }
 
-        const appointment =
-            await response.json();
+        const appointment = await response.json();
 
         if (!response.ok) {
-
             alert(
                 appointment.message ||
                 "Unable to load appointment."
             );
-
             return;
-
         }
 
         alert(
-            `Appointment\n\n` +
-
-            `Date: ${
-                formatDate(
-                    appointment.appointment_date
-                )
-            }\n` +
-
-            `Time: ${
-                formatTime(
-                    appointment.appointment_time
-                )
-            }\n` +
-
-            `Doctor: ${
-                appointment.doctor ||
-                "Not specified"
-            }\n` +
-
-            `Reason: ${
-                appointment.reason ||
-                "Not provided"
-            }\n` +
-
-            `Status: ${
-                appointment.status ||
-                "Pending"
-            }`
+            `Appointment Details\n\n` +
+            `Patient: ${appointment.name || "Not provided"}\n` +
+            `Email: ${appointment.email || "Not provided"}\n` +
+            `Phone: ${appointment.phone || "Not provided"}\n` +
+            `Doctor: ${appointment.doctor || "Not specified"}\n` +
+            `Date: ${formatDate(appointment.appointment_date)}\n` +
+            `Time: ${formatTime(appointment.appointment_time)}\n` +
+            `Reason: ${appointment.reason || "Not provided"}\n` +
+            `Status: ${appointment.status || "Pending"}`
         );
 
     } catch (error) {
@@ -2930,9 +2877,7 @@ async function viewAppointment(
         alert(
             "Unable to connect to the server."
         );
-
     }
-
 }
 
 
@@ -2940,63 +2885,41 @@ async function viewAppointment(
    DELETE APPOINTMENT FROM PATIENT PROFILE
 ===================================================== */
 
-async function deleteAppointmentFromPatient(
-    id
-) {
+async function deleteAppointmentFromPatient(id) {
 
-    const confirmed =
-        confirm(
-            "Are you sure you want to delete this appointment?"
-        );
+    const confirmed = confirm(
+        "Are you sure you want to delete this appointment?"
+    );
 
     if (!confirmed) {
-
         return;
-
     }
 
-    const token =
-        getToken();
+    const token = getToken();
 
     if (!token) {
-
         handleSessionExpired();
-
         return;
-
     }
 
     try {
 
-        const response =
-            await fetch(
-                `${API_URL}/api/appointments/${id}`,
-                {
-                    method:
-                        "DELETE",
-
-                    headers: {
-
-                        "Authorization":
-                            `Bearer ${token}`
-
-                    }
+        const response = await fetch(
+            `${API_URL}/api/appointments/${id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
                 }
-            );
+            }
+        );
 
-        if (
-            response.status === 401 ||
-            response.status === 403
-        ) {
-
+        if (response.status === 401 || response.status === 403) {
             handleSessionExpired();
-
             return;
-
         }
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
         if (!response.ok) {
 
@@ -3006,7 +2929,6 @@ async function deleteAppointmentFromPatient(
             );
 
             return;
-
         }
 
         showMessage(
@@ -3029,9 +2951,7 @@ async function deleteAppointmentFromPatient(
         alert(
             "Unable to connect to the server."
         );
-
     }
-
 }
 
 /* =====================================================
