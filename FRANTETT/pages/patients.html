@@ -723,7 +723,29 @@
             <h2 id="viewName">
                 Patient
             </h2>
+<div class="info-grid">
 
+    <div class="info-card">
+        <strong>Total Appointments</strong>
+        <span id="summaryTotalAppointments">0</span>
+    </div>
+
+    <div class="info-card">
+        <strong>Completed Appointments</strong>
+        <span id="summaryCompletedAppointments">0</span>
+    </div>
+
+    <div class="info-card">
+        <strong>Total Consultations</strong>
+        <span id="summaryTotalConsultations">0</span>
+    </div>
+
+    <div class="info-card">
+        <strong>Total Prescriptions</strong>
+        <span id="summaryTotalPrescriptions">0</span>
+    </div>
+
+</div>
             <div class="info-grid">
 
                 <div class="info-card">
@@ -2656,6 +2678,16 @@ async function viewPatient(id) {
             id
         );
 
+        await loadPrescriptions(
+    id
+);
+
+
+
+await updatePatientSummary(
+    id
+);
+
 
     } catch (error) {
 
@@ -3461,6 +3493,166 @@ async function loadPrescriptions(
 
 }
 
+function updatePatientSummary(
+    appointments,
+    consultations,
+    prescriptions
+) {
+
+    const totalAppointments =
+        Array.isArray(appointments)
+            ? appointments.length
+            : 0;
+
+    const completedAppointments =
+        Array.isArray(appointments)
+            ? appointments.filter(
+                appointment =>
+                    appointment.status === "Completed"
+            ).length
+            : 0;
+
+    const totalConsultations =
+        Array.isArray(consultations)
+            ? consultations.length
+            : 0;
+
+    const totalPrescriptions =
+        Array.isArray(prescriptions)
+            ? prescriptions.length
+            : 0;
+
+    document.getElementById(
+        "summaryTotalAppointments"
+    ).textContent =
+        totalAppointments;
+
+    document.getElementById(
+        "summaryCompletedAppointments"
+    ).textContent =
+        completedAppointments;
+
+    document.getElementById(
+        "summaryTotalConsultations"
+    ).textContent =
+        totalConsultations;
+
+    document.getElementById(
+        "summaryTotalPrescriptions"
+    ).textContent =
+        totalPrescriptions;
+}
+
+async function updatePatientSummary(patientId) {
+
+    const token = getToken();
+
+    if (!token) {
+        return;
+    }
+
+    try {
+
+        const [
+            appointmentsResponse,
+            consultationsResponse,
+            prescriptionsResponse
+        ] = await Promise.all([
+            fetch(
+                `${API_URL}/api/patients/${patientId}/appointments`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            ),
+
+            fetch(
+                `${API_URL}/api/patients/${patientId}/consultations`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            ),
+
+            fetch(
+                `${API_URL}/api/patients/${patientId}/prescriptions`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            )
+        ]);
+
+        const appointments =
+            appointmentsResponse.ok
+                ? await appointmentsResponse.json()
+                : [];
+
+        const consultations =
+            consultationsResponse.ok
+                ? await consultationsResponse.json()
+                : [];
+
+        const prescriptions =
+            prescriptionsResponse.ok
+                ? await prescriptionsResponse.json()
+                : [];
+
+        const totalAppointments =
+            Array.isArray(appointments)
+                ? appointments.length
+                : 0;
+
+        const completedAppointments =
+            Array.isArray(appointments)
+                ? appointments.filter(
+                    appointment =>
+                        appointment.status === "Completed"
+                ).length
+                : 0;
+
+        const totalConsultations =
+            Array.isArray(consultations)
+                ? consultations.length
+                : 0;
+
+        const totalPrescriptions =
+            Array.isArray(prescriptions)
+                ? prescriptions.length
+                : 0;
+
+        document.getElementById(
+            "summaryTotalAppointments"
+        ).textContent =
+            totalAppointments;
+
+        document.getElementById(
+            "summaryCompletedAppointments"
+        ).textContent =
+            completedAppointments;
+
+        document.getElementById(
+            "summaryTotalConsultations"
+        ).textContent =
+            totalConsultations;
+
+        document.getElementById(
+            "summaryTotalPrescriptions"
+        ).textContent =
+            totalPrescriptions;
+
+    } catch (error) {
+
+        console.error(
+            "Patient summary error:",
+            error
+        );
+
+    }
+}
 
 // ==========================================
 // DISPLAY PRESCRIPTIONS
