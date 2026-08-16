@@ -646,13 +646,6 @@
             oninput="applyFilters()"
         >
 
-<input
-    type="date"
-    id="dateFilter"
-    onchange="applyFilters()"
-    title="Filter by appointment date"
->
-
 
         <select
             id="doctorFilter"
@@ -1743,12 +1736,6 @@ function applyFilters() {
         .trim();
 
 
-    const date =
-        document.getElementById(
-            "dateFilter"
-        ).value;
-
-
     const doctor =
         document.getElementById(
             "doctorFilter"
@@ -1770,28 +1757,16 @@ function applyFilters() {
                     appointment.patient_name ||
                     "";
 
-
                 const matchesSearch =
                     patientName
                         .toLowerCase()
                         .includes(search) ||
-
                     (
                         appointment.email ||
                         ""
                     )
                         .toLowerCase()
                         .includes(search);
-
-
-                const matchesDate =
-                    !date ||
-                    String(
-                        appointment.appointment_date
-                    ).substring(
-                        0,
-                        10
-                    ) === date;
 
 
                 const matchesDoctor =
@@ -1808,7 +1783,6 @@ function applyFilters() {
 
                 return (
                     matchesSearch &&
-                    matchesDate &&
                     matchesDoctor &&
                     matchesStatus
                 );
@@ -1822,6 +1796,7 @@ function applyFilters() {
     );
 
 }
+
 
 /* ==========================================
    RENDER APPOINTMENTS
