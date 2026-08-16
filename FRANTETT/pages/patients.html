@@ -387,6 +387,165 @@
 
         }
 
+@media print {
+
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 11px;
+    }
+
+    body > nav,
+    body > .container {
+        display: none !important;
+    }
+
+    #viewPatientModal {
+        display: block !important;
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        padding: 0 !important;
+        background: white !important;
+        overflow: visible !important;
+    }
+
+    #viewPatientModal .modal-content {
+        display: block !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .close-modal,
+    button,
+    .form-actions,
+    #patientFormModal,
+    #prescriptionFormModal,
+    #consultationFormModal,
+    #viewConsultationModal {
+        display: none !important;
+    }
+
+    /* Print heading */
+    #viewPatientModal .modal-content::before {
+        content: "FRANTETT HEALTHCARE";
+        font-size: 18px;
+        white-space: pre;
+        display: block;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        border-bottom: 2px solid #000;
+        padding-bottom: 8px;
+    }
+
+    .patient-header {
+        background: white !important;
+        border: 1px solid #999 !important;
+        padding: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .patient-header h2 {
+        margin: 0 0 8px 0 !important;
+        font-size: 17px;
+    }
+
+    .info-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 5px !important;
+    }
+
+    .info-card {
+        background: white !important;
+        border: 1px solid #bbb !important;
+        padding: 6px !important;
+    }
+
+    .section {
+        margin-top: 10px !important;
+    }
+
+    .section h3 {
+        margin: 8px 0 6px 0 !important;
+        padding-bottom: 4px !important;
+        border-bottom: 1px solid #000 !important;
+        font-size: 13px;
+    }
+
+    .clinical-item {
+        margin-bottom: 6px !important;
+    }
+
+    .clinical-item strong {
+        margin-bottom: 2px !important;
+    }
+
+    .history-box,
+    .clinical-value,
+    .consultation-card,
+    .clinical-record {
+        background: white !important;
+        box-shadow: none !important;
+    }
+
+    .history-box,
+    .clinical-value {
+        padding: 5px !important;
+    }
+
+    .consultation-card,
+    .clinical-record {
+        border: 1px solid #bbb !important;
+        padding: 7px !important;
+        margin-bottom: 7px !important;
+        page-break-inside: avoid !important;
+    }
+
+    .consultation-title,
+    .clinical-record-header {
+        margin-bottom: 6px !important;
+    }
+
+    table {
+        width: 100% !important;
+        font-size: 10px !important;
+    }
+
+    th,
+    td {
+        padding: 4px !important;
+    }
+
+    #appointmentHistory button,
+    .consultation-actions,
+    .record-actions {
+        display: none !important;
+    }
+
+    #message {
+        display: none !important;
+    }
+
+    /* Keep related clinical sections together when possible */
+    #appointmentHistory,
+    #consultationHistory,
+    #prescriptionHistory {
+        page-break-inside: auto !important;
+    }
+}
+
     </style>
 </head>
 
@@ -717,6 +876,16 @@
         </span>
 
         <h2>Patient Profile</h2>
+
+        <div class="top-actions">
+    <button
+        type="button"
+        class="primary-btn"
+        onclick="printPatientRecord()"
+    >
+        Print Patient Record
+    </button>
+</div>
 
         <div class="patient-header">
 
@@ -5716,6 +5885,10 @@ window.addEventListener(
 /* =====================================================
    START
 ===================================================== */
+
+function printPatientRecord() {
+    window.print();
+}
 
 loadPatients();
 
