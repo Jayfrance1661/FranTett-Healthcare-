@@ -465,6 +465,23 @@
         oninput="filterPatients()"
     >
 
+    <div class="filters">
+
+    <select id="genderFilter" onchange="filterPatients()">
+        <option value="">All Genders</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <input
+        type="date"
+        id="dobFilter"
+        onchange="filterPatients()"
+        title="Filter by date of birth"
+    >
+
+</div>
 
     <div class="table-wrapper">
 
@@ -2139,14 +2156,21 @@ function displayPatients(data) {
 function filterPatients() {
 
     const search =
-        document
-            .getElementById(
-                "searchInput"
-            )
-            .value
-            .toLowerCase()
-            .trim();
+        document.getElementById(
+            "searchInput"
+        ).value
+        .toLowerCase()
+        .trim();
 
+    const gender =
+        document.getElementById(
+            "genderFilter"
+        ).value;
+
+    const dob =
+        document.getElementById(
+            "dobFilter"
+        ).value;
 
     const filtered =
         patients.filter(
@@ -2168,21 +2192,35 @@ function filterPatients() {
                         ""
                     ).toLowerCase();
 
-
-                return (
+                const matchesSearch =
                     name.includes(search) ||
                     email.includes(search) ||
-                    phone.includes(search)
-                );
+                    phone.includes(search);
 
+                const matchesGender =
+                    !gender ||
+                    patient.gender === gender;
+
+                const matchesDob =
+                    !dob ||
+                    String(
+                        patient.date_of_birth || ""
+                    ).substring(
+                        0,
+                        10
+                    ) === dob;
+
+                return (
+                    matchesSearch &&
+                    matchesGender &&
+                    matchesDob
+                );
             }
         );
-
 
     displayPatients(
         filtered
     );
-
 }
 
 
