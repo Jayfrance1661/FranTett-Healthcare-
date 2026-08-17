@@ -859,6 +859,143 @@
 
         </div>
 
+            </div>
+</div>
+
+        <!-- ==========================================
+     EDIT APPOINTMENT MODAL
+========================================== -->
+
+<div
+    id="editAppointmentModal"
+    class="modal"
+    style="display:none;"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Edit Appointment</h2>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeEditAppointmentModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <input
+            type="hidden"
+            id="editAppointmentId"
+        >
+
+        <div class="form-group">
+
+            <label>Doctor</label>
+
+            <select id="editAppointmentDoctor">
+                <option value="">
+                    Select Doctor
+                </option>
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Appointment Date</label>
+
+            <input
+                type="date"
+                id="editAppointmentDate"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Appointment Time</label>
+
+            <input
+                type="time"
+                id="editAppointmentTime"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Reason</label>
+
+            <textarea
+                id="editAppointmentReason"
+                rows="4"
+                placeholder="Reason for appointment..."
+            ></textarea>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Status</label>
+
+            <select id="editAppointmentStatus">
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="Confirmed">
+                    Confirmed
+                </option>
+
+                <option value="Cancelled">
+                    Cancelled
+                </option>
+
+                <option value="Completed">
+                    Completed
+                </option>
+
+            </select>
+
+        </div>
+
+        <div
+            style="
+                display:flex;
+                justify-content:flex-end;
+                gap:8px;
+                margin-top:18px;
+            "
+        >
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="closeEditAppointmentModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="confirm-btn"
+                onclick="saveEditedAppointment()"
+            >
+                Save Changes
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 
         <!-- ==========================================
              LINKED PATIENT
@@ -1876,15 +2013,23 @@ function renderAppointments(
                         );
 
 
-                let actions = `
+                                let actions = `
                     <button
+                        type="button"
                         class="view-btn"
                         onclick="viewAppointment(${appointment.id})"
                     >
                         View
                     </button>
-                `;
 
+                    <button
+                        type="button"
+                        class="view-btn"
+                        onclick="editAppointment(${appointment.id})"
+                    >
+                        Edit
+                    </button>
+                `;
 
                 if (
                     status === "Pending"
@@ -2680,6 +2825,246 @@ async function updateAppointmentStatus(
 
         alert(
             error.message ||
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+// ==========================================
+// EDIT APPOINTMENT
+// ==========================================
+
+function editAppointment(id) {
+
+    const appointment =
+        appointments.find(
+            item =>
+                Number(item.id) ===
+                Number(id)
+        );
+
+    if (!appointment) {
+
+        alert(
+            "Appointment not found."
+        );
+
+        return;
+    }
+
+    document.getElementById(
+        "editAppointmentId"
+    ).value =
+        appointment.id;
+
+    document.getElementById(
+        "editAppointmentDoctor"
+    ).value =
+        appointment.doctor || "";
+
+    document.getElementById(
+        "editAppointmentDate"
+    ).value =
+        appointment.appointment_date
+            ? String(
+                appointment.appointment_date
+            ).substring(0, 10)
+            : "";
+
+    document.getElementById(
+        "editAppointmentTime"
+    ).value =
+        appointment.appointment_time || "";
+
+    document.getElementById(
+        "editAppointmentReason"
+    ).value =
+        appointment.reason || "";
+
+    document.getElementById(
+        "editAppointmentStatus"
+    ).value =
+        appointment.status || "Pending";
+
+    document.getElementById(
+        "editAppointmentModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+// ==========================================
+// CLOSE EDIT APPOINTMENT
+// ==========================================
+
+function closeEditAppointmentModal() {
+
+    document.getElementById(
+        "editAppointmentModal"
+    ).style.display =
+        "none";
+
+}
+
+
+// ==========================================
+// SAVE EDITED APPOINTMENT
+// ==========================================
+
+async function saveEditedAppointment() {
+
+    const id =
+        document.getElementById(
+            "editAppointmentId"
+        ).value;
+
+    const doctor =
+        document.getElementById(
+            "editAppointmentDoctor"
+        ).value;
+
+    const appointment_date =
+        document.getElementById(
+            "editAppointmentDate"
+        ).value;
+
+    const appointment_time =
+        document.getElementById(
+            "editAppointmentTime"
+        ).value;
+
+    const reason =
+        document.getElementById(
+            "editAppointmentReason"
+        ).value.trim();
+
+    const status =
+        document.getElementById(
+            "editAppointmentStatus"
+        ).value;
+
+    if (!id) {
+
+        alert(
+            "Invalid appointment."
+        );
+
+        return;
+    }
+
+    if (
+        !appointment_date ||
+        !appointment_time
+    ) {
+
+        alert(
+            "Please enter the appointment date and time."
+        );
+
+        return;
+    }
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+    if (!token) {
+
+        alert(
+            "Your session has expired. Please log in again."
+        );
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/appointments/${id}`,
+                {
+                    method: "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            doctor:
+                                doctor,
+
+                            appointment_date:
+                                appointment_date,
+
+                            appointment_time:
+                                appointment_time,
+
+                            reason:
+                                reason,
+
+                            status:
+                                status
+
+                        })
+
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                data.message ||
+                "Failed to update appointment."
+            );
+
+            return;
+
+        }
+
+        showMessage(
+            data.message ||
+            "Appointment updated successfully!",
+            "success"
+        );
+
+        closeEditAppointmentModal();
+
+        await loadAppointments();
+
+    } catch (error) {
+
+        console.error(
+            "Error updating appointment:",
+            error
+        );
+
+        alert(
             "Unable to connect to the server."
         );
 

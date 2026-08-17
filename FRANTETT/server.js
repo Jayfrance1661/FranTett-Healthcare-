@@ -654,52 +654,78 @@ app.get(
 );
 
 // ==========================================
-// UPDATE APPOINTMENT STATUS
+// ==========================================
+// EDIT APPOINTMENT
 // STAFF ONLY
 // ==========================================
 
 app.put(
-    "/api/appointments/:id/status",
+    "/api/appointments/:id",
     authenticateToken,
     async (req, res) => {
 
+        const appointmentId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(appointmentId)) {
+
+            return res.status(400).json({
+                message: "Invalid appointment ID."
+            });
+
+        }
+
+        const {
+            doctor,
+            appointment_date,
+            appointment_time,
+            reason,
+            status
+        } = req.body;
+
+        const validStatuses = [
+            "Pending",
+            "Confirmed",
+            "Cancelled",
+            "Completed"
+        ];
+
+        if (
+            status &&
+            !validStatuses.includes(status)
+        ) {
+
+            return res.status(400).json({
+                message: "Invalid appointment status."
+            });
+
+        }
+
         try {
-
-            const { id } =
-                req.params;
-
-            const { status } =
-                req.body;
-
-            const allowedStatuses = [
-                "Pending",
-                "Confirmed",
-                "Cancelled",
-                "Completed"
-            ];
-
-            if (
-                !allowedStatuses.includes(
-                    status
-                )
-            ) {
-
-                return res.status(400).json({
-                    message:
-                        "Invalid appointment status"
-                });
-
-            }
 
             const result =
                 await pool.query(
-                    `UPDATE appointments
-                     SET status = $1
-                     WHERE id = $2
-                     RETURNING *`,
+                    `
+                    UPDATE appointments
+
+                    SET
+                        doctor = $1,
+                        appointment_date = $2,
+                        appointment_time = $3,
+                        reason = $4,
+                        status = $5
+
+                    WHERE id = $6
+
+                    RETURNING *
+                    `,
                     [
-                        status,
-                        id
+                        doctor || null,
+                        appointment_date || null,
+                        appointment_time || null,
+                        reason || null,
+                        status || "Pending",
+                        appointmentId
                     ]
                 );
 
@@ -709,14 +735,14 @@ app.put(
 
                 return res.status(404).json({
                     message:
-                        "Appointment not found"
+                        "Appointment not found."
                 });
 
             }
 
             res.json({
                 message:
-                    "Appointment status updated successfully!",
+                    "Appointment updated successfully!",
                 appointment:
                     result.rows[0]
             });
@@ -724,13 +750,13 @@ app.put(
         } catch (error) {
 
             console.error(
-                "Error updating appointment status:",
+                "Error updating appointment:",
                 error
             );
 
             res.status(500).json({
                 message:
-                    "Failed to update appointment status"
+                    "Failed to update appointment."
             });
 
         }
