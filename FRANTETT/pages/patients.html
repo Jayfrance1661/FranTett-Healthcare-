@@ -544,6 +544,110 @@
     #prescriptionHistory {
         page-break-inside: auto !important;
     }
+
+    .record-actions,
+.consultation-actions {
+    display: none !important;
+}
+
+.clinical-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.clinical-grid .clinical-item {
+    width: 100% !important;
+}
+
+.clinical-item {
+    page-break-inside: avoid !important;
+}
+
+.clinical-value {
+    padding: 4px !important;
+    border: 1px solid #ddd !important;
+}
+}
+
+/* ==========================================
+   PATIENT TIMELINE
+========================================== */
+
+#patientTimeline {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.timeline-record {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: left;
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.timeline-type {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.timeline-meta {
+    color: #666;
+    font-size: 13px;
+}
+
+.timeline-title {
+    margin-top: 8px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.timeline-status {
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.timeline-status span {
+    font-weight: normal;
+}
+
+.clinical-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.clinical-grid .clinical-item {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.clinical-grid .clinical-item {
+    margin-bottom: 0;
+}
+
+
+@media (max-width: 700px) {
+    .clinical-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .clinical-grid .clinical-item:last-child {
+        grid-column: auto;
+    }
 }
 
     </style>
@@ -1012,6 +1116,19 @@
 
         </div>
 
+        <div class="section">
+
+    <h3>Patient Timeline</h3>
+
+    <div id="patientTimeline">
+
+        <div class="loading">
+            Loading patient timeline...
+        </div>
+
+    </div>
+
+</div>
 
         <div class="section">
 
@@ -2842,6 +2959,9 @@ async function viewPatient(id) {
             id
         );
 
+        await loadPatientTimeline(
+    id
+);
 
         await loadConsultations(
             id
@@ -3066,6 +3186,155 @@ async function loadAppointmentHistory(patientId) {
 
     }
 
+}
+
+async function loadPatientTimeline(patientId) {
+
+    const container =
+        document.getElementById("patientTimeline");
+
+    const token =
+        getToken();
+
+    if (!container || !token) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}/timeline`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+            handleSessionExpired();
+            return;
+        }
+
+        const timeline =
+            await response.json();
+
+        if (!response.ok) {
+
+            container.innerHTML = `
+                <div class="no-records">
+                    ${escapeHtml(
+                        timeline.message ||
+                        "Failed to load patient timeline."
+                    )}
+                </div>
+            `;
+
+            return;
+        }
+
+        if (
+            !Array.isArray(timeline) ||
+            timeline.length === 0
+        ) {
+
+            container.innerHTML = `
+                <div class="no-records">
+                    No timeline records found.
+                </div>
+            `;
+
+            return;
+        }
+
+        let html = "";
+
+        timeline.forEach(event => {
+
+            let type = "Record";
+
+            if (event.type === "appointment") {
+                type = "Appointment";
+            }
+
+            if (event.type === "consultation") {
+                type = "Consultation";
+            }
+
+            if (event.type === "prescription") {
+                type = "Prescription";
+            }
+
+            html += `
+                <div class="timeline-record">
+
+                    <div class="timeline-header">
+
+                        <div>
+                            <div class="timeline-type">
+                                ${escapeHtml(type)}
+                            </div>
+
+                            <div class="timeline-meta">
+                                ${escapeHtml(
+                                    formatDate(event.event_date)
+                                )}
+
+                                ${
+                                    event.doctor
+                                        ? ` • ${escapeHtml(event.doctor)}`
+                                        : ""
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="timeline-title">
+                        ${escapeHtml(
+                            event.title ||
+                            "No details available"
+                        )}
+                    </div>
+
+                    ${
+                        event.status
+                            ? `
+                                <div class="timeline-status">
+                                    Status:
+                                    <span>
+                                        ${escapeHtml(event.status)}
+                                    </span>
+                                </div>
+                            `
+                            : ""
+                    }
+
+                </div>
+            `;
+
+        });
+
+        container.innerHTML = html;
+
+    } catch (error) {
+
+        console.error(
+            "Patient timeline error:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="no-records">
+                Failed to load patient timeline.
+            </div>
+        `;
+    }
 }
 
 /* =====================================================
@@ -3330,163 +3599,271 @@ async function loadConsultations(
    DISPLAY CONSULTATIONS
 ===================================================== */
 
-function displayConsultations(
-    consultations
-) {
+function displayConsultations(consultations) {
 
     const container =
-        document.getElementById(
-            "consultationHistory"
-        );
+        document.getElementById("consultationHistory");
 
-
-    container.innerHTML =
-        consultations.map(
-            consultation => {
-
-                return `
-
-                    <div class="consultation-card">
-
-                        <div class="consultation-title">
-
-                            <h4>
-                                Consultation
-                            </h4>
-
-                            <div>
-    ${escapeHtml(
-        formatDate(
-            consultation.consultation_date
-        )
-    )}
-
-    ${
-        consultation.doctor
-            ? ` • ${escapeHtml(consultation.doctor)}`
-            : ""
+    if (!container) {
+        return;
     }
 
-    ${
-        consultation.created_at
-            ? ` • Entered ${escapeHtml(
-                formatDateTime(consultation.created_at)
-            )}`
-            : ""
+    if (!Array.isArray(consultations) || consultations.length === 0) {
+
+        container.innerHTML = `
+            <div class="no-records">
+                No consultation records found.
+            </div>
+        `;
+
+        return;
     }
-</div>
 
+    container.innerHTML = consultations.map(
+        consultation => `
+
+            <div class="consultation-card">
+
+                <div class="clinical-record-header">
+
+                    <div>
+                        <h4>Clinical Consultation</h4>
+
+                        <div class="clinical-date">
+                            ${escapeHtml(
+                                formatDate(
+                                    consultation.consultation_date
+                                )
+                            )}
+
+                            ${
+                                consultation.doctor
+                                    ? ` • ${escapeHtml(
+                                        consultation.doctor
+                                    )}`
+                                    : ""
+                            }
+
+                            ${
+                                consultation.created_at
+                                    ? ` • Entered ${escapeHtml(
+                                        formatDateTime(
+                                            consultation.created_at
+                                        )
+                                    )}`
+                                    : ""
+                            }
                         </div>
-
-
-                        <div class="consultation-actions">
-
-                            <button
-                                class="view-btn"
-                                onclick="viewConsultation(${Number(consultation.id)})"
-                            >
-                                View
-                            </button>
-
-                            <button
-                                class="edit-btn"
-                                onclick="editConsultation(${Number(consultation.id)})"
-                            >
-                                Edit
-                            </button>
-
-                            <button
-                                class="danger-btn"
-                                onclick="deleteConsultation(${Number(consultation.id)})"
-                            >
-                                Delete
-                            </button>
-
-                        </div>
-
-
-                        <div class="clinical-item">
-
-                            <strong>
-                                Chief Complaint
-                            </strong>
-
-                            <div class="clinical-value">
-                                ${escapeHtml(
-                                    consultation.chief_complaint ||
-                                    "Not recorded"
-                                )}
-                            </div>
-
-                        </div>
-
-
-                        <div class="clinical-item">
-
-                            <strong>
-                                Diagnosis
-                            </strong>
-
-                            <div class="clinical-value">
-                                ${escapeHtml(
-                                    consultation.diagnosis ||
-                                    "Not recorded"
-                                )}
-                            </div>
-
-                        </div>
-
-
-                        <div class="clinical-item">
-
-                            <strong>
-                                Treatment / Plan
-                            </strong>
-
-                            <div class="clinical-value">
-                                ${escapeHtml(
-                                    consultation.treatment ||
-                                    consultation.management_plan ||
-                                    "Not recorded"
-                                )}
-                            </div>
-
-                        </div>
-
-
-                        ${
-                            consultation.follow_up_date
-                                ? `
-
-                                    <div class="clinical-item">
-
-                                        <strong>
-                                            Follow-up Date
-                                        </strong>
-
-                                        <div class="clinical-value">
-
-                                            ${escapeHtml(
-                                                formatDate(
-                                                    consultation.follow_up_date
-                                                )
-                                            )}
-
-                                        </div>
-
-                                    </div>
-
-                                `
-                                : ""
-                        }
-
                     </div>
 
-                `;
+                </div>
 
-            }
-        ).join("");
 
+                <div class="clinical-grid">
+
+                    <div class="clinical-item">
+                        <strong>Presenting Complaint</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.chief_complaint ||
+                                consultation.presenting_complaint ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>History of Presenting Complaint</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.history_of_presenting_complaint ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Past Medical History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.past_medical_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Drug and Allergy History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.drug_allergy_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Family History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.family_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Social History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.social_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Systems Review</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.systems_review ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Summary</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.summary ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Examination</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.examination ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Investigations</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.investigations ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Differential Diagnosis</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.differential_diagnosis ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Diagnosis</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.diagnosis ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Assessment</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.assessment ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Management Plan</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.management_plan ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Treatment</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.treatment ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Clinical Notes</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.clinical_notes ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Follow-up Date</strong>
+                        <div class="clinical-value">
+                            ${
+                                consultation.follow_up_date
+                                    ? escapeHtml(
+                                        formatDate(
+                                            consultation.follow_up_date
+                                        )
+                                    )
+                                    : "No follow-up scheduled"
+                            }
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="record-actions">
+
+                    <button
+                        type="button"
+                        class="edit-btn"
+                        onclick="editConsultation(${Number(consultation.id)})"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="deleteConsultation(${Number(consultation.id)})"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        `
+    ).join("");
 }
 
 /* =====================================================
@@ -3827,165 +4204,175 @@ async function updatePatientSummary(patientId) {
 // DISPLAY PRESCRIPTIONS
 // ==========================================
 
-function displayPrescriptions(
-    prescriptions
-) {
+function displayPrescriptions(prescriptions) {
 
     const container =
-        document.getElementById(
-            "prescriptionHistory"
-        );
+        document.getElementById("prescriptionHistory");
 
     if (!container) {
         return;
     }
 
-    if (
-        !prescriptions ||
-        prescriptions.length === 0
-    ) {
+    if (!Array.isArray(prescriptions) || prescriptions.length === 0) {
 
         container.innerHTML = `
-            <div class="loading">
+            <div class="no-records">
                 No prescription records found.
             </div>
         `;
 
         return;
-
     }
 
-    container.innerHTML =
-        prescriptions.map(
-            prescription => {
+    container.innerHTML = prescriptions.map(
+        prescription => `
 
-                return `
+            <div class="clinical-record">
 
-                    <div class="clinical-record">
+                <div class="clinical-record-header">
 
-                        <div class="clinical-record-header">
+                    <div>
+                        <h4>Prescription</h4>
 
-                            <div>
+                        <div class="clinical-date">
+                            ${escapeHtml(
+                                formatDate(
+                                    prescription.prescription_date
+                                )
+                            )}
 
-                                <strong>
-                                    ${escapeHtml(
-                                        prescription.medication_name ||
-                                        "Medication"
-                                    )}
-                                </strong>
+                            ${
+                                prescription.doctor
+                                    ? ` • ${escapeHtml(
+                                        prescription.doctor
+                                    )}`
+                                    : ""
+                            }
 
-                                <div class="clinical-date">
-    ${escapeHtml(
-        formatDate(
-            prescription.prescription_date
-        )
-    )}
-
-    ${
-        prescription.doctor
-            ? ` • ${escapeHtml(prescription.doctor)}`
-            : ""
-    }
-
-    ${
-        prescription.created_at
-            ? ` • Entered ${escapeHtml(
-                formatDateTime(prescription.created_at)
-            )}`
-            : ""
-    }
-</div>
-
-                            </div>
-
-                            <div class="record-actions">
-
-                                <button
-                                    type="button"
-                                    onclick="viewPrescription(${prescription.id})"
-                                >
-                                    View
-                                </button>
-
-                                <button
-                                    type="button"
-                                    onclick="editPrescription(${prescription.id})"
-                                >
-                                    Edit
-                                </button>
-
-                                <button
-                                    type="button"
-                                    onclick="deletePrescription(${prescription.id})"
-                                >
-                                    Delete
-                                </button>
-
-                            </div>
-
+                            ${
+                                prescription.created_at
+                                    ? ` • Entered ${escapeHtml(
+                                        formatDateTime(
+                                            prescription.created_at
+                                        )
+                                    )}`
+                                    : ""
+                            }
                         </div>
-
-
-                        <div class="clinical-item">
-
-                            <strong>
-                                Dose
-                            </strong>
-
-                            <div class="clinical-value">
-
-                                ${escapeHtml(
-                                    prescription.dose ||
-                                    "Not recorded"
-                                )}
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="clinical-item">
-
-                            <strong>
-                                Frequency
-                            </strong>
-
-                            <div class="clinical-value">
-
-                                ${escapeHtml(
-                                    prescription.frequency ||
-                                    "Not recorded"
-                                )}
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="clinical-item">
-
-                            <strong>
-                                Duration
-                            </strong>
-
-                            <div class="clinical-value">
-
-                                ${escapeHtml(
-                                    prescription.duration ||
-                                    "Not recorded"
-                                )}
-
-                            </div>
-
-                        </div>
-
                     </div>
 
-                `;
+                </div>
 
-            }
-        ).join("");
 
+                <div class="clinical-grid">
+
+                    <div class="clinical-item">
+                        <strong>Medication</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                prescription.medication_name ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Dose</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                prescription.dose ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Route</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                prescription.route ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Frequency</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                prescription.frequency ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Duration</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                prescription.duration ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Quantity</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                prescription.quantity ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Instructions</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                prescription.instructions ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Notes</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                prescription.notes ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="record-actions">
+
+                    <button
+                        type="button"
+                        class="edit-btn"
+                        onclick="editPrescription(${Number(prescription.id)})"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="deletePrescription(${Number(prescription.id)})"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        `
+    ).join("");
 }
 
 

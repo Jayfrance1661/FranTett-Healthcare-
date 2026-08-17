@@ -2159,6 +2159,148 @@ app.get(
     }
 );
 
+// ==========================================
+// GET COMPLETE PATIENT TIMELINE
+// STAFF ONLY
+// ==========================================
+
+app.get(
+    "/api/patients/:id/timeline",
+    authenticateToken,
+    async (req, res) => {
+
+        const patientId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(patientId)) {
+
+            return res.status(400).json({
+                message: "Invalid patient ID."
+            });
+
+        }
+
+        try {
+
+            const patientResult =
+                await pool.query(
+                    `
+                    SELECT id
+                    FROM patients
+                    WHERE id = $1
+                    `,
+                    [patientId]
+                );
+
+            if (patientResult.rows.length === 0) {
+
+                return res.status(404).json({
+                    message: "Patient not found."
+                });
+
+            }
+
+            const appointmentsResult =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        'appointment' AS type,
+                        appointment_date AS event_date,
+                        appointment_time AS event_time,
+                        doctor,
+                        reason AS title,
+                        status,
+                        created_at
+                    FROM appointments
+                    WHERE patient_id = $1
+                    `,
+                    [patientId]
+                );
+
+            const consultationsResult =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        'consultation' AS type,
+                        consultation_date AS event_date,
+                        NULL AS event_time,
+                        doctor,
+                        COALESCE(
+                            diagnosis,
+                            chief_complaint,
+                            'Clinical Consultation'
+                        ) AS title,
+                        NULL AS status,
+                        created_at
+                    FROM consultations
+                    WHERE patient_id = $1
+                    `,
+                    [patientId]
+                );
+
+            const prescriptionsResult =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        'prescription' AS type,
+                        prescription_date AS event_date,
+                        NULL AS event_time,
+                        doctor,
+                        medication_name AS title,
+                        NULL AS status,
+                        created_at
+                    FROM prescriptions
+                    WHERE patient_id = $1
+                    `,
+                    [patientId]
+                );
+
+            const timeline = [
+                ...appointmentsResult.rows,
+                ...consultationsResult.rows,
+                ...prescriptionsResult.rows
+            ];
+
+            timeline.sort(
+                (a, b) => {
+
+                    const dateA =
+                        new Date(
+                            a.event_date ||
+                            a.created_at
+                        );
+
+                    const dateB =
+                        new Date(
+                            b.event_date ||
+                            b.created_at
+                        );
+
+                    return dateB - dateA;
+                }
+            );
+
+            res.json(timeline);
+
+        } catch (error) {
+
+            console.error(
+                "Error fetching patient timeline:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to load patient timeline."
+            });
+
+        }
+
+    }
+);
 
 // ==========================================
 // GET ONE PRESCRIPTION
