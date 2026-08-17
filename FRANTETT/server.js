@@ -2071,7 +2071,7 @@ app.delete(
 
 
 // ==========================================
-// GET ALL PRESCRIPTIONS FOR A PATIENT
+// GET PATIENT PRESCRIPTIONS
 // ==========================================
 
 app.get(
@@ -2114,28 +2114,70 @@ app.get(
                 await pool.query(
                     `
                     SELECT
-                        id,
-                        patient_id,
-                        doctor,
-                        prescription_date,
-                        medication_name,
-                        dose,
-                        route,
-                        frequency,
-                        duration,
-                        quantity,
-                        instructions,
-                        notes,
-                        created_at,
-                        updated_at
+                        p.id,
+                        p.patient_id,
+                        p.doctor,
+                        p.prescription_date,
+                        p.instructions,
+                        p.notes,
+                        p.created_at,
+                        p.updated_at,
 
-                    FROM prescriptions
+                        COALESCE(
+                            json_agg(
+                                json_build_object(
+                                    'id',
+                                    pi.id,
+                                    'medication_name',
+                                    pi.medication_name,
+                                    'dose',
+                                    pi.dose,
+                                    'route',
+                                    pi.route,
+                                    'frequency',
+                                    pi.frequency,
+                                    'duration',
+                                    pi.duration,
+                                    'quantity',
+                                    pi.quantity
+                                )
+                                ORDER BY pi.id
+                            ) FILTER (
+                                WHERE pi.id IS NOT NULL
+                            ),
+                            json_build_array(
+                                json_build_object(
+                                    'id',
+                                    NULL,
+                                    'medication_name',
+                                    p.medication_name,
+                                    'dose',
+                                    p.dose,
+                                    'route',
+                                    p.route,
+                                    'frequency',
+                                    p.frequency,
+                                    'duration',
+                                    p.duration,
+                                    'quantity',
+                                    p.quantity
+                                )
+                            )
+                        ) AS medications
 
-                    WHERE patient_id = $1
+                    FROM prescriptions p
+
+                    LEFT JOIN prescription_items pi
+                        ON pi.prescription_id = p.id
+
+                    WHERE p.patient_id = $1
+
+                    GROUP BY
+                        p.id
 
                     ORDER BY
-                        prescription_date DESC,
-                        created_at DESC
+                        p.prescription_date DESC,
+                        p.created_at DESC
                     `,
                     [patientId]
                 );
@@ -2328,24 +2370,51 @@ app.get(
                 await pool.query(
                     `
                     SELECT
-                        id,
-                        patient_id,
-                        doctor,
-                        prescription_date,
-                        medication_name,
-                        dose,
-                        route,
-                        frequency,
-                        duration,
-                        quantity,
-                        instructions,
-                        notes,
-                        created_at,
-                        updated_at
+                        p.id,
+                        p.patient_id,
+                        p.doctor,
+                        p.prescription_date,
+                        p.instructions,
+                        p.notes,
+                        p.created_at,
+                        p.updated_at,
 
-                    FROM prescriptions
+                        COALESCE(
+                            json_agg(
+                                json_build_object(
+                                    'id', pi.id,
+                                    'medication_name', pi.medication_name,
+                                    'dose', pi.dose,
+                                    'route', pi.route,
+                                    'frequency', pi.frequency,
+                                    'duration', pi.duration,
+                                    'quantity', pi.quantity
+                                )
+                                ORDER BY pi.id
+                            ) FILTER (
+                                WHERE pi.id IS NOT NULL
+                            ),
+                            json_build_array(
+                                json_build_object(
+                                    'id', NULL,
+                                    'medication_name', p.medication_name,
+                                    'dose', p.dose,
+                                    'route', p.route,
+                                    'frequency', p.frequency,
+                                    'duration', p.duration,
+                                    'quantity', p.quantity
+                                )
+                            )
+                        ) AS medications
 
-                    WHERE id = $1
+                    FROM prescriptions p
+
+                    LEFT JOIN prescription_items pi
+                        ON pi.prescription_id = p.id
+
+                    WHERE p.id = $1
+
+                    GROUP BY p.id
                     `,
                     [prescriptionId]
                 );
@@ -2376,6 +2445,7 @@ app.get(
 
     }
 );
+
 
 
 // ==========================================
@@ -2570,7 +2640,6 @@ app.post(
     }
 );
 
-
 // ==========================================
 // UPDATE PRESCRIPTION
 // ==========================================
@@ -2594,69 +2663,77 @@ app.put(
         const {
             doctor,
             prescription_date,
-            medication_name,
-            dose,
-            route,
-            frequency,
-            duration,
-            quantity,
             instructions,
-            notes
+            notes,
+            items
         } = req.body;
 
         if (
-            !medication_name ||
-            !medication_name.trim()
+            !Array.isArray(items) ||
+            items.length === 0
         ) {
 
             return res.status(400).json({
                 message:
-                    "Medication name is required."
+                    "At least one medication is required."
             });
 
         }
 
+        const validItems =
+            items.filter(
+                item =>
+                    item &&
+                    item.medication_name &&
+                    item.medication_name.trim()
+            );
+
+        if (validItems.length === 0) {
+
+            return res.status(400).json({
+                message:
+                    "At least one valid medication is required."
+            });
+
+        }
+
+        const client =
+            await pool.connect();
+
         try {
 
-            const result =
-                await pool.query(
+            await client.query("BEGIN");
+
+            const prescriptionResult =
+                await client.query(
                     `
                     UPDATE prescriptions
 
                     SET
-
                         doctor = $1,
                         prescription_date = $2,
-                        medication_name = $3,
-                        dose = $4,
-                        route = $5,
-                        frequency = $6,
-                        duration = $7,
-                        quantity = $8,
-                        instructions = $9,
-                        notes = $10,
+                        instructions = $3,
+                        notes = $4,
                         updated_at = CURRENT_TIMESTAMP
 
-                    WHERE id = $11
+                    WHERE id = $5
 
                     RETURNING *
                     `,
                     [
                         doctor || null,
                         prescription_date || null,
-                        medication_name.trim(),
-                        dose || null,
-                        route || null,
-                        frequency || null,
-                        duration || null,
-                        quantity || null,
                         instructions || null,
                         notes || null,
                         prescriptionId
                     ]
                 );
 
-            if (result.rows.length === 0) {
+            if (
+                prescriptionResult.rows.length === 0
+            ) {
+
+                await client.query("ROLLBACK");
 
                 return res.status(404).json({
                     message:
@@ -2665,17 +2742,72 @@ app.put(
 
             }
 
-            res.json({
+            await client.query(
+                `
+                DELETE FROM prescription_items
+                WHERE prescription_id = $1
+                `,
+                [prescriptionId]
+            );
 
+            const savedItems = [];
+
+            for (const item of validItems) {
+
+                const itemResult =
+                    await client.query(
+                        `
+                        INSERT INTO prescription_items (
+                            prescription_id,
+                            medication_name,
+                            dose,
+                            route,
+                            frequency,
+                            duration,
+                            quantity
+                        )
+                        VALUES (
+                            $1,
+                            $2,
+                            $3,
+                            $4,
+                            $5,
+                            $6,
+                            $7
+                        )
+                        RETURNING *
+                        `,
+                        [
+                            prescriptionId,
+                            item.medication_name.trim(),
+                            item.dose || null,
+                            item.route || null,
+                            item.frequency || null,
+                            item.duration || null,
+                            item.quantity || null
+                        ]
+                    );
+
+                savedItems.push(
+                    itemResult.rows[0]
+                );
+
+            }
+
+            await client.query("COMMIT");
+
+            res.json({
                 message:
                     "Prescription updated successfully.",
-
                 prescription:
-                    result.rows[0]
-
+                    prescriptionResult.rows[0],
+                items:
+                    savedItems
             });
 
         } catch (error) {
+
+            await client.query("ROLLBACK");
 
             console.error(
                 "Error updating prescription:",
@@ -2687,11 +2819,14 @@ app.put(
                     "Failed to update prescription."
             });
 
+        } finally {
+
+            client.release();
+
         }
 
     }
 );
-
 
 // ==========================================
 // DELETE PRESCRIPTION

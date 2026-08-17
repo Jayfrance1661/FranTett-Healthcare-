@@ -726,6 +726,28 @@
     width: 13%;
 }
 
+.record-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.record-actions button {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.prescription-extra {
+    margin-top: 18px;
+}
+
     </style>
 </head>
 
@@ -1215,11 +1237,14 @@
         </h3>
 
         <button
-            class="primary-btn"
-            onclick="openAddConsultationModal()"
-        >
-            + Add Consultation
-        </button>
+
+    type="button"
+    class="primary-btn"
+    onclick="event.stopPropagation(); openAddConsultationModal();"
+>
+    + Add Consultation
+
+</button>
 
     </div>
 
@@ -1242,12 +1267,13 @@
             Prescription Records
         </h3>
 
-        <button
-            class="primary-btn"
-            onclick="openAddPrescriptionModal()"
-        >
-            + Add Prescription
-        </button>
+       <button
+    type="button"
+    class="primary-btn"
+    onclick="event.stopPropagation(); openAddPrescriptionModal();"
+>
+    + Add Prescription
+</button>
 
     </div>
 
@@ -1364,9 +1390,6 @@
                     Quantity
                 </th>
 
-                <th>
-                    Action
-                </th>
 
             </tr>
 
@@ -1472,20 +1495,6 @@
 </div>
 
 
-<div class="form-group" style="margin-top: 20px;">
-
-    <label>
-        General Instructions
-    </label>
-
-    <textarea
-        id="medicationInstructions"
-        placeholder="Instructions for the patient..."
-    ></textarea>
-
-</div>
-
-
 <div class="form-group">
 
     <label>
@@ -1524,7 +1533,12 @@
     </div>
 
 </form>
-        
+
+    </div>
+
+</div>
+
+
 <!-- =====================================================
      CONSULTATION FORM MODAL
 ===================================================== -->
@@ -1770,20 +1784,6 @@
                 <textarea
                     id="treatment"
                     placeholder="Treatment provided or prescribed..."
-                ></textarea>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Assessment
-                </label>
-
-                <textarea
-                    id="assessment"
-                    placeholder="Clinical assessment..."
                 ></textarea>
 
             </div>
@@ -2052,18 +2052,6 @@
 
                 <div
                     id="viewTreatment"
-                    class="clinical-value"
-                ></div>
-
-            </div>
-
-
-            <div class="clinical-item">
-
-                <strong>Assessment</strong>
-
-                <div
-                    id="viewAssessment"
                     class="clinical-value"
                 ></div>
 
@@ -3930,16 +3918,6 @@ function displayConsultations(consultations) {
                     </div>
 
                     <div class="clinical-item">
-                        <strong>Assessment</strong>
-                        <div class="clinical-value">
-                            ${escapeHtml(
-                                consultation.assessment ||
-                                "Not recorded"
-                            )}
-                        </div>
-                    </div>
-
-                    <div class="clinical-item">
                         <strong>Management Plan</strong>
                         <div class="clinical-value">
                             ${escapeHtml(
@@ -4600,7 +4578,10 @@ function displayPrescriptions(prescriptions) {
         return;
     }
 
-    if (!Array.isArray(prescriptions) || prescriptions.length === 0) {
+    if (
+        !Array.isArray(prescriptions) ||
+        prescriptions.length === 0
+    ) {
 
         container.innerHTML = `
             <div class="no-records">
@@ -4611,157 +4592,223 @@ function displayPrescriptions(prescriptions) {
         return;
     }
 
-    container.innerHTML = prescriptions.map(
-        prescription => `
+    container.innerHTML =
+        prescriptions.map(
+            prescription => {
 
-            <div class="clinical-record">
+                const medications =
+                    Array.isArray(
+                        prescription.medications
+                    )
+                        ? prescription.medications
+                        : [];
 
-                <div class="clinical-record-header">
+                return `
 
-                    <div>
-                        <h4>Prescription</h4>
+                    <div class="clinical-record">
 
-                        <div class="clinical-date">
-                            ${escapeHtml(
-                                formatDate(
-                                    prescription.prescription_date
-                                )
-                            )}
+                        <div class="clinical-record-header">
 
-                            ${
-                                prescription.doctor
-                                    ? ` • ${escapeHtml(
-                                        prescription.doctor
-                                    )}`
-                                    : ""
-                            }
+                            <div>
 
-                            ${
-                                prescription.created_at
-                                    ? ` • Entered ${escapeHtml(
-                                        formatDateTime(
-                                            prescription.created_at
+                                <h4>
+                                    Prescription
+                                </h4>
+
+                                <div class="clinical-date">
+
+                                    ${escapeHtml(
+                                        formatDate(
+                                            prescription.prescription_date
                                         )
-                                    )}`
-                                    : ""
-                            }
+                                    )}
+
+                                    ${
+                                        prescription.doctor
+                                            ? ` • ${escapeHtml(
+                                                prescription.doctor
+                                            )}`
+                                            : ""
+                                    }
+
+                                    ${
+                                        prescription.created_at
+                                            ? ` • Entered ${escapeHtml(
+                                                formatDateTime(
+                                                    prescription.created_at
+                                                )
+                                            )}`
+                                            : ""
+                                    }
+
+                                </div>
+
+                            </div>
+
                         </div>
+
+
+                        <div class="prescription-table-wrapper">
+
+                            <table class="prescription-entry-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Medication
+                                        </th>
+
+                                        <th>
+                                            Dose
+                                        </th>
+
+                                        <th>
+                                            Route
+                                        </th>
+
+                                        <th>
+                                            Frequency
+                                        </th>
+
+                                        <th>
+                                            Duration
+                                        </th>
+
+                                        <th>
+                                            Quantity
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    ${
+                                        medications.length > 0
+
+                                            ? medications.map(
+                                                medication => `
+
+                                                    <tr>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.medication_name ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.dose ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.route ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.frequency ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.duration ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.quantity ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                    </tr>
+
+                                                `
+                                            ).join("")
+
+                                            : `
+                                                <tr>
+
+                                                    <td colspan="6">
+                                                        No medication details available.
+                                                    </td>
+
+                                                </tr>
+                                            `
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                        ${
+                            prescription.notes
+                                ? `
+
+                                    <div class="clinical-item prescription-extra">
+
+                                        <strong>
+                                            Notes
+                                        </strong>
+
+                                        <div class="clinical-value">
+                                            ${escapeHtml(
+                                                prescription.notes
+                                            )}
+
+                                            <div class="record-actions">
+
+    <button
+        type="button"
+        class="edit-btn"
+        onclick="editPrescription(${Number(prescription.id)})"
+    >
+        Edit
+    </button>
+
+    <button
+        type="button"
+        class="danger-btn"
+        onclick="deletePrescription(${Number(prescription.id)})"
+    >
+        Delete
+    </button>
+
+</div>
+
+                                        </div>
+
+                                    </div>
+
+                                `
+                                : ""
+                        }
+
                     </div>
 
-                </div>
-
-
-                <div class="clinical-grid">
-
-                    <div class="clinical-item">
-                        <strong>Medication</strong>
-                        <div class="clinical-value">
-                            ${escapeHtml(
-                                prescription.medication_name ||
-                                "Not recorded"
-                            )}
-                        </div>
-                    </div>
-
-                    <div class="clinical-item">
-                        <strong>Dose</strong>
-                        <div class="clinical-value">
-                            ${escapeHtml(
-                                prescription.dose ||
-                                "Not recorded"
-                            )}
-                        </div>
-                    </div>
-
-                    <div class="clinical-item">
-                        <strong>Route</strong>
-                        <div class="clinical-value">
-                            ${escapeHtml(
-                                prescription.route ||
-                                "Not recorded"
-                            )}
-                        </div>
-                    </div>
-
-                    <div class="clinical-item">
-                        <strong>Frequency</strong>
-                        <div class="clinical-value">
-                            ${escapeHtml(
-                                prescription.frequency ||
-                                "Not recorded"
-                            )}
-                        </div>
-                    </div>
-
-                    <div class="clinical-item">
-                        <strong>Duration</strong>
-                        <div class="clinical-value">
-                            ${escapeHtml(
-                                prescription.duration ||
-                                "Not recorded"
-                            )}
-                        </div>
-                    </div>
-
-                    <div class="clinical-item">
-                        <strong>Quantity</strong>
-                        <div class="clinical-value">
-                            ${escapeHtml(
-                                prescription.quantity ||
-                                "Not recorded"
-                            )}
-                        </div>
-                    </div>
-
-                    <div class="clinical-item">
-                        <strong>Instructions</strong>
-                        <div class="clinical-value">
-                            ${escapeHtml(
-                                prescription.instructions ||
-                                "Not recorded"
-                            )}
-                        </div>
-                    </div>
-
-                    <div class="clinical-item">
-                        <strong>Notes</strong>
-                        <div class="clinical-value">
-                            ${escapeHtml(
-                                prescription.notes ||
-                                "Not recorded"
-                            )}
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="record-actions">
-
-                    <button
-                        type="button"
-                        class="edit-btn"
-                        onclick="editPrescription(${Number(prescription.id)})"
-                    >
-                        Edit
-                    </button>
-
-                    <button
-                        type="button"
-                        class="danger-btn"
-                        onclick="deletePrescription(${Number(prescription.id)})"
-                    >
-                        Delete
-                    </button>
-
-                </div>
-
-            </div>
-
-        `
-    ).join("");
+                `;
+            }
+        ).join("");
 }
-
 
 // ==========================================
 // SAVE PRESCRIPTION
@@ -4873,11 +4920,6 @@ if (prescriptionForm) {
                         "prescriptionDate"
                     ).value,
 
-                instructions:
-                    document.getElementById(
-                        "medicationInstructions"
-                    ).value.trim(),
-
                 notes:
                     document.getElementById(
                         "prescriptionNotes"
@@ -4888,27 +4930,15 @@ if (prescriptionForm) {
 
             };
 
-            /*
-             * New prescriptions use the new
-             * multi-medication endpoint.
-             *
-             * Editing an existing prescription
-             * will be handled separately after
-             * the new multi-medication system
-             * is tested.
-             */
-
-            if (prescriptionId) {
-
-                alert(
-                    "Editing the new multi-medication prescription format will be added next. Please create a new prescription for now."
-                );
-
-                return;
-            }
-
             const url =
-                `${API_URL}/api/patients/${currentPatientId}/prescriptions`;
+                prescriptionId
+                    ? `${API_URL}/api/prescriptions/${prescriptionId}`
+                    : `${API_URL}/api/patients/${currentPatientId}/prescriptions`;
+
+            const method =
+                prescriptionId
+                    ? "PUT"
+                    : "POST";
 
             try {
 
@@ -4916,7 +4946,7 @@ if (prescriptionForm) {
                     await fetch(
                         url,
                         {
-                            method: "POST",
+                            method: method,
 
                             headers: {
 
@@ -4932,6 +4962,7 @@ if (prescriptionForm) {
                                 JSON.stringify(
                                     prescriptionData
                                 )
+
                         }
                     );
 
@@ -4965,7 +4996,7 @@ if (prescriptionForm) {
 
                 showMessage(
                     data.message ||
-                    "Prescription created successfully.",
+                    "Prescription saved successfully.",
                     "success"
                 );
 
@@ -5114,9 +5145,7 @@ async function viewPrescription(
 // EDIT PRESCRIPTION
 // ==========================================
 
-async function editPrescription(
-    id
-) {
+async function editPrescription(id) {
 
     const token =
         getToken();
@@ -5126,7 +5155,6 @@ async function editPrescription(
         handleSessionExpired();
 
         return;
-
     }
 
     try {
@@ -5150,7 +5178,6 @@ async function editPrescription(
             handleSessionExpired();
 
             return;
-
         }
 
         const prescription =
@@ -5164,7 +5191,6 @@ async function editPrescription(
             );
 
             return;
-
         }
 
         document.getElementById(
@@ -5193,44 +5219,122 @@ async function editPrescription(
                 : "";
 
         document.getElementById(
-            "medicationName"
-        ).value =
-            prescription.medication_name || "";
-
-        document.getElementById(
-            "medicationDose"
-        ).value =
-            prescription.dose || "";
-
-        document.getElementById(
-            "medicationRoute"
-        ).value =
-            prescription.route || "";
-
-        document.getElementById(
-            "medicationFrequency"
-        ).value =
-            prescription.frequency || "";
-
-        document.getElementById(
-            "medicationDuration"
-        ).value =
-            prescription.duration || "";
-
-        document.getElementById(
-            "medicationQuantity"
-        ).value =
-            prescription.quantity || "";
-
-        document.getElementById(
-            "medicationInstructions"
-        ).value =
-            prescription.instructions || "";
-
-        document.getElementById(
             "prescriptionNotes"
         ).value =
             prescription.notes || "";
+
+        const medicationContainer =
+            document.getElementById(
+                "medicationItems"
+            );
+
+        medicationContainer.innerHTML = "";
+
+        const medications =
+            Array.isArray(
+                prescription.medications
+            )
+                ? prescription.medications
+                : [];
+
+        medications.forEach(
+            medication => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.className =
+                    "medication-item";
+
+                row.innerHTML = `
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-name"
+                            value="${escapeHtml(
+                                medication.medication_name || ""
+                            )}"
+                            required
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-dose"
+                            value="${escapeHtml(
+                                medication.dose || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-route"
+                            value="${escapeHtml(
+                                medication.route || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-frequency"
+                            value="${escapeHtml(
+                                medication.frequency || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-duration"
+                            value="${escapeHtml(
+                                medication.duration || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-quantity"
+                            value="${escapeHtml(
+                                medication.quantity || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <button
+                            type="button"
+                            class="danger-btn remove-medication-btn"
+                            onclick="removeMedicationItem(this)"
+                        >
+                            Remove
+                        </button>
+                    </td>
+
+                `;
+
+                medicationContainer.appendChild(
+                    row
+                );
+
+            }
+        );
+
+        if (medications.length === 0) {
+
+            addMedicationItem();
+
+        }
+
+        updateMedicationRemoveButtons();
 
         document.getElementById(
             "prescriptionFormModal"
