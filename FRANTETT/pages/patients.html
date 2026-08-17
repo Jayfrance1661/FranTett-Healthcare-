@@ -650,6 +650,82 @@
     }
 }
 
+/* ==========================================
+   PRESCRIPTION MEDICATION TABLE
+========================================== */
+
+.prescription-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+.prescription-entry-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    background: white;
+}
+
+.prescription-entry-table th {
+    background: #f0f3f5;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.prescription-entry-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    vertical-align: middle;
+}
+
+.prescription-entry-table input {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 0;
+}
+
+.prescription-entry-table th:nth-child(1),
+.prescription-entry-table td:nth-child(1) {
+    width: 22%;
+}
+
+.prescription-entry-table th:nth-child(2),
+.prescription-entry-table td:nth-child(2) {
+    width: 12%;
+}
+
+.prescription-entry-table th:nth-child(3),
+.prescription-entry-table td:nth-child(3) {
+    width: 12%;
+}
+
+.prescription-entry-table th:nth-child(4),
+.prescription-entry-table td:nth-child(4) {
+    width: 15%;
+}
+
+.prescription-entry-table th:nth-child(5),
+.prescription-entry-table td:nth-child(5) {
+    width: 14%;
+}
+
+.prescription-entry-table th:nth-child(6),
+.prescription-entry-table td:nth-child(6) {
+    width: 12%;
+}
+
+.prescription-entry-table th:nth-child(7),
+.prescription-entry-table td:nth-child(7) {
+    width: 13%;
+}
+
     </style>
 </head>
 
@@ -1209,175 +1285,246 @@
 
         <form id="prescriptionForm">
 
-            <input
-                type="hidden"
-                id="prescriptionId"
-            >
+    <input
+        type="hidden"
+        id="prescriptionId"
+    >
 
-            <div class="form-group">
+    <!-- ==============================
+         PRESCRIPTION HEADER
+    =============================== -->
 
-                <label>
-                    Doctor
-                </label>
+    <div class="form-group">
 
-                <input
-                    type="text"
-                    id="prescriptionDoctor"
-                    placeholder="Doctor name"
-                >
+        <label>
+            Doctor
+        </label>
 
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Prescription Date *
-                </label>
-
-                <input
-                    type="date"
-                    id="prescriptionDate"
-                    required
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Medication Name *
-                </label>
-
-                <input
-                    type="text"
-                    id="medicationName"
-                    placeholder="e.g. Ciprofloxacin"
-                    required
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Dose
-                </label>
-
-                <input
-                    type="text"
-                    id="medicationDose"
-                    placeholder="e.g. 500 mg"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Route
-                </label>
-
-                <input
-                    type="text"
-                    id="medicationRoute"
-                    placeholder="e.g. Oral"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Frequency
-                </label>
-
-                <input
-                    type="text"
-                    id="medicationFrequency"
-                    placeholder="e.g. Twice daily (BID)"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Duration
-                </label>
-
-                <input
-                    type="text"
-                    id="medicationDuration"
-                    placeholder="e.g. 7 days"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Quantity
-                </label>
-
-                <input
-                    type="text"
-                    id="medicationQuantity"
-                    placeholder="e.g. 14 tablets"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Instructions
-                </label>
-
-                <textarea
-                    id="medicationInstructions"
-                    placeholder="Instructions for the patient..."
-                ></textarea>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Notes
-                </label>
-
-                <textarea
-                    id="prescriptionNotes"
-                    placeholder="Additional prescription notes..."
-                ></textarea>
-
-            </div>
-
-            <div class="form-actions">
-
-                <button
-                    type="submit"
-                    class="save-btn"
-                >
-                    Save Prescription
-                </button>
-
-                <button
-                    type="button"
-                    class="cancel-btn"
-                    onclick="closePrescriptionFormModal()"
-                >
-                    Cancel
-                </button>
-
-            </div>
-
-        </form>
+        <input
+            type="text"
+            id="prescriptionDoctor"
+            placeholder="Doctor name"
+        >
 
     </div>
 
+
+    <div class="form-group">
+
+        <label>
+            Prescription Date *
+        </label>
+
+        <input
+            type="date"
+            id="prescriptionDate"
+            required
+        >
+
+    </div>
+
+
+    <!-- ==============================
+         MEDICATIONS
+    =============================== -->
+
+   <h3>
+    Medications
+</h3>
+
+<div class="prescription-table-wrapper">
+
+    <table class="prescription-entry-table">
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Medication
+                </th>
+
+                <th>
+                    Dose
+                </th>
+
+                <th>
+                    Route
+                </th>
+
+                <th>
+                    Frequency
+                </th>
+
+                <th>
+                    Duration
+                </th>
+
+                <th>
+                    Quantity
+                </th>
+
+                <th>
+                    Action
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="medicationItems">
+
+            <tr class="medication-item">
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-name"
+                        placeholder="Medication"
+                        required
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-dose"
+                        placeholder="500 mg"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-route"
+                        placeholder="Oral"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-frequency"
+                        placeholder="BID"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-duration"
+                        placeholder="7 days"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-quantity"
+                        placeholder="14"
+                    >
+
+                </td>
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="removeMedicationItem(this)"
+                        style="display: none;"
+                    >
+                        Remove
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
 </div>
 
+
+<div style="margin-top: 12px;">
+
+    <button
+        type="button"
+        class="primary-btn"
+        onclick="addMedicationItem()"
+    >
+        + Add Another Medication
+    </button>
+
+</div>
+
+
+<div class="form-group" style="margin-top: 20px;">
+
+    <label>
+        General Instructions
+    </label>
+
+    <textarea
+        id="medicationInstructions"
+        placeholder="Instructions for the patient..."
+    ></textarea>
+
+</div>
+
+
+<div class="form-group">
+
+    <label>
+        Notes
+    </label>
+
+    <textarea
+        id="prescriptionNotes"
+        placeholder="Additional prescription notes..."
+    ></textarea>
+
+</div>
+
+
+    <!-- ==============================
+         ACTIONS
+    =============================== -->
+
+    <div class="form-actions">
+
+        <button
+            type="submit"
+            class="save-btn"
+        >
+            Save Prescription
+        </button>
+
+        <button
+            type="button"
+            class="cancel-btn"
+            onclick="closePrescriptionFormModal()"
+        >
+            Cancel
+        </button>
+
+    </div>
+
+</form>
+        
 <!-- =====================================================
      CONSULTATION FORM MODAL
 ===================================================== -->
@@ -3866,9 +4013,9 @@ function displayConsultations(consultations) {
     ).join("");
 }
 
-/* =====================================================
-   PRESCRIPTION FUNCTIONS
-===================================================== */
+// ==========================================
+// PRESCRIPTION FUNCTIONS
+// ==========================================
 
 // ==========================================
 // OPEN ADD PRESCRIPTION
@@ -3883,7 +4030,6 @@ function openAddPrescriptionModal() {
         );
 
         return;
-
     }
 
     const form =
@@ -3893,6 +4039,80 @@ function openAddPrescriptionModal() {
 
     if (form) {
         form.reset();
+    }
+
+    const medicationContainer =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    if (medicationContainer) {
+
+        medicationContainer.innerHTML = `
+            <tr class="medication-item">
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-name"
+                        placeholder="Medication"
+                        required
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-dose"
+                        placeholder="500 mg"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-route"
+                        placeholder="Oral"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-frequency"
+                        placeholder="BID"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-duration"
+                        placeholder="7 days"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-quantity"
+                        placeholder="14"
+                    >
+                </td>
+
+                <td>
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="removeMedicationItem(this)"
+                        style="display: none;"
+                    >
+                        Remove
+                    </button>
+                </td>
+
+            </tr>
+        `;
     }
 
     document.getElementById(
@@ -3914,9 +4134,176 @@ function openAddPrescriptionModal() {
         "prescriptionFormModal"
     ).style.display =
         "flex";
-
 }
 
+
+// ==========================================
+// ADD MEDICATION ROW
+// ==========================================
+
+function addMedicationItem() {
+
+    const container =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    const row =
+        document.createElement("tr");
+
+    row.className =
+        "medication-item";
+
+    row.innerHTML = `
+        <td>
+            <input
+                type="text"
+                class="medication-name"
+                placeholder="Medication"
+                required
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-dose"
+                placeholder="500 mg"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-route"
+                placeholder="Oral"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-frequency"
+                placeholder="BID"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-duration"
+                placeholder="7 days"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-quantity"
+                placeholder="14"
+            >
+        </td>
+
+        <td>
+            <button
+                type="button"
+                class="danger-btn remove-medication-btn"
+                onclick="removeMedicationItem(this)"
+            >
+                Remove
+            </button>
+        </td>
+    `;
+
+    container.appendChild(row);
+
+    updateMedicationRemoveButtons();
+}
+
+
+// ==========================================
+// REMOVE MEDICATION ROW
+// ==========================================
+
+function removeMedicationItem(button) {
+
+    const row =
+        button.closest(
+            ".medication-item"
+        );
+
+    if (!row) {
+        return;
+    }
+
+    const container =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    const rows =
+        container.querySelectorAll(
+            ".medication-item"
+        );
+
+    if (rows.length <= 1) {
+
+        alert(
+            "At least one medication is required."
+        );
+
+        return;
+    }
+
+    row.remove();
+
+    updateMedicationRemoveButtons();
+}
+
+
+// ==========================================
+// UPDATE REMOVE BUTTONS
+// ==========================================
+
+function updateMedicationRemoveButtons() {
+
+    const container =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    const rows =
+        container.querySelectorAll(
+            ".medication-item"
+        );
+
+    rows.forEach(
+        row => {
+
+            const button =
+                row.querySelector(
+                    ".remove-medication-btn"
+                );
+
+            if (!button) {
+                return;
+            }
+
+            button.style.display =
+                rows.length > 1
+                    ? "inline-block"
+                    : "none";
+        }
+    );
+}
 
 // ==========================================
 // CLOSE PRESCRIPTION FORM
@@ -4397,27 +4784,82 @@ if (prescriptionForm) {
                 getToken();
 
             if (!token) {
-
                 handleSessionExpired();
-
                 return;
-
             }
 
             if (!currentPatientId) {
-
-                alert(
-                    "No patient selected."
-                );
-
+                alert("No patient selected.");
                 return;
-
             }
 
             const prescriptionId =
                 document.getElementById(
                     "prescriptionId"
                 ).value;
+
+            const medicationRows =
+                document.querySelectorAll(
+                    "#medicationItems .medication-item"
+                );
+
+            const items = [];
+
+            medicationRows.forEach(
+                row => {
+
+                    const medicationName =
+                        row.querySelector(
+                            ".medication-name"
+                        ).value.trim();
+
+                    if (!medicationName) {
+                        return;
+                    }
+
+                    items.push({
+
+                        medication_name:
+                            medicationName,
+
+                        dose:
+                            row.querySelector(
+                                ".medication-dose"
+                            ).value.trim(),
+
+                        route:
+                            row.querySelector(
+                                ".medication-route"
+                            ).value.trim(),
+
+                        frequency:
+                            row.querySelector(
+                                ".medication-frequency"
+                            ).value.trim(),
+
+                        duration:
+                            row.querySelector(
+                                ".medication-duration"
+                            ).value.trim(),
+
+                        quantity:
+                            row.querySelector(
+                                ".medication-quantity"
+                            ).value.trim()
+
+                    });
+
+                }
+            );
+
+            if (items.length === 0) {
+
+                alert(
+                    "Please enter at least one medication."
+                );
+
+                return;
+            }
 
             const prescriptionData = {
 
@@ -4431,36 +4873,6 @@ if (prescriptionForm) {
                         "prescriptionDate"
                     ).value,
 
-                medication_name:
-                    document.getElementById(
-                        "medicationName"
-                    ).value.trim(),
-
-                dose:
-                    document.getElementById(
-                        "medicationDose"
-                    ).value.trim(),
-
-                route:
-                    document.getElementById(
-                        "medicationRoute"
-                    ).value.trim(),
-
-                frequency:
-                    document.getElementById(
-                        "medicationFrequency"
-                    ).value.trim(),
-
-                duration:
-                    document.getElementById(
-                        "medicationDuration"
-                    ).value.trim(),
-
-                quantity:
-                    document.getElementById(
-                        "medicationQuantity"
-                    ).value.trim(),
-
                 instructions:
                     document.getElementById(
                         "medicationInstructions"
@@ -4469,19 +4881,34 @@ if (prescriptionForm) {
                 notes:
                     document.getElementById(
                         "prescriptionNotes"
-                    ).value.trim()
+                    ).value.trim(),
+
+                items:
+                    items
 
             };
 
-            const url =
-                prescriptionId
-                    ? `${API_URL}/api/prescriptions/${prescriptionId}`
-                    : `${API_URL}/api/patients/${currentPatientId}/prescriptions`;
+            /*
+             * New prescriptions use the new
+             * multi-medication endpoint.
+             *
+             * Editing an existing prescription
+             * will be handled separately after
+             * the new multi-medication system
+             * is tested.
+             */
 
-            const method =
-                prescriptionId
-                    ? "PUT"
-                    : "POST";
+            if (prescriptionId) {
+
+                alert(
+                    "Editing the new multi-medication prescription format will be added next. Please create a new prescription for now."
+                );
+
+                return;
+            }
+
+            const url =
+                `${API_URL}/api/patients/${currentPatientId}/prescriptions`;
 
             try {
 
@@ -4489,8 +4916,7 @@ if (prescriptionForm) {
                     await fetch(
                         url,
                         {
-                            method:
-                                method,
+                            method: "POST",
 
                             headers: {
 
@@ -4506,7 +4932,6 @@ if (prescriptionForm) {
                                 JSON.stringify(
                                     prescriptionData
                                 )
-
                         }
                     );
 
@@ -4516,7 +4941,6 @@ if (prescriptionForm) {
                 ) {
 
                     handleSessionExpired();
-
                     return;
 
                 }
@@ -4537,12 +4961,11 @@ if (prescriptionForm) {
                     );
 
                     return;
-
                 }
 
                 showMessage(
                     data.message ||
-                    "Prescription saved successfully.",
+                    "Prescription created successfully.",
                     "success"
                 );
 
@@ -4569,7 +4992,6 @@ if (prescriptionForm) {
     );
 
 }
-
 
 // ==========================================
 // VIEW PRESCRIPTION

@@ -2401,32 +2401,49 @@ app.post(
         const {
             doctor,
             prescription_date,
-            medication_name,
-            dose,
-            route,
-            frequency,
-            duration,
-            quantity,
             instructions,
-            notes
+            notes,
+            items
         } = req.body;
 
         if (
-            !medication_name ||
-            !medication_name.trim()
+            !Array.isArray(items) ||
+            items.length === 0
         ) {
 
             return res.status(400).json({
                 message:
-                    "Medication name is required."
+                    "At least one medication is required."
             });
 
         }
 
+        const validItems =
+            items.filter(
+                item =>
+                    item &&
+                    item.medication_name &&
+                    item.medication_name.trim()
+            );
+
+        if (validItems.length === 0) {
+
+            return res.status(400).json({
+                message:
+                    "At least one valid medication is required."
+            });
+
+        }
+
+        const client =
+            await pool.connect();
+
         try {
 
+            await client.query("BEGIN");
+
             const patientResult =
-                await pool.query(
+                await client.query(
                     `
                     SELECT id
                     FROM patients
@@ -2437,75 +2454,102 @@ app.post(
 
             if (patientResult.rows.length === 0) {
 
+                await client.query("ROLLBACK");
+
                 return res.status(404).json({
                     message: "Patient not found."
                 });
 
             }
 
-            const result =
-                await pool.query(
+            const prescriptionResult =
+                await client.query(
                     `
                     INSERT INTO prescriptions (
-
                         patient_id,
                         doctor,
                         prescription_date,
-                        medication_name,
-                        dose,
-                        route,
-                        frequency,
-                        duration,
-                        quantity,
                         instructions,
                         notes
-
                     )
-
                     VALUES (
-
                         $1,
                         $2,
                         $3,
                         $4,
-                        $5,
-                        $6,
-                        $7,
-                        $8,
-                        $9,
-                        $10,
-                        $11
-
+                        $5
                     )
-
                     RETURNING *
                     `,
                     [
                         patientId,
                         doctor || null,
                         prescription_date || null,
-                        medication_name.trim(),
-                        dose || null,
-                        route || null,
-                        frequency || null,
-                        duration || null,
-                        quantity || null,
                         instructions || null,
                         notes || null
                     ]
                 );
 
-            res.status(201).json({
+            const prescription =
+                prescriptionResult.rows[0];
 
+            const savedItems = [];
+
+            for (
+                const item of validItems
+            ) {
+
+                const itemResult =
+                    await client.query(
+                        `
+                        INSERT INTO prescription_items (
+                            prescription_id,
+                            medication_name,
+                            dose,
+                            route,
+                            frequency,
+                            duration,
+                            quantity
+                        )
+                        VALUES (
+                            $1,
+                            $2,
+                            $3,
+                            $4,
+                            $5,
+                            $6,
+                            $7
+                        )
+                        RETURNING *
+                        `,
+                        [
+                            prescription.id,
+                            item.medication_name.trim(),
+                            item.dose || null,
+                            item.route || null,
+                            item.frequency || null,
+                            item.duration || null,
+                            item.quantity || null
+                        ]
+                    );
+
+                savedItems.push(
+                    itemResult.rows[0]
+                );
+            }
+
+            await client.query("COMMIT");
+
+            res.status(201).json({
                 message:
                     "Prescription created successfully.",
-
-                prescription:
-                    result.rows[0]
-
+                prescription,
+                items: savedItems
             });
 
         } catch (error) {
+
+            await client.query("ROLLBACK");
 
             console.error(
                 "Error creating prescription:",
@@ -2516,6 +2560,10 @@ app.post(
                 message:
                     "Failed to create prescription."
             });
+
+        } finally {
+
+            client.release();
 
         }
 
