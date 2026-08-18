@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -859,7 +859,142 @@
 
         </div>
 
-<!-- ==========================================
+ <!-- ==========================================
+     EDIT APPOINTMENT MODAL
+========================================== -->
+
+<div
+    id="editAppointmentModal"
+    class="modal"
+    style="display:none;"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Edit Appointment</h2>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeEditAppointmentModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <input
+            type="hidden"
+            id="editAppointmentId"
+        >
+
+        <div class="form-group">
+
+            <label>Doctor</label>
+
+            <select id="editAppointmentDoctor">
+                <option value="">
+                    Select Doctor
+                </option>
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Appointment Date</label>
+
+            <input
+                type="date"
+                id="editAppointmentDate"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Appointment Time</label>
+
+            <input
+                type="time"
+                id="editAppointmentTime"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Reason</label>
+
+            <textarea
+                id="editAppointmentReason"
+                rows="4"
+                placeholder="Reason for appointment..."
+            ></textarea>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Status</label>
+
+            <select id="editAppointmentStatus">
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="Confirmed">
+                    Confirmed
+                </option>
+
+                <option value="Cancelled">
+                    Cancelled
+                </option>
+
+                <option value="Completed">
+                    Completed
+                </option>
+
+            </select>
+
+        </div>
+
+        <div
+            style="
+                display:flex;
+                justify-content:flex-end;
+                gap:8px;
+                margin-top:18px;
+            "
+        >
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="closeEditAppointmentModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="confirm-btn"
+                onclick="saveEditedAppointment()"
+            >
+                Save Changes
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+        <!-- ==========================================
              LINKED PATIENT
         ========================================== -->
 
@@ -1016,151 +1151,6 @@
 
 </div>
 
-<!-- ==========================================
-     EDIT APPOINTMENT MODAL
-========================================== -->
-
-<div
-    id="editAppointmentModal"
-    class="modal"
-    style="display:none;"
->
-
-    <div class="modal-content">
-
-        <div class="modal-header">
-
-            <h2>Edit Appointment</h2>
-
-            <button
-                type="button"
-                class="close-btn"
-                onclick="closeEditAppointmentModal()"
-            >
-                Ã—
-            </button>
-
-        </div>
-
-        <input
-            type="hidden"
-            id="editAppointmentId"
-        >
-
-        <div class="form-group">
-
-    <label>Patient Name</label>
-
-    <input
-        type="text"
-        id="editAppointmentPatientName"
-        placeholder="Patient name"
-    >
-
-</div>
-
-<div class="form-group">
-
-            <label>Doctor</label>
-
-            <select id="editAppointmentDoctor">
-                <option value="">
-                    Select Doctor
-                </option>
-            </select>
-
-        </div>
-
-        <div class="form-group">
-
-            <label>Appointment Date</label>
-
-            <input
-                type="date"
-                id="editAppointmentDate"
-            >
-
-        </div>
-
-        <div class="form-group">
-
-            <label>Appointment Time</label>
-
-            <input
-                type="time"
-                id="editAppointmentTime"
-            >
-
-        </div>
-
-        <div class="form-group">
-
-            <label>Reason</label>
-
-            <textarea
-                id="editAppointmentReason"
-                rows="4"
-                placeholder="Reason for appointment..."
-            ></textarea>
-
-        </div>
-
-        <div class="form-group">
-
-            <label>Status</label>
-
-            <select id="editAppointmentStatus">
-
-                <option value="Pending">
-                    Pending
-                </option>
-
-                <option value="Confirmed">
-                    Confirmed
-                </option>
-
-                <option value="Cancelled">
-                    Cancelled
-                </option>
-
-                <option value="Completed">
-                    Completed
-                </option>
-
-            </select>
-
-        </div>
-
-        <div
-            style="
-                display:flex;
-                justify-content:flex-end;
-                gap:8px;
-                margin-top:18px;
-            "
-        >
-
-            <button
-                type="button"
-                class="cancel-btn"
-                onclick="closeEditAppointmentModal()"
-            >
-                Cancel
-            </button>
-
-            <button
-                type="button"
-                class="confirm-btn"
-                onclick="saveEditedAppointment()"
-            >
-                Save Changes
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
 
 <!-- ==========================================
      EDIT PATIENT MODAL
@@ -1513,8 +1503,6 @@ async function loadDoctors() {
 
         populateDoctorFilter();
 
-        populateEditAppointmentDoctors();
-
     } catch (error) {
 
         console.error(
@@ -1567,50 +1555,6 @@ function populateDoctorFilter() {
 
 }
 
-
-/* ==========================================
-   POPULATE EDIT APPOINTMENT DOCTOR
-========================================== */
-
-function populateEditAppointmentDoctors() {
-
-    const select =
-        document.getElementById(
-            "editAppointmentDoctor"
-        );
-
-    if (!select) {
-        return;
-    }
-
-    select.innerHTML = `
-        <option value="">
-            Select Doctor
-        </option>
-    `;
-
-    doctors.forEach(
-        doctor => {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-            option.value =
-                doctor.name;
-
-            option.textContent =
-                doctor.name;
-
-            select.appendChild(
-                option
-            );
-
-        }
-    );
-
-}
 
 /* ==========================================
    LOAD PATIENTS
@@ -2912,13 +2856,7 @@ function editAppointment(id) {
     ).value =
         appointment.id;
 
-    
-
     document.getElementById(
-        "editAppointmentPatientName"
-    ).value =
-        appointment.name || "";
-document.getElementById(
         "editAppointmentDoctor"
     ).value =
         appointment.doctor || "";
@@ -2980,13 +2918,7 @@ async function saveEditedAppointment() {
             "editAppointmentId"
         ).value;
 
-    
-
-    const patient_name =
-        document.getElementById(
-            "editAppointmentPatientName"
-        ).value.trim();
-const doctor =
+    const doctor =
         document.getElementById(
             "editAppointmentDoctor"
         ).value;
@@ -3066,11 +2998,6 @@ const doctor =
 
                     body:
                         JSON.stringify({
-
-                            
-
-                            patient_name:
-                                patient_name,
 
                             doctor:
                                 doctor,
@@ -3453,12 +3380,3 @@ document.addEventListener(
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-

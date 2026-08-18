@@ -1,4 +1,4 @@
-﻿const cors = require("cors");
+const cors = require("cors");
 const express = require("express");
 const path = require("path");
 const { Pool } = require("pg");
@@ -654,6 +654,134 @@ app.get(
 );
 
 // ==========================================
+// UPDATE APPOINTMENT
+// STAFF ONLY
+// ==========================================
+
+app.put(
+    "/api/appointments/:id",
+    authenticateToken,
+    async (req, res) => {
+
+        const appointmentId =
+            parseInt(req.params.id, 10);
+
+        if (isNaN(appointmentId)) {
+
+            return res.status(400).json({
+                message:
+                    "Invalid appointment ID."
+            });
+
+        }
+
+        const {
+            doctor,
+            appointment_date,
+            appointment_time,
+            reason,
+            status
+        } = req.body;
+
+        if (
+            !appointment_date ||
+            !appointment_time
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Appointment date and time are required."
+            });
+
+        }
+
+        const validStatuses = [
+            "Pending",
+            "Confirmed",
+            "Cancelled",
+            "Completed"
+        ];
+
+        if (
+            status &&
+            !validStatuses.includes(status)
+        ) {
+
+            return res.status(400).json({
+                message:
+                    "Invalid appointment status."
+            });
+
+        }
+
+        try {
+
+            const result =
+                await pool.query(
+                    `
+                    UPDATE appointments
+
+                    SET
+                        doctor = $1,
+                        appointment_date = $2,
+                        appointment_time = $3,
+                        reason = $4,
+                        status = $5
+
+                    WHERE id = $6
+
+                    RETURNING *
+                    `,
+                    [
+                        doctor || null,
+                        appointment_date,
+                        appointment_time,
+                        reason || null,
+                        status || "Pending",
+                        appointmentId
+                    ]
+                );
+
+            if (
+                result.rows.length === 0
+            ) {
+
+                return res.status(404).json({
+                    message:
+                        "Appointment not found."
+                });
+
+            }
+
+            res.json({
+
+                message:
+                    "Appointment updated successfully!",
+
+                appointment:
+                    result.rows[0]
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error updating appointment:",
+                error
+            );
+
+            res.status(500).json({
+
+                message:
+                    "Failed to update appointment."
+
+            });
+
+        }
+
+    }
+);
+
 // ==========================================
 // EDIT APPOINTMENT
 // STAFF ONLY
@@ -676,7 +804,6 @@ app.put(
         }
 
         const {
-            patient_name,
             doctor,
             appointment_date,
             appointment_time,
@@ -704,219 +831,28 @@ app.put(
 
         try {
 
-            const client =
-                await pool.connect();
-
-            try {
-
-                await client.query("BEGIN");
-
-                const appointmentResult =
-                    await client.query(
-                        `
-                        UPDATE appointments
-
-                        SET
-                            doctor = $1,
-                            appointment_date = $2,
-                            appointment_time = $3,
-                            reason = $4,
-                            status = $5
-
-                        WHERE id = $6
-
-                        RETURNING *
-                        `,
-                        [
-                            doctor || null,
-                            appointment_date || null,
-                            appointment_time || null,
-                            reason || null,
-                            status || "Pending",
-                            appointmentId
-                        ]
-                    );
-
-                if (
-                    appointmentResult.rows.length === 0
-                ) {
-
-                    await client.query("ROLLBACK");
-
-                    return res.status(404).json({
-                        message:
-                            "Appointment not found."
-                    });
-
-                }
-
-                const appointment =
-                    appointmentResult.rows[0];
-
-                /*
-                 * Update patient name when supplied.
-                 */
-                if (
-                    typeof patient_name === "string" &&
-                    patient_name.trim()
-                ) {
-
-                    const nameParts =
-                        patient_name
-                            .trim()
-                            .split(/\s+/);
-
-                    const firstName =
-                        nameParts.shift();
-
-                    const lastName =
-                        nameParts.join(" ");
-
-                    /*
-                     * Update the linked patient record.
-                     */
-                    if (appointment.patient_id) {
-
-                        await client.query(
-                            `
-                            UPDATE patients
-
-                            SET
-                                first_name = $1,
-                                last_name = $2
-
-                            WHERE id = $3
-                            `,
-                            [
-                                firstName,
-                                lastName || null,
-                                appointment.patient_id
-                            ]
-                        );
-
-                    }
-
-                    /*
-                     * Update the appointment's displayed name.
-                     */
-                    await client.query(
-                        `
-                        UPDATE appointments
-
-                        SET name = $1
-
-                        WHERE id = $2
-                        `,
-                        [
-                            patient_name.trim(),
-                            appointmentId
-                        ]
-                    );
-
-                    appointment.name =
-                        patient_name.trim();
-
-                }
-
-                await client.query("COMMIT");
-
-                res.json({
-                    message:
-                        "Appointment updated successfully!",
-                    appointment:
-                        appointment
-                });
-
-            } catch (error) {
-
-                await client.query("ROLLBACK");
-
-                throw error;
-
-            } finally {
-
-                client.release();
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "Error updating appointment:",
-                error
-            );
-
-            res.status(500).json({
-                message:
-                    "Failed to update appointment."
-            });
-
-        }
-
-    }
-);
-
-
-// ==========================================
-// UPDATE APPOINTMENT STATUS
-// STAFF ONLY
-// ==========================================
-
-app.put(
-    "/api/appointments/:id/status",
-    authenticateToken,
-    async (req, res) => {
-
-        const appointmentId =
-            parseInt(req.params.id, 10);
-
-        const { status } =
-            req.body;
-
-        if (isNaN(appointmentId)) {
-
-            return res.status(400).json({
-                message:
-                    "Invalid appointment ID."
-            });
-
-        }
-
-        const validStatuses = [
-            "Pending",
-            "Confirmed",
-            "Cancelled",
-            "Completed"
-        ];
-
-        if (
-            !status ||
-            !validStatuses.includes(status)
-        ) {
-
-            return res.status(400).json({
-                message:
-                    "Invalid appointment status."
-            });
-
-        }
-
-        try {
-
             const result =
                 await pool.query(
                     `
                     UPDATE appointments
 
                     SET
-                        status = $1
+                        doctor = $1,
+                        appointment_date = $2,
+                        appointment_time = $3,
+                        reason = $4,
+                        status = $5
 
-                    WHERE id = $2
+                    WHERE id = $6
 
                     RETURNING *
                     `,
                     [
-                        status,
+                        doctor || null,
+                        appointment_date || null,
+                        appointment_time || null,
+                        reason || null,
+                        status || "Pending",
                         appointmentId
                     ]
                 );
@@ -934,7 +870,7 @@ app.put(
 
             res.json({
                 message:
-                    "Appointment status updated successfully!",
+                    "Appointment updated successfully!",
                 appointment:
                     result.rows[0]
             });
@@ -942,20 +878,19 @@ app.put(
         } catch (error) {
 
             console.error(
-                "Error updating appointment status:",
+                "Error updating appointment:",
                 error
             );
 
             res.status(500).json({
                 message:
-                    "Failed to update appointment status."
+                    "Failed to update appointment."
             });
 
         }
 
     }
 );
-
 
 // ==========================================
 // GET SINGLE APPOINTMENT
@@ -3131,4 +3066,3 @@ app.listen(
 
     }
 );
-
