@@ -634,6 +634,29 @@
 
 
     <!-- ==========================================
+     STAFF ADD APPOINTMENT
+========================================== -->
+
+<div
+    style="
+        display:flex;
+        justify-content:flex-end;
+        margin-bottom:15px;
+    "
+>
+
+    <button
+        type="button"
+        class="confirm-btn"
+        onclick="openStaffAddAppointmentModal()"
+    >
+        + Add Appointment
+    </button>
+
+</div>
+
+
+<!-- ==========================================
          FILTERS
     ========================================== -->
 
@@ -759,6 +782,174 @@
 <!-- ==========================================
      APPOINTMENT DETAILS MODAL
 ========================================== -->
+
+<!-- ==========================================
+     STAFF ADD APPOINTMENT MODAL
+========================================== -->
+
+<div
+    id="staffAddAppointmentModal"
+    class="modal"
+    style="display:none;"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>
+                Add Appointment
+            </h2>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeStaffAddAppointmentModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Patient Name
+            </label>
+
+            <input
+                type="text"
+                id="staffAppointmentName"
+                placeholder="Patient name"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Patient Email
+            </label>
+
+            <input
+                type="email"
+                id="staffAppointmentEmail"
+                placeholder="Patient email"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Patient Phone
+            </label>
+
+            <input
+                type="text"
+                id="staffAppointmentPhone"
+                placeholder="Patient phone"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Doctor
+            </label>
+
+            <select
+                id="staffAppointmentDoctor"
+            >
+
+                <option value="">
+                    Select Doctor
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Appointment Date
+            </label>
+
+            <input
+                type="date"
+                id="staffAppointmentDate"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Appointment Time
+            </label>
+
+            <input
+                type="time"
+                id="staffAppointmentTime"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Reason
+            </label>
+
+            <textarea
+                id="staffAppointmentReason"
+                rows="4"
+                placeholder="Reason for appointment..."
+            ></textarea>
+
+        </div>
+
+
+        <div
+            style="
+                display:flex;
+                justify-content:flex-end;
+                gap:8px;
+                margin-top:18px;
+            "
+        >
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="closeStaffAddAppointmentModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="confirm-btn"
+                onclick="saveStaffAppointment()"
+            >
+                Save Appointment
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 <div
     id="appointmentModal"
@@ -3448,11 +3639,409 @@ document.addEventListener(
     }
 );
 
+/* ==========================================
+   STAFF ADD APPOINTMENT
+========================================== */
+
+async function openStaffAddAppointmentModal() {
+
+    const modal =
+        document.getElementById(
+            "staffAddAppointmentModal"
+        );
+
+    if (!modal) {
+
+        alert(
+            "Add Appointment form could not be found."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Clear previous values.
+     */
+
+    document.getElementById(
+        "staffAppointmentName"
+    ).value = "";
+
+    document.getElementById(
+        "staffAppointmentEmail"
+    ).value = "";
+
+    document.getElementById(
+        "staffAppointmentPhone"
+    ).value = "";
+
+    document.getElementById(
+        "staffAppointmentDate"
+    ).value = "";
+
+    document.getElementById(
+        "staffAppointmentTime"
+    ).value = "";
+
+    document.getElementById(
+        "staffAppointmentReason"
+    ).value = "";
+
+
+    /*
+     * Load doctors.
+     */
+
+    await loadStaffAppointmentDoctors();
+
+
+    modal.style.display =
+        "flex";
+
+}
+
+
+/* ==========================================
+   LOAD DOCTORS FOR STAFF APPOINTMENT
+========================================== */
+
+async function loadStaffAppointmentDoctors() {
+
+    const select =
+        document.getElementById(
+            "staffAppointmentDoctor"
+        );
+
+    if (!select) {
+
+        return;
+
+    }
+
+
+    select.innerHTML = `
+        <option value="">
+            Select Doctor
+        </option>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/doctors`,
+                {
+                    headers:
+                        getAuthHeaders()
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load doctors."
+            );
+
+        }
+
+
+        const doctors =
+            Array.isArray(data)
+                ? data
+                : data.doctors || [];
+
+
+        doctors.forEach(
+            doctor => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    doctor.name ||
+                    doctor.full_name ||
+                    "";
+
+
+                option.textContent =
+                    doctor.name ||
+                    doctor.full_name ||
+                    "Unknown Doctor";
+
+
+                select.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Load doctors error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to load doctors."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   CLOSE STAFF ADD APPOINTMENT MODAL
+========================================== */
+
+function closeStaffAddAppointmentModal() {
+
+    const modal =
+        document.getElementById(
+            "staffAddAppointmentModal"
+        );
+
+
+    if (modal) {
+
+        modal.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* ==========================================
+   SAVE STAFF APPOINTMENT
+========================================== */
+
+async function saveStaffAppointment() {
+
+    const name =
+        document.getElementById(
+            "staffAppointmentName"
+        ).value.trim();
+
+
+    const email =
+        document.getElementById(
+            "staffAppointmentEmail"
+        ).value.trim();
+
+
+    const phone =
+        document.getElementById(
+            "staffAppointmentPhone"
+        ).value.trim();
+
+
+    const doctor =
+        document.getElementById(
+            "staffAppointmentDoctor"
+        ).value;
+
+
+    const appointment_date =
+        document.getElementById(
+            "staffAppointmentDate"
+        ).value;
+
+
+    const appointment_time =
+        document.getElementById(
+            "staffAppointmentTime"
+        ).value;
+
+
+    const reason =
+        document.getElementById(
+            "staffAppointmentReason"
+        ).value.trim();
+
+
+    /*
+     * Required fields.
+     */
+
+    if (!name) {
+
+        alert(
+            "Please enter the patient name."
+        );
+
+        return;
+
+    }
+
+
+    if (!email) {
+
+        alert(
+            "Please enter the patient email."
+        );
+
+        return;
+
+    }
+
+
+    if (!doctor) {
+
+        alert(
+            "Please select a doctor."
+        );
+
+        return;
+
+    }
+
+
+    if (!appointment_date) {
+
+        alert(
+            "Please select the appointment date."
+        );
+
+        return;
+
+    }
+
+
+    if (!appointment_time) {
+
+        alert(
+            "Please select the appointment time."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/appointments`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        ...getAuthHeaders(),
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            name:
+                                name,
+
+                            email:
+                                email,
+
+                            phone:
+                                phone,
+
+                            doctor:
+                                doctor,
+
+                            appointment_date:
+                                appointment_date,
+
+                            appointment_time:
+                                appointment_time,
+
+                            reason:
+                                reason
+
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            logout();
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to save appointment."
+            );
+
+        }
+
+
+        alert(
+            "Appointment added successfully!"
+        );
+
+
+        closeStaffAddAppointmentModal();
+
+
+        await loadAppointments();
+
+
+    } catch (error) {
+
+        console.error(
+            "Save staff appointment error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
 </script>
 
 </body>
 
 </html>
+
+
+
 
 
 
