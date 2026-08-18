@@ -1202,75 +1202,71 @@
            DATE
         ========================================= */
 
-        function formatAppointmentDate(
-            value
-        ) {
+       function formatAppointmentDate(value) {
 
-            if (!value) {
-                return "-";
-            }
+    if (!value) {
+        return "-";
+    }
 
+    /*
+     * PostgreSQL DATE format:
+     * 2026-08-28
+     *
+     * Parse manually so the browser does not
+     * shift the date because of UTC conversion.
+     */
 
-            /*
-             * If PostgreSQL gives:
-             *
-             * 2026-08-28
-             *
-             * keep it exactly as it is.
-             */
+    const valueString = String(value).trim();
 
-            if (
-                /^\d{4}-\d{2}-\d{2}$/.test(
-                    String(value)
-                )
-            ) {
+    const match = valueString.match(
+        /^(\d{4})-(\d{2})-(\d{2})/
+    );
 
-                return value;
+    if (match) {
 
-            }
+        const year = Number(match[1]);
+        const month = Number(match[2]);
+        const day = Number(match[3]);
 
+        const date = new Date(
+            year,
+            month - 1,
+            day
+        );
 
-            /*
-             * Handle ISO timestamps.
-             */
+        if (!isNaN(date.getTime())) {
 
-            const date =
-                new Date(value);
-
-
-            if (
-                isNaN(date.getTime())
-            ) {
-
-                return value;
-
-            }
-
-
-            /*
-             * Use local date components so the
-             * appointment does not shift because
-             * of UTC conversion.
-             */
-
-            const year =
-                date.getFullYear();
-
-            const month =
-                String(
-                    date.getMonth() + 1
-                ).padStart(2, "0");
-
-            const day =
-                String(
-                    date.getDate()
-                ).padStart(2, "0");
-
-
-            return `${year}-${month}-${day}`;
+            return date.toLocaleDateString(
+                "en-US",
+                {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric"
+                }
+            );
 
         }
+    }
 
+    /*
+     * Fallback for other valid date values.
+     */
+
+    const date = new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return valueString;
+    }
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        }
+    );
+}
 
         /* =========================================
            STATUS
