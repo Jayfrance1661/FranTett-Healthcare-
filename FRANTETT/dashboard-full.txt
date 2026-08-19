@@ -14,107 +14,59 @@
             padding: 0;
         }
 
-        :root {
-            --primary: #0b6b5c;
-            --primary-dark: #095448;
-            --primary-light: #e8f5f2;
-            --danger: #c0392b;
-            --danger-dark: #a93226;
-            --warning: #f39c12;
-            --info: #2980b9;
-            --success: #27ae60;
-            --text: #222;
-            --muted: #666;
-            --light: #f4f7f9;
-            --white: #ffffff;
-            --border: #e5e7eb;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
-            --shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.12);
-        }
-
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background: var(--light);
-            color: var(--text);
+            background: #f4f7f9;
+            color: #222;
             line-height: 1.6;
-            min-height: 100vh;
         }
 
-        /* =========================================
-           HEADER / NAVIGATION
-        ========================================= */
-
         header {
-            background: var(--primary);
+            background: #0b6b5c;
             color: white;
-            padding: 16px 40px;
+            padding: 18px 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .logo {
             font-size: 24px;
             font-weight: bold;
-            white-space: nowrap;
-        }
-
-        .nav-toggle {
-            display: none;
-            border: none;
-            background: transparent;
-            color: white;
-            font-size: 27px;
-            cursor: pointer;
-            padding: 5px 8px;
         }
 
         nav {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 20px;
             flex-wrap: wrap;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            font-size: 14px;
-            padding: 8px 11px;
-            border-radius: 6px;
-            transition: background 0.2s;
+            font-size: 15px;
         }
 
-        nav a:hover,
-        nav a.active {
-            background: rgba(255, 255, 255, 0.15);
+        nav a:hover {
+            text-decoration: underline;
         }
 
         .logout-btn {
-            background: var(--danger);
+            background: #c0392b;
             color: white;
             border: none;
             padding: 9px 15px;
-            border-radius: 6px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: bold;
-            transition: background 0.2s, transform 0.2s;
         }
 
         .logout-btn:hover {
-            background: var(--danger-dark);
-            transform: translateY(-1px);
+            background: #a93226;
         }
-
-        /* =========================================
-           MAIN CONTAINER
-        ========================================= */
 
         .container {
             width: 92%;
@@ -126,85 +78,17 @@
             margin-bottom: 25px;
         }
 
-        .page-header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 20px;
-        }
-
         .page-header h1 {
-            color: var(--primary);
+            color: #0b6b5c;
             margin-bottom: 6px;
             font-size: 32px;
         }
 
         .page-header p {
-            color: var(--muted);
+            color: #666;
         }
 
-        .header-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        /* =========================================
-           BUTTONS
-        ========================================= */
-
-        .btn {
-            border: none;
-            border-radius: 6px;
-            padding: 10px 15px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            transition: 0.2s;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            background: #eef2f3;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #dfe5e7;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: var(--danger-dark);
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* =========================================
-           MAIN STATISTICS
-        ========================================= */
+        /* MAIN STATISTICS */
 
         .stats-grid {
             display: grid;
@@ -214,17 +98,11 @@
         }
 
         .stat-card {
-            background: var(--white);
+            background: white;
             border-radius: 10px;
             padding: 24px;
-            box-shadow: var(--shadow);
-            border-left: 5px solid var(--primary);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #0b6b5c;
         }
 
         .stat-card h3 {
@@ -236,8 +114,7 @@
         .stat-card .number {
             font-size: 34px;
             font-weight: bold;
-            color: var(--primary);
-            word-break: break-word;
+            color: #0b6b5c;
         }
 
         .stat-card p {
@@ -251,9 +128,7 @@
             float: right;
         }
 
-        /* =========================================
-           STATUS
-        ========================================= */
+        /* STATUS */
 
         .status-grid {
             display: grid;
@@ -263,16 +138,11 @@
         }
 
         .status-card {
-            background: var(--white);
+            background: white;
             border-radius: 10px;
             padding: 20px;
             text-align: center;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s;
-        }
-
-        .status-card:hover {
-            transform: translateY(-2px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
         }
 
         .status-card h3 {
@@ -286,43 +156,41 @@
         }
 
         .pending {
-            border-top: 4px solid var(--warning);
+            border-top: 4px solid #f39c12;
         }
 
         .pending .status-number {
-            color: var(--warning);
+            color: #f39c12;
         }
 
         .confirmed {
-            border-top: 4px solid var(--info);
+            border-top: 4px solid #2980b9;
         }
 
         .confirmed .status-number {
-            color: var(--info);
+            color: #2980b9;
         }
 
         .completed {
-            border-top: 4px solid var(--success);
+            border-top: 4px solid #27ae60;
         }
 
         .completed .status-number {
-            color: var(--success);
+            color: #27ae60;
         }
 
         .cancelled {
-            border-top: 4px solid var(--danger);
+            border-top: 4px solid #c0392b;
         }
 
         .cancelled .status-number {
-            color: var(--danger);
+            color: #c0392b;
         }
 
-        /* =========================================
-           QUICK ACTIONS
-        ========================================= */
+        /* QUICK ACTIONS */
 
         .section-title {
-            color: var(--primary);
+            color: #0b6b5c;
             margin-bottom: 18px;
             font-size: 24px;
         }
@@ -335,21 +203,19 @@
         }
 
         .action-card {
-            background: var(--white);
+            background: white;
             padding: 25px;
             border-radius: 10px;
             text-decoration: none;
-            color: var(--text);
-            box-shadow: var(--shadow);
+            color: #222;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
             transition: transform 0.2s, box-shadow 0.2s;
             text-align: center;
-            border: 1px solid transparent;
         }
 
         .action-card:hover {
             transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-            border-color: #d9ece8;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
         }
 
         .action-icon {
@@ -358,7 +224,7 @@
         }
 
         .action-card h3 {
-            color: var(--primary);
+            color: #0b6b5c;
             margin-bottom: 8px;
         }
 
@@ -367,15 +233,13 @@
             font-size: 14px;
         }
 
-        /* =========================================
-           APPOINTMENTS
-        ========================================= */
+        /* APPOINTMENTS */
 
         .appointments-section {
-            background: var(--white);
+            background: white;
             border-radius: 10px;
             padding: 25px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
             margin-bottom: 30px;
         }
 
@@ -385,53 +249,49 @@
             align-items: center;
             margin-bottom: 20px;
             gap: 15px;
-            flex-wrap: wrap;
         }
 
         .section-heading h2 {
-            color: var(--primary);
+            color: #0b6b5c;
             font-size: 23px;
         }
 
-        .appointment-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+        .view-all {
+            color: #0b6b5c;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
         }
 
         .table-wrapper {
             overflow-x: auto;
-            border: 1px solid var(--border);
-            border-radius: 7px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 850px;
+            min-width: 800px;
         }
 
         th {
-            background: var(--primary);
+            background: #0b6b5c;
             color: white;
             padding: 12px;
             text-align: left;
             font-size: 14px;
-            white-space: nowrap;
         }
 
         td {
             padding: 12px;
             border-bottom: 1px solid #eee;
             font-size: 14px;
-            vertical-align: middle;
         }
 
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        tbody tr:hover {
+        tr:hover {
             background: #f8fbfa;
         }
 
@@ -441,7 +301,6 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
-            white-space: nowrap;
         }
 
         .status-pending {
@@ -464,106 +323,35 @@
             color: #991b1b;
         }
 
-        /* =========================================
-           MESSAGES / STATES
-        ========================================= */
-
-        .loading,
-        .empty-state,
-        .error-message,
-        .login-message {
-            text-align: center;
-            padding: 30px 20px;
-            border-radius: 7px;
-        }
-
         .loading {
+            text-align: center;
+            padding: 25px;
             color: #777;
         }
 
-        .empty-state {
-            color: #666;
-            background: #f8fafb;
-            border: 1px dashed #d7dfe2;
-        }
-
-        .empty-state .empty-icon {
-            font-size: 38px;
-            margin-bottom: 8px;
-        }
-
-        .empty-state h3 {
-            margin-bottom: 5px;
-            color: #444;
-        }
-
         .error-message {
-            color: var(--danger);
+            text-align: center;
+            padding: 25px;
+            color: #c0392b;
             background: #fff5f5;
-            border: 1px solid #f3cccc;
+            border-radius: 6px;
         }
 
         .login-message {
+            text-align: center;
+            padding: 25px;
             color: #856404;
             background: #fff8e1;
-            border: 1px solid #f1df9d;
+            border-radius: 6px;
         }
-
-        .message-action {
-            margin-top: 15px;
-        }
-
-        /* =========================================
-           TOAST
-        ========================================= */
-
-        .toast {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            max-width: 360px;
-            background: #222;
-            color: white;
-            padding: 13px 17px;
-            border-radius: 7px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(15px);
-            transition: 0.25s;
-            z-index: 3000;
-            font-size: 14px;
-        }
-
-        .toast.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .toast.success {
-            background: #176b43;
-        }
-
-        .toast.error {
-            background: var(--danger);
-        }
-
-        /* =========================================
-           FOOTER
-        ========================================= */
 
         footer {
-            background: var(--primary);
+            background: #0b6b5c;
             color: white;
             text-align: center;
             padding: 20px;
             margin-top: 40px;
         }
-
-        /* =========================================
-           MOBILE
-        ========================================= */
 
         @media (max-width: 1100px) {
 
@@ -574,56 +362,15 @@
             }
         }
 
-        @media (max-width: 800px) {
+        @media (max-width: 700px) {
 
             header {
-                padding: 15px 20px;
-            }
-
-            .nav-toggle {
-                display: block;
-            }
-
-            header {
-                flex-wrap: wrap;
+                padding: 18px 20px;
             }
 
             nav {
-                display: none;
-                width: 100%;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 4px;
+                gap: 12px;
             }
-
-            nav.open {
-                display: flex;
-            }
-
-            nav a {
-                display: block;
-                text-align: center;
-                padding: 10px;
-            }
-
-            .logout-btn {
-                width: 100%;
-            }
-
-            .page-header-top {
-                flex-direction: column;
-            }
-
-            .header-actions {
-                width: 100%;
-            }
-
-            .header-actions .btn {
-                flex: 1;
-            }
-        }
-
-        @media (max-width: 700px) {
 
             .container {
                 width: 94%;
@@ -641,93 +388,17 @@
             }
 
             .section-heading {
+                flex-direction: column;
                 align-items: flex-start;
-            }
-
-            .appointment-actions {
-                width: 100%;
-            }
-
-            .appointment-actions .btn {
-                flex: 1;
-            }
-
-            .stat-card {
-                padding: 20px;
-            }
-
-            .appointments-section {
-                padding: 18px;
-            }
-
-            .toast {
-                left: 15px;
-                right: 15px;
-                bottom: 15px;
-                max-width: none;
-            }
-        }
-
-        /* =========================================
-           PRINT
-        ========================================= */
-
-        @media print {
-
-            body {
-                background: white;
-            }
-
-            header,
-            .header-actions,
-            .quick-actions,
-            .section-title,
-            .appointment-actions,
-            footer,
-            .view-all {
-                display: none !important;
-            }
-
-            .container {
-                width: 100%;
-                max-width: none;
-                margin: 0;
-            }
-
-            .appointments-section,
-            .stat-card,
-            .status-card {
-                box-shadow: none;
-                border: 1px solid #ddd;
-            }
-
-            .appointments-section {
-                margin-top: 20px;
-            }
-
-            table {
-                min-width: 0;
-            }
-
-            th {
-                background: #eee !important;
-                color: #000 !important;
-            }
-
-            .status-badge {
-                border: 1px solid #aaa;
-                background: white !important;
-                color: #000 !important;
             }
         }
     </style>
 </head>
 
+
 <body>
 
-    <!-- =========================================
-         HEADER
-    ========================================== -->
+    <!-- HEADER -->
 
     <header>
 
@@ -735,37 +406,19 @@
             FranTett Healthcare
         </div>
 
-        <button
-            class="nav-toggle"
-            id="navToggle"
-            type="button"
-            aria-label="Open navigation"
-            aria-expanded="false">
-            ☰
-        </button>
+        <nav>
 
-        <nav id="mainNav">
+            <a href="../index.html">Home</a>
 
-            <a href="../index.html">
-                Home
+           <a href="./doctors.html?staff=true">Doctors</a>
+
+            <a href="./services.html">Services</a>
+
+            <a href="./book-appointment.html">
+                Book Appointment
             </a>
 
-            <a href="./doctors.html?staff=true">
-                Doctors
-            </a>
-
-            <a href="./services.html">
-                Services
-            </a>
-
-            <a href="./appointments.html">
-            Book Appointment
-            </a>
-
-
-            <a
-                href="./dashboard.html"
-                class="active">
+            <a href="./dashboard.html">
                 Staff Dashboard
             </a>
 
@@ -775,7 +428,6 @@
 
             <button
                 class="logout-btn"
-                type="button"
                 onclick="logout()">
                 Logout
             </button>
@@ -785,57 +437,29 @@
     </header>
 
 
-    <!-- =========================================
-         MAIN
-    ========================================== -->
+    <!-- MAIN -->
 
     <main class="container">
 
+
         <div class="page-header">
 
-            <div class="page-header-top">
+            <h1>
+                Staff Dashboard
+            </h1>
 
-                <div>
-
-                    <h1>
-                        Staff Dashboard
-                    </h1>
-
-                    <p>
-                        Manage FranTett Healthcare appointments,
-                        patients, and healthcare information.
-                    </p>
-
-                </div>
-
-                <div class="header-actions">
-
-                    <button
-                        class="btn btn-secondary"
-                        type="button"
-                        onclick="refreshDashboard()">
-                        🔄 Refresh
-                    </button>
-
-                    <button
-                        class="btn btn-primary"
-                        type="button"
-                        onclick="printDashboard()">
-                        🖨️ Print
-                    </button>
-
-                </div>
-
-            </div>
+            <p>
+                Manage FranTett Healthcare appointments,
+                patients, and healthcare information.
+            </p>
 
         </div>
 
 
-        <!-- =========================================
-             MAIN STATISTICS
-        ========================================== -->
+        <!-- MAIN STATISTICS -->
 
         <div class="stats-grid">
+
 
             <div class="stat-card">
 
@@ -920,7 +544,7 @@
                     class="number"
                     id="todayDate"
                     style="font-size:22px;">
-                    Loading...
+                    Aug 18, 2026
                 </div>
 
                 <p>
@@ -932,11 +556,10 @@
         </div>
 
 
-        <!-- =========================================
-             STATUS
-        ========================================== -->
+        <!-- STATUS -->
 
         <div class="status-grid">
+
 
             <div class="status-card pending">
 
@@ -1000,9 +623,7 @@
         </div>
 
 
-        <!-- =========================================
-             QUICK ACTIONS
-        ========================================== -->
+        <!-- QUICK ACTIONS -->
 
         <h2 class="section-title">
             Quick Actions
@@ -1010,6 +631,7 @@
 
 
         <div class="quick-actions">
+
 
             <a
                 href="./appointments.html"
@@ -1052,7 +674,7 @@
 
 
             <a
-                href="./doctors.html?staff=true"
+               href="./doctors.html?staff=true"
                 class="action-card">
 
                 <div class="action-icon">
@@ -1093,11 +715,10 @@
         </div>
 
 
-        <!-- =========================================
-             RECENT APPOINTMENTS
-        ========================================== -->
+        <!-- RECENT APPOINTMENTS -->
 
         <div class="appointments-section">
+
 
             <div class="section-heading">
 
@@ -1105,29 +726,11 @@
                     Recent Appointments
                 </h2>
 
-                <div class="appointment-actions">
-
-                    <button
-                        class="btn btn-secondary"
-                        type="button"
-                        onclick="exportAppointments()">
-                        📥 Export
-                    </button>
-
-                    <button
-                        class="btn btn-primary"
-                        type="button"
-                        onclick="printAppointments()">
-                        🖨️ Print
-                    </button>
-
-                    <a
-                        href="./appointments.html"
-                        class="btn btn-secondary">
-                        View All →
-                    </a>
-
-                </div>
+                <a
+                    href="./appointments.html"
+                    class="view-all">
+                    View All
+                </a>
 
             </div>
 
@@ -1184,6 +787,7 @@
 
                     </thead>
 
+
                     <tbody
                         id="recentAppointmentsBody">
                     </tbody>
@@ -1197,9 +801,7 @@
     </main>
 
 
-    <!-- =========================================
-         FOOTER
-    ========================================== -->
+    <!-- FOOTER -->
 
     <footer>
 
@@ -1209,27 +811,15 @@
     </footer>
 
 
-    <!-- TOAST -->
-
-    <div
-        id="toast"
-        class="toast"
-        role="alert">
-    </div>
-
-
     <script>
 
         const API_BASE_URL =
             "http://localhost:3000";
 
 
-        let dashboardAppointments = [];
-
-
         /* =========================================
            AUTHENTICATION
-        ========================================== */
+        ========================================= */
 
         function getToken() {
 
@@ -1273,53 +863,12 @@
             }
 
 
-            const response =
-                await fetch(
-                    API_BASE_URL + url,
-                    {
-                        ...options,
-                        headers: headers
-                    }
-                );
-
-
-            if (
-                response.status === 401 ||
-                response.status === 403
-            ) {
-
-                handleSessionExpired();
-
-            }
-
-
-            return response;
-
-        }
-
-
-        /* =========================================
-           SESSION EXPIRATION
-        ========================================= */
-
-        function handleSessionExpired() {
-
-            if (
-                document.body.dataset.sessionExpired === "true"
-            ) {
-
-                return;
-
-            }
-
-
-            document.body.dataset.sessionExpired =
-                "true";
-
-
-            showToast(
-                "Your staff session has expired. Please log in again.",
-                "error"
+            return fetch(
+                API_BASE_URL + url,
+                {
+                    ...options,
+                    headers: headers
+                }
             );
 
         }
@@ -1331,160 +880,12 @@
 
         function logout() {
 
-            const confirmed =
-                window.confirm(
-                    "Are you sure you want to log out?"
-                );
-
-
-            if (!confirmed) {
-
-                return;
-
-            }
-
-
             localStorage.removeItem(
                 "frantett_token"
             );
 
-
             window.location.href =
                 "../index.html";
-
-        }
-
-
-        /* =========================================
-           MOBILE NAVIGATION
-        ========================================= */
-
-        function setupNavigation() {
-
-            const toggle =
-                document.getElementById(
-                    "navToggle"
-                );
-
-
-            const nav =
-                document.getElementById(
-                    "mainNav"
-                );
-
-
-            if (!toggle || !nav) {
-
-                return;
-
-            }
-
-
-            toggle.addEventListener(
-                "click",
-                function () {
-
-                    const isOpen =
-                        nav.classList.toggle(
-                            "open"
-                        );
-
-
-                    toggle.setAttribute(
-                        "aria-expanded",
-                        String(isOpen)
-                    );
-
-                }
-            );
-
-
-            nav.querySelectorAll("a")
-                .forEach(
-                    link => {
-
-                        link.addEventListener(
-                            "click",
-                            function () {
-
-                                nav.classList.remove(
-                                    "open"
-                                );
-
-                                toggle.setAttribute(
-                                    "aria-expanded",
-                                    "false"
-                                );
-
-                            }
-                        );
-
-                    }
-                );
-
-        }
-
-
-        /* =========================================
-           TOAST
-        ========================================= */
-
-        let toastTimer;
-
-
-        function showToast(
-            message,
-            type = ""
-        ) {
-
-            const toast =
-                document.getElementById(
-                    "toast"
-                );
-
-
-            toast.textContent =
-                message;
-
-
-            toast.className =
-                "toast show " +
-                type;
-
-
-            clearTimeout(
-                toastTimer
-            );
-
-
-            toastTimer =
-                setTimeout(
-                    function () {
-
-                        toast.className =
-                            "toast";
-
-                    },
-                    3500
-                );
-
-        }
-
-
-        /* =========================================
-           PRINT
-        ========================================= */
-
-        function printDashboard() {
-
-            window.print();
-
-        }
-
-
-        function printAppointments() {
-
-            window.print();
 
         }
 
@@ -1506,26 +907,11 @@
 
 
             return String(value)
-                .replace(
-                    /&/g,
-                    "&amp;"
-                )
-                .replace(
-                    /</g,
-                    "&lt;"
-                )
-                .replace(
-                    />/g,
-                    "&gt;"
-                )
-                .replace(
-                    /"/g,
-                    "&quot;"
-                )
-                .replace(
-                    /'/g,
-                    "&#039;"
-                );
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
 
         }
 
@@ -1535,6 +921,10 @@
         ========================================= */
 
         function getPatientName(appointment) {
+
+            /*
+             * First check the normal database field.
+             */
 
             if (
                 appointment.patient_name &&
@@ -1546,6 +936,10 @@
             }
 
 
+            /*
+             * Some APIs use patientName.
+             */
+
             if (
                 appointment.patientName &&
                 typeof appointment.patientName === "string"
@@ -1555,6 +949,11 @@
 
             }
 
+
+            /*
+             * Sometimes the patient is returned
+             * as an object.
+             */
 
             const patient =
                 appointment.patient;
@@ -1573,7 +972,6 @@
 
                 }
 
-
                 if (
                     patient.patientName
                 ) {
@@ -1581,7 +979,6 @@
                     return patient.patientName;
 
                 }
-
 
                 if (
                     patient.name
@@ -1591,7 +988,6 @@
 
                 }
 
-
                 if (
                     patient.full_name
                 ) {
@@ -1599,7 +995,6 @@
                     return patient.full_name;
 
                 }
-
 
                 if (
                     patient.fullName
@@ -1609,6 +1004,9 @@
 
                 }
 
+                /*
+                 * Handle first_name + last_name.
+                 */
 
                 if (
                     patient.first_name ||
@@ -1619,11 +1017,14 @@
                         patient.first_name || "",
                         patient.last_name || ""
                     ]
-                        .join(" ")
-                        .trim();
+                    .join(" ")
+                    .trim();
 
                 }
 
+                /*
+                 * Handle firstName + lastName.
+                 */
 
                 if (
                     patient.firstName ||
@@ -1634,13 +1035,18 @@
                         patient.firstName || "",
                         patient.lastName || ""
                     ]
-                        .join(" ")
-                        .trim();
+                    .join(" ")
+                    .trim();
 
                 }
 
             }
 
+
+            /*
+             * Sometimes the API returns the patient
+             * directly as a string.
+             */
 
             if (
                 typeof patient === "string"
@@ -1650,6 +1056,10 @@
 
             }
 
+
+            /*
+             * Other possible field names.
+             */
 
             if (
                 appointment.full_name
@@ -1678,6 +1088,11 @@
             }
 
 
+            /*
+             * If the appointment contains patient
+             * first and last names directly.
+             */
+
             if (
                 appointment.first_name ||
                 appointment.last_name
@@ -1687,8 +1102,8 @@
                     appointment.first_name || "",
                     appointment.last_name || ""
                 ]
-                    .join(" ")
-                    .trim();
+                .join(" ")
+                .trim();
 
             }
 
@@ -1702,8 +1117,8 @@
                     appointment.firstName || "",
                     appointment.lastName || ""
                 ]
-                    .join(" ")
-                    .trim();
+                .join(" ")
+                .trim();
 
             }
 
@@ -1759,7 +1174,6 @@
 
                 }
 
-
                 if (
                     appointment.doctor.doctor_name
                 ) {
@@ -1767,7 +1181,6 @@
                     return appointment.doctor.doctor_name;
 
                 }
-
 
                 if (
                     appointment.doctor.full_name
@@ -1789,79 +1202,39 @@
            DATE
         ========================================= */
 
-        function formatAppointmentDate(value) {
+       function formatAppointmentDate(value) {
 
-            if (!value) {
+    if (!value) {
+        return "-";
+    }
 
-                return "-";
+    /*
+     * PostgreSQL DATE format:
+     * 2026-08-28
+     *
+     * Parse manually so the browser does not
+     * shift the date because of UTC conversion.
+     */
 
-            }
+    const valueString = String(value).trim();
 
+    const match = valueString.match(
+        /^(\d{4})-(\d{2})-(\d{2})/
+    );
 
-            const valueString =
-                String(value).trim();
+    if (match) {
 
+        const year = Number(match[1]);
+        const month = Number(match[2]);
+        const day = Number(match[3]);
 
-            const match =
-                valueString.match(
-                    /^(\d{4})-(\d{2})-(\d{2})/
-                );
+        const date = new Date(
+            year,
+            month - 1,
+            day
+        );
 
-
-            if (match) {
-
-                const year =
-                    Number(match[1]);
-
-                const month =
-                    Number(match[2]);
-
-                const day =
-                    Number(match[3]);
-
-
-                const date =
-                    new Date(
-                        year,
-                        month - 1,
-                        day
-                    );
-
-
-                if (
-                    !isNaN(
-                        date.getTime()
-                    )
-                ) {
-
-                    return date.toLocaleDateString(
-                        "en-US",
-                        {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric"
-                        }
-                    );
-
-                }
-
-            }
-
-
-            const date =
-                new Date(value);
-
-
-            if (
-                isNaN(
-                    date.getTime()
-                )
-            ) {
-
-                return valueString;
-
-            }
-
+        if (!isNaN(date.getTime())) {
 
             return date.toLocaleDateString(
                 "en-US",
@@ -1873,7 +1246,27 @@
             );
 
         }
+    }
 
+    /*
+     * Fallback for other valid date values.
+     */
+
+    const date = new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return valueString;
+    }
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        }
+    );
+}
 
         /* =========================================
            STATUS
@@ -1980,13 +1373,14 @@
                     );
 
 
-                if (
-                    !response.ok
-                ) {
+                if (!response.ok) {
 
-                    throw new Error(
-                        `HTTP ${response.status}`
+                    console.error(
+                        "Doctors API error:",
+                        response.status
                     );
+
+                    return;
 
                 }
 
@@ -2012,14 +1406,16 @@
                 }
 
 
-                document.getElementById(
-                    "totalDoctors"
-                ).textContent =
-                    Array.isArray(
-                        doctors
-                    )
-                        ? doctors.length
-                        : 0;
+                if (
+                    Array.isArray(doctors)
+                ) {
+
+                    document.getElementById(
+                        "totalDoctors"
+                    ).textContent =
+                        doctors.length;
+
+                }
 
             }
 
@@ -2029,12 +1425,6 @@
                     "Unable to load doctors:",
                     error
                 );
-
-
-                document.getElementById(
-                    "totalDoctors"
-                ).textContent =
-                    "—";
 
             }
 
@@ -2047,6 +1437,21 @@
 
         async function loadPatients() {
 
+            const token =
+                getToken();
+
+
+            if (!token) {
+
+                console.warn(
+                    "No authentication token."
+                );
+
+                return;
+
+            }
+
+
             try {
 
                 const response =
@@ -2056,12 +1461,26 @@
 
 
                 if (
-                    !response.ok
+                    response.status === 401
                 ) {
 
-                    throw new Error(
-                        `HTTP ${response.status}`
+                    console.warn(
+                        "Patients API returned 401."
                     );
+
+                    return;
+
+                }
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Patients API error:",
+                        response.status
+                    );
+
+                    return;
 
                 }
 
@@ -2087,14 +1506,16 @@
                 }
 
 
-                document.getElementById(
-                    "totalPatients"
-                ).textContent =
-                    Array.isArray(
-                        patients
-                    )
-                        ? patients.length
-                        : 0;
+                if (
+                    Array.isArray(patients)
+                ) {
+
+                    document.getElementById(
+                        "totalPatients"
+                    ).textContent =
+                        patients.length;
+
+                }
 
             }
 
@@ -2104,12 +1525,6 @@
                     "Unable to load patients:",
                     error
                 );
-
-
-                document.getElementById(
-                    "totalPatients"
-                ).textContent =
-                    "—";
 
             }
 
@@ -2149,26 +1564,8 @@
                 message.className =
                     "login-message";
 
-
                 message.innerHTML =
-                    `
-                    <strong>Staff session required.</strong>
-                    <br>
-                    Please log in again to access the dashboard.
-                    <div class="message-action">
-                        <button
-                            class="btn btn-primary"
-                            type="button"
-                            onclick="window.location.href='../index.html'">
-                            Go to Login
-                        </button>
-                    </div>
-                    `;
-
-
-                tableContainer.style.display =
-                    "none";
-
+                    "Your staff session is not available. Please log in again.";
 
                 return;
 
@@ -2177,20 +1574,6 @@
 
             try {
 
-                message.className =
-                    "loading";
-
-                message.textContent =
-                    "Loading appointments...";
-
-                message.style.display =
-                    "block";
-
-
-                tableContainer.style.display =
-                    "none";
-
-
                 const response =
                     await apiFetch(
                         "/api/appointments"
@@ -2198,38 +1581,21 @@
 
 
                 if (
-                    response.status === 401 ||
-                    response.status === 403
+                    response.status === 401
                 ) {
 
                     message.className =
                         "login-message";
 
-
                     message.innerHTML =
-                        `
-                        <strong>Your staff session has expired.</strong>
-                        <br>
-                        Please log in again.
-                        <div class="message-action">
-                            <button
-                                class="btn btn-primary"
-                                type="button"
-                                onclick="window.location.href='../index.html'">
-                                Go to Login
-                            </button>
-                        </div>
-                        `;
-
+                        "Your staff session has expired. Please log in again.";
 
                     return;
 
                 }
 
 
-                if (
-                    !response.ok
-                ) {
+                if (!response.ok) {
 
                     throw new Error(
                         `HTTP ${response.status}`
@@ -2245,6 +1611,16 @@
                 let appointments =
                     data;
 
+
+                /*
+                 * Support:
+                 *
+                 * [...]
+                 *
+                 * or
+                 *
+                 * { appointments: [...] }
+                 */
 
                 if (
                     data &&
@@ -2270,10 +1646,6 @@
                 }
 
 
-                dashboardAppointments =
-                    [...appointments];
-
-
                 /* TOTAL */
 
                 document.getElementById(
@@ -2297,9 +1669,7 @@
                             String(
                                 appointment.status ||
                                 "Pending"
-                            )
-                                .toLowerCase()
-                                .trim();
+                            ).toLowerCase();
 
 
                         if (
@@ -2362,7 +1732,9 @@
                     cancelled;
 
 
-                /* SORT */
+                /* =================================
+                   SORT APPOINTMENTS
+                ================================= */
 
                 appointments.sort(
                     (a, b) => {
@@ -2385,7 +1757,9 @@
                 );
 
 
-                /* FIVE MOST RECENT */
+                /* =================================
+                   FIVE MOST RECENT
+                ================================= */
 
                 const recent =
                     appointments.slice(
@@ -2394,8 +1768,7 @@
                     );
 
 
-                tbody.innerHTML =
-                    "";
+                tbody.innerHTML = "";
 
 
                 if (
@@ -2403,44 +1776,22 @@
                 ) {
 
                     message.className =
-                        "empty-state";
+                        "loading";
 
-
-                    message.innerHTML =
-                        `
-                        <div class="empty-icon">
-                            📅
-                        </div>
-
-                        <h3>
-                            No appointments yet
-                        </h3>
-
-                        <p>
-                            There are currently no appointments
-                            in the system.
-                        </p>
-
-                        <div class="message-action">
-                            <a
-                                href="./appointments.html"
-                                class="btn btn-primary">
-                                Add Appointment
-                            </a>
-                        </div>
-                        `;
-
+                    message.textContent =
+                        "No appointments found.";
 
                     tableContainer.style.display =
                         "none";
-
 
                     return;
 
                 }
 
 
-                /* DISPLAY */
+                /* =================================
+                   DISPLAY APPOINTMENTS
+                ================================= */
 
                 recent.forEach(
                     appointment => {
@@ -2491,8 +1842,7 @@
                             );
 
 
-                        row.innerHTML =
-                            `
+                        row.innerHTML = `
 
                             <td>
                                 ${escapeHtml(
@@ -2531,15 +1881,19 @@
                             </td>
 
                             <td>
+
                                 <span
                                     class="status-badge ${statusClass}">
+
                                     ${escapeHtml(
                                         status
                                     )}
+
                                 </span>
+
                             </td>
 
-                            `;
+                        `;
 
 
                         tbody.appendChild(
@@ -2573,25 +1927,12 @@
 
                 message.innerHTML =
                     `
-                    <strong>
-                        Unable to load appointments.
-                    </strong>
-
+                    Unable to load appointments.
                     <br>
-
-                    There was a problem communicating
-                    with the server.
-
-                    <div class="message-action">
-
-                        <button
-                            class="btn btn-primary"
-                            type="button"
-                            onclick="loadAppointments()">
-                            🔄 Try Again
-                        </button>
-
-                    </div>
+                    API request failed:
+                    ${escapeHtml(
+                        error.message
+                    )}
                     `;
 
 
@@ -2599,191 +1940,6 @@
                     "none";
 
             }
-
-        }
-
-
-        /* =========================================
-           EXPORT APPOINTMENTS
-        ========================================= */
-
-        function exportAppointments() {
-
-            if (
-                dashboardAppointments.length === 0
-            ) {
-
-                showToast(
-                    "There are no appointments to export.",
-                    "error"
-                );
-
-
-                return;
-
-            }
-
-
-            const headers = [
-                "ID",
-                "Patient",
-                "Doctor",
-                "Date",
-                "Time",
-                "Reason",
-                "Status"
-            ];
-
-
-            const rows =
-                dashboardAppointments.map(
-                    appointment => [
-
-                        appointment.id ?? "",
-
-                        getPatientName(
-                            appointment
-                        ),
-
-                        getDoctorName(
-                            appointment
-                        ),
-
-                        formatAppointmentDate(
-                            appointment.appointment_date
-                        ),
-
-                        appointment.appointment_time ||
-                            "",
-
-                        appointment.reason ||
-                            "",
-
-                        formatStatus(
-                            appointment.status
-                        )
-
-                    ]
-                );
-
-
-            const csvRows =
-                [
-                    headers,
-                    ...rows
-                ];
-
-
-            const csv =
-                csvRows
-                    .map(
-                        row =>
-                            row
-                                .map(
-                                    value =>
-                                        `"${String(
-                                            value ?? ""
-                                        )
-                                            .replace(
-                                                /"/g,
-                                                '""'
-                                            )}"`
-                                )
-                                .join(",")
-                    )
-                    .join("\n");
-
-
-            const blob =
-                new Blob(
-                    [csv],
-                    {
-                        type:
-                            "text/csv;charset=utf-8;"
-                    }
-                );
-
-
-            const url =
-                URL.createObjectURL(
-                    blob
-                );
-
-
-            const link =
-                document.createElement(
-                    "a"
-                );
-
-
-            link.href =
-                url;
-
-
-            const date =
-                new Date()
-                    .toISOString()
-                    .slice(
-                        0,
-                        10
-                    );
-
-
-            link.download =
-                `frantett-appointments-${date}.csv`;
-
-
-            document.body.appendChild(
-                link
-            );
-
-
-            link.click();
-
-
-            document.body.removeChild(
-                link
-            );
-
-
-            URL.revokeObjectURL(
-                url
-            );
-
-
-            showToast(
-                "Appointments exported successfully.",
-                "success"
-            );
-
-        }
-
-
-        /* =========================================
-           REFRESH DASHBOARD
-        ========================================= */
-
-        async function refreshDashboard() {
-
-            showToast(
-                "Refreshing dashboard..."
-            );
-
-
-            loadTodayDate();
-
-
-            await Promise.all([
-                loadDoctors(),
-                loadPatients(),
-                loadAppointments()
-            ]);
-
-
-            showToast(
-                "Dashboard refreshed.",
-                "success"
-            );
 
         }
 
@@ -2813,9 +1969,6 @@
         document.addEventListener(
             "DOMContentLoaded",
             function () {
-
-                setupNavigation();
-
 
                 loadDashboard();
 

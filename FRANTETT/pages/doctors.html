@@ -224,73 +224,98 @@
             color: #a13a3a;
         }
 
-        /* =========================
-           ACTIONS
-        ========================= */
+/* =========================
+   ACTIONS
+========================= */
 
-        .doctor-actions {
-            padding: 15px 22px 20px;
-            display: flex;
-            gap: 8px;
-            border-top: 1px solid #edf0f2;
-            flex-wrap: wrap;
-        }
+.doctor-actions {
+    padding: 15px 22px 20px;
+    border-top: 1px solid #edf0f2;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 9px;
+}
 
-        .doctor-actions button {
-            border: none;
-            border-radius: 4px;
-            padding: 9px 12px;
-            font-size: 12px;
-            cursor: pointer;
-            font-weight: 600;
-        }
+.doctor-actions button {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    min-height: 38px;
+}
 
-        .book-btn {
-            background: #176b87;
-            color: white;
-            flex: 1;
-            min-width: 120px;
-        }
+/* Book Appointment */
 
-        .book-btn:hover {
-            background: #12576e;
-        }
+.book-btn {
+    background: #176b87;
+    color: white;
+    width: 100%;
+}
 
-        .edit-btn {
-            background: #eef3f6;
-            color: #315364;
-        }
+.book-btn:hover {
+    background: #12576e;
+}
 
-        .edit-btn:hover {
-            background: #dfe8ed;
-        }
+/* Management buttons */
 
-        .delete-btn {
-            background: #f9eaea;
-            color: #a33b3b;
-        }
+.edit-btn,
+.delete-btn,
+.activate-btn,
+.deactivate-btn {
+    flex: 1;
+}
 
-        .delete-btn:hover {
-            background: #f2dada;
-        }
+/* Put management buttons in one row */
 
-        .activate-btn {
-            background: #e7f5ec;
-            color: #287a45;
-        }
+.edit-btn {
+    background: #eef3f6;
+    color: #315364;
+}
 
-        .activate-btn:hover {
-            background: #d8eedf;
-        }
+.edit-btn:hover {
+    background: #dfe8ed;
+}
 
-        .deactivate-btn {
-            background: #fff3df;
-            color: #946100;
-        }
+.delete-btn {
+    background: #f9eaea;
+    color: #a33b3b;
+}
 
-        .deactivate-btn:hover {
-            background: #fceacb;
-        }
+.delete-btn:hover {
+    background: #f2dada;
+}
+
+.activate-btn {
+    background: #e7f5ec;
+    color: #287a45;
+}
+
+.activate-btn:hover {
+    background: #d8eedf;
+}
+
+.deactivate-btn {
+    background: #fff3df;
+    color: #946100;
+}
+
+.deactivate-btn:hover {
+    background: #fceacb;
+}
+
+.management-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
+}
+
+.management-actions button {
+    width: 100%;
+    min-width: 0;
+}
 
         /* =========================
            MESSAGE
@@ -1061,20 +1086,27 @@
 
                 </div>
 
+<div class="doctor-actions">
 
-                <div class="doctor-actions">
+    <button
+        type="button"
+        class="book-btn"
+        onclick="bookAppointment(${doctor.id})"
+    >
+        Book Appointment
+    </button>
 
-                    <button
-                        type="button"
-                        class="book-btn"
-                        onclick="bookAppointment(${doctor.id})"
-                    >
-                        Book Appointment
-                    </button>
-
+    ${
+        STAFF_MODE
+            ? `
+                <div class="management-actions">
                     ${managementButtons}
-
                 </div>
+              `
+            : ""
+    }
+
+</div>
 
             </article>
 
