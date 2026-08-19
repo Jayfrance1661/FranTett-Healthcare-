@@ -1,0 +1,4053 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        FranTett Healthcare - Staff Dashboard
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7f9;
+            color: #222;
+        }
+
+        /* ==========================================
+           NAVIGATION
+        ========================================== */
+
+        nav {
+            background: #0b6b50;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        nav h2 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* ==========================================
+           MAIN
+        ========================================== */
+
+        .container {
+            width: 95%;
+            max-width: 1500px;
+            margin: 30px auto;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .dashboard-header h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-header p {
+            margin-bottom: 0;
+            color: #666;
+        }
+
+        /* ==========================================
+           TABS
+        ========================================== */
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            border: none;
+            padding: 12px 25px;
+            background: #ddd;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .tab-button.active {
+            background: #0b6b50;
+            color: white;
+        }
+
+        /* ==========================================
+           STAT CARDS
+        ========================================== */
+
+        .stats {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(150px, 1fr));
+
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            margin: 0 0 10px;
+            color: #555;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #0b6b50;
+        }
+
+        /* ==========================================
+           FILTERS
+        ========================================== */
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .filters input,
+        .filters select {
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            min-width: 200px;
+            font-size: 14px;
+        }
+
+        /* ==========================================
+           TABLE
+        ========================================== */
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1100px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #0b6b50;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f8fbfa;
+        }
+
+        /* ==========================================
+           STATUS
+        ========================================== */
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* ==========================================
+           BUTTONS
+        ========================================== */
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-weight: bold;
+        }
+
+        .view-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .confirm-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .complete-btn {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .edit-patient-btn {
+            background: #0b6b50;
+            color: white;
+            padding: 10px 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .actions {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        /* ==========================================
+           MODAL
+        ========================================== */
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+            background: rgba(0,0,0,0.6);
+
+            display: none;
+
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            z-index: 9999;
+        }
+
+        .modal-content {
+            background: white;
+            width: 95%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 10px;
+            padding: 25px;
+            position: relative;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: #0b6b50;
+        }
+
+        .modal-content h3 {
+            margin-top: 25px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        .modal-row {
+            margin-bottom: 10px;
+        }
+
+        .modal-row strong {
+            display: inline-block;
+            min-width: 150px;
+        }
+
+        .patient-record-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f5f8f7;
+            border-radius: 8px;
+        }
+
+        .patient-record-section p {
+            margin: 8px 0;
+            word-break: break-word;
+        }
+
+        .close-btn {
+            margin-top: 20px;
+            background: #555;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        /* ==========================================
+           FORM
+        ========================================== */
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+
+        /* ==========================================
+           MOBILE
+        ========================================== */
+
+        @media (max-width: 700px) {
+
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 10px;
+            }
+
+            .container {
+                width: 97%;
+            }
+
+            .modal-content {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     NAVIGATION
+========================================== -->
+
+<nav>
+
+    <h2>
+        FranTett Healthcare
+    </h2>
+
+    <ul>
+
+        <li>
+            <a href="../index.html">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a href="../pages/doctors.html">
+                Doctors
+            </a>
+        </li>
+
+        <li>
+            <a href="../pages/services.html">
+                Services
+            </a>
+        </li>
+
+        <li>
+            <a href="../pages/appointment.html">
+                Book Appointment
+            </a>
+        </li>
+
+        <li>
+            <a href="./appointments.html">
+                Staff Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="../pages/contact.html">
+                Contact
+            </a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<!-- ==========================================
+     MAIN
+========================================== -->
+
+<div class="container">
+
+    <div class="dashboard-header">
+
+        <h1>
+            Staff Dashboard
+        </h1>
+
+        <p>
+            Manage FranTett Healthcare appointments and patients.
+        </p>
+
+        <button
+            onclick="logout()"
+            class="cancel-btn"
+            style="margin-top:15px;"
+        >
+            Logout
+        </button>
+
+    </div>
+
+
+    <!-- ==========================================
+         TABS
+    ========================================== -->
+
+    <div class="tabs">
+
+        <button
+            class="tab-button active"
+            onclick="showAppointments()"
+        >
+            Appointments
+        </button>
+
+        <button
+            class="tab-button"
+            onclick="goToPatients()"
+        >
+            Patients
+        </button>
+
+    </div>
+
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+    <!-- ==========================================
+         APPOINTMENT STATISTICS
+    ========================================== -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <h3>Total</h3>
+
+            <div
+                id="totalCount"
+                class="stat-number"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Pending</h3>
+
+            <div
+                id="pendingCount"
+                class="stat-number"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Confirmed</h3>
+
+            <div
+                id="confirmedCount"
+                class="stat-number"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Cancelled</h3>
+
+            <div
+                id="cancelledCount"
+                class="stat-number"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Completed</h3>
+
+            <div
+                id="completedCount"
+                class="stat-number"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+     STAFF ADD APPOINTMENT
+========================================== -->
+
+<div
+    style="
+        display:flex;
+        justify-content:flex-end;
+        margin-bottom:15px;
+    "
+>
+
+    <button
+        type="button"
+        class="confirm-btn"
+        onclick="openStaffAddAppointmentModal()"
+    >
+        + Add Appointment
+    </button>
+
+</div>
+
+
+<!-- ==========================================
+         FILTERS
+    ========================================== -->
+
+    <div class="filters">
+
+        <input
+            type="text"
+            id="searchPatient"
+            placeholder="Search patient..."
+            oninput="applyFilters()"
+        >
+
+<input
+    type="date"
+    id="dateFilter"
+    onchange="applyFilters()"
+    title="Filter by appointment date"
+>
+
+
+        <select
+            id="doctorFilter"
+            onchange="applyFilters()"
+        >
+
+            <option value="">
+                All Doctors
+            </option>
+
+        </select>
+
+
+        <select
+            id="statusFilter"
+            onchange="applyFilters()"
+        >
+
+            <option value="">
+                All Statuses
+            </option>
+
+            <option value="Pending">
+                Pending
+            </option>
+
+            <option value="Confirmed">
+                Confirmed
+            </option>
+
+            <option value="Cancelled">
+                Cancelled
+            </option>
+
+            <option value="Completed">
+                Completed
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- ==========================================
+         APPOINTMENTS TABLE
+    ========================================== -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Patient</th>
+
+                    <th>Email</th>
+
+                    <th>Phone</th>
+
+                    <th>Doctor</th>
+
+                    <th>Date</th>
+
+                    <th>Time</th>
+
+                    <th>Reason</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody
+                id="appointmentsTableBody"
+            >
+
+                <tr>
+
+                    <td
+                        colspan="10"
+                        class="loading"
+                    >
+                        Loading appointments...
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     APPOINTMENT DETAILS MODAL
+========================================== -->
+
+<!-- ==========================================
+     STAFF ADD APPOINTMENT MODAL
+========================================== -->
+
+<div
+    id="staffAddAppointmentModal"
+    class="modal"
+    style="display:none;"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>
+                Add Appointment
+            </h2>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeStaffAddAppointmentModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Patient Name
+            </label>
+
+            <input
+                type="text"
+                id="staffAppointmentName"
+                placeholder="Patient name"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Patient Email
+            </label>
+
+            <input
+                type="email"
+                id="staffAppointmentEmail"
+                placeholder="Patient email"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Patient Phone
+            </label>
+
+            <input
+                type="text"
+                id="staffAppointmentPhone"
+                placeholder="Patient phone"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Doctor
+            </label>
+
+            <select
+                id="staffAppointmentDoctor"
+            >
+
+                <option value="">
+                    Select Doctor
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Appointment Date
+            </label>
+
+            <input
+                type="date"
+                id="staffAppointmentDate"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Appointment Time
+            </label>
+
+            <input
+                type="time"
+                id="staffAppointmentTime"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Reason
+            </label>
+
+            <textarea
+                id="staffAppointmentReason"
+                rows="4"
+                placeholder="Reason for appointment..."
+            ></textarea>
+
+        </div>
+
+
+        <div
+            style="
+                display:flex;
+                justify-content:flex-end;
+                gap:8px;
+                margin-top:18px;
+            "
+        >
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="closeStaffAddAppointmentModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="confirm-btn"
+                onclick="saveStaffAppointment()"
+            >
+                Save Appointment
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    id="appointmentModal"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+        <h2>
+            Appointment Details
+        </h2>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Patient:
+            </strong>
+
+            <span id="modalPatient"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Email:
+            </strong>
+
+            <span id="modalEmail"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Phone:
+            </strong>
+
+            <span id="modalPhone"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Doctor:
+            </strong>
+
+            <span id="modalDoctor"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Date:
+            </strong>
+
+            <span id="modalDate"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Time:
+            </strong>
+
+            <span id="modalTime"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Reason:
+            </strong>
+
+            <span id="modalReason"></span>
+
+        </div>
+
+
+        <div class="modal-row">
+
+            <strong>
+                Status:
+            </strong>
+
+            <span id="modalStatus"></span>
+
+        </div>
+
+<!-- ==========================================
+             LINKED PATIENT
+        ========================================== -->
+
+        <div class="patient-record-section">
+
+            <h3>
+                Linked Patient Record
+            </h3>
+
+
+            <p>
+
+                <strong>
+                    Patient ID:
+                </strong>
+
+                <span id="modalPatientId">
+                    Not linked
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Name:
+                </strong>
+
+                <span id="modalPatientRecord"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Email:
+                </strong>
+
+                <span id="modalPatientEmail"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Phone:
+                </strong>
+
+                <span id="modalPatientPhone"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Date of Birth:
+                </strong>
+
+                <span id="modalPatientDOB"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Gender:
+                </strong>
+
+                <span id="modalPatientGender"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Address:
+                </strong>
+
+                <span id="modalPatientAddress"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Medical History:
+                </strong>
+
+                <span id="modalPatientHistory"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Allergies:
+                </strong>
+
+                <span id="modalPatientAllergies"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Medications:
+                </strong>
+
+                <span id="modalPatientMedications"></span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Clinical Notes:
+                </strong>
+
+                <span id="modalPatientNotes"></span>
+
+            </p>
+
+
+            <button
+                type="button"
+                onclick="editLinkedPatient()"
+                class="edit-patient-btn"
+            >
+                Edit Patient
+            </button>
+
+        </div>
+
+
+        <button
+            type="button"
+            onclick="closeAppointmentModal()"
+            class="close-btn"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ==========================================
+     EDIT APPOINTMENT MODAL
+========================================== -->
+
+<div
+    id="editAppointmentModal"
+    class="modal"
+    style="display:none;"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Edit Appointment</h2>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeEditAppointmentModal()"
+            >
+                Ã—
+            </button>
+
+        </div>
+
+        <input
+            type="hidden"
+            id="editAppointmentId"
+        >
+
+        <div class="form-group">
+
+    <label>Patient Name</label>
+
+    <input
+        type="text"
+        id="editAppointmentPatientName"
+        placeholder="Patient name"
+    >
+
+</div>
+
+<div class="form-group">
+
+            <label>Doctor</label>
+
+            <select id="editAppointmentDoctor">
+                <option value="">
+                    Select Doctor
+                </option>
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Appointment Date</label>
+
+            <input
+                type="date"
+                id="editAppointmentDate"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Appointment Time</label>
+
+            <input
+                type="time"
+                id="editAppointmentTime"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Reason</label>
+
+            <textarea
+                id="editAppointmentReason"
+                rows="4"
+                placeholder="Reason for appointment..."
+            ></textarea>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Status</label>
+
+            <select id="editAppointmentStatus">
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="Confirmed">
+                    Confirmed
+                </option>
+
+                <option value="Cancelled">
+                    Cancelled
+                </option>
+
+                <option value="Completed">
+                    Completed
+                </option>
+
+            </select>
+
+        </div>
+
+        <div
+            style="
+                display:flex;
+                justify-content:flex-end;
+                gap:8px;
+                margin-top:18px;
+            "
+        >
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="closeEditAppointmentModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="confirm-btn"
+                onclick="saveEditedAppointment()"
+            >
+                Save Changes
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ==========================================
+     EDIT PATIENT MODAL
+========================================== -->
+
+<div
+    id="patientEditModal"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+        <h2>
+            Edit Patient
+        </h2>
+
+
+        <input
+            type="hidden"
+            id="editPatientId"
+        >
+
+
+        <div class="form-group">
+
+            <label for="editFirstName">
+                First Name
+            </label>
+
+            <input
+                type="text"
+                id="editFirstName"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editLastName">
+                Last Name
+            </label>
+
+            <input
+                type="text"
+                id="editLastName"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editEmail">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="editEmail"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editPhone">
+                Phone
+            </label>
+
+            <input
+                type="text"
+                id="editPhone"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editDOB">
+                Date of Birth
+            </label>
+
+            <input
+                type="date"
+                id="editDOB"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editGender">
+                Gender
+            </label>
+
+            <select id="editGender">
+
+                <option value="">
+                    Select Gender
+                </option>
+
+                <option value="Male">
+                    Male
+                </option>
+
+                <option value="Female">
+                    Female
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editAddress">
+                Address
+            </label>
+
+            <textarea
+                id="editAddress"
+                rows="3"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editMedicalHistory">
+                Medical History
+            </label>
+
+            <textarea
+                id="editMedicalHistory"
+                rows="4"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editAllergies">
+                Allergies
+            </label>
+
+            <textarea
+                id="editAllergies"
+                rows="3"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editMedications">
+                Medications
+            </label>
+
+            <textarea
+                id="editMedications"
+                rows="3"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="editNotes">
+                Clinical Notes
+            </label>
+
+            <textarea
+                id="editNotes"
+                rows="4"
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-buttons">
+
+            <button
+                type="button"
+                onclick="savePatientChanges()"
+                class="confirm-btn"
+            >
+                Save Changes
+            </button>
+
+
+            <button
+                type="button"
+                onclick="closePatientEditModal()"
+                class="cancel-btn"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==========================================
+   CONFIGURATION
+========================================== */
+
+const API_URL =
+    "http://localhost:3000";
+
+
+let appointments = [];
+
+let patients = [];
+
+let doctors = [];
+
+
+/* ==========================================
+   AUTH HEADERS
+========================================== */
+
+function getAuthHeaders() {
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+    return {
+
+        "Content-Type":
+            "application/json",
+
+        "Authorization":
+            `Bearer ${token}`
+
+    };
+
+}
+
+
+/* ==========================================
+   CHECK LOGIN
+========================================== */
+
+function checkLogin() {
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+    if (!token) {
+
+        window.location.href =
+            "./login.html";
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+function logout() {
+
+    localStorage.removeItem(
+        "frantett_token"
+    );
+
+    window.location.href =
+        "./login.html";
+
+}
+
+
+/* ==========================================
+   GO TO PATIENTS
+========================================== */
+
+function goToPatients() {
+
+    window.location.href =
+        "./patients.html";
+
+}
+
+
+/* ==========================================
+   SHOW APPOINTMENTS
+========================================== */
+
+function showAppointments() {
+
+    window.location.href =
+        "./appointments.html";
+
+}
+
+
+/* ==========================================
+   LOAD DOCTORS
+========================================== */
+
+async function loadDoctors() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/doctors`
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load doctors"
+            );
+
+        }
+
+        doctors =
+            await response.json();
+
+        populateDoctorFilter();
+
+        populateEditAppointmentDoctors();
+
+    } catch (error) {
+
+        console.error(
+            "Doctor loading error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   POPULATE DOCTOR FILTER
+========================================== */
+
+function populateDoctorFilter() {
+
+    const select =
+        document.getElementById(
+            "doctorFilter"
+        );
+
+    select.innerHTML = `
+        <option value="">
+            All Doctors
+        </option>
+    `;
+
+    doctors.forEach(
+        doctor => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                doctor.name;
+
+            option.textContent =
+                doctor.name;
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   POPULATE EDIT APPOINTMENT DOCTOR
+========================================== */
+
+function populateEditAppointmentDoctors() {
+
+    const select =
+        document.getElementById(
+            "editAppointmentDoctor"
+        );
+
+    if (!select) {
+        return;
+    }
+
+    select.innerHTML = `
+        <option value="">
+            Select Doctor
+        </option>
+    `;
+
+    doctors.forEach(
+        doctor => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                doctor.name;
+
+            option.textContent =
+                doctor.name;
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+/* ==========================================
+   LOAD PATIENTS
+========================================== */
+
+async function loadPatients() {
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+    if (!token) {
+
+        logout();
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients`,
+                {
+                    headers:
+                        getAuthHeaders()
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            logout();
+
+            return;
+
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load patients"
+            );
+
+        }
+
+        patients =
+            await response.json();
+
+        /*
+         * Attach the complete patient record
+         * to each appointment using patient_id.
+         */
+
+        appointments =
+            appointments.map(
+                appointment => {
+
+                    const patient =
+                        patients.find(
+                            item =>
+                                Number(item.id) ===
+                                Number(
+                                    appointment.patient_id
+                                )
+                        );
+
+                    if (patient) {
+
+                        appointment.patient_first_name =
+                            patient.first_name;
+
+                        appointment.patient_last_name =
+                            patient.last_name;
+
+                        appointment.patient_email =
+                            patient.email;
+
+                        appointment.patient_phone =
+                            patient.phone;
+
+                        appointment.patient_date_of_birth =
+                            patient.date_of_birth;
+
+                        appointment.patient_gender =
+                            patient.gender;
+
+                        appointment.patient_address =
+                            patient.address;
+
+                        appointment.patient_medical_history =
+                            patient.medical_history;
+
+                        appointment.patient_allergies =
+                            patient.allergies;
+
+                        appointment.patient_medications =
+                            patient.medications;
+
+                        appointment.patient_notes =
+                            patient.notes;
+
+                    }
+
+                    return appointment;
+
+                }
+            );
+
+    } catch (error) {
+
+        console.error(
+            "Patient loading error:",
+            error
+        );
+
+        showMessage(
+            "Unable to load patient records.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   LOAD APPOINTMENTS
+========================================== */
+
+async function loadAppointments() {
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+    if (!token) {
+
+        logout();
+
+        return;
+
+    }
+
+    const tableBody =
+        document.getElementById(
+            "appointmentsTableBody"
+        );
+
+    tableBody.innerHTML = `
+        <tr>
+            <td
+                colspan="10"
+                class="loading"
+            >
+                Loading appointments...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/appointments`,
+                {
+                    headers:
+                        getAuthHeaders()
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            logout();
+
+            return;
+
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load appointments"
+            );
+
+        }
+
+        appointments =
+            Array.isArray(data)
+                ? data
+                : [];
+
+
+        /*
+         * Load patient records and connect them
+         * to the appointments through patient_id.
+         */
+
+        await loadPatients();
+
+
+        updateStatistics();
+
+        applyFilters();
+
+    } catch (error) {
+
+        console.error(
+            "Load appointments error:",
+            error
+        );
+
+        tableBody.innerHTML = `
+            <tr>
+                <td
+                    colspan="10"
+                    style="
+                        text-align:center;
+                        padding:30px;
+                        color:#c00;
+                    "
+                >
+                    Unable to connect to the server.
+                    <br><br>
+                    ${error.message || ""}
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   UPDATE STATISTICS
+========================================== */
+
+function updateStatistics() {
+
+    const total =
+        appointments.length;
+
+    const pending =
+        appointments.filter(
+            item =>
+                item.status === "Pending"
+        ).length;
+
+    const confirmed =
+        appointments.filter(
+            item =>
+                item.status === "Confirmed"
+        ).length;
+
+    const cancelled =
+        appointments.filter(
+            item =>
+                item.status === "Cancelled"
+        ).length;
+
+    const completed =
+        appointments.filter(
+            item =>
+                item.status === "Completed"
+        ).length;
+
+
+    document.getElementById(
+        "totalCount"
+    ).textContent =
+        total;
+
+    document.getElementById(
+        "pendingCount"
+    ).textContent =
+        pending;
+
+    document.getElementById(
+        "confirmedCount"
+    ).textContent =
+        confirmed;
+
+    document.getElementById(
+        "cancelledCount"
+    ).textContent =
+        cancelled;
+
+    document.getElementById(
+        "completedCount"
+    ).textContent =
+        completed;
+
+}
+
+
+/* ==========================================
+   APPLY FILTERS
+========================================== */
+
+function applyFilters() {
+
+    const search =
+        document.getElementById(
+            "searchPatient"
+        ).value
+        .toLowerCase()
+        .trim();
+
+
+    const date =
+        document.getElementById(
+            "dateFilter"
+        ).value;
+
+
+    const doctor =
+        document.getElementById(
+            "doctorFilter"
+        ).value;
+
+
+    const status =
+        document.getElementById(
+            "statusFilter"
+        ).value;
+
+
+    const filtered =
+        appointments.filter(
+            appointment => {
+
+                const patientName =
+                    appointment.name ||
+                    appointment.patient_name ||
+                    "";
+
+
+                const matchesSearch =
+                    patientName
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    (
+                        appointment.email ||
+                        ""
+                    )
+                        .toLowerCase()
+                        .includes(search);
+
+
+                const matchesDate =
+                    !date ||
+                    String(
+                        appointment.appointment_date
+                    ).substring(
+                        0,
+                        10
+                    ) === date;
+
+
+                const matchesDoctor =
+                    !doctor ||
+                    appointment.doctor ===
+                    doctor;
+
+
+                const matchesStatus =
+                    !status ||
+                    appointment.status ===
+                    status;
+
+
+                return (
+                    matchesSearch &&
+                    matchesDate &&
+                    matchesDoctor &&
+                    matchesStatus
+                );
+
+            }
+        );
+
+
+    renderAppointments(
+        filtered
+    );
+
+}
+
+/* ==========================================
+   RENDER APPOINTMENTS
+========================================== */
+
+function renderAppointments(
+    list
+) {
+
+    const tableBody =
+        document.getElementById(
+            "appointmentsTableBody"
+        );
+
+
+    if (!list.length) {
+
+        tableBody.innerHTML = `
+            <tr>
+                <td
+                    colspan="10"
+                    style="
+                        text-align:center;
+                        padding:30px;
+                    "
+                >
+                    No appointments found.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    tableBody.innerHTML =
+        list.map(
+            appointment => {
+
+                const status =
+                    appointment.status ||
+                    "Pending";
+
+
+                const statusClass =
+                    status
+                        .toLowerCase()
+                        .replace(
+                            " ",
+                            "-"
+                        );
+
+
+                                let actions = `
+                    <button
+                        type="button"
+                        class="view-btn"
+                        onclick="viewAppointment(${appointment.id})"
+                    >
+                        View
+                    </button>
+
+                    <button
+                        type="button"
+                        class="view-btn"
+                        onclick="editAppointment(${appointment.id})"
+                    >
+                        Edit
+                    </button>
+                `;
+
+                if (
+                    status === "Pending"
+                ) {
+
+                    actions += `
+                        <button
+                            class="confirm-btn"
+                            onclick="updateAppointmentStatus(
+                                ${appointment.id},
+                                'Confirmed'
+                            )"
+                        >
+                            Confirm
+                        </button>
+
+                        <button
+                            class="cancel-btn"
+                            onclick="updateAppointmentStatus(
+                                ${appointment.id},
+                                'Cancelled'
+                            )"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            class="complete-btn"
+                            onclick="updateAppointmentStatus(
+                                ${appointment.id},
+                                'Completed'
+                            )"
+                        >
+                            Complete
+                        </button>
+                    `;
+
+                }
+
+
+                if (
+                    status === "Confirmed"
+                ) {
+
+                    actions += `
+                        <button
+                            class="cancel-btn"
+                            onclick="updateAppointmentStatus(
+                                ${appointment.id},
+                                'Cancelled'
+                            )"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            class="complete-btn"
+                            onclick="updateAppointmentStatus(
+                                ${appointment.id},
+                                'Completed'
+                            )"
+                        >
+                            Complete
+                        </button>
+                    `;
+
+                }
+
+
+                actions += `
+                    <button
+                        class="delete-btn"
+                        onclick="deleteAppointment(
+                            ${appointment.id}
+                        )"
+                    >
+                        Delete
+                    </button>
+                `;
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${appointment.id}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.name ||
+                                ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.email ||
+                                ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.phone ||
+                                ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.doctor ||
+                                ""
+                            )}
+                        </td>
+
+                        <td>
+                            ${formatDate(
+                                appointment.appointment_date
+                            )}
+                        </td>
+
+                        <td>
+                            ${formatTime(
+                                appointment.appointment_time
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.reason ||
+                                ""
+                            )}
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="
+                                    status
+                                    status-${statusClass}
+                                "
+                            >
+                                ${status}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                ${actions}
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* ==========================================
+   VIEW APPOINTMENT
+========================================== */
+
+function viewAppointment(id) {
+
+    const appointment =
+        appointments.find(
+            item =>
+                Number(item.id) ===
+                Number(id)
+        );
+
+
+    if (!appointment) {
+
+        alert(
+            "Appointment not found."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "modalPatient"
+    ).textContent =
+        appointment.name ||
+        "";
+
+
+    document.getElementById(
+        "modalEmail"
+    ).textContent =
+        appointment.email ||
+        "";
+
+
+    document.getElementById(
+        "modalPhone"
+    ).textContent =
+        appointment.phone ||
+        "";
+
+
+    document.getElementById(
+        "modalDoctor"
+    ).textContent =
+        appointment.doctor ||
+        "";
+
+
+    document.getElementById(
+        "modalDate"
+    ).textContent =
+        formatDate(
+            appointment.appointment_date
+        );
+
+
+    document.getElementById(
+        "modalTime"
+    ).textContent =
+        formatTime(
+            appointment.appointment_time
+        );
+
+
+    document.getElementById(
+        "modalReason"
+    ).textContent =
+        appointment.reason ||
+        "";
+
+
+    document.getElementById(
+        "modalStatus"
+    ).textContent =
+        appointment.status ||
+        "Pending";
+
+
+    /* ==========================================
+       LINKED PATIENT
+    ========================================== */
+
+    document.getElementById(
+        "modalPatientId"
+    ).textContent =
+        appointment.patient_id ||
+        "Not linked";
+
+
+    const patientName =
+        [
+            appointment.patient_first_name,
+            appointment.patient_last_name
+        ]
+        .filter(Boolean)
+        .join(" ");
+
+
+    document.getElementById(
+        "modalPatientRecord"
+    ).textContent =
+        patientName ||
+        appointment.name ||
+        "No linked patient";
+
+
+    document.getElementById(
+        "modalPatientEmail"
+    ).textContent =
+        appointment.patient_email ||
+        appointment.email ||
+        "";
+
+
+    document.getElementById(
+        "modalPatientPhone"
+    ).textContent =
+        appointment.patient_phone ||
+        appointment.phone ||
+        "";
+
+
+    document.getElementById(
+        "modalPatientDOB"
+    ).textContent =
+        appointment.patient_date_of_birth
+            ? formatDate(
+                appointment.patient_date_of_birth
+            )
+            : "";
+
+
+    document.getElementById(
+        "modalPatientGender"
+    ).textContent =
+        appointment.patient_gender ||
+        "";
+
+
+    document.getElementById(
+        "modalPatientAddress"
+    ).textContent =
+        appointment.patient_address ||
+        "";
+
+
+    document.getElementById(
+        "modalPatientHistory"
+    ).textContent =
+        appointment.patient_medical_history ||
+        "";
+
+
+    document.getElementById(
+        "modalPatientAllergies"
+    ).textContent =
+        appointment.patient_allergies ||
+        "";
+
+
+    document.getElementById(
+        "modalPatientMedications"
+    ).textContent =
+        appointment.patient_medications ||
+        "";
+
+
+    document.getElementById(
+        "modalPatientNotes"
+    ).textContent =
+        appointment.patient_notes ||
+        "";
+
+
+    document.getElementById(
+        "appointmentModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* ==========================================
+   CLOSE APPOINTMENT MODAL
+========================================== */
+
+function closeAppointmentModal() {
+
+    document.getElementById(
+        "appointmentModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* ==========================================
+   EDIT LINKED PATIENT
+========================================== */
+
+function editLinkedPatient() {
+
+    const patientId =
+        document.getElementById(
+            "modalPatientId"
+        ).textContent.trim();
+
+
+    if (
+        !patientId ||
+        patientId === "Not linked"
+    ) {
+
+        alert(
+            "This appointment is not linked to a patient record."
+        );
+
+        return;
+
+    }
+
+
+    const patient =
+        patients.find(
+            item =>
+                Number(item.id) ===
+                Number(patientId)
+        );
+
+
+    if (!patient) {
+
+        alert(
+            "Unable to find the linked patient record."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "editPatientId"
+    ).value =
+        patient.id;
+
+
+    document.getElementById(
+        "editFirstName"
+    ).value =
+        patient.first_name ||
+        "";
+
+
+    document.getElementById(
+        "editLastName"
+    ).value =
+        patient.last_name ||
+        "";
+
+
+    document.getElementById(
+        "editEmail"
+    ).value =
+        patient.email ||
+        "";
+
+
+    document.getElementById(
+        "editPhone"
+    ).value =
+        patient.phone ||
+        "";
+
+
+    document.getElementById(
+        "editDOB"
+    ).value =
+        patient.date_of_birth
+            ? String(
+                patient.date_of_birth
+            ).substring(0, 10)
+            : "";
+
+
+    document.getElementById(
+        "editGender"
+    ).value =
+        patient.gender ||
+        "";
+
+
+    document.getElementById(
+        "editAddress"
+    ).value =
+        patient.address ||
+        "";
+
+
+    document.getElementById(
+        "editMedicalHistory"
+    ).value =
+        patient.medical_history ||
+        "";
+
+
+    document.getElementById(
+        "editAllergies"
+    ).value =
+        patient.allergies ||
+        "";
+
+
+    document.getElementById(
+        "editMedications"
+    ).value =
+        patient.medications ||
+        "";
+
+
+    document.getElementById(
+        "editNotes"
+    ).value =
+        patient.notes ||
+        "";
+
+
+    document.getElementById(
+        "appointmentModal"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "patientEditModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* ==========================================
+   CLOSE PATIENT EDIT MODAL
+========================================== */
+
+function closePatientEditModal() {
+
+    document.getElementById(
+        "patientEditModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* ==========================================
+   SAVE PATIENT CHANGES
+========================================== */
+
+async function savePatientChanges() {
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+
+    if (!token) {
+
+        logout();
+
+        return;
+
+    }
+
+
+    const patientId =
+        document.getElementById(
+            "editPatientId"
+        ).value;
+
+
+    const first_name =
+        document.getElementById(
+            "editFirstName"
+        ).value.trim();
+
+
+    const last_name =
+        document.getElementById(
+            "editLastName"
+        ).value.trim();
+
+
+    if (
+        !first_name ||
+        !last_name
+    ) {
+
+        alert(
+            "First name and last name are required."
+        );
+
+        return;
+
+    }
+
+
+    const patientData = {
+
+        first_name,
+
+        last_name,
+
+        email:
+            document.getElementById(
+                "editEmail"
+            ).value.trim() || null,
+
+        phone:
+            document.getElementById(
+                "editPhone"
+            ).value.trim() || null,
+
+        date_of_birth:
+            document.getElementById(
+                "editDOB"
+            ).value || null,
+
+        gender:
+            document.getElementById(
+                "editGender"
+            ).value || null,
+
+        address:
+            document.getElementById(
+                "editAddress"
+            ).value.trim() || null,
+
+        medical_history:
+            document.getElementById(
+                "editMedicalHistory"
+            ).value.trim() || null,
+
+        allergies:
+            document.getElementById(
+                "editAllergies"
+            ).value.trim() || null,
+
+        medications:
+            document.getElementById(
+                "editMedications"
+            ).value.trim() || null,
+
+        notes:
+            document.getElementById(
+                "editNotes"
+            ).value.trim() || null
+
+    };
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}`,
+                {
+                    method: "PUT",
+
+                    headers:
+                        getAuthHeaders(),
+
+                    body:
+                        JSON.stringify(
+                            patientData
+                        )
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            logout();
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to update patient"
+            );
+
+        }
+
+
+        alert(
+            "Patient updated successfully!"
+        );
+
+
+        closePatientEditModal();
+
+
+        /*
+         * Reload appointments and patients
+         * so the modal displays the new data.
+         */
+
+        await loadAppointments();
+
+
+    } catch (error) {
+
+        console.error(
+            "Save patient error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   UPDATE APPOINTMENT STATUS
+========================================== */
+
+async function updateAppointmentStatus(
+    id,
+    status
+) {
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+
+    if (!token) {
+
+        logout();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/appointments/${id}/status`,
+                {
+                    method: "PUT",
+
+                    headers:
+                        getAuthHeaders(),
+
+                    body:
+                        JSON.stringify({
+                            status
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            logout();
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to update appointment"
+            );
+
+        }
+
+
+        await loadAppointments();
+
+
+    } catch (error) {
+
+        console.error(
+            "Update appointment error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+// ==========================================
+// EDIT APPOINTMENT
+// ==========================================
+
+function editAppointment(id) {
+
+    const appointment =
+        appointments.find(
+            item =>
+                Number(item.id) ===
+                Number(id)
+        );
+
+    if (!appointment) {
+
+        alert(
+            "Appointment not found."
+        );
+
+        return;
+    }
+
+    document.getElementById(
+        "editAppointmentId"
+    ).value =
+        appointment.id;
+
+    
+
+    document.getElementById(
+        "editAppointmentPatientName"
+    ).value =
+        appointment.name || "";
+document.getElementById(
+        "editAppointmentDoctor"
+    ).value =
+        appointment.doctor || "";
+
+    document.getElementById(
+        "editAppointmentDate"
+    ).value =
+        appointment.appointment_date
+            ? String(
+                appointment.appointment_date
+            ).substring(0, 10)
+            : "";
+
+    document.getElementById(
+        "editAppointmentTime"
+    ).value =
+        appointment.appointment_time || "";
+
+    document.getElementById(
+        "editAppointmentReason"
+    ).value =
+        appointment.reason || "";
+
+    document.getElementById(
+        "editAppointmentStatus"
+    ).value =
+        appointment.status || "Pending";
+
+    document.getElementById(
+        "editAppointmentModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+// ==========================================
+// CLOSE EDIT APPOINTMENT
+// ==========================================
+
+function closeEditAppointmentModal() {
+
+    document.getElementById(
+        "editAppointmentModal"
+    ).style.display =
+        "none";
+
+}
+
+
+// ==========================================
+// SAVE EDITED APPOINTMENT
+// ==========================================
+
+async function saveEditedAppointment() {
+
+    const id =
+        document.getElementById(
+            "editAppointmentId"
+        ).value;
+
+    
+
+    const patient_name =
+        document.getElementById(
+            "editAppointmentPatientName"
+        ).value.trim();
+const doctor =
+        document.getElementById(
+            "editAppointmentDoctor"
+        ).value;
+
+    const appointment_date =
+        document.getElementById(
+            "editAppointmentDate"
+        ).value;
+
+    const appointment_time =
+        document.getElementById(
+            "editAppointmentTime"
+        ).value;
+
+    const reason =
+        document.getElementById(
+            "editAppointmentReason"
+        ).value.trim();
+
+    const status =
+        document.getElementById(
+            "editAppointmentStatus"
+        ).value;
+
+    if (!id) {
+
+        alert(
+            "Invalid appointment."
+        );
+
+        return;
+    }
+
+    if (
+        !appointment_date ||
+        !appointment_time
+    ) {
+
+        alert(
+            "Please enter the appointment date and time."
+        );
+
+        return;
+    }
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+    if (!token) {
+
+        alert(
+            "Your session has expired. Please log in again."
+        );
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/appointments/${id}`,
+                {
+                    method: "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            
+
+                            patient_name:
+                                patient_name,
+
+                            doctor:
+                                doctor,
+
+                            appointment_date:
+                                appointment_date,
+
+                            appointment_time:
+                                appointment_time,
+
+                            reason:
+                                reason,
+
+                            status:
+                                status
+
+                        })
+
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                data.message ||
+                "Failed to update appointment."
+            );
+
+            return;
+
+        }
+
+        showMessage(
+            data.message ||
+            "Appointment updated successfully!",
+            "success"
+        );
+
+        closeEditAppointmentModal();
+
+        await loadAppointments();
+
+    } catch (error) {
+
+        console.error(
+            "Error updating appointment:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   DELETE APPOINTMENT
+========================================== */
+
+async function deleteAppointment(id) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this appointment?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
+
+    if (!token) {
+
+        logout();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/appointments/${id}`,
+                {
+                    method: "DELETE",
+
+                    headers:
+                        getAuthHeaders()
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            logout();
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to delete appointment"
+            );
+
+        }
+
+
+        alert(
+            "Appointment deleted successfully!"
+        );
+
+
+        await loadAppointments();
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete appointment error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   FORMAT DATE
+========================================== */
+
+function formatDate(date) {
+
+    if (!date) {
+
+        return "";
+
+    }
+
+    const value =
+        String(date)
+            .substring(0, 10);
+
+
+    const parts =
+        value.split("-");
+
+
+    if (
+        parts.length !== 3
+    ) {
+
+        return value;
+
+    }
+
+
+    return `${parts[0]}-${parts[1]}-${parts[2]}`;
+
+}
+
+
+/* ==========================================
+   FORMAT TIME
+========================================== */
+
+function formatTime(time) {
+
+    if (!time) {
+
+        return "";
+
+    }
+
+    const value =
+        String(time)
+            .substring(0, 5);
+
+    return value;
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* ==========================================
+   MESSAGE
+========================================== */
+
+function showMessage(
+    text,
+    type
+) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.textContent =
+        text;
+
+
+    message.style.display =
+        "block";
+
+
+    if (type === "error") {
+
+        message.style.background =
+            "#f8d7da";
+
+        message.style.color =
+            "#721c24";
+
+    } else {
+
+        message.style.background =
+            "#d4edda";
+
+        message.style.color =
+            "#155724";
+
+    }
+
+
+    setTimeout(
+        () => {
+
+            message.style.display =
+                "none";
+
+        },
+        4000
+    );
+
+}
+
+
+/* ==========================================
+   CLOSE MODALS WHEN CLICKING OUTSIDE
+========================================== */
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        const appointmentModal =
+            document.getElementById(
+                "appointmentModal"
+            );
+
+        const patientEditModal =
+            document.getElementById(
+                "patientEditModal"
+            );
+
+
+        if (
+            event.target ===
+            appointmentModal
+        ) {
+
+            closeAppointmentModal();
+
+        }
+
+
+        if (
+            event.target ===
+            patientEditModal
+        ) {
+
+            closePatientEditModal();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   START DASHBOARD
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+        if (!checkLogin()) {
+
+            return;
+
+        }
+
+
+        await loadDoctors();
+
+        await loadAppointments();
+
+    }
+);
+
+/* ==========================================
+   STAFF ADD APPOINTMENT
+========================================== */
+
+async function openStaffAddAppointmentModal() {
+
+    const modal =
+        document.getElementById(
+            "staffAddAppointmentModal"
+        );
+
+    if (!modal) {
+
+        alert(
+            "Add Appointment form could not be found."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Clear previous values.
+     */
+
+    document.getElementById(
+        "staffAppointmentName"
+    ).value = "";
+
+    document.getElementById(
+        "staffAppointmentEmail"
+    ).value = "";
+
+    document.getElementById(
+        "staffAppointmentPhone"
+    ).value = "";
+
+    document.getElementById(
+        "staffAppointmentDate"
+    ).value = "";
+
+    document.getElementById(
+        "staffAppointmentTime"
+    ).value = "";
+
+    document.getElementById(
+        "staffAppointmentReason"
+    ).value = "";
+
+
+    /*
+     * Load doctors.
+     */
+
+    await loadStaffAppointmentDoctors();
+
+
+    modal.style.display =
+        "flex";
+
+}
+
+
+/* ==========================================
+   LOAD DOCTORS FOR STAFF APPOINTMENT
+========================================== */
+
+async function loadStaffAppointmentDoctors() {
+
+    const select =
+        document.getElementById(
+            "staffAppointmentDoctor"
+        );
+
+    if (!select) {
+
+        return;
+
+    }
+
+
+    select.innerHTML = `
+        <option value="">
+            Select Doctor
+        </option>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/doctors`,
+                {
+                    headers:
+                        getAuthHeaders()
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load doctors."
+            );
+
+        }
+
+
+        const doctors =
+            Array.isArray(data)
+                ? data
+                : data.doctors || [];
+
+
+        doctors.forEach(
+            doctor => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    doctor.name ||
+                    doctor.full_name ||
+                    "";
+
+
+                option.textContent =
+                    doctor.name ||
+                    doctor.full_name ||
+                    "Unknown Doctor";
+
+
+                select.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Load doctors error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to load doctors."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   CLOSE STAFF ADD APPOINTMENT MODAL
+========================================== */
+
+function closeStaffAddAppointmentModal() {
+
+    const modal =
+        document.getElementById(
+            "staffAddAppointmentModal"
+        );
+
+
+    if (modal) {
+
+        modal.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* ==========================================
+   SAVE STAFF APPOINTMENT
+========================================== */
+
+async function saveStaffAppointment() {
+
+    const name =
+        document.getElementById(
+            "staffAppointmentName"
+        ).value.trim();
+
+
+    const email =
+        document.getElementById(
+            "staffAppointmentEmail"
+        ).value.trim();
+
+
+    const phone =
+        document.getElementById(
+            "staffAppointmentPhone"
+        ).value.trim();
+
+
+    const doctor =
+        document.getElementById(
+            "staffAppointmentDoctor"
+        ).value;
+
+
+    const appointment_date =
+        document.getElementById(
+            "staffAppointmentDate"
+        ).value;
+
+
+    const appointment_time =
+        document.getElementById(
+            "staffAppointmentTime"
+        ).value;
+
+
+    const reason =
+        document.getElementById(
+            "staffAppointmentReason"
+        ).value.trim();
+
+
+    /*
+     * Required fields.
+     */
+
+    if (!name) {
+
+        alert(
+            "Please enter the patient name."
+        );
+
+        return;
+
+    }
+
+
+    if (!email) {
+
+        alert(
+            "Please enter the patient email."
+        );
+
+        return;
+
+    }
+
+
+    if (!doctor) {
+
+        alert(
+            "Please select a doctor."
+        );
+
+        return;
+
+    }
+
+
+    if (!appointment_date) {
+
+        alert(
+            "Please select the appointment date."
+        );
+
+        return;
+
+    }
+
+
+    if (!appointment_time) {
+
+        alert(
+            "Please select the appointment time."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/appointments`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        ...getAuthHeaders(),
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            name:
+                                name,
+
+                            email:
+                                email,
+
+                            phone:
+                                phone,
+
+                            doctor:
+                                doctor,
+
+                            appointment_date:
+                                appointment_date,
+
+                            appointment_time:
+                                appointment_time,
+
+                            reason:
+                                reason
+
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            logout();
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to save appointment."
+            );
+
+        }
+
+
+        alert(
+            "Appointment added successfully!"
+        );
+
+
+        closeStaffAddAppointmentModal();
+
+
+        await loadAppointments();
+
+
+    } catch (error) {
+
+        console.error(
+            "Save staff appointment error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+</script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

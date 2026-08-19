@@ -1,0 +1,6 @@
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=frantett
+DB_PASSWORD=Success1661@
+DB_PORT=5432
+JWT_SECRET=frantett_healthcare_secret_change_this
