@@ -4,3 +4,4 @@ node_modules/
 env
 frantett_backup.dump
 frantett_newpc_before_restore.dump
+frantett_before_doctor_code.dump
