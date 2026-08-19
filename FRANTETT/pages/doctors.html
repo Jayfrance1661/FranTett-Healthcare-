@@ -3,52 +3,1708 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Doctors</title>
+
+    <title>Doctors | FranTett Healthcare</title>
+
     <link rel="stylesheet" href="../style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f6f8fa;
+            color: #243746;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .doctor-header {
+            background: #ffffff;
+            border-bottom: 1px solid #dfe5e8;
+            padding: 28px 40px;
+        }
+
+        .doctor-header-inner {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .doctor-header h1 {
+            margin: 0 0 8px;
+            font-size: 32px;
+            font-weight: 600;
+            color: #173f5f;
+        }
+
+        .doctor-header p {
+            margin: 0;
+            color: #61727d;
+            font-size: 15px;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .doctor-main {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 25px;
+        }
+
+        /* =========================
+           TOOLBAR
+        ========================= */
+
+        .doctor-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #ccd6dc;
+            border-radius: 5px;
+            background: #ffffff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #176b87;
+        }
+
+        .specialty-filter select {
+            padding: 13px 35px 13px 14px;
+            border: 1px solid #ccd6dc;
+            border-radius: 5px;
+            background: #ffffff;
+            font-size: 14px;
+            color: #243746;
+            cursor: pointer;
+        }
+
+        .add-doctor-btn {
+            display: none;
+            border: none;
+            background: #176b87;
+            color: white;
+            padding: 13px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .add-doctor-btn:hover {
+            background: #12576e;
+        }
+
+        /* =========================
+           DOCTOR GRID
+        ========================= */
+
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .doctor-card {
+            background: #ffffff;
+            border: 1px solid #dfe5e8;
+            border-radius: 7px;
+            overflow: hidden;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .doctor-card:hover {
+            box-shadow: 0 5px 18px rgba(30, 55, 70, 0.10);
+        }
+
+        /* =========================
+           CARD TOP
+        ========================= */
+
+        .doctor-card-top {
+            padding: 24px 22px 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid #edf0f2;
+        }
+
+        .doctor-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #e8f1f5;
+            color: #176b87;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .doctor-name {
+            margin: 0 0 5px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #173f5f;
+        }
+
+        .doctor-specialty {
+            margin: 0;
+            font-size: 14px;
+            color: #657781;
+        }
+
+        /* =========================
+           CARD BODY
+        ========================= */
+
+        .doctor-card-body {
+            padding: 18px 22px;
+        }
+
+        .doctor-detail {
+            display: flex;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        .doctor-detail-label {
+            width: 75px;
+            color: #7b8990;
+            flex-shrink: 0;
+        }
+
+        .doctor-detail-value {
+            color: #344952;
+            flex: 1;
+            word-break: break-word;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .doctor-status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #e7f5ec;
+            color: #287a45;
+        }
+
+        .status-inactive {
+            background: #f5e8e8;
+            color: #a13a3a;
+        }
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .doctor-actions {
+            padding: 15px 22px 20px;
+            display: flex;
+            gap: 8px;
+            border-top: 1px solid #edf0f2;
+            flex-wrap: wrap;
+        }
+
+        .doctor-actions button {
+            border: none;
+            border-radius: 4px;
+            padding: 9px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .book-btn {
+            background: #176b87;
+            color: white;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .book-btn:hover {
+            background: #12576e;
+        }
+
+        .edit-btn {
+            background: #eef3f6;
+            color: #315364;
+        }
+
+        .edit-btn:hover {
+            background: #dfe8ed;
+        }
+
+        .delete-btn {
+            background: #f9eaea;
+            color: #a33b3b;
+        }
+
+        .delete-btn:hover {
+            background: #f2dada;
+        }
+
+        .activate-btn {
+            background: #e7f5ec;
+            color: #287a45;
+        }
+
+        .activate-btn:hover {
+            background: #d8eedf;
+        }
+
+        .deactivate-btn {
+            background: #fff3df;
+            color: #946100;
+        }
+
+        .deactivate-btn:hover {
+            background: #fceacb;
+        }
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        .message {
+            grid-column: 1 / -1;
+            background: white;
+            border: 1px solid #dfe5e8;
+            padding: 35px;
+            text-align: center;
+            color: #687982;
+            border-radius: 7px;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 35, 45, 0.45);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 7px;
+            padding: 25px;
+        }
+
+        .modal-box h2 {
+            margin: 0 0 22px;
+            color: #173f5f;
+            font-size: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #53656e;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccd6dc;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #176b87;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-actions button {
+            border: none;
+            border-radius: 4px;
+            padding: 10px 17px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .cancel-btn {
+            background: #edf1f3;
+            color: #435861;
+        }
+
+        .save-btn {
+            background: #176b87;
+            color: white;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 950px) {
+
+            .doctor-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .doctor-header {
+                padding: 22px;
+            }
+
+            .doctor-header h1 {
+                font-size: 26px;
+            }
+
+            .doctor-main {
+                margin-top: 25px;
+                padding: 0 15px;
+            }
+
+            .doctor-toolbar {
+                display: block;
+            }
+
+            .search-box {
+                margin-bottom: 10px;
+            }
+
+            .specialty-filter select {
+                width: 100%;
+            }
+
+            .add-doctor-btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .doctor-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+    </style>
 </head>
+
 <body>
 
-<h1 class="page-title">Our Doctors</h1>
+<header class="doctor-header">
 
-<div class="doctor-container">
+    <div class="doctor-header-inner">
 
-    <div class="doctor-card">
-        <h2>Dr. Francis Tetteh</h2>
-        <p>Naturopathic Doctor</p>
-        <a href="appointment.html">
-    <button>Book Appointment</button>
-    
-    </a>
-    </div>
+        <h1>Our Doctors</h1>
 
-    <div class="doctor-card">
-        <h2>Dr. Talent</h2>
-        <p>Naturopathic Doctor</p>
-        <a href="appointment.html">
-    <button>Book Appointment</button>
-    </a>
+        <p>
+            Find a healthcare professional who is right for you.
+        </p>
 
     </div>
 
-    <div class="doctor-card">
-        <h2>Dr. Emily Brown</h2>
-        <p>Pediatrician</p>
-        <a href="appointment.html">
-    <button>Book Appointment</button>
-    </a>
+</header>
+
+
+<main class="doctor-main">
+
+    <div class="doctor-toolbar">
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="doctorSearch"
+                placeholder="Search by doctor name or specialty..."
+            >
+
+        </div>
+
+
+        <div class="specialty-filter">
+
+            <select id="specialtyFilter">
+
+                <option value="">
+                    All specialties
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="add-doctor-btn"
+            id="addDoctorBtn"
+            onclick="openAddDoctor()"
+        >
+            + Add Doctor
+        </button>
 
     </div>
 
-    <div class="doctor-card">
-        <h2>Dr. Sam</h2>
-        <p>Cardiologist</p>
-       <a href="appointment.html">
-    <button>Book Appointment</button>
-    </a>
-    
+
+    <div
+        class="doctor-grid"
+        id="doctorGrid"
+    >
+
+        <div class="message">
+            Loading doctors...
+        </div>
+
     </div>
 
-    <script src="doctors.js"></script>
+</main>
+
+
+<!-- =========================
+     ADD / EDIT MODAL
+========================= -->
+
+<div
+    class="modal"
+    id="doctorModal"
+>
+
+    <div class="modal-box">
+
+        <h2 id="modalTitle">
+            Add Doctor
+        </h2>
+
+
+        <form id="doctorForm">
+
+            <input
+                type="hidden"
+                id="doctorId"
+            >
+
+
+            <div class="form-group">
+
+                <label for="doctorName">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="doctorName"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="doctorSpecialty">
+                    Specialty
+                </label>
+
+                <input
+                    type="text"
+                    id="doctorSpecialty"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="doctorEmail">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="doctorEmail"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="doctorPhone">
+                    Phone
+                </label>
+
+                <input
+                    type="text"
+                    id="doctorPhone"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="doctorLicense">
+                    License Number
+                </label>
+
+                <input
+                    type="text"
+                    id="doctorLicense"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="doctorStatus">
+                    Status
+                </label>
+
+                <select id="doctorStatus">
+
+                    <option value="Active">
+                        Active
+                    </option>
+
+                    <option value="Inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeDoctorModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Doctor
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =========================
+       API
+    ========================= */
+
+    const API_URL =
+        "http://localhost:3000/api/doctors";
+
+
+    let doctors = [];
+
+
+    /* =========================
+       STAFF MODE
+       
+       Patient:
+       doctors.html
+
+       Staff:
+       doctors.html?staff=true
+    ========================= */
+
+    const STAFF_MODE =
+        new URLSearchParams(window.location.search)
+            .get("staff") === "true";
+
+
+    /* =========================
+       LOAD DOCTORS
+    ========================= */
+
+    async function loadDoctors() {
+
+        const grid =
+            document.getElementById("doctorGrid");
+
+        try {
+
+            const response =
+                await fetch(API_URL);
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load doctors"
+                );
+
+            }
+
+            doctors =
+                await response.json();
+
+            populateSpecialties();
+
+            displayDoctors();
+
+        } catch (error) {
+
+            console.error(error);
+
+            grid.innerHTML = `
+                <div class="message">
+                    Unable to load doctors.
+                    Please make sure the FranTett server is running.
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    /* =========================
+       SPECIALTIES
+    ========================= */
+
+    function populateSpecialties() {
+
+        const select =
+            document.getElementById(
+                "specialtyFilter"
+            );
+
+        const specialties =
+            [
+                ...new Set(
+                    doctors
+                        .map(
+                            doctor =>
+                                doctor.specialty
+                        )
+                        .filter(Boolean)
+                )
+            ]
+            .sort();
+
+
+        select.innerHTML = `
+            <option value="">
+                All specialties
+            </option>
+        `;
+
+
+        specialties.forEach(
+            specialty => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    specialty;
+
+                option.textContent =
+                    specialty;
+
+                select.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       DISPLAY
+    ========================= */
+
+    function displayDoctors() {
+
+        const grid =
+            document.getElementById(
+                "doctorGrid"
+            );
+
+
+        const search =
+            document
+                .getElementById(
+                    "doctorSearch"
+                )
+                .value
+                .toLowerCase()
+                .trim();
+
+
+        const specialty =
+            document
+                .getElementById(
+                    "specialtyFilter"
+                )
+                .value;
+
+
+        const filtered =
+            doctors.filter(
+                doctor => {
+
+                    const name =
+                        (
+                            doctor.name ||
+                            ""
+                        )
+                        .toLowerCase();
+
+
+                    const doctorSpecialty =
+                        (
+                            doctor.specialty ||
+                            ""
+                        )
+                        .toLowerCase();
+
+
+                    const matchesSearch =
+                        !search ||
+                        name.includes(search) ||
+                        doctorSpecialty.includes(search);
+
+
+                    const matchesSpecialty =
+                        !specialty ||
+                        doctor.specialty === specialty;
+
+
+                    return (
+                        matchesSearch &&
+                        matchesSpecialty
+                    );
+
+                }
+            );
+
+
+        if (
+            filtered.length === 0
+        ) {
+
+            grid.innerHTML = `
+                <div class="message">
+                    No doctors found.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        grid.innerHTML =
+            filtered
+                .map(
+                    createDoctorCard
+                )
+                .join("");
+
+    }
+
+
+    /* =========================
+       CREATE DOCTOR CARD
+    ========================= */
+
+    function createDoctorCard(
+        doctor
+    ) {
+
+        const status =
+            doctor.status ||
+            "Active";
+
+
+        const active =
+            status.toLowerCase() ===
+            "active";
+
+
+        const initials =
+            getInitials(
+                doctor.name
+            );
+
+
+        let managementButtons =
+            "";
+
+
+        /*
+            ONLY STAFF SEE:
+
+            Edit
+            Delete
+            Activate / Deactivate
+        */
+
+        if (STAFF_MODE) {
+
+            managementButtons = `
+
+                <button
+                    type="button"
+                    class="edit-btn"
+                    onclick="editDoctor(${doctor.id})"
+                >
+                    Edit
+                </button>
+
+
+                <button
+                    type="button"
+                    class="delete-btn"
+                    onclick="deleteDoctor(${doctor.id})"
+                >
+                    Delete
+                </button>
+
+
+                <button
+                    type="button"
+                    class="${
+                        active
+                            ? "deactivate-btn"
+                            : "activate-btn"
+                    }"
+                    onclick="toggleDoctorStatus(${doctor.id})"
+                >
+                    ${
+                        active
+                            ? "Deactivate"
+                            : "Activate"
+                    }
+                </button>
+
+            `;
+
+        }
+
+
+        return `
+
+            <article class="doctor-card">
+
+                <div class="doctor-card-top">
+
+                    <div class="doctor-avatar">
+                        ${initials}
+                    </div>
+
+
+                    <div>
+
+                        <h2 class="doctor-name">
+                            ${escapeHtml(
+                                doctor.name || ""
+                            )}
+                        </h2>
+
+
+                        <p class="doctor-specialty">
+                            ${escapeHtml(
+                                doctor.specialty ||
+                                "Healthcare Professional"
+                            )}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="doctor-card-body">
+
+                    <div class="doctor-detail">
+
+                        <span class="doctor-detail-label">
+                            Status
+                        </span>
+
+
+                        <span class="doctor-detail-value">
+
+                            <span
+                                class="doctor-status ${
+                                    active
+                                        ? "status-active"
+                                        : "status-inactive"
+                                }"
+                            >
+                                ${escapeHtml(status)}
+                            </span>
+
+                        </span>
+
+                    </div>
+
+
+                    ${
+                        doctor.email
+                            ? `
+
+                                <div class="doctor-detail">
+
+                                    <span class="doctor-detail-label">
+                                        Email
+                                    </span>
+
+                                    <span class="doctor-detail-value">
+                                        ${escapeHtml(
+                                            doctor.email
+                                        )}
+                                    </span>
+
+                                </div>
+
+                              `
+                            : ""
+                    }
+
+
+                    ${
+                        doctor.phone
+                            ? `
+
+                                <div class="doctor-detail">
+
+                                    <span class="doctor-detail-label">
+                                        Phone
+                                    </span>
+
+                                    <span class="doctor-detail-value">
+                                        ${escapeHtml(
+                                            doctor.phone
+                                        )}
+                                    </span>
+
+                                </div>
+
+                              `
+                            : ""
+                    }
+
+                </div>
+
+
+                <div class="doctor-actions">
+
+                    <button
+                        type="button"
+                        class="book-btn"
+                        onclick="bookAppointment(${doctor.id})"
+                    >
+                        Book Appointment
+                    </button>
+
+                    ${managementButtons}
+
+                </div>
+
+            </article>
+
+        `;
+
+    }
+
+
+    /* =========================
+       BOOK APPOINTMENT
+    ========================= */
+
+    function bookAppointment(
+        doctorId
+    ) {
+
+        const doctor =
+            doctors.find(
+                item =>
+                    Number(item.id) ===
+                    Number(doctorId)
+            );
+
+
+        if (!doctor) {
+            return;
+        }
+
+
+        const params =
+            new URLSearchParams({
+
+                doctor:
+                    doctor.name || ""
+
+            });
+
+
+        window.location.href =
+            `appointment.html?${params.toString()}`;
+
+    }
+
+
+    /* =========================
+       ADD DOCTOR
+    ========================= */
+
+    function openAddDoctor() {
+
+        if (!STAFF_MODE) {
+            return;
+        }
+
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent =
+            "Add Doctor";
+
+
+        document.getElementById(
+            "doctorId"
+        ).value = "";
+
+
+        document.getElementById(
+            "doctorName"
+        ).value = "";
+
+
+        document.getElementById(
+            "doctorSpecialty"
+        ).value = "";
+
+
+        document.getElementById(
+            "doctorEmail"
+        ).value = "";
+
+
+        document.getElementById(
+            "doctorPhone"
+        ).value = "";
+
+
+        document.getElementById(
+            "doctorLicense"
+        ).value = "";
+
+
+        document.getElementById(
+            "doctorStatus"
+        ).value =
+            "Active";
+
+
+        document.getElementById(
+            "doctorModal"
+        ).style.display =
+            "flex";
+
+    }
+
+
+    /* =========================
+       EDIT DOCTOR
+    ========================= */
+
+    function editDoctor(id) {
+
+        if (!STAFF_MODE) {
+            return;
+        }
+
+
+        const doctor =
+            doctors.find(
+                item =>
+                    Number(item.id) ===
+                    Number(id)
+            );
+
+
+        if (!doctor) {
+            return;
+        }
+
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent =
+            "Edit Doctor";
+
+
+        document.getElementById(
+            "doctorId"
+        ).value =
+            doctor.id;
+
+
+        document.getElementById(
+            "doctorName"
+        ).value =
+            doctor.name || "";
+
+
+        document.getElementById(
+            "doctorSpecialty"
+        ).value =
+            doctor.specialty || "";
+
+
+        document.getElementById(
+            "doctorEmail"
+        ).value =
+            doctor.email || "";
+
+
+        document.getElementById(
+            "doctorPhone"
+        ).value =
+            doctor.phone || "";
+
+
+        document.getElementById(
+            "doctorLicense"
+        ).value =
+            doctor.license_number || "";
+
+
+        document.getElementById(
+            "doctorStatus"
+        ).value =
+            doctor.status || "Active";
+
+
+        document.getElementById(
+            "doctorModal"
+        ).style.display =
+            "flex";
+
+    }
+
+
+    /* =========================
+       CLOSE MODAL
+    ========================= */
+
+    function closeDoctorModal() {
+
+        document.getElementById(
+            "doctorModal"
+        ).style.display =
+            "none";
+
+    }
+
+
+    /* =========================
+       DELETE DOCTOR
+    ========================= */
+
+    async function deleteDoctor(id) {
+
+        if (!STAFF_MODE) {
+            return;
+        }
+
+
+        const doctor =
+            doctors.find(
+                item =>
+                    Number(item.id) ===
+                    Number(id)
+            );
+
+
+        if (!doctor) {
+            return;
+        }
+
+
+        const confirmed =
+            confirm(
+                `Delete ${doctor.name}?`
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${id}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Delete failed"
+                );
+
+            }
+
+
+            await loadDoctors();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "The doctor could not be deleted."
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       ACTIVATE / DEACTIVATE
+    ========================= */
+
+    async function toggleDoctorStatus(
+        id
+    ) {
+
+        if (!STAFF_MODE) {
+            return;
+        }
+
+
+        const doctor =
+            doctors.find(
+                item =>
+                    Number(item.id) ===
+                    Number(id)
+            );
+
+
+        if (!doctor) {
+            return;
+        }
+
+
+        const currentStatus =
+            (
+                doctor.status ||
+                "Active"
+            )
+            .toLowerCase();
+
+
+        const newStatus =
+            currentStatus === "active"
+                ? "Inactive"
+                : "Active";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${id}/status`,
+                    {
+
+                        method: "PATCH",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+                                status:
+                                    newStatus
+                            })
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Status update failed"
+                );
+
+            }
+
+
+            await loadDoctors();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "The doctor's status could not be changed."
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       SAVE DOCTOR
+    ========================= */
+
+    document
+        .getElementById(
+            "doctorForm"
+        )
+        .addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                if (!STAFF_MODE) {
+                    return;
+                }
+
+
+                const id =
+                    document.getElementById(
+                        "doctorId"
+                    ).value;
+
+
+                const doctorData = {
+
+                    name:
+                        document.getElementById(
+                            "doctorName"
+                        ).value.trim(),
+
+
+                    specialty:
+                        document.getElementById(
+                            "doctorSpecialty"
+                        ).value.trim(),
+
+
+                    email:
+                        document.getElementById(
+                            "doctorEmail"
+                        ).value.trim(),
+
+
+                    phone:
+                        document.getElementById(
+                            "doctorPhone"
+                        ).value.trim(),
+
+
+                    license_number:
+                        document.getElementById(
+                            "doctorLicense"
+                        ).value.trim(),
+
+
+                    status:
+                        document.getElementById(
+                            "doctorStatus"
+                        ).value
+
+                };
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            id
+                                ? `${API_URL}/${id}`
+                                : API_URL,
+                            {
+
+                                method:
+                                    id
+                                        ? "PUT"
+                                        : "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        doctorData
+                                    )
+
+                            }
+                        );
+
+
+                    if (!response.ok) {
+
+                        const errorData =
+                            await response
+                                .json()
+                                .catch(
+                                    () => ({})
+                                );
+
+
+                        throw new Error(
+                            errorData.message ||
+                            "Could not save doctor"
+                        );
+
+                    }
+
+
+                    closeDoctorModal();
+
+                    await loadDoctors();
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    alert(
+                        error.message ||
+                        "The doctor could not be saved."
+                    );
+
+                }
+
+            }
+        );
+
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    document
+        .getElementById(
+            "doctorSearch"
+        )
+        .addEventListener(
+            "input",
+            displayDoctors
+        );
+
+
+    /* =========================
+       FILTER
+    ========================= */
+
+    document
+        .getElementById(
+            "specialtyFilter"
+        )
+        .addEventListener(
+            "change",
+            displayDoctors
+        );
+
+
+    /* =========================
+       CLOSE MODAL
+    ========================= */
+
+    document
+        .getElementById(
+            "doctorModal"
+        )
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    document.getElementById(
+                        "doctorModal"
+                    )
+                ) {
+
+                    closeDoctorModal();
+
+                }
+
+            }
+        );
+
+
+    /* =========================
+       HELPERS
+    ========================= */
+
+    function getInitials(name) {
+
+        if (!name) {
+            return "DR";
+        }
+
+
+        const words =
+            name
+                .replace(
+                    /^Dr\.?\s*/i,
+                    ""
+                )
+                .trim()
+                .split(/\s+/);
+
+
+        if (words.length === 1) {
+
+            return words[0]
+                .substring(0, 2)
+                .toUpperCase();
+
+        }
+
+
+        return (
+            words[0][0] +
+            words[words.length - 1][0]
+        ).toUpperCase();
+
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /* =========================
+       STAFF BUTTON
+    ========================= */
+
+    if (STAFF_MODE) {
+
+        document.getElementById(
+            "addDoctorBtn"
+        ).style.display =
+            "block";
+
+    }
+
+
+    /* =========================
+       START
+    ========================= */
+
+    loadDoctors();
+
+</script>
 
 </body>
 </html>

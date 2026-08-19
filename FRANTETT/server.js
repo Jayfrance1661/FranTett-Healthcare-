@@ -1,4 +1,4 @@
-﻿const cors = require("cors");
+const cors = require("cors");
 const express = require("express");
 const path = require("path");
 const { Pool } = require("pg");
@@ -197,37 +197,364 @@ function authenticateToken(req, res, next) {
 // DOCTORS API
 // ==========================================
 
-app.get("/api/doctors", (req, res) => {
+// GET ALL DOCTORS
+app.get("/api/doctors", async (req, res) => {
 
-    const doctors = [
+    try {
 
-        {
-            id: 1,
-            name: "Dr. Francis Tetteh",
-            specialty: "Naturopathic Doctor"
-        },
+        const result = await pool.query(`
+            SELECT
+                id,
+                name,
+                specialty,
+                email,
+                phone,
+                license_number,
+                status,
+                created_at
+            FROM doctors
+            ORDER BY id ASC
+        `);
 
-        {
-            id: 2,
-            name: "Dr. Talent",
-            specialty: "Naturopathic Doctor"
-        },
+        res.json(result.rows);
 
-        {
-            id: 3,
-            name: "Dr. Emily Brown",
-            specialty: "Pediatrician"
-        },
+    } catch (error) {
 
-        {
-            id: 4,
-            name: "Dr. Sam",
-            specialty: "Cardiologist"
+        console.error("Get doctors error:", error);
+
+        res.status(500).json({
+            message: "Failed to load doctors"
+        });
+
+    }
+
+});
+
+
+// ==========================================
+// GET ONE DOCTOR
+// ==========================================
+
+app.get("/api/doctors/:id", async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const result = await pool.query(
+            `
+            SELECT
+                id,
+                name,
+                specialty,
+                email,
+                phone,
+                license_number,
+                status,
+                created_at
+            FROM doctors
+            WHERE id = $1
+            `,
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+
+            return res.status(404).json({
+                message: "Doctor not found"
+            });
+
         }
 
-    ];
+        res.json(result.rows[0]);
 
-    res.json(doctors);
+    } catch (error) {
+
+        console.error("Get doctor error:", error);
+
+        res.status(500).json({
+            message: "Failed to load doctor"
+        });
+
+    }
+
+});
+
+
+// ==========================================
+// ADD DOCTOR
+// ==========================================
+
+app.post("/api/doctors", async (req, res) => {
+
+    try {
+
+        const {
+            name,
+            specialty,
+            email,
+            phone,
+            license_number,
+            status
+        } = req.body;
+
+        if (!name || !name.trim()) {
+
+            return res.status(400).json({
+                message: "Doctor name is required"
+            });
+
+        }
+
+        const finalStatus =
+            status && status.trim()
+                ? status.trim()
+                : "Active";
+
+        const result = await pool.query(
+            `
+            INSERT INTO doctors
+            (
+                name,
+                specialty,
+                email,
+                phone,
+                license_number,
+                status
+            )
+            VALUES
+            ($1, $2, $3, $4, $5, $6)
+            RETURNING
+                id,
+                name,
+                specialty,
+                email,
+                phone,
+                license_number,
+                status,
+                created_at
+            `,
+            [
+                name.trim(),
+                specialty?.trim() || null,
+                email?.trim() || null,
+                phone?.trim() || null,
+                license_number?.trim() || null,
+                finalStatus
+            ]
+        );
+
+        res.status(201).json({
+            message: "Doctor added successfully",
+            doctor: result.rows[0]
+        });
+
+    } catch (error) {
+
+        console.error("Add doctor error:", error);
+
+        res.status(500).json({
+            message: "Failed to add doctor"
+        });
+
+    }
+
+});
+
+
+// ==========================================
+// UPDATE DOCTOR
+// ==========================================
+
+app.put("/api/doctors/:id", async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const {
+            name,
+            specialty,
+            email,
+            phone,
+            license_number,
+            status
+        } = req.body;
+
+        if (!name || !name.trim()) {
+
+            return res.status(400).json({
+                message: "Doctor name is required"
+            });
+
+        }
+
+        const result = await pool.query(
+            `
+            UPDATE doctors
+            SET
+                name = $1,
+                specialty = $2,
+                email = $3,
+                phone = $4,
+                license_number = $5,
+                status = $6
+            WHERE id = $7
+            RETURNING
+                id,
+                name,
+                specialty,
+                email,
+                phone,
+                license_number,
+                status,
+                created_at
+            `,
+            [
+                name.trim(),
+                specialty?.trim() || null,
+                email?.trim() || null,
+                phone?.trim() || null,
+                license_number?.trim() || null,
+                status?.trim() || "Active",
+                id
+            ]
+        );
+
+        if (result.rows.length === 0) {
+
+            return res.status(404).json({
+                message: "Doctor not found"
+            });
+
+        }
+
+        res.json({
+            message: "Doctor updated successfully",
+            doctor: result.rows[0]
+        });
+
+    } catch (error) {
+
+        console.error("Update doctor error:", error);
+
+        res.status(500).json({
+            message: "Failed to update doctor"
+        });
+
+    }
+
+});
+
+
+// ==========================================
+// ACTIVATE / DEACTIVATE DOCTOR
+// ==========================================
+
+app.patch("/api/doctors/:id/status", async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const { status } = req.body;
+
+        if (!status) {
+
+            return res.status(400).json({
+                message: "Status is required"
+            });
+
+        }
+
+        const result = await pool.query(
+            `
+            UPDATE doctors
+            SET status = $1
+            WHERE id = $2
+            RETURNING
+                id,
+                name,
+                specialty,
+                email,
+                phone,
+                license_number,
+                status,
+                created_at
+            `,
+            [
+                status,
+                id
+            ]
+        );
+
+        if (result.rows.length === 0) {
+
+            return res.status(404).json({
+                message: "Doctor not found"
+            });
+
+        }
+
+        res.json({
+            message: "Doctor status updated successfully",
+            doctor: result.rows[0]
+        });
+
+    } catch (error) {
+
+        console.error("Doctor status error:", error);
+
+        res.status(500).json({
+            message: "Failed to update doctor status"
+        });
+
+    }
+
+});
+
+
+// ==========================================
+// DELETE DOCTOR
+// ==========================================
+
+app.delete("/api/doctors/:id", async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const result = await pool.query(
+            `
+            DELETE FROM doctors
+            WHERE id = $1
+            RETURNING id, name
+            `,
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+
+            return res.status(404).json({
+                message: "Doctor not found"
+            });
+
+        }
+
+        res.json({
+            message: "Doctor deleted successfully",
+            doctor: result.rows[0]
+        });
+
+    } catch (error) {
+
+        console.error("Delete doctor error:", error);
+
+        res.status(500).json({
+            message: "Failed to delete doctor"
+        });
+
+    }
 
 });
 
@@ -3131,4 +3458,5 @@ app.listen(
 
     }
 );
+
 
