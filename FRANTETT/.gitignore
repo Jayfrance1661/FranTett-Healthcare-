@@ -1,3 +1,6 @@
 node_modules/
 .envfrantett_backup.dump
 .env
+env
+frantett_backup.dump
+frantett_newpc_before_restore.dump
