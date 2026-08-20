@@ -918,8 +918,9 @@ const appointmentResult =
 
         } finally {
 
-            client.release();
-
+            if (client) {
+    client.release();
+}
         }
 
     }
@@ -1162,7 +1163,9 @@ app.put(
 
             } finally {
 
-                client.release();
+                if (client) {
+    client.release();
+}
 
             }
 
@@ -2429,12 +2432,11 @@ app.delete(
     authenticateToken,
     async (req, res) => {
 
-        const client = await pool.connect();
+        let client;
 
-        try {
+try {
 
-            const patientId =
-                parseInt(req.params.id, 10);
+    client = await pool.connect();
 
             // ==================================
             // VALIDATE PATIENT ID
@@ -2604,7 +2606,9 @@ app.delete(
             // RELEASE DATABASE CONNECTION
             // ==================================
 
-            client.release();
+            if (client) {
+    client.release();
+}
 
         }
 
@@ -3179,7 +3183,9 @@ app.post(
 
         } finally {
 
-            client.release();
+           if (client) {
+    client.release();
+}
 
         }
 
@@ -3367,7 +3373,9 @@ app.put(
 
         } finally {
 
-            client.release();
+            if (client) {
+    client.release();
+}
 
         }
 
