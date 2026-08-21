@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -495,7 +495,7 @@
 
 <footer>
 
-    © 2026 FranTett Healthcare.
+    Â© 2026 FranTett Healthcare.
     All rights reserved.
 
 </footer>
@@ -514,36 +514,101 @@ form.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
+
     const formData =
         new FormData(form);
 
+
     const data =
-        Object.fromEntries(formData.entries());
+        Object.fromEntries(
+            formData.entries()
+        );
+
+
+    const appointment = {
+
+        name:
+            data.patient_name,
+
+        email:
+            data.patient_email,
+
+        phone:
+            data.phone,
+
+        doctor:
+            document.getElementById("doctor")
+                .selectedOptions[0].text,
+
+        appointment_date:
+            data.appointment_date,
+
+        appointment_time:
+            data.appointment_time,
+
+        reason:
+            data.reason
+
+    };
 
 
     try {
 
         const response =
-            await fetch("/api/appointments", {
+            await fetch(
+                "http://localhost:3000/api/appointments",
+                {
+                    method: "POST",
 
-                method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                    body:
+                        JSON.stringify(
+                            appointment
+                        )
+                }
+            );
 
-                body: JSON.stringify(data)
 
-            });
+        const responseText =
+            await response.text();
 
 
-        const result =
-            await response.json();
+        let result = {};
+
+
+        if (responseText) {
+
+            try {
+
+                result =
+                    JSON.parse(
+                        responseText
+                    );
+
+            } catch (parseError) {
+
+                console.error(
+                    "Invalid server response:",
+                    responseText
+                );
+
+                throw new Error(
+                    "Server returned an invalid response."
+                );
+
+            }
+
+        }
 
 
         if (!response.ok) {
 
             throw new Error(
+                result.message ||
                 result.error ||
                 "Unable to book appointment."
             );
@@ -551,27 +616,38 @@ form.addEventListener("submit", async function(event) {
         }
 
 
-        message.style.display = "block";
+        message.style.display =
+            "block";
+
 
         message.textContent =
             "Appointment booked successfully!";
+
 
         form.reset();
 
 
     } catch (error) {
 
-        message.style.display = "block";
+        console.error(
+            "Public appointment error:",
+            error
+        );
+
+
+        message.style.display =
+            "block";
+
 
         message.textContent =
-            error.message;
+            error.message ||
+            "Unable to book appointment.";
 
     }
 
 });
 
 </script>
-
 </body>
 
 </html>
