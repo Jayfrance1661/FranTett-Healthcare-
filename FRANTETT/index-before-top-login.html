@@ -1244,66 +1244,6 @@
             width: 100%;
         }
 
-
-        /* =========================================================
-           TOP REGISTER / LOGIN MENU
-        ========================================================= */
-
-        .top-login {
-            position: relative;
-        }
-
-        .top-login > button {
-            border: none;
-            background: transparent;
-            color: inherit;
-            font: inherit;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 10px 4px;
-        }
-
-        .top-login > button:hover {
-            color: #0b6b5c;
-        }
-
-        .top-login-menu {
-            position: absolute;
-            top: calc(100% + 12px);
-            right: 0;
-            min-width: 210px;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 10px;
-            box-shadow: 0 12px 30px rgba(0,0,0,.12);
-            display: none;
-            z-index: 1000;
-        }
-
-        .top-login.open .top-login-menu {
-            display: block;
-        }
-
-        .top-login-menu a {
-            display: block;
-            padding: 12px 14px;
-            border-radius: 8px;
-            color: #333;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .top-login-menu a:hover {
-            background: #f0f8f6;
-            color: #0b6b5c;
-        }
-
-        .top-login-menu .menu-divider {
-            height: 1px;
-            background: #e5e5e5;
-            margin: 6px 0;
-        }
-
         :focus-visible {
             outline: 3px solid #69b8aa;
             outline-offset: 3px;
@@ -1399,39 +1339,6 @@
                         Book Appointment
                     </a>
                 </li>
-                <li class="top-login" id="topLogin">
-
-                    <button
-                        type="button"
-                        id="topLoginButton"
-                        aria-expanded="false"
-                    >
-                        Register / Log in
-                    </button>
-
-                    <div
-                        class="top-login-menu"
-                        id="topLoginMenu"
-                    >
-
-                        <a href="pages/patient-login.html">
-                            Patient Login
-                        </a>
-
-                        <a href="pages/patient-register.html">
-                            Register
-                        </a>
-
-                        <div class="menu-divider"></div>
-
-                        <a href="pages/login.html">
-                            Staff Login
-                        </a>
-
-                    </div>
-
-                </li>
-
 
             </ul>
 
@@ -2690,53 +2597,7 @@
             }
         );
 
-    
-        /* =========================================================
-           TOP REGISTER / LOGIN DROPDOWN
-        ========================================================= */
-
-        const topLogin =
-            document.getElementById("topLogin");
-
-        const topLoginButton =
-            document.getElementById("topLoginButton");
-
-        if (topLogin && topLoginButton) {
-
-            topLoginButton.addEventListener(
-                "click",
-                function (event) {
-
-                    event.stopPropagation();
-
-                    const isOpen =
-                        topLogin.classList.toggle("open");
-
-                    topLoginButton.setAttribute(
-                        "aria-expanded",
-                        isOpen ? "true" : "false"
-                    );
-
-                }
-            );
-
-            document.addEventListener(
-                "click",
-                function () {
-
-                    topLogin.classList.remove("open");
-
-                    topLoginButton.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
-
-                }
-            );
-
-        }
-
-</script>
+    </script>
 
 </body>
 

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Staff Registration - FranTett Healthcare</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(105,184,170,.20),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #eef8f6 0%,
+                    #f8fbfc 50%,
+                    #eaf5f3 100%
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px 20px;
+
+            color: #24343b;
+
+        }
+
+
+        .register-container {
+
+            width: 100%;
+
+            max-width: 500px;
+
+        }
+
+
+        .brand {
+
+            text-align: center;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .brand-icon {
+
+            width: 64px;
+
+            height: 64px;
+
+            margin:
+                0 auto 14px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0b6b5c,
+                    #69b8aa
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 38px;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 12px 28px
+                rgba(11,107,92,.22);
+
+        }
+
+
+        .brand-name {
+
+            margin: 0;
+
+            color: #123f38;
+
+            font-size: 27px;
+
+            font-weight: 700;
+
+        }
+
+
+        .brand-tagline {
+
+            margin:
+                6px 0 0;
+
+            color: #6a7b80;
+
+            font-size: 14px;
+
+        }
+
+
+        .register-card {
+
+            background:
+                rgba(255,255,255,.97);
+
+            border:
+                1px solid
+                rgba(11,107,92,.10);
+
+            border-radius: 24px;
+
+            padding: 42px;
+
+            box-shadow:
+                0 20px 55px
+                rgba(31,67,73,.13);
+
+        }
+
+
+        .register-header {
+
+            text-align: center;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .staff-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding:
+                7px 13px;
+
+            border-radius: 999px;
+
+            background: #e9f6f3;
+
+            color: #0b6b5c;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: .7px;
+
+            margin-bottom: 16px;
+
+        }
+
+
+        .register-header h1 {
+
+            margin: 0;
+
+            color: #193b37;
+
+            font-size: 27px;
+
+        }
+
+
+        .register-header p {
+
+            margin:
+                10px 0 0;
+
+            color: #718085;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .message {
+
+            display: none;
+
+            margin-bottom: 20px;
+
+            padding:
+                13px 15px;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+        }
+
+
+        .error {
+
+            background: #fff0f1;
+
+            border:
+                1px solid
+                #f4c6ca;
+
+            color: #9b2630;
+
+        }
+
+
+        .success {
+
+            background: #edf9f2;
+
+            border:
+                1px solid
+                #c4e8d0;
+
+            color: #196b3a;
+
+        }
+
+
+        .form-group {
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #30464b;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+        }
+
+
+        .form-group input,
+        .form-group select {
+
+            width: 100%;
+
+            height: 50px;
+
+            padding:
+                0 14px;
+
+            border:
+                1px solid
+                #d7e1e3;
+
+            border-radius: 11px;
+
+            background: #fbfdfd;
+
+            color: #263a3f;
+
+            font-size: 15px;
+
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease;
+
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus {
+
+            outline: none;
+
+            background: white;
+
+            border-color: #0b6b5c;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(11,107,92,.10);
+
+        }
+
+
+        .password-note {
+
+            margin-top: 6px;
+
+            color: #89979a;
+
+            font-size: 12px;
+
+        }
+
+
+        .register-btn {
+
+            width: 100%;
+
+            height: 53px;
+
+            margin-top: 6px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0b6b5c,
+                    #168575
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 9px 20px
+                rgba(11,107,92,.20);
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease;
+
+        }
+
+
+        .register-btn:hover {
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(11,107,92,.27);
+
+        }
+
+
+        .register-btn:disabled {
+
+            opacity: .65;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+            box-shadow: none;
+
+        }
+
+
+        .security-note {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #7a898d;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+        }
+
+
+        .back-link {
+
+            display: block;
+
+            margin-top: 24px;
+
+            text-align: center;
+
+            color: #0b6b5c;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+        }
+
+
+        .back-link:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        @media (max-width: 520px) {
+
+            body {
+
+                padding:
+                    20px 15px;
+
+            }
+
+
+            .register-card {
+
+                padding:
+                    30px 22px;
+
+                border-radius: 20px;
+
+            }
+
+
+            .brand-name {
+
+                font-size: 24px;
+
+            }
+
+
+            .register-header h1 {
+
+                font-size: 24px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="register-container">
+
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            F
+        </div>
+
+        <h2 class="brand-name">
+            FranTett Healthcare
+        </h2>
+
+        <p class="brand-tagline">
+            Your Health, Our Priority
+        </p>
+
+    </div>
+
+
+    <div class="register-card">
+
+
+        <div class="register-header">
+
+            <div class="staff-badge">
+                🩺 Staff Portal
+            </div>
+
+            <h1>
+                Staff Registration
+            </h1>
+
+            <p>
+                Submit your details to request
+                a FranTett Healthcare staff account.
+                Your account must be approved by an administrator
+                before you can log in.
+            </p>
+
+        </div>
+
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+
+        <form id="staffRegisterForm">
+
+
+            <div class="form-group">
+
+                <label for="full_name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="full_name"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Enter your phone number"
+                    autocomplete="tel"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="role">
+                    Staff Role
+                </label>
+
+                <select
+                    id="role"
+                    required
+                >
+
+                    <option value="">
+                        Select your role
+                    </option>
+
+                    <option value="Doctor">
+                        Doctor
+                    </option>
+
+                    <option value="Nurse">
+                        Nurse
+                    </option>
+
+                    <option value="Administrator">
+                        Administrator
+                    </option>
+
+                    <option value="Receptionist">
+                        Receptionist
+                    </option>
+
+                    <option value="Other Healthcare Staff">
+                        Other Healthcare Staff
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create a password"
+                    autocomplete="new-password"
+                    minlength="6"
+                    required
+                >
+
+                <div class="password-note">
+                    Minimum 6 characters.
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="confirmPassword">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Re-enter your password"
+                    autocomplete="new-password"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="register-btn"
+                id="registerButton"
+            >
+                Submit Registration
+            </button>
+
+
+        </form>
+
+
+        <div class="security-note">
+            🔒 Registration requires administrator approval.
+        </div>
+
+
+        <a
+            href="./login.html"
+            class="back-link"
+        >
+            Already have an account? Staff Login
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+const API_URL =
+    "http://localhost:3000";
+
+
+const form =
+    document.getElementById(
+        "staffRegisterForm"
+    );
+
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+const registerButton =
+    document.getElementById(
+        "registerButton"
+    );
+
+
+function showMessage(
+    text,
+    type
+) {
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " + type;
+
+    message.style.display =
+        "block";
+
+}
+
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const full_name =
+            document
+                .getElementById("full_name")
+                .value
+                .trim();
+
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim();
+
+
+        const phone =
+            document
+                .getElementById("phone")
+                .value
+                .trim();
+
+
+        const role =
+            document
+                .getElementById("role")
+                .value;
+
+
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+
+        const confirmPassword =
+            document
+                .getElementById("confirmPassword")
+                .value;
+
+
+        if (
+            password !==
+            confirmPassword
+        ) {
+
+            showMessage(
+                "Passwords do not match.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        registerButton.disabled =
+            true;
+
+        registerButton.textContent =
+            "Submitting...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/staff/register`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            full_name,
+                            email,
+                            phone,
+                            role,
+                            password
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Registration failed."
+                );
+
+            }
+
+
+            showMessage(
+                data.message,
+                "success"
+            );
+
+
+            form.reset();
+
+
+            registerButton.textContent =
+                "Registration Submitted";
+
+
+        }
+        catch (error) {
+
+            showMessage(
+                error.message ||
+                "Unable to submit registration.",
+                "error"
+            );
+
+
+            registerButton.disabled =
+                false;
+
+            registerButton.textContent =
+                "Submit Registration";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
