@@ -2016,7 +2016,7 @@
            CONFIGURATION
         ========================================== */
 
-        const API_BASE = "";
+        const API_BASE = "http://localhost:3000";
 
         let patient = null;
 
@@ -2054,8 +2054,8 @@
              * This keeps staff and patient sessions separate.
              */
 
-            window.location.href =
-                "/patient-login.html";
+           window.location.href =
+    "patient-login.html";
 
         }
 
@@ -2073,8 +2073,8 @@
 
             if (!token) {
 
-                window.location.href =
-                    "/patient-login.html";
+               window.location.href =
+    "patient-login.html";
 
                 throw new Error(
                     "Authentication required"
@@ -3396,8 +3396,8 @@
 
             if (!token) {
 
-                window.location.href =
-                    "/patient-login.html";
+               window.location.href =
+    "patient-login.html";
 
                 return;
 
