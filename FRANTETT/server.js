@@ -163,6 +163,9 @@ app.post("/api/patient/register", async (req, res) => {
             last_name,
             email,
             phone,
+            date_of_birth,
+            gender,
+            address,
             password
         } = req.body;
 
@@ -243,17 +246,23 @@ app.post("/api/patient/register", async (req, res) => {
                         first_name,
                         last_name,
                         email,
-                        phone
+                        phone,
+                        date_of_birth,
+                        gender,
+                        address
                     )
                     VALUES
-                    ($1, $2, $3, $4)
+                    ($1, $2, $3, $4, $5, $6, $7)
                     RETURNING *
                     `,
                     [
                         first_name.trim(),
                         last_name.trim(),
                         normalizedEmail,
-                        phone?.trim() || null
+                        phone?.trim() || null,
+                        date_of_birth || null,
+                        gender || null,
+                        address?.trim() || null
                     ]
                 );
 
@@ -4257,6 +4266,8 @@ app.listen(
 
     }
 );
+
+
 
 
 

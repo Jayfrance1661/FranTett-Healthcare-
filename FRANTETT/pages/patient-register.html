@@ -1573,6 +1573,96 @@
                         </div>
 
 
+                        <!-- DATE OF BIRTH -->
+
+                        <div class="form-group">
+
+                            <label for="dateOfBirth">
+                                Date of Birth
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <span
+                                    class="input-icon"
+                                    aria-hidden="true"
+                                >&#128197;</span>
+
+                                <input
+                                    type="date"
+                                    id="dateOfBirth"
+                                    name="date_of_birth"
+                                    class="form-input"
+                                    autocomplete="bday"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- GENDER -->
+
+                        <div class="form-group">
+
+                            <label for="gender">
+                                Gender
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <span
+                                    class="input-icon"
+                                    aria-hidden="true"
+                                >&#9895;</span>
+
+                                <select
+                                    id="gender"
+                                    name="gender"
+                                    class="form-input"
+                                    required
+                                >
+                                    <option value="">Select your gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ADDRESS -->
+
+                        <div class="form-group">
+
+                            <label for="address">
+                                Address
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <span
+                                    class="input-icon"
+                                    aria-hidden="true"
+                                >&#128205;</span>
+
+                                <input
+                                    type="text"
+                                    id="address"
+                                    name="address"
+                                    class="form-input"
+                                    placeholder="Enter your address"
+                                    autocomplete="street-address"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
                         <!-- PASSWORD -->
 
                         <div class="form-group">
@@ -2070,6 +2160,24 @@
                         .trim();
 
 
+                const dateOfBirth =
+                    document
+                        .getElementById("dateOfBirth")
+                        .value;
+
+
+                const gender =
+                    document
+                        .getElementById("gender")
+                        .value;
+
+
+                const address =
+                    document
+                        .getElementById("address")
+                        .value
+                        .trim();
+
                 const password =
                     document
                         .getElementById("password")
@@ -2259,7 +2367,16 @@
                                     phone:
                                         phone || null,
 
-                                    password:
+                                    
+                                    date_of_birth:
+                                        dateOfBirth || null,
+
+                                    gender:
+                                        gender || null,
+
+                                    address:
+                                        address || null,
+password:
                                         password
 
                                 })
