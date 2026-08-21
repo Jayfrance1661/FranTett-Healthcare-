@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Healthcare services provided by FranTett Healthcare."
+    >
+
+    <title>Services | FranTett Healthcare</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0b6b5c;
+            --primary-dark: #075247;
+            --primary-light: #e8f5f2;
+            --dark: #173b36;
+            --text: #44524f;
+            --muted: #71807c;
+            --background: #f5f9f8;
+            --white: #ffffff;
+            --border: #e2ebe8;
+            --shadow-sm: 0 5px 18px rgba(13, 68, 59, 0.06);
+            --shadow-md: 0 15px 35px rgba(13, 68, 59, 0.10);
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar {
+            min-height: 78px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 11px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+        }
+
+        .logo-text span {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: normal;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 700;
+            color: #34433f;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page {
+            padding: 75px 0 80px;
+        }
+
+        .page-header {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto 50px;
+        }
+
+        .section-label {
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .page-header h1 {
+            color: var(--dark);
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* =========================
+           SERVICES
+        ========================= */
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 29px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: var(--shadow-sm);
+            transition: 0.25s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+            border-color: #b9ddd5;
+        }
+
+        .service-icon {
+            width: 53px;
+            height: 53px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 11px;
+            font-size: 25px;
+            margin-bottom: 17px;
+        }
+
+        .service-card h2 {
+            color: var(--dark);
+            font-size: 19px;
+            margin-bottom: 9px;
+        }
+
+        .service-card p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .service-link {
+            display: inline-block;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .service-link:hover {
+            color: var(--primary-dark);
+        }
+
+        /* =========================
+           CTA
+        ========================= */
+
+        .cta {
+            margin-top: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .cta p {
+            max-width: 650px;
+            margin: 0 auto 24px;
+            font-size: 14px;
+            opacity: 0.92;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 12px 24px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .cta-button:hover {
+            background: var(--primary-light);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            margin-top: 20px;
+            background: #123b35;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .page {
+                padding: 50px 0 60px;
+            }
+
+            .page-header h1 {
+                font-size: 31px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-card {
+                padding: 25px;
+            }
+
+            .cta {
+                padding: 30px 20px;
+            }
+
+            .cta h2 {
+                font-size: 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+        <div class="container navbar">
+
+            <a href="../index.html" class="logo">
+
+                <div class="logo-icon">
+                    +
+                </div>
+
+                <div class="logo-text">
+
+                    FranTett Healthcare
+
+                    <span>
+                        Your Health, Our Priority
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="../index.html">
+                    Home
+                </a>
+
+                <a href="doctors.html">
+                    Doctors
+                </a>
+
+                <a href="services.html">
+                    Services
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main>
+
+        <section class="page">
+
+            <div class="container">
+
+                <div class="page-header">
+
+                    <div class="section-label">
+                        Our Services
+                    </div>
+
+                    <h1>
+                        Healthcare Designed Around You
+                    </h1>
+
+                    <p>
+                        We provide accessible healthcare services
+                        designed to support your health and wellbeing.
+                    </p>
+
+                </div>
+
+
+                <!-- =========================
+                     SERVICES GRID
+                ========================= -->
+
+                <div class="services-grid">
+
+
+                    <!-- GENERAL CONSULTATION -->
+
+                    <div class="service-card">
+
+                        <div class="service-icon">
+                            🩺
+                        </div>
+
+                        <h2>
+                            General Consultation
+                        </h2>
+
+                        <p>
+                            Professional consultations for common
+                            health concerns, symptoms, medical
+                            assessment and personalized healthcare
+                            guidance.
+                        </p>
+
+                        <a
+                            href="book-appointment.html"
+                            class="service-link"
+                        >
+                            Book Consultation →
+                        </a>
+
+                    </div>
+
+
+                    <!-- HERBAL MEDICINE -->
+
+                    <div class="service-card">
+
+                        <div class="service-icon">
+                            🌿
+                        </div>
+
+                        <h2>
+                            Herbal Medicine
+                        </h2>
+
+                        <p>
+                            Personalized herbal medicine consultations
+                            focused on supporting your health through
+                            appropriate natural healthcare approaches.
+                        </p>
+
+                        <a
+                            href="book-appointment.html"
+                            class="service-link"
+                        >
+                            Book Consultation →
+                        </a>
+
+                    </div>
+
+
+                    <!-- PREVENTIVE CARE -->
+
+                    <div class="service-card">
+
+                        <div class="service-icon">
+                            ❤️
+                        </div>
+
+                        <h2>
+                            Preventive Care
+                        </h2>
+
+                        <p>
+                            Support for maintaining good health through
+                            health education, lifestyle guidance,
+                            screening and preventive healthcare.
+                        </p>
+
+                        <a
+                            href="book-appointment.html"
+                            class="service-link"
+                        >
+                            Book Consultation →
+                        </a>
+
+                    </div>
+
+
+                    <!-- WOMEN'S HEALTH -->
+
+                    <div class="service-card">
+
+                        <div class="service-icon">
+                            👩
+                        </div>
+
+                        <h2>
+                            Women's Health
+                        </h2>
+
+                        <p>
+                            Healthcare support addressing women's health
+                            needs, reproductive health concerns and
+                            general wellbeing.
+                        </p>
+
+                        <a
+                            href="book-appointment.html"
+                            class="service-link"
+                        >
+                            Book Consultation →
+                        </a>
+
+                    </div>
+
+
+                    <!-- MEN'S HEALTH -->
+
+                    <div class="service-card">
+
+                        <div class="service-icon">
+                            👨
+                        </div>
+
+                        <h2>
+                            Men's Health
+                        </h2>
+
+                        <p>
+                            Professional healthcare support for men's
+                            health concerns, wellness and preventive
+                            healthcare needs.
+                        </p>
+
+                        <a
+                            href="book-appointment.html"
+                            class="service-link"
+                        >
+                            Book Consultation →
+                        </a>
+
+                    </div>
+
+
+                    <!-- FOLLOW-UP CARE -->
+
+                    <div class="service-card">
+
+                        <div class="service-icon">
+                            🔄
+                        </div>
+
+                        <h2>
+                            Follow-Up Care
+                        </h2>
+
+                        <p>
+                            Continue your healthcare journey with
+                            follow-up consultations, treatment review
+                            and ongoing health support.
+                        </p>
+
+                        <a
+                            href="book-appointment.html"
+                            class="service-link"
+                        >
+                            Book Consultation →
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =========================
+                     CALL TO ACTION
+                ========================= -->
+
+                <div class="cta">
+
+                    <h2>
+                        Ready to Take the Next Step?
+                    </h2>
+
+                    <p>
+                        Book an appointment with a FranTett Healthcare
+                        provider and receive personalized healthcare
+                        support.
+                    </p>
+
+                    <a
+                        href="book-appointment.html"
+                        class="cta-button"
+                    >
+                        Book an Appointment
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        © 2026 FranTett Healthcare.
+        All rights reserved.
+
+    </footer>
+
+</body>
+
+</html>

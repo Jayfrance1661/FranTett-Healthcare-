@@ -1,0 +1,772 @@
+@'
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Contact FranTett Healthcare."
+    >
+
+    <title>Contact | FranTett Healthcare</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0b6b5c;
+            --primary-dark: #075247;
+            --primary-light: #e8f5f2;
+            --dark: #173b36;
+            --text: #44524f;
+            --muted: #71807c;
+            --background: #f5f9f8;
+            --white: #ffffff;
+            --border: #e2ebe8;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar {
+            min-height: 78px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 11px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+        }
+
+        .logo-text span {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: normal;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 700;
+            color: #34433f;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .page {
+            padding: 70px 0;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .page-header span {
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .page-header h1 {
+            color: var(--dark);
+            font-size: 40px;
+            margin: 8px 0;
+        }
+
+        .page-header p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .contact-info,
+        .contact-form {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 15px 40px rgba(13, 68, 59, 0.08);
+        }
+
+        .contact-info h2,
+        .contact-form h2 {
+            color: var(--dark);
+            font-size: 23px;
+            margin-bottom: 10px;
+        }
+
+        .intro {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .contact-item h3 {
+            color: var(--dark);
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .contact-item p,
+        .contact-item a {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .contact-item a:hover {
+            color: var(--primary);
+        }
+
+        .hours {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+
+        .hours h3 {
+            color: var(--dark);
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            color: var(--dark);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: white;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: 2px solid #9bd5cb;
+            border-color: var(--primary);
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: var(--primary);
+            color: white;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .message {
+            display: none;
+            margin-top: 18px;
+            padding: 13px;
+            border-radius: 7px;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-size: 13px;
+        }
+
+        .appointment-box {
+            margin-top: 30px;
+            background: var(--primary);
+            color: white;
+            padding: 28px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .appointment-box h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .appointment-box p {
+            font-size: 13px;
+            margin-bottom: 18px;
+            opacity: 0.9;
+        }
+
+        .appointment-btn {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 11px 22px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        footer {
+            margin-top: 60px;
+            background: #123b35;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        @media (max-width: 750px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .page {
+                padding: 45px 0;
+            }
+
+            .page-header h1 {
+                font-size: 31px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info,
+            .contact-form {
+                padding: 25px 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="container navbar">
+
+        <a href="../index.html" class="logo">
+
+            <div class="logo-icon">
+                +
+            </div>
+
+            <div class="logo-text">
+
+                FranTett Healthcare
+
+                <span>
+                    Your Health, Our Priority
+                </span>
+
+            </div>
+
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="doctors.html">
+                Doctors
+            </a>
+
+            <a href="services.html">
+                Services
+            </a>
+
+            <a href="book-appointment.html">
+                Book Appointment
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="page">
+
+        <div class="container">
+
+            <div class="page-header">
+
+                <span>
+                    Get In Touch
+                </span>
+
+                <h1>
+                    Contact FranTett Healthcare
+                </h1>
+
+                <p>
+                    We're here to help. Reach out to us with your
+                    questions or healthcare needs.
+                </p>
+
+            </div>
+
+
+            <div class="contact-grid">
+
+
+                <!-- CONTACT INFORMATION -->
+
+                <div class="contact-info">
+
+                    <h2>
+                        Contact Information
+                    </h2>
+
+                    <p class="intro">
+                        Contact our healthcare team using any of
+                        the options below.
+                    </p>
+
+
+                    <div class="contact-item">
+
+                        <div class="contact-icon">
+                            📍
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Location
+                            </h3>
+
+                            <p>
+                                FranTett Healthcare
+                            </p>
+
+                            <p>
+                                Ontario, Canada
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="contact-item">
+
+                        <div class="contact-icon">
+                            📞
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Phone
+                            </h3>
+
+                            <a href="tel:+1">
+                                Contact our healthcare team
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="contact-item">
+
+                        <div class="contact-icon">
+                            ✉️
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Email
+                            </h3>
+
+                            <a href="mailto:info@frantetthealthcare.com">
+                                info@frantetthealthcare.com
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hours">
+
+                        <h3>
+                            Opening Hours
+                        </h3>
+
+                        <div class="hours-row">
+                            <span>Monday - Friday</span>
+                            <span>9:00 AM - 5:00 PM</span>
+                        </div>
+
+                        <div class="hours-row">
+                            <span>Saturday</span>
+                            <span>10:00 AM - 2:00 PM</span>
+                        </div>
+
+                        <div class="hours-row">
+                            <span>Sunday</span>
+                            <span>Closed</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONTACT FORM -->
+
+                <div class="contact-form">
+
+                    <h2>
+                        Send Us a Message
+                    </h2>
+
+                    <p class="intro">
+                        Complete the form and our team will get
+                        back to you.
+                    </p>
+
+
+                    <form id="contactForm">
+
+
+                        <div class="form-group">
+
+                            <label for="name">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                placeholder="Enter your full name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email address"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="subject">
+                                Subject
+                            </label>
+
+                            <input
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                placeholder="What can we help you with?"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="message">
+                                Message
+                            </label>
+
+                            <textarea
+                                id="message"
+                                name="message"
+                                placeholder="Write your message..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="submit-btn"
+                        >
+                            Send Message
+                        </button>
+
+
+                        <div
+                            class="message"
+                            id="formMessage"
+                        ></div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <div class="appointment-box">
+
+                <h2>
+                    Need to Speak With a Healthcare Provider?
+                </h2>
+
+                <p>
+                    Book an appointment with one of our
+                    healthcare providers.
+                </p>
+
+                <a
+                    href="book-appointment.html"
+                    class="appointment-btn"
+                >
+                    Book an Appointment
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    © 2026 FranTett Healthcare.
+    All rights reserved.
+
+</footer>
+
+
+<script>
+
+const contactForm =
+    document.getElementById("contactForm");
+
+const formMessage =
+    document.getElementById("formMessage");
+
+
+contactForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        formMessage.style.display = "block";
+
+        formMessage.textContent =
+            "Sending your message...";
+
+
+        const formData =
+            new FormData(contactForm);
+
+        const data =
+            Object.fromEntries(
+                formData.entries()
+            );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://localhost:3000/api/contact",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(data)
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.message ||
+                    "Unable to send your message."
+                );
+
+            }
+
+
+            formMessage.textContent =
+                "Thank you for contacting FranTett Healthcare. Your message has been received.";
+
+            contactForm.reset();
+
+
+        } catch (error) {
+
+            console.error(
+                "Contact form error:",
+                error
+            );
+
+            formMessage.textContent =
+                error.message ||
+                "Unable to send your message. Please try again.";
+
+        }
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>
+'@ | Set-Content .\pages\contact.html

@@ -1,4 +1,4 @@
-const cors = require("cors");
+﻿const cors = require("cors");
 const express = require("express");
 const path = require("path");
 const { Pool } = require("pg");
@@ -3451,6 +3451,95 @@ app.delete(
 
     }
 );
+
+// ==========================================
+// CONTACT MESSAGES
+// ==========================================
+
+app.post(
+    "/api/contact",
+    async (req, res) => {
+
+        try {
+
+            const {
+                name,
+                email,
+                subject,
+                message
+            } = req.body;
+
+            if (
+                !name ||
+                !email ||
+                !subject ||
+                !message
+            ) {
+
+                return res.status(400).json({
+                    message:
+                        "Name, email, subject and message are required."
+                });
+
+            }
+
+            const result =
+                await pool.query(
+                    `
+                    INSERT INTO contact_messages
+                    (
+                        name,
+                        email,
+                        subject,
+                        message
+                    )
+                    VALUES
+                    (
+                        $1,
+                        $2,
+                        $3,
+                        $4
+                    )
+                    RETURNING *
+                    `,
+                    [
+                        name.trim(),
+                        email.trim(),
+                        subject.trim(),
+                        message.trim()
+                    ]
+                );
+
+            res.status(201).json({
+
+                message:
+                    "Your message has been received successfully.",
+
+                contact:
+                    result.rows[0]
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error saving contact message:",
+                error
+            );
+
+            res.status(500).json({
+
+                message:
+                    "Unable to send your message. Please try again."
+
+            });
+
+        }
+
+    }
+);
+
+
 
 // ==========================================
 // START SERVER
