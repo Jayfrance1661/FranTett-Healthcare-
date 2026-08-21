@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Book an appointment with FranTett Healthcare."
+    >
+
+    <title>Book Appointment | FranTett Healthcare</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0b6b5c;
+            --primary-dark: #075247;
+            --primary-light: #e8f5f2;
+            --dark: #173b36;
+            --text: #44524f;
+            --muted: #71807c;
+            --background: #f5f9f8;
+            --white: #ffffff;
+            --border: #e2ebe8;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar {
+            min-height: 78px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 11px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+        }
+
+        .logo-text span {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: normal;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 700;
+            color: #34433f;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .page {
+            padding: 70px 0;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header span {
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .page-header h1 {
+            color: var(--dark);
+            font-size: 40px;
+            margin: 8px 0;
+        }
+
+        .page-header p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .appointment-card {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 15px 40px rgba(13, 68, 59, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: var(--dark);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: white;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid #9bd5cb;
+            border-color: var(--primary);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: var(--primary);
+            color: white;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .message {
+            display: none;
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 7px;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-size: 14px;
+        }
+
+        footer {
+            margin-top: 60px;
+            background: #123b35;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .page {
+                padding: 45px 0;
+            }
+
+            .page-header h1 {
+                font-size: 31px;
+            }
+
+            .appointment-card {
+                padding: 25px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="container navbar">
+
+        <a href="../index.html" class="logo">
+
+            <div class="logo-icon">
+                +
+            </div>
+
+            <div class="logo-text">
+                FranTett Healthcare
+                <span>Your Health, Our Priority</span>
+            </div>
+
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="doctors.html">
+                Doctors
+            </a>
+
+            <a href="services.html">
+                Services
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="page">
+
+        <div class="container">
+
+            <div class="page-header">
+
+                <span>
+                    Appointment
+                </span>
+
+                <h1>
+                    Book an Appointment
+                </h1>
+
+                <p>
+                    Complete the form below to request an appointment
+                    with a FranTett Healthcare provider.
+                </p>
+
+            </div>
+
+
+            <div class="appointment-card">
+
+                <form id="appointmentForm">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="patientName">
+                                Patient Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="patientName"
+                                name="patient_name"
+                                placeholder="Enter patient name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="phone">
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="Enter phone number"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="patient_email"
+                            placeholder="Enter email address"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="doctor">
+                            Healthcare Provider
+                        </label>
+
+                        <select
+                            id="doctor"
+                            name="doctor_id"
+                            required
+                        >
+
+                            <option value="">
+                                Select a healthcare provider
+                            </option>
+
+                            <option value="1">
+                                Dr. Francis Tetteh
+                            </option>
+
+                            <option value="2">
+                                Dr. Talent
+                            </option>
+
+                            <option value="3">
+                                Dr. Emily Brown
+                            </option>
+
+                            <option value="4">
+                                Dr. Sam
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="date">
+                                Appointment Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="date"
+                                name="appointment_date"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="time">
+                                Appointment Time
+                            </label>
+
+                            <input
+                                type="time"
+                                id="time"
+                                name="appointment_time"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="reason">
+                            Reason for Appointment
+                        </label>
+
+                        <textarea
+                            id="reason"
+                            name="reason"
+                            placeholder="Briefly describe the reason for your appointment"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+                        Book Appointment
+                    </button>
+
+
+                    <div
+                        class="message"
+                        id="message"
+                    ></div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    © 2026 FranTett Healthcare.
+    All rights reserved.
+
+</footer>
+
+
+<script>
+
+const form =
+    document.getElementById("appointmentForm");
+
+const message =
+    document.getElementById("message");
+
+
+form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const formData =
+        new FormData(form);
+
+    const data =
+        Object.fromEntries(formData.entries());
+
+
+    try {
+
+        const response =
+            await fetch("/api/appointments", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(data)
+
+            });
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.error ||
+                "Unable to book appointment."
+            );
+
+        }
+
+
+        message.style.display = "block";
+
+        message.textContent =
+            "Appointment booked successfully!";
+
+        form.reset();
+
+
+    } catch (error) {
+
+        message.style.display = "block";
+
+        message.textContent =
+            error.message;
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>

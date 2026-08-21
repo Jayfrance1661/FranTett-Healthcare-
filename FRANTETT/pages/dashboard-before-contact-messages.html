@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,20 +18,16 @@
             --primary: #0b6b5c;
             --primary-dark: #095448;
             --primary-light: #e8f5f2;
-
             --danger: #c0392b;
             --danger-dark: #a93226;
-
             --warning: #f39c12;
             --info: #2980b9;
             --success: #27ae60;
-
             --text: #222;
             --muted: #666;
             --light: #f4f7f9;
             --white: #ffffff;
             --border: #e5e7eb;
-
             --shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
             --shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.12);
         }
@@ -44,7 +41,7 @@
         }
 
         /* =========================================
-           HEADER
+           HEADER / NAVIGATION
         ========================================= */
 
         header {
@@ -116,7 +113,7 @@
         }
 
         /* =========================================
-           MAIN
+           MAIN CONTAINER
         ========================================= */
 
         .container {
@@ -199,21 +196,6 @@
             background: var(--danger-dark);
         }
 
-        .btn-info {
-            background: var(--info);
-            color: white;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-warning {
-            background: var(--warning);
-            color: white;
-        }
-
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -267,14 +249,6 @@
         .stat-icon {
             font-size: 25px;
             float: right;
-        }
-
-        .message-stat {
-            border-left-color: var(--warning);
-        }
-
-        .message-stat .number {
-            color: var(--warning);
         }
 
         /* =========================================
@@ -344,7 +318,7 @@
         }
 
         /* =========================================
-           SECTION TITLES
+           QUICK ACTIONS
         ========================================= */
 
         .section-title {
@@ -353,13 +327,9 @@
             font-size: 24px;
         }
 
-        /* =========================================
-           QUICK ACTIONS
-        ========================================= */
-
         .quick-actions {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             margin-bottom: 35px;
         }
@@ -398,11 +368,10 @@
         }
 
         /* =========================================
-           SECTIONS
+           APPOINTMENTS
         ========================================= */
 
-        .appointments-section,
-        .messages-section {
+        .appointments-section {
             background: var(--white);
             border-radius: 10px;
             padding: 25px;
@@ -424,16 +393,11 @@
             font-size: 23px;
         }
 
-        .appointment-actions,
-        .message-actions {
+        .appointment-actions {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
-
-        /* =========================================
-           TABLE
-        ========================================= */
 
         .table-wrapper {
             overflow-x: auto;
@@ -471,18 +435,6 @@
             background: #f8fbfa;
         }
 
-        .message-row-new {
-            background: #fffaf0;
-        }
-
-        .message-row-new:hover {
-            background: #fff5df;
-        }
-
-        /* =========================================
-           STATUS BADGES
-        ========================================= */
-
         .status-badge {
             display: inline-block;
             padding: 5px 10px;
@@ -492,8 +444,7 @@
             white-space: nowrap;
         }
 
-        .status-pending,
-        .status-new {
+        .status-pending {
             background: #fff3cd;
             color: #856404;
         }
@@ -503,8 +454,7 @@
             color: #1d4ed8;
         }
 
-        .status-completed,
-        .status-replied {
+        .status-completed {
             background: #d1fae5;
             color: #065f46;
         }
@@ -512,54 +462,6 @@
         .status-cancelled {
             background: #fee2e2;
             color: #991b1b;
-        }
-
-        .status-read {
-            background: #e5e7eb;
-            color: #374151;
-        }
-
-        /* =========================================
-           TABLE ACTIONS
-        ========================================= */
-
-        .table-actions {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .small-btn {
-            border: none;
-            border-radius: 5px;
-            padding: 6px 9px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .small-btn.view {
-            background: #e8f5f2;
-            color: var(--primary);
-        }
-
-        .small-btn.read {
-            background: #e5e7eb;
-            color: #374151;
-        }
-
-        .small-btn.replied {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .small-btn.delete {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .small-btn:hover {
-            opacity: 0.8;
         }
 
         /* =========================================
@@ -612,97 +514,6 @@
         }
 
         /* =========================================
-           MODAL
-        ========================================= */
-
-        .modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.55);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            z-index: 5000;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            width: 100%;
-            max-width: 700px;
-            max-height: 90vh;
-            overflow-y: auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
-        }
-
-        .modal-header {
-            background: var(--primary);
-            color: white;
-            padding: 18px 22px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        .modal-header h2 {
-            font-size: 21px;
-        }
-
-        .modal-close {
-            border: none;
-            background: transparent;
-            color: white;
-            font-size: 27px;
-            cursor: pointer;
-        }
-
-        .modal-body {
-            padding: 24px;
-        }
-
-        .message-detail {
-            margin-bottom: 18px;
-        }
-
-        .message-detail-label {
-            font-size: 12px;
-            font-weight: bold;
-            color: #777;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
-        .message-detail-value {
-            font-size: 15px;
-            color: #222;
-            word-break: break-word;
-        }
-
-        .message-content {
-            background: #f8fafb;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px;
-            white-space: pre-wrap;
-            min-height: 120px;
-        }
-
-        .modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        /* =========================================
            TOAST
         ========================================= */
 
@@ -720,7 +531,7 @@
             visibility: hidden;
             transform: translateY(15px);
             transition: 0.25s;
-            z-index: 6000;
+            z-index: 3000;
             font-size: 14px;
         }
 
@@ -754,15 +565,11 @@
            MOBILE
         ========================================= */
 
-        @media (max-width: 1200px) {
-            .quick-actions {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
         @media (max-width: 1100px) {
+
             .stats-grid,
-            .status-grid {
+            .status-grid,
+            .quick-actions {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
@@ -771,11 +578,14 @@
 
             header {
                 padding: 15px 20px;
-                flex-wrap: wrap;
             }
 
             .nav-toggle {
                 display: block;
+            }
+
+            header {
+                flex-wrap: wrap;
             }
 
             nav {
@@ -811,10 +621,6 @@
             .header-actions .btn {
                 flex: 1;
             }
-
-            .quick-actions {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         @media (max-width: 700px) {
@@ -838,13 +644,11 @@
                 align-items: flex-start;
             }
 
-            .appointment-actions,
-            .message-actions {
+            .appointment-actions {
                 width: 100%;
             }
 
-            .appointment-actions .btn,
-            .message-actions .btn {
+            .appointment-actions .btn {
                 flex: 1;
             }
 
@@ -852,8 +656,7 @@
                 padding: 20px;
             }
 
-            .appointments-section,
-            .messages-section {
+            .appointments-section {
                 padding: 18px;
             }
 
@@ -862,14 +665,6 @@
                 right: 15px;
                 bottom: 15px;
                 max-width: none;
-            }
-
-            .modal {
-                padding: 10px;
-            }
-
-            .modal-body {
-                padding: 18px;
             }
         }
 
@@ -888,10 +683,8 @@
             .quick-actions,
             .section-title,
             .appointment-actions,
-            .message-actions,
             footer,
-            .table-actions,
-            .modal {
+            .view-all {
                 display: none !important;
             }
 
@@ -902,15 +695,13 @@
             }
 
             .appointments-section,
-            .messages-section,
             .stat-card,
             .status-card {
                 box-shadow: none;
                 border: 1px solid #ddd;
             }
 
-            .appointments-section,
-            .messages-section {
+            .appointments-section {
                 margin-top: 20px;
             }
 
@@ -968,8 +759,9 @@
             </a>
 
             <a href="./appointments.html">
-                Book Appointment
+            Book Appointment
             </a>
+
 
             <a
                 href="./dashboard.html"
@@ -1011,7 +803,7 @@
 
                     <p>
                         Manage FranTett Healthcare appointments,
-                        patients, contact messages, and healthcare information.
+                        patients, and healthcare information.
                     </p>
 
                 </div>
@@ -1114,24 +906,25 @@
             </div>
 
 
-            <div class="stat-card message-stat">
+            <div class="stat-card">
 
                 <span class="stat-icon">
-                    ✉️
+                    🗓️
                 </span>
 
                 <h3>
-                    New Messages
+                    Today's Date
                 </h3>
 
                 <div
                     class="number"
-                    id="newMessagesCount">
-                    0
+                    id="todayDate"
+                    style="font-size:22px;">
+                    Loading...
                 </div>
 
                 <p>
-                    Unread contact messages
+                    Current date
                 </p>
 
             </div>
@@ -1140,45 +933,7 @@
 
 
         <!-- =========================================
-             TODAY
-        ========================================== -->
-
-        <div
-            style="
-                background:#ffffff;
-                border-radius:10px;
-                padding:18px 22px;
-                box-shadow:var(--shadow);
-                margin-bottom:25px;
-                display:flex;
-                justify-content:space-between;
-                align-items:center;
-                gap:15px;
-                flex-wrap:wrap;
-            ">
-
-            <div>
-
-                <strong style="color:var(--primary);">
-                    Today's Date
-                </strong>
-
-            </div>
-
-            <div
-                id="todayDate"
-                style="
-                    font-weight:bold;
-                    color:#555;
-                ">
-                Loading...
-            </div>
-
-        </div>
-
-
-        <!-- =========================================
-             APPOINTMENT STATUS
+             STATUS
         ========================================== -->
 
         <div class="status-grid">
@@ -1252,6 +1007,7 @@
         <h2 class="section-title">
             Quick Actions
         </h2>
+
 
         <div class="quick-actions">
 
@@ -1334,27 +1090,6 @@
 
             </a>
 
-
-            <a
-                href="#contactMessages"
-                class="action-card"
-                onclick="scrollToMessages(event)">
-
-                <div class="action-icon">
-                    ✉️
-                </div>
-
-                <h3>
-                    Contact Messages
-                </h3>
-
-                <p>
-                    View and manage messages
-                    sent through the contact form.
-                </p>
-
-            </a>
-
         </div>
 
 
@@ -1400,7 +1135,9 @@
             <div
                 id="appointmentsMessage"
                 class="loading">
+
                 Loading appointments...
+
             </div>
 
 
@@ -1447,102 +1184,8 @@
 
                     </thead>
 
-                    <tbody id="recentAppointmentsBody">
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================================
-             CONTACT MESSAGES
-        ========================================== -->
-
-        <div
-            class="messages-section"
-            id="contactMessages">
-
-            <div class="section-heading">
-
-                <h2>
-                    Contact Messages
-                </h2>
-
-                <div class="message-actions">
-
-                    <button
-                        class="btn btn-secondary"
-                        type="button"
-                        onclick="loadContactMessages()">
-                        🔄 Refresh
-                    </button>
-
-                    <button
-                        class="btn btn-primary"
-                        type="button"
-                        onclick="printContactMessages()">
-                        🖨️ Print
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div
-                id="contactMessagesMessage"
-                class="loading">
-                Loading contact messages...
-            </div>
-
-
-            <div
-                id="contactMessagesTableContainer"
-                class="table-wrapper"
-                style="display:none;">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                ID
-                            </th>
-
-                            <th>
-                                Name
-                            </th>
-
-                            <th>
-                                Email
-                            </th>
-
-                            <th>
-                                Subject
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
-                            <th>
-                                Date
-                            </th>
-
-                            <th>
-                                Actions
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="contactMessagesBody">
+                    <tbody
+                        id="recentAppointmentsBody">
                     </tbody>
 
                 </table>
@@ -1566,170 +1209,7 @@
     </footer>
 
 
-    <!-- =========================================
-         MESSAGE VIEW MODAL
-    ========================================== -->
-
-    <div
-        class="modal"
-        id="messageModal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="messageModalTitle">
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-
-                <h2 id="messageModalTitle">
-                    Contact Message
-                </h2>
-
-                <button
-                    class="modal-close"
-                    type="button"
-                    onclick="closeMessageModal()"
-                    aria-label="Close">
-                    ×
-                </button>
-
-            </div>
-
-
-            <div class="modal-body">
-
-                <div class="message-detail">
-
-                    <div class="message-detail-label">
-                        Name
-                    </div>
-
-                    <div
-                        class="message-detail-value"
-                        id="modalMessageName">
-                        -
-                    </div>
-
-                </div>
-
-
-                <div class="message-detail">
-
-                    <div class="message-detail-label">
-                        Email
-                    </div>
-
-                    <div
-                        class="message-detail-value"
-                        id="modalMessageEmail">
-                        -
-                    </div>
-
-                </div>
-
-
-                <div class="message-detail">
-
-                    <div class="message-detail-label">
-                        Subject
-                    </div>
-
-                    <div
-                        class="message-detail-value"
-                        id="modalMessageSubject">
-                        -
-                    </div>
-
-                </div>
-
-
-                <div class="message-detail">
-
-                    <div class="message-detail-label">
-                        Date
-                    </div>
-
-                    <div
-                        class="message-detail-value"
-                        id="modalMessageDate">
-                        -
-                    </div>
-
-                </div>
-
-
-                <div class="message-detail">
-
-                    <div class="message-detail-label">
-                        Status
-                    </div>
-
-                    <div
-                        class="message-detail-value"
-                        id="modalMessageStatus">
-                        -
-                    </div>
-
-                </div>
-
-
-                <div class="message-detail">
-
-                    <div class="message-detail-label">
-                        Message
-                    </div>
-
-                    <div
-                        class="message-content"
-                        id="modalMessageContent">
-                        -
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="modal-footer">
-
-                <button
-                    class="btn btn-secondary"
-                    type="button"
-                    onclick="closeMessageModal()">
-                    Close
-                </button>
-
-                <button
-                    class="btn btn-info"
-                    type="button"
-                    id="modalReadButton">
-                    Mark Read
-                </button>
-
-                <button
-                    class="btn btn-success"
-                    type="button"
-                    id="modalRepliedButton">
-                    Mark Replied
-                </button>
-
-                <button
-                    class="btn btn-danger"
-                    type="button"
-                    id="modalDeleteButton">
-                    Delete
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================================
-         TOAST
-    ========================================== -->
+    <!-- TOAST -->
 
     <div
         id="toast"
@@ -1740,18 +1220,16 @@
 
     <script>
 
-        const API_BASE_URL = "http://localhost:3000";
+        const API_BASE_URL =
+            "http://localhost:3000";
+
 
         let dashboardAppointments = [];
-
-        let contactMessages = [];
-
-        let currentMessageId = null;
 
 
         /* =========================================
            AUTHENTICATION
-        ========================================= */
+        ========================================== */
 
         function getToken() {
 
@@ -1767,11 +1245,14 @@
             options = {}
         ) {
 
-            const token = getToken();
+            const token =
+                getToken();
+
 
             const headers = {
                 ...(options.headers || {})
             };
+
 
             if (token) {
 
@@ -1779,6 +1260,7 @@
                     "Bearer " + token;
 
             }
+
 
             if (
                 options.body &&
@@ -1790,14 +1272,16 @@
 
             }
 
+
             const response =
                 await fetch(
                     API_BASE_URL + url,
                     {
                         ...options,
-                        headers
+                        headers: headers
                     }
                 );
+
 
             if (
                 response.status === 401 ||
@@ -1807,6 +1291,7 @@
                 handleSessionExpired();
 
             }
+
 
             return response;
 
@@ -1827,7 +1312,10 @@
 
             }
 
-            document.body.dataset.sessionExpired = "true";
+
+            document.body.dataset.sessionExpired =
+                "true";
+
 
             showToast(
                 "Your staff session has expired. Please log in again.",
@@ -1848,13 +1336,18 @@
                     "Are you sure you want to log out?"
                 );
 
+
             if (!confirmed) {
+
                 return;
+
             }
+
 
             localStorage.removeItem(
                 "frantett_token"
             );
+
 
             window.location.href =
                 "../index.html";
@@ -1873,14 +1366,19 @@
                     "navToggle"
                 );
 
+
             const nav =
                 document.getElementById(
                     "mainNav"
                 );
 
+
             if (!toggle || !nav) {
+
                 return;
+
             }
+
 
             toggle.addEventListener(
                 "click",
@@ -1891,6 +1389,7 @@
                             "open"
                         );
 
+
                     toggle.setAttribute(
                         "aria-expanded",
                         String(isOpen)
@@ -1899,26 +1398,29 @@
                 }
             );
 
+
             nav.querySelectorAll("a")
-                .forEach(link => {
+                .forEach(
+                    link => {
 
-                    link.addEventListener(
-                        "click",
-                        function () {
+                        link.addEventListener(
+                            "click",
+                            function () {
 
-                            nav.classList.remove(
-                                "open"
-                            );
+                                nav.classList.remove(
+                                    "open"
+                                );
 
-                            toggle.setAttribute(
-                                "aria-expanded",
-                                "false"
-                            );
+                                toggle.setAttribute(
+                                    "aria-expanded",
+                                    "false"
+                                );
 
-                        }
-                    );
+                            }
+                        );
 
-                });
+                    }
+                );
 
         }
 
@@ -1928,6 +1430,7 @@
         ========================================= */
 
         let toastTimer;
+
 
         function showToast(
             message,
@@ -1939,12 +1442,20 @@
                     "toast"
                 );
 
-            toast.textContent = message;
+
+            toast.textContent =
+                message;
+
 
             toast.className =
-                "toast show " + type;
+                "toast show " +
+                type;
 
-            clearTimeout(toastTimer);
+
+            clearTimeout(
+                toastTimer
+            );
+
 
             toastTimer =
                 setTimeout(
@@ -1978,13 +1489,6 @@
         }
 
 
-        function printContactMessages() {
-
-            window.print();
-
-        }
-
-
         /* =========================================
            ESCAPE HTML
         ========================================= */
@@ -2000,12 +1504,28 @@
 
             }
 
+
             return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
 
         }
 
@@ -2025,6 +1545,7 @@
 
             }
 
+
             if (
                 appointment.patientName &&
                 typeof appointment.patientName === "string"
@@ -2034,33 +1555,60 @@
 
             }
 
+
             const patient =
                 appointment.patient;
+
 
             if (
                 patient &&
                 typeof patient === "object"
             ) {
 
-                if (patient.patient_name) {
+                if (
+                    patient.patient_name
+                ) {
+
                     return patient.patient_name;
+
                 }
 
-                if (patient.patientName) {
+
+                if (
+                    patient.patientName
+                ) {
+
                     return patient.patientName;
+
                 }
 
-                if (patient.name) {
+
+                if (
+                    patient.name
+                ) {
+
                     return patient.name;
+
                 }
 
-                if (patient.full_name) {
+
+                if (
+                    patient.full_name
+                ) {
+
                     return patient.full_name;
+
                 }
 
-                if (patient.fullName) {
+
+                if (
+                    patient.fullName
+                ) {
+
                     return patient.fullName;
+
                 }
+
 
                 if (
                     patient.first_name ||
@@ -2075,6 +1623,7 @@
                         .trim();
 
                 }
+
 
                 if (
                     patient.firstName ||
@@ -2092,6 +1641,7 @@
 
             }
 
+
             if (
                 typeof patient === "string"
             ) {
@@ -2100,17 +1650,33 @@
 
             }
 
-            if (appointment.full_name) {
+
+            if (
+                appointment.full_name
+            ) {
+
                 return appointment.full_name;
+
             }
 
-            if (appointment.fullName) {
+
+            if (
+                appointment.fullName
+            ) {
+
                 return appointment.fullName;
+
             }
 
-            if (appointment.name) {
+
+            if (
+                appointment.name
+            ) {
+
                 return appointment.name;
+
             }
+
 
             if (
                 appointment.first_name ||
@@ -2126,6 +1692,7 @@
 
             }
 
+
             if (
                 appointment.firstName ||
                 appointment.lastName
@@ -2140,6 +1707,7 @@
 
             }
 
+
             return "-";
 
         }
@@ -2151,13 +1719,23 @@
 
         function getDoctorName(appointment) {
 
-            if (appointment.doctor_name) {
+            if (
+                appointment.doctor_name
+            ) {
+
                 return appointment.doctor_name;
+
             }
 
-            if (appointment.doctorName) {
+
+            if (
+                appointment.doctorName
+            ) {
+
                 return appointment.doctorName;
+
             }
+
 
             if (
                 typeof appointment.doctor === "string"
@@ -2167,24 +1745,40 @@
 
             }
 
+
             if (
                 appointment.doctor &&
                 typeof appointment.doctor === "object"
             ) {
 
-                if (appointment.doctor.name) {
+                if (
+                    appointment.doctor.name
+                ) {
+
                     return appointment.doctor.name;
+
                 }
 
-                if (appointment.doctor.doctor_name) {
+
+                if (
+                    appointment.doctor.doctor_name
+                ) {
+
                     return appointment.doctor.doctor_name;
+
                 }
 
-                if (appointment.doctor.full_name) {
+
+                if (
+                    appointment.doctor.full_name
+                ) {
+
                     return appointment.doctor.full_name;
+
                 }
 
             }
+
 
             return "-";
 
@@ -2198,16 +1792,21 @@
         function formatAppointmentDate(value) {
 
             if (!value) {
+
                 return "-";
+
             }
+
 
             const valueString =
                 String(value).trim();
+
 
             const match =
                 valueString.match(
                     /^(\d{4})-(\d{2})-(\d{2})/
                 );
+
 
             if (match) {
 
@@ -2220,6 +1819,7 @@
                 const day =
                     Number(match[3]);
 
+
                 const date =
                     new Date(
                         year,
@@ -2227,8 +1827,11 @@
                         day
                     );
 
+
                 if (
-                    !isNaN(date.getTime())
+                    !isNaN(
+                        date.getTime()
+                    )
                 ) {
 
                     return date.toLocaleDateString(
@@ -2244,16 +1847,21 @@
 
             }
 
+
             const date =
                 new Date(value);
 
+
             if (
-                isNaN(date.getTime())
+                isNaN(
+                    date.getTime()
+                )
             ) {
 
                 return valueString;
 
             }
+
 
             return date.toLocaleDateString(
                 "en-US",
@@ -2268,55 +1876,25 @@
 
 
         /* =========================================
-           MESSAGE DATE
-        ========================================= */
-
-        function formatMessageDate(value) {
-
-            if (!value) {
-                return "-";
-            }
-
-            const date =
-                new Date(value);
-
-            if (
-                isNaN(date.getTime())
-            ) {
-
-                return String(value);
-
-            }
-
-            return date.toLocaleString(
-                "en-US",
-                {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                    hour: "numeric",
-                    minute: "2-digit"
-                }
-            );
-
-        }
-
-
-        /* =========================================
-           APPOINTMENT STATUS
+           STATUS
         ========================================= */
 
         function formatStatus(status) {
 
             if (!status) {
+
                 return "Pending";
+
             }
+
 
             const value =
                 String(status);
 
+
             return (
-                value.charAt(0).toUpperCase() +
+                value.charAt(0).toUpperCase()
+                +
                 value.slice(1).toLowerCase()
             );
 
@@ -2330,74 +1908,35 @@
                     status || "pending"
                 ).toLowerCase();
 
-            if (value === "confirmed") {
+
+            if (
+                value === "confirmed"
+            ) {
+
                 return "status-confirmed";
+
             }
 
-            if (value === "completed") {
+
+            if (
+                value === "completed"
+            ) {
+
                 return "status-completed";
+
             }
 
-            if (value === "cancelled") {
+
+            if (
+                value === "cancelled"
+            ) {
+
                 return "status-cancelled";
+
             }
+
 
             return "status-pending";
-
-        }
-
-
-        /* =========================================
-           CONTACT MESSAGE STATUS
-        ========================================= */
-
-        function formatMessageStatus(status) {
-
-            if (!status) {
-                return "New";
-            }
-
-            const value =
-                String(status)
-                    .trim()
-                    .toLowerCase();
-
-            if (value === "new") {
-                return "New";
-            }
-
-            if (value === "read") {
-                return "Read";
-            }
-
-            if (value === "replied") {
-                return "Replied";
-            }
-
-            return value.charAt(0).toUpperCase() +
-                value.slice(1);
-
-        }
-
-
-        function getMessageStatusClass(status) {
-
-            const value =
-                String(
-                    status || "new"
-                )
-                    .trim()
-                    .toLowerCase();
-
-            if (value === "read") {
-                return "status-read";
-            }
-
-            if (value === "replied") {
-                return "status-replied";
-            }
-
-            return "status-new";
 
         }
 
@@ -2410,6 +1949,7 @@
 
             const today =
                 new Date();
+
 
             document.getElementById(
                 "todayDate"
@@ -2439,7 +1979,10 @@
                         "/api/doctors"
                     );
 
-                if (!response.ok) {
+
+                if (
+                    !response.ok
+                ) {
 
                     throw new Error(
                         `HTTP ${response.status}`
@@ -2447,14 +1990,20 @@
 
                 }
 
+
                 const data =
                     await response.json();
 
-                let doctors = data;
+
+                let doctors =
+                    data;
+
 
                 if (
                     data &&
-                    Array.isArray(data.doctors)
+                    Array.isArray(
+                        data.doctors
+                    )
                 ) {
 
                     doctors =
@@ -2462,14 +2011,18 @@
 
                 }
 
+
                 document.getElementById(
                     "totalDoctors"
                 ).textContent =
-                    Array.isArray(doctors)
+                    Array.isArray(
+                        doctors
+                    )
                         ? doctors.length
                         : 0;
 
             }
+
             catch (error) {
 
                 console.error(
@@ -2477,9 +2030,11 @@
                     error
                 );
 
+
                 document.getElementById(
                     "totalDoctors"
-                ).textContent = "—";
+                ).textContent =
+                    "—";
 
             }
 
@@ -2499,7 +2054,10 @@
                         "/api/patients"
                     );
 
-                if (!response.ok) {
+
+                if (
+                    !response.ok
+                ) {
 
                     throw new Error(
                         `HTTP ${response.status}`
@@ -2507,14 +2065,20 @@
 
                 }
 
+
                 const data =
                     await response.json();
 
-                let patients = data;
+
+                let patients =
+                    data;
+
 
                 if (
                     data &&
-                    Array.isArray(data.patients)
+                    Array.isArray(
+                        data.patients
+                    )
                 ) {
 
                     patients =
@@ -2522,14 +2086,18 @@
 
                 }
 
+
                 document.getElementById(
                     "totalPatients"
                 ).textContent =
-                    Array.isArray(patients)
+                    Array.isArray(
+                        patients
+                    )
                         ? patients.length
                         : 0;
 
             }
+
             catch (error) {
 
                 console.error(
@@ -2537,9 +2105,11 @@
                     error
                 );
 
+
                 document.getElementById(
                     "totalPatients"
-                ).textContent = "—";
+                ).textContent =
+                    "—";
 
             }
 
@@ -2557,47 +2127,53 @@
                     "appointmentsMessage"
                 );
 
+
             const tableContainer =
                 document.getElementById(
                     "appointmentsTableContainer"
                 );
+
 
             const tbody =
                 document.getElementById(
                     "recentAppointmentsBody"
                 );
 
+
             const token =
                 getToken();
+
 
             if (!token) {
 
                 message.className =
                     "login-message";
 
-                message.innerHTML = `
+
+                message.innerHTML =
+                    `
                     <strong>Staff session required.</strong>
                     <br>
                     Please log in again to access the dashboard.
-
                     <div class="message-action">
-
                         <button
                             class="btn btn-primary"
                             type="button"
                             onclick="window.location.href='../index.html'">
                             Go to Login
                         </button>
-
                     </div>
-                `;
+                    `;
+
 
                 tableContainer.style.display =
                     "none";
 
+
                 return;
 
             }
+
 
             try {
 
@@ -2610,13 +2186,16 @@
                 message.style.display =
                     "block";
 
+
                 tableContainer.style.display =
                     "none";
+
 
                 const response =
                     await apiFetch(
                         "/api/appointments"
                     );
+
 
                 if (
                     response.status === 401 ||
@@ -2626,28 +2205,31 @@
                     message.className =
                         "login-message";
 
-                    message.innerHTML = `
+
+                    message.innerHTML =
+                        `
                         <strong>Your staff session has expired.</strong>
                         <br>
                         Please log in again.
-
                         <div class="message-action">
-
                             <button
                                 class="btn btn-primary"
                                 type="button"
                                 onclick="window.location.href='../index.html'">
                                 Go to Login
                             </button>
-
                         </div>
-                    `;
+                        `;
+
 
                     return;
 
                 }
 
-                if (!response.ok) {
+
+                if (
+                    !response.ok
+                ) {
 
                     throw new Error(
                         `HTTP ${response.status}`
@@ -2655,14 +2237,20 @@
 
                 }
 
+
                 const data =
                     await response.json();
 
-                let appointments = data;
+
+                let appointments =
+                    data;
+
 
                 if (
                     data &&
-                    Array.isArray(data.appointments)
+                    Array.isArray(
+                        data.appointments
+                    )
                 ) {
 
                     appointments =
@@ -2670,22 +2258,31 @@
 
                 }
 
+
                 if (
-                    !Array.isArray(appointments)
+                    !Array.isArray(
+                        appointments
+                    )
                 ) {
 
                     appointments = [];
 
                 }
 
+
                 dashboardAppointments =
                     [...appointments];
+
+
+                /* TOTAL */
 
                 document.getElementById(
                     "totalAppointments"
                 ).textContent =
                     appointments.length;
 
+
+                /* STATUS COUNTS */
 
                 let pending = 0;
                 let confirmed = 0;
@@ -2704,17 +2301,37 @@
                                 .toLowerCase()
                                 .trim();
 
-                        if (status === "pending") {
+
+                        if (
+                            status === "pending"
+                        ) {
+
                             pending++;
+
                         }
-                        else if (status === "confirmed") {
+
+                        else if (
+                            status === "confirmed"
+                        ) {
+
                             confirmed++;
+
                         }
-                        else if (status === "completed") {
+
+                        else if (
+                            status === "completed"
+                        ) {
+
                             completed++;
+
                         }
-                        else if (status === "cancelled") {
+
+                        else if (
+                            status === "cancelled"
+                        ) {
+
                             cancelled++;
+
                         }
 
                     }
@@ -2726,21 +2343,26 @@
                 ).textContent =
                     pending;
 
+
                 document.getElementById(
                     "confirmedCount"
                 ).textContent =
                     confirmed;
+
 
                 document.getElementById(
                     "completedCount"
                 ).textContent =
                     completed;
 
+
                 document.getElementById(
                     "cancelledCount"
                 ).textContent =
                     cancelled;
 
+
+                /* SORT */
 
                 appointments.sort(
                     (a, b) => {
@@ -2750,10 +2372,12 @@
                                 `${a.appointment_date || ""}T${a.appointment_time || "00:00"}`
                             );
 
+
                         const dateB =
                             new Date(
                                 `${b.appointment_date || ""}T${b.appointment_time || "00:00"}`
                             );
+
 
                         return dateB - dateA;
 
@@ -2761,18 +2385,29 @@
                 );
 
 
+                /* FIVE MOST RECENT */
+
                 const recent =
-                    appointments.slice(0, 5);
+                    appointments.slice(
+                        0,
+                        5
+                    );
 
-                tbody.innerHTML = "";
+
+                tbody.innerHTML =
+                    "";
 
 
-                if (recent.length === 0) {
+                if (
+                    recent.length === 0
+                ) {
 
                     message.className =
                         "empty-state";
 
-                    message.innerHTML = `
+
+                    message.innerHTML =
+                        `
                         <div class="empty-icon">
                             📅
                         </div>
@@ -2787,23 +2422,25 @@
                         </p>
 
                         <div class="message-action">
-
                             <a
                                 href="./appointments.html"
                                 class="btn btn-primary">
                                 Add Appointment
                             </a>
-
                         </div>
-                    `;
+                        `;
+
 
                     tableContainer.style.display =
                         "none";
+
 
                     return;
 
                 }
 
+
+                /* DISPLAY */
 
                 recent.forEach(
                     appointment => {
@@ -2813,33 +2450,40 @@
                                 "tr"
                             );
 
+
                         const patientName =
                             getPatientName(
                                 appointment
                             );
+
 
                         const doctorName =
                             getDoctorName(
                                 appointment
                             );
 
+
                         const date =
                             formatAppointmentDate(
                                 appointment.appointment_date
                             );
 
+
                         const time =
                             appointment.appointment_time ||
                             "-";
+
 
                         const reason =
                             appointment.reason ||
                             "-";
 
+
                         const status =
                             formatStatus(
                                 appointment.status
                             );
+
 
                         const statusClass =
                             getStatusClass(
@@ -2847,7 +2491,8 @@
                             );
 
 
-                        row.innerHTML = `
+                        row.innerHTML =
+                            `
 
                             <td>
                                 ${escapeHtml(
@@ -2886,19 +2531,20 @@
                             </td>
 
                             <td>
-
                                 <span
                                     class="status-badge ${statusClass}">
                                     ${escapeHtml(
                                         status
                                     )}
                                 </span>
-
                             </td>
 
-                        `;
+                            `;
 
-                        tbody.appendChild(row);
+
+                        tbody.appendChild(
+                            row
+                        );
 
                     }
                 );
@@ -2907,10 +2553,12 @@
                 message.style.display =
                     "none";
 
+
                 tableContainer.style.display =
                     "block";
 
             }
+
             catch (error) {
 
                 console.error(
@@ -2918,11 +2566,13 @@
                     error
                 );
 
+
                 message.className =
                     "error-message";
 
-                message.innerHTML = `
 
+                message.innerHTML =
+                    `
                     <strong>
                         Unable to load appointments.
                     </strong>
@@ -2942,925 +2592,11 @@
                         </button>
 
                     </div>
-
-                `;
-
-                tableContainer.style.display =
-                    "none";
-
-            }
-
-        }
-
-
-        /* =========================================
-           LOAD CONTACT MESSAGES
-        ========================================= */
-
-        async function loadContactMessages() {
-
-            const message =
-                document.getElementById(
-                    "contactMessagesMessage"
-                );
-
-            const tableContainer =
-                document.getElementById(
-                    "contactMessagesTableContainer"
-                );
-
-            const tbody =
-                document.getElementById(
-                    "contactMessagesBody"
-                );
-
-
-            const token =
-                getToken();
-
-
-            if (!token) {
-
-                message.className =
-                    "login-message";
-
-                message.innerHTML = `
-
-                    <strong>
-                        Staff session required.
-                    </strong>
-
-                    <br>
-
-                    Please log in again to access
-                    contact messages.
-
-                    <div class="message-action">
-
-                        <button
-                            class="btn btn-primary"
-                            type="button"
-                            onclick="window.location.href='../index.html'">
-                            Go to Login
-                        </button>
-
-                    </div>
-
-                `;
-
-                tableContainer.style.display =
-                    "none";
-
-                return;
-
-            }
-
-
-            try {
-
-                message.className =
-                    "loading";
-
-                message.textContent =
-                    "Loading contact messages...";
-
-                message.style.display =
-                    "block";
-
-                tableContainer.style.display =
-                    "none";
-
-
-                const response =
-                    await apiFetch(
-                        "/api/contact"
-                    );
-
-
-                if (
-                    response.status === 401 ||
-                    response.status === 403
-                ) {
-
-                    message.className =
-                        "login-message";
-
-                    message.innerHTML = `
-
-                        <strong>
-                            Your staff session has expired.
-                        </strong>
-
-                        <br>
-
-                        Please log in again.
-
-                        <div class="message-action">
-
-                            <button
-                                class="btn btn-primary"
-                                type="button"
-                                onclick="window.location.href='../index.html'">
-                                Go to Login
-                            </button>
-
-                        </div>
-
                     `;
 
-                    return;
-
-                }
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        `HTTP ${response.status}`
-                    );
-
-                }
-
-
-                const data =
-                    await response.json();
-
-
-                let messages =
-                    data;
-
-
-                if (
-                    data &&
-                    Array.isArray(data.messages)
-                ) {
-
-                    messages =
-                        data.messages;
-
-                }
-
-
-                if (
-                    data &&
-                    Array.isArray(data.contactMessages)
-                ) {
-
-                    messages =
-                        data.contactMessages;
-
-                }
-
-
-                if (!Array.isArray(messages)) {
-
-                    messages = [];
-
-                }
-
-
-                contactMessages =
-                    [...messages];
-
-
-                /* NEW MESSAGE COUNT */
-
-                const newCount =
-                    contactMessages.filter(
-                        message => {
-
-                            return String(
-                                message.status || "New"
-                            )
-                                .toLowerCase()
-                                .trim() === "new";
-
-                        }
-                    ).length;
-
-
-                document.getElementById(
-                    "newMessagesCount"
-                ).textContent =
-                    newCount;
-
-
-                /* SORT NEWEST FIRST */
-
-                contactMessages.sort(
-                    (a, b) => {
-
-                        const dateA =
-                            new Date(
-                                a.created_at ||
-                                a.createdAt ||
-                                0
-                            );
-
-                        const dateB =
-                            new Date(
-                                b.created_at ||
-                                b.createdAt ||
-                                0
-                            );
-
-                        return dateB - dateA;
-
-                    }
-                );
-
-
-                /* SHOW ONLY FIVE */
-
-                const recentMessages =
-                    contactMessages.slice(0, 5);
-
-
-                tbody.innerHTML = "";
-
-
-                if (
-                    recentMessages.length === 0
-                ) {
-
-                    message.className =
-                        "empty-state";
-
-                    message.innerHTML = `
-
-                        <div class="empty-icon">
-                            ✉️
-                        </div>
-
-                        <h3>
-                            No contact messages
-                        </h3>
-
-                        <p>
-                            There are currently no messages
-                            submitted through the contact form.
-                        </p>
-
-                    `;
-
-                    tableContainer.style.display =
-                        "none";
-
-                    return;
-
-                }
-
-
-                recentMessages.forEach(
-                    contactMessage => {
-
-                        const row =
-                            document.createElement(
-                                "tr"
-                            );
-
-
-                        const status =
-                            formatMessageStatus(
-                                contactMessage.status
-                            );
-
-
-                        const statusClass =
-                            getMessageStatusClass(
-                                contactMessage.status
-                            );
-
-
-                        const createdAt =
-                            contactMessage.created_at ||
-                            contactMessage.createdAt;
-
-
-                        const isNew =
-                            String(
-                                contactMessage.status ||
-                                "New"
-                            )
-                                .toLowerCase()
-                                .trim() === "new";
-
-
-                        if (isNew) {
-
-                            row.classList.add(
-                                "message-row-new"
-                            );
-
-                        }
-
-
-                        row.innerHTML = `
-
-                            <td>
-                                ${escapeHtml(
-                                    contactMessage.id ?? "-"
-                                )}
-                            </td>
-
-                            <td>
-                                <strong>
-                                    ${escapeHtml(
-                                        contactMessage.name || "-"
-                                    )}
-                                </strong>
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    contactMessage.email || "-"
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    contactMessage.subject || "-"
-                                )}
-                            </td>
-
-                            <td>
-
-                                <span
-                                    class="status-badge ${statusClass}">
-                                    ${escapeHtml(
-                                        status
-                                    )}
-                                </span>
-
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    formatMessageDate(
-                                        createdAt
-                                    )
-                                )}
-                            </td>
-
-                            <td>
-
-                                <div class="table-actions">
-
-                                    <button
-                                        class="small-btn view"
-                                        type="button"
-                                        onclick="viewContactMessage(${Number(
-                                            contactMessage.id
-                                        )})">
-                                        View
-                                    </button>
-
-                                    ${
-                                        isNew
-                                        ? `
-                                            <button
-                                                class="small-btn read"
-                                                type="button"
-                                                onclick="updateMessageStatus(${Number(
-                                                    contactMessage.id
-                                                )}, 'Read')">
-                                                Read
-                                            </button>
-                                        `
-                                        : ""
-                                    }
-
-                                    ${
-                                        String(
-                                            contactMessage.status || ""
-                                        ).toLowerCase() !== "replied"
-                                        ? `
-                                            <button
-                                                class="small-btn replied"
-                                                type="button"
-                                                onclick="updateMessageStatus(${Number(
-                                                    contactMessage.id
-                                                )}, 'Replied')">
-                                                Replied
-                                            </button>
-                                        `
-                                        : ""
-                                    }
-
-                                    <button
-                                        class="small-btn delete"
-                                        type="button"
-                                        onclick="deleteContactMessage(${Number(
-                                            contactMessage.id
-                                        )})">
-                                        Delete
-                                    </button>
-
-                                </div>
-
-                            </td>
-
-                        `;
-
-
-                        tbody.appendChild(row);
-
-                    }
-                );
-
-
-                message.style.display =
-                    "none";
-
-                tableContainer.style.display =
-                    "block";
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Unable to load contact messages:",
-                    error
-                );
-
-
-                message.className =
-                    "error-message";
-
-
-                message.innerHTML = `
-
-                    <strong>
-                        Unable to load contact messages.
-                    </strong>
-
-                    <br>
-
-                    There was a problem communicating
-                    with the server.
-
-                    <div class="message-action">
-
-                        <button
-                            class="btn btn-primary"
-                            type="button"
-                            onclick="loadContactMessages()">
-                            🔄 Try Again
-                        </button>
-
-                    </div>
-
-                `;
-
 
                 tableContainer.style.display =
                     "none";
-
-
-                document.getElementById(
-                    "newMessagesCount"
-                ).textContent =
-                    "—";
-
-            }
-
-        }
-
-
-        /* =========================================
-           VIEW CONTACT MESSAGE
-        ========================================= */
-
-        async function viewContactMessage(id) {
-
-            currentMessageId = id;
-
-
-            try {
-
-                const response =
-                    await apiFetch(
-                        `/api/contact/${encodeURIComponent(id)}`
-                    );
-
-
-                if (
-                    response.status === 401 ||
-                    response.status === 403
-                ) {
-
-                    return;
-
-                }
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        `HTTP ${response.status}`
-                    );
-
-                }
-
-
-                const data =
-                    await response.json();
-
-
-              let message = data;
-
-
-// Backend returns the single contact message as "contact"
-if (
-    data &&
-    data.contact &&
-    typeof data.contact === "object"
-) {
-
-    message = data.contact;
-
-}
-
-
-// Support alternative response formats as well
-else if (
-    data &&
-    data.message &&
-    typeof data.message === "object"
-) {
-
-    message = data.message;
-
-}
-
-
-else if (
-    data &&
-    data.contactMessage &&
-    typeof data.contactMessage === "object"
-) {
-
-    message = data.contactMessage;
-
-}
-
-
-                if (
-                    !message ||
-                    typeof message !== "object"
-                ) {
-
-                    throw new Error(
-                        "Invalid message data"
-                    );
-
-                }
-
-
-                document.getElementById(
-                    "modalMessageName"
-                ).textContent =
-                    message.name || "-";
-
-
-                document.getElementById(
-                    "modalMessageEmail"
-                ).textContent =
-                    message.email || "-";
-
-
-                document.getElementById(
-                    "modalMessageSubject"
-                ).textContent =
-                    message.subject || "-";
-
-
-                document.getElementById(
-                    "modalMessageDate"
-                ).textContent =
-                    formatMessageDate(
-                        message.created_at ||
-                        message.createdAt
-                    );
-
-
-                document.getElementById(
-                    "modalMessageStatus"
-                ).innerHTML = `
-
-                    <span
-                        class="status-badge ${getMessageStatusClass(
-                            message.status
-                        )}">
-
-                        ${escapeHtml(
-                            formatMessageStatus(
-                                message.status
-                            )
-                        )}
-
-                    </span>
-
-                `;
-
-
-                document.getElementById(
-                    "modalMessageContent"
-                ).textContent =
-                    message.message ||
-                    message.content ||
-                    message.body ||
-                    "-";
-
-
-                const readButton =
-                    document.getElementById(
-                        "modalReadButton"
-                    );
-
-
-                const repliedButton =
-                    document.getElementById(
-                        "modalRepliedButton"
-                    );
-
-
-                const deleteButton =
-                    document.getElementById(
-                        "modalDeleteButton"
-                    );
-
-
-                readButton.onclick =
-                    function () {
-
-                        updateMessageStatus(
-                            id,
-                            "Read"
-                        );
-
-                    };
-
-
-                repliedButton.onclick =
-                    function () {
-
-                        updateMessageStatus(
-                            id,
-                            "Replied"
-                        );
-
-                    };
-
-
-                deleteButton.onclick =
-                    function () {
-
-                        deleteContactMessage(
-                            id
-                        );
-
-                    };
-
-
-                document.getElementById(
-                    "messageModal"
-                ).classList.add(
-                    "show"
-                );
-
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Unable to view contact message:",
-                    error
-                );
-
-
-                showToast(
-                    "Unable to load the contact message.",
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* =========================================
-           CLOSE MESSAGE MODAL
-        ========================================= */
-
-        function closeMessageModal() {
-
-            document.getElementById(
-                "messageModal"
-            ).classList.remove(
-                "show"
-            );
-
-            currentMessageId =
-                null;
-
-        }
-
-
-        /* =========================================
-           UPDATE MESSAGE STATUS
-        ========================================= */
-
-        async function updateMessageStatus(
-            id,
-            status
-        ) {
-
-            try {
-
-                const response =
-                    await apiFetch(
-                        `/api/contact/${encodeURIComponent(id)}/status`,
-                        {
-                            method: "PATCH",
-                            body: JSON.stringify({
-                                status: status
-                            })
-                        }
-                    );
-
-
-                if (
-                    response.status === 401 ||
-                    response.status === 403
-                ) {
-
-                    return;
-
-                }
-
-
-                if (!response.ok) {
-
-                    let errorText =
-                        "";
-
-                    try {
-
-                        errorText =
-                            await response.text();
-
-                    }
-                    catch (_) {}
-
-                    throw new Error(
-                        errorText ||
-                        `HTTP ${response.status}`
-                    );
-
-                }
-
-
-                showToast(
-                    `Message marked as ${status}.`,
-                    "success"
-                );
-
-
-                closeMessageModal();
-
-
-                await loadContactMessages();
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Unable to update message status:",
-                    error
-                );
-
-
-                showToast(
-                    "Unable to update the message status.",
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* =========================================
-           DELETE CONTACT MESSAGE
-        ========================================= */
-
-        async function deleteContactMessage(id) {
-
-            const confirmed =
-                window.confirm(
-                    "Are you sure you want to delete this contact message? This action cannot be undone."
-                );
-
-
-            if (!confirmed) {
-
-                return;
-
-            }
-
-
-            try {
-
-                const response =
-                    await apiFetch(
-                        `/api/contact/${encodeURIComponent(id)}`,
-                        {
-                            method: "DELETE"
-                        }
-                    );
-
-
-                if (
-                    response.status === 401 ||
-                    response.status === 403
-                ) {
-
-                    return;
-
-                }
-
-
-                if (!response.ok) {
-
-                    let errorText =
-                        "";
-
-                    try {
-
-                        errorText =
-                            await response.text();
-
-                    }
-                    catch (_) {}
-
-                    throw new Error(
-                        errorText ||
-                        `HTTP ${response.status}`
-                    );
-
-                }
-
-
-                showToast(
-                    "Contact message deleted successfully.",
-                    "success"
-                );
-
-
-                closeMessageModal();
-
-
-                await loadContactMessages();
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Unable to delete contact message:",
-                    error
-                );
-
-
-                showToast(
-                    "Unable to delete the contact message.",
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* =========================================
-           SCROLL TO CONTACT MESSAGES
-        ========================================= */
-
-        function scrollToMessages(event) {
-
-            event.preventDefault();
-
-            const section =
-                document.getElementById(
-                    "contactMessages"
-                );
-
-            if (section) {
-
-                section.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
 
             }
 
@@ -3881,6 +2617,7 @@ else if (
                     "There are no appointments to export.",
                     "error"
                 );
+
 
                 return;
 
@@ -3930,10 +2667,11 @@ else if (
                 );
 
 
-            const csvRows = [
-                headers,
-                ...rows
-            ];
+            const csvRows =
+                [
+                    headers,
+                    ...rows
+                ];
 
 
             const csv =
@@ -3945,10 +2683,11 @@ else if (
                                     value =>
                                         `"${String(
                                             value ?? ""
-                                        ).replace(
-                                            /"/g,
-                                            '""'
-                                        )}"`
+                                        )
+                                            .replace(
+                                                /"/g,
+                                                '""'
+                                            )}"`
                                 )
                                 .join(",")
                     )
@@ -4037,8 +2776,7 @@ else if (
             await Promise.all([
                 loadDoctors(),
                 loadPatients(),
-                loadAppointments(),
-                loadContactMessages()
+                loadAppointments()
             ]);
 
 
@@ -4062,56 +2800,10 @@ else if (
             await Promise.all([
                 loadDoctors(),
                 loadPatients(),
-                loadAppointments(),
-                loadContactMessages()
+                loadAppointments()
             ]);
 
         }
-
-
-        /* =========================================
-           CLOSE MODAL WHEN CLICKING OUTSIDE
-        ========================================= */
-
-        document.addEventListener(
-            "click",
-            function(event) {
-
-                const modal =
-                    document.getElementById(
-                        "messageModal"
-                    );
-
-                if (
-                    event.target === modal
-                ) {
-
-                    closeMessageModal();
-
-                }
-
-            }
-        );
-
-
-        /* =========================================
-           ESC KEY
-        ========================================= */
-
-        document.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (
-                    event.key === "Escape"
-                ) {
-
-                    closeMessageModal();
-
-                }
-
-            }
-        );
 
 
         /* =========================================
@@ -4124,6 +2816,7 @@ else if (
 
                 setupNavigation();
 
+
                 loadDashboard();
 
             }
@@ -4132,4 +2825,5 @@ else if (
     </script>
 
 </body>
+
 </html>
