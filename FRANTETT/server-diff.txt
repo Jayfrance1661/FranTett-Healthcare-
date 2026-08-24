@@ -1,0 +1,1631 @@
+﻿diff --git a/FRANTETT/server.js b/FRANTETT/server.js
+index 7481878..a7b88c1 100644
+--- a/FRANTETT/server.js
++++ b/FRANTETT/server.js
+@@ -1,4 +1,4 @@
+-const cors = require("cors");
++∩╗┐const cors = require("cors");
+ const express = require("express");
+ const path = require("path");
+ const { Pool } = require("pg");
+@@ -82,8 +82,17 @@ app.post("/api/login", async (req, res) => {
+         }
+ 
+         const result = await pool.query(
+-            "SELECT * FROM users WHERE email = $1",
+-            [email]
++            `SELECT
++                id,
++                email,
++                password,
++                role,
++                full_name,
++                phone,
++                status
++             FROM users
++             WHERE LOWER(email) = LOWER($1)`,
++            [email.trim()]
+         );
+ 
+         if (result.rows.length === 0) {
+@@ -96,6 +105,22 @@ app.post("/api/login", async (req, res) => {
+ 
+         const user = result.rows[0];
+ 
++        // ==========================================
++        // CHECK ACCOUNT STATUS
++        // ==========================================
++
++        if (user.status !== "Active") {
++
++            return res.status(403).json({
++                message: "Your account is not active. Please contact an administrator."
++            });
++
++        }
++
++        // ==========================================
++        // CHECK PASSWORD
++        // ==========================================
++
+         const storedPassword =
+             user.password ||
+             user.password_hash;
+@@ -122,14 +147,34 @@ app.post("/api/login", async (req, res) => {
+ 
+         }
+ 
++        // ==========================================
++        // USER ROLE
++        // ==========================================
++
++        const role =
++            user.role || "Staff";
++
+         const isAdmin =
+-            user.email.toLowerCase() ===
+-            "jayfrance1661@gmail.com";
++            role === "Admin";
++
++        // ==========================================
++        // USER NAME
++        // ==========================================
++
++        const fullName =
++            user.full_name ||
++            user.email.split("@")[0];
++
++        // ==========================================
++        // CREATE JWT
++        // ==========================================
+ 
+         const token = jwt.sign(
+             {
+                 id: user.id,
+                 email: user.email,
++                role: role,
++                full_name: fullName,
+                 isAdmin: isAdmin
+             },
+             JWT_SECRET,
+@@ -138,9 +183,26 @@ app.post("/api/login", async (req, res) => {
+             }
+         );
+ 
++        // ==========================================
++        // LOGIN RESPONSE
++        // ==========================================
++
+         res.json({
++
+             message: "Login successful",
+-            token: token
++
++            token: token,
++
++            user: {
++                id: user.id,
++                email: user.email,
++                full_name: fullName,
++                role: role,
++                phone: user.phone,
++                status: user.status,
++                isAdmin: isAdmin
++            }
++
+         });
+ 
+     } catch (error) {
+@@ -404,6 +466,167 @@ app.put(
+ 
+         try {
+ 
++            // ----------------------------------
++            // VALIDATE DOCTOR SCHEDULE
++            // ----------------------------------
++
++            const doctorResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        name,
++                        status
++                    FROM doctors
++                    WHERE LOWER(TRIM(name)) =
++                          LOWER(TRIM($1))
++                    LIMIT 1
++                    `,
++                    [doctor]
++                );
++
++            if (doctorResult.rows.length === 0) {
++
++                return res.status(400).json({
++                    message:
++                        "Selected doctor was not found."
++                });
++
++            }
++
++            const selectedDoctor =
++                doctorResult.rows[0];
++
++            if (
++                String(selectedDoctor.status || "")
++                    .toLowerCase() !== "active"
++            ) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is currently inactive."
++                });
++
++            }
++
++            // Check doctor leave
++            const leaveResult =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM doctor_leave_days
++                    WHERE doctor_id = $1
++                    AND leave_date = $2::date
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
++
++            if (leaveResult.rows.length > 0) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is on leave on the selected date."
++                });
++
++            }
++
++            // Check weekly availability
++            const availabilityResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        start_time,
++                        end_time
++                    FROM doctor_availability
++                    WHERE doctor_id = $1
++                    AND LOWER(day_of_week) =
++                        LOWER(
++                            TO_CHAR(
++                                $2::date,
++                                'FMDay'
++                            )
++                        )
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
++
++            if (availabilityResult.rows.length === 0) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is not available on the selected date."
++                });
++
++            }
++
++            const availability =
++                availabilityResult.rows[0];
++
++            // Check appointment time
++            const timeCheck =
++                await client.query(
++                    `
++                    SELECT
++                        CASE
++                            WHEN $1::time >= $2::time
++                             AND $1::time <= $3::time
++                            THEN true
++                            ELSE false
++                        END AS valid
++                    `,
++                    [
++                        appointment_time,
++                        availability.start_time,
++                        availability.end_time
++                    ]
++                );
++
++            if (!timeCheck.rows[0].valid) {
++
++                return res.status(400).json({
++                    message:
++                        "Selected time is outside the doctor's available hours."
++                });
++
++            }
++
++            // Prevent double booking
++            const existingAppointment =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM appointments
++                    WHERE doctor = $1
++                    AND appointment_date = $2::date
++                    AND appointment_time = $3::time
++                    AND COALESCE(status, 'Pending')
++                        NOT IN ('Cancelled', 'Canceled')
++                    LIMIT 1
++                    `,
++                    [
++                        doctor,
++                        appointment_date,
++                        appointment_time
++                    ]
++                );
++
++            if (existingAppointment.rows.length > 0) {
++
++                return res.status(409).json({
++                    message:
++                        "This appointment time is already booked."
++                });
++
++            }
+             await client.query("BEGIN");
+ 
+             const requestResult =
+@@ -466,13 +689,14 @@ app.put(
+             await client.query(
+                 `
+                 INSERT INTO users
+-                    (email, password)
++                    (email, password, role)
+                 VALUES
+-                    ($1, $2)
++                    ($1, $2, $3)
+                 `,
+                 [
+                     request.email.toLowerCase(),
+-                    request.password
++                    request.password,
++                    request.role
+                 ]
+             );
+ 
+@@ -1432,6 +1656,342 @@ app.delete("/api/doctors/:id", async (req, res) => {
+ // FIND OR CREATE PATIENT
+ // ==========================================
+ 
++
++// ==========================================
++// DOCTOR AVAILABILITY
++// ==========================================
++
++// GET DOCTOR AVAILABILITY
++app.get("/api/doctors/:id/availability", async (req, res) => {
++
++    try {
++
++        const { id } = req.params;
++
++        const result = await pool.query(
++            `
++            SELECT *
++            FROM doctor_availability
++            WHERE doctor_id = $1
++            ORDER BY
++                CASE day_of_week
++                    WHEN 'Monday' THEN 1
++                    WHEN 'Tuesday' THEN 2
++                    WHEN 'Wednesday' THEN 3
++                    WHEN 'Thursday' THEN 4
++                    WHEN 'Friday' THEN 5
++                    WHEN 'Saturday' THEN 6
++                    WHEN 'Sunday' THEN 7
++                    ELSE 8
++                END,
++                start_time
++            `,
++            [id]
++        );
++
++        res.json(result.rows);
++
++    } catch (error) {
++
++        console.error("Get doctor availability error:", error);
++
++        res.status(500).json({
++            message: "Failed to load doctor availability"
++        });
++
++    }
++
++});
++
++
++// ADD DOCTOR AVAILABILITY
++app.post("/api/doctors/:id/availability", async (req, res) => {
++
++    try {
++
++        const { id } = req.params;
++
++        const {
++            day_of_week,
++            start_time,
++            end_time
++        } = req.body;
++
++        if (!day_of_week || !start_time || !end_time) {
++
++            return res.status(400).json({
++                message: "Day, start time and end time are required"
++            });
++
++        }
++
++        if (start_time >= end_time) {
++
++            return res.status(400).json({
++                message: "End time must be later than start time"
++            });
++
++        }
++
++        const doctor = await pool.query(
++            `
++            SELECT id
++            FROM doctors
++            WHERE id = $1
++            `,
++            [id]
++        );
++
++        if (doctor.rows.length === 0) {
++
++            return res.status(404).json({
++                message: "Doctor not found"
++            });
++
++        }
++
++        const result = await pool.query(
++            `
++            INSERT INTO doctor_availability
++            (
++                doctor_id,
++                day_of_week,
++                start_time,
++                end_time
++            )
++            VALUES ($1, $2, $3, $4)
++            RETURNING *
++            `,
++            [
++                id,
++                day_of_week,
++                start_time,
++                end_time
++            ]
++        );
++
++        res.status(201).json({
++            message: "Doctor availability added successfully",
++            availability: result.rows[0]
++        });
++
++    } catch (error) {
++
++        console.error("Add doctor availability error:", error);
++
++        res.status(500).json({
++            message: "Failed to add doctor availability"
++        });
++
++    }
++
++});
++
++
++// DELETE DOCTOR AVAILABILITY
++app.delete("/api/doctors/:doctorId/availability/:availabilityId", async (req, res) => {
++
++    try {
++
++        const {
++            doctorId,
++            availabilityId
++        } = req.params;
++
++        const result = await pool.query(
++            `
++            DELETE FROM doctor_availability
++            WHERE id = $1
++            AND doctor_id = $2
++            RETURNING *
++            `,
++            [
++                availabilityId,
++                doctorId
++            ]
++        );
++
++        if (result.rows.length === 0) {
++
++            return res.status(404).json({
++                message: "Availability record not found"
++            });
++
++        }
++
++        res.json({
++            message: "Doctor availability deleted successfully"
++        });
++
++    } catch (error) {
++
++        console.error("Delete doctor availability error:", error);
++
++        res.status(500).json({
++            message: "Failed to delete doctor availability"
++        });
++
++    }
++
++});
++
++
++// ==========================================
++// DOCTOR LEAVE DAYS
++// ==========================================
++
++// GET DOCTOR LEAVE DAYS
++app.get("/api/doctors/:id/leave-days", async (req, res) => {
++
++    try {
++
++        const { id } = req.params;
++
++        const result = await pool.query(
++            `
++            SELECT *
++            FROM doctor_leave_days
++            WHERE doctor_id = $1
++            ORDER BY leave_date
++            `,
++            [id]
++        );
++
++        res.json(result.rows);
++
++    } catch (error) {
++
++        console.error("Get doctor leave days error:", error);
++
++        res.status(500).json({
++            message: "Failed to load doctor leave days"
++        });
++
++    }
++
++});
++
++
++// ADD DOCTOR LEAVE DAY
++app.post("/api/doctors/:id/leave-days", async (req, res) => {
++
++    try {
++
++        const { id } = req.params;
++
++        const {
++            leave_date,
++            reason
++        } = req.body;
++
++        if (!leave_date) {
++
++            return res.status(400).json({
++                message: "Leave date is required"
++            });
++
++        }
++
++        const doctor = await pool.query(
++            `
++            SELECT id
++            FROM doctors
++            WHERE id = $1
++            `,
++            [id]
++        );
++
++        if (doctor.rows.length === 0) {
++
++            return res.status(404).json({
++                message: "Doctor not found"
++            });
++
++        }
++
++        const result = await pool.query(
++            `
++            INSERT INTO doctor_leave_days
++            (
++                doctor_id,
++                leave_date,
++                reason
++            )
++            VALUES ($1, $2, $3)
++            RETURNING *
++            `,
++            [
++                id,
++                leave_date,
++                reason || null
++            ]
++        );
++
++        res.status(201).json({
++            message: "Doctor leave day added successfully",
++            leaveDay: result.rows[0]
++        });
++
++    } catch (error) {
++
++        console.error("Add doctor leave day error:", error);
++
++        res.status(500).json({
++            message: "Failed to add doctor leave day"
++        });
++
++    }
++
++});
++
++
++// DELETE DOCTOR LEAVE DAY
++app.delete("/api/doctors/:doctorId/leave-days/:leaveId", async (req, res) => {
++
++    try {
++
++        const {
++            doctorId,
++            leaveId
++        } = req.params;
++
++        const result = await pool.query(
++            `
++            DELETE FROM doctor_leave_days
++            WHERE id = $1
++            AND doctor_id = $2
++            RETURNING *
++            `,
++            [
++                leaveId,
++                doctorId
++            ]
++        );
++
++        if (result.rows.length === 0) {
++
++            return res.status(404).json({
++                message: "Leave day not found"
++            });
++
++        }
++
++        res.json({
++            message: "Doctor leave day deleted successfully"
++        });
++
++    } catch (error) {
++
++        console.error("Delete doctor leave day error:", error);
++
++        res.status(500).json({
++            message: "Failed to delete doctor leave day"
++        });
++
++    }
++
++});
++
+ async function createOrUpdatePatient({
+     name,
+     email,
+@@ -1556,49 +2116,210 @@ async function createOrUpdatePatient({
+             ]
+         );
+ 
+-    return result.rows[0];
++    return result.rows[0];
++
++}
++
++// ==========================================
++// 
++// ALSO CREATES/UPDATES PATIENT
++// ==========================================
++
++app.post(
++    "/api/appointments",
++    async (req, res) => {
++
++        const client =
++            await pool.connect();
++
++        try {
++
++            const {
++                name,
++                email,
++                phone,
++                doctor,
++                appointment_date,
++                appointment_time,
++                reason
++            } = req.body;
++
++            if (
++                !name ||
++                !email ||
++                !doctor ||
++                !appointment_date ||
++                !appointment_time
++            ) {
++
++                return res.status(400).json({
++                    message:
++                        "Name, email, doctor, date and time are required"
++                });
++
++            }
++
++            // ----------------------------------
++            // VALIDATE DOCTOR SCHEDULE
++            // ----------------------------------
++
++            const doctorResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        name,
++                        status
++                    FROM doctors
++                    WHERE LOWER(TRIM(name)) =
++                          LOWER(TRIM($1))
++                    LIMIT 1
++                    `,
++                    [doctor]
++                );
++
++            if (doctorResult.rows.length === 0) {
++
++                return res.status(400).json({
++                    message:
++                        "Selected doctor was not found."
++                });
++
++            }
++
++            const selectedDoctor =
++                doctorResult.rows[0];
++
++            if (
++                String(selectedDoctor.status || "")
++                    .toLowerCase() !== "active"
++            ) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is currently inactive."
++                });
++
++            }
+ 
+-}
++            // Check doctor leave
++            const leaveResult =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM doctor_leave_days
++                    WHERE doctor_id = $1
++                    AND leave_date = $2::date
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
+ 
+-// ==========================================
+-// 
+-// ALSO CREATES/UPDATES PATIENT
+-// ==========================================
++            if (leaveResult.rows.length > 0) {
+ 
+-app.post(
+-    "/api/appointments",
+-    async (req, res) => {
++                return res.status(400).json({
++                    message:
++                        "This doctor is on leave on the selected date."
++                });
+ 
+-        const client =
+-            await pool.connect();
++            }
+ 
+-        try {
++            // Check weekly availability
++            const availabilityResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        start_time,
++                        end_time
++                    FROM doctor_availability
++                    WHERE doctor_id = $1
++                    AND LOWER(day_of_week) =
++                        LOWER(
++                            TO_CHAR(
++                                $2::date,
++                                'FMDay'
++                            )
++                        )
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
+ 
+-            const {
+-                name,
+-                email,
+-                phone,
+-                doctor,
+-                appointment_date,
+-                appointment_time,
+-                reason
+-            } = req.body;
++            if (availabilityResult.rows.length === 0) {
+ 
+-            if (
+-                !name ||
+-                !email ||
+-                !doctor ||
+-                !appointment_date ||
+-                !appointment_time
+-            ) {
++                return res.status(400).json({
++                    message:
++                        "This doctor is not available on the selected date."
++                });
++
++            }
++
++            const availability =
++                availabilityResult.rows[0];
++
++            // Check appointment time
++            const timeCheck =
++                await client.query(
++                    `
++                    SELECT
++                        CASE
++                            WHEN $1::time >= $2::time
++                             AND $1::time <= $3::time
++                            THEN true
++                            ELSE false
++                        END AS valid
++                    `,
++                    [
++                        appointment_time,
++                        availability.start_time,
++                        availability.end_time
++                    ]
++                );
++
++            if (!timeCheck.rows[0].valid) {
+ 
+                 return res.status(400).json({
+                     message:
+-                        "Name, email, doctor, date and time are required"
++                        "Selected time is outside the doctor's available hours."
+                 });
+ 
+             }
+ 
++            // Prevent double booking
++            const existingAppointment =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM appointments
++                    WHERE doctor = $1
++                    AND appointment_date = $2::date
++                    AND appointment_time = $3::time
++                    AND COALESCE(status, 'Pending')
++                        NOT IN ('Cancelled', 'Canceled')
++                    LIMIT 1
++                    `,
++                    [
++                        doctor,
++                        appointment_date,
++                        appointment_time
++                    ]
++                );
++
++            if (existingAppointment.rows.length > 0) {
++
++                return res.status(409).json({
++                    message:
++                        "This appointment time is already booked."
++                });
++
++            }
+             await client.query("BEGIN");
+ 
+             // ----------------------------------
+@@ -1906,7 +2627,168 @@ app.put(
+ 
+             try {
+ 
+-                await client.query("BEGIN");
++                // ----------------------------------
++            // VALIDATE DOCTOR SCHEDULE
++            // ----------------------------------
++
++            const doctorResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        name,
++                        status
++                    FROM doctors
++                    WHERE LOWER(TRIM(name)) =
++                          LOWER(TRIM($1))
++                    LIMIT 1
++                    `,
++                    [doctor]
++                );
++
++            if (doctorResult.rows.length === 0) {
++
++                return res.status(400).json({
++                    message:
++                        "Selected doctor was not found."
++                });
++
++            }
++
++            const selectedDoctor =
++                doctorResult.rows[0];
++
++            if (
++                String(selectedDoctor.status || "")
++                    .toLowerCase() !== "active"
++            ) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is currently inactive."
++                });
++
++            }
++
++            // Check doctor leave
++            const leaveResult =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM doctor_leave_days
++                    WHERE doctor_id = $1
++                    AND leave_date = $2::date
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
++
++            if (leaveResult.rows.length > 0) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is on leave on the selected date."
++                });
++
++            }
++
++            // Check weekly availability
++            const availabilityResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        start_time,
++                        end_time
++                    FROM doctor_availability
++                    WHERE doctor_id = $1
++                    AND LOWER(day_of_week) =
++                        LOWER(
++                            TO_CHAR(
++                                $2::date,
++                                'FMDay'
++                            )
++                        )
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
++
++            if (availabilityResult.rows.length === 0) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is not available on the selected date."
++                });
++
++            }
++
++            const availability =
++                availabilityResult.rows[0];
++
++            // Check appointment time
++            const timeCheck =
++                await client.query(
++                    `
++                    SELECT
++                        CASE
++                            WHEN $1::time >= $2::time
++                             AND $1::time <= $3::time
++                            THEN true
++                            ELSE false
++                        END AS valid
++                    `,
++                    [
++                        appointment_time,
++                        availability.start_time,
++                        availability.end_time
++                    ]
++                );
++
++            if (!timeCheck.rows[0].valid) {
++
++                return res.status(400).json({
++                    message:
++                        "Selected time is outside the doctor's available hours."
++                });
++
++            }
++
++            // Prevent double booking
++            const existingAppointment =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM appointments
++                    WHERE doctor = $1
++                    AND appointment_date = $2::date
++                    AND appointment_time = $3::time
++                    AND COALESCE(status, 'Pending')
++                        NOT IN ('Cancelled', 'Canceled')
++                    LIMIT 1
++                    `,
++                    [
++                        doctor,
++                        appointment_date,
++                        appointment_time
++                    ]
++                );
++
++            if (existingAppointment.rows.length > 0) {
++
++                return res.status(409).json({
++                    message:
++                        "This appointment time is already booked."
++                });
++
++            }
++            await client.query("BEGIN");
+ 
+                 const appointmentResult =
+                     await client.query(
+@@ -3287,47 +4169,208 @@ app.put(
+                     "Failed to update patient"
+             });
+ 
+-        }
++        }
++
++    }
++);
++
++// ==========================================
++// DELETE PATIENT
++// STAFF ONLY
++// ==========================================
++
++app.delete(
++    "/api/patients/:id",
++    authenticateToken,
++    async (req, res) => {
++
++        let client;
++
++try {
++
++    client = await pool.connect();
++
++    const patientId = parseInt(req.params.id, 10);
++
++            // ==================================
++            // VALIDATE PATIENT ID
++            // ==================================
++
++            if (isNaN(patientId)) {
++
++                return res.status(400).json({
++                    message:
++                        "Invalid patient ID."
++                });
++
++            }
++
++
++            // ==================================
++            // START TRANSACTION
++            // ==================================
++
++            // ----------------------------------
++            // VALIDATE DOCTOR SCHEDULE
++            // ----------------------------------
++
++            const doctorResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        name,
++                        status
++                    FROM doctors
++                    WHERE LOWER(TRIM(name)) =
++                          LOWER(TRIM($1))
++                    LIMIT 1
++                    `,
++                    [doctor]
++                );
++
++            if (doctorResult.rows.length === 0) {
++
++                return res.status(400).json({
++                    message:
++                        "Selected doctor was not found."
++                });
++
++            }
++
++            const selectedDoctor =
++                doctorResult.rows[0];
++
++            if (
++                String(selectedDoctor.status || "")
++                    .toLowerCase() !== "active"
++            ) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is currently inactive."
++                });
++
++            }
++
++            // Check doctor leave
++            const leaveResult =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM doctor_leave_days
++                    WHERE doctor_id = $1
++                    AND leave_date = $2::date
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
++
++            if (leaveResult.rows.length > 0) {
+ 
+-    }
+-);
++                return res.status(400).json({
++                    message:
++                        "This doctor is on leave on the selected date."
++                });
+ 
+-// ==========================================
+-// DELETE PATIENT
+-// STAFF ONLY
+-// ==========================================
++            }
+ 
+-app.delete(
+-    "/api/patients/:id",
+-    authenticateToken,
+-    async (req, res) => {
++            // Check weekly availability
++            const availabilityResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        start_time,
++                        end_time
++                    FROM doctor_availability
++                    WHERE doctor_id = $1
++                    AND LOWER(day_of_week) =
++                        LOWER(
++                            TO_CHAR(
++                                $2::date,
++                                'FMDay'
++                            )
++                        )
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
+ 
+-        let client;
++            if (availabilityResult.rows.length === 0) {
+ 
+-try {
++                return res.status(400).json({
++                    message:
++                        "This doctor is not available on the selected date."
++                });
+ 
+-    client = await pool.connect();
++            }
+ 
+-    const patientId = parseInt(req.params.id, 10);
++            const availability =
++                availabilityResult.rows[0];
+ 
+-            // ==================================
+-            // VALIDATE PATIENT ID
+-            // ==================================
++            // Check appointment time
++            const timeCheck =
++                await client.query(
++                    `
++                    SELECT
++                        CASE
++                            WHEN $1::time >= $2::time
++                             AND $1::time <= $3::time
++                            THEN true
++                            ELSE false
++                        END AS valid
++                    `,
++                    [
++                        appointment_time,
++                        availability.start_time,
++                        availability.end_time
++                    ]
++                );
+ 
+-            if (isNaN(patientId)) {
++            if (!timeCheck.rows[0].valid) {
+ 
+                 return res.status(400).json({
+                     message:
+-                        "Invalid patient ID."
++                        "Selected time is outside the doctor's available hours."
+                 });
+ 
+             }
+ 
++            // Prevent double booking
++            const existingAppointment =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM appointments
++                    WHERE doctor = $1
++                    AND appointment_date = $2::date
++                    AND appointment_time = $3::time
++                    AND COALESCE(status, 'Pending')
++                        NOT IN ('Cancelled', 'Canceled')
++                    LIMIT 1
++                    `,
++                    [
++                        doctor,
++                        appointment_date,
++                        appointment_time
++                    ]
++                );
++
++            if (existingAppointment.rows.length > 0) {
+ 
+-            // ==================================
+-            // START TRANSACTION
+-            // ==================================
++                return res.status(409).json({
++                    message:
++                        "This appointment time is already booked."
++                });
+ 
++            }
+             await client.query("BEGIN");
+ 
+ 
+@@ -3951,6 +4994,167 @@ app.post(
+ 
+         try {
+ 
++            // ----------------------------------
++            // VALIDATE DOCTOR SCHEDULE
++            // ----------------------------------
++
++            const doctorResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        name,
++                        status
++                    FROM doctors
++                    WHERE LOWER(TRIM(name)) =
++                          LOWER(TRIM($1))
++                    LIMIT 1
++                    `,
++                    [doctor]
++                );
++
++            if (doctorResult.rows.length === 0) {
++
++                return res.status(400).json({
++                    message:
++                        "Selected doctor was not found."
++                });
++
++            }
++
++            const selectedDoctor =
++                doctorResult.rows[0];
++
++            if (
++                String(selectedDoctor.status || "")
++                    .toLowerCase() !== "active"
++            ) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is currently inactive."
++                });
++
++            }
++
++            // Check doctor leave
++            const leaveResult =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM doctor_leave_days
++                    WHERE doctor_id = $1
++                    AND leave_date = $2::date
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
++
++            if (leaveResult.rows.length > 0) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is on leave on the selected date."
++                });
++
++            }
++
++            // Check weekly availability
++            const availabilityResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        start_time,
++                        end_time
++                    FROM doctor_availability
++                    WHERE doctor_id = $1
++                    AND LOWER(day_of_week) =
++                        LOWER(
++                            TO_CHAR(
++                                $2::date,
++                                'FMDay'
++                            )
++                        )
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
++
++            if (availabilityResult.rows.length === 0) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is not available on the selected date."
++                });
++
++            }
++
++            const availability =
++                availabilityResult.rows[0];
++
++            // Check appointment time
++            const timeCheck =
++                await client.query(
++                    `
++                    SELECT
++                        CASE
++                            WHEN $1::time >= $2::time
++                             AND $1::time <= $3::time
++                            THEN true
++                            ELSE false
++                        END AS valid
++                    `,
++                    [
++                        appointment_time,
++                        availability.start_time,
++                        availability.end_time
++                    ]
++                );
++
++            if (!timeCheck.rows[0].valid) {
++
++                return res.status(400).json({
++                    message:
++                        "Selected time is outside the doctor's available hours."
++                });
++
++            }
++
++            // Prevent double booking
++            const existingAppointment =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM appointments
++                    WHERE doctor = $1
++                    AND appointment_date = $2::date
++                    AND appointment_time = $3::time
++                    AND COALESCE(status, 'Pending')
++                        NOT IN ('Cancelled', 'Canceled')
++                    LIMIT 1
++                    `,
++                    [
++                        doctor,
++                        appointment_date,
++                        appointment_time
++                    ]
++                );
++
++            if (existingAppointment.rows.length > 0) {
++
++                return res.status(409).json({
++                    message:
++                        "This appointment time is already booked."
++                });
++
++            }
+             await client.query("BEGIN");
+ 
+             const patientResult =
+@@ -4145,6 +5349,167 @@ app.put(
+ 
+         try {
+ 
++            // ----------------------------------
++            // VALIDATE DOCTOR SCHEDULE
++            // ----------------------------------
++
++            const doctorResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        name,
++                        status
++                    FROM doctors
++                    WHERE LOWER(TRIM(name)) =
++                          LOWER(TRIM($1))
++                    LIMIT 1
++                    `,
++                    [doctor]
++                );
++
++            if (doctorResult.rows.length === 0) {
++
++                return res.status(400).json({
++                    message:
++                        "Selected doctor was not found."
++                });
++
++            }
++
++            const selectedDoctor =
++                doctorResult.rows[0];
++
++            if (
++                String(selectedDoctor.status || "")
++                    .toLowerCase() !== "active"
++            ) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is currently inactive."
++                });
++
++            }
++
++            // Check doctor leave
++            const leaveResult =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM doctor_leave_days
++                    WHERE doctor_id = $1
++                    AND leave_date = $2::date
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
++
++            if (leaveResult.rows.length > 0) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is on leave on the selected date."
++                });
++
++            }
++
++            // Check weekly availability
++            const availabilityResult =
++                await client.query(
++                    `
++                    SELECT
++                        id,
++                        start_time,
++                        end_time
++                    FROM doctor_availability
++                    WHERE doctor_id = $1
++                    AND LOWER(day_of_week) =
++                        LOWER(
++                            TO_CHAR(
++                                $2::date,
++                                'FMDay'
++                            )
++                        )
++                    LIMIT 1
++                    `,
++                    [
++                        selectedDoctor.id,
++                        appointment_date
++                    ]
++                );
++
++            if (availabilityResult.rows.length === 0) {
++
++                return res.status(400).json({
++                    message:
++                        "This doctor is not available on the selected date."
++                });
++
++            }
++
++            const availability =
++                availabilityResult.rows[0];
++
++            // Check appointment time
++            const timeCheck =
++                await client.query(
++                    `
++                    SELECT
++                        CASE
++                            WHEN $1::time >= $2::time
++                             AND $1::time <= $3::time
++                            THEN true
++                            ELSE false
++                        END AS valid
++                    `,
++                    [
++                        appointment_time,
++                        availability.start_time,
++                        availability.end_time
++                    ]
++                );
++
++            if (!timeCheck.rows[0].valid) {
++
++                return res.status(400).json({
++                    message:
++                        "Selected time is outside the doctor's available hours."
++                });
++
++            }
++
++            // Prevent double booking
++            const existingAppointment =
++                await client.query(
++                    `
++                    SELECT id
++                    FROM appointments
++                    WHERE doctor = $1
++                    AND appointment_date = $2::date
++                    AND appointment_time = $3::time
++                    AND COALESCE(status, 'Pending')
++                        NOT IN ('Cancelled', 'Canceled')
++                    LIMIT 1
++                    `,
++                    [
++                        doctor,
++                        appointment_date,
++                        appointment_time
++                    ]
++                );
++
++            if (existingAppointment.rows.length > 0) {
++
++                return res.status(409).json({
++                    message:
++                        "This appointment time is already booked."
++                });
++
++            }
+             await client.query("BEGIN");
+ 
+             const prescriptionResult =
+@@ -4725,3 +6090,5 @@ app.listen(
+ 
+ 
+ 
++
++

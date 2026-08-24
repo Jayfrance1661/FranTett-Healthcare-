@@ -48,13 +48,8 @@
                 required
             >
 
-            <select name="doctor" required>
-                <option value="">Select a Doctor</option>
-                <option value="Dr. Francis Tetteh">Dr. Francis Tetteh</option>
-                <option value="Dr. Talent">Dr. Talent</option>
-                <option value="Dr. Emily Brown">Dr. Emily Brown</option>
-                <option value="Dr. Sam">Dr. Sam</option>
-            </select>
+            <label for="doctorSelect">Select a Doctor</label>
+            <select name="doctor" id="doctorSelect" required><option value="">Loading doctors...</option></select><p id="doctorScheduleMessage" style="margin:8px 0;font-size:14px;color:#176b87;"></p>
 
             <label for="appointment_date">Appointment Date</label>
 
@@ -91,6 +86,378 @@
     <script>
         const form = document.getElementById("appointmentForm");
         const message = document.getElementById("message");
+
+        const doctorSelect =
+            document.getElementById("doctorSelect");
+
+        const appointmentDate =
+            document.getElementById("appointment_date");
+
+        const appointmentTime =
+            document.getElementById("appointment_time");
+
+        const doctorScheduleMessage =
+            document.getElementById("doctorScheduleMessage");
+
+
+        let doctors = [];
+
+        let selectedDoctor = null;
+
+        let doctorAvailability = [];
+
+        let doctorLeaveDays = [];
+
+
+        async function loadDoctors() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:3000/api/doctors"
+                    );
+
+                if (!response.ok) {
+                    throw new Error("Failed to load doctors");
+                }
+
+                doctors =
+                    await response.json();
+
+                const activeDoctors =
+                    doctors.filter(
+                        doctor =>
+                            String(
+                                doctor.status || ""
+                            ).toLowerCase() === "active"
+                    );
+
+                doctorSelect.innerHTML =
+                    '<option value="">Choose a doctor...</option>';
+
+                activeDoctors.forEach(doctor => {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value =
+                        doctor.name;
+
+                    option.textContent =
+                        doctor.name +
+                        (
+                            doctor.specialty
+                                ? " — " + doctor.specialty
+                                : ""
+                        );
+
+                    option.dataset.doctorId =
+                        doctor.id;
+
+                    doctorSelect.appendChild(option);
+
+                });
+
+            } catch (error) {
+
+                console.error(
+                    "Load doctors error:",
+                    error
+                );
+
+                doctorSelect.innerHTML =
+                    '<option value="">Unable to load doctors</option>';
+
+            }
+
+        }
+
+
+        async function loadDoctorSchedule(doctorId) {
+
+            doctorAvailability = [];
+
+            doctorLeaveDays = [];
+
+            doctorScheduleMessage.textContent =
+                "Loading doctor's availability...";
+
+            try {
+
+                const availabilityResponse =
+                    await fetch(
+                        `http://localhost:3000/api/doctors/${doctorId}/availability`
+                    );
+
+                if (!availabilityResponse.ok) {
+                    throw new Error(
+                        "Failed to load availability"
+                    );
+                }
+
+                doctorAvailability =
+                    await availabilityResponse.json();
+
+
+                const leaveResponse =
+                    await fetch(
+                        `http://localhost:3000/api/doctors/${doctorId}/leave-days`
+                    );
+
+                if (!leaveResponse.ok) {
+                    throw new Error(
+                        "Failed to load leave days"
+                    );
+                }
+
+                doctorLeaveDays =
+                    await leaveResponse.json();
+
+
+                if (!doctorAvailability.length) {
+
+                    doctorScheduleMessage.textContent =
+                        "This doctor has no availability set.";
+
+                } else {
+
+                    doctorScheduleMessage.textContent =
+                        "Please select a date and time within the doctor's available hours.";
+
+                }
+
+                validateAppointmentDateTime();
+
+            } catch (error) {
+
+                console.error(
+                    "Load doctor schedule error:",
+                    error
+                );
+
+                doctorScheduleMessage.textContent =
+                    "Unable to load doctor's schedule.";
+
+            }
+
+        }
+
+
+        doctorSelect.addEventListener(
+            "change",
+            async () => {
+
+                const selectedOption =
+                    doctorSelect.options[
+                        doctorSelect.selectedIndex
+                    ];
+
+                const doctorId =
+                    selectedOption.dataset.doctorId;
+
+
+                selectedDoctor =
+                    doctors.find(
+                        doctor =>
+                            Number(doctor.id) ===
+                            Number(doctorId)
+                    );
+
+
+                appointmentDate.value = "";
+
+                appointmentTime.value = "";
+
+                appointmentTime.disabled = true;
+
+
+                if (!doctorId) {
+
+                    doctorScheduleMessage.textContent =
+                        "";
+
+                    return;
+
+                }
+
+
+                await loadDoctorSchedule(
+                    doctorId
+                );
+
+            }
+        );
+
+
+        function getDayName(dateString) {
+
+            const date =
+                new Date(
+                    dateString + "T00:00:00"
+                );
+
+            return date.toLocaleDateString(
+                "en-US",
+                {
+                    weekday: "long"
+                }
+            );
+
+        }
+
+
+        function validateAppointmentDateTime() {
+
+            const date =
+                appointmentDate.value;
+
+            const time =
+                appointmentTime.value;
+
+
+            if (!selectedDoctor || !date) {
+
+                appointmentTime.disabled =
+                    true;
+
+                return false;
+
+            }
+
+
+            const dayName =
+                getDayName(date);
+
+
+            const availability =
+                doctorAvailability.find(
+                    item =>
+                        String(
+                            item.day_of_week
+                        ).toLowerCase() ===
+                        dayName.toLowerCase()
+                );
+
+
+            const onLeave =
+                doctorLeaveDays.some(
+                    item =>
+                        String(
+                            item.leave_date
+                        ).substring(0, 10) ===
+                        date
+                );
+
+
+            if (onLeave) {
+
+                doctorScheduleMessage.textContent =
+                    "This doctor is on leave on the selected date.";
+
+                appointmentTime.disabled =
+                    true;
+
+                appointmentTime.value =
+                    "";
+
+                return false;
+
+            }
+
+
+            if (!availability) {
+
+                doctorScheduleMessage.textContent =
+                    `This doctor is not available on ${dayName}. Please choose another date.`;
+
+                appointmentTime.disabled =
+                    true;
+
+                appointmentTime.value =
+                    "";
+
+                return false;
+
+            }
+
+
+            appointmentTime.disabled =
+                false;
+
+
+            const start =
+                String(
+                    availability.start_time
+                ).substring(0, 5);
+
+            const end =
+                String(
+                    availability.end_time
+                ).substring(0, 5);
+
+
+            appointmentTime.min =
+                start;
+
+            appointmentTime.max =
+                end;
+
+
+            doctorScheduleMessage.textContent =
+                `${dayName}: Available from ${start} to ${end}.`;
+
+
+            if (time) {
+
+                if (
+                    time < start ||
+                    time > end
+                ) {
+
+                    doctorScheduleMessage.textContent =
+                        `Please select a time between ${start} and ${end}.`;
+
+                    return false;
+
+                }
+
+            }
+
+
+            return true;
+
+        }
+
+
+        appointmentDate.addEventListener(
+            "change",
+            () => {
+
+                validateAppointmentDateTime();
+
+            }
+        );
+
+
+        appointmentTime.addEventListener(
+            "change",
+            () => {
+
+                validateAppointmentDateTime();
+
+            }
+        );
+
+
+        appointmentDate.min =
+            new Date()
+                .toISOString()
+                .split("T")[0];
+
+
+        loadDoctors();
+
 
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
@@ -139,3 +506,8 @@
 
 </body>
 </html>
+
+
+
+
+

@@ -752,72 +752,6 @@
     margin-top: 18px;
 }
 
-/* =====================================================
-   VITAL SIGNS TABLE
-===================================================== */
-
-#vitalSignsHistory {
-    width: 100%;
-}
-
-#vitalSignsHistory h4 {
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0.2px;
-    margin-bottom: 12px;
-}
-
-#vitalSignsHistory > div {
-    width: 100%;
-    overflow-x: auto;
-}
-
-#vitalSignsHistory table {
-    width: 100%;
-    min-width: 1050px;
-    border-collapse: collapse;
-    font-family: "Segoe UI", Arial, sans-serif;
-    font-size: 13px;
-}
-
-#vitalSignsHistory th {
-    white-space: nowrap;
-    font-weight: 600;
-    text-align: left;
-    padding: 11px 12px;
-}
-
-#vitalSignsHistory td {
-    white-space: nowrap;
-    padding: 11px 12px;
-    vertical-align: middle;
-    font-weight: 400;
-}
-
-/* Keep values and units together */
-#vitalSignsHistory td:nth-child(2),
-#vitalSignsHistory td:nth-child(3),
-#vitalSignsHistory td:nth-child(4),
-#vitalSignsHistory td:nth-child(5),
-#vitalSignsHistory td:nth-child(6),
-#vitalSignsHistory td:nth-child(7),
-#vitalSignsHistory td:nth-child(8),
-#vitalSignsHistory td:nth-child(9) {
-    white-space: nowrap;
-}
-
-/* Date and recorded-by columns */
-#vitalSignsHistory td:first-child,
-#vitalSignsHistory td:nth-child(10) {
-    white-space: nowrap;
-}
-
-/* Delete button */
-#vitalSignsHistory .danger-btn {
-    white-space: nowrap;
-    font-family: "Segoe UI", Arial, sans-serif;
-}
-
     </style>
 <style>
 
@@ -1698,6 +1632,15 @@
 
             </div>
 
+            <!-- Latest Vital Signs -->
+
+            <div id="latestVitalSigns">
+
+                <div class="loading">
+                    Loading vital signs...
+                </div>
+
+            </div>
 
             <!-- Vital Signs History -->
 
@@ -4351,15 +4294,25 @@ async function loadVitalSigns(patientId) {
                         <tr>
 
                             <th>Date</th>
+
                             <th>BP</th>
+
                             <th>HR</th>
+
                             <th>Temp.</th>
+
                             <th>RR</th>
+
                             <th>SpO₂</th>
+
                             <th>Weight</th>
+
                             <th>Height</th>
+
                             <th>BMI</th>
+
                             <th>Recorded By</th>
+
                             <th>Action</th>
 
                         </tr>
@@ -4368,7 +4321,6 @@ async function loadVitalSigns(patientId) {
 
                     <tbody>
         `;
-
 
         vitals.forEach(
             function (vital) {
@@ -4389,57 +4341,43 @@ async function loadVitalSigns(patientId) {
 
                         <td>
                             ${vital.heart_rate != null
-                                ? Number(
-                                    vital.heart_rate
-                                ).toFixed(2)
+                                ? Number(vital.heart_rate).toFixed(2)
                                 : "—"}
                         </td>
 
                         <td>
                             ${vital.temperature != null
-                                ? Number(
-                                    vital.temperature
-                                ).toFixed(2) + " °C"
+                                ? Number(vital.temperature).toFixed(2) + " °C"
                                 : "—"}
                         </td>
 
                         <td>
                             ${vital.respiratory_rate != null
-                                ? Number(
-                                    vital.respiratory_rate
-                                ).toFixed(2) + " /min"
+                                ? Number(vital.respiratory_rate).toFixed(2) + " /min"
                                 : "—"}
                         </td>
 
                         <td>
                             ${vital.oxygen_saturation != null
-                                ? Number(
-                                    vital.oxygen_saturation
-                                ).toFixed(2) + "%"
+                                ? Number(vital.oxygen_saturation).toFixed(2) + "%"
                                 : "—"}
                         </td>
 
                         <td>
                             ${vital.weight != null
-                                ? Number(
-                                    vital.weight
-                                ).toFixed(2) + " kg"
+                                ? Number(vital.weight).toFixed(2) + " kg"
                                 : "—"}
                         </td>
 
                         <td>
                             ${vital.height != null
-                                ? Number(
-                                    vital.height
-                                ).toFixed(2) + " cm"
+                                ? Number(vital.height).toFixed(2) + " cm"
                                 : "—"}
                         </td>
 
                         <td>
                             ${vital.bmi != null
-                                ? Number(
-                                    vital.bmi
-                                ).toFixed(2)
+                                ? Number(vital.bmi).toFixed(2)
                                 : "—"}
                         </td>
 
@@ -4465,7 +4403,6 @@ async function loadVitalSigns(patientId) {
             }
         );
 
-
         historyHtml += `
 
                     </tbody>
@@ -4475,10 +4412,8 @@ async function loadVitalSigns(patientId) {
             </div>
         `;
 
-
         historyContainer.innerHTML =
             historyHtml;
-
 
     } catch (error) {
 
@@ -4494,6 +4429,9 @@ async function loadVitalSigns(patientId) {
         `;
     }
 }
+/* =====================================================
+   DELETE VITAL SIGNS
+===================================================== */
 
 async function deleteVitalSigns(id) {
 
@@ -10164,8 +10102,6 @@ loadPatients();
 
 </body>
 </html>
-
-
 
 
 

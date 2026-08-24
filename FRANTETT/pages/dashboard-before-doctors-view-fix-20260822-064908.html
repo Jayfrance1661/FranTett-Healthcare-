@@ -1005,7 +1005,7 @@
 
                 <div>
 
-                    <h1 id="welcomeUser">
+                    <h1>
                         Staff Dashboard
                     </h1>
 
@@ -1013,7 +1013,6 @@
                         Manage FranTett Healthcare appointments,
                         patients, contact messages, and healthcare information.
                     </p>
-
 
                 </div>
 
@@ -1030,7 +1029,7 @@
                         class="btn btn-primary"
                         type="button"
                         onclick="printDashboard()">
-                        &#x1F5A8;&#xFE0F; Print
+                        ???ï¿½ Print
                     </button>
 
                 </div>
@@ -1072,7 +1071,7 @@
             <div class="stat-card">
 
                 <span class="stat-icon">
-                    &#x1F468;&#x200D;&#x2695;&#xFE0F;
+                    ðŸ‘¨â€âš•ï¸
                 </span>
 
                 <h3>
@@ -1095,7 +1094,7 @@
             <div class="stat-card">
 
                 <span class="stat-icon">
-                    &#x1F4C5;
+                    ðŸ“…
                 </span>
 
                 <h3>
@@ -1118,7 +1117,7 @@
             <div class="stat-card message-stat">
 
                 <span class="stat-icon">
-                    &#x2709;&#xFE0F;
+                    âœ‰ï¸
                 </span>
 
                 <h3>
@@ -1261,7 +1260,7 @@
                 class="action-card">
 
                 <div class="action-icon">
-                    &#x1F4C5;
+                    ðŸ“…
                 </div>
 
                 <h3>
@@ -1301,7 +1300,7 @@
                 class="action-card">
 
                 <div class="action-icon">
-                    &#x1F468;&#x200D;&#x2695;&#xFE0F;
+                    ðŸ‘¨â€âš•ï¸
                 </div>
 
                 <h3>
@@ -1342,7 +1341,7 @@
                 onclick="scrollToMessages(event)">
 
                 <div class="action-icon">
-                    &#x2709;&#xFE0F;
+                    âœ‰ï¸
                 </div>
 
                 <h3>
@@ -1498,20 +1497,20 @@
                         class="btn btn-secondary"
                         type="button"
                         onclick="exportAppointments()">
-                        &#x1F4E5; Export
+                        ðŸ“¥ Export
                     </button>
 
                     <button
                         class="btn btn-primary"
                         type="button"
                         onclick="printAppointments()">
-                        &#x1F5A8;&#xFE0F; Print
+                        ???ï¿½ Print
                     </button>
 
                     <a
                         href="./appointments.html"
                         class="btn btn-secondary">
-                        View All &#x2192;
+                        View All â†’
                     </a>
 
                 </div>
@@ -1606,7 +1605,7 @@
                         class="btn btn-primary"
                         type="button"
                         onclick="printContactMessages()">
-                        &#x1F5A8;&#xFE0F; Print
+                        ???ï¿½ Print
                     </button>
 
                 </div>
@@ -1682,7 +1681,7 @@
 
     <footer>
 
-        &#x00A9; 2026 FranTett Healthcare.
+        ï¿½ 2026 FranTett Healthcare.
         All rights reserved.
 
     </footer>
@@ -2925,7 +2924,7 @@
 
                     message.innerHTML = `
                         <div class="empty-icon">
-                            &#x1F4C5;
+                            ðŸ“…
                         </div>
 
                         <h3>
@@ -3340,7 +3339,7 @@
                     message.innerHTML = `
 
                         <div class="empty-icon">
-                            &#x2709;&#xFE0F;
+                            âœ‰ï¸
                         </div>
 
                         <h3>
@@ -4782,26 +4781,6 @@ else if (
     }
 
 
-    function hideActionCardByTitle(title) {
-
-        document.querySelectorAll(".action-card").forEach(function (card) {
-
-            const heading = card.querySelector("h3");
-
-            if (!heading) return;
-
-            const value =
-                (heading.innerText || heading.textContent || "")
-                    .trim()
-                    .toLowerCase();
-
-            if (value === title.toLowerCase()) {
-                hide(card);
-            }
-        });
-    }
-
-
     function applyRoleDashboard() {
 
         const user = getRoleData();
@@ -4867,7 +4846,8 @@ else if (
 
             document.body.classList.add("role-nurse");
 
-            /* Nurse can VIEW doctors but cannot administer doctors */
+            /* Nurse DOES NOT get doctor administration */
+            hideByText("Doctors");
             hideByText("Manage Doctors");
             hideByText("Add Doctor");
             hideByText("Edit Doctor");
@@ -4880,7 +4860,7 @@ else if (
             hideByText("Staff Registration Requests");
 
             /* Nurse DOES NOT manage contact messages */
-            hideActionCardByTitle("Contact Messages");
+            hideByText("Contact Messages");
 
             return;
         }
@@ -4905,7 +4885,7 @@ else if (
                Contact messages
             */
 
-            /* Staff can VIEW doctors but cannot administer doctors */
+            hideByText("Doctors");
             hideByText("Manage Doctors");
             hideByText("Add Doctor");
             hideByText("Edit Doctor");
@@ -4947,23 +4927,6 @@ else if (
             return;
         }
 
-        let role = String(user.role || "").trim().toLowerCase();
-
-        const roleLabels = {
-            admin: "Admin",
-            doctor: "Doctor",
-            nurse: "Nurse",
-            staff: "Staff",
-            reception: "Reception",
-            receptionist: "Receptionist"
-        };
-
-        const roleLabel = roleLabels[role] || user.role || "";
-
-        const welcomeText = roleLabel
-            ? "Welcome, " + name + " / " + roleLabel
-            : "Welcome, " + name;
-
         welcomeElements.forEach(function (element) {
 
             const current =
@@ -4972,15 +4935,16 @@ else if (
                 "";
 
             if (
-                element.id === "welcomeUser" ||
                 current.toLowerCase().includes("welcome")
             ) {
 
-                element.textContent = welcomeText;
+                element.textContent =
+                    "Welcome, " + name;
             }
         });
 
     }
+
 
     function startFranTettRoleUI() {
 
@@ -5008,8 +4972,5 @@ else if (
 
 </body>
 </html>
-
-
-
 
 

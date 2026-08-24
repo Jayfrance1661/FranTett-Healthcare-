@@ -1005,7 +1005,7 @@
 
                 <div>
 
-                    <h1 id="welcomeUser">
+                    <h1>
                         Staff Dashboard
                     </h1>
 
@@ -1013,7 +1013,6 @@
                         Manage FranTett Healthcare appointments,
                         patients, contact messages, and healthcare information.
                     </p>
-
 
                 </div>
 
@@ -4947,23 +4946,6 @@ else if (
             return;
         }
 
-        let role = String(user.role || "").trim().toLowerCase();
-
-        const roleLabels = {
-            admin: "Admin",
-            doctor: "Doctor",
-            nurse: "Nurse",
-            staff: "Staff",
-            reception: "Reception",
-            receptionist: "Receptionist"
-        };
-
-        const roleLabel = roleLabels[role] || user.role || "";
-
-        const welcomeText = roleLabel
-            ? "Welcome, " + name + " / " + roleLabel
-            : "Welcome, " + name;
-
         welcomeElements.forEach(function (element) {
 
             const current =
@@ -4972,15 +4954,16 @@ else if (
                 "";
 
             if (
-                element.id === "welcomeUser" ||
                 current.toLowerCase().includes("welcome")
             ) {
 
-                element.textContent = welcomeText;
+                element.textContent =
+                    "Welcome, " + name;
             }
         });
 
     }
+
 
     function startFranTettRoleUI() {
 
@@ -5008,7 +4991,6 @@ else if (
 
 </body>
 </html>
-
 
 
 

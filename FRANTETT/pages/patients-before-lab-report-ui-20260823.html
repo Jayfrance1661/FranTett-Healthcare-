@@ -1,0 +1,7535 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FranTett Healthcare - Patient Records</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fa;
+            color: #222;
+        }
+
+        nav {
+            background: #0b6b4f;
+            color: white;
+            padding: 16px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav .links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 30px auto;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            padding: 10px 16px;
+            font-size: 14px;
+        }
+
+        .primary-btn,
+        .save-btn {
+            background: #0b6b4f;
+            color: white;
+        }
+
+        .primary-btn:hover,
+        .save-btn:hover {
+            background: #09563f;
+        }
+
+        .cancel-btn {
+            background: #777;
+            color: white;
+        }
+
+        .danger-btn {
+            background: #c62828;
+            color: white;
+        }
+
+        .view-btn {
+            background: #1976d2;
+            color: white;
+        }
+
+        .edit-btn {
+            background: #f39c12;
+            color: white;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 8px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f0f3f5;
+            font-weight: bold;
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+
+        .message {
+            display: none;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .message.success {
+            background: #dff5e8;
+            color: #176b3a;
+        }
+
+        .message.error {
+            background: #fde2e2;
+            color: #a71919;
+        }
+
+        /* ==========================
+           MODAL
+        ========================== */
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.55);
+            overflow-y: auto;
+            padding: 30px 15px;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            border-radius: 8px;
+            padding: 25px;
+            position: relative;
+        }
+
+        .large-modal {
+            max-width: 1100px;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 12px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        /* ==========================
+           PATIENT PROFILE
+        ========================== */
+
+        .patient-header {
+            background: #f0f7f4;
+            border-radius: 7px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        .patient-header h2 {
+            margin-top: 0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 15px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 13px;
+            border-radius: 5px;
+        }
+
+        .info-card strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .section {
+            margin-top: 25px;
+        }
+
+        .section h3 {
+            border-bottom: 2px solid #0b6b4f;
+            padding-bottom: 8px;
+        }
+
+        .history-box {
+            background: #fafafa;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+
+        /* ==========================
+           CONSULTATIONS
+        ========================== */
+
+        .consultation-card {
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            padding: 18px;
+            margin-bottom: 15px;
+            background: white;
+        }
+
+        .consultation-title {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .consultation-title h4 {
+            margin: 0;
+        }
+
+        .consultation-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .clinical-item {
+            margin-bottom: 12px;
+        }
+
+.clinical-date {
+    margin-bottom: 12px;
+}
+
+        .clinical-item strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #444;
+        }
+
+        .clinical-value {
+            white-space: pre-wrap;
+            background: #fafafa;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+        .no-records {
+            background: #fafafa;
+            padding: 18px;
+            border-radius: 5px;
+            color: #666;
+        }
+
+        @media (max-width: 700px) {
+
+            nav {
+                align-items: flex-start;
+            }
+
+            nav .links {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-content {
+                padding: 18px;
+            }
+
+            th,
+            td {
+                padding: 9px;
+            }
+
+        }
+
+@media print {
+
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 11px;
+    }
+
+    body > nav,
+    body > .container {
+        display: none !important;
+    }
+
+    #viewPatientModal {
+        display: block !important;
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        padding: 0 !important;
+        background: white !important;
+        overflow: visible !important;
+    }
+
+    #viewPatientModal .modal-content {
+        display: block !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .close-modal,
+    button,
+    .form-actions,
+    #patientFormModal,
+    #prescriptionFormModal,
+    #consultationFormModal,
+    #viewConsultationModal {
+        display: none !important;
+    }
+
+    /* Print heading */
+    #viewPatientModal .modal-content::before {
+        content: "FRANTETT HEALTHCARE";
+        font-size: 18px;
+        white-space: pre;
+        display: block;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        border-bottom: 2px solid #000;
+        padding-bottom: 8px;
+    }
+
+    .patient-header {
+        background: white !important;
+        border: 1px solid #999 !important;
+        padding: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .patient-header h2 {
+        margin: 0 0 8px 0 !important;
+        font-size: 17px;
+    }
+
+    .info-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 5px !important;
+    }
+
+    .info-card {
+        background: white !important;
+        border: 1px solid #bbb !important;
+        padding: 6px !important;
+    }
+
+    .section {
+        margin-top: 10px !important;
+    }
+
+    .section h3 {
+        margin: 8px 0 6px 0 !important;
+        padding-bottom: 4px !important;
+        border-bottom: 1px solid #000 !important;
+        font-size: 13px;
+    }
+
+    .clinical-item {
+        margin-bottom: 6px !important;
+    }
+
+    .clinical-item strong {
+        margin-bottom: 2px !important;
+    }
+
+    .history-box,
+    .clinical-value,
+    .consultation-card,
+    .clinical-record {
+        background: white !important;
+        box-shadow: none !important;
+    }
+
+    .history-box,
+    .clinical-value {
+        padding: 5px !important;
+    }
+
+    .consultation-card,
+    .clinical-record {
+        border: 1px solid #bbb !important;
+        padding: 7px !important;
+        margin-bottom: 7px !important;
+        page-break-inside: avoid !important;
+    }
+
+    .consultation-title,
+    .clinical-record-header {
+        margin-bottom: 6px !important;
+    }
+
+    table {
+        width: 100% !important;
+        font-size: 10px !important;
+    }
+
+    th,
+    td {
+        padding: 4px !important;
+    }
+
+    #appointmentHistory button,
+    .consultation-actions,
+    .record-actions {
+        display: none !important;
+    }
+
+    #message {
+        display: none !important;
+    }
+
+    /* Keep related clinical sections together when possible */
+    #appointmentHistory,
+    #consultationHistory,
+    #prescriptionHistory {
+        page-break-inside: auto !important;
+    }
+
+    .record-actions,
+.consultation-actions {
+    display: none !important;
+}
+
+.clinical-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.clinical-grid .clinical-item {
+    width: 100% !important;
+}
+
+.clinical-item {
+    page-break-inside: avoid !important;
+}
+
+.clinical-value {
+    padding: 4px !important;
+    border: 1px solid #ddd !important;
+}
+}
+
+/* ==========================================
+   PATIENT TIMELINE
+========================================== */
+
+#patientTimeline {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.timeline-record {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: left;
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.timeline-type {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.timeline-meta {
+    color: #666;
+    font-size: 13px;
+}
+
+.timeline-title {
+    margin-top: 8px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.timeline-status {
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.timeline-status span {
+    font-weight: normal;
+}
+
+.clinical-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.clinical-grid .clinical-item {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.clinical-grid .clinical-item {
+    margin-bottom: 0;
+}
+
+
+@media (max-width: 700px) {
+    .clinical-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .clinical-grid .clinical-item:last-child {
+        grid-column: auto;
+    }
+}
+
+/* ==========================================
+   PRESCRIPTION MEDICATION TABLE
+========================================== */
+
+.prescription-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+.prescription-entry-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    background: white;
+}
+
+.prescription-entry-table th {
+    background: #f0f3f5;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.prescription-entry-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    vertical-align: middle;
+}
+
+.prescription-entry-table input {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 0;
+}
+
+.prescription-entry-table th:nth-child(1),
+.prescription-entry-table td:nth-child(1) {
+    width: 22%;
+}
+
+.prescription-entry-table th:nth-child(2),
+.prescription-entry-table td:nth-child(2) {
+    width: 12%;
+}
+
+.prescription-entry-table th:nth-child(3),
+.prescription-entry-table td:nth-child(3) {
+    width: 12%;
+}
+
+.prescription-entry-table th:nth-child(4),
+.prescription-entry-table td:nth-child(4) {
+    width: 15%;
+}
+
+.prescription-entry-table th:nth-child(5),
+.prescription-entry-table td:nth-child(5) {
+    width: 14%;
+}
+
+.prescription-entry-table th:nth-child(6),
+.prescription-entry-table td:nth-child(6) {
+    width: 12%;
+}
+
+.prescription-entry-table th:nth-child(7),
+.prescription-entry-table td:nth-child(7) {
+    width: 13%;
+}
+
+.record-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.record-actions button {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.prescription-extra {
+    margin-top: 18px;
+}
+
+    </style>
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        FranTett Healthcare
+    </div>
+
+    <div class="links">
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <a href="doctors.html">
+            Doctors
+        </a>
+
+        <a href="services.html">
+            Services
+        </a>
+
+        <a href="appointment.html">
+            Book Appointment
+        </a>
+
+        <a href="appointments.html">
+            Appointments
+        </a>
+
+        <a href="patients.html">
+            Patient Records
+        </a>
+
+        <a href="contact.html">
+            Contact
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <div id="message" class="message"></div>
+
+    <div class="top-actions">
+
+        <div>
+            <h1>Patient Records</h1>
+
+            <div class="subtitle">
+                Manage FranTett Healthcare patient records.
+            </div>
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="openAddPatientModal()"
+        >
+            + Add Patient
+        </button>
+
+    </div>
+
+
+    <input
+        type="text"
+        id="searchInput"
+        class="search-box"
+        placeholder="Search by patient name, email or phone..."
+        oninput="filterPatients()"
+    >
+
+    <div class="filters">
+
+    <select id="genderFilter" onchange="filterPatients()">
+        <option value="">All Genders</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <input
+        type="date"
+        id="dobFilter"
+        onchange="filterPatients()"
+        title="Filter by date of birth"
+    >
+
+</div>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="patientsTable">
+
+                <tr>
+                    <td colspan="7" class="loading">
+                        Loading patients...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ADD / EDIT PATIENT MODAL
+===================================================== -->
+
+<div
+    id="patientFormModal"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+        <span
+            class="close-modal"
+            onclick="closePatientFormModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="formTitle">
+            Add Patient
+        </h2>
+
+        <form id="patientForm">
+
+            <input
+                type="hidden"
+                id="patientId"
+            >
+
+            <div class="form-group">
+
+                <label>First Name *</label>
+
+                <input
+                    type="text"
+                    id="firstName"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Last Name *</label>
+
+                <input
+                    type="text"
+                    id="lastName"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    id="email"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Phone</label>
+
+                <input
+                    type="text"
+                    id="phone"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Date of Birth</label>
+
+                <input
+                    type="date"
+                    id="dateOfBirth"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Gender</label>
+
+                <select id="gender">
+
+                    <option value="">
+                        Select gender
+                    </option>
+
+                    <option value="Male">
+                        Male
+                    </option>
+
+                    <option value="Female">
+                        Female
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Address</label>
+
+                <textarea id="address"></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Medical History</label>
+
+                <textarea id="medicalHistory"></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Allergies</label>
+
+                <textarea id="allergies"></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Current Medications</label>
+
+                <textarea id="medications"></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Notes</label>
+
+                <textarea id="notes"></textarea>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Patient
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closePatientFormModal()"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     VIEW PATIENT MODAL
+===================================================== -->
+
+<div
+    id="viewPatientModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeViewPatientModal()"
+        >
+            &times;
+        </span>
+
+        <h2>Patient Profile</h2>
+
+        <div class="top-actions">
+    <button
+        type="button"
+        class="primary-btn"
+        onclick="printPatientRecord()"
+    >
+        Print Patient Record
+    </button>
+</div>
+
+        <div class="patient-header">
+
+            <h2 id="viewName">
+                Patient
+            </h2>
+<div class="info-grid">
+
+    <div class="info-card">
+        <strong>Total Appointments</strong>
+        <span id="summaryTotalAppointments">0</span>
+    </div>
+
+    <div class="info-card">
+        <strong>Completed Appointments</strong>
+        <span id="summaryCompletedAppointments">0</span>
+    </div>
+
+    <div class="info-card">
+        <strong>Total Consultations</strong>
+        <span id="summaryTotalConsultations">0</span>
+    </div>
+
+    <div class="info-card">
+        <strong>Total Prescriptions</strong>
+        <span id="summaryTotalPrescriptions">0</span>
+    </div>
+
+</div>
+            <div class="info-grid">
+
+                <div class="info-card">
+                    <strong>Email</strong>
+                    <span id="viewEmail"></span>
+                </div>
+
+                <div class="info-card">
+                    <strong>Phone</strong>
+                    <span id="viewPhone"></span>
+                </div>
+
+                <div class="info-card">
+                    <strong>Date of Birth</strong>
+                    <span id="viewDateOfBirth"></span>
+                </div>
+
+                <div class="info-card">
+                    <strong>Gender</strong>
+                    <span id="viewGender"></span>
+                </div>
+
+                <div class="info-card">
+                    <strong>Address</strong>
+                    <span id="viewAddress"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <h3>Clinical Information</h3>
+
+            <div class="clinical-item">
+
+                <strong>Medical History</strong>
+
+                <div
+                    id="viewMedicalHistory"
+                    class="history-box"
+                ></div>
+
+            </div>
+
+            <div class="clinical-item">
+
+                <strong>Allergies</strong>
+
+                <div
+                    id="viewAllergies"
+                    class="history-box"
+                ></div>
+
+            </div>
+
+            <div class="clinical-item">
+
+                <strong>Current Medications</strong>
+
+                <div
+                    id="viewMedications"
+                    class="history-box"
+                ></div>
+
+            </div>
+
+            <div class="clinical-item">
+
+                <strong>Notes</strong>
+
+                <div
+                    id="viewNotes"
+                    class="history-box"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <h3>Appointment History</h3>
+
+            <div id="appointmentHistory">
+
+                <div class="loading">
+                    Loading appointment history...
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+
+    <h3>Patient Timeline</h3>
+
+    <div id="patientTimeline">
+
+        <div class="loading">
+            Loading patient timeline...
+        </div>
+
+    </div>
+
+</div>
+
+        <div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Clinical Consultation Records
+        </h3>
+
+        <button
+
+    type="button"
+    class="primary-btn"
+    onclick="event.stopPropagation(); openAddConsultationModal();"
+>
+    + Add Consultation
+
+</button>
+
+    </div>
+
+    <div id="consultationHistory">
+
+        <div class="loading">
+            Loading consultation records...
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Laboratory Results
+        </h3>
+
+        <button
+            type="button"
+            class="primary-btn"
+            onclick="event.stopPropagation(); openAddLabReportModal();"
+        >
+            + Add Laboratory Report
+        </button>
+
+    </div>
+
+    <div id="labResultsHistory">
+
+        <div class="loading">
+            Loading laboratory results...
+        </div>
+
+    </div>
+
+
+</div>
+
+<div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Prescription Records
+        </h3>
+
+       <button
+    type="button"
+    class="primary-btn"
+    onclick="event.stopPropagation(); openAddPrescriptionModal();"
+>
+    + Add Prescription
+</button>
+
+    </div>
+
+    <div id="prescriptionHistory">
+
+        <div class="loading">
+            Loading prescription records...
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     PRESCRIPTION FORM MODAL
+===================================================== -->
+
+
+<!-- =====================================================
+     LABORATORY RESULT FORM MODAL
+===================================================== -->
+
+<div
+    id="labResultModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeLabResultModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="labResultFormTitle">
+            Add Laboratory Result
+        </h2>
+
+        <form id="labResultForm">
+
+            <input
+                type="hidden"
+                id="labResultId"
+            >
+
+            <div class="form-group">
+
+                <label>Test Name *</label>
+
+                <input
+                    type="text"
+                    id="labTestName"
+                    placeholder="e.g. Complete Blood Count"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Result</label>
+
+                <input
+                    type="text"
+                    id="labResultValue"
+                    placeholder="e.g. 12.5"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Unit</label>
+
+                <input
+                    type="text"
+                    id="labResultUnit"
+                    placeholder="e.g. g/dL"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Reference Range</label>
+
+                <input
+                    type="text"
+                    id="labReferenceRange"
+                    placeholder="e.g. 12–16 g/dL"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Result Date</label>
+
+                <input
+                    type="date"
+                    id="labResultDate"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Status</label>
+
+                <select id="labResultStatus">
+                    <option value="Final">Final</option>
+                    <option value="Preliminary">Preliminary</option>
+                    <option value="Pending">Pending</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Recorded By</label>
+
+                <input
+                    type="text"
+                    id="labRecordedBy"
+                    placeholder="Staff/doctor name"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Notes</label>
+
+                <textarea
+                    id="labResultNotes"
+                    rows="4"
+                    placeholder="Additional laboratory notes..."
+                ></textarea>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Laboratory Result
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeLabResultModal()"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div
+    id="prescriptionFormModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closePrescriptionFormModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="prescriptionFormTitle">
+            Add Prescription
+        </h2>
+
+        <form id="prescriptionForm">
+
+    <input
+        type="hidden"
+        id="prescriptionId"
+    >
+
+    <!-- ==============================
+         PRESCRIPTION HEADER
+    =============================== -->
+
+    <div class="form-group">
+
+        <label>
+            Doctor
+        </label>
+
+        <input
+            type="text"
+            id="prescriptionDoctor"
+            placeholder="Doctor name"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Prescription Date *
+        </label>
+
+        <input
+            type="date"
+            id="prescriptionDate"
+            required
+        >
+
+    </div>
+
+
+    <!-- ==============================
+         MEDICATIONS
+    =============================== -->
+
+   <h3>
+    Medications
+</h3>
+
+<div class="prescription-table-wrapper">
+
+    <table class="prescription-entry-table">
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Medication
+                </th>
+
+                <th>
+                    Dose
+                </th>
+
+                <th>
+                    Route
+                </th>
+
+                <th>
+                    Frequency
+                </th>
+
+                <th>
+                    Duration
+                </th>
+
+                <th>
+                    Quantity
+                </th>
+
+
+            </tr>
+
+        </thead>
+
+        <tbody id="medicationItems">
+
+            <tr class="medication-item">
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-name"
+                        placeholder="Medication"
+                        required
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-dose"
+                        placeholder="500 mg"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-route"
+                        placeholder="Oral"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-frequency"
+                        placeholder="BID"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-duration"
+                        placeholder="7 days"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-quantity"
+                        placeholder="14"
+                    >
+
+                </td>
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="removeMedicationItem(this)"
+                        style="display: none;"
+                    >
+                        Remove
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<div style="margin-top: 12px;">
+
+    <button
+        type="button"
+        class="primary-btn"
+        onclick="addMedicationItem()"
+    >
+        + Add Another Medication
+    </button>
+
+</div>
+
+
+<div class="form-group">
+
+    <label>
+        Notes
+    </label>
+
+    <textarea
+        id="prescriptionNotes"
+        placeholder="Additional prescription notes..."
+    ></textarea>
+
+</div>
+
+
+    <!-- ==============================
+         ACTIONS
+    =============================== -->
+
+    <div class="form-actions">
+
+        <button
+            type="submit"
+            class="save-btn"
+        >
+            Save Prescription
+        </button>
+
+        <button
+            type="button"
+            class="cancel-btn"
+            onclick="closePrescriptionFormModal()"
+        >
+            Cancel
+        </button>
+
+    </div>
+
+</form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CONSULTATION FORM MODAL
+===================================================== -->
+
+<div
+    id="consultationFormModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeConsultationFormModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="consultationFormTitle">
+            Add Consultation
+        </h2>
+
+        <form id="consultationForm">
+
+            <input
+                type="hidden"
+                id="consultationId"
+            >
+
+
+            <div class="form-group">
+
+                <label>Doctor</label>
+
+                <input
+                    type="text"
+                    id="consultationDoctor"
+                    placeholder="Doctor name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Consultation Date *</label>
+
+                <input
+                    type="date"
+                    id="consultationDate"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Presenting Complaint</label>
+
+                <textarea
+                    id="chiefComplaint"
+                    placeholder="Main reason for consultation..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    History of Presenting Complaint
+                </label>
+
+                <textarea
+                    id="historyOfPresentingComplaint"
+                    placeholder="History of the presenting complaint..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Past Medical History
+                </label>
+
+                <textarea
+                    id="pastMedicalHistory"
+                    placeholder="Past medical history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Drug and Allergy History
+                </label>
+
+                <textarea
+                    id="drugAllergyHistory"
+                    placeholder="Current drugs and allergy history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Family History
+                </label>
+
+                <textarea
+                    id="familyHistory"
+                    placeholder="Relevant family history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Social History
+                </label>
+
+                <textarea
+                    id="socialHistory"
+                    placeholder="Social history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Systems Review
+                </label>
+
+                <textarea
+                    id="systemsReview"
+                    placeholder="Review of systems..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Summary
+                </label>
+
+                <textarea
+                    id="consultationSummary"
+                    placeholder="Clinical summary..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Examination
+                </label>
+
+                <textarea
+                    id="examination"
+                    placeholder="Physical examination findings..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Investigations
+                </label>
+
+                <textarea
+                    id="investigations"
+                    placeholder="Laboratory tests, imaging and other investigations..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Differential Diagnosis
+                </label>
+
+                <textarea
+                    id="differentialDiagnosis"
+                    placeholder="Differential diagnoses..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Diagnosis
+                </label>
+
+                <textarea
+                    id="diagnosis"
+                    placeholder="Final diagnosis..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Management Plan
+                </label>
+
+                <textarea
+                    id="managementPlan"
+                    placeholder="Management plan..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Treatment
+                </label>
+
+                <textarea
+                    id="treatment"
+                    placeholder="Treatment provided or prescribed..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Clinical Notes
+                </label>
+
+                <textarea
+                    id="clinicalNotes"
+                    placeholder="Additional clinical notes..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Follow-up Date
+                </label>
+
+                <input
+                    type="date"
+                    id="followUpDate"
+                >
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Consultation
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeConsultationFormModal()"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     VIEW CONSULTATION MODAL
+===================================================== -->
+
+<div
+    id="viewConsultationModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeViewConsultationModal()"
+        >
+            &times;
+        </span>
+
+        <h2>Consultation Record</h2>
+
+
+        <div class="info-grid">
+
+            <div class="info-card">
+
+                <strong>Doctor</strong>
+
+                <span id="viewConsultationDoctor"></span>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <strong>Consultation Date</strong>
+
+                <span id="viewConsultationDate"></span>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <div class="clinical-item">
+
+                <strong>Presenting Complaint</strong>
+
+                <div
+                    id="viewChiefComplaint"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>
+                    History of Presenting Complaint
+                </strong>
+
+                <div
+                    id="viewHistoryOfPresentingComplaint"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Past Medical History</strong>
+
+                <div
+                    id="viewPastMedicalHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Drug and Allergy History</strong>
+
+                <div
+                    id="viewDrugAllergyHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Family History</strong>
+
+                <div
+                    id="viewFamilyHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Social History</strong>
+
+                <div
+                    id="viewSocialHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Systems Review</strong>
+
+                <div
+                    id="viewSystemsReview"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Summary</strong>
+
+                <div
+                    id="viewSummary"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Examination</strong>
+
+                <div
+                    id="viewExamination"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Investigations</strong>
+
+                <div
+                    id="viewInvestigations"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Differential Diagnosis</strong>
+
+                <div
+                    id="viewDifferentialDiagnosis"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Diagnosis</strong>
+
+                <div
+                    id="viewDiagnosis"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Management Plan</strong>
+
+                <div
+                    id="viewManagementPlan"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Treatment</strong>
+
+                <div
+                    id="viewTreatment"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Clinical Notes</strong>
+
+                <div
+                    id="viewClinicalNotes"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Follow-up Date</strong>
+
+                <div
+                    id="viewFollowUpDate"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
+const API_URL = "http://localhost:3000";
+
+
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
+
+let patients = [];
+
+let currentPatientId = null;
+
+let currentConsultations = [];
+
+
+/* =====================================================
+   TOKEN
+===================================================== */
+
+function getToken() {
+
+    return localStorage.getItem(
+        "frantett_token"
+    );
+
+}
+
+
+/* =====================================================
+   AUTHENTICATION
+===================================================== */
+
+function checkAuthentication() {
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        alert(
+            "Please log in to access patient records."
+        );
+
+        window.location.href =
+            "./login.html";
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+/* =====================================================
+   SESSION EXPIRED
+===================================================== */
+
+function handleSessionExpired() {
+
+    localStorage.removeItem(
+        "frantett_token"
+    );
+
+    alert(
+        "Your session has expired. Please log in again."
+    );
+
+    window.location.href =
+        "./login.html";
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(value) {
+
+    if (!value) {
+
+        return "";
+
+    }
+
+    const date =
+        new Date(value);
+
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return String(value);
+
+    }
+
+    return date.toLocaleDateString();
+
+}
+
+function formatDateTime(value) {
+
+    if (!value) {
+        return "";
+    }
+
+    const date = new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return String(value);
+    }
+
+    return date.toLocaleString();
+}
+
+/* =====================================================
+   TIME
+===================================================== */
+
+function formatTime(value) {
+
+    if (!value) {
+
+        return "";
+
+    }
+
+    const parts =
+        String(value).split(":");
+
+    if (
+        parts.length < 2
+    ) {
+
+        return value;
+
+    }
+
+    let hours =
+        parseInt(
+            parts[0],
+            10
+        );
+
+    const minutes =
+        parts[1];
+
+    if (
+        isNaN(hours)
+    ) {
+
+        return value;
+
+    }
+
+    const ampm =
+        hours >= 12
+            ? "PM"
+            : "AM";
+
+    hours =
+        hours % 12 || 12;
+
+    return `${hours}:${minutes} ${ampm}`;
+
+}
+
+
+/* =====================================================
+   TODAY
+===================================================== */
+
+function getTodayDate() {
+
+    const today =
+        new Date();
+
+    const year =
+        today.getFullYear();
+
+    const month =
+        String(
+            today.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+    const day =
+        String(
+            today.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+    text,
+    type = "success"
+) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    if (!message) {
+
+        return;
+
+    }
+
+    message.textContent =
+        text;
+
+    message.className =
+        `message ${type}`;
+
+    message.style.display =
+        "block";
+
+    setTimeout(
+        () => {
+
+            message.style.display =
+                "none";
+
+        },
+        4000
+    );
+
+}
+
+
+/* =====================================================
+   LOAD PATIENTS
+===================================================== */
+
+async function loadPatients() {
+
+    if (
+        !checkAuthentication()
+    ) {
+
+        return;
+
+    }
+
+    const table =
+        document.getElementById(
+            "patientsTable"
+        );
+
+    const token =
+        getToken();
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="7">
+                        ${escapeHtml(
+                            data.message ||
+                            "Failed to load patients."
+                        )}
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        patients =
+            Array.isArray(data)
+                ? data
+                : [];
+
+
+        displayPatients(
+            patients
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Load patients error:",
+            error
+        );
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    Unable to connect to the server.
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   DISPLAY PATIENTS
+===================================================== */
+
+function displayPatients(data) {
+
+    const table =
+        document.getElementById(
+            "patientsTable"
+        );
+
+    table.innerHTML =
+        "";
+
+
+    if (
+        !Array.isArray(data) ||
+        data.length === 0
+    ) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    No patient records found.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    data.forEach(
+        patient => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            const fullName =
+                `${patient.first_name || ""} ${patient.last_name || ""}`
+                    .trim();
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHtml(patient.id)}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        fullName ||
+                        "Unnamed patient"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        patient.email ||
+                        ""
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        patient.phone ||
+                        ""
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        formatDate(
+                            patient.date_of_birth
+                        )
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        patient.gender ||
+                        ""
+                    )}
+                </td>
+
+                <td>
+
+                    <div class="actions">
+
+                        <button
+                            class="view-btn"
+                            onclick="viewPatient(${Number(patient.id)})"
+                        >
+                            View
+                        </button>
+
+                        <button
+                            class="edit-btn"
+                            onclick="editPatient(${Number(patient.id)})"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="danger-btn"
+                            onclick="deletePatient(${Number(patient.id)})"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                </td>
+
+            `;
+
+
+            table.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FILTER PATIENTS
+===================================================== */
+
+function filterPatients() {
+
+    const search =
+        document.getElementById(
+            "searchInput"
+        ).value
+        .toLowerCase()
+        .trim();
+
+    const gender =
+        document.getElementById(
+            "genderFilter"
+        ).value;
+
+    const dob =
+        document.getElementById(
+            "dobFilter"
+        ).value;
+
+    const filtered =
+        patients.filter(
+            patient => {
+
+                const name =
+                    `${patient.first_name || ""} ${patient.last_name || ""}`
+                        .toLowerCase();
+
+                const email =
+                    (
+                        patient.email ||
+                        ""
+                    ).toLowerCase();
+
+                const phone =
+                    (
+                        patient.phone ||
+                        ""
+                    ).toLowerCase();
+
+                const matchesSearch =
+                    name.includes(search) ||
+                    email.includes(search) ||
+                    phone.includes(search);
+
+                const matchesGender =
+                    !gender ||
+                    patient.gender === gender;
+
+                const matchesDob =
+                    !dob ||
+                    String(
+                        patient.date_of_birth || ""
+                    ).substring(
+                        0,
+                        10
+                    ) === dob;
+
+                return (
+                    matchesSearch &&
+                    matchesGender &&
+                    matchesDob
+                );
+            }
+        );
+
+    displayPatients(
+        filtered
+    );
+}
+
+
+/* =====================================================
+   ADD PATIENT
+===================================================== */
+
+function openAddPatientModal() {
+
+    const form =
+        document.getElementById(
+            "patientForm"
+        );
+
+    form.reset();
+
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "Add Patient";
+
+
+    document.getElementById(
+        "patientId"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "patientFormModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* =====================================================
+   CLOSE PATIENT FORM
+===================================================== */
+
+function closePatientFormModal() {
+
+    document.getElementById(
+        "patientFormModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   SAVE PATIENT
+===================================================== */
+
+document
+    .getElementById(
+        "patientForm"
+    )
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const token =
+                getToken();
+
+
+            if (!token) {
+
+                handleSessionExpired();
+
+                return;
+
+            }
+
+
+            const patientId =
+                document.getElementById(
+                    "patientId"
+                ).value;
+
+
+            const patientData = {
+
+                first_name:
+                    document.getElementById(
+                        "firstName"
+                    ).value.trim(),
+
+                last_name:
+                    document.getElementById(
+                        "lastName"
+                    ).value.trim(),
+
+                email:
+                    document.getElementById(
+                        "email"
+                    ).value.trim(),
+
+                phone:
+                    document.getElementById(
+                        "phone"
+                    ).value.trim(),
+
+                date_of_birth:
+                    document.getElementById(
+                        "dateOfBirth"
+                    ).value,
+
+                gender:
+                    document.getElementById(
+                        "gender"
+                    ).value,
+
+                address:
+                    document.getElementById(
+                        "address"
+                    ).value.trim(),
+
+                medical_history:
+                    document.getElementById(
+                        "medicalHistory"
+                    ).value.trim(),
+
+                allergies:
+                    document.getElementById(
+                        "allergies"
+                    ).value.trim(),
+
+                medications:
+                    document.getElementById(
+                        "medications"
+                    ).value.trim(),
+
+                notes:
+                    document.getElementById(
+                        "notes"
+                    ).value.trim()
+
+            };
+
+
+            const url =
+                patientId
+                    ? `${API_URL}/api/patients/${patientId}`
+                    : `${API_URL}/api/patients`;
+
+
+            const method =
+                patientId
+                    ? "PUT"
+                    : "POST";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method,
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${token}`
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    patientData
+                                )
+
+                        }
+                    );
+
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    handleSessionExpired();
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok
+                ) {
+
+                    alert(
+                        data.message ||
+                        "Failed to save patient."
+                    );
+
+                    return;
+
+                }
+
+
+                showMessage(
+                    data.message ||
+                    "Patient saved successfully.",
+                    "success"
+                );
+
+
+                closePatientFormModal();
+
+
+                await loadPatients();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Save patient error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the server."
+                );
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   VIEW PATIENT
+===================================================== */
+
+async function viewPatient(id) {
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    currentPatientId =
+        id;
+
+
+    document.getElementById(
+        "appointmentHistory"
+    ).innerHTML = `
+        <div class="loading">
+            Loading appointment history...
+        </div>
+    `;
+
+
+    document.getElementById(
+        "consultationHistory"
+    ).innerHTML = `
+        <div class="loading">
+            Loading consultation records...
+        </div>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${id}`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const patient =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            alert(
+                patient.message ||
+                "Unable to load patient."
+            );
+
+            return;
+
+        }
+
+
+        const fullName =
+            `${patient.first_name || ""} ${patient.last_name || ""}`
+                .trim();
+
+
+        document.getElementById(
+            "viewName"
+        ).textContent =
+            fullName ||
+            "Patient";
+
+
+        document.getElementById(
+            "viewEmail"
+        ).textContent =
+            patient.email ||
+            "Not provided";
+
+
+        document.getElementById(
+            "viewPhone"
+        ).textContent =
+            patient.phone ||
+            "Not provided";
+
+
+        document.getElementById(
+            "viewDateOfBirth"
+        ).textContent =
+            formatDate(
+                patient.date_of_birth
+            ) ||
+            "Not provided";
+
+
+        document.getElementById(
+            "viewGender"
+        ).textContent =
+            patient.gender ||
+            "Not provided";
+
+
+        document.getElementById(
+            "viewAddress"
+        ).textContent =
+            patient.address ||
+            "Not provided";
+
+
+        document.getElementById(
+            "viewMedicalHistory"
+        ).textContent =
+            patient.medical_history ||
+            "None recorded";
+
+
+        document.getElementById(
+            "viewAllergies"
+        ).textContent =
+            patient.allergies ||
+            "None recorded";
+
+
+        document.getElementById(
+            "viewMedications"
+        ).textContent =
+            patient.medications ||
+            "None recorded";
+
+
+        document.getElementById(
+            "viewNotes"
+        ).textContent =
+            patient.notes ||
+            "None";
+
+
+        document.getElementById(
+            "viewPatientModal"
+        ).style.display =
+            "flex";
+
+
+        await loadAppointmentHistory(
+            id
+        );
+
+        await loadPatientTimeline(
+    id
+);
+
+        await loadConsultations(
+            id
+        );
+
+        await loadPrescriptions(
+    id
+);
+
+
+
+
+        await loadLaboratoryResults(
+            id
+        );
+
+await updatePatientSummary(
+    id
+);
+
+
+    } catch (error) {
+
+        console.error(
+            "View patient error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+/* =====================================================
+   LOAD APPOINTMENT HISTORY
+===================================================== */
+
+async function loadAppointmentHistory(patientId) {
+
+    const container =
+        document.getElementById("appointmentHistory");
+
+    const token =
+        getToken();
+
+    if (!container) {
+        return;
+    }
+
+    if (!token) {
+        handleSessionExpired();
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="loading">
+            Loading appointment history...
+        </div>
+    `;
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}/appointments`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+            handleSessionExpired();
+            return;
+        }
+
+        const appointments =
+            await response.json();
+
+        if (!response.ok) {
+
+            container.innerHTML = `
+                <div class="no-records">
+                    ${escapeHtml(
+                        appointments.message ||
+                        "Failed to load appointment history."
+                    )}
+                </div>
+            `;
+
+            return;
+        }
+
+        if (
+            !Array.isArray(appointments) ||
+            appointments.length === 0
+        ) {
+
+            container.innerHTML = `
+                <div class="no-records">
+                    No appointment history found.
+                </div>
+            `;
+
+            return;
+        }
+
+        let html = `
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Doctor</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+        `;
+
+        appointments.forEach(
+            appointment => {
+
+                html += `
+                    <tr>
+
+                        <td>
+                            ${escapeHtml(
+                                formatDate(
+                                    appointment.appointment_date
+                                )
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                formatTime(
+                                    appointment.appointment_time
+                                )
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.doctor ||
+                                "Not specified"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.reason ||
+                                "Not provided"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.status ||
+                                "Pending"
+                            )}
+                        </td>
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="view-btn"
+                                onclick="viewAppointment(${Number(appointment.id)})"
+                            >
+                                View
+                            </button>
+
+                            <button
+                                type="button"
+                                class="danger-btn"
+                                onclick="deleteAppointmentFromPatient(${Number(appointment.id)})"
+                            >
+                                Delete
+                            </button>
+
+                        </td>
+
+                    </tr>
+                `;
+            }
+        );
+
+        html += `
+                    </tbody>
+
+                </table>
+
+            </div>
+        `;
+
+        container.innerHTML =
+            html;
+
+    } catch (error) {
+
+        console.error(
+            "Appointment history error:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="no-records">
+                Failed to load appointment history.
+            </div>
+        `;
+
+    }
+
+}
+
+async function loadPatientTimeline(patientId) {
+
+    const container =
+        document.getElementById("patientTimeline");
+
+    const token =
+        getToken();
+
+    if (!container || !token) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}/timeline`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+            handleSessionExpired();
+            return;
+        }
+
+        const timeline =
+            await response.json();
+
+        if (!response.ok) {
+
+            container.innerHTML = `
+                <div class="no-records">
+                    ${escapeHtml(
+                        timeline.message ||
+                        "Failed to load patient timeline."
+                    )}
+                </div>
+            `;
+
+            return;
+        }
+
+        if (
+            !Array.isArray(timeline) ||
+            timeline.length === 0
+        ) {
+
+            container.innerHTML = `
+                <div class="no-records">
+                    No timeline records found.
+                </div>
+            `;
+
+            return;
+        }
+
+        let html = "";
+
+        timeline.forEach(event => {
+
+            let type = "Record";
+
+            if (event.type === "appointment") {
+                type = "Appointment";
+            }
+
+            if (event.type === "consultation") {
+                type = "Consultation";
+            }
+
+            if (event.type === "prescription") {
+                type = "Prescription";
+            }
+
+            html += `
+                <div class="timeline-record">
+
+                    <div class="timeline-header">
+
+                        <div>
+                            <div class="timeline-type">
+                                ${escapeHtml(type)}
+                            </div>
+
+                            <div class="timeline-meta">
+                                ${escapeHtml(
+                                    formatDate(event.event_date)
+                                )}
+
+                                ${
+                                    event.doctor
+                                        ? ` ΓÇó ${escapeHtml(event.doctor)}`
+                                        : ""
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="timeline-title">
+                        ${escapeHtml(
+                            event.title ||
+                            "No details available"
+                        )}
+                    </div>
+
+                    ${
+                        event.status
+                            ? `
+                                <div class="timeline-status">
+                                    Status:
+                                    <span>
+                                        ${escapeHtml(event.status)}
+                                    </span>
+                                </div>
+                            `
+                            : ""
+                    }
+
+                </div>
+            `;
+
+        });
+
+        container.innerHTML = html;
+
+    } catch (error) {
+
+        console.error(
+            "Patient timeline error:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="no-records">
+                Failed to load patient timeline.
+            </div>
+        `;
+    }
+}
+
+/* =====================================================
+   VIEW APPOINTMENT
+===================================================== */
+
+async function viewAppointment(id) {
+
+    const token = getToken();
+
+    if (!token) {
+        handleSessionExpired();
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/appointments/${id}`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        if (response.status === 401 || response.status === 403) {
+            handleSessionExpired();
+            return;
+        }
+
+        const appointment = await response.json();
+
+        if (!response.ok) {
+            alert(
+                appointment.message ||
+                "Unable to load appointment."
+            );
+            return;
+        }
+
+        alert(
+            `Appointment Details\n\n` +
+            `Patient: ${appointment.name || "Not provided"}\n` +
+            `Email: ${appointment.email || "Not provided"}\n` +
+            `Phone: ${appointment.phone || "Not provided"}\n` +
+            `Doctor: ${appointment.doctor || "Not specified"}\n` +
+            `Date: ${formatDate(appointment.appointment_date)}\n` +
+            `Time: ${formatTime(appointment.appointment_time)}\n` +
+            `Reason: ${appointment.reason || "Not provided"}\n` +
+            `Status: ${appointment.status || "Pending"}`
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error viewing appointment:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+    }
+}
+
+
+/* =====================================================
+   DELETE APPOINTMENT FROM PATIENT PROFILE
+===================================================== */
+
+async function deleteAppointmentFromPatient(id) {
+
+    const confirmed = confirm(
+        "Are you sure you want to delete this appointment?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    const token = getToken();
+
+    if (!token) {
+        handleSessionExpired();
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/appointments/${id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        if (response.status === 401 || response.status === 403) {
+            handleSessionExpired();
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                data.message ||
+                "Failed to delete appointment."
+            );
+
+            return;
+        }
+
+        showMessage(
+            data.message ||
+            "Appointment deleted successfully.",
+            "success"
+        );
+
+        await loadAppointmentHistory(
+            currentPatientId
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error deleting appointment:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+    }
+}
+
+/* =====================================================
+   LOAD CONSULTATIONS
+===================================================== */
+
+async function loadConsultations(
+    patientId
+) {
+
+    const container =
+        document.getElementById(
+            "consultationHistory"
+        );
+
+
+    const token =
+        getToken();
+
+
+    container.innerHTML = `
+        <div class="loading">
+            Loading consultation records...
+        </div>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}/consultations`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const consultations =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            container.innerHTML = `
+                <div class="no-records">
+                    ${escapeHtml(
+                        consultations.message ||
+                        "Failed to load consultation records."
+                    )}
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        currentConsultations =
+            Array.isArray(
+                consultations
+            )
+                ? consultations
+                : [];
+
+
+        if (
+            currentConsultations.length === 0
+        ) {
+
+            container.innerHTML = `
+                <div class="no-records">
+                    No consultation records found.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        displayConsultations(
+            currentConsultations
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Load consultations error:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="no-records">
+                Failed to load consultation records.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   DISPLAY CONSULTATIONS
+===================================================== */
+
+function displayConsultations(consultations) {
+
+    const container =
+        document.getElementById("consultationHistory");
+
+    if (!container) {
+        return;
+    }
+
+    if (!Array.isArray(consultations) || consultations.length === 0) {
+
+        container.innerHTML = `
+            <div class="no-records">
+                No consultation records found.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = consultations.map(
+        consultation => `
+
+            <div class="consultation-card">
+
+                <div class="clinical-record-header">
+
+                    <div>
+                        <h4>Clinical Consultation</h4>
+
+                        <div class="clinical-date">
+                            ${escapeHtml(
+                                formatDate(
+                                    consultation.consultation_date
+                                )
+                            )}
+
+                            ${
+                                consultation.doctor
+                                    ? ` ΓÇó ${escapeHtml(
+                                        consultation.doctor
+                                    )}`
+                                    : ""
+                            }
+
+                            ${
+                                consultation.created_at
+                                    ? ` ΓÇó Entered ${escapeHtml(
+                                        formatDateTime(
+                                            consultation.created_at
+                                        )
+                                    )}`
+                                    : ""
+                            }
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="clinical-grid">
+
+                    <div class="clinical-item">
+                        <strong>Presenting Complaint</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.chief_complaint ||
+                                consultation.presenting_complaint ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>History of Presenting Complaint</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.history_of_presenting_complaint ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Past Medical History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.past_medical_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Drug and Allergy History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.drug_allergy_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Family History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.family_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Social History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.social_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Systems Review</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.systems_review ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Summary</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.summary ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Examination</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.examination ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Investigations</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.investigations ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Differential Diagnosis</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.differential_diagnosis ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Diagnosis</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.diagnosis ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Management Plan</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.management_plan ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Treatment</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.treatment ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Clinical Notes</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.clinical_notes ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Follow-up Date</strong>
+                        <div class="clinical-value">
+                            ${
+                                consultation.follow_up_date
+                                    ? escapeHtml(
+                                        formatDate(
+                                            consultation.follow_up_date
+                                        )
+                                    )
+                                    : "No follow-up scheduled"
+                            }
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="record-actions">
+
+                    <button
+                        type="button"
+                        class="edit-btn"
+                        onclick="editConsultation(${Number(consultation.id)})"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="deleteConsultation(${Number(consultation.id)})"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        `
+    ).join("");
+}
+
+// ==========================================
+// PRESCRIPTION FUNCTIONS
+// ==========================================
+
+// ==========================================
+// OPEN ADD PRESCRIPTION
+// ==========================================
+
+function openAddPrescriptionModal() {
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+    }
+
+    const form =
+        document.getElementById(
+            "prescriptionForm"
+        );
+
+    if (form) {
+        form.reset();
+    }
+
+    const medicationContainer =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    if (medicationContainer) {
+
+        medicationContainer.innerHTML = `
+            <tr class="medication-item">
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-name"
+                        placeholder="Medication"
+                        required
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-dose"
+                        placeholder="500 mg"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-route"
+                        placeholder="Oral"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-frequency"
+                        placeholder="BID"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-duration"
+                        placeholder="7 days"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-quantity"
+                        placeholder="14"
+                    >
+                </td>
+
+                <td>
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="removeMedicationItem(this)"
+                        style="display: none;"
+                    >
+                        Remove
+                    </button>
+                </td>
+
+            </tr>
+        `;
+    }
+
+    document.getElementById(
+        "prescriptionFormTitle"
+    ).textContent =
+        "Add Prescription";
+
+    document.getElementById(
+        "prescriptionId"
+    ).value =
+        "";
+
+    document.getElementById(
+        "prescriptionDate"
+    ).value =
+        getTodayDate();
+
+    document.getElementById(
+        "prescriptionFormModal"
+    ).style.display =
+        "flex";
+}
+
+
+// ==========================================
+// ADD MEDICATION ROW
+// ==========================================
+
+function addMedicationItem() {
+
+    const container =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    const row =
+        document.createElement("tr");
+
+    row.className =
+        "medication-item";
+
+    row.innerHTML = `
+        <td>
+            <input
+                type="text"
+                class="medication-name"
+                placeholder="Medication"
+                required
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-dose"
+                placeholder="500 mg"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-route"
+                placeholder="Oral"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-frequency"
+                placeholder="BID"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-duration"
+                placeholder="7 days"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-quantity"
+                placeholder="14"
+            >
+        </td>
+
+        <td>
+            <button
+                type="button"
+                class="danger-btn remove-medication-btn"
+                onclick="removeMedicationItem(this)"
+            >
+                Remove
+            </button>
+        </td>
+    `;
+
+    container.appendChild(row);
+
+    updateMedicationRemoveButtons();
+}
+
+
+// ==========================================
+// REMOVE MEDICATION ROW
+// ==========================================
+
+function removeMedicationItem(button) {
+
+    const row =
+        button.closest(
+            ".medication-item"
+        );
+
+    if (!row) {
+        return;
+    }
+
+    const container =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    const rows =
+        container.querySelectorAll(
+            ".medication-item"
+        );
+
+    if (rows.length <= 1) {
+
+        alert(
+            "At least one medication is required."
+        );
+
+        return;
+    }
+
+    row.remove();
+
+    updateMedicationRemoveButtons();
+}
+
+
+// ==========================================
+// UPDATE REMOVE BUTTONS
+// ==========================================
+
+function updateMedicationRemoveButtons() {
+
+    const container =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    const rows =
+        container.querySelectorAll(
+            ".medication-item"
+        );
+
+    rows.forEach(
+        row => {
+
+            const button =
+                row.querySelector(
+                    ".remove-medication-btn"
+                );
+
+            if (!button) {
+                return;
+            }
+
+            button.style.display =
+                rows.length > 1
+                    ? "inline-block"
+                    : "none";
+        }
+    );
+}
+
+// ==========================================
+// CLOSE PRESCRIPTION FORM
+// ==========================================
+
+function closePrescriptionFormModal() {
+
+    const modal =
+        document.getElementById(
+            "prescriptionFormModal"
+        );
+
+    if (modal) {
+
+        modal.style.display =
+            "none";
+
+    }
+
+}
+
+
+// ==========================================
+// LOAD PRESCRIPTIONS
+// ==========================================
+
+async function loadPrescriptions(
+    patientId
+) {
+
+    const container =
+        document.getElementById(
+            "prescriptionHistory"
+        );
+
+    const token =
+        getToken();
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="loading">
+            Loading prescription records...
+        </div>
+    `;
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}/prescriptions`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+        const prescriptions =
+            await response.json();
+
+        if (!response.ok) {
+
+            container.innerHTML = `
+                <div class="error-message">
+                    ${escapeHtml(
+                        prescriptions.message ||
+                        "Failed to load prescription records."
+                    )}
+                </div>
+            `;
+
+            return;
+
+        }
+
+        currentPrescriptions =
+            prescriptions;
+
+        displayPrescriptions(
+            prescriptions
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error loading prescriptions:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="error-message">
+                Failed to load prescription records.
+            </div>
+        `;
+
+    }
+
+}
+
+function updatePatientSummary(
+    appointments,
+    consultations,
+    prescriptions
+) {
+
+    const totalAppointments =
+        Array.isArray(appointments)
+            ? appointments.length
+            : 0;
+
+    const completedAppointments =
+        Array.isArray(appointments)
+            ? appointments.filter(
+                appointment =>
+                    appointment.status === "Completed"
+            ).length
+            : 0;
+
+    const totalConsultations =
+        Array.isArray(consultations)
+            ? consultations.length
+            : 0;
+
+    const totalPrescriptions =
+        Array.isArray(prescriptions)
+            ? prescriptions.length
+            : 0;
+
+    document.getElementById(
+        "summaryTotalAppointments"
+    ).textContent =
+        totalAppointments;
+
+    document.getElementById(
+        "summaryCompletedAppointments"
+    ).textContent =
+        completedAppointments;
+
+    document.getElementById(
+        "summaryTotalConsultations"
+    ).textContent =
+        totalConsultations;
+
+    document.getElementById(
+        "summaryTotalPrescriptions"
+    ).textContent =
+        totalPrescriptions;
+}
+
+async function updatePatientSummary(patientId) {
+
+    const token = getToken();
+
+    if (!token) {
+        return;
+    }
+
+    try {
+
+        const [
+            appointmentsResponse,
+            consultationsResponse,
+            prescriptionsResponse
+        ] = await Promise.all([
+            fetch(
+                `${API_URL}/api/patients/${patientId}/appointments`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            ),
+
+            fetch(
+                `${API_URL}/api/patients/${patientId}/consultations`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            ),
+
+            fetch(
+                `${API_URL}/api/patients/${patientId}/prescriptions`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            )
+        ]);
+
+        const appointments =
+            appointmentsResponse.ok
+                ? await appointmentsResponse.json()
+                : [];
+
+        const consultations =
+            consultationsResponse.ok
+                ? await consultationsResponse.json()
+                : [];
+
+        const prescriptions =
+            prescriptionsResponse.ok
+                ? await prescriptionsResponse.json()
+                : [];
+
+        const totalAppointments =
+            Array.isArray(appointments)
+                ? appointments.length
+                : 0;
+
+        const completedAppointments =
+            Array.isArray(appointments)
+                ? appointments.filter(
+                    appointment =>
+                        appointment.status === "Completed"
+                ).length
+                : 0;
+
+        const totalConsultations =
+            Array.isArray(consultations)
+                ? consultations.length
+                : 0;
+
+        const totalPrescriptions =
+            Array.isArray(prescriptions)
+                ? prescriptions.length
+                : 0;
+
+        document.getElementById(
+            "summaryTotalAppointments"
+        ).textContent =
+            totalAppointments;
+
+        document.getElementById(
+            "summaryCompletedAppointments"
+        ).textContent =
+            completedAppointments;
+
+        document.getElementById(
+            "summaryTotalConsultations"
+        ).textContent =
+            totalConsultations;
+
+        document.getElementById(
+            "summaryTotalPrescriptions"
+        ).textContent =
+            totalPrescriptions;
+
+    } catch (error) {
+
+        console.error(
+            "Patient summary error:",
+            error
+        );
+
+    }
+}
+
+// ==========================================
+// DISPLAY PRESCRIPTIONS
+// ==========================================
+
+function displayPrescriptions(prescriptions) {
+
+    const container =
+        document.getElementById("prescriptionHistory");
+
+    if (!container) {
+        return;
+    }
+
+    if (
+        !Array.isArray(prescriptions) ||
+        prescriptions.length === 0
+    ) {
+
+        container.innerHTML = `
+            <div class="no-records">
+                No prescription records found.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        prescriptions.map(
+            prescription => {
+
+                const medications =
+                    Array.isArray(
+                        prescription.medications
+                    )
+                        ? prescription.medications
+                        : [];
+
+                return `
+
+                    <div class="clinical-record">
+
+                        <div class="clinical-record-header">
+
+                            <div>
+
+                                <h4>
+                                    Prescription
+                                </h4>
+
+                                <div class="clinical-date">
+
+                                    ${escapeHtml(
+                                        formatDate(
+                                            prescription.prescription_date
+                                        )
+                                    )}
+
+                                    ${
+                                        prescription.doctor
+                                            ? ` ΓÇó ${escapeHtml(
+                                                prescription.doctor
+                                            )}`
+                                            : ""
+                                    }
+
+                                    ${
+                                        prescription.created_at
+                                            ? ` ΓÇó Entered ${escapeHtml(
+                                                formatDateTime(
+                                                    prescription.created_at
+                                                )
+                                            )}`
+                                            : ""
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="prescription-table-wrapper">
+
+                            <table class="prescription-entry-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Medication
+                                        </th>
+
+                                        <th>
+                                            Dose
+                                        </th>
+
+                                        <th>
+                                            Route
+                                        </th>
+
+                                        <th>
+                                            Frequency
+                                        </th>
+
+                                        <th>
+                                            Duration
+                                        </th>
+
+                                        <th>
+                                            Quantity
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    ${
+                                        medications.length > 0
+
+                                            ? medications.map(
+                                                medication => `
+
+                                                    <tr>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.medication_name ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.dose ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.route ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.frequency ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.duration ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.quantity ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                    </tr>
+
+                                                `
+                                            ).join("")
+
+                                            : `
+                                                <tr>
+
+                                                    <td colspan="6">
+                                                        No medication details available.
+                                                    </td>
+
+                                                </tr>
+                                            `
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                        ${
+                            prescription.notes
+                                ? `
+
+                                    <div class="clinical-item prescription-extra">
+
+                                        <strong>
+                                            Notes
+                                        </strong>
+
+                                        <div class="clinical-value">
+                                            ${escapeHtml(
+                                                prescription.notes
+                                            )}
+
+                                            <div class="record-actions">
+
+    <button
+        type="button"
+        class="edit-btn"
+        onclick="editPrescription(${Number(prescription.id)})"
+    >
+        Edit
+    </button>
+
+    <button
+        type="button"
+        class="danger-btn"
+        onclick="deletePrescription(${Number(prescription.id)})"
+    >
+        Delete
+    </button>
+
+</div>
+
+                                        </div>
+
+                                    </div>
+
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+                `;
+            }
+        ).join("");
+}
+
+// ==========================================
+// SAVE PRESCRIPTION
+// ==========================================
+
+const prescriptionForm =
+    document.getElementById(
+        "prescriptionForm"
+    );
+
+if (prescriptionForm) {
+
+    prescriptionForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            const token =
+                getToken();
+
+            if (!token) {
+                handleSessionExpired();
+                return;
+            }
+
+            if (!currentPatientId) {
+                alert("No patient selected.");
+                return;
+            }
+
+            const prescriptionId =
+                document.getElementById(
+                    "prescriptionId"
+                ).value;
+
+            const medicationRows =
+                document.querySelectorAll(
+                    "#medicationItems .medication-item"
+                );
+
+            const items = [];
+
+            medicationRows.forEach(
+                row => {
+
+                    const medicationName =
+                        row.querySelector(
+                            ".medication-name"
+                        ).value.trim();
+
+                    if (!medicationName) {
+                        return;
+                    }
+
+                    items.push({
+
+                        medication_name:
+                            medicationName,
+
+                        dose:
+                            row.querySelector(
+                                ".medication-dose"
+                            ).value.trim(),
+
+                        route:
+                            row.querySelector(
+                                ".medication-route"
+                            ).value.trim(),
+
+                        frequency:
+                            row.querySelector(
+                                ".medication-frequency"
+                            ).value.trim(),
+
+                        duration:
+                            row.querySelector(
+                                ".medication-duration"
+                            ).value.trim(),
+
+                        quantity:
+                            row.querySelector(
+                                ".medication-quantity"
+                            ).value.trim()
+
+                    });
+
+                }
+            );
+
+            if (items.length === 0) {
+
+                alert(
+                    "Please enter at least one medication."
+                );
+
+                return;
+            }
+
+            const prescriptionData = {
+
+                doctor:
+                    document.getElementById(
+                        "prescriptionDoctor"
+                    ).value.trim(),
+
+                prescription_date:
+                    document.getElementById(
+                        "prescriptionDate"
+                    ).value,
+
+                notes:
+                    document.getElementById(
+                        "prescriptionNotes"
+                    ).value.trim(),
+
+                items:
+                    items
+
+            };
+
+            const url =
+                prescriptionId
+                    ? `${API_URL}/api/prescriptions/${prescriptionId}`
+                    : `${API_URL}/api/patients/${currentPatientId}/prescriptions`;
+
+            const method =
+                prescriptionId
+                    ? "PUT"
+                    : "POST";
+
+            try {
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method: method,
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${token}`
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    prescriptionData
+                                )
+
+                        }
+                    );
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    handleSessionExpired();
+                    return;
+
+                }
+
+                const data =
+                    await response.json();
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Prescription save error:",
+                        data
+                    );
+
+                    alert(
+                        data.message ||
+                        "Failed to save prescription."
+                    );
+
+                    return;
+                }
+
+                showMessage(
+                    data.message ||
+                    "Prescription saved successfully.",
+                    "success"
+                );
+
+                closePrescriptionFormModal();
+
+                await loadPrescriptions(
+                    currentPatientId
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Error saving prescription:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the server."
+                );
+
+            }
+
+        }
+    );
+
+}
+
+// ==========================================
+// VIEW PRESCRIPTION
+// ==========================================
+
+async function viewPrescription(
+    id
+) {
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/prescriptions/${id}`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+        const prescription =
+            await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                prescription.message ||
+                "Unable to load prescription."
+            );
+
+            return;
+
+        }
+
+        alert(
+            `Prescription\n\n` +
+
+            `Medication: ${
+                prescription.medication_name ||
+                "Not provided"
+            }\n` +
+
+            `Dose: ${
+                prescription.dose ||
+                "Not provided"
+            }\n` +
+
+            `Route: ${
+                prescription.route ||
+                "Not provided"
+            }\n` +
+
+            `Frequency: ${
+                prescription.frequency ||
+                "Not provided"
+            }\n` +
+
+            `Duration: ${
+                prescription.duration ||
+                "Not provided"
+            }\n` +
+
+            `Quantity: ${
+                prescription.quantity ||
+                "Not provided"
+            }\n\n` +
+
+            `Instructions: ${
+                prescription.instructions ||
+                "Not provided"
+            }\n\n` +
+
+            `Notes: ${
+                prescription.notes ||
+                "Not provided"
+            }`
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error viewing prescription:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// EDIT PRESCRIPTION
+// ==========================================
+
+async function editPrescription(id) {
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/prescriptions/${id}`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+        }
+
+        const prescription =
+            await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                prescription.message ||
+                "Unable to load prescription."
+            );
+
+            return;
+        }
+
+        document.getElementById(
+            "prescriptionFormTitle"
+        ).textContent =
+            "Edit Prescription";
+
+        document.getElementById(
+            "prescriptionId"
+        ).value =
+            prescription.id;
+
+        document.getElementById(
+            "prescriptionDoctor"
+        ).value =
+            prescription.doctor || "";
+
+        document.getElementById(
+            "prescriptionDate"
+        ).value =
+            prescription.prescription_date
+                ? prescription.prescription_date.substring(
+                    0,
+                    10
+                )
+                : "";
+
+        document.getElementById(
+            "prescriptionNotes"
+        ).value =
+            prescription.notes || "";
+
+        const medicationContainer =
+            document.getElementById(
+                "medicationItems"
+            );
+
+        medicationContainer.innerHTML = "";
+
+        const medications =
+            Array.isArray(
+                prescription.medications
+            )
+                ? prescription.medications
+                : [];
+
+        medications.forEach(
+            medication => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.className =
+                    "medication-item";
+
+                row.innerHTML = `
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-name"
+                            value="${escapeHtml(
+                                medication.medication_name || ""
+                            )}"
+                            required
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-dose"
+                            value="${escapeHtml(
+                                medication.dose || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-route"
+                            value="${escapeHtml(
+                                medication.route || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-frequency"
+                            value="${escapeHtml(
+                                medication.frequency || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-duration"
+                            value="${escapeHtml(
+                                medication.duration || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-quantity"
+                            value="${escapeHtml(
+                                medication.quantity || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <button
+                            type="button"
+                            class="danger-btn remove-medication-btn"
+                            onclick="removeMedicationItem(this)"
+                        >
+                            Remove
+                        </button>
+                    </td>
+
+                `;
+
+                medicationContainer.appendChild(
+                    row
+                );
+
+            }
+        );
+
+        if (medications.length === 0) {
+
+            addMedicationItem();
+
+        }
+
+        updateMedicationRemoveButtons();
+
+        document.getElementById(
+            "prescriptionFormModal"
+        ).style.display =
+            "flex";
+
+    } catch (error) {
+
+        console.error(
+            "Error editing prescription:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// DELETE PRESCRIPTION
+// ==========================================
+
+async function deletePrescription(
+    id
+) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this prescription record?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/prescriptions/${id}`,
+                {
+                    method:
+                        "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                data.message ||
+                "Failed to delete prescription."
+            );
+
+            return;
+
+        }
+
+        showMessage(
+            data.message ||
+            "Prescription deleted successfully.",
+            "success"
+        );
+
+        await loadPrescriptions(
+            currentPatientId
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error deleting prescription:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+/* =====================================================
+   ADD CONSULTATION
+===================================================== */
+
+function openAddConsultationModal() {
+
+    if (
+        !currentPatientId
+    ) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+
+    }
+
+
+    const form =
+        document.getElementById(
+            "consultationForm"
+        );
+
+
+    form.reset();
+
+
+    document.getElementById(
+        "consultationFormTitle"
+    ).textContent =
+        "Add Consultation";
+
+
+    document.getElementById(
+        "consultationId"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "consultationDate"
+    ).value =
+        getTodayDate();
+
+
+    document.getElementById(
+        "consultationFormModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* =====================================================
+   CLOSE CONSULTATION FORM
+===================================================== */
+
+function closeConsultationFormModal() {
+
+    document.getElementById(
+        "consultationFormModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   SAVE CONSULTATION
+===================================================== */
+
+document
+    .getElementById(
+        "consultationForm"
+    )
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const token =
+                getToken();
+
+
+            if (!token) {
+
+                handleSessionExpired();
+
+                return;
+
+            }
+
+
+            if (
+                !currentPatientId
+            ) {
+
+                alert(
+                    "No patient selected."
+                );
+
+                return;
+
+            }
+
+
+            const consultationId =
+                document.getElementById(
+                    "consultationId"
+                ).value;
+
+
+            const consultationData = {
+
+                doctor:
+                    document.getElementById(
+                        "consultationDoctor"
+                    ).value.trim(),
+
+                consultation_date:
+                    document.getElementById(
+                        "consultationDate"
+                    ).value,
+
+                chief_complaint:
+                    document.getElementById(
+                        "chiefComplaint"
+                    ).value.trim(),
+
+                history_of_presenting_complaint:
+                    document.getElementById(
+                        "historyOfPresentingComplaint"
+                    ).value.trim(),
+
+                past_medical_history:
+                    document.getElementById(
+                        "pastMedicalHistory"
+                    ).value.trim(),
+
+                drug_allergy_history:
+                    document.getElementById(
+                        "drugAllergyHistory"
+                    ).value.trim(),
+
+                family_history:
+                    document.getElementById(
+                        "familyHistory"
+                    ).value.trim(),
+
+                social_history:
+                    document.getElementById(
+                        "socialHistory"
+                    ).value.trim(),
+
+                systems_review:
+                    document.getElementById(
+                        "systemsReview"
+                    ).value.trim(),
+
+                summary:
+                    document.getElementById(
+                        "consultationSummary"
+                    ).value.trim(),
+
+                examination:
+                    document.getElementById(
+                        "examination"
+                    ).value.trim(),
+
+                investigations:
+                    document.getElementById(
+                        "investigations"
+                    ).value.trim(),
+
+                differential_diagnosis:
+                    document.getElementById(
+                        "differentialDiagnosis"
+                    ).value.trim(),
+
+                diagnosis:
+                    document.getElementById(
+                        "diagnosis"
+                    ).value.trim(),
+
+                management_plan:
+                    document.getElementById(
+                        "managementPlan"
+                    ).value.trim(),
+
+                treatment:
+                    document.getElementById(
+                        "treatment"
+                    ).value.trim(),
+
+                clinical_notes:
+                    document.getElementById(
+                        "clinicalNotes"
+                    ).value.trim(),
+
+                follow_up_date:
+                    document.getElementById(
+                        "followUpDate"
+                    ).value
+
+            };
+
+
+            const url =
+                consultationId
+                    ? `${API_URL}/api/consultations/${consultationId}`
+                    : `${API_URL}/api/patients/${currentPatientId}/consultations`;
+
+
+            const method =
+                consultationId
+                    ? "PUT"
+                    : "POST";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method,
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${token}`
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    consultationData
+                                )
+
+                        }
+                    );
+
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    handleSessionExpired();
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok
+                ) {
+
+                    console.error(
+                        "Consultation save error:",
+                        data
+                    );
+
+                    alert(
+                        data.message ||
+                        "Failed to save consultation."
+                    );
+
+                    return;
+
+                }
+
+
+                showMessage(
+                    data.message ||
+                    "Consultation saved successfully.",
+                    "success"
+                );
+
+
+                closeConsultationFormModal();
+
+
+                await loadConsultations(
+                    currentPatientId
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Save consultation error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the server."
+                );
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   VIEW CONSULTATION
+===================================================== */
+
+async function viewConsultation(
+    id
+) {
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/consultations/${id}`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const consultation =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            alert(
+                consultation.message ||
+                "Unable to load consultation."
+            );
+
+            return;
+
+        }
+
+
+        setText(
+            "viewConsultationDoctor",
+            consultation.doctor ||
+                "Not provided"
+        );
+
+
+        setText(
+            "viewConsultationDate",
+            consultation.consultation_date
+                ? formatDate(
+                    consultation.consultation_date
+                )
+                : "Not provided"
+        );
+
+
+        setText(
+            "viewChiefComplaint",
+            consultation.chief_complaint ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewHistoryOfPresentingComplaint",
+            consultation.history_of_presenting_complaint ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewPastMedicalHistory",
+            consultation.past_medical_history ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewDrugAllergyHistory",
+            consultation.drug_allergy_history ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewFamilyHistory",
+            consultation.family_history ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewSocialHistory",
+            consultation.social_history ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewSystemsReview",
+            consultation.systems_review ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewSummary",
+            consultation.summary ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewExamination",
+            consultation.examination ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewInvestigations",
+            consultation.investigations ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewDifferentialDiagnosis",
+            consultation.differential_diagnosis ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewDiagnosis",
+            consultation.diagnosis ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewManagementPlan",
+            consultation.management_plan ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewTreatment",
+            consultation.treatment ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewAssessment",
+            consultation.assessment ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewClinicalNotes",
+            consultation.clinical_notes ||
+                "Not recorded"
+        );
+
+
+        setText(
+            "viewFollowUpDate",
+            consultation.follow_up_date
+                ? formatDate(
+                    consultation.follow_up_date
+                )
+                : "No follow-up scheduled"
+        );
+
+
+        document.getElementById(
+            "viewConsultationModal"
+        ).style.display =
+            "flex";
+
+
+    } catch (error) {
+
+        console.error(
+            "View consultation error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SAFE TEXT SETTER
+===================================================== */
+
+function setText(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+/* =====================================================
+   EDIT CONSULTATION
+===================================================== */
+
+async function editConsultation(
+    id
+) {
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/consultations/${id}`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const consultation =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            alert(
+                consultation.message ||
+                "Unable to load consultation."
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "consultationFormTitle"
+        ).textContent =
+            "Edit Consultation";
+
+
+        document.getElementById(
+            "consultationId"
+        ).value =
+            consultation.id;
+
+
+        setInput(
+            "consultationDoctor",
+            consultation.doctor
+        );
+
+
+        setInputDate(
+            "consultationDate",
+            consultation.consultation_date
+        );
+
+
+        setInput(
+            "chiefComplaint",
+            consultation.chief_complaint
+        );
+
+
+        setInput(
+            "historyOfPresentingComplaint",
+            consultation.history_of_presenting_complaint
+        );
+
+
+        setInput(
+            "pastMedicalHistory",
+            consultation.past_medical_history
+        );
+
+
+        setInput(
+            "drugAllergyHistory",
+            consultation.drug_allergy_history
+        );
+
+
+        setInput(
+            "familyHistory",
+            consultation.family_history
+        );
+
+
+        setInput(
+            "socialHistory",
+            consultation.social_history
+        );
+
+
+        setInput(
+            "systemsReview",
+            consultation.systems_review
+        );
+
+
+        setInput(
+            "consultationSummary",
+            consultation.summary
+        );
+
+
+        setInput(
+            "examination",
+            consultation.examination
+        );
+
+
+        setInput(
+            "investigations",
+            consultation.investigations
+        );
+
+
+        setInput(
+            "differentialDiagnosis",
+            consultation.differential_diagnosis
+        );
+
+
+        setInput(
+            "diagnosis",
+            consultation.diagnosis
+        );
+
+
+        setInput(
+            "managementPlan",
+            consultation.management_plan
+        );
+
+
+        setInput(
+            "treatment",
+            consultation.treatment
+        );
+
+
+        setInput(
+            "assessment",
+            consultation.assessment
+        );
+
+
+        setInput(
+            "clinicalNotes",
+            consultation.clinical_notes
+        );
+
+
+        setInputDate(
+            "followUpDate",
+            consultation.follow_up_date
+        );
+
+
+        document.getElementById(
+            "consultationFormModal"
+        ).style.display =
+            "flex";
+
+
+    } catch (error) {
+
+        console.error(
+            "Edit consultation error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SET INPUT
+===================================================== */
+
+function setInput(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+    if (element) {
+
+        element.value =
+            value || "";
+
+    }
+
+}
+
+
+/* =====================================================
+   SET DATE INPUT
+===================================================== */
+
+function setInputDate(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    if (!element) {
+
+        return;
+
+    }
+
+
+    if (!value) {
+
+        element.value =
+            "";
+
+        return;
+
+    }
+
+
+    element.value =
+        String(value).substring(
+            0,
+            10
+        );
+
+}
+
+
+/* =====================================================
+   DELETE CONSULTATION
+===================================================== */
+
+async function deleteConsultation(
+    id
+) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this consultation record?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/consultations/${id}`,
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            alert(
+                data.message ||
+                "Failed to delete consultation."
+            );
+
+            return;
+
+        }
+
+
+        showMessage(
+            data.message ||
+            "Consultation deleted successfully.",
+            "success"
+        );
+
+
+        await loadConsultations(
+            currentPatientId
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete consultation error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   EDIT PATIENT
+===================================================== */
+
+async function editPatient(
+    id
+) {
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${id}`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const patient =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            alert(
+                patient.message ||
+                "Unable to load patient."
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "formTitle"
+        ).textContent =
+            "Edit Patient";
+
+
+        document.getElementById(
+            "patientId"
+        ).value =
+            patient.id;
+
+
+        setInput(
+            "firstName",
+            patient.first_name
+        );
+
+        setInput(
+            "lastName",
+            patient.last_name
+        );
+
+        setInput(
+            "email",
+            patient.email
+        );
+
+        setInput(
+            "phone",
+            patient.phone
+        );
+
+
+        setInputDate(
+            "dateOfBirth",
+            patient.date_of_birth
+        );
+
+
+        setInput(
+            "gender",
+            patient.gender
+        );
+
+        setInput(
+            "address",
+            patient.address
+        );
+
+        setInput(
+            "medicalHistory",
+            patient.medical_history
+        );
+
+        setInput(
+            "allergies",
+            patient.allergies
+        );
+
+        setInput(
+            "medications",
+            patient.medications
+        );
+
+        setInput(
+            "notes",
+            patient.notes
+        );
+
+
+        document.getElementById(
+            "patientFormModal"
+        ).style.display =
+            "flex";
+
+
+    } catch (error) {
+
+        console.error(
+            "Edit patient error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DELETE PATIENT
+===================================================== */
+
+async function deletePatient(
+    id
+) {
+
+    const patient =
+        patients.find(
+            item =>
+                Number(item.id) ===
+                Number(id)
+        );
+
+
+    if (!patient) {
+
+        alert(
+            "Patient not found."
+        );
+
+        return;
+
+    }
+
+
+    const fullName =
+        `${patient.first_name || ""} ${patient.last_name || ""}`
+            .trim();
+
+
+    const confirmed =
+        confirm(
+            `Are you sure you want to delete ${fullName}?`
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${id}`,
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            alert(
+                data.message ||
+                "Failed to delete patient."
+            );
+
+            return;
+
+        }
+
+
+        showMessage(
+            data.message ||
+            "Patient deleted successfully.",
+            "success"
+        );
+
+
+        await loadPatients();
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete patient error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CLOSE PATIENT VIEW
+===================================================== */
+
+function closeViewPatientModal() {
+
+    document.getElementById(
+        "viewPatientModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   CLOSE CONSULTATION VIEW
+===================================================== */
+
+function closeViewConsultationModal() {
+
+    document.getElementById(
+        "viewConsultationModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   CLOSE MODALS ON BACKDROP
+===================================================== */
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        const patientFormModal =
+            document.getElementById(
+                "patientFormModal"
+            );
+
+        const patientViewModal =
+            document.getElementById(
+                "viewPatientModal"
+            );
+
+        const consultationFormModal =
+            document.getElementById(
+                "consultationFormModal"
+            );
+
+        const consultationViewModal =
+            document.getElementById(
+                "viewConsultationModal"
+            );
+
+
+        if (
+            event.target ===
+            patientFormModal
+        ) {
+
+            closePatientFormModal();
+
+        }
+
+
+        if (
+            event.target ===
+            patientViewModal
+        ) {
+
+            closeViewPatientModal();
+
+        }
+
+
+        if (
+            event.target ===
+            consultationFormModal
+        ) {
+
+            closeConsultationFormModal();
+
+        }
+
+
+        if (
+            event.target ===
+            consultationViewModal
+        ) {
+
+            closeViewConsultationModal();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+
+/* =====================================================
+   LABORATORY RESULTS
+===================================================== */
+
+async function loadLaboratoryResults(patientId) {
+
+    const container =
+        document.getElementById("labResultsHistory");
+
+    if (!container || !patientId) {
+        return;
+    }
+
+    container.innerHTML =
+        '<div class="loading">Loading laboratory results...</div>';
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/patients/${patientId}/labs`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to load laboratory results (${response.status})`
+            );
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+
+            container.innerHTML = `
+                <div class="empty-state">
+                    No laboratory results recorded.
+                </div>
+            `;
+
+            return;
+        }
+
+        container.innerHTML = data.map(lab => `
+
+            <div class="clinical-record-card">
+
+                <div class="clinical-record-header">
+
+                    <strong>
+                        ${escapeHtml(lab.test_name || "Laboratory Test")}
+                    </strong>
+
+                    <span>
+                        ${escapeHtml(lab.status || "Final")}
+                    </span>
+
+                </div>
+
+                <div class="clinical-record-body">
+
+                    <p>
+                        <strong>Result:</strong>
+                        ${escapeHtml(lab.result_value || "—")}
+                    </p>
+
+                    <p>
+                        <strong>Unit:</strong>
+                        ${escapeHtml(lab.unit || "—")}
+                    </p>
+
+                    <p>
+                        <strong>Reference Range:</strong>
+                        ${escapeHtml(lab.reference_range || "—")}
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        ${escapeHtml(lab.result_date || "—")}
+                    </p>
+
+                    <p>
+                        <strong>Notes:</strong>
+                        ${escapeHtml(lab.notes || "—")}
+                    </p>
+
+                    <div style="margin-top:10px;">
+
+                        <button
+                            type="button"
+                            class="primary-btn"
+                            onclick="openEditLabResultModal(${lab.id})"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            type="button"
+                            class="danger-btn"
+                            onclick="deleteLaboratoryResult(${lab.id})"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+    } catch (error) {
+
+        console.error(
+            "Load laboratory results error:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="error-message">
+                Unable to load laboratory results.
+            </div>
+        `;
+    }
+}
+
+
+/* =====================================================
+   OPEN ADD LAB RESULT MODAL
+===================================================== */
+
+function openAddLabResultModal() {
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+    }
+
+    const modal =
+        document.getElementById("labResultModal");
+
+    const form =
+        document.getElementById("labResultForm");
+
+    if (!modal || !form) {
+
+        console.error(
+            "Laboratory result modal or form not found."
+        );
+
+        return;
+    }
+
+    form.reset();
+
+    const idField =
+        document.getElementById("labResultId");
+
+    if (idField) {
+        idField.value = "";
+    }
+
+    const title =
+        document.getElementById("labResultFormTitle");
+
+    if (title) {
+        title.textContent = "Add Laboratory Result";
+    }
+
+    const dateField =
+        document.getElementById("labResultDate");
+
+    if (dateField) {
+
+        const today =
+            new Date().toISOString().split("T")[0];
+
+        dateField.value = today;
+    }
+
+    modal.style.display = "flex";
+}
+
+
+/* =====================================================
+   CLOSE LAB RESULT MODAL
+===================================================== */
+
+function closeLabResultModal() {
+
+    const modal =
+        document.getElementById("labResultModal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+/* =====================================================
+   EDIT LAB RESULT
+===================================================== */
+
+async function openEditLabResultModal(id) {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/patients/${currentPatientId}/labs`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to load laboratory result (${response.status})`
+            );
+        }
+
+        const results = await response.json();
+
+        const lab =
+            results.find(item => Number(item.id) === Number(id));
+
+        if (!lab) {
+
+            alert(
+                "Laboratory result not found."
+            );
+
+            return;
+        }
+
+        const modal =
+            document.getElementById("labResultModal");
+
+        const title =
+            document.getElementById("labResultFormTitle");
+
+        if (title) {
+            title.textContent = "Edit Laboratory Result";
+        }
+
+        document.getElementById("labResultId").value =
+            lab.id || "";
+
+        document.getElementById("labTestName").value =
+            lab.test_name || "";
+
+        document.getElementById("labResultValue").value =
+            lab.result_value || "";
+
+        document.getElementById("labResultUnit").value =
+            lab.unit || "";
+
+        document.getElementById("labReferenceRange").value =
+            lab.reference_range || "";
+
+        document.getElementById("labResultDate").value =
+            lab.result_date
+                ? String(lab.result_date).substring(0, 10)
+                : "";
+
+        document.getElementById("labResultStatus").value =
+            lab.status || "Final";
+
+        document.getElementById("labResultNotes").value =
+            lab.notes || "";
+
+        modal.style.display = "flex";
+
+    } catch (error) {
+
+        console.error(
+            "Open laboratory result error:",
+            error
+        );
+
+        alert(
+            "Unable to load laboratory result."
+        );
+    }
+}
+
+
+/* =====================================================
+   SAVE LABORATORY RESULT
+===================================================== */
+
+const labResultForm =
+    document.getElementById("labResultForm");
+
+if (labResultForm) {
+
+    labResultForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            if (!currentPatientId) {
+
+                alert(
+                    "Please open a patient profile first."
+                );
+
+                return;
+            }
+
+            const id =
+                document.getElementById("labResultId")?.value || "";
+
+            const payload = {
+
+                test_name:
+                    document.getElementById("labTestName")?.value.trim() || "",
+
+                result_value:
+                    document.getElementById("labResultValue")?.value.trim() || "",
+
+                unit:
+                    document.getElementById("labResultUnit")?.value.trim() || "",
+
+                reference_range:
+                    document.getElementById("labReferenceRange")?.value.trim() || "",
+
+                result_date:
+                    document.getElementById("labResultDate")?.value || null,
+
+                status:
+                    document.getElementById("labResultStatus")?.value || "Final",
+
+                notes:
+                    document.getElementById("labResultNotes")?.value.trim() || ""
+
+            };
+
+            if (!payload.test_name) {
+
+                alert(
+                    "Please enter the laboratory test name."
+                );
+
+                return;
+            }
+
+            const saveButton =
+                labResultForm.querySelector(
+                    'button[type="submit"]'
+                );
+
+            if (saveButton) {
+                saveButton.disabled = true;
+                saveButton.textContent = "Saving...";
+            }
+
+            try {
+
+                const url = id
+                    ? `${API_URL}/api/labs/${id}`
+                    : `${API_URL}/api/patients/${currentPatientId}/labs`;
+
+                const response = await fetch(
+                    url,
+                    {
+                        method: id ? "PUT" : "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(payload)
+                    }
+                );
+
+                const responseText =
+                    await response.text();
+
+                let data = {};
+
+                if (responseText) {
+
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (parseError) {
+
+                        console.error(
+                            "Server returned non-JSON response:",
+                            responseText
+                        );
+
+                        throw new Error(
+                            `Server returned an invalid response (${response.status}).`
+                        );
+                    }
+                }
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        `Failed to save laboratory result (${response.status}).`
+                    );
+                }
+
+                closeLabResultModal();
+
+                await loadLaboratoryResults(
+                    currentPatientId
+                );
+
+                alert(
+                    id
+                        ? "Laboratory result updated successfully."
+                        : "Laboratory result saved successfully."
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Save laboratory result error:",
+                    error
+                );
+
+                alert(
+                    error.message ||
+                    "Unable to save laboratory result."
+                );
+
+            } finally {
+
+                if (saveButton) {
+                    saveButton.disabled = false;
+                    saveButton.textContent =
+                        "Save Laboratory Result";
+                }
+            }
+
+        }
+    );
+}
+
+
+/* =====================================================
+   DELETE LABORATORY RESULT
+===================================================== */
+
+async function deleteLaboratoryResult(id) {
+
+    if (
+        !confirm(
+            "Are you sure you want to delete this laboratory result?"
+        )
+    ) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/labs/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        const responseText =
+            await response.text();
+
+        let data = {};
+
+        if (responseText) {
+
+            try {
+                data = JSON.parse(responseText);
+            } catch (error) {
+                console.error(
+                    "Invalid delete response:",
+                    responseText
+                );
+            }
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                `Failed to delete laboratory result (${response.status}).`
+            );
+        }
+
+        await loadLaboratoryResults(
+            currentPatientId
+        );
+
+        alert(
+            "Laboratory result deleted successfully."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Delete laboratory result error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to delete laboratory result."
+        );
+    }
+}
+
+
+/* =====================================================
+   CLOSE LAB RESULT MODAL ON BACKDROP
+===================================================== */
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        const modal =
+            document.getElementById("labResultModal");
+
+        if (
+            modal &&
+            event.target === modal
+        ) {
+            closeLabResultModal();
+        }
+
+    }
+);
+
+
+function printPatientRecord() {
+    window.print();
+}
+
+loadPatients();
+
+</script>
+
+</body>
+</html>
+

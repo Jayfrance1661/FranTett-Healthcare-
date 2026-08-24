@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -678,6 +678,156 @@
 </div>
 
 
+
+<!-- =========================
+     DOCTOR SCHEDULE MODAL
+========================= -->
+
+<div
+    class="modal"
+    id="doctorScheduleModal"
+>
+
+    <div
+        class="modal-box"
+        style="max-width:760px;"
+    >
+
+        <h2 id="scheduleDoctorName">
+            Doctor Schedule
+        </h2>
+
+        <h3 style="margin-top:20px;">
+            Weekly Availability
+        </h3>
+
+        <div id="availabilityList">
+            <p>Loading availability...</p>
+        </div>
+
+        <div
+            style="
+                display:grid;
+                grid-template-columns:1fr 1fr 1fr auto;
+                gap:10px;
+                margin-top:15px;
+                align-items:end;
+            "
+        >
+
+            <div>
+                <label>Day</label>
+
+                <select id="availabilityDay">
+
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+
+                </select>
+            </div>
+
+            <div>
+                <label>Start Time</label>
+
+                <input
+                    type="time"
+                    id="availabilityStart"
+                    value="08:00"
+                >
+            </div>
+
+            <div>
+                <label>End Time</label>
+
+                <input
+                    type="time"
+                    id="availabilityEnd"
+                    value="17:00"
+                >
+            </div>
+
+            <button
+                type="button"
+                class="save-btn"
+                onclick="addDoctorAvailability()"
+            >
+                Add
+            </button>
+
+        </div>
+
+
+        <h3 style="margin-top:30px;">
+            Leave Days
+        </h3>
+
+        <div id="leaveDaysList">
+            <p>Loading leave days...</p>
+        </div>
+
+        <div
+            style="
+                display:grid;
+                grid-template-columns:1fr 2fr auto;
+                gap:10px;
+                margin-top:15px;
+                align-items:end;
+            "
+        >
+
+            <div>
+                <label>Leave Date</label>
+
+                <input
+                    type="date"
+                    id="leaveDate"
+                >
+            </div>
+
+            <div>
+                <label>Reason</label>
+
+                <input
+                    type="text"
+                    id="leaveReason"
+                    placeholder="Optional"
+                >
+            </div>
+
+            <button
+                type="button"
+                class="save-btn"
+                onclick="addDoctorLeave()"
+            >
+                Add Leave
+            </button>
+
+        </div>
+
+
+        <div
+            class="modal-actions"
+            style="margin-top:25px;"
+        >
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="closeDoctorSchedule()"
+            >
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 <script>
 
     /* =========================
@@ -1101,6 +1251,14 @@
             ? `
                 <div class="management-actions">
                     ${managementButtons}
+
+                    <button
+                        type="button"
+                        class="manage-availability-btn"
+                        onclick="openDoctorSchedule(${doctor.id})"
+                    >
+                        Availability & Leave
+                    </button>
                 </div>
               `
             : ""
@@ -1119,7 +1277,513 @@
        BOOK APPOINTMENT
     ========================= */
 
-    function bookAppointment(
+    
+    /* =========================
+       DOCTOR SCHEDULE FUNCTIONS
+    ========================= */
+
+    let selectedScheduleDoctorId = null;
+
+
+    async function openDoctorSchedule(doctorId) {
+
+        if (!STAFF_MODE) {
+            return;
+        }
+
+        selectedScheduleDoctorId = doctorId;
+
+        const doctor =
+            doctors.find(
+                item =>
+                    Number(item.id) === Number(doctorId)
+            );
+
+        if (doctor) {
+            document.getElementById(
+                "scheduleDoctorName"
+            ).textContent =
+                doctor.name + " — Schedule";
+        }
+
+        document.getElementById(
+            "doctorScheduleModal"
+        ).style.display = "flex";
+
+        await loadDoctorAvailability();
+
+        await loadDoctorLeaveDays();
+
+    }
+
+
+    function closeDoctorSchedule() {
+
+        document.getElementById(
+            "doctorScheduleModal"
+        ).style.display = "none";
+
+        selectedScheduleDoctorId = null;
+
+    }
+
+
+    async function loadDoctorAvailability() {
+
+        const list =
+            document.getElementById(
+                "availabilityList"
+            );
+
+        if (!selectedScheduleDoctorId) {
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${selectedScheduleDoctorId}/availability`
+                );
+
+            if (!response.ok) {
+                throw new Error("Failed to load availability");
+            }
+
+            const availability =
+                await response.json();
+
+            if (!availability.length) {
+
+                list.innerHTML =
+                    "<p>No weekly availability has been added.</p>";
+
+                return;
+
+            }
+
+            list.innerHTML =
+                availability.map(item => `
+
+                    <div
+                        style="
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:center;
+                            padding:12px;
+                            margin-bottom:8px;
+                            border:1px solid #e1e7ea;
+                            border-radius:6px;
+                        "
+                    >
+
+                        <div>
+                            <strong>
+                                ${escapeHtml(item.day_of_week)}
+                            </strong>
+
+                            ${String(item.start_time).substring(0,5)}
+                            -
+                            ${String(item.end_time).substring(0,5)}
+                        </div>
+
+                        <button
+                            type="button"
+                            class="delete-btn"
+                            onclick="deleteDoctorAvailability(${item.id})"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                `).join("");
+
+        } catch (error) {
+
+            console.error(
+                "Load availability error:",
+                error
+            );
+
+            list.innerHTML =
+                "<p>Unable to load availability.</p>";
+
+        }
+
+    }
+
+
+    async function addDoctorAvailability() {
+
+        if (!selectedScheduleDoctorId) {
+            return;
+        }
+
+        const day =
+            document.getElementById(
+                "availabilityDay"
+            ).value;
+
+        const start =
+            document.getElementById(
+                "availabilityStart"
+            ).value;
+
+        const end =
+            document.getElementById(
+                "availabilityEnd"
+            ).value;
+
+        if (!day || !start || !end) {
+
+            alert(
+                "Please enter the day, start time and end time."
+            );
+
+            return;
+
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${selectedScheduleDoctorId}/availability`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            day_of_week: day,
+                            start_time: start,
+                            end_time: end
+                        })
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+
+                alert(
+                    data.message ||
+                    "Failed to add availability."
+                );
+
+                return;
+
+            }
+
+            await loadDoctorAvailability();
+
+        } catch (error) {
+
+            console.error(
+                "Add availability error:",
+                error
+            );
+
+            alert(
+                "Unable to add availability."
+            );
+
+        }
+
+    }
+
+
+    async function deleteDoctorAvailability(
+        availabilityId
+    ) {
+
+        if (!selectedScheduleDoctorId) {
+            return;
+        }
+
+        if (!confirm(
+            "Delete this availability period?"
+        )) {
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${selectedScheduleDoctorId}/availability/${availabilityId}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+
+                alert(
+                    data.message ||
+                    "Failed to delete availability."
+                );
+
+                return;
+
+            }
+
+            await loadDoctorAvailability();
+
+        } catch (error) {
+
+            console.error(
+                "Delete availability error:",
+                error
+            );
+
+            alert(
+                "Unable to delete availability."
+            );
+
+        }
+
+    }
+
+
+    async function loadDoctorLeaveDays() {
+
+        const list =
+            document.getElementById(
+                "leaveDaysList"
+            );
+
+        if (!selectedScheduleDoctorId) {
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${selectedScheduleDoctorId}/leave-days`
+                );
+
+            if (!response.ok) {
+                throw new Error("Failed to load leave days");
+            }
+
+            const leaveDays =
+                await response.json();
+
+            if (!leaveDays.length) {
+
+                list.innerHTML =
+                    "<p>No leave days have been added.</p>";
+
+                return;
+
+            }
+
+            list.innerHTML =
+                leaveDays.map(item => `
+
+                    <div
+                        style="
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:center;
+                            padding:12px;
+                            margin-bottom:8px;
+                            border:1px solid #e1e7ea;
+                            border-radius:6px;
+                        "
+                    >
+
+                        <div>
+
+                            <strong>
+                                ${escapeHtml(item.leave_date)}
+                            </strong>
+
+                            ${
+                                item.reason
+                                    ? ` — ${escapeHtml(item.reason)}`
+                                    : ""
+                            }
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="delete-btn"
+                            onclick="deleteDoctorLeave(${item.id})"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                `).join("");
+
+        } catch (error) {
+
+            console.error(
+                "Load leave days error:",
+                error
+            );
+
+            list.innerHTML =
+                "<p>Unable to load leave days.</p>";
+
+        }
+
+    }
+
+
+    async function addDoctorLeave() {
+
+        if (!selectedScheduleDoctorId) {
+            return;
+        }
+
+        const leaveDate =
+            document.getElementById(
+                "leaveDate"
+            ).value;
+
+        const reason =
+            document.getElementById(
+                "leaveReason"
+            ).value.trim();
+
+        if (!leaveDate) {
+
+            alert(
+                "Please select a leave date."
+            );
+
+            return;
+
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${selectedScheduleDoctorId}/leave-days`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            leave_date: leaveDate,
+                            reason: reason || null
+                        })
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+
+                alert(
+                    data.message ||
+                    "Failed to add leave day."
+                );
+
+                return;
+
+            }
+
+            document.getElementById(
+                "leaveDate"
+            ).value = "";
+
+            document.getElementById(
+                "leaveReason"
+            ).value = "";
+
+            await loadDoctorLeaveDays();
+
+        } catch (error) {
+
+            console.error(
+                "Add leave day error:",
+                error
+            );
+
+            alert(
+                "Unable to add leave day."
+            );
+
+        }
+
+    }
+
+
+    async function deleteDoctorLeave(leaveId) {
+
+        if (!selectedScheduleDoctorId) {
+            return;
+        }
+
+        if (!confirm(
+            "Delete this leave day?"
+        )) {
+            return;
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/${selectedScheduleDoctorId}/leave-days/${leaveId}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+
+                alert(
+                    data.message ||
+                    "Failed to delete leave day."
+                );
+
+                return;
+
+            }
+
+            await loadDoctorLeaveDays();
+
+        } catch (error) {
+
+            console.error(
+                "Delete leave day error:",
+                error
+            );
+
+            alert(
+                "Unable to delete leave day."
+            );
+
+        }
+
+    }
+
+function bookAppointment(
         doctorId
     ) {
 
@@ -1740,3 +2404,5 @@
 
 </body>
 </html>
+
+

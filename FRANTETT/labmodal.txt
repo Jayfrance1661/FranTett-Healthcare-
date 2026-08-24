@@ -1,0 +1,520 @@
+                        Kidney Function Test
+                    </option>
+
+                    <option value="Liver Function Test">
+                        Liver Function Test
+                    </option>
+
+                    <option value="Lipid Profile">
+                        Lipid Profile
+                    </option>
+
+                    <option value="Blood Glucose">
+                        Blood Glucose
+                    </option>
+
+                    <option value="Thyroid Function Test">
+                        Thyroid Function Test
+                    </option>
+
+                    <option value="Urinalysis">
+                        Urinalysis
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Result Date</label>
+
+                <input
+                    type="date"
+                    id="labReportDate"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Status</label>
+
+                <select id="labReportStatus">
+
+                    <option value="Final">
+                        Final
+                    </option>
+
+                    <option value="Preliminary">
+                        Preliminary
+                    </option>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Recorded By</label>
+
+                <input
+                    type="text"
+                    id="labReportRecordedBy"
+                    placeholder="Staff/doctor name"
+                >
+
+            </div>
+
+
+            <h3 style="margin-top:25px;">
+                Laboratory Parameters
+            </h3>
+
+
+            <div
+                id="labParametersContainer"
+                style="margin-top:15px;"
+            >
+
+                <div class="lab-parameter-row">
+
+                    <input
+                        type="text"
+                        class="lab-parameter-name"
+                        placeholder="Parameter"
+                    >
+
+                    <input
+                        type="text"
+                        class="lab-parameter-result"
+                        placeholder="Result"
+                    >
+
+                    <input
+                        type="text"
+                        class="lab-parameter-unit"
+                        placeholder="Unit"
+                    >
+
+                    <select class="lab-parameter-flag">
+
+                        <option value="">
+                            Flag
+                        </option>
+
+                        <option value="Low">
+                            Low
+                        </option>
+
+                        <option value="Normal">
+                            Normal
+                        </option>
+
+                        <option value="High">
+                            High
+                        </option>
+
+                        <option value="Critical">
+                            Critical
+                        </option>
+
+                    </select>
+
+                    <input
+                        type="text"
+                        class="lab-parameter-reference"
+                        placeholder="Reference Range"
+                    >
+
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="this.parentElement.remove()"
+                    >
+                        Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="primary-btn"
+                style="margin-top:15px;"
+                onclick="addLabParameterRow()"
+            >
+                + Add Parameter
+            </button>
+
+
+            <div class="form-group">
+
+                <label>Notes</label>
+
+                <textarea
+                    id="labReportNotes"
+                    rows="4"
+                    placeholder="Additional laboratory notes..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Laboratory Report
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeLabReportModal()"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<div
+
+<!-- =====================================================
+     LABORATORY REQUEST FORM MODAL
+===================================================== -->
+
+<div
+    id="labRequestModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeLabRequestModal()"
+        >
+            &times;
+        </span>
+
+        <div id="labRequestPrintable">
+
+            <div class="lab-request-header">
+
+                <h1>FRANTETT HEALTHCARE</h1>
+
+                <p>
+                    <em>Your Health, Our Priority</em>
+                </p>
+
+                <h2>LABORATORY REQUEST FORM</h2>
+
+            </div>
+
+
+            <div class="lab-request-patient-section">
+
+                <h3>Patient Details</h3>
+
+                <div class="lab-request-patient-grid">
+
+                    <div>
+                        <strong>Patient Name:</strong>
+                        <span id="labRequestPatientName">—</span>
+                    </div>
+
+                    <div>
+                        <strong>Patient ID:</strong>
+                        <span id="labRequestPatientId">—</span>
+                    </div>
+
+                    <div>
+                        <strong>Date of Birth:</strong>
+                        <span id="labRequestPatientDob">—</span>
+                    </div>
+
+                    <div>
+                        <strong>Gender:</strong>
+                        <span id="labRequestPatientGender">—</span>
+                    </div>
+
+                    <div>
+                        <strong>Request Date:</strong>
+                        <span id="labRequestDateDisplay">—</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="lab-request-section">
+
+                <h3>Clinical Information</h3>
+
+                <textarea
+                    id="labRequestClinicalInformation"
+                    rows="5"
+                    placeholder="Relevant clinical information / provisional diagnosis..."
+                ></textarea>
+
+            </div>
+
+            <div class="lab-request-section">
+
+                <h3>Requested Investigations</h3>
+
+                <div class="lab-request-tests">
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="FBC"
+                            class="lab-request-test"
+                        >
+                        Full Blood Count (FBC)
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Kidney Function Test"
+                            class="lab-request-test"
+                        >
+                        Kidney Function Test
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Liver Function Test"
+                            class="lab-request-test"
+                        >
+                        Liver Function Test
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Lipid Profile"
+                            class="lab-request-test"
+                        >
+                        Lipid Profile
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Blood Glucose"
+                            class="lab-request-test"
+                        >
+                        Blood Glucose
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="HbA1c"
+                            class="lab-request-test"
+                        >
+                        HbA1c
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Thyroid Function Test"
+                            class="lab-request-test"
+                        >
+                        Thyroid Function Test
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Urinalysis"
+                            class="lab-request-test"
+                        >
+                        Urinalysis
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Pregnancy Test"
+                            class="lab-request-test"
+                        >
+                        Pregnancy Test
+                    </label>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Other Investigation</label>
+
+                    <input
+                        type="text"
+                        id="labRequestOtherTest"
+                        placeholder="Enter other investigation"
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <div class="lab-request-section">
+
+                <h3>Requesting Clinician</h3>
+
+                <input
+                    type="text"
+                    id="labRequestRequestedBy"
+                    placeholder="Name of requesting doctor / clinician"
+                >
+
+            </div>
+
+
+            <div class="lab-request-signature">
+
+                <div>
+                    <strong>Signature:</strong>
+                    <div class="signature-line"></div>
+                </div>
+
+                <div>
+                    <strong>Date:</strong>
+                    <div
+                        class="signature-line"
+                        id="labRequestSignatureDate"
+                    ></div>
+                </div>
+
+            </div>
+
+
+            <div class="lab-request-footer">
+
+                <strong>FRANTETT HEALTHCARE</strong>
+
+                <div>
+                    Address: [hospital address]
+                </div>
+
+                <div>
+                    Tel: [hospital telephone]
+                </div>
+
+                <div>
+                    Email: [hospital email]
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions no-print">
+
+            <button
+                type="button"
+                class="save-btn"
+                onclick="saveLabRequest()"
+            >
+                Save Request
+            </button>
+
+            <button
+                type="button"
+                class="primary-btn"
+                onclick="printLabRequest()"
+            >
+                Print Request
+            </button>
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="closeLabRequestModal()"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+    id="prescriptionFormModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closePrescriptionFormModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="prescriptionFormTitle">
+            Add Prescription
+        </h2>
+
+        <form id="prescriptionForm">
+
+    <input
+        type="hidden"
+        id="prescriptionId"
+    >
+
+    <!-- ==============================
+         PRESCRIPTION HEADER
+    =============================== -->
+
+    <div class="form-group">
+
+        <label>
+            Doctor
+        </label>
+
+        <input
+            type="text"
+            id="prescriptionDoctor"
+            placeholder="Doctor name"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Prescription Date *

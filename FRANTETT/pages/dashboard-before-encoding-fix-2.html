@@ -1005,7 +1005,7 @@
 
                 <div>
 
-                    <h1 id="welcomeUser">
+                    <h1>
                         Staff Dashboard
                     </h1>
 
@@ -1013,7 +1013,6 @@
                         Manage FranTett Healthcare appointments,
                         patients, contact messages, and healthcare information.
                     </p>
-
 
                 </div>
 
@@ -1023,14 +1022,14 @@
                         class="btn btn-secondary"
                         type="button"
                         onclick="refreshDashboard()">
-                        ?? Refresh
+                        ðŸ”„ Refresh
                     </button>
 
                     <button
                         class="btn btn-primary"
                         type="button"
                         onclick="printDashboard()">
-                        &#x1F5A8;&#xFE0F; Print
+                        ðŸ–¨ï¸ Print
                     </button>
 
                 </div>
@@ -1049,7 +1048,7 @@
             <div class="stat-card">
 
                 <span class="stat-icon">
-                    ??
+                    ðŸ‘¥
                 </span>
 
                 <h3>
@@ -1072,7 +1071,7 @@
             <div class="stat-card">
 
                 <span class="stat-icon">
-                    &#x1F468;&#x200D;&#x2695;&#xFE0F;
+                    ðŸ‘¨â€âš•ï¸
                 </span>
 
                 <h3>
@@ -1095,7 +1094,7 @@
             <div class="stat-card">
 
                 <span class="stat-icon">
-                    &#x1F4C5;
+                    ðŸ“…
                 </span>
 
                 <h3>
@@ -1118,7 +1117,7 @@
             <div class="stat-card message-stat">
 
                 <span class="stat-icon">
-                    &#x2709;&#xFE0F;
+                    âœ‰ï¸
                 </span>
 
                 <h3>
@@ -1261,7 +1260,7 @@
                 class="action-card">
 
                 <div class="action-icon">
-                    &#x1F4C5;
+                    ðŸ“…
                 </div>
 
                 <h3>
@@ -1281,7 +1280,7 @@
                 class="action-card">
 
                 <div class="action-icon">
-                    ??
+                    ðŸ‘¥
                 </div>
 
                 <h3>
@@ -1301,7 +1300,7 @@
                 class="action-card">
 
                 <div class="action-icon">
-                    &#x1F468;&#x200D;&#x2695;&#xFE0F;
+                    ðŸ‘¨â€âš•ï¸
                 </div>
 
                 <h3>
@@ -1321,7 +1320,7 @@
                 class="action-card">
 
                 <div class="action-icon">
-                    ?
+                    âž•
                 </div>
 
                 <h3>
@@ -1342,7 +1341,7 @@
                 onclick="scrollToMessages(event)">
 
                 <div class="action-icon">
-                    &#x2709;&#xFE0F;
+                    âœ‰ï¸
                 </div>
 
                 <h3>
@@ -1498,20 +1497,20 @@
                         class="btn btn-secondary"
                         type="button"
                         onclick="exportAppointments()">
-                        &#x1F4E5; Export
+                        ðŸ“¥ Export
                     </button>
 
                     <button
                         class="btn btn-primary"
                         type="button"
                         onclick="printAppointments()">
-                        &#x1F5A8;&#xFE0F; Print
+                        ðŸ–¨ï¸ Print
                     </button>
 
                     <a
                         href="./appointments.html"
                         class="btn btn-secondary">
-                        View All &#x2192;
+                        View All â†’
                     </a>
 
                 </div>
@@ -1599,14 +1598,14 @@
                         class="btn btn-secondary"
                         type="button"
                         onclick="loadContactMessages()">
-                        ?? Refresh
+                        ðŸ”„ Refresh
                     </button>
 
                     <button
                         class="btn btn-primary"
                         type="button"
                         onclick="printContactMessages()">
-                        &#x1F5A8;&#xFE0F; Print
+                        ðŸ–¨ï¸ Print
                     </button>
 
                 </div>
@@ -1682,7 +1681,7 @@
 
     <footer>
 
-        &#x00A9; 2026 FranTett Healthcare.
+        Â© 2026 FranTett Healthcare.
         All rights reserved.
 
     </footer>
@@ -2925,7 +2924,7 @@
 
                     message.innerHTML = `
                         <div class="empty-icon">
-                            &#x1F4C5;
+                            ðŸ“…
                         </div>
 
                         <h3>
@@ -3089,7 +3088,7 @@
                             class="btn btn-primary"
                             type="button"
                             onclick="loadAppointments()">
-                            ?? Try Again
+                            ðŸ”„ Try Again
                         </button>
 
                     </div>
@@ -3340,7 +3339,7 @@
                     message.innerHTML = `
 
                         <div class="empty-icon">
-                            &#x2709;&#xFE0F;
+                            âœ‰ï¸
                         </div>
 
                         <h3>
@@ -3556,7 +3555,7 @@
                             class="btn btn-primary"
                             type="button"
                             onclick="loadContactMessages()">
-                            ?? Try Again
+                            ðŸ”„ Try Again
                         </button>
 
                     </div>
@@ -4662,354 +4661,5 @@ else if (
 
     </script>
 
-
-<script>
-/* =========================================================
-   FRANTETT ROLE-BASED DASHBOARD
-   ========================================================= */
-
-(function () {
-
-    function decodeToken(token) {
-        try {
-            const payload = token.split('.')[1];
-            return JSON.parse(
-                decodeURIComponent(
-                    atob(payload.replace(/-/g, '+').replace(/_/g, '/'))
-                        .split('')
-                        .map(function (c) {
-                            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                        })
-                        .join('')
-                )
-            );
-        } catch (e) {
-            return null;
-        }
-    }
-
-    function getRoleData() {
-
-        const possibleKeys = [
-            "token",
-            "authToken",
-            "accessToken",
-            "jwt",
-            "frantettToken",
-            "frantett_token"
-        ];
-
-        let token = null;
-
-        for (const key of possibleKeys) {
-
-            const value = localStorage.getItem(key);
-
-            if (value) {
-                token = value;
-                break;
-            }
-        }
-
-        if (!token) {
-            return {
-                role: null,
-                name: null,
-                email: null
-            };
-        }
-
-        const payload = decodeToken(token);
-
-        if (!payload) {
-            return {
-                role: null,
-                name: null,
-                email: null
-            };
-        }
-
-        return {
-            role:
-                payload.role ||
-                payload.userRole ||
-                payload.type ||
-                null,
-
-            name:
-                payload.full_name ||
-                payload.fullName ||
-                payload.name ||
-                null,
-
-            email:
-                payload.email ||
-                payload.user_email ||
-                null
-        };
-    }
-
-
-    function hide(element) {
-
-        if (!element) return;
-
-        element.style.display = "none";
-    }
-
-
-    function show(element) {
-
-        if (!element) return;
-
-        element.style.display = "";
-    }
-
-
-    function hideByText(text) {
-
-        document.querySelectorAll("a, button, .action-card").forEach(function (element) {
-
-            const value =
-                (element.innerText || element.textContent || "")
-                    .trim()
-                    .toLowerCase();
-
-            if (value === text.toLowerCase()) {
-                hide(element);
-            }
-        });
-    }
-
-
-    function hideActionCardByTitle(title) {
-
-        document.querySelectorAll(".action-card").forEach(function (card) {
-
-            const heading = card.querySelector("h3");
-
-            if (!heading) return;
-
-            const value =
-                (heading.innerText || heading.textContent || "")
-                    .trim()
-                    .toLowerCase();
-
-            if (value === title.toLowerCase()) {
-                hide(card);
-            }
-        });
-    }
-
-
-    function applyRoleDashboard() {
-
-        const user = getRoleData();
-
-        const role = String(user.role || "").trim().toLowerCase();
-
-        console.log("FranTett logged-in role:", user.role);
-        console.log("FranTett logged-in user:", user.email);
-
-
-        /* =====================================================
-           ADMIN
-           ===================================================== */
-
-        if (role === "admin") {
-
-            document.body.classList.add("role-admin");
-
-            return;
-        }
-
-
-        /* =====================================================
-           DOCTOR
-           ===================================================== */
-
-        if (role === "doctor") {
-
-            document.body.classList.add("role-doctor");
-
-            /* Doctor can access:
-               Dashboard
-               Patients
-               Appointments
-               Clinical information
-               Consultations
-               Prescriptions
-               Medical history
-               Allergies
-               Medications
-            */
-
-            hideByText("Staff Approval");
-            hideByText("User Management");
-            hideByText("Role Administration");
-            hideByText("Staff Registration Requests");
-
-            /* Doctor administration is not part of Doctor role */
-            hideByText("Manage Doctors");
-            hideByText("Add Doctor");
-            hideByText("Edit Doctor");
-            hideByText("Delete Doctor");
-
-            return;
-        }
-
-
-        /* =====================================================
-           NURSE
-           ===================================================== */
-
-        if (role === "nurse") {
-
-            document.body.classList.add("role-nurse");
-
-            /* Nurse can VIEW doctors but cannot administer doctors */
-            hideByText("Manage Doctors");
-            hideByText("Add Doctor");
-            hideByText("Edit Doctor");
-            hideByText("Delete Doctor");
-
-            /* Nurse DOES NOT get administration */
-            hideByText("Staff Approval");
-            hideByText("User Management");
-            hideByText("Role Administration");
-            hideByText("Staff Registration Requests");
-
-            /* Nurse DOES NOT manage contact messages */
-            hideActionCardByTitle("Contact Messages");
-
-            return;
-        }
-
-
-        /* =====================================================
-           STAFF / RECEPTION
-           ===================================================== */
-
-        if (
-            role === "staff" ||
-            role === "reception" ||
-            role === "receptionist"
-        ) {
-
-            document.body.classList.add("role-staff");
-
-            /* Staff gets:
-               Dashboard
-               Appointments
-               Permitted patient records
-               Contact messages
-            */
-
-            /* Staff can VIEW doctors but cannot administer doctors */
-            hideByText("Manage Doctors");
-            hideByText("Add Doctor");
-            hideByText("Edit Doctor");
-            hideByText("Delete Doctor");
-
-            hideByText("Staff Approval");
-            hideByText("User Management");
-            hideByText("Role Administration");
-            hideByText("Staff Registration Requests");
-
-            return;
-        }
-
-    }
-
-
-    function applyWelcomeName() {
-
-        const user = getRoleData();
-
-        const welcomeElements = document.querySelectorAll(
-            "#welcomeUser, #welcomeName, .welcome-user"
-        );
-
-        let name = user.name;
-
-        if (!name && user.email) {
-
-            const knownUsers = {
-                "jayfrance1661@gmail.com": "Jay France",
-                "emmanuel@gmail.com": "Emmanuel",
-                "ireenaasam@gmail.com": "Ireena"
-            };
-
-            name = knownUsers[user.email.toLowerCase()];
-        }
-
-        if (!name) {
-            return;
-        }
-
-        let role = String(user.role || "").trim().toLowerCase();
-
-        const roleLabels = {
-            admin: "Admin",
-            doctor: "Doctor",
-            nurse: "Nurse",
-            staff: "Staff",
-            reception: "Reception",
-            receptionist: "Receptionist"
-        };
-
-        const roleLabel = roleLabels[role] || user.role || "";
-
-        const welcomeText = roleLabel
-            ? "Welcome, " + name + " / " + roleLabel
-            : "Welcome, " + name;
-
-        welcomeElements.forEach(function (element) {
-
-            const current =
-                element.innerText ||
-                element.textContent ||
-                "";
-
-            if (
-                element.id === "welcomeUser" ||
-                current.toLowerCase().includes("welcome")
-            ) {
-
-                element.textContent = welcomeText;
-            }
-        });
-
-    }
-
-    function startFranTettRoleUI() {
-
-        applyRoleDashboard();
-        applyWelcomeName();
-
-    }
-
-
-    if (document.readyState === "loading") {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            startFranTettRoleUI
-        );
-
-    } else {
-
-        startFranTettRoleUI();
-
-    }
-
-})();
-</script>
-
 </body>
 </html>
-
-
-
-
-
