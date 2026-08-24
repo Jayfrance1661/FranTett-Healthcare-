@@ -1,4 +1,2585 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FranTett Healthcare - Patient Records</title>
+
+    
+<style>
+
+/* =====================================================
+   FRANTETT LABORATORY REQUEST FORM
+===================================================== */
+
+#labRequestPrintable {
+    background: #ffffff;
+    color: #1f2937;
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 28px 32px;
+}
+
+#labRequestPrintable .lab-request-header {
+    text-align: center;
+    border-bottom: 3px solid #1f4e79;
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+}
+
+#labRequestPrintable .lab-request-header h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #1f4e79;
+}
+
+#labRequestPrintable .lab-request-header p {
+    margin: 5px 0 12px;
+    font-size: 13px;
+    color: #555;
+}
+
+#labRequestPrintable .lab-request-header h2 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: .5px;
+    color: #222;
+}
+
+#labRequestPrintable .lab-request-patient-section,
+#labRequestPrintable .lab-request-section {
+    margin-bottom: 20px;
+}
+
+#labRequestPrintable h3 {
+    margin: 0 0 10px;
+    padding: 8px 10px;
+    background: #f1f5f9;
+    border-left: 4px solid #1f4e79;
+    font-size: 14px;
+    color: #1f2937;
+}
+
+#labRequestPrintable .lab-request-patient-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#labRequestPrintable .lab-request-patient-grid > div {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 12px;
+}
+
+#labRequestPrintable .lab-request-patient-grid > div:nth-child(odd) {
+    border-right: 1px solid #e5e7eb;
+}
+
+#labRequestPrintable .lab-request-patient-grid strong {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+#labRequestPrintable .lab-request-tests {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px 22px;
+    border: 1px solid #d1d5db;
+    padding: 14px;
+    border-radius: 4px;
+}
+
+#labRequestPrintable .lab-request-tests label {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+#labRequestPrintable .lab-request-tests input {
+    width: 14px;
+    height: 14px;
+}
+
+#labRequestPrintable .form-group {
+    margin-top: 12px;
+}
+
+#labRequestPrintable .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+#labRequestPrintable input[type="text"],
+#labRequestPrintable textarea {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 9px 10px;
+    font-family: inherit;
+    font-size: 12px;
+    background: #fff;
+}
+
+#labRequestPrintable textarea {
+    min-height: 85px;
+    resize: vertical;
+}
+
+#labRequestPrintable .lab-request-signature {
+    display: grid;
+    grid-template-columns: 1fr 180px;
+    gap: 35px;
+    margin-top: 32px;
+    font-size: 12px;
+}
+
+#labRequestPrintable .signature-line {
+    border-bottom: 1px solid #444;
+    height: 28px;
+    margin-top: 8px;
+}
+
+#labRequestPrintable .lab-request-footer {
+    margin-top: 38px;
+    padding-top: 10px;
+    border-top: 1px solid #cbd5e1;
+    text-align: center;
+    font-size: 8px;
+    line-height: 1.45;
+    color: #555;
+}
+
+#labRequestPrintable .lab-request-footer strong {
+    display: block;
+    font-size: 9px;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+@media print {
+
+    #labRequestPrintable {
+        max-width: none;
+        padding: 0;
+    }
+
+    #labRequestPrintable .no-print {
+        display: none !important;
+    }
+
+    #labRequestPrintable input,
+    #labRequestPrintable textarea {
+        border: none;
+        padding: 0;
+        background: transparent;
+    }
+
+    #labRequestPrintable textarea {
+        min-height: 70px;
+    }
+
+    #labRequestPrintable .lab-request-footer {
+        font-size: 8px;
+    }
+
+}
+
+
+/* =========================================================
+   PATIENT PROFILE — CLEAN RESPONSIVE BUTTONS
+========================================================= */
+
+.patient-profile-modal button {
+    box-sizing: border-box !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 6px 12px !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 5px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Main action rows */
+.patient-profile-modal .top-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    margin-bottom: 12px !important;
+}
+
+/* Buttons in main action rows */
+.patient-profile-modal .top-actions button {
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 140px !important;
+}
+
+/* Record action buttons */
+.patient-profile-modal .record-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-wrap: wrap !important;
+}
+
+.patient-profile-modal .record-actions button {
+    width: 78px !important;
+    min-width: 78px !important;
+    max-width: 78px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+}
+
+/* Buttons inside clinical tables */
+.patient-profile-modal table button {
+    width: 78px !important;
+    min-width: 78px !important;
+    max-width: 78px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .patient-profile-modal button {
+        height: 32px !important;
+        min-height: 32px !important;
+        padding: 5px 8px !important;
+        font-size: 12px !important;
+    }
+
+    .patient-profile-modal .top-actions {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+        width: 100% !important;
+    }
+
+    .patient-profile-modal .top-actions button {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+
+    .patient-profile-modal .record-actions {
+        display: flex !important;
+        gap: 5px !important;
+        flex-wrap: wrap !important;
+    }
+
+    .patient-profile-modal .record-actions button,
+    .patient-profile-modal table button {
+        width: auto !important;
+        min-width: 68px !important;
+        max-width: 90px !important;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+
+    .patient-profile-modal .top-actions {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 5px !important;
+    }
+
+    .patient-profile-modal button {
+        font-size: 11px !important;
+        padding: 4px 6px !important;
+    }
+}
+
+/* =========================================================
+   PATIENT PROFILE - UNIFORM RESPONSIVE BUTTONS
+========================================================= */
+
+.patient-profile-modal button {
+    box-sizing: border-box !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    min-width: 110px !important;
+    padding: 6px 12px !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 5px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 20px !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.patient-profile-modal .top-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    margin-bottom: 12px !important;
+}
+
+.patient-profile-modal .top-actions button {
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 140px !important;
+}
+
+.patient-profile-modal table button {
+    width: 80px !important;
+    min-width: 80px !important;
+    max-width: 80px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+}
+
+.patient-profile-modal .record-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+}
+
+.patient-profile-modal .record-actions button {
+    width: 80px !important;
+    min-width: 80px !important;
+    max-width: 80px !important;
+}
+
+@media (max-width: 600px) {
+
+    .patient-profile-modal button {
+        height: 32px !important;
+        min-height: 32px !important;
+        min-width: 0 !important;
+        width: auto !important;
+        padding: 5px 9px !important;
+        font-size: 12px !important;
+    }
+
+    .patient-profile-modal .top-actions {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+        width: 100% !important;
+    }
+
+    .patient-profile-modal .top-actions button {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+
+    .patient-profile-modal .record-actions {
+        display: flex !important;
+        gap: 5px !important;
+    }
+
+    .patient-profile-modal .record-actions button,
+    .patient-profile-modal table button {
+        width: auto !important;
+        min-width: 70px !important;
+        max-width: 90px !important;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .patient-profile-modal .top-actions {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 5px !important;
+    }
+
+    .patient-profile-modal button {
+        font-size: 11px !important;
+        padding: 4px 6px !important;
+    }
+}
+
+</style>
+<style>
+@media print {
+
+    #labRequestPrintable input::placeholder,
+    #labRequestPrintable textarea::placeholder {
+        color: transparent !important;
+    }
+
+    #labRequestPrintable .lab-request-header h1 {
+        display: block;
+    }
+
+}
+</style>
+
+
+
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        FranTett Healthcare
+    </div>
+
+    <div class="links">
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <a href="doctors.html">
+            Doctors
+        </a>
+
+        <a href="services.html">
+            Services
+        </a>
+
+        <a href="appointment.html">
+            Book Appointment
+        </a>
+
+        <a href="appointments.html">
+            Appointments
+        </a>
+
+        <a href="patients.html">
+            Patient Records
+        </a>
+
+        <a href="contact.html">
+            Contact
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <div id="message" class="message"></div>
+
+    <div class="top-actions">
+
+        <div>
+            <h1>Patient Records</h1>
+
+            <div class="subtitle">
+                Manage FranTett Healthcare patient records.
+            </div>
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="openAddPatientModal()"
+        >
+            + Add Patient
+        </button>
+
+    </div>
+
+
+    <input
+        type="text"
+        id="searchInput"
+        class="search-box"
+        placeholder="Search by patient name, email or phone..."
+        oninput="filterPatients()"
+    >
+
+    <div class="filters">
+
+    <select id="genderFilter" onchange="filterPatients()">
+        <option value="">All Genders</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <input
+        type="date"
+        id="dobFilter"
+        onchange="filterPatients()"
+        title="Filter by date of birth"
+    >
+
+</div>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="patientsTable">
+
+                <tr>
+                    <td colspan="7" class="loading">
+                        Loading patients...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ADD / EDIT PATIENT MODAL
+===================================================== -->
+
+<div
+    id="patientFormModal"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+        <span
+            class="close-modal"
+            onclick="closePatientFormModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="formTitle">
+            Add Patient
+        </h2>
+
+        <form id="patientForm">
+
+            <input
+                type="hidden"
+                id="patientId"
+            >
+
+            <div class="form-group">
+
+                <label>First Name *</label>
+
+                <input
+                    type="text"
+                    id="firstName"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Last Name *</label>
+
+                <input
+                    type="text"
+                    id="lastName"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    id="email"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Phone</label>
+
+                <input
+                    type="text"
+                    id="phone"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Date of Birth</label>
+
+                <input
+                    type="date"
+                    id="dateOfBirth"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Gender</label>
+
+                <select id="gender">
+
+                    <option value="">
+                        Select gender
+                    </option>
+
+                    <option value="Male">
+                        Male
+                    </option>
+
+                    <option value="Female">
+                        Female
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Address</label>
+
+                <textarea id="address"></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Medical History</label>
+
+                <textarea id="medicalHistory"></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Allergies</label>
+
+                <textarea id="allergies"></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Current Medications</label>
+
+                <textarea id="medications"></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Notes</label>
+
+                <textarea id="notes"></textarea>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Patient
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closePatientFormModal()"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     VIEW PATIENT MODAL
+===================================================== -->
+
+<div
+    id="viewPatientModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal patient-profile-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeViewPatientModal()"
+        >
+            &times;
+        </span>
+
+        <h2>Patient Profile</h2>
+
+        <div class="top-actions">
+    <button
+        type="button"
+        class="primary-btn"
+        onclick="printPatientRecord()"
+    >
+        Print Patient Record
+    </button>
+</div>
+
+        <div class="patient-header">
+
+            <h2 id="viewName">
+                Patient
+            </h2>
+<div class="info-grid">
+
+    <div class="info-card">
+        <strong>Total Appointments</strong>
+        <span id="summaryTotalAppointments">0</span>
+    </div>
+
+    <div class="info-card">
+        <strong>Completed Appointments</strong>
+        <span id="summaryCompletedAppointments">0</span>
+    </div>
+
+    <div class="info-card">
+        <strong>Total Consultations</strong>
+        <span id="summaryTotalConsultations">0</span>
+    </div>
+
+    <div class="info-card">
+        <strong>Total Prescriptions</strong>
+        <span id="summaryTotalPrescriptions">0</span>
+    </div>
+
+</div>
+            <div class="info-grid">
+
+                <div class="info-card">
+                    <strong>Email</strong>
+                    <span id="viewEmail"></span>
+                </div>
+
+                <div class="info-card">
+                    <strong>Phone</strong>
+                    <span id="viewPhone"></span>
+                </div>
+
+                <div class="info-card">
+                    <strong>Date of Birth</strong>
+                    <span id="viewDateOfBirth"></span>
+                </div>
+
+                <div class="info-card">
+                    <strong>Gender</strong>
+                    <span id="viewGender"></span>
+                </div>
+
+                <div class="info-card">
+                    <strong>Address</strong>
+                    <span id="viewAddress"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <h3>Clinical Information</h3>
+
+            <div class="clinical-item">
+
+                <strong>Medical History</strong>
+
+                <div
+                    id="viewMedicalHistory"
+                    class="history-box"
+                ></div>
+
+            </div>
+
+            <div class="clinical-item">
+
+                <strong>Allergies</strong>
+
+                <div
+                    id="viewAllergies"
+                    class="history-box"
+                ></div>
+
+            </div>
+
+            <div class="clinical-item">
+
+                <strong>Current Medications</strong>
+
+                <div
+                    id="viewMedications"
+                    class="history-box"
+                ></div>
+
+            </div>
+
+            <div class="clinical-item">
+
+                <strong>Notes</strong>
+
+                <div
+                    id="viewNotes"
+                    class="history-box"
+                ></div>
+
+            </div>
+
+        </div>
+
+<!-- =====================================================
+     VITAL SIGNS MODAL
+===================================================== -->
+
+<div
+    id="vitalSignsModal"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+        <span
+            class="close-modal"
+            onclick="closeVitalSignsModal()"
+        >
+            &times;
+        </span>
+
+        <h2>Record Vital Signs</h2>
+
+        <form id="vitalSignsForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="vitalBloodPressure">
+                        Blood Pressure
+                    </label>
+
+                    <input
+                        type="text"
+                        id="vitalBloodPressure"
+                        placeholder="e.g. 120/80"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="vitalHeartRate">
+                        Heart Rate (bpm)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="vitalHeartRate"
+                        min="1"
+                        step="0.01"
+                        placeholder="e.g. 72"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="vitalTemperature">
+                        Temperature (°C)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="vitalTemperature"
+                        min="25"
+                        max="45"
+                        step="0.1"
+                        placeholder="e.g. 36.7"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="vitalRespiratoryRate">
+                        Respiratory Rate (breaths/min)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="vitalRespiratoryRate"
+                        min="1"
+                        max="100"
+                        step="1"
+                        placeholder="e.g. 16"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="vitalOxygenSaturation">
+                        Oxygen Saturation (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="vitalOxygenSaturation"
+                        min="1"
+                        max="100"
+                        step="0.1"
+                        placeholder="e.g. 98"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="vitalWeight">
+                        Weight (kg)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="vitalWeight"
+                        min="0.1"
+                        step="0.1"
+                        placeholder="e.g. 70"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="vitalHeight">
+                        Height (cm)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="vitalHeight"
+                        min="1"
+                        step="0.1"
+                        placeholder="e.g. 175"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="vitalBMI">
+                        BMI
+                    </label>
+
+                    <input
+                        type="text"
+                        id="vitalBMI"
+                        readonly
+                        placeholder="Automatically calculated"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="vitalRecordedBy">
+                    Recorded By
+                </label>
+
+                <input
+                    type="text"
+                    id="vitalRecordedBy"
+                    placeholder="Staff name"
+                >
+
+            </div>
+
+
+            <div
+                class="top-actions"
+                style="margin-top: 20px;"
+            >
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="closeVitalSignsModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Save Vital Signs
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+        <!-- =====================================================
+             VITAL SIGNS
+        ====================================================== -->
+
+        <div class="section">
+
+            <div class="top-actions">
+
+                <h3>
+                    Vital Signs
+                </h3>
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="event.stopPropagation(); openVitalSignsModal();"
+                >
+                    + Record Vital Signs
+                </button>
+
+            </div>
+
+
+            <!-- Vital Signs History -->
+
+            <div
+                id="vitalSignsHistory"
+                style="margin-top: 15px;"
+            >
+
+                <div class="loading">
+                    Loading vital signs history...
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h3>Appointment History</h3>
+
+            <div id="appointmentHistory">
+
+                <div class="loading">
+                    Loading appointment history...
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+
+    <h3>Patient Timeline</h3>
+
+    <div id="patientTimeline">
+
+        <div class="loading">
+            Loading patient timeline...
+        </div>
+
+    </div>
+
+</div>
+
+        <div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Clinical Consultation Records
+        </h3>
+
+        <button
+
+    type="button"
+    class="primary-btn"
+    onclick="openAddConsultationModal()"
+>
+    + Add Consultation
+
+</button>
+
+    </div>
+
+    <div id="consultationHistory">
+
+        <div class="loading">
+            Loading consultation records...
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Laboratory Results
+        </h3>
+
+        <button
+            type="button"
+            class="primary-btn"
+            onclick="event.stopPropagation(); openAddLabReportModal();"
+        >
+            + Add Laboratory Report
+        </button>
+
+        <button
+            type="button"
+            class="primary-btn"
+            onclick="event.stopPropagation(); openAddLabRequestModal();"
+        >
+            + Lab Request
+        </button>
+    </div>
+
+    <div id="labResultsHistory">
+
+        <div class="loading">
+            Loading laboratory results...
+        </div>
+
+    </div>
+
+
+</div>
+
+<div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Prescription Records
+        </h3>
+
+       <button
+    type="button"
+    class="primary-btn"
+    onclick="openAddPrescriptionModal()"
+>
+    + Add Prescription
+</button>
+
+    </div>
+
+    <div id="prescriptionHistory">
+
+        <div class="loading">
+            Loading prescription records...
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     PRESCRIPTION FORM MODAL
+===================================================== -->
+
+
+<!-- =====================================================
+     LABORATORY RESULT FORM MODAL
+===================================================== -->
+
+<!-- =====================================================
+     LABORATORY REPORT FORM MODAL
+===================================================== -->
+
+<div
+    id="labReportModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeLabReportModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="labReportFormTitle">
+            Add Laboratory Report
+        </h2>
+
+        <form id="labReportForm">
+
+            <div class="form-group">
+
+                <label>Laboratory Panel *</label>
+
+                <select id="labReportTestName" required>
+
+                    <option value="">
+                        Select laboratory panel
+                    </option>
+
+                    <option value="FBC">
+                        Full Blood Count (FBC)
+                    </option>
+
+                    <option value="Kidney Function Test">
+                        Kidney Function Test
+                    </option>
+
+                    <option value="Liver Function Test">
+                        Liver Function Test
+                    </option>
+
+                    <option value="Lipid Profile">
+                        Lipid Profile
+                    </option>
+
+                    <option value="Blood Glucose">
+                        Blood Glucose
+                    </option>
+
+                    <option value="Thyroid Function Test">
+                        Thyroid Function Test
+                    </option>
+
+                    <option value="Urinalysis">
+                        Urinalysis
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Result Date</label>
+
+                <input
+                    type="date"
+                    id="labReportDate"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Status</label>
+
+                <select id="labReportStatus">
+
+                    <option value="Final">
+                        Final
+                    </option>
+
+                    <option value="Preliminary">
+                        Preliminary
+                    </option>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Recorded By</label>
+
+                <input
+                    type="text"
+                    id="labReportRecordedBy"
+                    placeholder="Staff/doctor name"
+                >
+
+            </div>
+
+
+            <h3 style="margin-top:25px;">
+                Laboratory Parameters
+            </h3>
+
+
+            <div
+                id="labParametersContainer"
+                style="margin-top:15px;"
+            >
+
+                <div class="lab-parameter-row">
+
+                    <input
+                        type="text"
+                        class="lab-parameter-name"
+                        placeholder="Parameter"
+                    >
+
+                    <input
+                        type="text"
+                        class="lab-parameter-result"
+                        placeholder="Result"
+                    >
+
+                    <input
+                        type="text"
+                        class="lab-parameter-unit"
+                        placeholder="Unit"
+                    >
+
+                    <select class="lab-parameter-flag">
+
+                        <option value="">
+                            Flag
+                        </option>
+
+                        <option value="Low">
+                            Low
+                        </option>
+
+                        <option value="Normal">
+                            Normal
+                        </option>
+
+                        <option value="High">
+                            High
+                        </option>
+
+                        <option value="Critical">
+                            Critical
+                        </option>
+
+                    </select>
+
+                    <input
+                        type="text"
+                        class="lab-parameter-reference"
+                        placeholder="Reference Range"
+                    >
+
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="this.parentElement.remove()"
+                    >
+                        Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="primary-btn"
+                style="margin-top:15px;"
+                onclick="addLabParameterRow()"
+            >
+                + Add Parameter
+            </button>
+
+
+            <div class="form-group">
+
+                <label>Notes</label>
+
+                <textarea
+                    id="labReportNotes"
+                    rows="4"
+                    placeholder="Additional laboratory notes..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Laboratory Report
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeLabReportModal()"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     LABORATORY REQUEST FORM MODAL
+===================================================== -->
+
+<div
+    id="labRequestModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeLabRequestModal()"
+        >
+            &times;
+        </span>
+
+        <div id="labRequestPrintable">
+
+            <div class="lab-request-header">
+
+                <h1>FRANTETT HEALTHCARE</h1>
+
+                <p>
+                    <em>Your Health, Our Priority</em>
+                </p>
+
+                <h2>LABORATORY REQUEST FORM</h2>
+
+            </div>
+
+
+            <div class="lab-request-patient-section">
+
+                <h3>Patient Details</h3>
+
+                <div class="lab-request-patient-grid">
+
+                    <div>
+                        <strong>Patient Name:</strong>
+                        <span id="labRequestPatientName">—</span>
+                    </div>
+
+                    <div>
+                        <strong>Patient ID:</strong>
+                        <span id="labRequestPatientId">—</span>
+                    </div>
+
+                    <div>
+                        <strong>Date of Birth:</strong>
+                        <span id="labRequestPatientDob">—</span>
+                    </div>
+
+                    <div>
+                        <strong>Gender:</strong>
+                        <span id="labRequestPatientGender">—</span>
+                    </div>
+
+                    <div>
+                        <strong>Request Date:</strong>
+                        <span id="labRequestDateDisplay">—</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="lab-request-section">
+
+                <h3>Clinical Information</h3>
+
+                <textarea
+                    id="labRequestClinicalInformation"
+                    rows="5"
+                    placeholder="Relevant clinical information / provisional diagnosis..."
+                ></textarea>
+
+            </div>
+
+            <div class="lab-request-section">
+
+                <h3>Requested Investigations</h3>
+
+                <div class="lab-request-tests">
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="FBC"
+                            class="lab-request-test"
+                        >
+                        Full Blood Count (FBC)
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Kidney Function Test"
+                            class="lab-request-test"
+                        >
+                        Kidney Function Test
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Liver Function Test"
+                            class="lab-request-test"
+                        >
+                        Liver Function Test
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Lipid Profile"
+                            class="lab-request-test"
+                        >
+                        Lipid Profile
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Blood Glucose"
+                            class="lab-request-test"
+                        >
+                        Blood Glucose
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="HbA1c"
+                            class="lab-request-test"
+                        >
+                        HbA1c
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Thyroid Function Test"
+                            class="lab-request-test"
+                        >
+                        Thyroid Function Test
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Urinalysis"
+                            class="lab-request-test"
+                        >
+                        Urinalysis
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Pregnancy Test"
+                            class="lab-request-test"
+                        >
+                        Pregnancy Test
+                    </label>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Other Investigation</label>
+
+                    <input
+                        type="text"
+                        id="labRequestOtherTest"
+                        placeholder="Enter other investigation"
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <div class="lab-request-section">
+
+                <h3>Requesting Clinician</h3>
+
+                <input
+                    type="text"
+                    id="labRequestRequestedBy"
+                    placeholder="Name of requesting doctor / clinician"
+                >
+
+            </div>
+
+
+            <div class="lab-request-signature">
+
+                <div>
+                    <strong>Signature:</strong>
+                    <div class="signature-line"></div>
+                </div>
+
+                <div>
+                    <strong>Date:</strong>
+                    <div
+                        class="signature-line"
+                        id="labRequestSignatureDate"
+                    ></div>
+                </div>
+
+            </div>
+
+
+            <div class="lab-request-footer">
+
+                <strong>FRANTETT HEALTHCARE</strong>
+
+                <div>
+                    Address: [hospital address]
+                </div>
+
+                <div>
+                    Tel: [hospital telephone]
+                </div>
+
+                <div>
+                    Email: [hospital email]
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions no-print">
+
+            <button
+                type="button"
+                class="save-btn"
+                onclick="saveLabRequest()"
+            >
+                Save Request
+            </button>
+
+            <button
+                type="button"
+                class="primary-btn"
+                onclick="printLabRequest()"
+            >
+                Print Request
+            </button>
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="closeLabRequestModal()"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    id="prescriptionFormModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closePrescriptionFormModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="prescriptionFormTitle">
+            Add Prescription
+        </h2>
+
+        <form id="prescriptionForm">
+
+    <input
+        type="hidden"
+        id="prescriptionId"
+    >
+
+    <!-- ==============================
+         PRESCRIPTION HEADER
+    =============================== -->
+
+    <div class="form-group">
+
+        <label>
+            Doctor
+        </label>
+
+        <input
+            type="text"
+            id="prescriptionDoctor"
+            placeholder="Doctor name"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Prescription Date *
+        </label>
+
+        <input
+            type="date"
+            id="prescriptionDate"
+            required
+        >
+
+    </div>
+
+
+    <!-- ==============================
+         MEDICATIONS
+    =============================== -->
+
+   <h3>
+    Medications
+</h3>
+
+<div class="prescription-table-wrapper">
+
+    <table class="prescription-entry-table">
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Medication
+                </th>
+
+                <th>
+                    Dose
+                </th>
+
+                <th>
+                    Route
+                </th>
+
+                <th>
+                    Frequency
+                </th>
+
+                <th>
+                    Duration
+                </th>
+
+                <th>
+                    Quantity
+                </th>
+
+
+            </tr>
+
+        </thead>
+
+        <tbody id="medicationItems">
+
+            <tr class="medication-item">
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-name"
+                        placeholder="Medication"
+                        required
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-dose"
+                        placeholder="500 mg"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-route"
+                        placeholder="Oral"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-frequency"
+                        placeholder="BID"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-duration"
+                        placeholder="7 days"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-quantity"
+                        placeholder="14"
+                    >
+
+                </td>
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="removeMedicationItem(this)"
+                        style="display: none;"
+                    >
+                        Remove
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<div style="margin-top: 12px;">
+
+    <button
+        type="button"
+        class="primary-btn"
+        onclick="addMedicationItem()"
+    >
+        + Add Another Medication
+    </button>
+
+</div>
+
+
+<div class="form-group">
+
+    <label>
+        Notes
+    </label>
+
+    <textarea
+        id="prescriptionNotes"
+        placeholder="Additional prescription notes..."
+    ></textarea>
+
+</div>
+
+
+    <!-- ==============================
+         ACTIONS
+    =============================== -->
+
+    <div class="form-actions">
+
+        <button
+            type="submit"
+            class="save-btn"
+        >
+            Save Prescription
+        </button>
+
+        <button
+            type="button"
+            class="cancel-btn"
+            onclick="closePrescriptionFormModal()"
+        >
+            Cancel
+        </button>
+
+    </div>
+
+</form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CONSULTATION FORM MODAL
+===================================================== -->
+
+<div
+    id="consultationFormModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeConsultationFormModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="consultationFormTitle">
+            Add Consultation
+        </h2>
+
+        <form id="consultationForm">
+
+            <input
+                type="hidden"
+                id="consultationId"
+            >
+
+
+            <div class="form-group">
+
+                <label>Doctor</label>
+
+                <input
+                    type="text"
+                    id="consultationDoctor"
+                    placeholder="Doctor name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Consultation Date *</label>
+
+                <input
+                    type="date"
+                    id="consultationDate"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Presenting Complaint</label>
+
+                <textarea
+                    id="chiefComplaint"
+                    placeholder="Main reason for consultation..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    History of Presenting Complaint
+                </label>
+
+                <textarea
+                    id="historyOfPresentingComplaint"
+                    placeholder="History of the presenting complaint..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Past Medical History
+                </label>
+
+                <textarea
+                    id="pastMedicalHistory"
+                    placeholder="Past medical history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Drug and Allergy History
+                </label>
+
+                <textarea
+                    id="drugAllergyHistory"
+                    placeholder="Current drugs and allergy history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Family History
+                </label>
+
+                <textarea
+                    id="familyHistory"
+                    placeholder="Relevant family history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Social History
+                </label>
+
+                <textarea
+                    id="socialHistory"
+                    placeholder="Social history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Systems Review
+                </label>
+
+                <textarea
+                    id="systemsReview"
+                    placeholder="Review of systems..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Summary
+                </label>
+
+                <textarea
+                    id="consultationSummary"
+                    placeholder="Clinical summary..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Examination
+                </label>
+
+                <textarea
+                    id="examination"
+                    placeholder="Physical examination findings..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Investigations
+                </label>
+
+                <textarea
+                    id="investigations"
+                    placeholder="Laboratory tests, imaging and other investigations..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Differential Diagnosis
+                </label>
+
+                <textarea
+                    id="differentialDiagnosis"
+                    placeholder="Differential diagnoses..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Diagnosis
+                </label>
+
+                <textarea
+                    id="diagnosis"
+                    placeholder="Final diagnosis..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Management Plan
+                </label>
+
+                <textarea
+                    id="managementPlan"
+                    placeholder="Management plan..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Treatment
+                </label>
+
+                <textarea
+                    id="treatment"
+                    placeholder="Treatment provided or prescribed..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Clinical Notes
+                </label>
+
+                <textarea
+                    id="clinicalNotes"
+                    placeholder="Additional clinical notes..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Follow-up Date
+                </label>
+
+                <input
+                    type="date"
+                    id="followUpDate"
+                >
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Consultation
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeConsultationFormModal()"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     VIEW CONSULTATION MODAL
+===================================================== -->
+
+<div
+    id="viewConsultationModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeViewConsultationModal()"
+        >
+            &times;
+        </span>
+
+        <h2>Consultation Record</h2>
+
+
+        <div class="info-grid">
+
+            <div class="info-card">
+
+                <strong>Doctor</strong>
+
+                <span id="viewConsultationDoctor"></span>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <strong>Consultation Date</strong>
+
+                <span id="viewConsultationDate"></span>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <div class="clinical-item">
+
+                <strong>Presenting Complaint</strong>
+
+                <div
+                    id="viewChiefComplaint"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>
+                    History of Presenting Complaint
+                </strong>
+
+                <div
+                    id="viewHistoryOfPresentingComplaint"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Past Medical History</strong>
+
+                <div
+                    id="viewPastMedicalHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Drug and Allergy History</strong>
+
+                <div
+                    id="viewDrugAllergyHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Family History</strong>
+
+                <div
+                    id="viewFamilyHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Social History</strong>
+
+                <div
+                    id="viewSocialHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Systems Review</strong>
+
+                <div
+                    id="viewSystemsReview"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Summary</strong>
+
+                <div
+                    id="viewSummary"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Examination</strong>
+
+                <div
+                    id="viewExamination"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Investigations</strong>
+
+                <div
+                    id="viewInvestigations"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Differential Diagnosis</strong>
+
+                <div
+                    id="viewDifferentialDiagnosis"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Diagnosis</strong>
+
+                <div
+                    id="viewDiagnosis"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Management Plan</strong>
+
+                <div
+                    id="viewManagementPlan"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Treatment</strong>
+
+                <div
+                    id="viewTreatment"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Clinical Notes</strong>
+
+                <div
+                    id="viewClinicalNotes"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Follow-up Date</strong>
+
+                <div
+                    id="viewFollowUpDate"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
 
 /* =====================================================
    CONFIGURATION
@@ -7003,5 +9584,53 @@ function printPatientRecord() {
 }
 
 loadPatients();
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

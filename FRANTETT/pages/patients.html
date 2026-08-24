@@ -10,7 +10,8 @@
 
     <title>FranTett Healthcare - Patient Records</title>
 
-    <style>
+    
+<style>
 
         * {
             box-sizing: border-box;
@@ -818,6 +819,59 @@
     font-family: "Segoe UI", Arial, sans-serif;
 }
 
+#labRequestPrintable .signature-pad-wrapper {
+    width: 100%;
+    max-width: 500px;
+    height: 160px;
+    border: 1px solid #9ca3af;
+    border-radius: 5px;
+    background: #fff;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+#labRequestPrintable #labRequestSignaturePad {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    background: #fff;
+}
+
+#labRequestPrintable .signature-actions {
+    margin-top: 8px;
+}
+
+#labRequestPrintable .signature-actions button {
+    font-size: 11px;
+    padding: 6px 10px;
+}
+
+#labRequestPrintable .signature-status {
+    margin-top: 5px;
+    font-size: 10px;
+    color: #666;
+}
+
+@media print {
+
+    #labRequestPrintable .signature-pad-wrapper {
+        border: none;
+        height: auto;
+    }
+
+    #labRequestPrintable #labRequestSignaturePad {
+        border: none;
+        height: 90px;
+    }
+
+    #labRequestPrintable .signature-actions,
+    #labRequestPrintable .signature-status {
+        display: none !important;
+    }
+
+}
+
     </style>
 <style>
 
@@ -1021,6 +1075,7 @@
 
 }
 </style>
+
 </head>
 
 <body>
@@ -1340,7 +1395,7 @@
     class="modal"
 >
 
-    <div class="modal-content large-modal">
+    <div class="modal-content large-modal patient-profile-modal">
 
         <span
             class="close-modal"
@@ -1754,7 +1809,7 @@
 
     type="button"
     class="primary-btn"
-    onclick="event.stopPropagation(); openAddConsultationModal();"
+    onclick="openAddConsultationModal()"
 >
     + Add Consultation
 
@@ -1821,7 +1876,7 @@
        <button
     type="button"
     class="primary-btn"
-    onclick="event.stopPropagation(); openAddPrescriptionModal();"
+    onclick="openAddPrescriptionModal()"
 >
     + Add Prescription
 </button>
@@ -2086,7 +2141,6 @@
     </div>
 
 </div>
-<div
 
 <!-- =====================================================
      LABORATORY REQUEST FORM MODAL
@@ -2290,20 +2344,54 @@
 
             <div class="lab-request-signature">
 
-                <div>
-                    <strong>Signature:</strong>
-                    <div class="signature-line"></div>
-                </div>
+    <div class="electronic-signature-section">
 
-                <div>
-                    <strong>Date:</strong>
-                    <div
-                        class="signature-line"
-                        id="labRequestSignatureDate"
-                    ></div>
-                </div>
+        <strong>Electronic Signature:</strong>
 
-            </div>
+        <div
+            class="signature-pad-wrapper"
+        >
+            <canvas
+                id="labRequestSignaturePad"
+                width="500"
+                height="160"
+            ></canvas>
+        </div>
+
+        <div class="signature-actions">
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="clearLabRequestSignature()"
+            >
+                Clear Signature
+            </button>
+
+        </div>
+
+        <div
+            id="labRequestSignatureStatus"
+            class="signature-status"
+        >
+            Signature not provided
+        </div>
+
+    </div>
+
+
+    <div>
+
+        <strong>Date:</strong>
+
+        <div
+            class="signature-line"
+            id="labRequestSignatureDate"
+        ></div>
+
+    </div>
+
+</div>
 
 
             <div class="lab-request-footer">
@@ -2356,6 +2444,8 @@
         </div>
 
     </div>
+
+</div>
 
 <div
     id="prescriptionFormModal"
@@ -5153,7 +5243,7 @@ async function loadPatientTimeline(patientId) {
 
                                 ${
                                     event.doctor
-                                        ? ` ΓÇó ${escapeHtml(event.doctor)}`
+                                        ? ` • ${escapeHtml(event.doctor)}`
                                         : ""
                                 }
                             </div>
@@ -5504,7 +5594,7 @@ function displayConsultations(consultations) {
 
                             ${
                                 consultation.doctor
-                                    ? ` ΓÇó ${escapeHtml(
+                                    ? ` • ${escapeHtml(
                                         consultation.doctor
                                     )}`
                                     : ""
@@ -5512,7 +5602,7 @@ function displayConsultations(consultations) {
 
                             ${
                                 consultation.created_at
-                                    ? ` ΓÇó Entered ${escapeHtml(
+                                    ? ` • Entered ${escapeHtml(
                                         formatDateTime(
                                             consultation.created_at
                                         )
@@ -6356,7 +6446,7 @@ function displayPrescriptions(prescriptions) {
 
                                     ${
                                         prescription.doctor
-                                            ? ` ΓÇó ${escapeHtml(
+                                            ? ` • ${escapeHtml(
                                                 prescription.doctor
                                             )}`
                                             : ""
@@ -6364,7 +6454,7 @@ function displayPrescriptions(prescriptions) {
 
                                     ${
                                         prescription.created_at
-                                            ? ` ΓÇó Entered ${escapeHtml(
+                                            ? ` • Entered ${escapeHtml(
                                                 formatDateTime(
                                                     prescription.created_at
                                                 )
@@ -9397,6 +9487,9 @@ function openAddLabRequestModal() {
     if (clinicalInformation) clinicalInformation.value = "";
     if (requestedBy) requestedBy.value = "";
 
+    initializeLabRequestSignature();
+clearLabRequestSignature();
+
     // Patient ID
     const patientIdField =
         document.getElementById(
@@ -9622,6 +9715,296 @@ async function saveLabRequest() {
 }
 
 // =====================================================
+// ELECTRONIC SIGNATURE
+// =====================================================
+
+let labSignatureCanvas = null;
+let labSignatureContext = null;
+let labSignatureDrawing = false;
+let labSignatureHasContent = false;
+
+
+// Initialize signature pad
+function initializeLabRequestSignature() {
+
+    labSignatureCanvas =
+        document.getElementById(
+            "labRequestSignaturePad"
+        );
+
+    if (!labSignatureCanvas) {
+        return;
+    }
+
+    labSignatureContext =
+        labSignatureCanvas.getContext("2d");
+
+    labSignatureContext.lineWidth = 2;
+    labSignatureContext.lineCap = "round";
+    labSignatureContext.lineJoin = "round";
+    labSignatureContext.strokeStyle = "#0057B8";
+
+    labSignatureCanvas.addEventListener(
+        "mousedown",
+        startLabSignature
+    );
+
+    labSignatureCanvas.addEventListener(
+        "mousemove",
+        drawLabSignature
+    );
+
+    labSignatureCanvas.addEventListener(
+        "mouseup",
+        stopLabSignature
+    );
+
+    labSignatureCanvas.addEventListener(
+        "mouseleave",
+        stopLabSignature
+    );
+
+
+    // Touchscreen support
+
+    labSignatureCanvas.addEventListener(
+        "touchstart",
+        startLabSignatureTouch,
+        { passive: false }
+    );
+
+    labSignatureCanvas.addEventListener(
+        "touchmove",
+        drawLabSignatureTouch,
+        { passive: false }
+    );
+
+    labSignatureCanvas.addEventListener(
+        "touchend",
+        stopLabSignatureTouch,
+        { passive: false }
+    );
+}
+
+
+// Get mouse position
+function getLabSignaturePosition(event) {
+
+    const rect =
+        labSignatureCanvas.getBoundingClientRect();
+
+    return {
+        x:
+            (event.clientX - rect.left) *
+            (labSignatureCanvas.width / rect.width),
+
+        y:
+            (event.clientY - rect.top) *
+            (labSignatureCanvas.height / rect.height)
+    };
+}
+
+
+// Start drawing
+function startLabSignature(event) {
+
+    if (!labSignatureContext) {
+        return;
+    }
+
+    labSignatureDrawing = true;
+
+    const position =
+        getLabSignaturePosition(event);
+
+    labSignatureContext.beginPath();
+
+    labSignatureContext.moveTo(
+        position.x,
+        position.y
+    );
+
+    labSignatureHasContent = true;
+
+    updateLabSignatureStatus();
+}
+
+
+// Draw
+function drawLabSignature(event) {
+
+    if (
+        !labSignatureDrawing ||
+        !labSignatureContext
+    ) {
+        return;
+    }
+
+    const position =
+        getLabSignaturePosition(event);
+
+    labSignatureContext.lineTo(
+        position.x,
+        position.y
+    );
+
+    labSignatureContext.stroke();
+}
+
+
+// Stop
+function stopLabSignature() {
+
+    labSignatureDrawing = false;
+}
+
+
+// Touch position
+function getLabSignatureTouchPosition(event) {
+
+    const touch =
+        event.touches[0];
+
+    const rect =
+        labSignatureCanvas.getBoundingClientRect();
+
+    return {
+        x:
+            (touch.clientX - rect.left) *
+            (labSignatureCanvas.width / rect.width),
+
+        y:
+            (touch.clientY - rect.top) *
+            (labSignatureCanvas.height / rect.height)
+    };
+}
+
+
+// Start touch drawing
+function startLabSignatureTouch(event) {
+
+    event.preventDefault();
+
+    if (!labSignatureContext) {
+        return;
+    }
+
+    labSignatureDrawing = true;
+
+    const position =
+        getLabSignatureTouchPosition(event);
+
+    labSignatureContext.beginPath();
+
+    labSignatureContext.moveTo(
+        position.x,
+        position.y
+    );
+
+    labSignatureHasContent = true;
+
+    updateLabSignatureStatus();
+}
+
+
+// Draw touch
+function drawLabSignatureTouch(event) {
+
+    event.preventDefault();
+
+    if (
+        !labSignatureDrawing ||
+        !labSignatureContext
+    ) {
+        return;
+    }
+
+    const position =
+        getLabSignatureTouchPosition(event);
+
+    labSignatureContext.lineTo(
+        position.x,
+        position.y
+    );
+
+    labSignatureContext.stroke();
+}
+
+
+// Stop touch
+function stopLabSignatureTouch(event) {
+
+    event.preventDefault();
+
+    labSignatureDrawing = false;
+}
+
+
+// Update status
+function updateLabSignatureStatus() {
+
+    const status =
+        document.getElementById(
+            "labRequestSignatureStatus"
+        );
+
+    if (!status) {
+        return;
+    }
+
+    status.textContent =
+        labSignatureHasContent
+            ? "Electronic signature added"
+            : "Signature not provided";
+
+    status.style.color =
+        labSignatureHasContent
+            ? "#166534"
+            : "#666";
+}
+
+
+// Clear signature
+function clearLabRequestSignature() {
+
+    if (
+        !labSignatureCanvas ||
+        !labSignatureContext
+    ) {
+        initializeLabRequestSignature();
+    }
+
+    if (
+        !labSignatureCanvas ||
+        !labSignatureContext
+    ) {
+        return;
+    }
+
+    labSignatureContext.clearRect(
+        0,
+        0,
+        labSignatureCanvas.width,
+        labSignatureCanvas.height
+    );
+
+    labSignatureHasContent = false;
+
+    updateLabSignatureStatus();
+}
+
+
+// Initialize when page loads
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        initializeLabRequestSignature();
+
+    }
+);
+
+// =====================================================
 // PRINT LABORATORY REQUEST - SINGLE A4 PAGE
 // =====================================================
 
@@ -9649,8 +10032,155 @@ function printLabRequest() {
         return;
     }
 
-    const printContent =
-        printable.innerHTML;
+    const printClone =
+    printable.cloneNode(true);
+
+const originalCheckboxes =
+    printable.querySelectorAll(
+        ".lab-request-test"
+    );
+
+const clonedCheckboxes =
+    printClone.querySelectorAll(
+        ".lab-request-test"
+    );
+
+originalCheckboxes.forEach(
+    function (originalCheckbox, index) {
+
+        const clonedCheckbox =
+            clonedCheckboxes[index];
+
+        if (!clonedCheckbox) {
+            return;
+        }
+
+        const label =
+            clonedCheckbox.closest("label");
+
+        if (!label) {
+            return;
+        }
+
+        const testName =
+            label.textContent.trim();
+
+        /*
+         * Remove the real checkbox because
+         * browsers may not print its checked state.
+         */
+        clonedCheckbox.remove();
+
+        /*
+         * Create a visible printed checkbox.
+         */
+        const printedCheckbox =
+            document.createElement("span");
+
+        printedCheckbox.textContent =
+            originalCheckbox.checked
+                ? "☑ "
+                : "☐ ";
+
+        printedCheckbox.style.fontSize =
+            "14px";
+
+        printedCheckbox.style.fontWeight =
+            "bold";
+
+        /*
+         * Replace the label content with
+         * the visible checkbox + test name.
+         */
+        label.textContent = "";
+
+        label.appendChild(
+            printedCheckbox
+        );
+
+        label.appendChild(
+            document.createTextNode(testName)
+        );
+    }
+);
+
+// =====================================================
+// CONVERT ELECTRONIC SIGNATURE CANVAS TO IMAGE
+// =====================================================
+
+const originalSignatureCanvas =
+    printable.querySelector(
+        "#labRequestSignaturePad"
+    );
+
+const clonedSignatureCanvas =
+    printClone.querySelector(
+        "#labRequestSignaturePad"
+    );
+
+if (
+    originalSignatureCanvas &&
+    clonedSignatureCanvas
+) {
+
+    const signatureImage =
+        originalSignatureCanvas.toDataURL(
+            "image/png"
+        );
+
+    const signatureImg =
+        document.createElement("img");
+
+    signatureImg.src =
+        signatureImage;
+
+    signatureImg.alt =
+        "Electronic Signature";
+
+    signatureImg.style.width =
+        "500px";
+
+    signatureImg.style.height =
+        "160px";
+
+    signatureImg.style.objectFit =
+        "contain";
+
+    signatureImg.style.display =
+        "block";
+
+    signatureImg.style.background =
+        "#ffffff";
+
+    clonedSignatureCanvas.replaceWith(
+        signatureImg
+    );
+}
+
+
+// Remove the Clear Signature button
+const clonedSignatureActions =
+    printClone.querySelector(
+        ".signature-actions"
+    );
+
+if (clonedSignatureActions) {
+    clonedSignatureActions.remove();
+}
+
+
+// Remove signature status text
+const clonedSignatureStatus =
+    printClone.querySelector(
+        "#labRequestSignatureStatus"
+    );
+
+if (clonedSignatureStatus) {
+    clonedSignatureStatus.remove();
+}
+
+const printContent =
+    printClone.innerHTML;
 
     const printHtml =
         "<!DOCTYPE html>" +
@@ -9797,10 +10327,10 @@ function printLabRequest() {
 
         "</style>" +
 
+
         "</head>" +
 
         "<body>" +
-
         "<div id='labRequestPrintable'>" +
             printContent +
         "</div>" +
@@ -9827,6 +10357,7 @@ function printLabRequest() {
         500
     );
 }
+
 
 // Close Lab Request when clicking outside the modal
 window.addEventListener(
@@ -10164,6 +10695,29 @@ loadPatients();
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
