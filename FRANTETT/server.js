@@ -5426,56 +5426,6 @@ app.delete("/api/vitals/:id", async (req, res) => {
 });
 
 
-// ============================================================
-
-// ============================================================
-
-// ============================================================
-// EMR - LAB REQUESTS
-// ============================================================
-
-// Get laboratory requests for a patient
-app.get("/api/patients/:patientId/lab-requests", async (req, res) => {
-    try {
-
-        const patientId = Number(req.params.patientId);
-
-        if (!Number.isInteger(patientId) || patientId <= 0) {
-            return res.status(400).json({
-                message: "Invalid patient ID."
-            });
-        }
-
-        const result = await pool.query(
-            `
-            SELECT
-                id,
-                patient_id,
-                requested_tests,
-                clinical_information,
-                requested_by,
-                request_date,
-                created_at
-            FROM lab_requests
-            WHERE patient_id = $1
-            ORDER BY request_date DESC, created_at DESC
-            `,
-            [patientId]
-        );
-
-        res.json(result.rows);
-
-    } catch (error) {
-
-        console.error("Get lab requests error:", error);
-
-        res.status(500).json({
-            message: "Failed to load laboratory requests."
-        });
-
-    }
-});
-
 
 // =====================================================
 // CREATE LABORATORY REQUEST
@@ -5621,6 +5571,72 @@ app.delete("/api/lab-requests/:id", async (req, res) => {
     }
 });
 
+// =====================================================
+// GET LABORATORY REQUESTS FOR PATIENT
+// =====================================================
+
+app.get(
+    "/api/patients/:patientId/lab-requests",
+    async (req, res) => {
+
+        try {
+
+            const patientId =
+                Number(req.params.patientId);
+
+            if (
+                !Number.isInteger(patientId) ||
+                patientId <= 0
+            ) {
+
+                return res.status(400).json({
+                    message: "Invalid patient ID."
+                });
+
+            }
+
+
+            const result =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        patient_id,
+                        requested_tests,
+                        clinical_information,
+                        requested_by,
+                        request_date,
+                        created_at,
+                        electronic_signature
+                    FROM lab_requests
+                    WHERE patient_id = $1
+                    ORDER BY id DESC
+                    `,
+                    [patientId]
+                );
+
+
+            res.json(
+                result.rows
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Get laboratory requests error:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to load laboratory requests."
+            });
+
+        }
+
+    }
+);
 
 // ============================================================
 

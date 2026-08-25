@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -408,428 +408,6 @@
             font-size: 14px;
         }
 
-        /* =====================================================
-           PATIENT PROFILE - VERSION 2 DEPARTMENT DESIGN
-        ===================================================== */
-
-        .patient-profile-modal {
-            background: #f6f8f9;
-            border-radius: 14px;
-            padding: 28px;
-        }
-
-        .patient-profile-modal > h2 {
-            margin: 0 0 18px 0;
-            font-size: 26px;
-            font-weight: 700;
-            color: #173f35;
-            border-bottom: 1px solid #dfe7e4;
-            padding-bottom: 14px;
-        }
-
-        .patient-profile-modal .top-actions {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        /* =========================
-           PATIENT OVERVIEW
-        ========================= */
-
-        .patient-header {
-            background: #ffffff;
-            border: 1px solid #cfe2da;
-            border-left: 5px solid #18815f;
-            border-radius: 12px;
-            padding: 22px;
-            margin-bottom: 22px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-
-        .patient-header > h2 {
-            margin: 0 0 20px 0;
-            font-size: 25px;
-            font-weight: 700;
-            color: #17624f;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 14px;
-            margin-top: 18px;
-        }
-
-        .info-card {
-            background: #ffffff;
-            border: 1px solid #e1e7e4;
-            border-radius: 9px;
-            padding: 15px 16px;
-            min-height: 72px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 6px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-        }
-
-        .info-card strong {
-            display: block;
-            font-size: 12px;
-            font-weight: 700;
-            color: #60736d;
-            text-transform: uppercase;
-            letter-spacing: .35px;
-        }
-
-        .info-card span {
-            display: block;
-            color: #1d2d28;
-            font-size: 15px;
-            font-weight: 500;
-            word-break: break-word;
-        }
-
-        .patient-header > .info-grid:first-of-type {
-            margin-top: 0;
-            margin-bottom: 8px;
-        }
-
-        .patient-header > .info-grid:first-of-type .info-card {
-            min-height: 88px;
-            text-align: center;
-            align-items: center;
-            border-color: #cfe2da;
-            background: #f7fbf9;
-        }
-
-        .patient-header > .info-grid:first-of-type .info-card span {
-            font-size: 25px;
-            font-weight: 700;
-            color: #17624f;
-        }
-
-        /* =========================
-           GENERAL SECTIONS
-        ========================= */
-
-        .patient-profile-modal .section {
-            background: #ffffff;
-            border: 1px solid #e1e7e4;
-            border-radius: 12px;
-            padding: 22px;
-            margin-top: 22px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.035);
-        }
-
-        .patient-profile-modal .section > h3 {
-            margin: 0 0 18px 0;
-            padding: 12px 14px;
-            border-radius: 8px;
-            border-left: 5px solid #60736d;
-            background: #f5f7f6;
-            color: #263a34;
-            font-size: 19px;
-            font-weight: 700;
-        }
-
-        /* =========================
-           CLINICAL INFORMATION
-        ========================= */
-
-        .patient-profile-modal .section:has(#viewMedicalHistory) > h3 {
-            border-left-color: #18815f;
-            background: #f0f8f5;
-            color: #17624f;
-        }
-
-        .clinical-item {
-            background: #f8faf9;
-            border: 1px solid #e1e8e5;
-            border-radius: 9px;
-            padding: 16px;
-            margin-bottom: 14px;
-        }
-
-        .clinical-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .clinical-item > strong {
-            display: block;
-            margin-bottom: 9px;
-            color: #31554b;
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .3px;
-        }
-
-        .history-box {
-            background: #ffffff;
-            border: 1px solid #e1e7e4;
-            border-radius: 7px;
-            padding: 12px 14px;
-            min-height: 45px;
-            color: #273a34;
-            line-height: 1.6;
-            font-size: 14px;
-        }
-
-        /* =========================
-           VITAL SIGNS - BLUE
-        ========================= */
-
-        .patient-profile-modal .section:has(#vitalSignsHistory) {
-            border-top: 4px solid #2878b8;
-        }
-
-        .patient-profile-modal .section:has(#vitalSignsHistory) > .top-actions h3 {
-            border-left-color: #2878b8;
-            background: #eef6fc;
-            color: #205f91;
-        }
-
-        /* =========================
-           APPOINTMENTS - PURPLE
-        ========================= */
-
-        .patient-profile-modal .section:has(#appointmentHistory) {
-            border-top: 4px solid #7656a6;
-        }
-
-        .patient-profile-modal .section:has(#appointmentHistory) > h3 {
-            border-left-color: #7656a6;
-            background: #f5f1fa;
-            color: #60438e;
-        }
-
-        /* =========================
-           PATIENT TIMELINE - SLATE
-        ========================= */
-
-        .patient-profile-modal .section:has(#patientTimeline) {
-            border-top: 4px solid #526777;
-            background: #fbfcfd;
-        }
-
-        .patient-profile-modal .section:has(#patientTimeline) > h3 {
-            border-left-color: #526777;
-            background: #f0f4f7;
-            color: #405564;
-        }
-
-        #patientTimeline {
-            position: relative;
-            padding-left: 18px;
-        }
-
-        /* =========================
-           CONSULTATIONS - ORANGE
-        ========================= */
-
-        .patient-profile-modal .section:has(#consultationHistory) {
-            border-top: 4px solid #d87928;
-        }
-
-        .patient-profile-modal .section:has(#consultationHistory) > .top-actions h3 {
-            border-left-color: #d87928;
-            background: #fff5eb;
-            color: #a95d20;
-        }
-
-        /* =========================
-           LAB RESULTS - RED
-        ========================= */
-
-        .patient-profile-modal .section:has(#labResultsHistory) {
-            border-top: 4px solid #c74b4b;
-        }
-
-        .patient-profile-modal .section:has(#labResultsHistory) > .top-actions h3 {
-            border-left-color: #c74b4b;
-            background: #fff1f1;
-            color: #a43d3d;
-        }
-
-        /* =========================
-           LAB REQUESTS - TEAL
-        ========================= */
-
-        .patient-profile-modal .section:has(#labRequestsHistory) {
-            border-top: 4px solid #159a9c;
-        }
-
-        .patient-profile-modal .section:has(#labRequestsHistory) > .top-actions h3 {
-            border-left-color: #159a9c;
-            background: #edfafa;
-            color: #117578;
-        }
-
-        /* =========================
-           PRESCRIPTIONS - AMBER
-        ========================= */
-
-        .patient-profile-modal .section:has(#prescriptionHistory) {
-            border-top: 4px solid #c99425;
-        }
-
-        .patient-profile-modal .section:has(#prescriptionHistory) > .top-actions h3 {
-            border-left-color: #c99425;
-            background: #fff9e9;
-            color: #966f18;
-        }
-
-        /* =========================
-           DEPARTMENT HOVER EFFECT
-        ========================= */
-
-        .patient-profile-modal .section {
-            transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease,
-                border-color 0.2s ease;
-        }
-
-        .patient-profile-modal .section:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.10);
-        }
-
-        /* Vital Signs */
-        .patient-profile-modal .section:has(#vitalSignsHistory):hover {
-            border-top-color: #1d6fa5;
-        }
-
-        /* Appointments */
-        .patient-profile-modal .section:has(#appointmentHistory):hover {
-            border-top-color: #60438e;
-        }
-
-        /* Timeline */
-        .patient-profile-modal .section:has(#patientTimeline):hover {
-            border-top-color: #405564;
-        }
-
-        /* Consultations */
-        .patient-profile-modal .section:has(#consultationHistory):hover {
-            border-top-color: #b85f1c;
-        }
-
-        /* Laboratory Results */
-        .patient-profile-modal .section:has(#labResultsHistory):hover {
-            border-top-color: #a43d3d;
-        }
-
-        /* Laboratory Requests */
-        .patient-profile-modal .section:has(#labRequestsHistory):hover {
-            border-top-color: #117578;
-        }
-
-        /* Prescriptions */
-        .patient-profile-modal .section:has(#prescriptionHistory):hover {
-            border-top-color: #966f18;
-        }
-        /* =========================
-           BUTTON ALIGNMENT
-        ========================= */
-        /* =========================
-           LAB REPORT HEADER LAYOUT
-        ========================= */
-
-        .lab-report-card .lab-report-header {
-            display: block;
-            position: relative;
-            padding-bottom: 14px;
-            margin-bottom: 16px;
-            border-bottom: 1px solid #eee1e1;
-        }
-
-        .lab-report-card .lab-report-date {
-            display: block;
-            margin-bottom: 4px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #5f6865;
-        }
-
-        .lab-report-card .lab-report-header h4 {
-            margin: 0 0 10px 0;
-            font-size: 18px;
-            color: #a43d3d;
-        }
-
-        .lab-report-card .lab-report-meta {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-right: 150px;
-            flex-wrap: wrap;
-        }
-
-        .lab-report-card .lab-report-header > .danger-btn {
-            position: absolute;
-            right: 0;
-            bottom: 14px;
-            margin: 0;
-            white-space: nowrap;
-        }
-
-        @media (max-width: 700px) {
-            .lab-report-card .lab-report-header > .danger-btn {
-                position: static;
-                margin-top: 10px;
-                width: 100%;
-            }
-
-            .lab-report-card .lab-report-meta {
-                padding-right: 0;
-            }
-        }
-
-
-        .patient-profile-modal .section .top-actions {
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-
-        .patient-profile-modal .section .top-actions h3 {
-            flex: 1;
-            margin: 0;
-        }
-
-        @media (max-width: 700px) {
-
-            .patient-profile-modal {
-                padding: 18px;
-            }
-
-            .patient-header {
-                padding: 16px;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .patient-profile-modal .top-actions {
-                justify-content: stretch;
-                flex-wrap: wrap;
-            }
-
-            .patient-profile-modal .top-actions button {
-                width: 100%;
-            }
-
-            .patient-profile-modal .section .top-actions {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-        }
         @media (max-width: 700px) {
             .patient-profile-modal {
                 padding: 18px;
@@ -933,256 +511,6 @@
             color: #666;
         }
 
-                .info-card strong {
-            display: block;
-            font-size: 12px;
-            font-weight: 700;
-            color: #60736d;
-            text-transform: uppercase;
-            letter-spacing: .35px;
-        }
-
-        .info-card span {
-            display: block;
-            color: #1d2d28;
-            font-size: 15px;
-            font-weight: 500;
-            word-break: break-word;
-        }
-
-        .patient-header > .info-grid:first-of-type {
-            margin-top: 0;
-            margin-bottom: 8px;
-        }
-
-        .patient-header > .info-grid:first-of-type .info-card {
-            min-height: 88px;
-            text-align: center;
-            align-items: center;
-            border-color: #cfe2da;
-            background: #f7fbf9;
-        }
-
-        .patient-header > .info-grid:first-of-type .info-card span {
-            font-size: 25px;
-            font-weight: 700;
-            color: #17624f;
-        }
-
-        /* =========================
-           GENERAL SECTIONS
-        ========================= */
-
-        .patient-profile-modal .section {
-            background: #ffffff;
-            border: 1px solid #e1e7e4;
-            border-radius: 12px;
-            padding: 22px;
-            margin-top: 22px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.035);
-        }
-
-        .patient-profile-modal .section > h3 {
-            margin: 0 0 18px 0;
-            padding: 12px 14px;
-            border-radius: 8px;
-            border-left: 5px solid #60736d;
-            background: #f5f7f6;
-            color: #263a34;
-            font-size: 19px;
-            font-weight: 700;
-        }
-
-        /* =========================
-           CLINICAL INFORMATION
-        ========================= */
-
-        .patient-profile-modal .section:has(#viewMedicalHistory) > h3 {
-            border-left-color: #18815f;
-            background: #f0f8f5;
-            color: #17624f;
-        }
-
-        .clinical-item {
-            background: #f8faf9;
-            border: 1px solid #e1e8e5;
-            border-radius: 9px;
-            padding: 16px;
-            margin-bottom: 14px;
-        }
-
-        .clinical-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .clinical-item > strong {
-            display: block;
-            margin-bottom: 9px;
-            color: #31554b;
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .3px;
-        }
-
-        .history-box {
-            background: #ffffff;
-            border: 1px solid #e1e7e4;
-            border-radius: 7px;
-            padding: 12px 14px;
-            min-height: 45px;
-            color: #273a34;
-            line-height: 1.6;
-            font-size: 14px;
-        }
-
-        /* =========================
-           VITAL SIGNS - BLUE
-        ========================= */
-
-        .patient-profile-modal .section:has(#vitalSignsHistory) {
-            border-top: 4px solid #2878b8;
-        }
-
-        .patient-profile-modal .section:has(#vitalSignsHistory) > .top-actions h3 {
-            border-left-color: #2878b8;
-            background: #eef6fc;
-            color: #205f91;
-        }
-
-        /* =========================
-           APPOINTMENTS - PURPLE
-        ========================= */
-
-        .patient-profile-modal .section:has(#appointmentHistory) {
-            border-top: 4px solid #7656a6;
-        }
-
-        .patient-profile-modal .section:has(#appointmentHistory) > h3 {
-            border-left-color: #7656a6;
-            background: #f5f1fa;
-            color: #60438e;
-        }
-
-        /* =========================
-           PATIENT TIMELINE - SLATE
-        ========================= */
-
-        .patient-profile-modal .section:has(#patientTimeline) {
-            border-top: 4px solid #526777;
-            background: #fbfcfd;
-        }
-
-        .patient-profile-modal .section:has(#patientTimeline) > h3 {
-            border-left-color: #526777;
-            background: #f0f4f7;
-            color: #405564;
-        }
-
-        #patientTimeline {
-            position: relative;
-            padding-left: 18px;
-        }
-
-        /* =========================
-           CONSULTATIONS - ORANGE
-        ========================= */
-
-        .patient-profile-modal .section:has(#consultationHistory) {
-            border-top: 4px solid #d87928;
-        }
-
-        .patient-profile-modal .section:has(#consultationHistory) > .top-actions h3 {
-            border-left-color: #d87928;
-            background: #fff5eb;
-            color: #a95d20;
-        }
-
-        /* =========================
-           LAB RESULTS - RED
-        ========================= */
-
-        .patient-profile-modal .section:has(#labResultsHistory) {
-            border-top: 4px solid #c74b4b;
-        }
-
-        .patient-profile-modal .section:has(#labResultsHistory) > .top-actions h3 {
-            border-left-color: #c74b4b;
-            background: #fff1f1;
-            color: #a43d3d;
-        }
-
-        /* =========================
-           LAB REQUESTS - TEAL
-        ========================= */
-
-        .patient-profile-modal .section:has(#labRequestsHistory) {
-            border-top: 4px solid #159a9c;
-        }
-
-        .patient-profile-modal .section:has(#labRequestsHistory) > .top-actions h3 {
-            border-left-color: #159a9c;
-            background: #edfafa;
-            color: #117578;
-        }
-
-        /* =========================
-           PRESCRIPTIONS - AMBER
-        ========================= */
-
-        .patient-profile-modal .section:has(#prescriptionHistory) {
-            border-top: 4px solid #c99425;
-        }
-
-        .patient-profile-modal .section:has(#prescriptionHistory) > .top-actions h3 {
-            border-left-color: #c99425;
-            background: #fff9e9;
-            color: #966f18;
-        }
-
-        /* =========================
-           BUTTON ALIGNMENT
-        ========================= */
-
-        .patient-profile-modal .section .top-actions {
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-
-        .patient-profile-modal .section .top-actions h3 {
-            flex: 1;
-            margin: 0;
-        }
-
-        @media (max-width: 700px) {
-
-            .patient-profile-modal {
-                padding: 18px;
-            }
-
-            .patient-header {
-                padding: 16px;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .patient-profile-modal .top-actions {
-                justify-content: stretch;
-                flex-wrap: wrap;
-            }
-
-            .patient-profile-modal .top-actions button {
-                width: 100%;
-            }
-
-            .patient-profile-modal .section .top-actions {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-        }
         @media (max-width: 700px) {
 
             nav {
@@ -1392,16 +720,6 @@
 }
 }
 
-
-/* Patient Timeline - heading/date spacing */
-#patientTimeline .timeline-type {
-    margin-bottom: 10px !important;
-}
-
-#patientTimeline .timeline-meta {
-    margin-top: 0 !important;
-    line-height: 1.5;
-}
 /* ==========================================
    PATIENT TIMELINE
 ========================================== */
@@ -1430,12 +748,12 @@
 
 .timeline-type {
     font-weight: bold;
-    font-size: 15px;`r`n    margin-bottom: 7px;
+    font-size: 15px;
 }
 
 .timeline-meta {
     color: #666;
-    font-size: 13px;`r`n    margin-top: 3px;
+    font-size: 13px;
 }
 
 .timeline-title {
@@ -2066,7 +1384,8 @@
         flex: 1;
     }
 }
-</style>
+
+    </style>
 <style>
 
 /* =====================================================
@@ -2253,6 +1572,7 @@
     }
 
 }
+
 </style>
 <style>
 @media print {
@@ -2778,7 +2098,7 @@
                 <div class="form-group">
 
                     <label for="vitalTemperature">
-                        Temperature (&deg;C)
+                        Temperature (�C)
                     </label>
 
                     <input
@@ -3401,27 +2721,27 @@
 
                     <div>
                         <strong>Patient Name:</strong>
-                        <span id="labRequestPatientName">ï¿½</span>
+                        <span id="labRequestPatientName">�</span>
                     </div>
 
                     <div>
                         <strong>Patient ID:</strong>
-                        <span id="labRequestPatientId">ï¿½</span>
+                        <span id="labRequestPatientId">�</span>
                     </div>
 
                     <div>
                         <strong>Date of Birth:</strong>
-                        <span id="labRequestPatientDob">ï¿½</span>
+                        <span id="labRequestPatientDob">�</span>
                     </div>
 
                     <div>
                         <strong>Gender:</strong>
-                        <span id="labRequestPatientGender">ï¿½</span>
+                        <span id="labRequestPatientGender">�</span>
                     </div>
 
                     <div>
                         <strong>Request Date:</strong>
-                        <span id="labRequestDateDisplay">ï¿½</span>
+                        <span id="labRequestDateDisplay">�</span>
                     </div>
 
                 </div>
@@ -5692,7 +5012,7 @@ async function loadVitalSigns(patientId) {
                         </td>
 
                         <td>
-                            ${vital.blood_pressure || "ï¿½"}
+                            ${vital.blood_pressure || "�"}
                         </td>
 
                         <td>
@@ -5700,15 +5020,15 @@ async function loadVitalSigns(patientId) {
                                 ? Number(
                                     vital.heart_rate
                                 ).toFixed(2)
-                                : "ï¿½"}
+                                : "�"}
                         </td>
 
                         <td>
                             ${vital.temperature != null
                                 ? Number(
                                     vital.temperature
-                                ).toFixed(2) + " &deg;C"
-                                : "ï¿½"}
+                                ).toFixed(2) + " �C"
+                                : "�"}
                         </td>
 
                         <td>
@@ -5716,7 +5036,7 @@ async function loadVitalSigns(patientId) {
                                 ? Number(
                                     vital.respiratory_rate
                                 ).toFixed(2) + " /min"
-                                : "ï¿½"}
+                                : "�"}
                         </td>
 
                         <td>
@@ -5724,7 +5044,7 @@ async function loadVitalSigns(patientId) {
                                 ? Number(
                                     vital.oxygen_saturation
                                 ).toFixed(2) + "%"
-                                : "ï¿½"}
+                                : "�"}
                         </td>
 
                         <td>
@@ -5732,7 +5052,7 @@ async function loadVitalSigns(patientId) {
                                 ? Number(
                                     vital.weight
                                 ).toFixed(2) + " kg"
-                                : "ï¿½"}
+                                : "�"}
                         </td>
 
                         <td>
@@ -5740,7 +5060,7 @@ async function loadVitalSigns(patientId) {
                                 ? Number(
                                     vital.height
                                 ).toFixed(2) + " cm"
-                                : "ï¿½"}
+                                : "�"}
                         </td>
 
                         <td>
@@ -5748,11 +5068,11 @@ async function loadVitalSigns(patientId) {
                                 ? Number(
                                     vital.bmi
                                 ).toFixed(2)
-                                : "ï¿½"}
+                                : "�"}
                         </td>
 
                         <td>
-                            ${vital.recorded_by || "ï¿½"}
+                            ${vital.recorded_by || "�"}
                         </td>
 
                         <td>
@@ -6463,7 +5783,7 @@ async function loadPatientTimeline(patientId) {
 
                                 ${
                                     event.doctor
-                                        ? ` &bull; ${escapeHtml(event.doctor)}`
+                                        ? ` � ${escapeHtml(event.doctor)}`
                                         : ""
                                 }
                             </div>
@@ -6814,7 +6134,7 @@ function displayConsultations(consultations) {
 
                             ${
                                 consultation.doctor
-                                    ? ` &bull; ${escapeHtml(
+                                    ? ` � ${escapeHtml(
                                         consultation.doctor
                                     )}`
                                     : ""
@@ -6822,7 +6142,7 @@ function displayConsultations(consultations) {
 
                             ${
                                 consultation.created_at
-                                    ? ` &bull; Entered ${escapeHtml(
+                                    ? ` � Entered ${escapeHtml(
                                         formatDateTime(
                                             consultation.created_at
                                         )
@@ -7666,7 +6986,7 @@ function displayPrescriptions(prescriptions) {
 
                                     ${
                                         prescription.doctor
-                                            ? ` &bull; ${escapeHtml(
+                                            ? ` � ${escapeHtml(
                                                 prescription.doctor
                                             )}`
                                             : ""
@@ -7674,7 +6994,7 @@ function displayPrescriptions(prescriptions) {
 
                                     ${
                                         prescription.created_at
-                                            ? ` &bull; Entered ${escapeHtml(
+                                            ? ` � Entered ${escapeHtml(
                                                 formatDateTime(
                                                     prescription.created_at
                                                 )
@@ -10242,111 +9562,6 @@ async function loadLaboratoryRequests(patientId) {
    LABORATORY RESULTS
 ===================================================== */
 
-
-async function deleteLaboratoryRequest(id) {
-
-    if (!id) {
-        console.error("Delete laboratory request: missing ID.");
-        return;
-    }
-
-    const confirmed = confirm(
-        "Are you sure you want to delete this laboratory request?"
-    );
-
-    if (!confirmed) {
-        return;
-    }
-
-    try {
-
-        const token = getToken();
-
-        const response = await fetch(
-            `${API_URL}/api/lab-requests/${Number(id)}`,
-            {
-                method: "DELETE",
-
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-        );
-
-        const data =
-            await response.json().catch(() => ({}));
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.message ||
-                "Failed to delete laboratory request."
-            );
-        }
-
-        /*
-         * Remove the deleted request from the screen immediately.
-         */
-        const deletedCard =
-            document.querySelector(
-                `.lab-request-card[data-request-id="${Number(id)}"]`
-            );
-
-        if (deletedCard) {
-            deletedCard.remove();
-        }
-
-        /*
-         * If there are no requests left,
-         * show the normal empty state.
-         */
-        const container =
-            document.getElementById("labRequestsHistory");
-
-        if (
-            container &&
-            !container.querySelector(".lab-request-card")
-        ) {
-
-            container.innerHTML = `
-                <div class="lab-request-empty">
-
-                    <div class="lab-request-empty-icon">
-                        ??
-                    </div>
-
-                    <h4>
-                        No Laboratory Requests
-                    </h4>
-
-                    <p>
-                        No laboratory investigations have
-                        been requested for this patient.
-                    </p>
-
-                </div>
-            `;
-        }
-
-        alert(
-            data.message ||
-            "Laboratory request deleted successfully."
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Delete laboratory request error:",
-            error
-        );
-
-        alert(
-            error.message ||
-            "Failed to delete laboratory request."
-        );
-    }
-}
-
 async function loadLaboratoryResults(patientId) {
 
     const container =
@@ -10404,27 +9619,27 @@ async function loadLaboratoryResults(patientId) {
 
                     <p>
                         <strong>Result:</strong>
-                        ${escapeHtml(lab.result_value || "ï¿½")}
+                        ${escapeHtml(lab.result_value || "�")}
                     </p>
 
                     <p>
                         <strong>Unit:</strong>
-                        ${escapeHtml(lab.unit || "ï¿½")}
+                        ${escapeHtml(lab.unit || "�")}
                     </p>
 
                     <p>
                         <strong>Reference Range:</strong>
-                        ${escapeHtml(lab.reference_range || "ï¿½")}
+                        ${escapeHtml(lab.reference_range || "�")}
                     </p>
 
                     <p>
                         <strong>Date:</strong>
-                        ${escapeHtml(lab.result_date || "ï¿½")}
+                        ${escapeHtml(lab.result_date || "�")}
                     </p>
 
                     <p>
                         <strong>Notes:</strong>
-                        ${escapeHtml(lab.notes || "ï¿½")}
+                        ${escapeHtml(lab.notes || "�")}
                     </p>
 
                     <div style="margin-top:10px;">
@@ -10935,12 +10150,22 @@ async function loadLaboratoryReports(patientId) {
                     <div class="lab-report-header">
 
                         <div>
-                            <div class="lab-report-date">Date: ${escapeHtml(report.result_date ? new Date(report.result_date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "N/A")}</div><h4>
+                            <h4>
                                 ${escapeHtml(
                                     report.test_name ||
                                     "Laboratory Report"
                                 )}
-                            </h4><div class="lab-report-meta"><span>
+                            </h4>
+
+                            <div class="lab-report-meta">
+                                <span>
+                                    Date:
+                                    ${escapeHtml(
+                                        report.result_date || "�"
+                                    )}
+                                </span>
+
+                                <span>
                                     Status:
                                     ${escapeHtml(
                                         report.status || "Final"
@@ -10999,21 +10224,21 @@ async function loadLaboratoryReports(patientId) {
                                             <td>
                                                 ${escapeHtml(
                                                     parameter.parameter_name ||
-                                                    "ï¿½"
+                                                    "�"
                                                 )}
                                             </td>
 
                                             <td class="lab-result-value">
                                                 ${escapeHtml(
                                                     parameter.result_value ||
-                                                    "ï¿½"
+                                                    "�"
                                                 )}
                                             </td>
 
                                             <td>
                                                 ${escapeHtml(
                                                     parameter.unit ||
-                                                    "ï¿½"
+                                                    "�"
                                                 )}
                                             </td>
 
@@ -11030,7 +10255,7 @@ async function loadLaboratoryReports(patientId) {
                                                 ">
                                                     ${escapeHtml(
                                                         parameter.flag ||
-                                                        "ï¿½"
+                                                        "�"
                                                     )}
                                                 </span>
                                             </td>
@@ -11038,7 +10263,7 @@ async function loadLaboratoryReports(patientId) {
                                             <td>
                                                 ${escapeHtml(
                                                     parameter.reference_range ||
-                                                    "ï¿½"
+                                                    "�"
                                                 )}
                                             </td>
 
@@ -11496,7 +10721,7 @@ clearLabRequestSignature();
         patientNameField.textContent =
             patientName
                 ? patientName.textContent.trim()
-                : "ï¿½";
+                : "�";
     }
 
     // Date of birth
@@ -11514,7 +10739,7 @@ clearLabRequestSignature();
         dobField.textContent =
             dob
                 ? dob.textContent.trim()
-                : "ï¿½";
+                : "�";
     }
 
     // Gender
@@ -11532,7 +10757,7 @@ clearLabRequestSignature();
         genderField.textContent =
             gender
                 ? gender.textContent.trim()
-                : "ï¿½";
+                : "�";
     }
 
     // Current date
@@ -12520,37 +11745,6 @@ loadPatients();
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
