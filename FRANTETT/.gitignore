@@ -10,3 +10,6 @@ backup/
 database-backup/
 
 database-backups/
+
+# Local database backups
+BACKUPS/
