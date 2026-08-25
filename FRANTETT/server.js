@@ -5477,68 +5477,107 @@ app.get("/api/patients/:patientId/lab-requests", async (req, res) => {
 });
 
 
-// Create laboratory request
-app.post("/api/patients/:patientId/lab-requests", async (req, res) => {
-    try {
+// =====================================================
+// CREATE LABORATORY REQUEST
+// =====================================================
 
-        const patientId = Number(req.params.patientId);
+app.post(
+    "/api/patients/:patientId/lab-requests",
+    async (req, res) => {
 
-        if (!Number.isInteger(patientId) || patientId <= 0) {
-            return res.status(400).json({
-                message: "Invalid patient ID."
-            });
-        }
+        try {
 
-        const {
-            requested_tests,
-            clinical_information,
-            requested_by,
-            request_date
-        } = req.body;
+            const patientId =
+                Number(req.params.patientId);
 
-        if (
-            !requested_tests ||
-            !String(requested_tests).trim()
-        ) {
-            return res.status(400).json({
-                message: "At least one laboratory investigation is required."
-            });
-        }
+            if (
+                !Number.isInteger(patientId) ||
+                patientId <= 0
+            ) {
+                return res.status(400).json({
+                    message: "Invalid patient ID."
+                });
+            }
 
-        const result = await pool.query(
-            `
-            INSERT INTO lab_requests (
-                patient_id,
+            const {
                 requested_tests,
                 clinical_information,
                 requested_by,
-                request_date
-            )
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING *
-            `,
-            [
-                patientId,
-                String(requested_tests).trim(),
-                clinical_information || null,
-                requested_by || null,
-                request_date || null
-            ]
-        );
+                request_date,
+                electronic_signature
+            } = req.body;
 
-        res.status(201).json(result.rows[0]);
+            if (
+                !requested_tests ||
+                !String(requested_tests).trim()
+            ) {
+                return res.status(400).json({
+                    message:
+                        "At least one laboratory investigation is required."
+                });
+            }
 
-    } catch (error) {
+            const result =
+                await pool.query(
+                    `
+                    INSERT INTO lab_requests (
+                        patient_id,
+                        requested_tests,
+                        clinical_information,
+                        requested_by,
+                        request_date,
+                        electronic_signature
+                    )
+                    VALUES ($1, $2, $3, $4, $5, $6)
+                    RETURNING *
+                    `,
+                    [
+                        patientId,
 
-        console.error("Create lab request error:", error);
+                        String(
+                            requested_tests
+                        ).trim(),
 
-        res.status(500).json({
-            message: "Failed to save laboratory request."
-        });
+                        clinical_information
+                            ? String(
+                                clinical_information
+                            ).trim()
+                            : null,
 
+                        requested_by
+                            ? String(
+                                requested_by
+                            ).trim()
+                            : null,
+
+                        request_date || null,
+
+                        electronic_signature
+                            ? String(
+                                electronic_signature
+                            )
+                            : null
+                    ]
+                );
+
+            res.status(201).json(
+                result.rows[0]
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Create lab request error:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to save laboratory request."
+            });
+        }
     }
-});
-
+);
 
 // Delete laboratory request
 app.delete("/api/lab-requests/:id", async (req, res) => {

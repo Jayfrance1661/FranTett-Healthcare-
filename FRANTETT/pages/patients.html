@@ -9438,6 +9438,269 @@ async function deleteLaboratoryReport(id) {
     }
 }
 
+// =====================================================
+// LABORATORY REQUEST ELECTRONIC SIGNATURE
+// =====================================================
+
+let labSignatureCanvas = null;
+let labSignatureContext = null;
+let labSignatureDrawing = false;
+
+
+// =====================================================
+// INITIALIZE LABORATORY REQUEST SIGNATURE
+// =====================================================
+
+function initializeLabRequestSignature() {
+
+    labSignatureCanvas =
+        document.getElementById(
+            "labRequestSignaturePad"
+        );
+
+    if (!labSignatureCanvas) {
+        console.error(
+            "Laboratory signature canvas not found."
+        );
+        return;
+    }
+
+
+    labSignatureContext =
+        labSignatureCanvas.getContext("2d");
+
+
+    // Clear canvas
+    labSignatureContext.clearRect(
+        0,
+        0,
+        labSignatureCanvas.width,
+        labSignatureCanvas.height
+    );
+
+
+    // White background
+    labSignatureContext.fillStyle = "#ffffff";
+
+    labSignatureContext.fillRect(
+        0,
+        0,
+        labSignatureCanvas.width,
+        labSignatureCanvas.height
+    );
+
+
+    // Blue signature ink
+    labSignatureContext.lineWidth = 2;
+
+    labSignatureContext.lineCap = "round";
+
+    labSignatureContext.lineJoin = "round";
+
+    labSignatureContext.strokeStyle = "#2563EB";
+
+
+    labSignatureDrawing = false;
+
+
+    // -------------------------------------------------
+    // Mouse events
+    // -------------------------------------------------
+
+    labSignatureCanvas.onmousedown =
+        function (event) {
+
+            labSignatureDrawing = true;
+
+            labSignatureContext.beginPath();
+
+            labSignatureContext.moveTo(
+                event.offsetX,
+                event.offsetY
+            );
+        };
+
+
+    labSignatureCanvas.onmousemove =
+        function (event) {
+
+            if (!labSignatureDrawing) {
+                return;
+            }
+
+            labSignatureContext.lineTo(
+                event.offsetX,
+                event.offsetY
+            );
+
+            labSignatureContext.stroke();
+        };
+
+
+    labSignatureCanvas.onmouseup =
+        function () {
+
+            labSignatureDrawing = false;
+
+            labSignatureContext.closePath();
+
+        };
+
+
+    labSignatureCanvas.onmouseleave =
+        function () {
+
+            labSignatureDrawing = false;
+
+        };
+
+
+    // -------------------------------------------------
+    // Touch events
+    // -------------------------------------------------
+
+    labSignatureCanvas.ontouchstart =
+        function (event) {
+
+            event.preventDefault();
+
+            const rect =
+                labSignatureCanvas.getBoundingClientRect();
+
+            const touch =
+                event.touches[0];
+
+            const x =
+                touch.clientX - rect.left;
+
+            const y =
+                touch.clientY - rect.top;
+
+
+            labSignatureDrawing = true;
+
+            labSignatureContext.beginPath();
+
+            labSignatureContext.moveTo(
+                x,
+                y
+            );
+        };
+
+
+    labSignatureCanvas.ontouchmove =
+        function (event) {
+
+            event.preventDefault();
+
+            if (!labSignatureDrawing) {
+                return;
+            }
+
+            const rect =
+                labSignatureCanvas.getBoundingClientRect();
+
+            const touch =
+                event.touches[0];
+
+            const x =
+                touch.clientX - rect.left;
+
+            const y =
+                touch.clientY - rect.top;
+
+
+            labSignatureContext.lineTo(
+                x,
+                y
+            );
+
+            labSignatureContext.stroke();
+        };
+
+
+    labSignatureCanvas.ontouchend =
+        function (event) {
+
+            event.preventDefault();
+
+            labSignatureDrawing = false;
+
+            labSignatureContext.closePath();
+
+        };
+
+
+    // -------------------------------------------------
+    // Signature status
+    // -------------------------------------------------
+
+    const status =
+        document.getElementById(
+            "labRequestSignatureStatus"
+        );
+
+    if (status) {
+
+        status.textContent =
+            "Signature not provided";
+
+    }
+}
+
+
+// =====================================================
+// CLEAR LABORATORY REQUEST SIGNATURE
+// =====================================================
+
+function clearLabRequestSignature() {
+
+    if (
+        !labSignatureCanvas ||
+        !labSignatureContext
+    ) {
+        initializeLabRequestSignature();
+        return;
+    }
+
+
+    labSignatureContext.clearRect(
+        0,
+        0,
+        labSignatureCanvas.width,
+        labSignatureCanvas.height
+    );
+
+
+    // Restore white background
+    labSignatureContext.fillStyle =
+        "#ffffff";
+
+    labSignatureContext.fillRect(
+        0,
+        0,
+        labSignatureCanvas.width,
+        labSignatureCanvas.height
+    );
+
+
+    // Restore blue ink
+    labSignatureContext.strokeStyle =
+        "#2563EB";
+
+
+    const status =
+        document.getElementById(
+            "labRequestSignatureStatus"
+        );
+
+    if (status) {
+
+        status.textContent =
+            "Signature not provided";
+
+    }
+}
 
 /* =====================================================
    LABORATORY REPORT PANEL FUNCTIONS
@@ -9594,26 +9857,51 @@ function closeLabRequestModal() {
     }
 }
 
+// =====================================================
+// SAVE LABORATORY REQUEST
+// Includes electronic signature
+// =====================================================
 
-// Save Laboratory Request
 async function saveLabRequest() {
 
+    // -------------------------------------------------
+    // Make sure a patient is open
+    // -------------------------------------------------
+
     if (!currentPatientId) {
-        alert("Please open a patient profile first.");
+
+        alert(
+            "Please open a patient profile first."
+        );
+
         return;
     }
 
+
+    // -------------------------------------------------
+    // Collect selected laboratory investigations
+    // -------------------------------------------------
+
     const selectedTests = [];
 
-    document.querySelectorAll(
-        ".lab-request-test:checked"
-    ).forEach(function (checkbox) {
+    document
+        .querySelectorAll(
+            ".lab-request-test:checked"
+        )
+        .forEach(
+            function (checkbox) {
 
-        selectedTests.push(
-            checkbox.value
+                selectedTests.push(
+                    checkbox.value
+                );
+
+            }
         );
 
-    });
+
+    // -------------------------------------------------
+    // Add "Other Investigation"
+    // -------------------------------------------------
 
     const otherTest =
         document.getElementById(
@@ -9624,81 +9912,189 @@ async function saveLabRequest() {
         otherTest &&
         otherTest.value.trim()
     ) {
+
         selectedTests.push(
             otherTest.value.trim()
         );
+
     }
 
-    if (selectedTests.length === 0) {
+
+    // -------------------------------------------------
+    // Require at least one investigation
+    // -------------------------------------------------
+
+    if (
+        selectedTests.length === 0
+    ) {
+
         alert(
             "Please select at least one laboratory investigation."
         );
+
         return;
     }
+
+
+    // -------------------------------------------------
+    // Get clinical information
+    // -------------------------------------------------
 
     const clinicalInformation =
         document.getElementById(
             "labRequestClinicalInformation"
         );
 
+
+    // -------------------------------------------------
+    // Get requesting clinician
+    // -------------------------------------------------
+
     const requestedBy =
         document.getElementById(
             "labRequestRequestedBy"
         );
+
+
+    // -------------------------------------------------
+    // Request date
+    // -------------------------------------------------
 
     const requestDate =
         new Date()
             .toISOString()
             .split("T")[0];
 
+
+    // -------------------------------------------------
+    // Get electronic signature
+    // -------------------------------------------------
+
+    const signatureCanvas =
+        document.getElementById(
+            "labRequestSignaturePad"
+        );
+
+    let electronicSignature = "";
+
+
+    if (signatureCanvas) {
+
+        electronicSignature =
+            signatureCanvas.toDataURL(
+                "image/png"
+            );
+
+    }
+
+
+    // -------------------------------------------------
+    // Make sure we actually captured the signature
+    // -------------------------------------------------
+
+    if (
+        !electronicSignature ||
+        electronicSignature.length < 100
+    ) {
+
+        alert(
+            "Please provide an electronic signature before saving the laboratory request."
+        );
+
+        return;
+    }
+
+
+    // -------------------------------------------------
+    // Prepare laboratory request
+    // -------------------------------------------------
+
+    const labRequestData = {
+
+        requested_tests:
+            selectedTests.join(", "),
+
+        clinical_information:
+            clinicalInformation
+                ? clinicalInformation.value.trim()
+                : "",
+
+        requested_by:
+            requestedBy
+                ? requestedBy.value.trim()
+                : "",
+
+        request_date:
+            requestDate,
+
+        electronic_signature:
+            electronicSignature
+
+    };
+
+
+    // -------------------------------------------------
+    // Send request to server
+    // -------------------------------------------------
+
     try {
 
-        const response = await fetch(
-            `${API_URL}/api/patients/${currentPatientId}/lab-requests`,
-            {
-                method: "POST",
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${currentPatientId}/lab-requests`,
+                {
+                    method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                body: JSON.stringify({
+                    body:
+                        JSON.stringify(
+                            labRequestData
+                        )
+                }
+            );
 
-                    requested_tests:
-                        selectedTests.join(", "),
 
-                    clinical_information:
-                        clinicalInformation
-                            ? clinicalInformation.value.trim()
-                            : "",
-
-                    requested_by:
-                        requestedBy
-                            ? requestedBy.value.trim()
-                            : "",
-
-                    request_date:
-                        requestDate
-
-                })
-            }
-        );
+        // -------------------------------------------------
+        // Read server response
+        // -------------------------------------------------
 
         const data =
             await response.json();
 
+
+        // -------------------------------------------------
+        // Handle server error
+        // -------------------------------------------------
+
         if (!response.ok) {
+
             throw new Error(
                 data.message ||
                 "Failed to save laboratory request."
             );
+
         }
+
+
+        // -------------------------------------------------
+        // Success
+        // -------------------------------------------------
 
         alert(
             "Laboratory request saved successfully."
         );
 
+
+        // -------------------------------------------------
+        // Close laboratory request modal
+        // -------------------------------------------------
+
         closeLabRequestModal();
+
 
     } catch (error) {
 
@@ -9711,298 +10107,10 @@ async function saveLabRequest() {
             error.message ||
             "Unable to save laboratory request."
         );
-    }
-}
 
-// =====================================================
-// ELECTRONIC SIGNATURE
-// =====================================================
-
-let labSignatureCanvas = null;
-let labSignatureContext = null;
-let labSignatureDrawing = false;
-let labSignatureHasContent = false;
-
-
-// Initialize signature pad
-function initializeLabRequestSignature() {
-
-    labSignatureCanvas =
-        document.getElementById(
-            "labRequestSignaturePad"
-        );
-
-    if (!labSignatureCanvas) {
-        return;
     }
 
-    labSignatureContext =
-        labSignatureCanvas.getContext("2d");
-
-    labSignatureContext.lineWidth = 2;
-    labSignatureContext.lineCap = "round";
-    labSignatureContext.lineJoin = "round";
-    labSignatureContext.strokeStyle = "#0057B8";
-
-    labSignatureCanvas.addEventListener(
-        "mousedown",
-        startLabSignature
-    );
-
-    labSignatureCanvas.addEventListener(
-        "mousemove",
-        drawLabSignature
-    );
-
-    labSignatureCanvas.addEventListener(
-        "mouseup",
-        stopLabSignature
-    );
-
-    labSignatureCanvas.addEventListener(
-        "mouseleave",
-        stopLabSignature
-    );
-
-
-    // Touchscreen support
-
-    labSignatureCanvas.addEventListener(
-        "touchstart",
-        startLabSignatureTouch,
-        { passive: false }
-    );
-
-    labSignatureCanvas.addEventListener(
-        "touchmove",
-        drawLabSignatureTouch,
-        { passive: false }
-    );
-
-    labSignatureCanvas.addEventListener(
-        "touchend",
-        stopLabSignatureTouch,
-        { passive: false }
-    );
 }
-
-
-// Get mouse position
-function getLabSignaturePosition(event) {
-
-    const rect =
-        labSignatureCanvas.getBoundingClientRect();
-
-    return {
-        x:
-            (event.clientX - rect.left) *
-            (labSignatureCanvas.width / rect.width),
-
-        y:
-            (event.clientY - rect.top) *
-            (labSignatureCanvas.height / rect.height)
-    };
-}
-
-
-// Start drawing
-function startLabSignature(event) {
-
-    if (!labSignatureContext) {
-        return;
-    }
-
-    labSignatureDrawing = true;
-
-    const position =
-        getLabSignaturePosition(event);
-
-    labSignatureContext.beginPath();
-
-    labSignatureContext.moveTo(
-        position.x,
-        position.y
-    );
-
-    labSignatureHasContent = true;
-
-    updateLabSignatureStatus();
-}
-
-
-// Draw
-function drawLabSignature(event) {
-
-    if (
-        !labSignatureDrawing ||
-        !labSignatureContext
-    ) {
-        return;
-    }
-
-    const position =
-        getLabSignaturePosition(event);
-
-    labSignatureContext.lineTo(
-        position.x,
-        position.y
-    );
-
-    labSignatureContext.stroke();
-}
-
-
-// Stop
-function stopLabSignature() {
-
-    labSignatureDrawing = false;
-}
-
-
-// Touch position
-function getLabSignatureTouchPosition(event) {
-
-    const touch =
-        event.touches[0];
-
-    const rect =
-        labSignatureCanvas.getBoundingClientRect();
-
-    return {
-        x:
-            (touch.clientX - rect.left) *
-            (labSignatureCanvas.width / rect.width),
-
-        y:
-            (touch.clientY - rect.top) *
-            (labSignatureCanvas.height / rect.height)
-    };
-}
-
-
-// Start touch drawing
-function startLabSignatureTouch(event) {
-
-    event.preventDefault();
-
-    if (!labSignatureContext) {
-        return;
-    }
-
-    labSignatureDrawing = true;
-
-    const position =
-        getLabSignatureTouchPosition(event);
-
-    labSignatureContext.beginPath();
-
-    labSignatureContext.moveTo(
-        position.x,
-        position.y
-    );
-
-    labSignatureHasContent = true;
-
-    updateLabSignatureStatus();
-}
-
-
-// Draw touch
-function drawLabSignatureTouch(event) {
-
-    event.preventDefault();
-
-    if (
-        !labSignatureDrawing ||
-        !labSignatureContext
-    ) {
-        return;
-    }
-
-    const position =
-        getLabSignatureTouchPosition(event);
-
-    labSignatureContext.lineTo(
-        position.x,
-        position.y
-    );
-
-    labSignatureContext.stroke();
-}
-
-
-// Stop touch
-function stopLabSignatureTouch(event) {
-
-    event.preventDefault();
-
-    labSignatureDrawing = false;
-}
-
-
-// Update status
-function updateLabSignatureStatus() {
-
-    const status =
-        document.getElementById(
-            "labRequestSignatureStatus"
-        );
-
-    if (!status) {
-        return;
-    }
-
-    status.textContent =
-        labSignatureHasContent
-            ? "Electronic signature added"
-            : "Signature not provided";
-
-    status.style.color =
-        labSignatureHasContent
-            ? "#166534"
-            : "#666";
-}
-
-
-// Clear signature
-function clearLabRequestSignature() {
-
-    if (
-        !labSignatureCanvas ||
-        !labSignatureContext
-    ) {
-        initializeLabRequestSignature();
-    }
-
-    if (
-        !labSignatureCanvas ||
-        !labSignatureContext
-    ) {
-        return;
-    }
-
-    labSignatureContext.clearRect(
-        0,
-        0,
-        labSignatureCanvas.width,
-        labSignatureCanvas.height
-    );
-
-    labSignatureHasContent = false;
-
-    updateLabSignatureStatus();
-}
-
-
-// Initialize when page loads
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        initializeLabRequestSignature();
-
-    }
-);
 
 // =====================================================
 // PRINT LABORATORY REQUEST - SINGLE A4 PAGE
