@@ -1,0 +1,1191 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Video Consultation | FranTett Healthcare</title>
+
+    <!-- LiveKit Client -->
+    <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #071b1a;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            height: 64px;
+            padding: 0 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: #0b2927;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .brand {
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .brand span {
+            display: block;
+            font-size: 11px;
+            font-weight: 400;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .connection {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            font-size: 12px;
+        }
+
+        .connection-dot {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #999;
+        }
+
+        .connection-dot.connected {
+            background: #2ecc71;
+        }
+
+        .connection-dot.error {
+            background: #e74c3c;
+        }
+
+        .main {
+            padding: 20px;
+
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .room-info {
+            margin-bottom: 18px;
+        }
+
+        .room-info h1 {
+            margin: 0 0 5px;
+
+            font-size: 22px;
+        }
+
+        .room-info p {
+            margin: 0;
+
+            color: #9fb3b1;
+
+            font-size: 12px;
+        }
+
+        .video-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 15px;
+
+            min-height: 500px;
+        }
+
+        .video-card {
+            position: relative;
+
+            background: #102523;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            border: 1px solid
+                rgba(255,255,255,0.08);
+
+            min-height: 350px;
+        }
+
+        .video-card video {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        .video-label {
+            position: absolute;
+
+            left: 14px;
+            bottom: 14px;
+
+            padding: 7px 10px;
+
+            border-radius: 8px;
+
+            background: rgba(0,0,0,0.65);
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .waiting {
+            position: absolute;
+
+            inset: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-direction: column;
+
+            gap: 8px;
+
+            color: #9fb3b1;
+
+            font-size: 13px;
+        }
+
+        .waiting strong {
+            color: white;
+
+            font-size: 16px;
+        }
+
+        .controls {
+            margin-top: 20px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .control-btn {
+            border: none;
+
+            min-width: 110px;
+
+            padding: 13px 18px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            background: #16413d;
+
+            color: white;
+
+            font-weight: 700;
+
+            font-size: 12px;
+        }
+
+        .control-btn:hover {
+            background: #205650;
+        }
+
+        .control-btn.off {
+            background: #7b2d2d;
+        }
+
+        .leave-btn {
+            background: #b42318;
+        }
+
+        .leave-btn:hover {
+            background: #d32f2f;
+        }
+
+        .status-message {
+            text-align: center;
+
+            margin-top: 15px;
+
+            min-height: 20px;
+
+            font-size: 12px;
+
+            color: #9fb3b1;
+        }
+
+        .error-message {
+            color: #ff8a80;
+        }
+
+        @media (max-width: 800px) {
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .video-card {
+                min-height: 300px;
+            }
+
+            .controls {
+                flex-wrap: wrap;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div class="brand">
+            FRANTETT HEALTHCARE
+            <span>Your Health, Our Priority</span>
+        </div>
+
+        <div class="connection">
+
+            <div
+                id="connectionDot"
+                class="connection-dot"
+            ></div>
+
+            <span id="connectionText">
+                Connecting...
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <div class="room-info">
+
+            <h1>
+                Video Consultation
+            </h1>
+
+            <p id="roomText">
+                Preparing consultation room...
+            </p>
+
+        </div>
+
+
+        <!-- VIDEO GRID -->
+        <div class="video-grid">
+
+            <!-- REMOTE PARTICIPANT -->
+            <div class="video-card">
+
+                <div
+                    id="remoteVideoContainer"
+                    style="width:100%;height:100%;"
+                ></div>
+
+                <div
+                    id="remoteWaiting"
+                    class="waiting"
+                >
+
+                    <strong>
+                        Waiting for participant
+                    </strong>
+
+                    <span>
+                        The other participant will appear here.
+                    </span>
+
+                </div>
+
+                <div class="video-label">
+                    Doctor / Patient
+                </div>
+
+            </div>
+
+
+            <!-- LOCAL PARTICIPANT -->
+            <div class="video-card">
+
+                <div
+                    id="localVideoContainer"
+                    style="width:100%;height:100%;"
+                ></div>
+
+                <div class="video-label">
+                    You
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTROLS -->
+        <div class="controls">
+
+            <button
+                id="micButton"
+                class="control-btn"
+                onclick="toggleMicrophone()"
+            >
+                ðŸŽ¤ Mute
+            </button>
+
+            <button
+                id="cameraButton"
+                class="control-btn"
+                onclick="toggleCamera()"
+            >
+                ðŸ“· Camera Off
+            </button>
+
+            <button
+                class="control-btn leave-btn"
+                onclick="leaveConsultation()"
+            >
+                Leave Consultation
+            </button>
+
+        </div>
+
+
+        <div
+            id="statusMessage"
+            class="status-message"
+        >
+            Connecting to consultation...
+        </div>
+
+    </main>
+
+
+<script>
+
+const API_URL = "http://localhost:3000";
+
+let room = null;
+
+let localVideoTrack = null;
+
+let localAudioTrack = null;
+
+
+/* ==========================================
+   AUTHENTICATION
+========================================== */
+
+function getToken() {
+
+    return localStorage.getItem(
+        "frantett_token"
+    );
+
+}
+
+
+function getAuthHeaders() {
+
+    const token = getToken();
+
+    return {
+
+        "Authorization":
+            `Bearer ${token}`,
+
+        "Content-Type":
+            "application/json"
+
+    };
+
+}
+
+
+/* ==========================================
+   GET ROOM NAME
+========================================== */
+
+function getRoomName() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    return params.get("room");
+
+}
+
+
+
+/* ==========================================
+   GET APPOINTMENT ID
+========================================== */
+
+function getAppointmentId() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    return params.get("appointment_id");
+
+}
+
+/* ==========================================
+   UPDATE STATUS
+========================================== */
+
+function setStatus(
+    message,
+    error = false
+) {
+
+    const element =
+        document.getElementById(
+            "statusMessage"
+        );
+
+    element.textContent =
+        message;
+
+    element.classList.toggle(
+        "error-message",
+        error
+    );
+
+}
+
+
+/* ==========================================
+   CONNECTION DISPLAY
+========================================== */
+
+function setConnection(
+    text,
+    connected = false,
+    error = false
+) {
+
+    document.getElementById(
+        "connectionText"
+    ).textContent = text;
+
+    const dot =
+        document.getElementById(
+            "connectionDot"
+        );
+
+    dot.classList.remove(
+        "connected",
+        "error"
+    );
+
+    if (connected) {
+
+        dot.classList.add(
+            "connected"
+        );
+
+    }
+
+    if (error) {
+
+        dot.classList.add(
+            "error"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   START CONSULTATION
+========================================== */
+
+async function startConsultation() {
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        setStatus(
+            "You are not logged in.",
+            true
+        );
+
+        setConnection(
+            "Not authenticated",
+            false,
+            true
+        );
+
+        return;
+
+    }
+
+
+    const appointmentId =
+        getAppointmentId();
+
+
+    if (!appointmentId) {
+
+        setStatus(
+            "No appointment ID was provided.",
+            true
+        );
+
+        setConnection(
+            "Appointment missing",
+            false,
+            true
+        );
+
+        return;
+
+    }
+
+    const roomName =
+        getRoomName();
+
+    if (!roomName) {
+
+        setStatus(
+            "No consultation room was provided.",
+            true
+        );
+
+        setConnection(
+            "Room missing",
+            false,
+            true
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "roomText"
+    ).textContent =
+        `Room: ${roomName}`;
+
+
+    try {
+
+        setStatus(
+            "Requesting secure consultation access..."
+        );
+
+
+        /*
+         * Request a LiveKit token
+         * from our Node.js server.
+         */
+
+        const response =
+            await fetch(
+                `${API_URL}/api/video/token`,
+                {
+
+                    method: "POST",
+
+                    headers:
+                        getAuthHeaders(),
+
+                    body:
+                        JSON.stringify({
+
+                            appointment_id:
+                                appointmentId,
+
+                            participant_name:
+                                "Participant"
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            setStatus(
+                "Your session has expired. Please log in again.",
+                true
+            );
+
+            setConnection(
+                "Authentication failed",
+                false,
+                true
+            );
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to obtain LiveKit token."
+            );
+
+        }
+
+
+        if (!data.token) {
+
+            throw new Error(
+                "Server did not return a LiveKit token."
+            );
+
+        }
+
+
+        if (!data.serverUrl) {
+
+            throw new Error(
+                "LiveKit server URL is missing."
+            );
+
+        }
+
+
+        setStatus(
+            "Connecting to LiveKit..."
+        );
+
+
+        /*
+         * Create LiveKit room.
+         */
+
+        room =
+            new LivekitClient.Room({
+
+                adaptiveStream: true,
+
+                dynacast: true
+
+            });
+
+
+        /*
+         * Listen for remote participants.
+         */
+
+        room.on(
+            LivekitClient.RoomEvent.TrackSubscribed,
+            handleTrackSubscribed
+        );
+
+
+        room.on(
+            LivekitClient.RoomEvent.TrackUnsubscribed,
+            handleTrackUnsubscribed
+        );
+
+
+        room.on(
+            LivekitClient.RoomEvent.ParticipantConnected,
+            participant => {
+
+                document.getElementById(
+                    "remoteWaiting"
+                ).style.display =
+                    "none";
+
+                setStatus(
+                    `${participant.identity} joined the consultation.`
+                );
+
+            }
+        );
+
+
+        room.on(
+            LivekitClient.RoomEvent.ParticipantDisconnected,
+            participant => {
+
+                const remoteContainer =
+                    document.getElementById(
+                        "remoteVideoContainer"
+                    );
+
+                remoteContainer.innerHTML =
+                    "";
+
+                document.getElementById(
+                    "remoteWaiting"
+                ).style.display =
+                    "flex";
+
+                setStatus(
+                    `${participant.identity} left the consultation.`
+                );
+
+            }
+        );
+
+
+        room.on(
+            LivekitClient.RoomEvent.Disconnected,
+            () => {
+
+                setConnection(
+                    "Disconnected",
+                    false,
+                    true
+                );
+
+                setStatus(
+                    "You have been disconnected from the consultation.",
+                    true
+                );
+
+            }
+        );
+
+
+        /*
+         * Connect.
+         */
+
+        await room.connect(
+            data.serverUrl,
+            data.token
+        );
+
+
+        setConnection(
+            "Connected",
+            true
+        );
+
+
+        setStatus(
+            "Connected to consultation."
+        );
+
+
+        /*
+         * Enable microphone and camera.
+         */
+
+        await room.localParticipant
+            .setMicrophoneEnabled(true);
+
+
+        await room.localParticipant
+            .setCameraEnabled(true);
+
+
+        /*
+         * Attach local tracks.
+         */
+
+        const localTracks =
+            room.localParticipant
+                .trackPublications;
+
+
+        localTracks.forEach(
+            publication => {
+
+                if (
+                    publication.track
+                ) {
+
+                    attachLocalTrack(
+                        publication.track
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+         * Check existing
+         * remote participants.
+         */
+
+        room.remoteParticipants
+            .forEach(
+                participant => {
+
+                    participant
+                        .trackPublications
+                        .forEach(
+                            publication => {
+
+                                if (
+                                    publication.track
+                                ) {
+
+                                    handleTrackSubscribed(
+                                        publication.track,
+                                        publication
+                                    );
+
+                                }
+
+                            }
+                        );
+
+                }
+            );
+
+
+    } catch (error) {
+
+        console.error(
+            "Consultation error:",
+            error
+        );
+
+        setStatus(
+            error.message ||
+            "Unable to connect to consultation.",
+            true
+        );
+
+        setConnection(
+            "Connection failed",
+            false,
+            true
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   REMOTE TRACK
+========================================== */
+
+function handleTrackSubscribed(
+    track,
+    publication
+) {
+
+    if (
+        !track ||
+        (
+            track.kind !==
+            "video" &&
+            track.kind !==
+            "audio"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const container =
+        document.getElementById(
+            "remoteVideoContainer"
+        );
+
+
+    const element =
+        track.attach();
+
+
+    element.style.width =
+        "100%";
+
+    element.style.height =
+        "100%";
+
+    element.style.objectFit =
+        "cover";
+
+
+    container.appendChild(
+        element
+    );
+
+
+    document.getElementById(
+        "remoteWaiting"
+    ).style.display =
+        "none";
+
+}
+
+
+/* ==========================================
+   REMOTE TRACK REMOVED
+========================================== */
+
+function handleTrackUnsubscribed(
+    track
+) {
+
+    track.detach();
+
+}
+
+
+/* ==========================================
+   LOCAL TRACK
+========================================== */
+
+function attachLocalTrack(
+    track
+) {
+
+    if (
+        !track
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        track.kind !==
+        "video"
+    ) {
+
+        return;
+
+    }
+
+
+    const container =
+        document.getElementById(
+            "localVideoContainer"
+        );
+
+
+    container.innerHTML =
+        "";
+
+
+    const element =
+        track.attach();
+
+
+    element.style.width =
+        "100%";
+
+    element.style.height =
+        "100%";
+
+    element.style.objectFit =
+        "cover";
+
+
+    container.appendChild(
+        element
+    );
+
+
+    localVideoTrack =
+        track;
+
+}
+
+
+/* ==========================================
+   MICROPHONE
+========================================== */
+
+async function toggleMicrophone() {
+
+    if (!room) {
+        return;
+    }
+
+
+    const enabled =
+        room.localParticipant
+            .isMicrophoneEnabled;
+
+
+    await room.localParticipant
+        .setMicrophoneEnabled(
+            !enabled
+        );
+
+
+    const button =
+        document.getElementById(
+            "micButton"
+        );
+
+
+    if (enabled) {
+
+        button.textContent =
+            "ðŸŽ¤ Unmute";
+
+        button.classList.add(
+            "off"
+        );
+
+    } else {
+
+        button.textContent =
+            "ðŸŽ¤ Mute";
+
+        button.classList.remove(
+            "off"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   CAMERA
+========================================== */
+
+async function toggleCamera() {
+
+    if (!room) {
+        return;
+    }
+
+
+    const enabled =
+        room.localParticipant
+            .isCameraEnabled;
+
+
+    await room.localParticipant
+        .setCameraEnabled(
+            !enabled
+        );
+
+
+    const button =
+        document.getElementById(
+            "cameraButton"
+        );
+
+
+    if (enabled) {
+
+        button.textContent =
+            "ðŸ“· Camera On";
+
+        button.classList.add(
+            "off"
+        );
+
+    } else {
+
+        button.textContent =
+            "ðŸ“· Camera Off";
+
+        button.classList.remove(
+            "off"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   LEAVE CONSULTATION
+========================================== */
+
+async function leaveConsultation() {
+
+    if (room) {
+
+        await room.disconnect();
+
+        room = null;
+
+    }
+
+
+    window.history.back();
+
+}
+
+
+/* ==========================================
+   PAGE START
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        startConsultation();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+
+
+
+
+

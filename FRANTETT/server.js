@@ -5,7 +5,9 @@ const { Pool } = require("pg");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const { AccessToken } = require("livekit-server-sdk");
 require("dotenv").config();
+
 
 const app = express();
 
@@ -36,6 +38,90 @@ function generateMeetingRoom() {
     return "frantett-" + crypto.randomBytes(16).toString("hex");
 }
 
+// ==========================================
+// LIVEKIT VIDEO CONSULTATION TOKEN
+// ==========================================
+
+app.post(
+    "/api/livekit/token",
+    authenticateToken,
+    async (req, res) => {
+
+        try {
+
+            const {
+                roomName,
+                participantName,
+                participantIdentity
+            } = req.body;
+
+            if (!roomName) {
+                return res.status(400).json({
+                    message: "Room name is required."
+                });
+            }
+
+            if (!process.env.LIVEKIT_API_KEY ||
+                !process.env.LIVEKIT_API_SECRET) {
+
+                return res.status(500).json({
+                    message:
+                        "LiveKit server credentials are not configured."
+                });
+
+            }
+
+            const identity =
+                participantIdentity ||
+                `user-${req.user.id}`;
+
+            const name =
+                participantName ||
+                req.user.email ||
+                identity;
+
+            const token =
+                new AccessToken(
+                    process.env.LIVEKIT_API_KEY,
+                    process.env.LIVEKIT_API_SECRET,
+                    {
+                        identity: identity,
+                        name: name,
+                        ttl: "2h"
+                    }
+                );
+
+            token.addGrant({
+                roomJoin: true,
+                room: roomName,
+                canPublish: true,
+                canSubscribe: true
+            });
+
+            const jwt =
+                await token.toJwt();
+
+            res.json({
+                token: jwt,
+                url: process.env.LIVEKIT_URL
+            });
+
+        } catch (error) {
+
+            console.error(
+                "LiveKit token error:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to generate LiveKit token."
+            });
+
+        }
+
+    }
+);
 
 // ==========================================
 // POSTGRESQL CONNECTION
@@ -1061,6 +1147,102 @@ function authenticateToken(req, res, next) {
     );
 
 }
+
+// ==========================================
+// LIVEKIT VIDEO CONSULTATION TOKEN
+// ==========================================
+
+app.post(
+    "/api/livekit/token",
+    authenticateToken,
+    async (req, res) => {
+
+        try {
+
+            const {
+                roomName,
+                participantName,
+                participantIdentity
+            } = req.body;
+
+            if (!roomName) {
+
+                return res.status(400).json({
+                    message:
+                        "Room name is required."
+                });
+
+            }
+
+            if (
+                !process.env.LIVEKIT_API_KEY ||
+                !process.env.LIVEKIT_API_SECRET ||
+                !process.env.LIVEKIT_URL
+            ) {
+
+                return res.status(500).json({
+                    message:
+                        "LiveKit server credentials are not configured."
+                });
+
+            }
+
+            const identity =
+                participantIdentity ||
+                `user-${req.user.id}`;
+
+            const name =
+                participantName ||
+                req.user.email ||
+                identity;
+
+            const token =
+                new AccessToken(
+                    process.env.LIVEKIT_API_KEY,
+                    process.env.LIVEKIT_API_SECRET,
+                    {
+                        identity: identity,
+                        name: name,
+                        ttl: "2h"
+                    }
+                );
+
+            token.addGrant({
+                roomJoin: true,
+                room: roomName,
+                canPublish: true,
+                canSubscribe: true
+            });
+
+            const jwtToken =
+                await token.toJwt();
+
+            res.json({
+                token: jwtToken,
+                url: process.env.LIVEKIT_URL
+            });
+
+        } catch (error) {
+
+            console.error(
+                "LiveKit token error:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to generate LiveKit token."
+            });
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// ADMIN-ONLY ACCESS
+// ==========================================
 
 
 // ==========================================
@@ -2283,6 +2465,7 @@ app.post(
                     newPatient.rows[0];
 
             }
+
 // ==========================================
 // CREATE APPOINTMENT
 // LINK APPOINTMENT TO PATIENT + DOCTOR + VIDEO
@@ -2332,7 +2515,7 @@ const appointmentResult =
             reason,
             patient.id,
             meetingRoom,
-            "jitsi"
+            "livekit"
         ]
     );
 
@@ -6158,6 +6341,146 @@ app.delete("/api/labs/:id", async (req, res) => {
     }
 });
 
+// ==========================================
+// LIVEKIT VIDEO TOKEN
+// ==========================================
+
+app.post(
+    "/api/video/token",
+    authenticateToken,
+    async (req, res) => {
+
+        try {
+
+            const {
+                appointment_id,
+                participant_name
+            } = req.body;
+
+            if (!appointment_id) {
+                return res.status(400).json({
+                    message: "Appointment ID is required."
+                });
+            }
+
+            // Find appointment
+            const result = await pool.query(
+                `
+                SELECT
+                    id,
+                    meeting_room,
+                    meeting_provider,
+                    status
+                FROM appointments
+                WHERE id = $1
+                LIMIT 1
+                `,
+                [appointment_id]
+            );
+
+            if (result.rows.length === 0) {
+                return res.status(404).json({
+                    message: "Appointment not found."
+                });
+            }
+
+            const appointment = result.rows[0];
+
+            if (!appointment.meeting_room) {
+                return res.status(400).json({
+                    message: "No video meeting room exists for this appointment."
+                });
+            }
+
+            if (appointment.meeting_provider !== "livekit") {
+                return res.status(400).json({
+                    message: "This appointment is not configured for LiveKit."
+                });
+            }
+
+            // ------------------------------------------
+            // LIVEKIT SERVER CONFIGURATION
+            // ------------------------------------------
+
+            const LIVEKIT_API_KEY =
+                process.env.LIVEKIT_API_KEY;
+
+            const LIVEKIT_API_SECRET =
+                process.env.LIVEKIT_API_SECRET;
+
+            const LIVEKIT_URL =
+                process.env.LIVEKIT_URL;
+
+            if (
+                !LIVEKIT_API_KEY ||
+                !LIVEKIT_API_SECRET ||
+                !LIVEKIT_URL
+            ) {
+
+                console.error(
+                    "LiveKit environment variables are missing."
+                );
+
+                return res.status(500).json({
+                    message:
+                        "Video service is not configured."
+                });
+            }
+
+            // ------------------------------------------
+            // CREATE PARTICIPANT TOKEN
+            // ------------------------------------------
+
+            const participantIdentity =
+                `${req.user.id}-${Date.now()}`;
+
+            const participantName =
+                participant_name ||
+                req.user.email ||
+                "Participant";
+
+            const token =
+                new AccessToken(
+                    LIVEKIT_API_KEY,
+                    LIVEKIT_API_SECRET,
+                    {
+                        identity: participantIdentity,
+                        name: participantName,
+                        ttl: "2h"
+                    }
+                );
+
+            token.addGrant({
+                roomJoin: true,
+                room: appointment.meeting_room,
+                canPublish: true,
+                canSubscribe: true
+            });
+
+            const jwtToken =
+                await token.toJwt();
+
+            res.json({
+                token: jwtToken,
+                serverUrl: LIVEKIT_URL,
+                roomName: appointment.meeting_room
+            });
+
+        } catch (error) {
+
+            console.error(
+                "LiveKit token error:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to create video access token."
+            });
+
+        }
+    }
+);
 
 // ==========================================
 // START SERVER

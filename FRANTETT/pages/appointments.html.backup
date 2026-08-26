@@ -2343,25 +2343,6 @@ function renderAppointments(
                 }
 
 
-
-                if (status === "Confirmed" && appointment.meeting_room) {
-
-                    actions += `
-                        <button
-                            type="button"
-                            class="confirm-btn"
-                            onclick="joinConsultation(
-                                ${appointment.id},
-                                '${appointment.meeting_room}'
-                            )"
-                        >
-                            Join Consultation
-                        </button>
-                    `;
-
-                }
-
-
                 actions += `
                     <button
                         class="delete-btn"
@@ -4053,43 +4034,11 @@ async function saveStaffAppointment() {
 }
 
 
-
-/* ==========================================
-   JOIN VIDEO CONSULTATION
-========================================== */
-
-function joinConsultation(appointmentId, roomName) {
-
-    if (!roomName) {
-
-        alert("This appointment does not have a consultation room.");
-
-        return;
-
-    }
-
-    const token = localStorage.getItem("frantett_token");
-
-    if (!token) {
-
-        alert("Your session has expired. Please log in again.");
-
-        return;
-
-    }
-
-    window.location.href =
-        `/pages/consultation.html?appointment_id=${encodeURIComponent(appointmentId)}&room=${encodeURIComponent(roomName)}`;
-
-}
-
 </script>
 
 </body>
 
 </html>
-
-
 
 
 

@@ -4058,7 +4058,7 @@ async function saveStaffAppointment() {
    JOIN VIDEO CONSULTATION
 ========================================== */
 
-function joinConsultation(appointmentId, roomName) {
+function joinConsultation(roomName) {
 
     if (!roomName) {
 
@@ -4079,7 +4079,7 @@ function joinConsultation(appointmentId, roomName) {
     }
 
     window.location.href =
-        `/pages/consultation.html?appointment_id=${encodeURIComponent(appointmentId)}&room=${encodeURIComponent(roomName)}`;
+        `/pages/consultation.html?room=${encodeURIComponent(roomName)}`;
 
 }
 
@@ -4088,7 +4088,6 @@ function joinConsultation(appointmentId, roomName) {
 </body>
 
 </html>
-
 
 
 
