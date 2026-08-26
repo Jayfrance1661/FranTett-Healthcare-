@@ -4,6 +4,7 @@ const path = require("path");
 const { Pool } = require("pg");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 require("dotenv").config();
 
 const app = express();
@@ -26,6 +27,15 @@ if (!JWT_SECRET) {
     console.error("ERROR: JWT_SECRET is missing from .env");
     process.exit(1);
 }
+
+// ==========================================
+// VIDEO CONSULTATION MEETING ROOM GENERATOR
+// ==========================================
+
+function generateMeetingRoom() {
+    return "frantett-" + crypto.randomBytes(16).toString("hex");
+}
+
 
 // ==========================================
 // POSTGRESQL CONNECTION
@@ -2140,7 +2150,7 @@ app.post(
                     FROM appointments
                     WHERE doctor = $1
                     AND appointment_date = $2::date
-                    AND appointment_time = $3::time
+                    AND appointment_time::time = $3::time
                     AND COALESCE(status, 'Pending')
                         NOT IN ('Cancelled', 'Canceled')
                     LIMIT 1
@@ -2273,11 +2283,12 @@ app.post(
                     newPatient.rows[0];
 
             }
-
-            // ----------------------------------
+// ==========================================
 // CREATE APPOINTMENT
-// LINK APPOINTMENT TO PATIENT
-// ----------------------------------
+// LINK APPOINTMENT TO PATIENT + DOCTOR + VIDEO
+// ==========================================
+
+const meetingRoom = generateMeetingRoom();
 
 const appointmentResult =
     await client.query(
@@ -2287,10 +2298,13 @@ const appointmentResult =
             email,
             phone,
             doctor,
+            doctor_id,
             appointment_date,
             appointment_time,
             reason,
-            patient_id
+            patient_id,
+            meeting_room,
+            meeting_provider
         )
         VALUES
         (
@@ -2301,21 +2315,28 @@ const appointmentResult =
             $5,
             $6,
             $7,
-            $8
+            $8,
+            $9,
+            $10,
+            $11
         )
         RETURNING *`,
         [
             name,
             email,
             phone,
-            doctor,
+            selectedDoctor.name,
+            selectedDoctor.id,
             appointment_date,
             appointment_time,
             reason,
-            patient.id
+            patient.id,
+            meetingRoom,
+            "jitsi"
         ]
     );
-            await client.query("COMMIT");
+
+                await client.query("COMMIT");
 
             console.log("New Patient:");
             console.log(patient);
@@ -2349,8 +2370,9 @@ const appointmentResult =
         } finally {
 
             if (client) {
-    client.release();
-}
+                client.release();
+            }
+
         }
 
     }
