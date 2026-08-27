@@ -2504,6 +2504,46 @@ function populateForm(
         consultation.appointment_id
     );
 
+    setValue(
+    "bloodPressure",
+    consultation.blood_pressure
+);
+
+setValue(
+    "heartRate",
+    consultation.heart_rate
+);
+
+setValue(
+    "temperature",
+    consultation.temperature
+);
+
+setValue(
+    "respiratoryRate",
+    consultation.respiratory_rate
+);
+
+setValue(
+    "oxygenSaturation",
+    consultation.oxygen_saturation
+);
+
+setValue(
+    "weight",
+    consultation.weight
+);
+
+setValue(
+    "height",
+    consultation.height
+);
+
+setValue(
+    "bmi",
+    consultation.bmi
+);
+
 
     setValue(
         "chiefComplaint",
@@ -2680,11 +2720,50 @@ function buildPayload() {
             value("doctor") ||
             null,
 
-        consultation_date:
-            value("consultationDate") ||
-            null,
+       consultation_date:
+    value("consultationDate") ||
+    null,
 
-        chief_complaint:
+blood_pressure:
+    value("bloodPressure") ||
+    null,
+
+heart_rate:
+    value("heartRate")
+        ? Number(value("heartRate"))
+        : null,
+
+temperature:
+    value("temperature")
+        ? Number(value("temperature"))
+        : null,
+
+respiratory_rate:
+    value("respiratoryRate")
+        ? Number(value("respiratoryRate"))
+        : null,
+
+oxygen_saturation:
+    value("oxygenSaturation")
+        ? Number(value("oxygenSaturation"))
+        : null,
+
+weight:
+    value("weight")
+        ? Number(value("weight"))
+        : null,
+
+height:
+    value("height")
+        ? Number(value("height"))
+        : null,
+
+bmi:
+    value("bmi")
+        ? Number(value("bmi"))
+        : null,
+
+chief_complaint:
             value("chiefComplaint") ||
             null,
 

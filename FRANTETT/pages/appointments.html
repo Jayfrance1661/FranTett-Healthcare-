@@ -2342,7 +2342,22 @@ function renderAppointments(
 
                 }
 
+if (status === "Confirmed" && appointment.patient_id) {
 
+    actions += `
+        <button
+            type="button"
+            class="confirm-btn"
+            onclick="openConsultationForm(
+                ${appointment.id},
+                ${appointment.patient_id}
+            )"
+        >
+            Clinical Consultation
+        </button>
+    `;
+
+}
 
                 if (status === "Confirmed" && appointment.meeting_room) {
 
@@ -4053,7 +4068,125 @@ async function saveStaffAppointment() {
 
 }
 
+async function openConsultationForm(
+    appointmentId,
+    patientId
+) {
 
+    if (!appointmentId) {
+
+        alert("Appointment ID is missing.");
+
+        return;
+
+    }
+
+    if (!patientId) {
+
+        alert("Patient ID is missing.");
+
+        return;
+
+    }
+
+    try {
+
+        const token =
+    localStorage.getItem("frantett_token");
+
+        if (!token) {
+
+            alert(
+                "Your session has expired. Please log in again."
+            );
+
+            return;
+
+        }
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${encodeURIComponent(patientId)}/consultations`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to check previous consultations."
+            );
+
+        }
+
+        const data =
+            await response.json();
+
+        const consultations =
+            data.consultations ||
+            data;
+
+        /*
+         * Look for a consultation belonging
+         * to this specific appointment.
+         */
+
+        const existingConsultation =
+            Array.isArray(consultations)
+                ? consultations.find(
+                    consultation =>
+                        String(
+                            consultation.appointment_id
+                        ) ===
+                        String(appointmentId)
+                )
+                : null;
+
+
+        /*
+         * EXISTING CONSULTATION
+         *
+         * Open it in edit mode.
+         */
+
+        if (existingConsultation) {
+
+            window.location.href =
+                `/pages/consultation-form.html?appointment_id=${encodeURIComponent(appointmentId)}&patient_id=${encodeURIComponent(patientId)}&consultation_id=${encodeURIComponent(existingConsultation.id)}`;
+
+            return;
+
+        }
+
+
+        /*
+         * NO EXISTING CONSULTATION
+         *
+         * Open a new consultation.
+         */
+
+        window.location.href =
+            `/pages/consultation-form.html?appointment_id=${encodeURIComponent(appointmentId)}&patient_id=${encodeURIComponent(patientId)}`;
+
+    } catch (error) {
+
+        console.error(
+            "Error checking existing consultation:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to check previous consultation."
+        );
+
+    }
+
+}
 
 /* ==========================================
    JOIN VIDEO CONSULTATION

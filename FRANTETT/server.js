@@ -3154,16 +3154,26 @@ app.get(
 
         try {
 
-            const result =
-                await pool.query(
-                    `
-                    SELECT
-                        id,
-                        patient_id,
-                        doctor,
-                        consultation_date,
+    const result =
+        await pool.query(
+            `
+            SELECT
+    id,
+    patient_id,
+    appointment_id,
+    doctor,
+    consultation_date,
 
-                        chief_complaint,
+    blood_pressure,
+    heart_rate,
+    temperature,
+    respiratory_rate,
+    oxygen_saturation,
+    weight,
+    height,
+    bmi,
+
+    chief_complaint,
                         history_of_presenting_complaint,
                         past_medical_history,
                         drug_allergy_history,
@@ -3243,10 +3253,20 @@ app.get(
                 await pool.query(
                     `
                     SELECT
-                        id,
-                        patient_id,
-                        doctor,
-                        consultation_date,
+                    id,
+                     patient_id,
+                     appointment_id,
+                     doctor,
+                      consultation_date,
+
+                       blood_pressure,
+                      heart_rate,
+                     temperature,
+                     respiratory_rate,
+                     oxygen_saturation,
+                    weight,
+                     height,
+                      bmi,
 
                         chief_complaint,
                         history_of_presenting_complaint,
@@ -3327,12 +3347,21 @@ app.post(
 
         }
 
-        const {
+const {
     appointment_id,
     doctor,
     consultation_date,
 
-            chief_complaint,
+    blood_pressure,
+    heart_rate,
+    temperature,
+    respiratory_rate,
+    oxygen_saturation,
+    weight,
+    height,
+    bmi,
+
+    chief_complaint,
             history_of_presenting_complaint,
             past_medical_history,
             drug_allergy_history,
@@ -3443,12 +3472,21 @@ if (
                 await pool.query(
                     `
                     INSERT INTO consultations (
-                     patient_id,
-                      appointment_id,
-                       doctor,
-                        consultation_date,
+    patient_id,
+    appointment_id,
+    doctor,
+    consultation_date,
 
-                        chief_complaint,
+    blood_pressure,
+    heart_rate,
+    temperature,
+    respiratory_rate,
+    oxygen_saturation,
+    weight,
+    height,
+    bmi,
+
+    chief_complaint,
                         history_of_presenting_complaint,
                         past_medical_history,
                         drug_allergy_history,
@@ -3484,47 +3522,62 @@ if (
     $10,
     $11,
     $12,
+
     $13,
     $14,
     $15,
     $16,
     $17,
     $18,
-
     $19,
     $20,
-    $21
+    $21,
+
+    $22,
+    $23,
+    $24,
+    $25,
+    $26,
+    $27,
+    $28
 
 )
 
                     RETURNING *
                     `,
-                   [
+                  [
     patientId,
     appointment_id,
     doctor || null,
     consultation_date || null,
 
+    blood_pressure || null,
+    heart_rate || null,
+    temperature || null,
+    respiratory_rate || null,
+    oxygen_saturation || null,
+    weight || null,
+    height || null,
+    bmi || null,
+
     chief_complaint || null,
-                        history_of_presenting_complaint || null,
-                        past_medical_history || null,
-                        drug_allergy_history || null,
-                        family_history || null,
-                        social_history || null,
-                        systems_review || null,
-                        summary || null,
-                        examination || null,
-                        investigations || null,
-                        differential_diagnosis || null,
-                        diagnosis || null,
-                        management_plan || null,
-                        treatment || null,
+    history_of_presenting_complaint || null,
+    past_medical_history || null,
+    drug_allergy_history || null,
+    family_history || null,
+    social_history || null,
+    systems_review || null,
+    summary || null,
+    examination || null,
+    investigations || null,
+    differential_diagnosis || null,
+    diagnosis || null,
+    management_plan || null,
+    treatment || null,
 
-
-                        clinical_notes || null,
-                        follow_up_date || null
-
-                    ]
+    clinical_notes || null,
+    follow_up_date || null
+]
                 );
 
 
@@ -3579,9 +3632,20 @@ app.put(
 
 
         const {
-    appointment_id,
-    doctor,
-    consultation_date,
+    id,
+patient_id,
+appointment_id,
+doctor,
+consultation_date,
+
+blood_pressure,
+heart_rate,
+temperature,
+respiratory_rate,
+oxygen_saturation,
+weight,
+height,
+bmi,
 
             chief_complaint,
             history_of_presenting_complaint,
@@ -3610,64 +3674,79 @@ app.put(
             const result =
                 await pool.query(
                     `
+
                     UPDATE consultations
 
-                    SET
+SET
 
-                        doctor = $1,
-                        consultation_date = $2,
+    doctor = $1,
+    consultation_date = $2,
 
-                        chief_complaint = $3,
-                        history_of_presenting_complaint = $4,
-                        past_medical_history = $5,
-                        drug_allergy_history = $6,
-                        family_history = $7,
-                        social_history = $8,
-                        systems_review = $9,
-                        summary = $10,
-                        examination = $11,
-                        investigations = $12,
-                        differential_diagnosis = $13,
-                        diagnosis = $14,
-                        management_plan = $15,
-                        treatment = $16,
+    blood_pressure = $3,
+    heart_rate = $4,
+    temperature = $5,
+    respiratory_rate = $6,
+    oxygen_saturation = $7,
+    weight = $8,
+    height = $9,
+    bmi = $10,
 
+    chief_complaint = $11,
+    history_of_presenting_complaint = $12,
+    past_medical_history = $13,
+    drug_allergy_history = $14,
+    family_history = $15,
+    social_history = $16,
+    systems_review = $17,
+    summary = $18,
+    examination = $19,
+    investigations = $20,
+    differential_diagnosis = $21,
+    diagnosis = $22,
+    management_plan = $23,
+    treatment = $24,
 
-                        clinical_notes = $18,
-                        follow_up_date = $19,
+    clinical_notes = $25,
+    follow_up_date = $26,
 
-                        updated_at =
-                            CURRENT_TIMESTAMP
+    updated_at = CURRENT_TIMESTAMP
 
-                    WHERE id = $20
-
+WHERE id = $27
                     RETURNING *
                     `,
                     [
 
                         doctor || null,
-                        consultation_date || null,
+consultation_date || null,
 
-                        chief_complaint || null,
-                        history_of_presenting_complaint || null,
-                        past_medical_history || null,
-                        drug_allergy_history || null,
-                        family_history || null,
-                        social_history || null,
-                        systems_review || null,
-                        summary || null,
-                        examination || null,
-                        investigations || null,
-                        differential_diagnosis || null,
-                        diagnosis || null,
-                        management_plan || null,
-                        treatment || null,
+blood_pressure || null,
+heart_rate || null,
+temperature || null,
+respiratory_rate || null,
+oxygen_saturation || null,
+weight || null,
+height || null,
+bmi || null,
 
+chief_complaint || null,
+history_of_presenting_complaint || null,
+past_medical_history || null,
+drug_allergy_history || null,
+family_history || null,
+social_history || null,
+systems_review || null,
+summary || null,
+examination || null,
+investigations || null,
+differential_diagnosis || null,
+diagnosis || null,
+management_plan || null,
+treatment || null,
 
-                        clinical_notes || null,
-                        follow_up_date || null,
+clinical_notes || null,
+follow_up_date || null,
 
-                        consultationId
+consultationId
 
                     ]
                 );
@@ -6467,6 +6546,9 @@ app.listen(
 
     }
 );
+
+
+
 
 
 
