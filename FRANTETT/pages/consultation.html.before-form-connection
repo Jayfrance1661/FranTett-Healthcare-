@@ -246,195 +246,21 @@
             color: #ff8a80;
         }
 
-/* ==========================================
-   CONSULTATION WORKSPACE
-========================================== */
+        @media (max-width: 800px) {
 
-.consultation-workspace {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
 
-    display: grid;
+            .video-card {
+                min-height: 300px;
+            }
 
-    grid-template-columns:
-        minmax(0, 1.15fr)
-        minmax(420px, .85fr);
+            .controls {
+                flex-wrap: wrap;
+            }
 
-    gap: 18px;
-
-    align-items: start;
-
-}
-
-
-/* ==========================================
-   VIDEO PANEL
-========================================== */
-
-.video-panel {
-
-    background: #0b2927;
-
-    border-radius: 16px;
-
-    padding: 16px;
-
-    border: 1px solid
-        rgba(255,255,255,.08);
-
-    position: sticky;
-
-    top: 15px;
-
-}
-
-
-.video-panel-header {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    gap: 10px;
-
-    margin-bottom: 14px;
-
-}
-
-
-.video-panel-header strong {
-
-    font-size: 15px;
-
-}
-
-
-.video-panel-header span {
-
-    font-size: 11px;
-
-    color: #9fb3b1;
-
-}
-
-
-/* ==========================================
-   CLINICAL PANEL
-========================================== */
-
-.clinical-panel {
-
-    background: #ffffff;
-
-    border-radius: 16px;
-
-    overflow: hidden;
-
-    border: 1px solid #d9e2e1;
-
-    min-height: 760px;
-
-}
-
-
-.clinical-panel-header {
-
-    padding: 16px 18px;
-
-    background: #0b2927;
-
-    color: white;
-
-}
-
-
-.clinical-panel-header strong {
-
-    display: block;
-
-    font-size: 15px;
-
-}
-
-
-.clinical-panel-header span {
-
-    display: block;
-
-    margin-top: 4px;
-
-    font-size: 11px;
-
-    color: #b8ccca;
-
-}
-
-
-.clinical-form-wrapper {
-
-    width: 100%;
-
-    height: 850px;
-
-    background: #f4f7f7;
-
-}
-
-
-#consultationFormFrame {
-
-    width: 100%;
-
-    height: 100%;
-
-    border: none;
-
-    display: block;
-
-}
-
-
-        @media (max-width: 1000px) {
-
-    .consultation-workspace {
-
-        grid-template-columns: 1fr;
-
-    }
-
-    .video-panel {
-
-        position: relative;
-
-        top: auto;
-
-    }
-
-}
-
-
-@media (max-width: 800px) {
-
-    .video-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
-    .video-card {
-
-        min-height: 300px;
-
-    }
-
-    .controls {
-
-        flex-wrap: wrap;
-
-    }
-
-}
-
+        }
 
     </style>
 </head>
@@ -468,177 +294,106 @@
     <!-- MAIN -->
     <main class="main">
 
-    <div class="room-info">
+        <div class="room-info">
 
-        <h1>
-            Video Consultation
-        </h1>
+            <h1>
+                Video Consultation
+            </h1>
 
-        <p id="roomText">
-            Preparing consultation room...
-        </p>
+            <p id="roomText">
+                Preparing consultation room...
+            </p>
 
-    </div>
-
-
-    <!-- ==========================================
-         VIDEO + CLINICAL CONSULTATION WORKSPACE
-    =========================================== -->
-
-    <div class="consultation-workspace">
+        </div>
 
 
-        <!-- ======================================
-             VIDEO AREA
-        ======================================= -->
+        <!-- VIDEO GRID -->
+        <div class="video-grid">
 
-        <section class="video-panel">
+            <!-- REMOTE PARTICIPANT -->
+            <div class="video-card">
 
-            <div class="video-panel-header">
+                <div
+                    id="remoteVideoContainer"
+                    style="width:100%;height:100%;"
+                ></div>
 
-                <strong>
-                    Live Consultation
-                </strong>
-
-                <span id="videoPatientInfo">
-                    Patient
-                </span>
-
-            </div>
-
-
-            <div class="video-grid">
-
-                <!-- REMOTE PARTICIPANT -->
-
-                <div class="video-card">
-
-                    <div
-                        id="remoteVideoContainer"
-                        style="width:100%;height:100%;"
-                    ></div>
-
-                    <div
-                        id="remoteWaiting"
-                        class="waiting"
-                    >
-
-                        <strong>
-                            Waiting for participant
-                        </strong>
-
-                        <span>
-                            The other participant will appear here.
-                        </span>
-
-                    </div>
-
-                    <div class="video-label">
-                        Patient
-                    </div>
-
-                </div>
-
-
-                <!-- LOCAL PARTICIPANT -->
-
-                <div class="video-card">
-
-                    <div
-                        id="localVideoContainer"
-                        style="width:100%;height:100%;"
-                    ></div>
-
-                    <div class="video-label">
-                        You
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- VIDEO CONTROLS -->
-
-            <div class="controls">
-
-                <button
-                    id="micButton"
-                    class="control-btn"
-                    onclick="toggleMicrophone()"
+                <div
+                    id="remoteWaiting"
+                    class="waiting"
                 >
-                    🎤 Mute
-                </button>
-
-
-                <button
-                    id="cameraButton"
-                    class="control-btn"
-                    onclick="toggleCamera()"
-                >
-                    📷 Camera Off
-                </button>
-
-
-                <button
-                    class="control-btn leave-btn"
-                    onclick="leaveConsultation()"
-                >
-                    Leave Consultation
-                </button>
-
-            </div>
-
-
-            <div
-                id="statusMessage"
-                class="status-message"
-            >
-                Connecting to consultation...
-            </div>
-
-        </section>
-
-
-        <!-- ======================================
-             CLINICAL CONSULTATION FORM
-        ======================================= -->
-
-        <section class="clinical-panel">
-
-            <div class="clinical-panel-header">
-
-                <div>
 
                     <strong>
-                        Clinical Consultation
+                        Waiting for participant
                     </strong>
 
                     <span>
-                        Complete the patient's clinical record during the call.
+                        The other participant will appear here.
                     </span>
 
                 </div>
 
-            </div>
-
-
-            <div class="clinical-form-wrapper">
-
-                <iframe
-                    id="consultationFormFrame"
-                    title="Clinical Consultation Form"
-                    loading="eager"
-                ></iframe>
+                <div class="video-label">
+                    Doctor / Patient
+                </div>
 
             </div>
 
-        </section>
+
+            <!-- LOCAL PARTICIPANT -->
+            <div class="video-card">
+
+                <div
+                    id="localVideoContainer"
+                    style="width:100%;height:100%;"
+                ></div>
+
+                <div class="video-label">
+                    You
+                </div>
+
+            </div>
+
+        </div>
 
 
-    </div>
+        <!-- CONTROLS -->
+        <div class="controls">
 
-</main>
+            <button
+                id="micButton"
+                class="control-btn"
+                onclick="toggleMicrophone()"
+            >
+                ðŸŽ¤ Mute
+            </button>
+
+            <button
+                id="cameraButton"
+                class="control-btn"
+                onclick="toggleCamera()"
+            >
+                ðŸ“· Camera Off
+            </button>
+
+            <button
+                class="control-btn leave-btn"
+                onclick="leaveConsultation()"
+            >
+                Leave Consultation
+            </button>
+
+        </div>
+
+
+        <div
+            id="statusMessage"
+            class="status-message"
+        >
+            Connecting to consultation...
+        </div>
+
+    </main>
 
 
 <script>
@@ -727,97 +482,6 @@ function getPatientId() {
         );
 
     return params.get("patient_id");
-
-}
-
-/* ==========================================
-   LOAD CLINICAL CONSULTATION FORM
-========================================== */
-
-function loadConsultationForm() {
-
-    const appointmentId =
-        getAppointmentId();
-
-    const patientId =
-        getPatientId();
-
-
-    if (!appointmentId || !patientId) {
-
-        console.error(
-            "Cannot load consultation form:",
-            {
-                appointmentId,
-                patientId
-            }
-        );
-
-        return;
-
-    }
-
-
-    const formFrame =
-        document.getElementById(
-            "consultationFormFrame"
-        );
-
-
-    if (!formFrame) {
-
-        console.error(
-            "Consultation form iframe not found."
-        );
-
-        return;
-
-    }
-
-
-    const params = new URLSearchParams();
-
-params.set(
-    "appointment_id",
-    appointmentId
-);
-
-params.set(
-    "patient_id",
-    patientId
-);
-
-
-/*
- * Preserve an existing consultation ID
- * when one is supplied in the video URL.
- */
-const consultationId =
-    new URLSearchParams(
-        window.location.search
-    ).get("consultation_id");
-
-if (consultationId) {
-
-    params.set(
-        "consultation_id",
-        consultationId
-    );
-
-}
-
-
-const formUrl =
-    `/pages/consultation-form.html?${params.toString()}`;
-
-    console.log(
-        "Loading consultation form:",
-        formUrl
-    );
-
-
-    formFrame.src =
-        formUrl;
 
 }
 
@@ -1540,8 +1204,6 @@ async function leaveConsultation() {
 document.addEventListener(
     "DOMContentLoaded",
     () => {
-
-        loadConsultationForm();
 
         startConsultation();
 
