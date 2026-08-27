@@ -38,6 +38,90 @@ function generateMeetingRoom() {
     return "frantett-" + crypto.randomBytes(16).toString("hex");
 }
 
+// ==========================================
+// LIVEKIT VIDEO CONSULTATION TOKEN
+// ==========================================
+
+app.post(
+    "/api/livekit/token",
+    authenticateToken,
+    async (req, res) => {
+
+        try {
+
+            const {
+                roomName,
+                participantName,
+                participantIdentity
+            } = req.body;
+
+            if (!roomName) {
+                return res.status(400).json({
+                    message: "Room name is required."
+                });
+            }
+
+            if (!process.env.LIVEKIT_API_KEY ||
+                !process.env.LIVEKIT_API_SECRET) {
+
+                return res.status(500).json({
+                    message:
+                        "LiveKit server credentials are not configured."
+                });
+
+            }
+
+            const identity =
+                participantIdentity ||
+                `user-${req.user.id}`;
+
+            const name =
+                participantName ||
+                req.user.email ||
+                identity;
+
+            const token =
+                new AccessToken(
+                    process.env.LIVEKIT_API_KEY,
+                    process.env.LIVEKIT_API_SECRET,
+                    {
+                        identity: identity,
+                        name: name,
+                        ttl: "2h"
+                    }
+                );
+
+            token.addGrant({
+                roomJoin: true,
+                room: roomName,
+                canPublish: true,
+                canSubscribe: true
+            });
+
+            const jwt =
+                await token.toJwt();
+
+            res.json({
+                token: jwt,
+                url: process.env.LIVEKIT_URL
+            });
+
+        } catch (error) {
+
+            console.error(
+                "LiveKit token error:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to generate LiveKit token."
+            });
+
+        }
+
+    }
+);
 
 // ==========================================
 // POSTGRESQL CONNECTION
@@ -3178,7 +3262,7 @@ app.get(
                         management_plan,
                         treatment,
 
-
+                        assessment,
                         clinical_notes,
                         follow_up_date,
 
@@ -3263,7 +3347,7 @@ app.get(
                         management_plan,
                         treatment,
 
-
+                        assessment,
                         clinical_notes,
                         follow_up_date,
 
@@ -3328,9 +3412,8 @@ app.post(
         }
 
         const {
-    appointment_id,
-    doctor,
-    consultation_date,
+            doctor,
+            consultation_date,
 
             chief_complaint,
             history_of_presenting_complaint,
@@ -3347,7 +3430,7 @@ app.post(
             management_plan,
             treatment,
 
-
+            assessment,
             clinical_notes,
             follow_up_date
 
@@ -3382,58 +3465,6 @@ app.post(
 
             }
 
-// ==================================
-// CHECK APPOINTMENT
-// ==================================
-
-if (!appointment_id) {
-
-    return res.status(400).json({
-        message:
-            "Appointment ID is required."
-    });
-
-}
-
-const appointmentResult =
-    await pool.query(
-        `
-        SELECT
-            id,
-            patient_id,
-            doctor,
-            appointment_date
-        FROM appointments
-        WHERE id = $1
-        LIMIT 1
-        `,
-        [appointment_id]
-    );
-
-if (appointmentResult.rows.length === 0) {
-
-    return res.status(404).json({
-        message:
-            "Appointment not found."
-    });
-
-}
-
-const appointment =
-    appointmentResult.rows[0];
-
-if (
-    Number(appointment.patient_id) !==
-    Number(patientId)
-) {
-
-    return res.status(400).json({
-        message:
-            "Appointment does not belong to this patient."
-    });
-
-}
-
 
             // ==================================
             // CREATE CONSULTATION
@@ -3443,9 +3474,9 @@ if (
                 await pool.query(
                     `
                     INSERT INTO consultations (
-                     patient_id,
-                      appointment_id,
-                       doctor,
+
+                        patient_id,
+                        doctor,
                         consultation_date,
 
                         chief_complaint,
@@ -3463,49 +3494,48 @@ if (
                         management_plan,
                         treatment,
 
-
+                        assessment,
                         clinical_notes,
                         follow_up_date
 
                     )
 
-                   VALUES (
+                    VALUES (
 
-    $1,
-    $2,
-    $3,
-    $4,
+                        $1,
+                        $2,
+                        $3,
 
-    $5,
-    $6,
-    $7,
-    $8,
-    $9,
-    $10,
-    $11,
-    $12,
-    $13,
-    $14,
-    $15,
-    $16,
-    $17,
-    $18,
+                        $4,
+                        $5,
+                        $6,
+                        $7,
+                        $8,
+                        $9,
+                        $10,
+                        $11,
+                        $12,
+                        $13,
+                        $14,
+                        $15,
+                        $16,
+                        $17,
 
-    $19,
-    $20,
-    $21
+                        $18,
+                        $19,
+                        $20
 
-)
+                    )
 
                     RETURNING *
                     `,
-                   [
-    patientId,
-    appointment_id,
-    doctor || null,
-    consultation_date || null,
+                    [
 
-    chief_complaint || null,
+                        patientId,
+                        doctor || null,
+                        consultation_date || null,
+
+                        chief_complaint || null,
                         history_of_presenting_complaint || null,
                         past_medical_history || null,
                         drug_allergy_history || null,
@@ -3520,7 +3550,7 @@ if (
                         management_plan || null,
                         treatment || null,
 
-
+                        assessment || null,
                         clinical_notes || null,
                         follow_up_date || null
 
@@ -3579,9 +3609,8 @@ app.put(
 
 
         const {
-    appointment_id,
-    doctor,
-    consultation_date,
+            doctor,
+            consultation_date,
 
             chief_complaint,
             history_of_presenting_complaint,
@@ -3598,7 +3627,7 @@ app.put(
             management_plan,
             treatment,
 
-
+            assessment,
             clinical_notes,
             follow_up_date
 
@@ -3632,7 +3661,7 @@ app.put(
                         management_plan = $15,
                         treatment = $16,
 
-
+                        assessment = $17,
                         clinical_notes = $18,
                         follow_up_date = $19,
 
@@ -3663,7 +3692,7 @@ app.put(
                         management_plan || null,
                         treatment || null,
 
-
+                        assessment || null,
                         clinical_notes || null,
                         follow_up_date || null,
 

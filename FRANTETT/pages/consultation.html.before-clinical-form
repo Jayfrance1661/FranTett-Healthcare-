@@ -585,7 +585,7 @@ async function startConsultation() {
 
         const patientId =
     getPatientId();
-
+    
     console.log(
     "Consultation IDs:",
     {
@@ -653,7 +653,7 @@ async function startConsultation() {
 
         const response =
             await fetch(
-                `${API_URL}/api/livekit/token`,
+                `${API_URL}/api/video/token`,
                 {
 
                     method: "POST",
@@ -662,18 +662,15 @@ async function startConsultation() {
                         getAuthHeaders(),
 
                     body:
-    JSON.stringify({
+                        JSON.stringify({
 
-        roomName:
-            roomName,
+                            appointment_id:
+                                appointmentId,
 
-        participantName:
-            "Participant",
+                            participant_name:
+                                "Participant"
 
-        participantIdentity:
-            `user-${appointmentId}-${Date.now()}`
-
-    })
+                        })
 
                 }
             );
@@ -723,13 +720,13 @@ async function startConsultation() {
         }
 
 
-        if (!data.url) {
+        if (!data.serverUrl) {
 
-    throw new Error(
-        "LiveKit server URL is missing."
-    );
+            throw new Error(
+                "LiveKit server URL is missing."
+            );
 
-}
+        }
 
 
         setStatus(
@@ -832,10 +829,10 @@ async function startConsultation() {
          * Connect.
          */
 
-       await room.connect(
-    data.url,
-    data.token
-);
+        await room.connect(
+            data.serverUrl,
+            data.token
+        );
 
 
         setConnection(

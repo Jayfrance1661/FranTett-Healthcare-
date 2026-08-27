@@ -1,4 +1,4 @@
-﻿const cors = require("cors");
+const cors = require("cors");
 const express = require("express");
 const path = require("path");
 const { Pool } = require("pg");
@@ -38,6 +38,90 @@ function generateMeetingRoom() {
     return "frantett-" + crypto.randomBytes(16).toString("hex");
 }
 
+// ==========================================
+// LIVEKIT VIDEO CONSULTATION TOKEN
+// ==========================================
+
+app.post(
+    "/api/livekit/token",
+    authenticateToken,
+    async (req, res) => {
+
+        try {
+
+            const {
+                roomName,
+                participantName,
+                participantIdentity
+            } = req.body;
+
+            if (!roomName) {
+                return res.status(400).json({
+                    message: "Room name is required."
+                });
+            }
+
+            if (!process.env.LIVEKIT_API_KEY ||
+                !process.env.LIVEKIT_API_SECRET) {
+
+                return res.status(500).json({
+                    message:
+                        "LiveKit server credentials are not configured."
+                });
+
+            }
+
+            const identity =
+                participantIdentity ||
+                `user-${req.user.id}`;
+
+            const name =
+                participantName ||
+                req.user.email ||
+                identity;
+
+            const token =
+                new AccessToken(
+                    process.env.LIVEKIT_API_KEY,
+                    process.env.LIVEKIT_API_SECRET,
+                    {
+                        identity: identity,
+                        name: name,
+                        ttl: "2h"
+                    }
+                );
+
+            token.addGrant({
+                roomJoin: true,
+                room: roomName,
+                canPublish: true,
+                canSubscribe: true
+            });
+
+            const jwt =
+                await token.toJwt();
+
+            res.json({
+                token: jwt,
+                url: process.env.LIVEKIT_URL
+            });
+
+        } catch (error) {
+
+            console.error(
+                "LiveKit token error:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to generate LiveKit token."
+            });
+
+        }
+
+    }
+);
 
 // ==========================================
 // POSTGRESQL CONNECTION

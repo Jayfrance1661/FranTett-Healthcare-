@@ -8991,13 +8991,6 @@ async function viewConsultation(
 
 
         setText(
-            "viewAssessment",
-            consultation.assessment ||
-                "Not recorded"
-        );
-
-
-        setText(
             "viewClinicalNotes",
             consultation.clinical_notes ||
                 "Not recorded"
@@ -9232,11 +9225,6 @@ async function editConsultation(
             consultation.treatment
         );
 
-
-        setInput(
-            "assessment",
-            consultation.assessment
-        );
 
 
         setInput(

@@ -2351,9 +2351,10 @@ function renderAppointments(
                             type="button"
                             class="confirm-btn"
                             onclick="joinConsultation(
-                                ${appointment.id},
-                                '${appointment.meeting_room}'
-                            )"
+    ${appointment.id},
+    ${appointment.patient_id},
+    '${appointment.meeting_room}'
+)"
                         >
                             Join Consultation
                         </button>
@@ -4058,7 +4059,11 @@ async function saveStaffAppointment() {
    JOIN VIDEO CONSULTATION
 ========================================== */
 
-function joinConsultation(appointmentId, roomName) {
+function joinConsultation(
+    appointmentId,
+    patientId,
+    roomName
+) {
 
     if (!roomName) {
 
@@ -4079,8 +4084,7 @@ function joinConsultation(appointmentId, roomName) {
     }
 
     window.location.href =
-        `/pages/consultation.html?appointment_id=${encodeURIComponent(appointmentId)}&room=${encodeURIComponent(roomName)}`;
-
+    `/pages/consultation.html?appointment_id=${encodeURIComponent(appointmentId)}&patient_id=${encodeURIComponent(patientId)}&room=${encodeURIComponent(roomName)}`;
 }
 
 </script>
