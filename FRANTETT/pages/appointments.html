@@ -4192,7 +4192,7 @@ async function openConsultationForm(
    JOIN VIDEO CONSULTATION
 ========================================== */
 
-function joinConsultation(
+async function joinConsultation(
     appointmentId,
     patientId,
     roomName
@@ -4200,24 +4200,127 @@ function joinConsultation(
 
     if (!roomName) {
 
-        alert("This appointment does not have a consultation room.");
+        alert(
+            "This appointment does not have a consultation room."
+        );
 
         return;
 
     }
 
-    const token = localStorage.getItem("frantett_token");
+
+    const token =
+        localStorage.getItem(
+            "frantett_token"
+        );
+
 
     if (!token) {
 
-        alert("Your session has expired. Please log in again.");
+        alert(
+            "Your session has expired. Please log in again."
+        );
 
         return;
 
     }
 
-    window.location.href =
-    `/pages/consultation.html?appointment_id=${encodeURIComponent(appointmentId)}&patient_id=${encodeURIComponent(patientId)}&room=${encodeURIComponent(roomName)}`;
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${encodeURIComponent(patientId)}/consultations`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to check previous consultations."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        const consultations =
+            data.consultations ||
+            data;
+
+
+        const existingConsultation =
+            Array.isArray(consultations)
+                ? consultations.find(
+                    consultation =>
+                        String(
+                            consultation.appointment_id
+                        ) ===
+                        String(appointmentId)
+                )
+                : null;
+
+
+        let consultationUrl =
+            `/pages/consultation.html` +
+            `?appointment_id=${encodeURIComponent(appointmentId)}` +
+            `&patient_id=${encodeURIComponent(patientId)}` +
+            `&room=${encodeURIComponent(roomName)}`;
+
+
+        if (
+            existingConsultation &&
+            existingConsultation.id
+        ) {
+
+            consultationUrl +=
+                `&consultation_id=${encodeURIComponent(existingConsultation.id)}`;
+
+        }
+
+
+        console.log(
+            "Opening consultation:",
+            {
+                appointmentId,
+                patientId,
+                roomName,
+                consultationId:
+                    existingConsultation
+                        ? existingConsultation.id
+                        : null
+            }
+        );
+
+
+        window.location.href =
+            consultationUrl;
+
+
+    } catch (error) {
+
+        console.error(
+            "Error checking consultation:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to open the consultation."
+        );
+
+    }
+
 }
 
 </script>
