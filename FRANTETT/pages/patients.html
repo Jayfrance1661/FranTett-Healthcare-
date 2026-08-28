@@ -2941,7 +2941,8 @@
                 <button
                     type="button"
                     class="primary-btn"
-                    onclick="event.stopPropagation(); openVitalSignsModal();"
+                   
+onclick="event.stopPropagation(); openVitalSignsModal();"
                 >
                     + Record Vital Signs
                 </button>
@@ -3065,7 +3066,8 @@
         <button
             type="button"
             class="primary-btn"
-            onclick="event.stopPropagation(); openAddLabRequestModal(currentConsultationId);"
+        
+onclick="event.stopPropagation(); openAddLabRequestModal();"
         >
             + Lab Request
         </button>
@@ -5321,31 +5323,370 @@ document
 
 /* =====================================================
    VITAL SIGNS
+   CONSULTATION-SAFE VERSION
 ===================================================== */
 
-function openVitalSignsModal() {
 
-    if (!currentPatientId) {
-        alert("Please open a patient profile first.");
-        return;
+/* =====================================================
+   GET ACTIVE CONSULTATION ID
+===================================================== */
+
+function getActiveConsultationId(suppliedId = null) {
+
+    let id = null;
+
+
+    // -------------------------------------------------
+    // 1. Use supplied ID first
+    // -------------------------------------------------
+
+    if (
+        suppliedId !== null &&
+        suppliedId !== undefined &&
+        suppliedId !== ""
+    ) {
+
+        const parsed =
+            Number(suppliedId);
+
+        if (
+            Number.isInteger(parsed) &&
+            parsed > 0
+        ) {
+
+            id = parsed;
+
+        }
+
     }
 
-    document.getElementById("vitalSignsForm").reset();
 
-    document.getElementById("vitalBMI").value = "";
+    // -------------------------------------------------
+    // 2. Use global consultation ID
+    // -------------------------------------------------
 
-    document.getElementById("vitalSignsModal").style.display = "flex";
+    if (!id) {
+
+        const parsed =
+            Number(currentConsultationId);
+
+        if (
+            Number.isInteger(parsed) &&
+            parsed > 0
+        ) {
+
+            id = parsed;
+
+        }
+
+    }
+
+
+    // -------------------------------------------------
+    // 3. Recover from hidden consultation field
+    // -------------------------------------------------
+
+    if (!id) {
+
+        const consultationField =
+            document.getElementById(
+                "consultationId"
+            );
+
+
+        if (
+            consultationField &&
+            consultationField.value
+        ) {
+
+            const parsed =
+                Number(
+                    consultationField.value
+                );
+
+
+            if (
+                Number.isInteger(parsed) &&
+                parsed > 0
+            ) {
+
+                id = parsed;
+
+            }
+
+        }
+
+    }
+
+
+    // -------------------------------------------------
+    // 4. Synchronize everything
+    // -------------------------------------------------
+
+    if (id) {
+
+        currentConsultationId =
+            id;
+
+
+        const consultationField =
+            document.getElementById(
+                "consultationId"
+            );
+
+
+        if (consultationField) {
+
+            consultationField.value =
+                id;
+
+        }
+
+    }
+
+
+    console.log(
+        "ACTIVE CONSULTATION ID:",
+        id
+    );
+
+
+    return id || null;
+
 }
 
+
+/* =====================================================
+   SET ACTIVE CONSULTATION ID
+===================================================== */
+
+function setActiveConsultationId(id) {
+
+    const parsed =
+        Number(id);
+
+
+    if (
+        !Number.isInteger(parsed) ||
+        parsed <= 0
+    ) {
+
+        console.warn(
+            "Attempted to set invalid consultation ID:",
+            id
+        );
+
+        return false;
+
+    }
+
+
+    currentConsultationId =
+        parsed;
+
+
+    const consultationField =
+        document.getElementById(
+            "consultationId"
+        );
+
+
+    if (consultationField) {
+
+        consultationField.value =
+            parsed;
+
+    }
+
+
+    console.log(
+        "ACTIVE CONSULTATION SET TO:",
+        parsed
+    );
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   OPEN VITAL SIGNS MODAL
+===================================================== */
+
+function openVitalSignsModal(
+    consultationId = null
+) {
+
+    console.log(
+        "Opening Vital Signs. Supplied consultation:",
+        consultationId
+    );
+
+
+    // -------------------------------------------------
+    // Patient must be selected
+    // -------------------------------------------------
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+
+    }
+
+
+    // -------------------------------------------------
+    // Resolve consultation
+    // -------------------------------------------------
+
+    const activeConsultationId =
+        getActiveConsultationId(
+            consultationId
+        );
+
+
+    console.log(
+        "Vital Signs resolved consultation ID:",
+        activeConsultationId
+    );
+
+
+    // -------------------------------------------------
+    // Consultation is REQUIRED
+    // -------------------------------------------------
+
+    if (!activeConsultationId) {
+
+        alert(
+            "Please open a consultation before recording vital signs."
+        );
+
+        return;
+
+    }
+
+
+    // -------------------------------------------------
+    // Find modal
+    // -------------------------------------------------
+
+    const modal =
+        document.getElementById(
+            "vitalSignsModal"
+        );
+
+
+    if (!modal) {
+
+        console.error(
+            "Vital Signs modal not found."
+        );
+
+        alert(
+            "Vital Signs form could not be opened."
+        );
+
+        return;
+
+    }
+
+
+    // -------------------------------------------------
+    // Reset form
+    // -------------------------------------------------
+
+    const form =
+        document.getElementById(
+            "vitalSignsForm"
+        );
+
+
+    if (form) {
+
+        form.reset();
+
+    }
+
+
+    // -------------------------------------------------
+    // Clear BMI
+    // -------------------------------------------------
+
+    const bmiField =
+        document.getElementById(
+            "vitalBMI"
+        );
+
+
+    if (bmiField) {
+
+        bmiField.value =
+            "";
+
+    }
+
+
+    // -------------------------------------------------
+    // Store consultation ID
+    // -------------------------------------------------
+
+    const vitalConsultationField =
+        document.getElementById(
+            "vitalConsultationId"
+        );
+
+
+    if (vitalConsultationField) {
+
+        vitalConsultationField.value =
+            activeConsultationId;
+
+    }
+
+
+    // -------------------------------------------------
+    // Open modal
+    // -------------------------------------------------
+
+    modal.style.display =
+        "flex";
+
+
+    console.log(
+        "Vital Signs opened successfully.",
+        {
+            patientId: currentPatientId,
+            consultationId:
+                activeConsultationId
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE VITAL SIGNS MODAL
+===================================================== */
 
 function closeVitalSignsModal() {
 
     const modal =
-        document.getElementById("vitalSignsModal");
+        document.getElementById(
+            "vitalSignsModal"
+        );
+
 
     if (modal) {
-        modal.style.display = "none";
+
+        modal.style.display =
+            "none";
+
     }
+
 }
 
 
@@ -5355,30 +5696,59 @@ function closeVitalSignsModal() {
 
 function calculateVitalBMI() {
 
-    const weight =
-        parseFloat(
-            document.getElementById("vitalWeight").value
+    const weightElement =
+        document.getElementById(
+            "vitalWeight"
         );
 
-    const heightCm =
-        parseFloat(
-            document.getElementById("vitalHeight").value
+
+    const heightElement =
+        document.getElementById(
+            "vitalHeight"
         );
+
 
     const bmiField =
-        document.getElementById("vitalBMI");
+        document.getElementById(
+            "vitalBMI"
+        );
 
 
     if (
-        !weight ||
-        !heightCm ||
+        !weightElement ||
+        !heightElement ||
+        !bmiField
+    ) {
+
+        return;
+
+    }
+
+
+    const weight =
+        parseFloat(
+            weightElement.value
+        );
+
+
+    const heightCm =
+        parseFloat(
+            heightElement.value
+        );
+
+
+    if (
+        !Number.isFinite(weight) ||
+        !Number.isFinite(heightCm) ||
         weight <= 0 ||
         heightCm <= 0
     ) {
 
-        bmiField.value = "";
+        bmiField.value =
+            "";
 
         return;
+
     }
 
 
@@ -5388,11 +5758,24 @@ function calculateVitalBMI() {
 
     const bmi =
         weight /
-        (heightMetres * heightMetres);
+        (
+            heightMetres *
+            heightMetres
+        );
 
 
-    bmiField.value =
-        bmi.toFixed(2);
+    if (Number.isFinite(bmi)) {
+
+        bmiField.value =
+            bmi.toFixed(2);
+
+    } else {
+
+        bmiField.value =
+            "";
+
+    }
+
 }
 
 
@@ -5402,14 +5785,54 @@ function calculateVitalBMI() {
 
 async function saveVitalSigns(event) {
 
-    event.preventDefault();
+    if (event) {
 
+        event.preventDefault();
 
-    if (!currentPatientId) {
-        alert("Please open a patient profile first.");
-        return;
     }
 
+
+    // -------------------------------------------------
+    // Patient check
+    // -------------------------------------------------
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+
+    }
+
+
+    // -------------------------------------------------
+    // Resolve consultation ID again
+    // -------------------------------------------------
+
+    const activeConsultationId =
+        getActiveConsultationId(
+            document.getElementById(
+                "vitalConsultationId"
+            )?.value
+        );
+
+
+    if (!activeConsultationId) {
+
+        alert(
+            "Please open a consultation before saving vital signs."
+        );
+
+        return;
+
+    }
+
+
+    // -------------------------------------------------
+    // Authentication
+    // -------------------------------------------------
 
     const token =
         getToken();
@@ -5420,62 +5843,71 @@ async function saveVitalSigns(event) {
         handleSessionExpired();
 
         return;
+
     }
 
+
+    // -------------------------------------------------
+    // Get fields safely
+    // -------------------------------------------------
 
     const bloodPressure =
         document.getElementById(
             "vitalBloodPressure"
-        ).value.trim();
+        )?.value.trim() || "";
 
 
     const heartRate =
         document.getElementById(
             "vitalHeartRate"
-        ).value;
+        )?.value || "";
 
 
     const temperature =
         document.getElementById(
             "vitalTemperature"
-        ).value;
+        )?.value || "";
 
 
     const respiratoryRate =
         document.getElementById(
             "vitalRespiratoryRate"
-        ).value;
+        )?.value || "";
 
 
     const oxygenSaturation =
         document.getElementById(
             "vitalOxygenSaturation"
-        ).value;
+        )?.value || "";
 
 
     const weight =
         document.getElementById(
             "vitalWeight"
-        ).value;
+        )?.value || "";
 
 
     const height =
         document.getElementById(
             "vitalHeight"
-        ).value;
+        )?.value || "";
 
 
     const bmi =
         document.getElementById(
             "vitalBMI"
-        ).value;
+        )?.value || "";
 
 
     const recordedBy =
         document.getElementById(
             "vitalRecordedBy"
-        ).value.trim();
+        )?.value.trim() || "";
 
+
+    // -------------------------------------------------
+    // Required field
+    // -------------------------------------------------
 
     if (!bloodPressure) {
 
@@ -5484,7 +5916,53 @@ async function saveVitalSigns(event) {
         );
 
         return;
+
     }
+
+
+    // -------------------------------------------------
+    // Prepare data
+    // -------------------------------------------------
+
+    const vitalData = {
+
+        consultation_id:
+            activeConsultationId,
+
+        blood_pressure:
+            bloodPressure,
+
+        heart_rate:
+            heartRate || null,
+
+        temperature:
+            temperature || null,
+
+        respiratory_rate:
+            respiratoryRate || null,
+
+        oxygen_saturation:
+            oxygenSaturation || null,
+
+        weight:
+            weight || null,
+
+        height:
+            height || null,
+
+        bmi:
+            bmi || null,
+
+        recorded_by:
+            recordedBy || null
+
+    };
+
+
+    console.log(
+        "Saving vital signs:",
+        vitalData
+    );
 
 
     try {
@@ -5493,52 +5971,32 @@ async function saveVitalSigns(event) {
             await fetch(
                 `${API_URL}/api/patients/${currentPatientId}/vitals`,
                 {
-                    method: "POST",
+
+                    method:
+                        "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json",
 
                         "Authorization":
                             `Bearer ${token}`
+
                     },
 
-                    body: JSON.stringify({
+                    body:
+                        JSON.stringify(
+                            vitalData
+                        )
 
-                        consultation_id:
-                            null,
-
-                        blood_pressure:
-                            bloodPressure,
-
-                        heart_rate:
-                            heartRate || null,
-
-                        temperature:
-                            temperature || null,
-
-                        respiratory_rate:
-                            respiratoryRate || null,
-
-                        oxygen_saturation:
-                            oxygenSaturation || null,
-
-                        weight:
-                            weight || null,
-
-                        height:
-                            height || null,
-
-                        bmi:
-                            bmi || null,
-
-                        recorded_by:
-                            recordedBy || null
-
-                    })
                 }
             );
 
+
+        // -------------------------------------------------
+        // Authentication error
+        // -------------------------------------------------
 
         if (
             response.status === 401 ||
@@ -5548,31 +6006,60 @@ async function saveVitalSigns(event) {
             handleSessionExpired();
 
             return;
+
         }
 
+
+        // -------------------------------------------------
+        // Read response
+        // -------------------------------------------------
 
         const result =
             await response.json();
 
 
+        // -------------------------------------------------
+        // Server error
+        // -------------------------------------------------
+
         if (!response.ok) {
 
-            alert(
+            throw new Error(
                 result.message ||
                 "Failed to save vital signs."
             );
 
-            return;
         }
 
 
+        // -------------------------------------------------
+        // Keep consultation synchronized
+        // -------------------------------------------------
+
+        setActiveConsultationId(
+            activeConsultationId
+        );
+
+
+        // -------------------------------------------------
+        // Close modal
+        // -------------------------------------------------
+
         closeVitalSignsModal();
 
+
+        // -------------------------------------------------
+        // Reload history
+        // -------------------------------------------------
 
         await loadVitalSigns(
             currentPatientId
         );
 
+
+        // -------------------------------------------------
+        // Success
+        // -------------------------------------------------
 
         alert(
             "Vital signs saved successfully."
@@ -5586,10 +6073,14 @@ async function saveVitalSigns(event) {
             error
         );
 
+
         alert(
+            error.message ||
             "Unable to save vital signs."
         );
+
     }
+
 }
 
 
@@ -5597,24 +6088,35 @@ async function saveVitalSigns(event) {
    LOAD VITAL SIGNS
 ===================================================== */
 
-async function loadVitalSigns(patientId) {
+async function loadVitalSigns(
+    patientId
+) {
 
     const token =
         getToken();
 
+
     if (!token) {
+
         handleSessionExpired();
+
         return;
+
     }
+
 
     const historyContainer =
         document.getElementById(
             "vitalSignsHistory"
         );
 
+
     if (!historyContainer) {
+
         return;
+
     }
+
 
     historyContainer.innerHTML = `
         <div class="loading">
@@ -5622,36 +6124,50 @@ async function loadVitalSigns(patientId) {
         </div>
     `;
 
+
     try {
 
         const response =
             await fetch(
                 `${API_URL}/api/patients/${patientId}/vitals`,
                 {
+
                     headers: {
+
                         "Authorization":
                             `Bearer ${token}`
+
                     }
+
                 }
             );
+
 
         if (
             response.status === 401 ||
             response.status === 403
         ) {
+
             handleSessionExpired();
+
             return;
+
         }
+
 
         const vitals =
             await response.json();
 
+
         if (!response.ok) {
+
             throw new Error(
                 vitals.message ||
                 "Failed to load vital signs."
             );
+
         }
+
 
         if (
             !Array.isArray(vitals) ||
@@ -5665,7 +6181,9 @@ async function loadVitalSigns(patientId) {
             `;
 
             return;
+
         }
+
 
         let historyHtml = `
 
@@ -5715,67 +6233,86 @@ async function loadVitalSigns(patientId) {
                         </td>
 
                         <td>
-                            ${vital.blood_pressure || "?"}
+                            ${vital.blood_pressure || "—"}
                         </td>
 
                         <td>
-                            ${vital.heart_rate != null
-                                ? Number(
-                                    vital.heart_rate
-                                ).toFixed(2)
-                                : "?"}
+                            ${
+                                vital.heart_rate != null
+                                    ? Number(
+                                        vital.heart_rate
+                                    ).toFixed(2)
+                                    : "—"
+                            }
                         </td>
 
                         <td>
-                            ${vital.temperature != null
-                                ? Number(
-                                    vital.temperature
-                                ).toFixed(2) + " &deg;C"
-                                : "?"}
+                            ${
+                                vital.temperature != null
+                                    ? Number(
+                                        vital.temperature
+                                    ).toFixed(2) +
+                                      " &deg;C"
+                                    : "—"
+                            }
                         </td>
 
                         <td>
-                            ${vital.respiratory_rate != null
-                                ? Number(
-                                    vital.respiratory_rate
-                                ).toFixed(2) + " /min"
-                                : "?"}
+                            ${
+                                vital.respiratory_rate != null
+                                    ? Number(
+                                        vital.respiratory_rate
+                                    ).toFixed(2) +
+                                      " /min"
+                                    : "—"
+                            }
                         </td>
 
                         <td>
-                            ${vital.oxygen_saturation != null
-                                ? Number(
-                                    vital.oxygen_saturation
-                                ).toFixed(2) + "%"
-                                : "?"}
+                            ${
+                                vital.oxygen_saturation != null
+                                    ? Number(
+                                        vital.oxygen_saturation
+                                    ).toFixed(2) +
+                                      "%"
+                                    : "—"
+                            }
                         </td>
 
                         <td>
-                            ${vital.weight != null
-                                ? Number(
-                                    vital.weight
-                                ).toFixed(2) + " kg"
-                                : "?"}
+                            ${
+                                vital.weight != null
+                                    ? Number(
+                                        vital.weight
+                                    ).toFixed(2) +
+                                      " kg"
+                                    : "—"
+                            }
                         </td>
 
                         <td>
-                            ${vital.height != null
-                                ? Number(
-                                    vital.height
-                                ).toFixed(2) + " cm"
-                                : "?"}
+                            ${
+                                vital.height != null
+                                    ? Number(
+                                        vital.height
+                                    ).toFixed(2) +
+                                      " cm"
+                                    : "—"
+                            }
                         </td>
 
                         <td>
-                            ${vital.bmi != null
-                                ? Number(
-                                    vital.bmi
-                                ).toFixed(2)
-                                : "?"}
+                            ${
+                                vital.bmi != null
+                                    ? Number(
+                                        vital.bmi
+                                    ).toFixed(2)
+                                    : "—"
+                            }
                         </td>
 
                         <td>
-                            ${vital.recorded_by || "?"}
+                            ${vital.recorded_by || "—"}
                         </td>
 
                         <td>
@@ -5793,6 +6330,7 @@ async function loadVitalSigns(patientId) {
                     </tr>
 
                 `;
+
             }
         );
 
@@ -5818,18 +6356,35 @@ async function loadVitalSigns(patientId) {
             error
         );
 
+
         historyContainer.innerHTML = `
             <div class="loading">
                 Failed to load vital signs.
             </div>
         `;
+
     }
+
 }
+
+
+/* =====================================================
+   DELETE VITAL SIGNS
+===================================================== */
 
 async function deleteVitalSigns(id) {
 
-    if (!id) {
+    const vitalId =
+        Number(id);
+
+
+    if (
+        !Number.isInteger(vitalId) ||
+        vitalId <= 0
+    ) {
+
         return;
+
     }
 
 
@@ -5840,7 +6395,9 @@ async function deleteVitalSigns(id) {
 
 
     if (!confirmed) {
+
         return;
+
     }
 
 
@@ -5853,6 +6410,7 @@ async function deleteVitalSigns(id) {
         handleSessionExpired();
 
         return;
+
     }
 
 
@@ -5860,14 +6418,19 @@ async function deleteVitalSigns(id) {
 
         const response =
             await fetch(
-                `${API_URL}/api/vitals/${id}`,
+                `${API_URL}/api/vitals/${vitalId}`,
                 {
-                    method: "DELETE",
+
+                    method:
+                        "DELETE",
 
                     headers: {
+
                         "Authorization":
                             `Bearer ${token}`
+
                     }
+
                 }
             );
 
@@ -5880,6 +6443,7 @@ async function deleteVitalSigns(id) {
             handleSessionExpired();
 
             return;
+
         }
 
 
@@ -5889,12 +6453,11 @@ async function deleteVitalSigns(id) {
 
         if (!response.ok) {
 
-            alert(
+            throw new Error(
                 result.message ||
                 "Failed to delete vital signs."
             );
 
-            return;
         }
 
 
@@ -5910,10 +6473,14 @@ async function deleteVitalSigns(id) {
             error
         );
 
+
         alert(
+            error.message ||
             "Unable to delete vital signs."
         );
+
     }
+
 }
 
 
@@ -5937,6 +6504,7 @@ document.addEventListener(
                 "submit",
                 saveVitalSigns
             );
+
         }
 
 
@@ -5958,6 +6526,7 @@ document.addEventListener(
                 "input",
                 calculateVitalBMI
             );
+
         }
 
 
@@ -5967,6 +6536,7 @@ document.addEventListener(
                 "input",
                 calculateVitalBMI
             );
+
         }
 
     }
@@ -9029,7 +9599,16 @@ const consultationData = {
                 }
 
 if (data.id) {
-    document.getElementById("consultationId").value = data.id;
+
+    setActiveConsultationId(
+        data.id
+    );
+
+
+    console.log(
+        "Current consultation set to:",
+        currentConsultationId
+    );
 }
                 showMessage(
                     data.message ||
@@ -9062,7 +9641,6 @@ if (data.id) {
         }
     );
 
-
 /* =====================================================
    VIEW CONSULTATION
 ===================================================== */
@@ -9071,7 +9649,65 @@ async function viewConsultation(
     id
 ) {
 
-    currentConsultationId = id;
+    // ---------------------------------------------
+    // Validate ID
+    // ---------------------------------------------
+
+    const consultationId =
+        Number(id);
+
+
+    if (
+        !consultationId ||
+        consultationId <= 0
+    ) {
+
+        console.error(
+            "Invalid consultation ID:",
+            id
+        );
+
+        alert(
+            "Invalid consultation."
+        );
+
+        return;
+    }
+
+
+    // ---------------------------------------------
+    // IMPORTANT:
+    // Set global consultation immediately
+    // ---------------------------------------------
+
+    currentConsultationId =
+        consultationId;
+
+
+    console.log(
+        "VIEW CONSULTATION → currentConsultationId:",
+        currentConsultationId
+    );
+
+
+    // ---------------------------------------------
+    // Store in hidden consultation field
+    // ---------------------------------------------
+
+    const consultationField =
+        document.getElementById(
+            "consultationId"
+        );
+
+
+    if (consultationField) {
+
+        consultationField.value =
+            consultationId;
+
+    }
+
+
     const token =
         getToken();
 
@@ -9089,11 +9725,13 @@ async function viewConsultation(
 
         const response =
             await fetch(
-                `${API_URL}/api/consultations/${id}`,
+                `${API_URL}/api/consultations/${consultationId}`,
                 {
                     headers: {
+
                         "Authorization":
                             `Bearer ${token}`
+
                     }
                 }
             );
@@ -9115,9 +9753,7 @@ async function viewConsultation(
             await response.json();
 
 
-        if (
-            !response.ok
-        ) {
+        if (!response.ok) {
 
             alert(
                 consultation.message ||
@@ -9129,12 +9765,57 @@ async function viewConsultation(
         }
 
 
+        // -----------------------------------------
+        // IMPORTANT:
+        // Set it AGAIN from server response
+        // -----------------------------------------
+
+        if (consultation.id) {
+
+            currentConsultationId =
+                Number(
+                    consultation.id
+                );
+
+        }
+
+
+        const finalConsultationId =
+            currentConsultationId;
+
+
+        console.log(
+            "VIEW CONSULTATION → confirmed ID:",
+            finalConsultationId
+        );
+
+
+        // -----------------------------------------
+        // Keep hidden field synchronized
+        // -----------------------------------------
+
+        if (consultationField) {
+
+            consultationField.value =
+                finalConsultationId;
+
+        }
+
+
+        // -----------------------------------------
+        // Doctor
+        // -----------------------------------------
+
         setText(
             "viewConsultationDoctor",
             consultation.doctor ||
-                "Not provided"
+            "Not provided"
         );
 
+
+        // -----------------------------------------
+        // Date
+        // -----------------------------------------
 
         setText(
             "viewConsultationDate",
@@ -9146,108 +9827,112 @@ async function viewConsultation(
         );
 
 
+        // -----------------------------------------
+        // Clinical information
+        // -----------------------------------------
+
         setText(
             "viewChiefComplaint",
             consultation.chief_complaint ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewHistoryOfPresentingComplaint",
             consultation.history_of_presenting_complaint ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewPastMedicalHistory",
             consultation.past_medical_history ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewDrugAllergyHistory",
             consultation.drug_allergy_history ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewFamilyHistory",
             consultation.family_history ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewSocialHistory",
             consultation.social_history ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewSystemsReview",
             consultation.systems_review ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewSummary",
             consultation.summary ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewExamination",
             consultation.examination ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewInvestigations",
             consultation.investigations ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewDifferentialDiagnosis",
             consultation.differential_diagnosis ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewDiagnosis",
             consultation.diagnosis ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewManagementPlan",
             consultation.management_plan ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewTreatment",
             consultation.treatment ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
         setText(
             "viewClinicalNotes",
             consultation.clinical_notes ||
-                "Not recorded"
+            "Not recorded"
         );
 
 
@@ -9261,10 +9946,32 @@ async function viewConsultation(
         );
 
 
-        document.getElementById(
-            "viewConsultationModal"
-        ).style.display =
-            "flex";
+        // -----------------------------------------
+        // Open consultation modal
+        // -----------------------------------------
+
+        const modal =
+            document.getElementById(
+                "viewConsultationModal"
+            );
+
+
+        if (modal) {
+
+            modal.style.display =
+                "flex";
+
+        }
+
+
+        // -----------------------------------------
+        // Final verification
+        // -----------------------------------------
+
+        console.log(
+            "CONSULTATION OPENED SUCCESSFULLY. ID:",
+            currentConsultationId
+        );
 
 
     } catch (error) {
@@ -9274,6 +9981,7 @@ async function viewConsultation(
             error
         );
 
+
         alert(
             "Unable to connect to the server."
         );
@@ -9282,6 +9990,28 @@ async function viewConsultation(
 
 }
 
+/* =====================================================
+   SAFE TEXT SETTER
+===================================================== */
+
+function setText(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+}
 
 /* =====================================================
    SAFE TEXT SETTER
@@ -9382,6 +10112,11 @@ async function editConsultation(
     "consultationId"
 ).value =
     consultation.id;
+
+
+setActiveConsultationId(
+    consultationId
+);
 
 
 // ---------------------------------------------
@@ -11698,161 +12433,415 @@ function clearLabRequestSignature() {
 /* =====================================================
    LABORATORY REPORT PANEL FUNCTIONS
 ===================================================== */
-
-
+  
 // =====================================================
 // LABORATORY REQUEST
 // =====================================================
 
-console.log(
-    "Opening lab request. Current consultation:",
-    currentConsultationId
-);
 
-function openAddLabRequestModal(consultationId = null) {
+/* =====================================================
+   OPEN LABORATORY REQUEST MODAL
+===================================================== */
+
+function openAddLabRequestModal(
+    consultationId = null
+) {
+
+
+    // -------------------------------------------------
+    // Patient must be selected
+    // -------------------------------------------------
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+    }
+
+
+    // -------------------------------------------------
+    // 1. Use supplied consultation ID if available
+    // -------------------------------------------------
+
+    if (
+        consultationId !== null &&
+        consultationId !== undefined &&
+        consultationId !== ""
+    ) {
+
+        currentConsultationId =
+            Number(consultationId);
+
+    }
+
+
+    // -------------------------------------------------
+    // 2. Recover consultation ID from hidden field
+    // -------------------------------------------------
+
+    if (
+        !currentConsultationId ||
+        Number.isNaN(
+            Number(currentConsultationId)
+        )
+    ) {
+
+        const consultationField =
+            document.getElementById(
+                "consultationId"
+            );
+
+
+        if (
+            consultationField &&
+            consultationField.value
+        ) {
+
+            currentConsultationId =
+                Number(
+                    consultationField.value
+                );
+
+        }
+
+    }
+
+
+    // -------------------------------------------------
+    // 3. Final consultation check
+    // -------------------------------------------------
+
+    if (
+        !currentConsultationId ||
+        Number.isNaN(
+            Number(currentConsultationId)
+        )
+    ) {
+
+        alert(
+            "Please open a consultation before creating a laboratory request."
+        );
+
+        return;
+    }
+
+
+    // -------------------------------------------------
+    // Normalize consultation ID
+    // -------------------------------------------------
 
     currentConsultationId =
-        consultationId || currentConsultationId || null;
+        Number(currentConsultationId);
 
-        // Preserve the consultation currently being viewed.
-    // If none is selected, consultation_id will remain null.
+
     console.log(
         "Lab request consultation ID:",
         currentConsultationId
     );
 
-    if (!currentPatientId) {
-        alert("Please open a patient profile first.");
-        return;
-    }
+
+    // -------------------------------------------------
+    // Find modal
+    // -------------------------------------------------
 
     const modal =
-        document.getElementById("labRequestModal");
+        document.getElementById(
+            "labRequestModal"
+        );
+
 
     if (!modal) {
-        console.error("Laboratory Request modal not found.");
+
+        console.error(
+            "Laboratory Request modal not found."
+        );
+
         return;
     }
 
-    // Clear previous selections
-    document.querySelectorAll(
-        ".lab-request-test"
-    ).forEach(function (checkbox) {
-        checkbox.checked = false;
-    });
+
+    // -------------------------------------------------
+    // Clear previous test selections
+    // -------------------------------------------------
+
+    document
+        .querySelectorAll(
+            ".lab-request-test"
+        )
+        .forEach(
+            function (checkbox) {
+
+                checkbox.checked =
+                    false;
+
+            }
+        );
+
+
+    // -------------------------------------------------
+    // Clear form fields
+    // -------------------------------------------------
 
     const otherTest =
-        document.getElementById("labRequestOtherTest");
+        document.getElementById(
+            "labRequestOtherTest"
+        );
+
 
     const clinicalInformation =
         document.getElementById(
             "labRequestClinicalInformation"
         );
 
+
     const requestedBy =
         document.getElementById(
             "labRequestRequestedBy"
         );
 
-    if (otherTest) otherTest.value = "";
-    if (clinicalInformation) clinicalInformation.value = "";
-    if (requestedBy) requestedBy.value = "";
 
-    initializeLabRequestSignature();
-clearLabRequestSignature();
+    if (otherTest) {
 
+        otherTest.value = "";
+
+    }
+
+
+    if (clinicalInformation) {
+
+        clinicalInformation.value = "";
+
+    }
+
+
+    if (requestedBy) {
+
+        requestedBy.value = "";
+
+    }
+
+
+    // -------------------------------------------------
+    // Initialize electronic signature
+    // -------------------------------------------------
+
+    if (
+        typeof initializeLabRequestSignature ===
+        "function"
+    ) {
+
+        initializeLabRequestSignature();
+
+    }
+
+
+    // -------------------------------------------------
+    // Clear electronic signature
+    // -------------------------------------------------
+
+    if (
+        typeof clearLabRequestSignature ===
+        "function"
+    ) {
+
+        clearLabRequestSignature();
+
+    }
+
+
+    // -------------------------------------------------
     // Patient ID
+    // -------------------------------------------------
+
     const patientIdField =
         document.getElementById(
             "labRequestPatientId"
         );
 
+
     if (patientIdField) {
+
         patientIdField.textContent =
             currentPatientId;
+
     }
 
+
+    // -------------------------------------------------
     // Patient name
+    // -------------------------------------------------
+
     const patientName =
         document.getElementById(
             "viewName"
         );
+
 
     const patientNameField =
         document.getElementById(
             "labRequestPatientName"
         );
 
+
     if (patientNameField) {
+
         patientNameField.textContent =
             patientName
                 ? patientName.textContent.trim()
                 : "?";
+
     }
 
+
+    // -------------------------------------------------
     // Date of birth
+    // -------------------------------------------------
+
     const dob =
         document.getElementById(
             "viewDateOfBirth"
         );
+
 
     const dobField =
         document.getElementById(
             "labRequestPatientDob"
         );
 
+
     if (dobField) {
+
         dobField.textContent =
             dob
                 ? dob.textContent.trim()
                 : "?";
+
     }
 
+
+    // -------------------------------------------------
     // Gender
+    // -------------------------------------------------
+
     const gender =
         document.getElementById(
             "viewGender"
         );
+
 
     const genderField =
         document.getElementById(
             "labRequestPatientGender"
         );
 
+
     if (genderField) {
+
         genderField.textContent =
             gender
                 ? gender.textContent.trim()
                 : "?";
+
     }
 
+
+    // -------------------------------------------------
     // Current date
+    // -------------------------------------------------
+
     const today =
-        new Date().toISOString().split("T")[0];
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
 
     const dateDisplay =
         document.getElementById(
             "labRequestDateDisplay"
         );
 
+
     const signatureDate =
         document.getElementById(
             "labRequestSignatureDate"
         );
 
+
     if (dateDisplay) {
-        dateDisplay.textContent = today;
+
+        dateDisplay.textContent =
+            today;
+
     }
+
 
     if (signatureDate) {
-        signatureDate.textContent = today;
+
+        signatureDate.textContent =
+            today;
+
     }
 
-    modal.style.display = "block";
+
+    // -------------------------------------------------
+    // Store consultation ID in hidden field
+    // -------------------------------------------------
+
+    const labConsultationField =
+        document.getElementById(
+            "labRequestConsultationId"
+        );
+
+
+    if (labConsultationField) {
+
+        labConsultationField.value =
+            currentConsultationId;
+
+    }
+
+
+    // -------------------------------------------------
+    // Also synchronize main consultation field
+    // -------------------------------------------------
+
+    const consultationField =
+        document.getElementById(
+            "consultationId"
+        );
+
+
+    if (consultationField) {
+
+        consultationField.value =
+            currentConsultationId;
+
+    }
+
+
+    // -------------------------------------------------
+    // Open modal
+    // -------------------------------------------------
+
+    modal.style.display =
+        "block";
+
+
+    console.log(
+        "Laboratory Request opened successfully. Consultation ID:",
+        currentConsultationId
+    );
+
 }
 
 
-// Close Laboratory Request modal
+/* =====================================================
+   CLOSE LABORATORY REQUEST MODAL
+===================================================== */
+
 function closeLabRequestModal() {
 
     const modal =
@@ -11860,10 +12849,16 @@ function closeLabRequestModal() {
             "labRequestModal"
         );
 
+
     if (modal) {
-        modal.style.display = "none";
+
+        modal.style.display =
+            "none";
+
     }
+
 }
+
 
 // =====================================================
 // SAVE LABORATORY REQUEST
@@ -12023,7 +13018,7 @@ async function saveLabRequest() {
 const labRequestData = {
 
     consultation_id:
-        consultationId,
+    currentConsultationId || null,
 
     requested_tests:
         selectedTests.join(", "),
@@ -12053,24 +13048,34 @@ const labRequestData = {
 
     try {
 
-        const response =
-            await fetch(
-                `${API_URL}/api/patients/${currentPatientId}/lab-requests`,
-                {
-                    method: "POST",
+    const token = getToken();
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+    if (!token) {
+        throw new Error(
+            "Authentication required. Please log in again."
+        );
+    }
 
-                    body:
-                        JSON.stringify(
-                            labRequestData
-                        )
-                }
-            );
+    const response =
+        await fetch(
+            `${API_URL}/api/patients/${currentPatientId}/lab-requests`,
+            {
+                method: "POST",
 
+                headers: {
+                    "Content-Type":
+                        "application/json",
+
+                    "Authorization":
+                        `Bearer ${token}`
+                },
+
+                body:
+                    JSON.stringify(
+                        labRequestData
+                    )
+            }
+        );
 
         // -------------------------------------------------
         // Read server response

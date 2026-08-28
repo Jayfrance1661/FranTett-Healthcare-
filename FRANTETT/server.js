@@ -1,4 +1,4 @@
-const cors = require("cors");
+﻿const cors = require("cors");
 const express = require("express");
 const path = require("path");
 const { Pool } = require("pg");
@@ -5527,7 +5527,10 @@ app.delete(
 // ============================================================
 
 // Get vital signs for a patient
-app.get("/api/patients/:patientId/vitals", async (req, res) => {
+app.get(
+    "/api/patients/:patientId/vitals",
+    authenticateToken,
+    async (req, res) => {
     try {
         const patientId = Number(req.params.patientId);
 
@@ -5572,7 +5575,10 @@ app.get("/api/patients/:patientId/vitals", async (req, res) => {
 
 
 // Add vital signs
-app.post("/api/patients/:patientId/vitals", async (req, res) => {
+app.post(
+    "/api/patients/:patientId/vitals",
+    authenticateToken,
+    async (req, res) => {
     try {
         const patientId = Number(req.params.patientId);
 
@@ -5643,7 +5649,10 @@ app.post("/api/patients/:patientId/vitals", async (req, res) => {
 
 
 // Delete vital signs
-app.delete("/api/vitals/:id", async (req, res) => {
+app.delete(
+    "/api/vitals/:id",
+    authenticateToken,
+    async (req, res) => {
     try {
         const id = Number(req.params.id);
 
@@ -5688,6 +5697,7 @@ app.delete("/api/vitals/:id", async (req, res) => {
 
 app.post(
     "/api/patients/:patientId/lab-requests",
+    authenticateToken,
     async (req, res) => {
 
         try {
@@ -5810,6 +5820,7 @@ app.post(
 
 app.get(
     "/api/patients/:patientId/lab-requests",
+    authenticateToken,
     async (req, res) => {
 
         try {
@@ -5833,17 +5844,18 @@ app.get(
                 await pool.query(
                     `
                     SELECT
-                        id,
-                        patient_id,
-                        requested_tests,
-                        clinical_information,
-                        requested_by,
-                        request_date,
-                        created_at,
-                        electronic_signature
-                    FROM lab_requests
-                    WHERE patient_id = $1
-                    ORDER BY id DESC
+    id,
+    patient_id,
+    consultation_id,
+    requested_tests,
+    clinical_information,
+    requested_by,
+    request_date,
+    created_at,
+    electronic_signature
+FROM lab_requests
+WHERE patient_id = $1
+ORDER BY id DESC
                     `,
                     [patientId]
                 );
@@ -5880,6 +5892,7 @@ app.get(
 
 app.delete(
     "/api/lab-requests/:id",
+    authenticateToken,
     async (req, res) => {
 
         try {
