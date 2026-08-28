@@ -13,3 +13,7 @@ database-backups/
 
 # Local database backups
 BACKUPS/
+
+# FranTett database backups
+*.dump
+*.backup
