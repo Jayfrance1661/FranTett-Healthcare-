@@ -1,4 +1,4 @@
-﻿const cors = require("cors");
+const cors = require("cors");
 const express = require("express");
 const path = require("path");
 const { Pool } = require("pg");
@@ -5705,12 +5705,13 @@ app.post(
             }
 
             const {
-                requested_tests,
-                clinical_information,
-                requested_by,
-                request_date,
-                electronic_signature
-            } = req.body;
+    consultation_id,
+    requested_tests,
+    clinical_information,
+    requested_by,
+    request_date,
+    electronic_signature
+} = req.body;
 
             if (
                 !requested_tests ||
@@ -5722,27 +5723,46 @@ app.post(
                 });
             }
 
+            const consultationId =
+                consultation_id
+                    ? Number(consultation_id)
+                    : null;
+
+            if (
+                consultationId !== null &&
+                (
+                    !Number.isInteger(consultationId) ||
+                    consultationId <= 0
+                )
+            ) {
+                return res.status(400).json({
+                    message: "Invalid consultation ID."
+                });
+            }
+
             const result =
                 await pool.query(
                     `
                     INSERT INTO lab_requests (
-                        patient_id,
-                        requested_tests,
-                        clinical_information,
-                        requested_by,
-                        request_date,
-                        electronic_signature
-                    )
-                    VALUES ($1, $2, $3, $4, $5, $6)
+    patient_id,
+    consultation_id,
+    requested_tests,
+    clinical_information,
+    requested_by,
+    request_date,
+    electronic_signature
+)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7)
                     RETURNING *
                     `,
                     [
-                        patientId,
+    patientId,
 
-                        String(
-                            requested_tests
-                        ).trim(),
+    consultationId,
 
+    String(
+        requested_tests
+    ).trim(),
                         clinical_information
                             ? String(
                                 clinical_information
@@ -5783,48 +5803,6 @@ app.post(
         }
     }
 );
-
-// Delete laboratory request
-app.delete("/api/lab-requests/:id", async (req, res) => {
-    try {
-
-        const id = Number(req.params.id);
-
-        if (!Number.isInteger(id) || id <= 0) {
-            return res.status(400).json({
-                message: "Invalid laboratory request ID."
-            });
-        }
-
-        const result = await pool.query(
-            `
-            DELETE FROM lab_requests
-            WHERE id = $1
-            RETURNING id
-            `,
-            [id]
-        );
-
-        if (result.rowCount === 0) {
-            return res.status(404).json({
-                message: "Laboratory request not found."
-            });
-        }
-
-        res.json({
-            message: "Laboratory request deleted successfully."
-        });
-
-    } catch (error) {
-
-        console.error("Delete lab request error:", error);
-
-        res.status(500).json({
-            message: "Failed to delete laboratory request."
-        });
-
-    }
-});
 
 // =====================================================
 // GET LABORATORY REQUESTS FOR PATIENT
@@ -5895,6 +5873,61 @@ app.get(
 
 // ============================================================
 
+
+// =====================================================
+// DELETE LABORATORY REQUEST
+// =====================================================
+
+app.delete(
+    "/api/lab-requests/:id",
+    async (req, res) => {
+
+        try {
+
+            const id = Number(req.params.id);
+
+            if (!Number.isInteger(id) || id <= 0) {
+                return res.status(400).json({
+                    message: "Invalid laboratory request ID."
+                });
+            }
+
+            const result = await pool.query(
+                `
+                DELETE FROM lab_requests
+                WHERE id = $1
+                RETURNING id
+                `,
+                [id]
+            );
+
+            if (result.rowCount === 0) {
+                return res.status(404).json({
+                    message: "Laboratory request not found."
+                });
+            }
+
+            res.json({
+                message: "Laboratory request deleted successfully.",
+                id: result.rows[0].id
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Delete laboratory request error:",
+                error
+            );
+
+            res.status(500).json({
+                message: "Failed to delete laboratory request."
+            });
+        }
+    }
+);
+
+
+// =====================================================
 // EMR - LAB REPORT PANELS
 // ============================================================
 
@@ -6546,6 +6579,7 @@ app.listen(
 
     }
 );
+
 
 
 
