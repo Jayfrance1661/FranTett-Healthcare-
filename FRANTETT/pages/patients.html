@@ -9598,17 +9598,20 @@ const consultationData = {
 
                 }
 
-if (data.id) {
+const savedConsultation =
+    data.consultation || data;
+
+if (savedConsultation.id) {
 
     setActiveConsultationId(
-        data.id
+        savedConsultation.id
     );
-
 
     console.log(
         "Current consultation set to:",
         currentConsultationId
     );
+
 }
                 showMessage(
                     data.message ||
@@ -10115,7 +10118,7 @@ async function editConsultation(
 
 
 setActiveConsultationId(
-    consultationId
+    consultation.id
 );
 
 
