@@ -2671,44 +2671,9 @@
         </div>
 
 
-        
+        <div class="section">
 
-
-
-<div class="section">
-
-
-    <h3>Clinical Information</h3>
-
-    <div class="info-grid">
-
-        <div class="info-card">
-            <strong>Medical History</strong>
-            <span id="viewMedicalHistory"></span>
-        </div>
-
-        <div class="info-card">
-            <strong>Allergies</strong>
-            <span id="viewAllergies"></span>
-        </div>
-
-        <div class="info-card">
-            <strong>Current Medications</strong>
-            <span id="viewMedications"></span>
-        </div>
-
-        <div class="info-card">
-            <strong>Notes</strong>
-            <span id="viewNotes"></span>
-        </div>
-
-    </div>
-
-</div>
-
-
-<div class="section">
-<h3>Appointment History</h3>
+            <h3>Appointment History</h3>
 
             <div id="appointmentHistory">
 
@@ -2720,6 +2685,7 @@
 
         </div>
 
+        
 <div class="section">
 
     <div class="top-actions">
@@ -2750,29 +2716,59 @@
 
 </div>
 
+
+
+
 <div class="section">
 
-    <h3>Patient Timeline</h3>
+            <h3>Clinical Information</h3>
 
-    <div id="patientTimeline">
+            <div class="clinical-item">
 
-        <div class="loading">
-            Loading patient timeline...
+                <strong>Medical History</strong>
+
+                <div
+                    id="viewMedicalHistory"
+                    class="history-box"
+                ></div>
+
+            </div>
+
+            <div class="clinical-item">
+
+                <strong>Allergies</strong>
+
+                <div
+                    id="viewAllergies"
+                    class="history-box"
+                ></div>
+
+            </div>
+
+            <div class="clinical-item">
+
+                <strong>Current Medications</strong>
+
+                <div
+                    id="viewMedications"
+                    class="history-box"
+                ></div>
+
+            </div>
+
+            <div class="clinical-item">
+
+                <strong>Notes</strong>
+
+                <div
+                    id="viewNotes"
+                    class="history-box"
+                ></div>
+
+            </div>
+
         </div>
 
-    </div>
-
-</div>
-
-</div>
-</div>
-
-
-
-
-
-
-        
 <!-- =====================================================
      VITAL SIGNS MODAL
 ===================================================== -->
@@ -2794,11 +2790,6 @@
         <h2>Record Vital Signs</h2>
 
         <form id="vitalSignsForm">
-
-            <input
-                type="hidden"
-                id="vitalConsultationId"
-            >
 
             <div class="form-grid">
 
@@ -2983,6 +2974,154 @@
 
 </div>
 
+        <!-- =====================================================
+             VITAL SIGNS
+        ====================================================== -->
+
+        <div class="section">
+
+            <div class="top-actions">
+
+                <h3>
+                    Vital Signs
+                </h3>
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                   
+onclick="event.stopPropagation(); openVitalSignsModal();"
+                >
+                    + Record Vital Signs
+                </button>
+
+            </div>
+
+
+            <!-- Vital Signs History -->
+
+            <div
+                id="vitalSignsHistory"
+                style="margin-top: 15px;"
+            >
+
+                <div class="loading">
+                    Loading vital signs history...
+                </div>
+
+            </div>
+
+        </div>
+
+        
+<div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Laboratory Requests
+        </h3>
+
+        <button
+            type="button"
+            class="primary-btn"
+        
+onclick="event.stopPropagation(); openAddLabRequestModal();"
+        >
+            + Lab Request
+        </button>
+
+    </div>
+
+
+    <div id="labRequestsHistory">
+
+        <div class="loading">
+            Loading laboratory requests...
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Laboratory Results
+        </h3>
+
+        <button
+            type="button"
+            class="primary-btn"
+            onclick="event.stopPropagation(); openAddLabReportModal();"
+        >
+            + Add Laboratory Report
+        </button>
+
+    </div>
+
+
+    <div id="labResultsHistory">
+
+        <div class="loading">
+            Loading laboratory results...
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Prescription Records
+        </h3>
+
+        <button
+            type="button"
+            class="primary-btn"
+            onclick="openAddPrescriptionModal()"
+        >
+            + Add Prescription
+        </button>
+
+    </div>
+
+
+    <div id="prescriptionHistory">
+
+        <div class="loading">
+            Loading prescription records...
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="section">
+
+    <h3>Patient Timeline</h3>
+
+    <div id="patientTimeline">
+
+        <div class="loading">
+            Loading patient timeline...
+        </div>
+
+    </div>
+
+</div>
+
+        
 <!-- =====================================================
      PRESCRIPTION FORM MODAL
 ===================================================== -->
@@ -3856,43 +3995,9 @@
                 >
 
             </div>
-<div class="section">
-
-            <div class="top-actions">
-
-                <h3>
-                    Vital Signs
-                </h3>
-
-                <button
-                    type="button"
-                    class="primary-btn"
-                   
-onclick="event.stopPropagation(); openVitalSignsModal();"
-                >
-                    + Record Vital Signs
-                </button>
-
-            </div>
 
 
-            <!-- Vital Signs History -->
-
-            <div
-                id="vitalSignsHistory"
-                style="margin-top: 15px;"
-            >
-
-                <div class="loading">
-                    Loading vital signs history...
-                </div>
-
-            </div>
-
-        </div>
-
-
-<div class="form-group consultation-presenting-complaint">
+            <div class="form-group">
 
                 <label>Presenting Complaint</label>
 
@@ -4113,95 +4218,6 @@ onclick="event.stopPropagation(); openVitalSignsModal();"
 
             </div>
 
-
-
-<div class="section">
-
-    <div class="top-actions">
-
-        <h3>
-            Laboratory Requests
-        </h3>
-
-        <button
-            type="button"
-            class="primary-btn"
-        
-onclick="event.stopPropagation(); openAddLabRequestModal();"
-        >
-            + Lab Request
-        </button>
-
-    </div>
-
-
-    <div id="labRequestsHistory">
-
-        <div class="loading">
-            Loading laboratory requests...
-        </div>
-
-    </div>
-
-</div>
-
-<div class="section">
-
-    <div class="top-actions">
-
-        <h3>
-            Laboratory Results
-        </h3>
-
-        <button
-            type="button"
-            class="primary-btn"
-            onclick="event.stopPropagation(); openAddLabReportModal();"
-        >
-            + Add Laboratory Report
-        </button>
-
-    </div>
-
-
-    <div id="labResultsHistory">
-
-        <div class="loading">
-            Loading laboratory results...
-        </div>
-
-    </div>
-
-</div>
-
-<div class="section">
-
-    <div class="top-actions">
-
-        <h3>
-            Prescription Records
-        </h3>
-
-        <button
-            type="button"
-            class="primary-btn"
-            onclick="openAddPrescriptionModal()"
-        >
-            + Add Prescription
-        </button>
-
-    </div>
-
-
-    <div id="prescriptionHistory">
-
-        <div class="loading">
-            Loading prescription records...
-        </div>
-
-    </div>
-
-</div>
 
             <div class="form-actions">
 
@@ -13817,10 +13833,6 @@ loadPatients();
 
 </body>
 </html>
-
-
-
-
 
 
 

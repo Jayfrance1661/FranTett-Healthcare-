@@ -2677,38 +2677,7 @@
 
 <div class="section">
 
-
-    <h3>Clinical Information</h3>
-
-    <div class="info-grid">
-
-        <div class="info-card">
-            <strong>Medical History</strong>
-            <span id="viewMedicalHistory"></span>
-        </div>
-
-        <div class="info-card">
-            <strong>Allergies</strong>
-            <span id="viewAllergies"></span>
-        </div>
-
-        <div class="info-card">
-            <strong>Current Medications</strong>
-            <span id="viewMedications"></span>
-        </div>
-
-        <div class="info-card">
-            <strong>Notes</strong>
-            <span id="viewNotes"></span>
-        </div>
-
-    </div>
-
-</div>
-
-
-<div class="section">
-<h3>Appointment History</h3>
+            <h3>Appointment History</h3>
 
             <div id="appointmentHistory">
 
@@ -2752,6 +2721,129 @@
 
 <div class="section">
 
+            <div class="top-actions">
+
+                <h3>
+                    Vital Signs
+                </h3>
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                   
+onclick="event.stopPropagation(); openVitalSignsModal();"
+                >
+                    + Record Vital Signs
+                </button>
+
+            </div>
+
+
+            <!-- Vital Signs History -->
+
+            <div
+                id="vitalSignsHistory"
+                style="margin-top: 15px;"
+            >
+
+                <div class="loading">
+                    Loading vital signs history...
+                </div>
+
+            </div>
+
+        </div>
+
+<div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Laboratory Requests
+        </h3>
+
+        <button
+            type="button"
+            class="primary-btn"
+        
+onclick="event.stopPropagation(); openAddLabRequestModal();"
+        >
+            + Lab Request
+        </button>
+
+    </div>
+
+
+    <div id="labRequestsHistory">
+
+        <div class="loading">
+            Loading laboratory requests...
+        </div>
+
+    </div>
+
+</div>
+
+<div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Laboratory Results
+        </h3>
+
+        <button
+            type="button"
+            class="primary-btn"
+            onclick="event.stopPropagation(); openAddLabReportModal();"
+        >
+            + Add Laboratory Report
+        </button>
+
+    </div>
+
+
+    <div id="labResultsHistory">
+
+        <div class="loading">
+            Loading laboratory results...
+        </div>
+
+    </div>
+
+</div>
+
+<div class="section">
+
+    <div class="top-actions">
+
+        <h3>
+            Prescription Records
+        </h3>
+
+        <button
+            type="button"
+            class="primary-btn"
+            onclick="openAddPrescriptionModal()"
+        >
+            + Add Prescription
+        </button>
+
+    </div>
+
+
+    <div id="prescriptionHistory">
+
+        <div class="loading">
+            Loading prescription records...
+        </div>
+
+    </div>
+
+</div>
+
+<div class="section">
+
     <h3>Patient Timeline</h3>
 
     <div id="patientTimeline">
@@ -2764,225 +2856,11 @@
 
 </div>
 
-</div>
-</div>
-
-
 
 
 
 
         
-<!-- =====================================================
-     VITAL SIGNS MODAL
-===================================================== -->
-
-<div
-    id="vitalSignsModal"
-    class="modal"
->
-
-    <div class="modal-content">
-
-        <span
-            class="close-modal"
-            onclick="closeVitalSignsModal()"
-        >
-            &times;
-        </span>
-
-        <h2>Record Vital Signs</h2>
-
-        <form id="vitalSignsForm">
-
-            <input
-                type="hidden"
-                id="vitalConsultationId"
-            >
-
-            <div class="form-grid">
-
-                <div class="form-group">
-
-                    <label for="vitalBloodPressure">
-                        Blood Pressure
-                    </label>
-
-                    <input
-                        type="text"
-                        id="vitalBloodPressure"
-                        placeholder="e.g. 120/80"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="vitalHeartRate">
-                        Heart Rate (bpm)
-                    </label>
-
-                    <input
-                        type="number"
-                        id="vitalHeartRate"
-                        min="1"
-                        step="0.01"
-                        placeholder="e.g. 72"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="vitalTemperature">
-                        Temperature (&deg;C)
-                    </label>
-
-                    <input
-                        type="number"
-                        id="vitalTemperature"
-                        min="25"
-                        max="45"
-                        step="0.1"
-                        placeholder="e.g. 36.7"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="vitalRespiratoryRate">
-                        Respiratory Rate (breaths/min)
-                    </label>
-
-                    <input
-                        type="number"
-                        id="vitalRespiratoryRate"
-                        min="1"
-                        max="100"
-                        step="1"
-                        placeholder="e.g. 16"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="vitalOxygenSaturation">
-                        Oxygen Saturation (%)
-                    </label>
-
-                    <input
-                        type="number"
-                        id="vitalOxygenSaturation"
-                        min="1"
-                        max="100"
-                        step="0.1"
-                        placeholder="e.g. 98"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="vitalWeight">
-                        Weight (kg)
-                    </label>
-
-                    <input
-                        type="number"
-                        id="vitalWeight"
-                        min="0.1"
-                        step="0.1"
-                        placeholder="e.g. 70"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="vitalHeight">
-                        Height (cm)
-                    </label>
-
-                    <input
-                        type="number"
-                        id="vitalHeight"
-                        min="1"
-                        step="0.1"
-                        placeholder="e.g. 175"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="vitalBMI">
-                        BMI
-                    </label>
-
-                    <input
-                        type="text"
-                        id="vitalBMI"
-                        readonly
-                        placeholder="Automatically calculated"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="vitalRecordedBy">
-                    Recorded By
-                </label>
-
-                <input
-                    type="text"
-                    id="vitalRecordedBy"
-                    placeholder="Staff name"
-                >
-
-            </div>
-
-
-            <div
-                class="top-actions"
-                style="margin-top: 20px;"
-            >
-
-                <button
-                    type="button"
-                    class="secondary-btn"
-                    onclick="closeVitalSignsModal()"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    class="primary-btn"
-                >
-                    Save Vital Signs
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
 <!-- =====================================================
      PRESCRIPTION FORM MODAL
 ===================================================== -->
@@ -3856,43 +3734,9 @@
                 >
 
             </div>
-<div class="section">
-
-            <div class="top-actions">
-
-                <h3>
-                    Vital Signs
-                </h3>
-
-                <button
-                    type="button"
-                    class="primary-btn"
-                   
-onclick="event.stopPropagation(); openVitalSignsModal();"
-                >
-                    + Record Vital Signs
-                </button>
-
-            </div>
 
 
-            <!-- Vital Signs History -->
-
-            <div
-                id="vitalSignsHistory"
-                style="margin-top: 15px;"
-            >
-
-                <div class="loading">
-                    Loading vital signs history...
-                </div>
-
-            </div>
-
-        </div>
-
-
-<div class="form-group consultation-presenting-complaint">
+            <div class="form-group">
 
                 <label>Presenting Complaint</label>
 
@@ -4113,95 +3957,6 @@ onclick="event.stopPropagation(); openVitalSignsModal();"
 
             </div>
 
-
-
-<div class="section">
-
-    <div class="top-actions">
-
-        <h3>
-            Laboratory Requests
-        </h3>
-
-        <button
-            type="button"
-            class="primary-btn"
-        
-onclick="event.stopPropagation(); openAddLabRequestModal();"
-        >
-            + Lab Request
-        </button>
-
-    </div>
-
-
-    <div id="labRequestsHistory">
-
-        <div class="loading">
-            Loading laboratory requests...
-        </div>
-
-    </div>
-
-</div>
-
-<div class="section">
-
-    <div class="top-actions">
-
-        <h3>
-            Laboratory Results
-        </h3>
-
-        <button
-            type="button"
-            class="primary-btn"
-            onclick="event.stopPropagation(); openAddLabReportModal();"
-        >
-            + Add Laboratory Report
-        </button>
-
-    </div>
-
-
-    <div id="labResultsHistory">
-
-        <div class="loading">
-            Loading laboratory results...
-        </div>
-
-    </div>
-
-</div>
-
-<div class="section">
-
-    <div class="top-actions">
-
-        <h3>
-            Prescription Records
-        </h3>
-
-        <button
-            type="button"
-            class="primary-btn"
-            onclick="openAddPrescriptionModal()"
-        >
-            + Add Prescription
-        </button>
-
-    </div>
-
-
-    <div id="prescriptionHistory">
-
-        <div class="loading">
-            Loading prescription records...
-        </div>
-
-    </div>
-
-</div>
 
             <div class="form-actions">
 
@@ -13817,8 +13572,6 @@ loadPatients();
 
 </body>
 </html>
-
-
 
 
 
