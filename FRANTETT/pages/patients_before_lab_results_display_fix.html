@@ -7798,8 +7798,10 @@ async function displayConsultations(consultations) {
                                     <td>
                                         ${
                                             result.test_name
-                                                ? valueOrNone(result.test_name)
-                                                : "None recorded"
+                                                ? valueOrNone(
+                                                    result.test_name
+                                                )
+                                                : "Not provided"
                                         }
                                     </td>
 
@@ -7807,22 +7809,26 @@ async function displayConsultations(consultations) {
                                         ${
                                             result.result ??
                                             result.results ??
-                                            "None recorded"
+                                            "Not provided"
                                         }
                                     </td>
 
                                     <td>
                                         ${
                                             result.status
-                                                ? valueOrNone(result.status)
-                                                : "None recorded"
+                                                ? valueOrNone(
+                                                    result.status
+                                                )
+                                                : "Not provided"
                                         }
                                     </td>
 
                                     <td>
                                         ${
                                             result.notes
-                                                ? valueOrNone(result.notes)
+                                                ? valueOrNone(
+                                                    result.notes
+                                                )
                                                 : "None recorded"
                                         }
                                     </td>
@@ -15255,7 +15261,6 @@ loadPatients();
 
 </body>
 </html>
-
 
 
 

@@ -7559,129 +7559,76 @@ async function displayConsultations(consultations) {
                     Vital Signs
                 </div>
 
-                <div class="clinical-table-wrapper">
-
-                    <table class="clinical-table">
-
-                        <thead>
-                            <tr>
-                                <th>Blood Pressure</th>
-                                <th>Heart Rate</th>
-                                <th>Temperature</th>
-                                <th>Respiratory Rate</th>
-                                <th>Oxygen Saturation</th>
-                                <th>Weight</th>
-                                <th>Height</th>
-                                <th>BMI</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            ${records.map(vital => `
-
-                                <tr>
-
-                                    <td>
-                                        ${valueOrNone(vital.blood_pressure)}
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.heart_rate)}
-                                        ${
-                                            vital.heart_rate !== null &&
-                                            vital.heart_rate !== undefined &&
-                                            String(vital.heart_rate).trim() !== ""
-                                                ? " bpm"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.temperature)}
-                                        ${
-                                            vital.temperature !== null &&
-                                            vital.temperature !== undefined &&
-                                            String(vital.temperature).trim() !== ""
-                                                ? " °C"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.respiratory_rate)}
-                                        ${
-                                            vital.respiratory_rate !== null &&
-                                            vital.respiratory_rate !== undefined &&
-                                            String(vital.respiratory_rate).trim() !== ""
-                                                ? " /min"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.oxygen_saturation)}
-                                        ${
-                                            vital.oxygen_saturation !== null &&
-                                            vital.oxygen_saturation !== undefined &&
-                                            String(vital.oxygen_saturation).trim() !== ""
-                                                ? " %"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.weight)}
-                                        ${
-                                            vital.weight !== null &&
-                                            vital.weight !== undefined &&
-                                            String(vital.weight).trim() !== ""
-                                                ? " kg"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.height)}
-                                        ${
-                                            vital.height !== null &&
-                                            vital.height !== undefined &&
-                                            String(vital.height).trim() !== ""
-                                                ? " cm"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.bmi)}
-                                    </td>
-
-                                </tr>
-
-                            `).join("")}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
                 ${records.map(vital => `
-                    ${
-                        vital.recorded_by
-                            ? `
-                                <div class="record-meta">
-                                    Recorded by:
-                                    ${escapeHtml(String(vital.recorded_by))}
-                                </div>
-                              `
-                            : ""
-                    }
+
+                    <div class="linked-clinical-record">
+
+                        <div class="clinical-grid">
+
+                            <div>
+                                <strong>Blood Pressure:</strong>
+                                ${valueOrNone(vital.blood_pressure)}
+                            </div>
+
+                            <div>
+                                <strong>Heart Rate:</strong>
+                                ${valueOrNone(vital.heart_rate)}
+                                ${vital.heart_rate ? " bpm" : ""}
+                            </div>
+
+                            <div>
+                                <strong>Temperature:</strong>
+                                ${valueOrNone(vital.temperature)}
+                                ${vital.temperature ? " °C" : ""}
+                            </div>
+
+                            <div>
+                                <strong>Respiratory Rate:</strong>
+                                ${valueOrNone(vital.respiratory_rate)}
+                                ${vital.respiratory_rate ? " /min" : ""}
+                            </div>
+
+                            <div>
+                                <strong>Oxygen Saturation:</strong>
+                                ${valueOrNone(vital.oxygen_saturation)}
+                                ${vital.oxygen_saturation ? " %" : ""}
+                            </div>
+
+                            <div>
+                                <strong>Weight:</strong>
+                                ${valueOrNone(vital.weight)}
+                                ${vital.weight ? " kg" : ""}
+                            </div>
+
+                            <div>
+                                <strong>Height:</strong>
+                                ${valueOrNone(vital.height)}
+                                ${vital.height ? " cm" : ""}
+                            </div>
+
+                            <div>
+                                <strong>BMI:</strong>
+                                ${valueOrNone(vital.bmi)}
+                            </div>
+
+                        </div>
+
+                        ${
+                            vital.recorded_by
+                                ? `<div class="record-meta">
+                                    Recorded by: ${escapeHtml(String(vital.recorded_by))}
+                                   </div>`
+                                : ""
+                        }
+
+                    </div>
+
                 `).join("")}
 
             </div>
         `;
     }
+
     function renderLabRequests(records) {
 
         if (!records.length) {
@@ -7700,64 +7647,42 @@ async function displayConsultations(consultations) {
                     Laboratory Requests
                 </div>
 
-                <div class="clinical-table-wrapper">
+                ${records.map(lab => `
 
-                    <table class="clinical-table">
+                    <div class="linked-clinical-record">
 
-                        <thead>
-                            <tr>
-                                <th>Requested Tests</th>
-                                <th>Clinical Information</th>
-                                <th>Requested By</th>
-                                <th>Request Date</th>
-                            </tr>
-                        </thead>
+                        <div>
+                            <strong>Requested Tests:</strong>
+                            ${valueOrNone(lab.requested_tests)}
+                        </div>
 
-                        <tbody>
+                        <div>
+                            <strong>Clinical Information:</strong>
+                            ${valueOrNone(lab.clinical_information)}
+                        </div>
 
-                            ${records.map(lab => `
+                        <div>
+                            <strong>Requested By:</strong>
+                            ${valueOrNone(lab.requested_by)}
+                        </div>
 
-                                <tr>
+                        <div>
+                            <strong>Request Date:</strong>
+                            ${
+                                lab.request_date
+                                    ? escapeHtml(formatDate(lab.request_date))
+                                    : "Not provided"
+                            }
+                        </div>
 
-                                    <td>
-                                        ${valueOrNone(lab.requested_tests)}
-                                    </td>
+                    </div>
 
-                                    <td>
-                                        ${valueOrNone(
-                                            lab.clinical_information
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(lab.requested_by)}
-                                    </td>
-
-                                    <td>
-                                        ${
-                                            lab.request_date
-                                                ? escapeHtml(
-                                                    formatDate(
-                                                        lab.request_date
-                                                    )
-                                                )
-                                                : "Not provided"
-                                        }
-                                    </td>
-
-                                </tr>
-
-                            `).join("")}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
+                `).join("")}
 
             </div>
         `;
     }
+
     function renderLabResults(records) {
 
         if (!records.length) {
@@ -7776,70 +7701,63 @@ async function displayConsultations(consultations) {
                     Laboratory Results
                 </div>
 
-                <div class="clinical-table-wrapper">
+                ${records.map(result => `
 
-                    <table class="clinical-table">
+                    <div class="linked-clinical-record">
 
-                        <thead>
-                            <tr>
-                                <th>Test</th>
-                                <th>Result</th>
-                                <th>Status</th>
-                                <th>Notes</th>
-                            </tr>
-                        </thead>
+                        ${
+                            result.test_name
+                                ? `<div>
+                                    <strong>Test:</strong>
+                                    ${valueOrNone(result.test_name)}
+                                   </div>`
+                                : ""
+                        }
 
-                        <tbody>
+                        ${
+                            result.result
+                                ? `<div>
+                                    <strong>Result:</strong>
+                                    ${valueOrNone(result.result)}
+                                   </div>`
+                                : ""
+                        }
 
-                            ${records.map(result => `
+                        ${
+                            result.results
+                                ? `<div>
+                                    <strong>Results:</strong>
+                                    ${valueOrNone(result.results)}
+                                   </div>`
+                                : ""
+                        }
 
-                                <tr>
+                        ${
+                            result.status
+                                ? `<div>
+                                    <strong>Status:</strong>
+                                    ${valueOrNone(result.status)}
+                                   </div>`
+                                : ""
+                        }
 
-                                    <td>
-                                        ${
-                                            result.test_name
-                                                ? valueOrNone(result.test_name)
-                                                : "None recorded"
-                                        }
-                                    </td>
+                        ${
+                            result.notes
+                                ? `<div>
+                                    <strong>Notes:</strong>
+                                    ${valueOrNone(result.notes)}
+                                   </div>`
+                                : ""
+                        }
 
-                                    <td>
-                                        ${
-                                            result.result ??
-                                            result.results ??
-                                            "None recorded"
-                                        }
-                                    </td>
+                    </div>
 
-                                    <td>
-                                        ${
-                                            result.status
-                                                ? valueOrNone(result.status)
-                                                : "None recorded"
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${
-                                            result.notes
-                                                ? valueOrNone(result.notes)
-                                                : "None recorded"
-                                        }
-                                    </td>
-
-                                </tr>
-
-                            `).join("")}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
+                `).join("")}
 
             </div>
         `;
     }
+
     function renderPrescriptions(records) {
 
         if (!records.length) {
@@ -7858,115 +7776,81 @@ async function displayConsultations(consultations) {
                     Prescriptions
                 </div>
 
-                ${records.map(prescription => {
+                ${records.map(prescription => `
 
-                    const medications =
-                        Array.isArray(prescription.medications)
-                            ? prescription.medications
-                            : [];
+                    <div class="linked-clinical-record">
 
-                    if (!medications.length) {
+                        ${
+                            prescription.medication_name
+                                ? `<div>
+                                    <strong>Medication:</strong>
+                                    ${valueOrNone(prescription.medication_name)}
+                                   </div>`
+                                : ""
+                        }
 
-                        return `
-                            <div class="linked-clinical-record">
-                                <div class="record-meta">
-                                    No medication items recorded for this prescription.
-                                </div>
-                            </div>
-                        `;
-                    }
+                        ${
+                            prescription.medication
+                                ? `<div>
+                                    <strong>Medication:</strong>
+                                    ${valueOrNone(prescription.medication)}
+                                   </div>`
+                                : ""
+                        }
 
-                    return `
-                        <div class="linked-clinical-record">
+                        ${
+                            prescription.dose
+                                ? `<div>
+                                    <strong>Dose:</strong>
+                                    ${valueOrNone(prescription.dose)}
+                                   </div>`
+                                : ""
+                        }
 
-                            <div class="clinical-table-wrapper">
+                        ${
+                            prescription.route
+                                ? `<div>
+                                    <strong>Route:</strong>
+                                    ${valueOrNone(prescription.route)}
+                                   </div>`
+                                : ""
+                        }
 
-                                <table class="clinical-table">
+                        ${
+                            prescription.frequency
+                                ? `<div>
+                                    <strong>Frequency:</strong>
+                                    ${valueOrNone(prescription.frequency)}
+                                   </div>`
+                                : ""
+                        }
 
-                                    <thead>
-                                        <tr>
-                                            <th>Medication</th>
-                                            <th>Dose</th>
-                                            <th>Route</th>
-                                            <th>Frequency</th>
-                                            <th>Duration</th>
-                                            <th>Quantity</th>
-                                        </tr>
-                                    </thead>
+                        ${
+                            prescription.duration
+                                ? `<div>
+                                    <strong>Duration:</strong>
+                                    ${valueOrNone(prescription.duration)}
+                                   </div>`
+                                : ""
+                        }
 
-                                    <tbody>
+                        ${
+                            prescription.quantity
+                                ? `<div>
+                                    <strong>Quantity:</strong>
+                                    ${valueOrNone(prescription.quantity)}
+                                   </div>`
+                                : ""
+                        }
 
-                                        ${medications.map(item => `
+                    </div>
 
-                                            <tr>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.medication_name
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.dose
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.route
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.frequency
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.duration
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.quantity
-                                                    )}
-                                                </td>
-
-                                            </tr>
-
-                                        `).join("")}
-
-                                    </tbody>
-
-                                </table>
-
-                            </div>
-
-                            ${
-                                prescription.notes
-                                    ? `
-                                        <div class="record-meta">
-                                            <strong>Notes:</strong>
-                                            ${valueOrNone(
-                                                prescription.notes
-                                            )}
-                                        </div>
-                                      `
-                                    : ""
-                            }
-
-                        </div>
-                    `;
-
-                }).join("")}
+                `).join("")}
 
             </div>
         `;
     }
+
     const cards = await Promise.all(
 
         consultations.map(async consultation => {
@@ -15255,12 +15139,6 @@ loadPatients();
 
 </body>
 </html>
-
-
-
-
-
-
 
 
 

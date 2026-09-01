@@ -7429,7 +7429,7 @@ async function loadConsultations(
    DISPLAY CONSULTATIONS
 ===================================================== */
 
-async function displayConsultations(consultations) {
+function displayConsultations(consultations) {
 
     const container =
         document.getElementById("consultationHistory");
@@ -7449,770 +7449,202 @@ async function displayConsultations(consultations) {
         return;
     }
 
-    const token = getToken();
+    container.innerHTML = consultations.map(
+        consultation => `
 
-    if (!token) {
-        container.innerHTML = `
-            <div class="no-records">
-                Session expired. Please log in again.
-            </div>
-        `;
-        return;
-    }
+            <div class="consultation-card">
 
-    container.innerHTML = `
-        <div class="loading">
-            Loading complete consultation clinical records...
-        </div>
-    `;
+                <div class="clinical-record-header">
 
-    const authHeaders = {
-        "Authorization": `Bearer ${token}`
-    };
+                    <div>
+                        <h4>Clinical Consultation</h4>
 
-    async function getRecords(url) {
-
-        try {
-
-            const response = await fetch(url, {
-                headers: authHeaders
-            });
-
-            if (!response.ok) {
-                return [];
-            }
-
-            const data = await response.json();
-
-            if (Array.isArray(data)) {
-                return data;
-            }
-
-            if (Array.isArray(data.records)) {
-                return data.records;
-            }
-
-            if (Array.isArray(data.data)) {
-                return data.data;
-            }
-
-            if (Array.isArray(data.results)) {
-                return data.results;
-            }
-
-            return [];
-
-        } catch (error) {
-
-            console.warn(
-                "Clinical record request failed:",
-                url,
-                error
-            );
-
-            return [];
-        }
-    }
-
-    function consultationMatch(record, consultationId) {
-
-        if (!record) {
-            return false;
-        }
-
-        const recordConsultationId =
-            record.consultation_id ??
-            record.consultationId ??
-            record.consultationID;
-
-        return Number(recordConsultationId) === Number(consultationId);
-    }
-
-    function valueOrNone(value) {
-
-        if (
-            value === null ||
-            value === undefined ||
-            String(value).trim() === ""
-        ) {
-            return "None recorded";
-        }
-
-        return escapeHtml(String(value));
-    }
-
-    function renderVitalSigns(records) {
-
-        if (!records.length) {
-
-            return `
-                <div class="clinical-subsection empty">
-                    No vital signs recorded for this consultation.
-                </div>
-            `;
-        }
-
-        return `
-            <div class="clinical-subsection">
-
-                <div class="clinical-subsection-title">
-                    Vital Signs
-                </div>
-
-                <div class="clinical-table-wrapper">
-
-                    <table class="clinical-table">
-
-                        <thead>
-                            <tr>
-                                <th>Blood Pressure</th>
-                                <th>Heart Rate</th>
-                                <th>Temperature</th>
-                                <th>Respiratory Rate</th>
-                                <th>Oxygen Saturation</th>
-                                <th>Weight</th>
-                                <th>Height</th>
-                                <th>BMI</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            ${records.map(vital => `
-
-                                <tr>
-
-                                    <td>
-                                        ${valueOrNone(vital.blood_pressure)}
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.heart_rate)}
-                                        ${
-                                            vital.heart_rate !== null &&
-                                            vital.heart_rate !== undefined &&
-                                            String(vital.heart_rate).trim() !== ""
-                                                ? " bpm"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.temperature)}
-                                        ${
-                                            vital.temperature !== null &&
-                                            vital.temperature !== undefined &&
-                                            String(vital.temperature).trim() !== ""
-                                                ? " °C"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.respiratory_rate)}
-                                        ${
-                                            vital.respiratory_rate !== null &&
-                                            vital.respiratory_rate !== undefined &&
-                                            String(vital.respiratory_rate).trim() !== ""
-                                                ? " /min"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.oxygen_saturation)}
-                                        ${
-                                            vital.oxygen_saturation !== null &&
-                                            vital.oxygen_saturation !== undefined &&
-                                            String(vital.oxygen_saturation).trim() !== ""
-                                                ? " %"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.weight)}
-                                        ${
-                                            vital.weight !== null &&
-                                            vital.weight !== undefined &&
-                                            String(vital.weight).trim() !== ""
-                                                ? " kg"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.height)}
-                                        ${
-                                            vital.height !== null &&
-                                            vital.height !== undefined &&
-                                            String(vital.height).trim() !== ""
-                                                ? " cm"
-                                                : ""
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(vital.bmi)}
-                                    </td>
-
-                                </tr>
-
-                            `).join("")}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-                ${records.map(vital => `
-                    ${
-                        vital.recorded_by
-                            ? `
-                                <div class="record-meta">
-                                    Recorded by:
-                                    ${escapeHtml(String(vital.recorded_by))}
-                                </div>
-                              `
-                            : ""
-                    }
-                `).join("")}
-
-            </div>
-        `;
-    }
-    function renderLabRequests(records) {
-
-        if (!records.length) {
-
-            return `
-                <div class="clinical-subsection empty">
-                    No laboratory requests for this consultation.
-                </div>
-            `;
-        }
-
-        return `
-            <div class="clinical-subsection">
-
-                <div class="clinical-subsection-title">
-                    Laboratory Requests
-                </div>
-
-                <div class="clinical-table-wrapper">
-
-                    <table class="clinical-table">
-
-                        <thead>
-                            <tr>
-                                <th>Requested Tests</th>
-                                <th>Clinical Information</th>
-                                <th>Requested By</th>
-                                <th>Request Date</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            ${records.map(lab => `
-
-                                <tr>
-
-                                    <td>
-                                        ${valueOrNone(lab.requested_tests)}
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(
-                                            lab.clinical_information
-                                        )}
-                                    </td>
-
-                                    <td>
-                                        ${valueOrNone(lab.requested_by)}
-                                    </td>
-
-                                    <td>
-                                        ${
-                                            lab.request_date
-                                                ? escapeHtml(
-                                                    formatDate(
-                                                        lab.request_date
-                                                    )
-                                                )
-                                                : "Not provided"
-                                        }
-                                    </td>
-
-                                </tr>
-
-                            `).join("")}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-        `;
-    }
-    function renderLabResults(records) {
-
-        if (!records.length) {
-
-            return `
-                <div class="clinical-subsection empty">
-                    No laboratory results for this consultation.
-                </div>
-            `;
-        }
-
-        return `
-            <div class="clinical-subsection">
-
-                <div class="clinical-subsection-title">
-                    Laboratory Results
-                </div>
-
-                <div class="clinical-table-wrapper">
-
-                    <table class="clinical-table">
-
-                        <thead>
-                            <tr>
-                                <th>Test</th>
-                                <th>Result</th>
-                                <th>Status</th>
-                                <th>Notes</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            ${records.map(result => `
-
-                                <tr>
-
-                                    <td>
-                                        ${
-                                            result.test_name
-                                                ? valueOrNone(result.test_name)
-                                                : "None recorded"
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${
-                                            result.result ??
-                                            result.results ??
-                                            "None recorded"
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${
-                                            result.status
-                                                ? valueOrNone(result.status)
-                                                : "None recorded"
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${
-                                            result.notes
-                                                ? valueOrNone(result.notes)
-                                                : "None recorded"
-                                        }
-                                    </td>
-
-                                </tr>
-
-                            `).join("")}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-        `;
-    }
-    function renderPrescriptions(records) {
-
-        if (!records.length) {
-
-            return `
-                <div class="clinical-subsection empty">
-                    No prescriptions for this consultation.
-                </div>
-            `;
-        }
-
-        return `
-            <div class="clinical-subsection">
-
-                <div class="clinical-subsection-title">
-                    Prescriptions
-                </div>
-
-                ${records.map(prescription => {
-
-                    const medications =
-                        Array.isArray(prescription.medications)
-                            ? prescription.medications
-                            : [];
-
-                    if (!medications.length) {
-
-                        return `
-                            <div class="linked-clinical-record">
-                                <div class="record-meta">
-                                    No medication items recorded for this prescription.
-                                </div>
-                            </div>
-                        `;
-                    }
-
-                    return `
-                        <div class="linked-clinical-record">
-
-                            <div class="clinical-table-wrapper">
-
-                                <table class="clinical-table">
-
-                                    <thead>
-                                        <tr>
-                                            <th>Medication</th>
-                                            <th>Dose</th>
-                                            <th>Route</th>
-                                            <th>Frequency</th>
-                                            <th>Duration</th>
-                                            <th>Quantity</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-
-                                        ${medications.map(item => `
-
-                                            <tr>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.medication_name
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.dose
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.route
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.frequency
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.duration
-                                                    )}
-                                                </td>
-
-                                                <td>
-                                                    ${valueOrNone(
-                                                        item.quantity
-                                                    )}
-                                                </td>
-
-                                            </tr>
-
-                                        `).join("")}
-
-                                    </tbody>
-
-                                </table>
-
-                            </div>
+                        <div class="clinical-date">
+                            ${escapeHtml(
+                                formatDate(
+                                    consultation.consultation_date
+                                )
+                            )}
 
                             ${
-                                prescription.notes
-                                    ? `
-                                        <div class="record-meta">
-                                            <strong>Notes:</strong>
-                                            ${valueOrNone(
-                                                prescription.notes
-                                            )}
-                                        </div>
-                                      `
+                                consultation.doctor
+                                    ? ` &bull; ${escapeHtml(
+                                        consultation.doctor
+                                    )}`
                                     : ""
                             }
 
+                            ${
+                                consultation.created_at
+                                    ? ` &bull; Entered ${escapeHtml(
+                                        formatDateTime(
+                                            consultation.created_at
+                                        )
+                                    )}`
+                                    : ""
+                            }
                         </div>
-                    `;
-
-                }).join("")}
-
-            </div>
-        `;
-    }
-    const cards = await Promise.all(
-
-        consultations.map(async consultation => {
-
-            const consultationId =
-                Number(consultation.id);
-
-            let vitals = [];
-            let labRequests = [];
-            let labResults = [];
-            let prescriptions = [];
-
-            if (consultationId > 0) {
-
-                /*
-                 * Every request is filtered again by consultation_id.
-                 * This prevents records belonging to another consultation
-                 * from appearing in this consultation card.
-                 */
-
-                const patientId =
-                    Number(
-                        consultation.patient_id ??
-                        currentPatientId
-                    );
-
-                if (patientId > 0) {
-
-                    const [
-                        vitalRecords,
-                        requestRecords,
-                        resultRecords,
-                        prescriptionRecords
-                    ] = await Promise.all([
-
-                        getRecords(
-                            `${API_URL}/api/patients/${patientId}/vitals`
-                        ),
-
-                        getRecords(
-                            `${API_URL}/api/patients/${patientId}/lab-requests`
-                        ),
-
-                        getRecords(
-                            `${API_URL}/api/patients/${patientId}/lab-results`
-                        ),
-
-                        getRecords(
-                            `${API_URL}/api/patients/${patientId}/prescriptions`
-                        )
-
-                    ]);
-
-                    vitals =
-                        vitalRecords.filter(
-                            record =>
-                                consultationMatch(
-                                    record,
-                                    consultationId
-                                )
-                        );
-
-                    labRequests =
-                        requestRecords.filter(
-                            record =>
-                                consultationMatch(
-                                    record,
-                                    consultationId
-                                )
-                        );
-
-                    labResults =
-                        resultRecords.filter(
-                            record =>
-                                consultationMatch(
-                                    record,
-                                    consultationId
-                                )
-                        );
-
-                    prescriptions =
-                        prescriptionRecords.filter(
-                            record =>
-                                consultationMatch(
-                                    record,
-                                    consultationId
-                                )
-                        );
-                }
-            }
-
-            return `
-
-                <div class="consultation-card">
-
-                    <div class="clinical-record-header">
-
-                        <div>
-
-                            <h4>
-                                Clinical Consultation
-                            </h4>
-
-                            <div class="clinical-date">
-
-                                ${escapeHtml(
-                                    formatDate(
-                                        consultation.consultation_date
-                                    )
-                                )}
-
-                                ${
-                                    consultation.doctor
-                                        ? ` &bull; ${escapeHtml(
-                                            consultation.doctor
-                                        )}`
-                                        : ""
-                                }
-
-                                ${
-                                    consultation.created_at
-                                        ? ` &bull; Entered ${escapeHtml(
-                                            new Date(
-                                                consultation.created_at
-                                            ).toLocaleString()
-                                        )}`
-                                        : ""
-                                }
-
-                            </div>
-
-                        </div>
-
                     </div>
 
-                    <div class="clinical-grid">
+                </div>
 
-                        <div>
-                            <strong>Presenting Complaint:</strong>
-                            ${valueOrNone(
-                                consultation.presenting_complaint ??
-                                consultation.chief_complaint
+
+                <div class="clinical-grid">
+
+                    <div class="clinical-item">
+                        <strong>Presenting Complaint</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.chief_complaint ||
+                                consultation.presenting_complaint ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>History:</strong>
-                            ${valueOrNone(
-                                consultation.history_of_presenting_complaint
+                    <div class="clinical-item">
+                        <strong>History of Presenting Complaint</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.history_of_presenting_complaint ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Past Medical History:</strong>
-                            ${valueOrNone(
-                                consultation.past_medical_history
+                    <div class="clinical-item">
+                        <strong>Past Medical History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.past_medical_history ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Drug and Allergy History:</strong>
-                            ${valueOrNone(
-                                consultation.drug_allergy_history
+                    <div class="clinical-item">
+                        <strong>Drug and Allergy History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.drug_allergy_history ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Family History:</strong>
-                            ${valueOrNone(
-                                consultation.family_history
+                    <div class="clinical-item">
+                        <strong>Family History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.family_history ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Social History:</strong>
-                            ${valueOrNone(
-                                consultation.social_history
+                    <div class="clinical-item">
+                        <strong>Social History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.social_history ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Systems Review:</strong>
-                            ${valueOrNone(
-                                consultation.systems_review
+                    <div class="clinical-item">
+                        <strong>Systems Review</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.systems_review ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Summary:</strong>
-                            ${valueOrNone(
-                                consultation.summary ??
-                                consultation.consultation_summary
+                    <div class="clinical-item">
+                        <strong>Summary</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.summary ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Examination:</strong>
-                            ${valueOrNone(
-                                consultation.examination
+                    <div class="clinical-item">
+                        <strong>Examination</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.examination ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Investigations:</strong>
-                            ${valueOrNone(
-                                consultation.investigations
+                    <div class="clinical-item">
+                        <strong>Investigations</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.investigations ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Differential Diagnosis:</strong>
-                            ${valueOrNone(
-                                consultation.differential_diagnosis
+                    <div class="clinical-item">
+                        <strong>Differential Diagnosis</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.differential_diagnosis ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Diagnosis:</strong>
-                            ${valueOrNone(
-                                consultation.diagnosis
+                    <div class="clinical-item">
+                        <strong>Diagnosis</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.diagnosis ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Management Plan:</strong>
-                            ${valueOrNone(
-                                consultation.management_plan
+                    <div class="clinical-item">
+                        <strong>Management Plan</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.management_plan ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Treatment:</strong>
-                            ${valueOrNone(
-                                consultation.treatment
+                    <div class="clinical-item">
+                        <strong>Treatment</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.treatment ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Clinical Notes:</strong>
-                            ${valueOrNone(
-                                consultation.clinical_notes
+                    <div class="clinical-item">
+                        <strong>Clinical Notes</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.clinical_notes ||
+                                "Not recorded"
                             )}
                         </div>
+                    </div>
 
-                        <div>
-                            <strong>Follow-up Date:</strong>
+                    <div class="clinical-item">
+                        <strong>Follow-up Date</strong>
+                        <div class="clinical-value">
                             ${
                                 consultation.follow_up_date
                                     ? escapeHtml(
@@ -8220,61 +7652,47 @@ async function displayConsultations(consultations) {
                                             consultation.follow_up_date
                                         )
                                     )
-                                    : "Not provided"
+                                    : "No follow-up scheduled"
                             }
                         </div>
-
-                    </div>
-
-                    <div class="consultation-linked-records">
-
-                        ${renderVitalSigns(vitals)}
-
-                        ${renderLabRequests(labRequests)}
-
-                        ${renderLabResults(labResults)}
-
-                        ${renderPrescriptions(prescriptions)}
-
-                    </div>
-
-                    <div class="consultation-actions">
-
-                        <button
-                            type="button"
-                            class="secondary-btn"
-                            onclick="viewConsultation(${consultationId})"
-                        >
-                            View
-                        </button>
-
-                        <button
-                            type="button"
-                            class="secondary-btn"
-                            onclick="editConsultation(${consultationId})"
-                        >
-                            Edit
-                        </button>
-
-                        <button
-                            type="button"
-                            class="danger-btn"
-                            onclick="deleteConsultation(${consultationId})"
-                        >
-                            Delete
-                        </button>
-
                     </div>
 
                 </div>
 
-            `;
-        })
-    );
 
-    container.innerHTML = cards.join("");
+                <div class="record-actions">
 
+                    <button
+                        type="button"
+                        class="edit-btn"
+                        onclick="editConsultation(${Number(consultation.id)})"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="deleteConsultation(${Number(consultation.id)})"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        `
+    ).join("");
 }
+
+// ==========================================
+// PRESCRIPTION FUNCTIONS
+// ==========================================
+
+// ==========================================
+// OPEN ADD PRESCRIPTION
+// ==========================================
 
 function openAddPrescriptionModal() {
 
@@ -15255,13 +14673,6 @@ loadPatients();
 
 </body>
 </html>
-
-
-
-
-
-
-
 
 
 

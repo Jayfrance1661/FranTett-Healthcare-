@@ -4371,15 +4371,14 @@ app.get(
                 await pool.query(
                     `
                     SELECT
-    p.id,
-    p.patient_id,
-    p.consultation_id,
-    p.doctor,
-    p.prescription_date,
-    p.instructions,
-    p.notes,
-    p.created_at,
-    p.updated_at,
+                        p.id,
+                        p.patient_id,
+                        p.doctor,
+                        p.prescription_date,
+                        p.instructions,
+                        p.notes,
+                        p.created_at,
+                        p.updated_at,
 
                         COALESCE(
                             json_agg(
@@ -4727,7 +4726,6 @@ app.post(
         }
 
         const {
-            consultation_id,
             doctor,
             prescription_date,
             instructions,
@@ -4796,25 +4794,22 @@ app.post(
                     `
                     INSERT INTO prescriptions (
                         patient_id,
-                        consultation_id,
                         doctor,
                         prescription_date,
                         instructions,
                         notes
                     )
-                VALUES (
-                    $1,
-                    $2,
-                    $3,
-                    $4,
-                    $5,
-                    $6
-                )
+                    VALUES (
+                        $1,
+                        $2,
+                        $3,
+                        $4,
+                        $5
+                    )
                     RETURNING *
                     `,
                     [
                         patientId,
-                        consultation_id || null,
                         doctor || null,
                         prescription_date || null,
                         instructions || null,
@@ -4925,7 +4920,6 @@ app.put(
         }
 
         const {
-        consultation_id,
             doctor,
             prescription_date,
             instructions,
@@ -4975,19 +4969,17 @@ app.put(
                     UPDATE prescriptions
 
                     SET
-                        consultation_id = $1,
-                        doctor = $2,
-                        prescription_date = $3,
-                        instructions = $4,
-                        notes = $5,
+                        doctor = $1,
+                        prescription_date = $2,
+                        instructions = $3,
+                        notes = $4,
                         updated_at = CURRENT_TIMESTAMP
 
-                    WHERE id = $6
+                    WHERE id = $5
 
                     RETURNING *
                     `,
                     [
-                        consultation_id || null,
                         doctor || null,
                         prescription_date || null,
                         instructions || null,

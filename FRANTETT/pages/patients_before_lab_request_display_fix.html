@@ -7724,9 +7724,7 @@ async function displayConsultations(consultations) {
                                     </td>
 
                                     <td>
-                                        ${valueOrNone(
-                                            lab.clinical_information
-                                        )}
+                                        ${valueOrNone(lab.clinical_information)}
                                     </td>
 
                                     <td>
@@ -7737,9 +7735,7 @@ async function displayConsultations(consultations) {
                                         ${
                                             lab.request_date
                                                 ? escapeHtml(
-                                                    formatDate(
-                                                        lab.request_date
-                                                    )
+                                                    formatDate(lab.request_date)
                                                 )
                                                 : "Not provided"
                                         }
@@ -7776,70 +7772,63 @@ async function displayConsultations(consultations) {
                     Laboratory Results
                 </div>
 
-                <div class="clinical-table-wrapper">
+                ${records.map(result => `
 
-                    <table class="clinical-table">
+                    <div class="linked-clinical-record">
 
-                        <thead>
-                            <tr>
-                                <th>Test</th>
-                                <th>Result</th>
-                                <th>Status</th>
-                                <th>Notes</th>
-                            </tr>
-                        </thead>
+                        ${
+                            result.test_name
+                                ? `<div>
+                                    <strong>Test:</strong>
+                                    ${valueOrNone(result.test_name)}
+                                   </div>`
+                                : ""
+                        }
 
-                        <tbody>
+                        ${
+                            result.result
+                                ? `<div>
+                                    <strong>Result:</strong>
+                                    ${valueOrNone(result.result)}
+                                   </div>`
+                                : ""
+                        }
 
-                            ${records.map(result => `
+                        ${
+                            result.results
+                                ? `<div>
+                                    <strong>Results:</strong>
+                                    ${valueOrNone(result.results)}
+                                   </div>`
+                                : ""
+                        }
 
-                                <tr>
+                        ${
+                            result.status
+                                ? `<div>
+                                    <strong>Status:</strong>
+                                    ${valueOrNone(result.status)}
+                                   </div>`
+                                : ""
+                        }
 
-                                    <td>
-                                        ${
-                                            result.test_name
-                                                ? valueOrNone(result.test_name)
-                                                : "None recorded"
-                                        }
-                                    </td>
+                        ${
+                            result.notes
+                                ? `<div>
+                                    <strong>Notes:</strong>
+                                    ${valueOrNone(result.notes)}
+                                   </div>`
+                                : ""
+                        }
 
-                                    <td>
-                                        ${
-                                            result.result ??
-                                            result.results ??
-                                            "None recorded"
-                                        }
-                                    </td>
+                    </div>
 
-                                    <td>
-                                        ${
-                                            result.status
-                                                ? valueOrNone(result.status)
-                                                : "None recorded"
-                                        }
-                                    </td>
-
-                                    <td>
-                                        ${
-                                            result.notes
-                                                ? valueOrNone(result.notes)
-                                                : "None recorded"
-                                        }
-                                    </td>
-
-                                </tr>
-
-                            `).join("")}
-
-                        </tbody>
-
-                    </table>
-
-                </div>
+                `).join("")}
 
             </div>
         `;
     }
+
     function renderPrescriptions(records) {
 
         if (!records.length) {
@@ -15255,9 +15244,6 @@ loadPatients();
 
 </body>
 </html>
-
-
-
 
 
 
