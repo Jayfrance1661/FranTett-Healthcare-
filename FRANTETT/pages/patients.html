@@ -199,7 +199,136 @@
             padding: 30px 15px;
         }
 
-        /* =====================================================
+        
+/* Hide original renderer headings inside Patient Profile.
+   Keep the new colored department headings visible. */
+
+.patient-profile-modal .clinical-department-vitals h3,
+.patient-profile-modal .clinical-department-lab-requests h3,
+.patient-profile-modal .clinical-department-lab-results h3,
+.patient-profile-modal .clinical-department-lab-reports h3,
+.patient-profile-modal .clinical-department-prescriptions h3 {
+    display: none;
+}
+
+/* Remove duplicate renderer headings.
+   Keep only the new colored department header. */
+
+.patient-profile-modal .clinical-department h3,
+.patient-profile-modal .clinical-department h4 {
+    display: none;
+}
+
+.patient-profile-modal .clinical-department > .clinical-department-header h4 {
+    display: block;
+}
+
+/* Hide old renderer department headings in Patient Profile.
+   Keep the new colored department headings. */
+
+.patient-profile-modal .clinical-department .clinical-subsection-title {
+    display: none !important;
+}
+
+/* Professional styling for Patient Profile consultation detail headings */
+
+.patient-profile-modal .clinical-item > strong {
+    display: block;
+    color: #2e7d32;
+    background: #edf7ee;
+    border-left: 4px solid #43a047;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    border-radius: 5px;
+    font-weight: 700;
+}
+
+.patient-profile-modal .clinical-item {
+    margin-bottom: 12px;
+}
+
+/* Professional consultation detail labels in Patient Profile */
+
+.patient-profile-modal .clinical-detail-label {
+    display: block !important;
+    color: #2e7d32 !important;
+    background: #edf7ee !important;
+    border-left: 4px solid #43a047 !important;
+    padding: 8px 12px !important;
+    margin-bottom: 6px !important;
+    border-radius: 5px !important;
+    font-weight: 700 !important;
+}
+
+
+/* Professional green clinical table headings */
+
+.patient-profile-modal .clinical-table thead th {
+    color: #2e7d32 !important;
+    background: #edf7ee !important;
+    border-top: 1px solid #a5d6a7 !important;
+    border-bottom: 2px solid #43a047 !important;
+    font-weight: 700 !important;
+    padding: 10px 12px !important;
+}
+/* =====================================================
+   PATIENT PROFILE CLINICAL TABLES
+===================================================== */
+
+.patient-profile-modal .clinical-table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    table-layout: auto !important;
+    margin-top: 8px !important;
+    background: #ffffff !important;
+}
+
+.patient-profile-modal .clinical-table th {
+    padding: 10px 12px !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+    font-weight: 700 !important;
+    border: 1px solid #d9e2e7 !important;
+    background: #f4f7f8 !important;
+}
+
+.patient-profile-modal .clinical-table td {
+    padding: 10px 12px !important;
+    text-align: left !important;
+    vertical-align: top !important;
+    border: 1px solid #d9e2e7 !important;
+    line-height: 1.4 !important;
+}
+
+.patient-profile-modal .clinical-table th + th,
+.patient-profile-modal .clinical-table td + td {
+    border-left: 0 !important;
+}
+
+.patient-profile-modal .clinical-table tbody tr + tr td {
+    border-top: 0 !important;
+}
+
+/* Laboratory report spacing */
+
+.patient-profile-modal .clinical-lab-report {
+    margin-bottom: 18px !important;
+}
+
+.patient-profile-modal .clinical-lab-report-title {
+    margin-top: 10px !important;
+    margin-bottom: 8px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #3949ab !important;
+}
+
+.patient-profile-modal .clinical-lab-report .record-meta {
+    margin-bottom: 8px !important;
+    line-height: 1.6 !important;
+}
+/* =====================================================
            CLINICAL CHILD MODALS
            Must appear above Add Consultation
            ===================================================== */
@@ -2082,6 +2211,161 @@
     }
 }
 
+
+/* ==========================================
+   PATIENT PROFILE CLINICAL DEPARTMENTS
+   ========================================== */
+
+.patient-profile-modal .clinical-department {
+    margin: 8px 0;
+    border: 1px solid #d7dee7;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.patient-profile-modal .clinical-department-header {
+    padding: 8px 14px;
+    border-left: 4px solid;
+}
+
+.patient-profile-modal .clinical-department-header h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* Vital Signs */
+.patient-profile-modal .clinical-department-vitals {
+    border-color: #80cbc4;
+    border-top: 3px solid #00897b;
+}
+
+.patient-profile-modal .clinical-department-header-vitals {
+    background: #e8f5f3;
+    border-left-color: #00897b;
+}
+
+.patient-profile-modal .clinical-department-header-vitals h4 {
+    color: #00695c;
+}
+
+/* Laboratory Requests */
+.patient-profile-modal .clinical-department-lab-requests {
+    border-color: #b39ddb;
+    border-top: 3px solid #7e57c2;
+}
+
+.patient-profile-modal .clinical-department-header-lab-requests {
+    background: #f1ecf8;
+    border-left-color: #7e57c2;
+}
+
+.patient-profile-modal .clinical-department-header-lab-requests h4 {
+    color: #5e35b1;
+}
+
+/* Laboratory Results */
+.patient-profile-modal .clinical-department-lab-results {
+    border-color: #90caf9;
+    border-top: 3px solid #1e88e5;
+}
+
+.patient-profile-modal .clinical-department-header-lab-results {
+    background: #eaf3fc;
+    border-left-color: #1e88e5;
+}
+
+.patient-profile-modal .clinical-department-header-lab-results h4 {
+    color: #1565c0;
+}
+
+/* Laboratory Reports */
+.patient-profile-modal .clinical-department-lab-reports {
+    border-color: #9fa8da;
+    border-top: 3px solid #3949ab;
+}
+
+.patient-profile-modal .clinical-department-header-lab-reports {
+    background: #eef0fb;
+    border-left-color: #3949ab;
+}
+
+.patient-profile-modal .clinical-department-header-lab-reports h4 {
+    color: #303f9f;
+}
+
+/* Prescriptions */
+.patient-profile-modal .clinical-department-prescriptions {
+    border-color: #81c784;
+    border-top: 3px solid #43a047;
+}
+
+.patient-profile-modal .clinical-department-header-prescriptions {
+    background: #edf7ee;
+    border-left-color: #43a047;
+}
+
+.patient-profile-modal .clinical-department-header-prescriptions h4 {
+    color: #2e7d32;
+}
+
+/* Tight spacing between departments */
+.patient-profile-modal .clinical-department + .clinical-department {
+    margin-top: 8px;
+}
+
+.patient-profile-modal .clinical-department table {
+    margin-top: 4px;
+}
+
+/* ==========================================
+   PRESCRIPTION MEDICATION TABLE
+========================================== */
+
+.clinical-prescription-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    margin-top: 8px !important;
+    background: #ffffff !important;
+}
+
+.clinical-prescription-table th {
+    padding: 9px 8px !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    background: #f1f8f2 !important;
+    color: #4d7c50 !important;
+    border: 1px solid #a5d6a7 !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    line-height: 1.3 !important;
+}
+
+.clinical-prescription-table td {
+    padding: 10px 8px !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    border: 1px solid #d9e2e7 !important;
+    color: #263238 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+}
+
+.clinical-prescription-table tbody tr:hover {
+    background: #fafdfb !important;
+}
+
+.prescription-items h4 {
+    margin: 10px 0 6px 0 !important;
+    color: #4d7c50 !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+}
+
+
 </style>
 <style>
 
@@ -2287,7 +2571,8 @@
 }
 
 /* Vital Signs */
-#completeConsultationClinicalRecord .clinical-vital-signs {
+#completeConsultationClinicalRecord .clinical-vital-signs,
+.modal-content .clinical-vital-signs {
     border: 1px solid #80cbc4 !important;
     border-top: 4px solid #00897b !important;
 }
@@ -2299,6 +2584,96 @@
 
 #completeConsultationClinicalRecord .clinical-vital-signs h3 {
     color: #00695c !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .consultation-clinical-grid,
+.modal-content .clinical-vital-signs .consultation-clinical-grid {
+    display: grid !important;
+    grid-template-columns: repeat(10, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    width: 100% !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .consultation-clinical-grid,
+.modal-content .clinical-vital-signs .consultation-clinical-grid {
+    display: grid !important;
+    grid-template-columns: repeat(10, minmax(0, 1fr)) !important;
+    grid-template-rows: auto auto !important;
+    gap: 0 !important;
+    width: 100% !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .consultation-clinical-item,
+.modal-content .clinical-vital-signs .consultation-clinical-item {
+    display: contents !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .consultation-clinical-item strong,
+.modal-content .clinical-vital-signs .consultation-clinical-item strong {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    padding: 10px 6px !important;
+    text-align: center !important;
+    font-weight: 700 !important;
+    background: #f4f7f8 !important;
+    border: 1px solid #d9e2e7 !important;
+    white-space: normal !important;
+    line-height: 1.2 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .consultation-clinical-item > div,
+.modal-content .clinical-vital-signs .consultation-clinical-item > div {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    padding: 10px 6px !important;
+    text-align: center !important;
+    border: 1px solid #d9e2e7 !important;
+    border-top: 0 !important;
+    white-space: nowrap !important;
+    min-height: 38px !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .consultation-clinical-item strong,
+.modal-content .clinical-vital-signs .consultation-clinical-item strong {
+    display: block !important;
+    margin-bottom: 6px !important;
+    font-weight: 700 !important;
+    white-space: normal !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .consultation-clinical-item > div,
+.modal-content .clinical-vital-signs .consultation-clinical-item > div {
+    white-space: nowrap !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .clinical-table,
+.modal-content .clinical-vital-signs .clinical-table {
+    width: 100% !important;
+    table-layout: fixed !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .clinical-table th,
+#completeConsultationClinicalRecord .clinical-vital-signs .clinical-table td,
+.modal-content .clinical-vital-signs .clinical-table th,
+.modal-content .clinical-vital-signs .clinical-table td {
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 10px 8px !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .clinical-table th,
+.modal-content .clinical-vital-signs .clinical-table th {
+    white-space: normal !important;
+    font-weight: 700 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .clinical-table td,
+.modal-content .clinical-vital-signs .clinical-table td {
+    white-space: nowrap !important;
 }
 
 /* Laboratory Requests */
@@ -2427,16 +2802,16 @@
 .clinical-details-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
+    gap: 12px;
     margin-top: 14px;
 }
 
 .clinical-detail-item {
     min-width: 0;
-    padding: 14px 16px;
-    border: 1px solid #e1e5e9;
-    border-radius: 8px;
-    background: #ffffff;
+    padding: 0 0 10px 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
 }
 
 .clinical-detail-wide {
@@ -2444,22 +2819,34 @@
 }
 
 .clinical-detail-label {
-    margin-bottom: 6px;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 1.3;
-    color: #5f6b76;
-    text-transform: uppercase;
-    letter-spacing: 0.35px;
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 0 5px 0 !important;
+    padding: 7px 11px !important;
+    background: #f1f8f2 !important;
+    border-left: 4px solid #a5d6a7 !important;
+    border-bottom: 1px solid #d7ead8 !important;
+    border-radius: 4px !important;
+    color: #4d7c50 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
 }
 
 .clinical-detail-value {
-    min-height: 20px;
-    color: #1f2933;
-    font-size: 14px;
-    line-height: 1.6;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
+    display: block !important;
+    min-height: 20px !important;
+    padding: 3px 11px 5px 11px !important;
+    color: #263238 !important;
+    background: transparent !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.55 !important;
+    white-space: pre-wrap !important;
+    overflow-wrap: anywhere !important;
 }
 
 @media (max-width: 700px) {
@@ -2470,29 +2857,91 @@
     .clinical-detail-wide {
         grid-column: auto;
     }
+}
 
-    .clinical-detail-item {
-        padding: 12px 14px;
-    }
+/* Clean horizontal Vital Signs display */
+.clinical-vitals-horizontal {
+    width: 100% !important;
+    margin: 8px 0 12px 0 !important;
+}
+
+.clinical-vitals-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    background: #ffffff !important;
+}
+
+.clinical-vitals-table th {
+    padding: 9px 7px !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    background: #f1f8f2 !important;
+    color: #4d7c50 !important;
+    border: 1px solid #d7ead8 !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+}
+
+.clinical-vitals-table td {
+    padding: 10px 7px !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    border: 1px solid #e1e8e2 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+}
+
+.clinical-vitals-recorded-by,
+.clinical-vitals-recorded-at {
+    display: inline-block !important;
+    margin-top: 8px !important;
+    margin-right: 20px !important;
+    font-size: 13px !important;
+}
+
+.clinical-vitals-recorded-by strong,
+.clinical-vitals-recorded-at strong {
+    color: #4d7c50 !important;
+}
+
+/* View Consultation - soft green clinical headings */
+#viewConsultationModal .clinical-item {
+    margin-bottom: 10px !important;
+}
+
+#viewConsultationModal .clinical-item > strong {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 0 5px 0 !important;
+    padding: 7px 11px !important;
+    background: #f1f8f2 !important;
+    border-left: 4px solid #a5d6a7 !important;
+    border-bottom: 1px solid #d7ead8 !important;
+    border-radius: 4px !important;
+    color: #4d7c50 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+}
+
+#viewConsultationModal .clinical-item .clinical-value {
+    display: block !important;
+    padding: 3px 11px 7px 11px !important;
+    margin: 0 !important;
+    color: #263238 !important;
+    background: transparent !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.55 !important;
+    white-space: pre-wrap !important;
 }
 
 </style>
 
-
-<style>
-@media print {
-
-    #labRequestPrintable input::placeholder,
-    #labRequestPrintable textarea::placeholder {
-        color: transparent !important;
-    }
-
-    #labRequestPrintable .lab-request-header h1 {
-        display: block;
-    }
-
-}
-</style>
 
 </head>
 
@@ -8299,10 +8748,6 @@ async function displayConsultations(consultations) {
                         return `
                             <div class="clinical-lab-report">
 
-                                <div class="clinical-lab-report-title">
-                                    ${valueOrNone(report.test_name)}
-                                </div>
-
                                 <div class="record-meta">
                                     <strong>Date:</strong>
                                     ${
@@ -8316,6 +8761,10 @@ async function displayConsultations(consultations) {
                                     &nbsp; | &nbsp;
                                     <strong>Recorded by:</strong>
                                     ${valueOrNone(report.recorded_by)}
+                                </div>
+
+                                <div class="clinical-lab-report-title" style="margin-top: 10px;">
+                                    ${valueOrNone(report.test_name)}
                                 </div>
 
                                 ${parameters.length ? `
@@ -8516,7 +8965,12 @@ async function displayConsultations(consultations) {
                     </div>
 
 
-                    ${renderVitalSigns(vitals)}
+                    <div class="clinical-department clinical-department-vitals">
+    <div class="clinical-department-header clinical-department-header-vitals">
+        <h4>Vital Signs</h4>
+    </div>
+    ${renderVitalSigns(vitals)}
+</div>
                     <div class="clinical-details-grid">
 
     <div class="clinical-detail-item clinical-detail-wide">
@@ -8676,13 +9130,25 @@ async function displayConsultations(consultations) {
                     <div class="consultation-linked-records">
 
 
-                        ${renderLabRequests(labRequests)}
+                        <div class="clinical-department clinical-department-lab-requests">
+    <div class="clinical-department-header clinical-department-header-lab-requests">
+        <h4>Laboratory Requests</h4>
+    </div>
+    ${renderLabRequests(labRequests)}
+</div>
+<div class="clinical-department clinical-department-lab-reports">
+    <div class="clinical-department-header clinical-department-header-lab-reports">
+        <h4>Laboratory Reports</h4>
+    </div>
+    ${renderConsultationLabReports(labReports)}
+</div>
 
-                        ${renderLabResults(labResults)}
-
-                        ${renderConsultationLabReports(labReports)}
-
-                        ${renderPrescriptions(prescriptions)}
+                        <div class="clinical-department clinical-department-prescriptions">
+    <div class="clinical-department-header clinical-department-header-prescriptions">
+        <h4>Prescriptions</h4>
+    </div>
+    ${renderPrescriptions(prescriptions)}
+</div>
 
                     </div>
 
@@ -15234,90 +15700,61 @@ loadPatients();
     }
 
 
-    function renderVitals(records) {
+function renderVitals(records) {
 
-        if (!records.length) {
+    if (!records.length) {
 
-            return `
-                <div class="clinical-empty">
-                    No vital signs recorded for this consultation.
-                </div>
-            `;
-        }
-
-
-        return records.map(vital => {
-
-            return createClinicalGrid([
-
-                {
-                    label: "Blood Pressure",
-                    value: vital.blood_pressure
-                },
-
-                {
-                    label: "Heart Rate",
-                    value: vital.heart_rate
-                        ? `${vital.heart_rate} bpm`
-                        : null
-                },
-
-                {
-                    label: "Temperature",
-                    value: vital.temperature
-                        ? `${vital.temperature} °C`
-                        : null
-                },
-
-                {
-                    label: "Respiratory Rate",
-                    value: vital.respiratory_rate
-                        ? `${vital.respiratory_rate} /min`
-                        : null
-                },
-
-                {
-                    label: "Oxygen Saturation",
-                    value: vital.oxygen_saturation
-                        ? `${vital.oxygen_saturation}%`
-                        : null
-                },
-
-                {
-                    label: "Weight",
-                    value: vital.weight
-                        ? `${vital.weight} kg`
-                        : null
-                },
-
-                {
-                    label: "Height",
-                    value: vital.height
-                        ? `${vital.height} cm`
-                        : null
-                },
-
-                {
-                    label: "BMI",
-                    value: vital.bmi
-                },
-
-                {
-                    label: "Recorded By",
-                    value: vital.recorded_by
-                },
-
-                {
-                    label: "Recorded At",
-                    value: vital.recorded_at
-                        ? formatDate(vital.recorded_at)
-                        : null
-                }
-
-            ]);
-
-        }).join("");
+        return `
+            <div class="clinical-empty">
+                No vital signs recorded for this consultation.
+            </div>
+        `;
     }
+
+    return records.map(vital => `
+
+        <div class="clinical-vitals-horizontal">
+
+            <table class="clinical-vitals-table">
+                <thead>
+                    <tr>
+                        <th>Blood Pressure</th>
+                        <th>Heart Rate</th>
+                        <th>Temperature</th>
+                        <th>Respiratory Rate</th>
+                        <th>Oxygen Saturation</th>
+                        <th>Weight</th>
+                        <th>Height</th>
+                        <th>BMI</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>${clinicalValue(vital.blood_pressure)}</td>
+                        <td>${clinicalValue(vital.heart_rate ? `${vital.heart_rate} bpm` : null)}</td>
+                        <td>${clinicalValue(vital.temperature ? `${vital.temperature} °C` : null)}</td>
+                        <td>${clinicalValue(vital.respiratory_rate ? `${vital.respiratory_rate} /min` : null)}</td>
+                        <td>${clinicalValue(vital.oxygen_saturation ? `${vital.oxygen_saturation}%` : null)}</td>
+                        <td>${clinicalValue(vital.weight ? `${vital.weight} kg` : null)}</td>
+                        <td>${clinicalValue(vital.height ? `${vital.height} cm` : null)}</td>
+                        <td>${clinicalValue(vital.bmi)}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="clinical-vitals-recorded-by">
+                <strong>Recorded By:</strong> ${clinicalValue(vital.recorded_by)}
+            </div>
+
+            <div class="clinical-vitals-recorded-at">
+                <strong>Recorded At:</strong> ${vital.recorded_at ? formatDate(vital.recorded_at) : "—"}
+            </div>
+
+        </div>
+
+    `).join("");
+}
 
 
     function renderLabRequests(records) {
@@ -15366,14 +15803,7 @@ loadPatients();
 
     function renderLabResults(records) {
 
-        if (!records.length) {
-
-            return `
-                <div class="clinical-empty">
-                    No laboratory results recorded for this consultation.
-                </div>
-            `;
-        }
+        if (!records.length) { return ""; }
 
 
         return records.map(result => {
@@ -15434,14 +15864,19 @@ loadPatients();
 
             Object.keys(prescription).forEach(key => {
 
-                if (
-                    key === "id" ||
-                    key === "patient_id" ||
-                    key === "consultation_id" ||
-                    key === "items"
-                ) {
-                    return;
-                }
+               if (
+    key === "id" ||
+    key === "patient_id" ||
+    key === "consultation_id" ||
+    key === "items" ||
+    key === "medications" ||
+    key === "prescription_items" ||
+    key === "prescription_date" ||
+    key === "created_at" ||
+    key === "updated_at"
+) {
+    return;
+}
 
                 if (
                     prescription[key] === null ||
@@ -15466,14 +15901,14 @@ loadPatients();
             let html = createClinicalGrid(items);
 
 
-            const prescriptionItems =
-                Array.isArray(prescription.items)
-                    ? prescription.items
-                    : Array.isArray(
-                        prescription.prescription_items
-                    )
-                        ? prescription.prescription_items
-                        : [];
+           const prescriptionItems =
+    Array.isArray(prescription.medications)
+        ? prescription.medications
+        : Array.isArray(prescription.items)
+            ? prescription.items
+            : Array.isArray(prescription.prescription_items)
+                ? prescription.prescription_items
+                : [];
 
 
             if (prescriptionItems.length) {
@@ -15484,53 +15919,56 @@ loadPatients();
 
                         <h4>Medications</h4>
 
-                        <div class="consultation-clinical-grid">
+                        <table class="clinical-prescription-table">
 
-                            ${prescriptionItems.map(item => `
+    <thead>
+        <tr>
+            <th>Medication</th>
+            <th>Dose</th>
+            <th>Route</th>
+            <th>Frequency</th>
+            <th>Duration</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
 
-                                <div class="consultation-clinical-item">
+    <tbody>
 
-                                    <strong>
-                                        ${clinicalValue(
-                                            item.medication_name
-                                        )}
-                                    </strong>
+        ${prescriptionItems.map(item => `
 
-                                    <div>
-                                        ${clinicalValue(
-                                            item.dose
-                                        )}
-                                    </div>
+            <tr>
 
-                                    <div>
-                                        ${clinicalValue(
-                                            item.route
-                                        )}
-                                    </div>
+                <td>
+                    ${clinicalValue(item.medication_name)}
+                </td>
 
-                                    <div>
-                                        ${clinicalValue(
-                                            item.frequency
-                                        )}
-                                    </div>
+                <td>
+                    ${clinicalValue(item.dose)}
+                </td>
 
-                                    <div>
-                                        ${clinicalValue(
-                                            item.duration
-                                        )}
-                                    </div>
+                <td>
+                    ${clinicalValue(item.route)}
+                </td>
 
-                                    <div>
-                                        ${clinicalValue(
-                                            item.quantity
-                                        )}
-                                    </div>
+                <td>
+                    ${clinicalValue(item.frequency)}
+                </td>
 
-                                </div>
+                <td>
+                    ${clinicalValue(item.duration)}
+                </td>
 
-                            `).join("")}
+                <td>
+                    ${clinicalValue(item.quantity)}
+                </td>
 
-                        </div>
+            </tr>
+
+        `).join("")}
+
+    </tbody>
+
+</table>
 
                     </div>
                 `;
@@ -15718,6 +16156,9 @@ loadPatients();
 
     }
 
+
+    window.displayCompleteClinicalRecord =
+        displayCompleteClinicalRecord;
     async function displayCompleteClinicalRecord(
         consultation
     ) {
@@ -15760,6 +16201,11 @@ loadPatients();
         }
 
 
+
+        // Remove any previously moved Vital Signs section.
+        document
+            .querySelectorAll('[data-moved-vital-signs="true"]')
+            .forEach(element => element.remove());
         const existing =
             document.getElementById(
                 "completeConsultationClinicalRecord"
@@ -15795,6 +16241,7 @@ loadPatients();
         `;
 
 
+
         const modalContent =
             modal.querySelector(
                 ".modal-content"
@@ -15819,6 +16266,105 @@ loadPatients();
 
         container.innerHTML = `
 
+            <style>
+#completeConsultationClinicalRecord .clinical-vital-signs {
+    margin-top:20px !important;
+    margin-bottom:20px !important;
+    border:1px solid #80cbc4 !important;
+    border-top:4px solid #00897b !important;
+    border-radius:8px !important;
+    overflow:hidden !important;
+    background:#ffffff !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs .top-actions {
+    background:#e8f5f3 !important;
+    border-left:4px solid #00897b !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs h3 {
+    color:#00695c !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-requests {
+    margin-top:20px !important;
+    margin-bottom:20px !important;
+    border:1px solid #b39ddb !important;
+    border-top:4px solid #7e57c2 !important;
+    border-radius:8px !important;
+    overflow:hidden !important;
+    background:#ffffff !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-requests .top-actions {
+    background:#f1ecf8 !important;
+    border-left:4px solid #7e57c2 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-requests h3 {
+    color:#5e35b1 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-results {
+    margin-top:20px !important;
+    margin-bottom:20px !important;
+    border:1px solid #90caf9 !important;
+    border-top:4px solid #1e88e5 !important;
+    border-radius:8px !important;
+    overflow:hidden !important;
+    background:#ffffff !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-results .top-actions {
+    background:#eaf3fc !important;
+    border-left:4px solid #1e88e5 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-results h3 {
+    color:#1565c0 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-reports {
+    margin-top:20px !important;
+    margin-bottom:20px !important;
+    border:1px solid #9fa8da !important;
+    border-top:4px solid #3949ab !important;
+    border-radius:8px !important;
+    overflow:hidden !important;
+    background:#ffffff !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-reports .top-actions {
+    background:#eef0fb !important;
+    border-left:4px solid #3949ab !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-reports h3 {
+    color:#303f9f !important;
+}
+
+#completeConsultationClinicalRecord .clinical-prescriptions {
+    margin-top:20px !important;
+    margin-bottom:20px !important;
+    border:1px solid #81c784 !important;
+    border-top:4px solid #43a047 !important;
+    border-radius:8px !important;
+    overflow:hidden !important;
+    background:#ffffff !important;
+}
+
+#completeConsultationClinicalRecord .clinical-prescriptions .top-actions {
+    background:#edf7ee !important;
+    border-left:4px solid #43a047 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-prescriptions h3 {
+    color:#2e7d32 !important;
+}
+
+
+</style>
+
             ${createClinicalSection(
                 "Vital Signs",
                 renderVitals(records.vitals)
@@ -15831,12 +16377,7 @@ loadPatients();
                 )
             )}
 
-            ${createClinicalSection(
-                "Laboratory Results",
-                renderLabResults(
-                    records.labResults
-                )
-            )}
+            ${records.labResults.length ? createClinicalSection("Laboratory Results", renderLabResults(records.labResults)) : ""}
 
             ${createClinicalSection(
                 "Laboratory Reports",
@@ -15851,6 +16392,23 @@ loadPatients();
             )}
 
         `;
+
+        // Move Vital Signs before Presenting Complaint in View Consultation.
+        const vitalsSection =
+            container.querySelector(".clinical-vital-signs");
+
+        const presentingComplaint =
+            modalContent
+                .querySelector("#viewChiefComplaint")
+                ?.closest(".clinical-item");
+
+        if (vitalsSection && presentingComplaint) {
+            vitalsSection.setAttribute("data-moved-vital-signs", "true");
+            presentingComplaint.parentNode.insertBefore(
+                vitalsSection,
+                presentingComplaint
+            );
+        }
 
     }
 
@@ -15919,6 +16477,7 @@ loadPatients();
 
 
                     if (!response.ok) {
+                        console.error("Clinical record fetch failed:", response.status);
                         return;
                     }
 
@@ -15927,7 +16486,7 @@ loadPatients();
                         await response.json();
 
 
-                    await displayCompleteClinicalRecord(
+                    await window.displayCompleteClinicalRecord(
                         consultation
                     );
 
@@ -15959,8 +16518,286 @@ loadPatients();
 
 </script>
 
-</body>
+<script>
+(function () {
+
+    if (window.__clinicalRecordClickBridgeInstalled) {
+        return;
+    }
+
+    window.__clinicalRecordClickBridgeInstalled = true;
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            const target =
+                event.target.closest(
+                    '[onclick*="viewConsultation("]'
+                );
+
+            if (!target) {
+                return;
+            }
+
+            const onclickValue =
+                target.getAttribute("onclick") || "";
+
+            const match =
+                onclickValue.match(
+                    /viewConsultation\s*\(\s*['"]?(\d+)['"]?\s*\)/
+                );
+
+            if (!match) {
+                return;
+            }
+
+            const consultationId =
+                Number(match[1]);
+
+            if (!consultationId) {
+                return;
+            }
+
+            setTimeout(
+                async function () {
+
+                    try {
+
+                        const token =
+                            getToken();
+
+                        if (!token) {
+                            console.error(
+                                "Clinical record bridge: no token."
+                            );
+                            return;
+                        }
+
+                        const response =
+                            await fetch(
+                                `${API_URL}/api/consultations/${consultationId}`,
+                                {
+                                    headers: {
+                                        "Authorization":
+                                            `Bearer ${token}`
+                                    }
+                                }
+                            );
+
+                        if (!response.ok) {
+                            console.error(
+                                "Clinical record bridge fetch failed:",
+                                response.status
+                            );
+                            return;
+                        }
+
+                        const consultation =
+                            await response.json();
+
+                        await window.displayCompleteClinicalRecord(
+                            consultation
+                        );
+
+                        console.log(
+                            "Clinical record bridge rendered consultation:",
+                            consultationId
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+                            "Clinical record bridge error:",
+                            error
+                        );
+
+                    }
+
+                },
+                500
+            );
+
+        },
+        true
+    );
+
+})();
+</script><script>
+(function () {
+
+    if (window.__clinicalModalObserverInstalled) {
+        return;
+    }
+
+    window.__clinicalModalObserverInstalled = true;
+
+    let lastConsultationId = null;
+
+    const observer =
+        new MutationObserver(
+            async function () {
+
+                const modal =
+                    document.getElementById(
+                        "viewConsultationModal"
+                    );
+
+                if (!modal) {
+                    return;
+                }
+
+                const visible =
+                    modal.style.display !== "none" &&
+                    !modal.classList.contains("hidden");
+
+                if (!visible) {
+                    return;
+                }
+
+                const fields =
+                    modal.querySelectorAll(
+                        "input, textarea, select"
+                    );
+
+                let consultationId = null;
+
+                fields.forEach(
+                    function (field) {
+
+                        const id =
+                            field.id || "";
+
+                        if (
+                            id.toLowerCase().includes(
+                                "consultationid"
+                            )
+                        ) {
+
+                            const value =
+                                Number(field.value);
+
+                            if (value) {
+                                consultationId = value;
+                            }
+
+                        }
+
+                    }
+                );
+
+                if (!consultationId) {
+                    return;
+                }
+
+                if (
+                    lastConsultationId ===
+                    consultationId
+                ) {
+                    return;
+                }
+
+                lastConsultationId =
+                    consultationId;
+
+                try {
+
+                    const token =
+                        getToken();
+
+                    if (!token) {
+                        return;
+                    }
+
+                    const response =
+                        await fetch(
+                            `${API_URL}/api/consultations/${consultationId}`,
+                            {
+                                headers: {
+                                    "Authorization":
+                                        `Bearer ${token}`
+                                }
+                            }
+                        );
+
+                    if (!response.ok) {
+                        console.error(
+                            "Clinical modal observer fetch failed:",
+                            response.status
+                        );
+                        return;
+                    }
+
+                    const consultation =
+                        await response.json();
+
+                    await window.displayCompleteClinicalRecord(
+                        consultation
+                    );
+
+                    console.log(
+                        "Clinical record rendered from modal observer:",
+                        consultationId
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Clinical modal observer error:",
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+    observer.observe(
+        document.body,
+        {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: [
+                "style",
+                "class",
+                "value"
+            ]
+        }
+    );
+
+})();
+</script></body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
