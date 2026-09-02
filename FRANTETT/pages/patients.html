@@ -2271,7 +2271,103 @@
 }
 
 /* ============================================================
-   COMPLETE CONSULTATION CLINICAL RECORD
+   CONSULTATION DEPARTMENT COLORS
+============================================================ */
+
+#completeConsultationClinicalRecord {
+    width: 100% !important;
+}
+
+#completeConsultationClinicalRecord .consultation-clinical-section {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+}
+
+/* Vital Signs */
+#completeConsultationClinicalRecord .clinical-vital-signs {
+    border: 1px solid #80cbc4 !important;
+    border-top: 4px solid #00897b !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs > .top-actions {
+    background: #e8f5f3 !important;
+    border-left: 4px solid #00897b !important;
+}
+
+#completeConsultationClinicalRecord .clinical-vital-signs h3 {
+    color: #00695c !important;
+}
+
+/* Laboratory Requests */
+#completeConsultationClinicalRecord .clinical-laboratory-requests {
+    border: 1px solid #b39ddb !important;
+    border-top: 4px solid #7e57c2 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-requests > .top-actions {
+    background: #f1ecf8 !important;
+    border-left: 4px solid #7e57c2 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-requests h3 {
+    color: #5e35b1 !important;
+}
+
+/* Laboratory Results */
+#completeConsultationClinicalRecord .clinical-laboratory-results {
+    border: 1px solid #90caf9 !important;
+    border-top: 4px solid #1e88e5 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-results > .top-actions {
+    background: #eaf3fc !important;
+    border-left: 4px solid #1e88e5 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-results h3 {
+    color: #1565c0 !important;
+}
+
+/* Laboratory Reports */
+#completeConsultationClinicalRecord .clinical-laboratory-reports {
+    border: 1px solid #9fa8da !important;
+    border-top: 4px solid #3949ab !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-reports > .top-actions {
+    background: #eef0fb !important;
+    border-left: 4px solid #3949ab !important;
+}
+
+#completeConsultationClinicalRecord .clinical-laboratory-reports h3 {
+    color: #303f9f !important;
+}
+
+/* Prescriptions */
+#completeConsultationClinicalRecord .clinical-prescriptions {
+    border: 1px solid #81c784 !important;
+    border-top: 4px solid #43a047 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-prescriptions > .top-actions {
+    background: #edf7ee !important;
+    border-left: 4px solid #43a047 !important;
+}
+
+#completeConsultationClinicalRecord .clinical-prescriptions h3 {
+    color: #2e7d32 !important;
+}
+
+/* Content spacing */
+#completeConsultationClinicalRecord .consultation-clinical-content {
+    padding: 14px 15px !important;
+}
+
+/* ============================================================
+   END CONSULTATION DEPARTMENT COLORS
 ============================================================ */
 
 .consultation-clinical-section {
@@ -2321,6 +2417,63 @@
         grid-template-columns: 1fr;
     }
 
+}
+
+
+/* ==========================================
+   CONSULTATION DETAILS - EMR DISPLAY
+========================================== */
+
+.clinical-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.clinical-detail-item {
+    min-width: 0;
+    padding: 14px 16px;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.clinical-detail-wide {
+    grid-column: 1 / -1;
+}
+
+.clinical-detail-label {
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #5f6b76;
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+}
+
+.clinical-detail-value {
+    min-height: 20px;
+    color: #1f2933;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+    .clinical-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .clinical-detail-wide {
+        grid-column: auto;
+    }
+
+    .clinical-detail-item {
+        padding: 12px 14px;
+    }
 }
 
 </style>
@@ -2820,15 +2973,6 @@
 
 </div>
 
-<div class="section">
-
-    <h3>Patient Timeline</h3>
-
-    <div id="patientTimeline">
-
-        <div class="loading">
-            Loading patient timeline...
-        </div>
 
     </div>
 
@@ -3062,6 +3206,156 @@
      LABORATORY RESULT FORM MODAL
 ===================================================== -->
 
+<div
+    id="labResultModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeLabResultModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="labResultFormTitle">
+            Add Laboratory Result
+        </h2>
+
+        <form id="labResultForm">
+
+            <input
+                type="hidden"
+                id="labResultConsultationId"
+            >
+            <input
+                type="hidden"
+                id="labResultId"
+            >
+
+            <div class="form-group">
+
+                <label>Test Name *</label>
+
+                <input
+                    type="text"
+                    id="labTestName"
+                    placeholder="e.g. Complete Blood Count"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Result</label>
+
+                <input
+                    type="text"
+                    id="labResultValue"
+                    placeholder="e.g. 12.5"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Unit</label>
+
+                <input
+                    type="text"
+                    id="labResultUnit"
+                    placeholder="e.g. g/dL"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Reference Range</label>
+
+                <input
+                    type="text"
+                    id="labReferenceRange"
+                    placeholder="e.g. 12–16 g/dL"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Result Date</label>
+
+                <input
+                    type="date"
+                    id="labResultDate"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Status</label>
+
+                <select id="labResultStatus">
+                    <option value="Final">Final</option>
+                    <option value="Preliminary">Preliminary</option>
+                    <option value="Pending">Pending</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Recorded By</label>
+
+                <input
+                    type="text"
+                    id="labRecordedBy"
+                    placeholder="Staff/doctor name"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Notes</label>
+
+                <textarea
+                    id="labResultNotes"
+                    rows="4"
+                    placeholder="Additional laboratory notes..."
+                ></textarea>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Laboratory Result
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeLabResultModal()"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
 <!-- =====================================================
      LABORATORY REPORT FORM MODAL
 ===================================================== -->
@@ -3085,6 +3379,11 @@
         </h2>
 
         <form id="labReportForm">
+
+            <input
+                type="hidden"
+                id="labReportConsultationId"
+            >
 
             <div class="form-group">
 
@@ -4223,7 +4522,14 @@ onclick="event.stopPropagation(); openAddLabRequestModal();"
             Laboratory Results
         </h3>
 
-        <button
+                <button
+            type="button"
+            class="primary-btn"
+            onclick="event.stopPropagation(); openAddLabResultModal();"
+        >
+            + Add Laboratory Result
+        </button>
+<button
             type="button"
             class="primary-btn"
             onclick="event.stopPropagation(); openAddLabReportModal();"
@@ -7762,12 +8068,9 @@ async function displayConsultations(consultations) {
 
         if (!records.length) {
 
-            return `
-                <div class="clinical-subsection empty">
-                    No laboratory results for this consultation.
-                </div>
-            `;
+            return "";
         }
+
 
         return `
             <div class="clinical-subsection">
@@ -7967,6 +8270,101 @@ async function displayConsultations(consultations) {
             </div>
         `;
     }
+    function renderConsultationLabReports(records) {
+
+        if (!Array.isArray(records) || !records.length) {
+            return `
+                <div class="clinical-subsection empty">
+                    No laboratory reports for this consultation.
+                </div>
+            `;
+        }
+
+        return `
+            <div class="clinical-subsection">
+
+                <div class="clinical-subsection-title">
+                    Laboratory Reports
+                </div>
+
+                <div class="clinical-table-wrapper">
+
+                    ${records.map(report => {
+
+                        const parameters =
+                            Array.isArray(report.parameters)
+                                ? report.parameters
+                                : [];
+
+                        return `
+                            <div class="clinical-lab-report">
+
+                                <div class="clinical-lab-report-title">
+                                    ${valueOrNone(report.test_name)}
+                                </div>
+
+                                <div class="record-meta">
+                                    <strong>Date:</strong>
+                                    ${
+                                        report.result_date
+                                            ? escapeHtml(formatDate(report.result_date))
+                                            : "Not provided"
+                                    }
+                                    &nbsp; | &nbsp;
+                                    <strong>Status:</strong>
+                                    ${valueOrNone(report.status)}
+                                    &nbsp; | &nbsp;
+                                    <strong>Recorded by:</strong>
+                                    ${valueOrNone(report.recorded_by)}
+                                </div>
+
+                                ${parameters.length ? `
+                                    <table class="clinical-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Parameter</th>
+                                                <th>Result</th>
+                                                <th>Unit</th>
+                                                <th>Flag</th>
+                                                <th>Reference Range</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${parameters.map(parameter => `
+                                                <tr>
+                                                    <td>${valueOrNone(parameter.parameter_name)}</td>
+                                                    <td>${valueOrNone(parameter.result_value)}</td>
+                                                    <td>${valueOrNone(parameter.unit)}</td>
+                                                    <td>${valueOrNone(parameter.flag)}</td>
+                                                    <td>${valueOrNone(parameter.reference_range)}</td>
+                                                </tr>
+                                            `).join("")}
+                                        </tbody>
+                                    </table>
+                                ` : `
+                                    <div class="clinical-empty">
+                                        No laboratory parameters recorded.
+                                    </div>
+                                `}
+
+                                ${report.notes ? `
+                                    <div class="record-meta">
+                                        <strong>Notes:</strong>
+                                        ${valueOrNone(report.notes)}
+                                    </div>
+                                ` : ""}
+
+                            </div>
+                        `;
+
+                    }).join("")}
+
+                </div>
+
+            </div>
+        `;
+    }
+
     const cards = await Promise.all(
 
         consultations.map(async consultation => {
@@ -7977,6 +8375,7 @@ async function displayConsultations(consultations) {
             let vitals = [];
             let labRequests = [];
             let labResults = [];
+            let labReports = [];
             let prescriptions = [];
 
             if (consultationId > 0) {
@@ -7999,6 +8398,7 @@ async function displayConsultations(consultations) {
                         vitalRecords,
                         requestRecords,
                         resultRecords,
+                        reportRecords,
                         prescriptionRecords
                     ] = await Promise.all([
 
@@ -8011,9 +8411,12 @@ async function displayConsultations(consultations) {
                         ),
 
                         getRecords(
-                            `${API_URL}/api/patients/${patientId}/lab-results`
+                            `${API_URL}/api/patients/${patientId}/labs`
                         ),
 
+                            getRecords(
+                                `${API_URL}/api/patients/${patientId}/lab-reports`
+                            ),
                         getRecords(
                             `${API_URL}/api/patients/${patientId}/prescriptions`
                         )
@@ -8040,6 +8443,16 @@ async function displayConsultations(consultations) {
 
                     labResults =
                         resultRecords.filter(
+                            record =>
+                                consultationMatch(
+                                    record,
+                                    consultationId
+                                )
+                        );
+
+
+                    labReports =
+                        reportRecords.filter(
                             record =>
                                 consultationMatch(
                                     record,
@@ -8102,137 +8515,172 @@ async function displayConsultations(consultations) {
 
                     </div>
 
-                    <div class="clinical-grid">
 
-                        <div>
-                            <strong>Presenting Complaint:</strong>
-                            ${valueOrNone(
-                                consultation.presenting_complaint ??
-                                consultation.chief_complaint
-                            )}
-                        </div>
+                    ${renderVitalSigns(vitals)}
+                    <div class="clinical-details-grid">
 
-                        <div>
-                            <strong>History:</strong>
-                            ${valueOrNone(
-                                consultation.history_of_presenting_complaint
-                            )}
-                        </div>
+    <div class="clinical-detail-item clinical-detail-wide">
+        <div class="clinical-detail-label">Presenting Complaint</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.presenting_complaint ??
+                consultation.chief_complaint
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Past Medical History:</strong>
-                            ${valueOrNone(
-                                consultation.past_medical_history
-                            )}
-                        </div>
+    <div class="clinical-detail-item clinical-detail-wide">
+        <div class="clinical-detail-label">History of Presenting Complaint</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.history_of_presenting_complaint
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Drug and Allergy History:</strong>
-                            ${valueOrNone(
-                                consultation.drug_allergy_history
-                            )}
-                        </div>
+    <div class="clinical-detail-item">
+        <div class="clinical-detail-label">Past Medical History</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.past_medical_history
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Family History:</strong>
-                            ${valueOrNone(
-                                consultation.family_history
-                            )}
-                        </div>
+    <div class="clinical-detail-item">
+        <div class="clinical-detail-label">Drug & Allergy History</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.drug_allergy_history
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Social History:</strong>
-                            ${valueOrNone(
-                                consultation.social_history
-                            )}
-                        </div>
+    <div class="clinical-detail-item">
+        <div class="clinical-detail-label">Family History</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.family_history
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Systems Review:</strong>
-                            ${valueOrNone(
-                                consultation.systems_review
-                            )}
-                        </div>
+    <div class="clinical-detail-item">
+        <div class="clinical-detail-label">Social History</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.social_history
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Summary:</strong>
-                            ${valueOrNone(
-                                consultation.summary ??
-                                consultation.consultation_summary
-                            )}
-                        </div>
+    <div class="clinical-detail-item clinical-detail-wide">
+        <div class="clinical-detail-label">Systems Review</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.systems_review
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Examination:</strong>
-                            ${valueOrNone(
-                                consultation.examination
-                            )}
-                        </div>
+    <div class="clinical-detail-item clinical-detail-wide">
+        <div class="clinical-detail-label">Summary</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.summary ??
+                consultation.consultation_summary
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Investigations:</strong>
-                            ${valueOrNone(
-                                consultation.investigations
-                            )}
-                        </div>
+    <div class="clinical-detail-item clinical-detail-wide">
+        <div class="clinical-detail-label">Examination</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.examination
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Differential Diagnosis:</strong>
-                            ${valueOrNone(
-                                consultation.differential_diagnosis
-                            )}
-                        </div>
+    <div class="clinical-detail-item clinical-detail-wide">
+        <div class="clinical-detail-label">Investigations</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.investigations
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Diagnosis:</strong>
-                            ${valueOrNone(
-                                consultation.diagnosis
-                            )}
-                        </div>
+    <div class="clinical-detail-item">
+        <div class="clinical-detail-label">Differential Diagnosis</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.differential_diagnosis
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Management Plan:</strong>
-                            ${valueOrNone(
-                                consultation.management_plan
-                            )}
-                        </div>
+    <div class="clinical-detail-item">
+        <div class="clinical-detail-label">Diagnosis</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.diagnosis
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Treatment:</strong>
-                            ${valueOrNone(
-                                consultation.treatment
-                            )}
-                        </div>
+    <div class="clinical-detail-item clinical-detail-wide">
+        <div class="clinical-detail-label">Management Plan</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.management_plan
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Clinical Notes:</strong>
-                            ${valueOrNone(
-                                consultation.clinical_notes
-                            )}
-                        </div>
+    <div class="clinical-detail-item clinical-detail-wide">
+        <div class="clinical-detail-label">Treatment</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.treatment
+            )}
+        </div>
+    </div>
 
-                        <div>
-                            <strong>Follow-up Date:</strong>
-                            ${
-                                consultation.follow_up_date
-                                    ? escapeHtml(
-                                        formatDate(
-                                            consultation.follow_up_date
-                                        )
-                                    )
-                                    : "Not provided"
-                            }
-                        </div>
+    <div class="clinical-detail-item clinical-detail-wide">
+        <div class="clinical-detail-label">Clinical Notes</div>
+        <div class="clinical-detail-value">
+            ${valueOrNone(
+                consultation.clinical_notes
+            )}
+        </div>
+    </div>
 
-                    </div>
+    <div class="clinical-detail-item">
+        <div class="clinical-detail-label">Follow-up Date</div>
+        <div class="clinical-detail-value">
+            ${
+                consultation.follow_up_date
+                    ? escapeHtml(
+                        formatDate(
+                            consultation.follow_up_date
+                        )
+                    )
+                    : "Not provided"
+            }
+        </div>
+    </div>
+
+</div>
 
                     <div class="consultation-linked-records">
 
-                        ${renderVitalSigns(vitals)}
 
                         ${renderLabRequests(labRequests)}
 
                         ${renderLabResults(labResults)}
+
+                        ${renderConsultationLabReports(labReports)}
 
                         ${renderPrescriptions(prescriptions)}
 
@@ -12154,7 +12602,7 @@ async function loadLaboratoryResults(patientId) {
    OPEN ADD LAB RESULT MODAL
 ===================================================== */
 
-function openAddLabResultModal() {
+function openAddLabResultModal(consultationId = null) {
 
     if (!currentPatientId) {
 
@@ -12181,6 +12629,18 @@ function openAddLabResultModal() {
     }
 
     form.reset();
+
+    const activeConsultationId =
+        getActiveConsultationId(consultationId);
+
+    const consultationField =
+        document.getElementById("labResultConsultationId");
+
+    if (consultationField) {
+        consultationField.value =
+            activeConsultationId || "";
+    }
+
 
     const idField =
         document.getElementById("labResultId");
@@ -12338,6 +12798,10 @@ if (labResultForm) {
                 document.getElementById("labResultId")?.value || "";
 
             const payload = {
+            consultation_id:
+                getActiveConsultationId(
+                    document.getElementById("labResultConsultationId")?.value || null
+                ) || null,
 
                 test_name:
                     document.getElementById("labTestName")?.value.trim() || "",
@@ -14178,7 +14642,7 @@ window.addEventListener(
 );
 
 
-function openAddLabReportModal() {
+function openAddLabReportModal(consultationId = null) {
 
     if (!currentPatientId) {
         alert("Please open a patient profile first.");
@@ -14194,6 +14658,17 @@ function openAddLabReportModal() {
     }
 
     form.reset();
+
+    const activeConsultationId =
+    getActiveConsultationId(consultationId);
+
+const consultationField =
+    document.getElementById("labReportConsultationId");
+
+if (consultationField) {
+    consultationField.value =
+        activeConsultationId || "";
+}
 
     const idField = document.getElementById("labReportId");
     if (idField) idField.value = "";
@@ -14368,11 +14843,18 @@ if (labReportForm) {
 
             const payload = {
 
-                test_name:
-                    document.getElementById(
-                        "labReportTestName"
-                    )?.value.trim(),
+    consultation_id:
+        getActiveConsultationId(
+            document.getElementById(
+                "labReportConsultationId"
+            )?.value || null
+        ) || null,
 
+    test_name:
+        document.getElementById(
+            "labReportTestName"
+        )?.value.trim(),
+        
                 result_date:
                     document.getElementById(
                         "labReportDate"
@@ -14490,6 +14972,8 @@ function printPatientRecord() {
 loadPatients();
 
 
+
+
 /* ============================================================
    COMPLETE CONSULTATION CLINICAL RECORD
    Adds linked Vital Signs, Lab Requests, Lab Results/Reports,
@@ -14521,21 +15005,70 @@ loadPatients();
 
     function createClinicalSection(title, content) {
 
-        return `
-            <div class="section consultation-clinical-section">
+        const sectionClass = String(title)
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
 
-                <div class="top-actions">
-                    <h3>${escapeClinicalValue(title)}</h3>
+        let sectionStyle = "";
+        let headerStyle = "";
+        let titleStyle = "";
+
+        if (sectionClass === "vital-signs") {
+            sectionStyle = "margin-top:20px;margin-bottom:20px;border:1px solid #80cbc4;border-top:4px solid #00897b;border-radius:8px;overflow:hidden;background:#ffffff;";
+            headerStyle = "background:#e8f5f3;border-left:4px solid #00897b;padding:12px 15px;";
+            titleStyle = "color:#00695c;margin:0;";
+        }
+
+        else if (sectionClass === "laboratory-requests") {
+            sectionStyle = "margin-top:20px;margin-bottom:20px;border:1px solid #b39ddb;border-top:4px solid #7e57c2;border-radius:8px;overflow:hidden;background:#ffffff;";
+            headerStyle = "background:#f1ecf8;border-left:4px solid #7e57c2;padding:12px 15px;";
+            titleStyle = "color:#5e35b1;margin:0;";
+        }
+
+        else if (sectionClass === "laboratory-results") {
+            sectionStyle = "margin-top:20px;margin-bottom:20px;border:1px solid #90caf9;border-top:4px solid #1e88e5;border-radius:8px;overflow:hidden;background:#ffffff;";
+            headerStyle = "background:#eaf3fc;border-left:4px solid #1e88e5;padding:12px 15px;";
+            titleStyle = "color:#1565c0;margin:0;";
+        }
+
+        else if (sectionClass === "laboratory-reports") {
+            sectionStyle = "margin-top:20px;margin-bottom:20px;border:1px solid #9fa8da;border-top:4px solid #3949ab;border-radius:8px;overflow:hidden;background:#ffffff;";
+            headerStyle = "background:#eef0fb;border-left:4px solid #3949ab;padding:12px 15px;";
+            titleStyle = "color:#303f9f;margin:0;";
+        }
+
+        else if (sectionClass === "prescriptions") {
+            sectionStyle = "margin-top:20px;margin-bottom:20px;border:1px solid #81c784;border-top:4px solid #43a047;border-radius:8px;overflow:hidden;background:#ffffff;";
+            headerStyle = "background:#edf7ee;border-left:4px solid #43a047;padding:12px 15px;";
+            titleStyle = "color:#2e7d32;margin:0;";
+        }
+
+        return `
+            <div
+                class="section consultation-clinical-section clinical-${sectionClass}"
+                style="${sectionStyle}"
+            >
+
+                <div
+                    class="top-actions"
+                    style="${headerStyle}"
+                >
+                    <h3 style="${titleStyle}">
+                        ${escapeClinicalValue(title)}
+                    </h3>
                 </div>
 
-                <div class="consultation-clinical-content">
+                <div
+                    class="consultation-clinical-content"
+                    style="padding:14px 15px;"
+                >
                     ${content}
                 </div>
 
             </div>
         `;
     }
-
 
     function createClinicalGrid(items) {
 
@@ -14617,7 +15150,7 @@ loadPatients();
             ),
 
             fetchJson(
-                `${API_URL}/api/patients/${patientId}/lab-results`
+                `${API_URL}/api/patients/${patientId}/labs`
             ),
 
             fetchJson(
@@ -15010,6 +15543,181 @@ loadPatients();
     }
 
 
+    function renderLabReports(records) {
+
+        if (!Array.isArray(records) || !records.length) {
+
+            return `
+                <div class="clinical-empty">
+                    No laboratory reports recorded for this consultation.
+                </div>
+            `;
+        }
+
+
+        return records.map(report => {
+
+            const parameters =
+                Array.isArray(report.parameters)
+                    ? report.parameters
+                    : [];
+
+
+            let html = `
+
+                <div class="clinical-lab-report">
+
+                    <div class="clinical-lab-report-header">
+
+                        <div class="clinical-lab-report-title">
+                            ${clinicalValue(
+                                report.test_name
+                            )}
+                        </div>
+
+                        <div class="clinical-lab-report-meta">
+
+                            <span>
+                                Date:
+                                ${report.result_date
+                                    ? clinicalValue(
+                                        formatDate(
+                                            report.result_date
+                                        )
+                                    )
+                                    : "Not provided"
+                                }
+                            </span>
+
+                            <span>
+                                Status:
+                                ${clinicalValue(
+                                    report.status
+                                )}
+                            </span>
+
+                            <span>
+                                Recorded by:
+                                ${clinicalValue(
+                                    report.recorded_by
+                                )}
+                            </span>
+
+                        </div>
+
+                    </div>
+            `;
+
+
+            if (parameters.length) {
+
+                html += `
+
+                    <div class="clinical-lab-report-table-wrapper">
+
+                        <table class="clinical-record-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Result</th>
+                                    <th>Unit</th>
+                                    <th>Flag</th>
+                                    <th>Reference Range</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                ${parameters.map(parameter => `
+
+                                    <tr>
+
+                                        <td>
+                                            ${clinicalValue(
+                                                parameter.parameter_name
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${clinicalValue(
+                                                parameter.result_value
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${clinicalValue(
+                                                parameter.unit
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${clinicalValue(
+                                                parameter.flag
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${clinicalValue(
+                                                parameter.reference_range
+                                            )}
+                                        </td>
+
+                                    </tr>
+
+                                `).join("")}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                `;
+
+            } else {
+
+                html += `
+
+                    <div class="clinical-empty">
+                        No laboratory parameters recorded.
+                    </div>
+
+                `;
+
+            }
+
+
+            if (report.notes) {
+
+                html += `
+
+                    <div class="clinical-lab-report-notes">
+
+                        <strong>Notes:</strong>
+
+                        ${clinicalValue(
+                            report.notes
+                        )}
+
+                    </div>
+
+                `;
+
+            }
+
+
+            html += `</div>`;
+
+
+            return html;
+
+        }).join("");
+
+    }
+
     async function displayCompleteClinicalRecord(
         consultation
     ) {
@@ -15132,9 +15840,7 @@ loadPatients();
 
             ${createClinicalSection(
                 "Laboratory Reports",
-                renderLabResults(
-                    records.labReports
-                )
+                renderLabReports(records.labReports)
             )}
 
             ${createClinicalSection(
@@ -15255,6 +15961,23 @@ loadPatients();
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
