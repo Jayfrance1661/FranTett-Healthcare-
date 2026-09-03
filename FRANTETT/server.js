@@ -6,12 +6,25 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { AccessToken } = require("livekit-server-sdk");
+const Stripe = require("stripe");
 require("dotenv").config();
+
+// ==========================================
+// STRIPE PAYMENT CONFIGURATION
+// ==========================================
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 const app = express();
 
 app.use(cors());
+
+// Stripe webhook must receive the raw request body
+app.use(
+    "/api/payments/stripe/webhook",
+    express.raw({ type: "application/json" })
+);
+
 app.use(express.json());
 
 // Serve all files inside the pages folder
@@ -6590,6 +6603,464 @@ app.post(
 // START SERVER
 // ==========================================
 
+/* ==========================================
+   PAYMENT API
+   ========================================== */
+
+app.post(
+    "/api/payments",
+    authenticateToken,
+    async (req, res) => {
+        try {
+            const {
+                patient_id,
+                appointment_id,
+                consultation_id,
+                amount,
+                currency = "CAD",
+                payment_method,
+                payment_provider,
+                description
+            } = req.body;
+
+            if (!patient_id || amount === undefined || !payment_method) {
+                return res.status(400).json({
+                    error: "patient_id, amount and payment_method are required."
+                });
+            }
+
+            const result = await pool.query(
+                `
+                INSERT INTO payments (
+                    patient_id,
+                    appointment_id,
+                    consultation_id,
+                    amount,
+                    currency,
+                    payment_method,
+                    payment_provider,
+                    description
+                )
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+                RETURNING *
+                `,
+                [
+                    patient_id,
+                    appointment_id || null,
+                    consultation_id || null,
+                    amount,
+                    currency,
+                    payment_method,
+                    payment_provider || null,
+                    description || null
+                ]
+            );
+
+            res.status(201).json(result.rows[0]);
+
+        } catch (error) {
+            console.error("Create payment error:", error);
+            res.status(500).json({
+                error: "Failed to create payment."
+            });
+        }
+    }
+);
+
+
+/* GET PAYMENTS FOR PATIENT */
+app.get(
+    "/api/payments/patient/:patientId",
+    authenticateToken,
+    async (req, res) => {
+        try {
+            const result = await pool.query(
+                `
+                SELECT *
+                FROM payments
+                WHERE patient_id = $1
+                ORDER BY created_at DESC
+                `,
+                [req.params.patientId]
+            );
+
+            res.json(result.rows);
+
+        } catch (error) {
+            console.error("Get patient payments error:", error);
+            res.status(500).json({
+                error: "Failed to retrieve patient payments."
+            });
+        }
+    }
+);
+
+
+/* GET PAYMENTS FOR APPOINTMENT */
+app.get(
+    "/api/payments/appointment/:appointmentId",
+    authenticateToken,
+    async (req, res) => {
+        try {
+            const result = await pool.query(
+                `
+                SELECT *
+                FROM payments
+                WHERE appointment_id = $1
+                ORDER BY created_at DESC
+                `,
+                [req.params.appointmentId]
+            );
+
+            res.json(result.rows);
+
+        } catch (error) {
+            console.error("Get appointment payments error:", error);
+            res.status(500).json({
+                error: "Failed to retrieve appointment payments."
+            });
+        }
+    }
+);
+
+
+/* GET PAYMENTS FOR CONSULTATION */
+app.get(
+    "/api/payments/consultation/:consultationId",
+    authenticateToken,
+    async (req, res) => {
+        try {
+            const result = await pool.query(
+                `
+                SELECT *
+                FROM payments
+                WHERE consultation_id = $1
+                ORDER BY created_at DESC
+                `,
+                [req.params.consultationId]
+            );
+
+            res.json(result.rows);
+
+        } catch (error) {
+            console.error("Get consultation payments error:", error);
+            res.status(500).json({
+                error: "Failed to retrieve consultation payments."
+            });
+        }
+    }
+);
+
+
+/* UPDATE PAYMENT STATUS */
+app.patch(
+    "/api/payments/:id/status",
+    authenticateToken,
+    async (req, res) => {
+        try {
+            const {
+                status,
+                transaction_id,
+                provider_payment_id,
+                paid_at
+            } = req.body;
+
+            if (!status) {
+                return res.status(400).json({
+                    error: "Payment status is required."
+                });
+            }
+
+            const result = await pool.query(
+                `
+                UPDATE payments
+                SET
+                    status = $1,
+                    transaction_id = COALESCE($2, transaction_id),
+                    provider_payment_id = COALESCE($3, provider_payment_id),
+                    paid_at = COALESCE($4, paid_at),
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE id = $5
+                RETURNING *
+                `,
+                [
+                    status,
+                    transaction_id || null,
+                    provider_payment_id || null,
+                    paid_at || null,
+                    req.params.id
+                ]
+            );
+
+            if (result.rows.length === 0) {
+                return res.status(404).json({
+                    error: "Payment not found."
+                });
+            }
+
+            res.json(result.rows[0]);
+
+        } catch (error) {
+            console.error("Update payment status error:", error);
+            res.status(500).json({
+                error: "Failed to update payment status."
+            });
+        }
+    }
+);
+
+
+
+/* CREATE STRIPE CHECKOUT SESSION */
+app.post(
+    "/api/payments/stripe/create-checkout-session",
+    authenticateToken,
+    async (req, res) => {
+        try {
+            const {
+                patient_id,
+                appointment_id,
+                consultation_id,
+                amount,
+                currency = "cad",
+                description = "FranTett Healthcare payment"
+            } = req.body;
+
+            if (!patient_id || amount === undefined) {
+                return res.status(400).json({
+                    error: "patient_id and amount are required."
+                });
+            }
+
+            const numericAmount = Number(amount);
+
+            if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
+                return res.status(400).json({
+                    error: "Amount must be a positive number."
+                });
+            }
+
+            const patientResult = await pool.query(
+                `
+                SELECT id, first_name, last_name, email
+                FROM patients
+                WHERE id = $1
+                `,
+                [patient_id]
+            );
+
+            if (patientResult.rows.length === 0) {
+                return res.status(404).json({
+                    error: "Patient not found."
+                });
+            }
+
+            const patient = patientResult.rows[0];
+
+            const paymentResult = await pool.query(
+                `
+                INSERT INTO payments (
+                    patient_id,
+                    appointment_id,
+                    consultation_id,
+                    amount,
+                    currency,
+                    payment_method,
+                    payment_provider,
+                    status,
+                    description
+                )
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+                RETURNING *
+                `,
+                [
+                    patient_id,
+                    appointment_id || null,
+                    consultation_id || null,
+                    numericAmount.toFixed(2),
+                    currency.toUpperCase(),
+                    "card",
+                    "stripe",
+                    "Pending",
+                    description
+                ]
+            );
+
+            const payment = paymentResult.rows[0];
+
+            const session = await stripe.checkout.sessions.create({
+                mode: "payment",
+                customer_email: patient.email || undefined,
+                line_items: [
+                    {
+                        price_data: {
+                            currency: currency.toLowerCase(),
+                            product_data: {
+                                name: "FranTett Healthcare Payment"
+                            },
+                            unit_amount: Math.round(numericAmount * 100)
+                        },
+                        quantity: 1
+                    }
+                ],
+                metadata: {
+                    payment_id: String(payment.id),
+                    patient_id: String(patient_id),
+                    appointment_id: appointment_id
+                        ? String(appointment_id)
+                        : "",
+                    consultation_id: consultation_id
+                        ? String(consultation_id)
+                        : ""
+                },
+                success_url:
+                    "http://127.0.0.1:5500/pages/payment-success.html?session_id={CHECKOUT_SESSION_ID}",
+                cancel_url:
+                    "http://127.0.0.1:5500/pages/payment-cancel.html"
+            });
+
+            await pool.query(
+                `
+                UPDATE payments
+                SET
+                    provider_payment_id = $1,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE id = $2
+                `,
+                [session.id, payment.id]
+            );
+
+            res.status(201).json({
+                payment_id: payment.id,
+                session_id: session.id,
+                checkout_url: session.url
+            });
+
+        } catch (error) {
+            console.error("Create Stripe Checkout session error:", error);
+
+            res.status(500).json({
+                error: "Failed to create Stripe Checkout session."
+            });
+        }
+    }
+);
+
+/* ===========================
+/* ==========================================
+   /* ==========================================
+   STRIPE WEBHOOK HANDLER
+   ========================================== */
+
+app.post(
+    "/api/payments/stripe/webhook",
+    async (req, res) => {
+
+        const signature = req.headers["stripe-signature"];
+
+        if (!process.env.STRIPE_WEBHOOK_SECRET) {
+            console.error("STRIPE_WEBHOOK_SECRET is missing from .env");
+
+            return res.status(500).json({
+                error: "Stripe webhook secret is not configured."
+            });
+        }
+
+        let event;
+
+        try {
+            event = stripe.webhooks.constructEvent(
+                req.body,
+                signature,
+                process.env.STRIPE_WEBHOOK_SECRET
+            );
+        } catch (error) {
+            console.error(
+                "Stripe webhook signature verification failed:",
+                error.message
+            );
+
+            return res.status(400).send(
+                `Webhook Error: ${error.message}`
+            );
+        }
+
+        try {
+
+            if (event.type === "checkout.session.completed") {
+
+                const session = event.data.object;
+                const paymentId = session.metadata?.payment_id;
+
+                if (!paymentId) {
+                    console.error(
+                        "Stripe Checkout session has no FranTett payment_id:",
+                        session.id
+                    );
+
+                    return res.status(200).json({
+                        received: true
+                    });
+                }
+
+                const paymentIntentId =
+                    typeof session.payment_intent === "string"
+                        ? session.payment_intent
+                        : session.payment_intent?.id || null;
+
+                const result = await pool.query(
+                    `
+                    UPDATE payments
+                    SET
+                        status = 'Paid',
+                        transaction_id = COALESCE($1, transaction_id),
+                        provider_payment_id = $2,
+                        paid_at = COALESCE(paid_at, CURRENT_TIMESTAMP),
+                        updated_at = CURRENT_TIMESTAMP
+                    WHERE id = $3
+                    RETURNING *
+                    `,
+                    [
+                        paymentIntentId,
+                        session.id,
+                        paymentId
+                    ]
+                );
+
+                if (result.rows.length === 0) {
+                    console.error(
+                        "FranTett payment not found for Stripe payment_id:",
+                        paymentId
+                    );
+                } else {
+                    console.log(
+                        `Stripe payment ${paymentId} marked as Paid.`
+                    );
+                }
+            }
+
+            return res.status(200).json({
+                received: true
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Stripe webhook processing error:",
+                error
+            );
+
+            return res.status(500).json({
+                error: "Failed to process Stripe webhook."
+            });
+        }
+    }
+);
+
+/* ==========================================
+   END PAYMENT API
+   ========================================== */
+
 app.listen(
     PORT,
     () => {
@@ -6600,6 +7071,12 @@ app.listen(
 
     }
 );
+
+
+
+
+
+
 
 
 

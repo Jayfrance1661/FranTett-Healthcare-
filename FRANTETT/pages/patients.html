@@ -3397,6 +3397,98 @@
     <div class="top-actions">
 
         <h3>
+            Payments
+        </h3>
+
+    </div>
+
+    <div class="payment-panel">
+
+        <div class="payment-form">
+
+            <div class="form-group">
+
+                <label for="paymentAmount">
+                    Amount (CAD)
+                </label>
+
+                <input
+                    type="number"
+                    id="paymentAmount"
+                    min="0.01"
+                    step="0.01"
+                    placeholder="Enter amount"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="paymentDescription">
+                    Payment Description
+                </label>
+
+                <input
+                    type="text"
+                    id="paymentDescription"
+                    placeholder="e.g. Consultation fee"
+                >
+
+            </div>
+
+            <div class="payment-method-card">
+
+                <strong>Payment Method</strong>
+
+                <div>
+                    Credit / Debit Card
+                </div>
+
+                <small>
+                    Secure payment processed through Stripe.
+                </small>
+
+            </div>
+
+            <button
+                type="button"
+                class="primary-btn"
+                onclick="startStripePayment()"
+            >
+                Pay Securely with Card
+            </button>
+
+            <div
+                id="paymentMessage"
+                style="margin-top:12px;"
+            ></div>
+
+        </div>
+
+    </div>
+
+    <div style="margin-top:20px;">
+
+        <h4>
+            Payment History
+        </h4>
+
+        <div id="paymentHistory">
+
+            <div class="loading">
+                Loading payment history...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="section">
+
+    <div class="top-actions">
+
+        <h3>
             Clinical Consultation Records
         </h3>
 
@@ -7304,6 +7396,220 @@ async function deleteVitalSigns(id) {
    VITAL SIGNS FORM EVENTS
 ===================================================== */
 
+/* ==========================================
+   PATIENT PAYMENT FUNCTIONS
+   ========================================== */
+
+async function startStripePayment() {
+
+    const amountInput = document.getElementById("paymentAmount");
+    const descriptionInput = document.getElementById("paymentDescription");
+    const message = document.getElementById("paymentMessage");
+
+    const amount = Number(amountInput?.value);
+    const description =
+        descriptionInput?.value?.trim() ||
+        "FranTett Healthcare payment";
+
+    if (!currentPatientId) {
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Please select a patient first.</span>';
+        }
+        return;
+    }
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Please enter a valid payment amount.</span>';
+        }
+        return;
+    }
+
+    const token =
+        localStorage.getItem("frantett_token") ||
+        localStorage.getItem("patientToken");
+
+    if (!token) {
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Your session has expired. Please log in again.</span>';
+        }
+        return;
+    }
+
+    try {
+
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#0d6efd;">Opening secure Stripe Checkout...</span>';
+        }
+
+        const response = await fetch(
+            `${API_URL}/api/payments/stripe/create-checkout-session`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({
+                    patient_id: currentPatientId,
+                    amount: amount,
+                    currency: "CAD",
+                    description: description
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Unable to create payment session."
+            );
+        }
+
+        if (!data.checkout_url) {
+            throw new Error(
+                "Stripe Checkout URL was not returned."
+            );
+        }
+
+        window.location.href = data.checkout_url;
+
+    } catch (error) {
+
+        console.error("Stripe payment error:", error);
+
+        if (message) {
+            message.innerHTML =
+                `<span style="color:#dc3545;">${error.message}</span>`;
+        }
+    }
+}
+
+
+async function loadPaymentHistory(patientId = currentPatientId) {
+
+    const container =
+        document.getElementById("paymentHistory");
+
+    if (!container || !patientId) {
+        return;
+    }
+
+    const token =
+        localStorage.getItem("frantett_token") ||
+        localStorage.getItem("patientToken");
+
+    if (!token) {
+        container.innerHTML =
+            '<div style="color:#dc3545;">Unable to load payment history. Please log in again.</div>';
+        return;
+    }
+
+    try {
+
+        container.innerHTML =
+            '<div class="loading">Loading payment history...</div>';
+
+        const response = await fetch(
+            `${API_URL}/api/payments/patient/${patientId}`,
+            {
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Failed to load payment history."
+            );
+        }
+
+        const payments = Array.isArray(data)
+            ? data
+            : Array.isArray(data.data)
+                ? data.data
+                : [];
+
+        if (payments.length === 0) {
+            container.innerHTML =
+                '<div style="color:#64748b;">No payment history found.</div>';
+            return;
+        }
+
+        container.innerHTML = `
+            <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse:collapse;">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Date</th>
+                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Description</th>
+                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Method</th>
+                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Amount</th>
+                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        ${payments.map(payment => {
+
+                            const date =
+                                payment.paid_at ||
+                                payment.created_at;
+
+                            const formattedDate = date
+                                ? new Date(date).toLocaleString()
+                                : "-";
+
+                            const amount =
+                                Number(payment.amount || 0).toFixed(2);
+
+                            const currency =
+                                payment.currency || "CAD";
+
+                            return `
+                                <tr>
+                                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                                        ${formattedDate}
+                                    </td>
+                                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                                        ${payment.description || "-"}
+                                    </td>
+                                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                                        ${payment.payment_method || "-"}
+                                    </td>
+                                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                                        ${currency} ${amount}
+                                    </td>
+                                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                                        ${payment.status || "-"}
+                                    </td>
+                                </tr>
+                            `;
+
+                        }).join("")}
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error("Payment history error:", error);
+
+        container.innerHTML =
+            '<div style="color:#dc3545;">Failed to load payment history.</div>';
+    }
+}
+
+
 document.addEventListener(
     "DOMContentLoaded",
     function () {
@@ -7385,6 +7691,9 @@ async function viewPatient(id) {
 
     currentPatientId =
         id;
+
+    // Load payment history for the selected patient
+    await loadPaymentHistory(id);
 
 
     document.getElementById(
@@ -16527,7 +16836,8 @@ function renderVitals(records) {
 
     window.__clinicalRecordClickBridgeInstalled = true;
 
-    document.addEventListener(
+
+document.addEventListener(
         "click",
         function (event) {
 
@@ -16769,6 +17079,7 @@ function renderVitals(records) {
 })();
 </script></body>
 </html>
+
 
 
 
