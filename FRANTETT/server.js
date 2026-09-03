@@ -14,8 +14,102 @@ require("dotenv").config();
 // ==========================================
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+// ==========================================
+// MTN MOMO PAYMENT CONFIGURATION
+// ==========================================
+const MTN_BASE_URL =
+    process.env.MTN_BASE_URL || "https://sandbox.momodeveloper.mtn.com";
+
+const MTN_TARGET_ENVIRONMENT =
+    process.env.MTN_TARGET_ENVIRONMENT || "sandbox";
+
+const MTN_SUBSCRIPTION_KEY =
+    process.env.MTN_SUBSCRIPTION_KEY;
+
+const MTN_API_USER =
+    process.env.MTN_API_USER;
+
+const MTN_API_KEY =
+    process.env.MTN_API_KEY;
+
+
+// ==========================================
+// MTN MOMO ACCESS TOKEN
+// ==========================================
+async function getMtnAccessToken() {
+
+    if (!MTN_SUBSCRIPTION_KEY || !MTN_API_USER || !MTN_API_KEY) {
+        throw new Error(
+            "MTN MoMo configuration is incomplete."
+        );
+    }
+
+    const credentials = Buffer
+        .from(`${MTN_API_USER}:${MTN_API_KEY}`)
+        .toString("base64");
+
+    const response = await fetch(
+        `${MTN_BASE_URL}/collection/token/`,
+        {
+            method: "POST",
+
+            headers: {
+                "Authorization": `Basic ${credentials}`,
+                "Ocp-Apim-Subscription-Key": MTN_SUBSCRIPTION_KEY,
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+
+            body: ""
+        }
+    );
+
+    if (!response.ok) {
+
+        const errorText = await response.text();
+
+        throw new Error(
+            `MTN access token request failed: ${response.status} ${errorText}`
+        );
+    }
+
+    const data = await response.json();
+
+    if (!data.access_token) {
+        throw new Error(
+            "MTN access token was not returned."
+        );
+    }
+
+    return data.access_token;
+}
 
 const app = express();
+
+
+// ==========================================
+// TEMPORARY MTN CONFIGURATION TEST
+// ==========================================
+
+app.get("/api/test/mtn-token", async (req, res) => {
+    try {
+        const token = await getMtnAccessToken();
+
+        res.json({
+            success: true,
+            message: "MTN MoMo access token obtained successfully.",
+            token_received: Boolean(token)
+        });
+
+    } catch (error) {
+        console.error("MTN token test error:", error);
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
 
 app.use(cors());
 
@@ -42,6 +136,8 @@ if (!JWT_SECRET) {
     console.error("ERROR: JWT_SECRET is missing from .env");
     process.exit(1);
 }
+
+
 
 // ==========================================
 // VIDEO CONSULTATION MEETING ROOM GENERATOR
@@ -6751,8 +6847,397 @@ app.get(
     }
 );
 
+/* ==========================================
+   MTN MOMO - CREATE REQUEST TO PAY
+   ========================================== */
+
+app.post(
+    "/api/payments/mtn/create-request",
+    authenticateToken,
+    async (req, res) => {
+        try {
+            const {
+                patient_id,
+                appointment_id,
+                consultation_id,
+                amount,
+                currency = "EUR",
+                payer_msisdn,
+                description
+            } = req.body;
+
+            if (
+                !patient_id ||
+                amount === undefined ||
+                !payer_msisdn
+            ) {
+                return res.status(400).json({
+                    error:
+                        "patient_id, amount and payer_msisdn are required."
+                });
+            }
+
+            const numericAmount = Number(amount);
+
+            if (
+                !Number.isFinite(numericAmount) ||
+                numericAmount <= 0
+            ) {
+                return res.status(400).json({
+                    error: "Amount must be greater than zero."
+                });
+            }
+
+            /*
+             * Create our internal payment record first.
+             * It remains Pending until MTN confirms SUCCESSFUL.
+             */
+            const paymentResult = await pool.query(
+                `
+                INSERT INTO payments (
+                    patient_id,
+                    appointment_id,
+                    consultation_id,
+                    amount,
+                    currency,
+                    payment_method,
+                    payment_provider,
+                    status,
+                    description
+                )
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+                RETURNING *
+                `,
+                [
+                    patient_id,
+                    appointment_id || null,
+                    consultation_id || null,
+                    numericAmount,
+                    currency,
+                    "mobile_money",
+                    "mtn_momo",
+                    "Pending",
+                    description || "FranTett Healthcare MTN MoMo payment"
+                ]
+            );
+
+            const payment = paymentResult.rows[0];
+
+            /*
+             * MTN requires a UUID v4 X-Reference-Id.
+             */
+            const referenceId = crypto.randomUUID();
+
+            /*
+             * Unique identifier for our payment request.
+             */
+            const externalId =
+                `FRANTETT-${payment.id}-${Date.now()}`;
+
+            try {
+
+                const accessToken = await getMtnAccessToken();
+
+                const mtnResponse = await fetch(
+                    `${MTN_BASE_URL}/collection/v1_0/requesttopay`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Authorization":
+                                `Bearer ${accessToken}`,
+
+                            "X-Reference-Id":
+                                referenceId,
+
+                            "X-Target-Environment":
+                                MTN_TARGET_ENVIRONMENT,
+
+                            "Ocp-Apim-Subscription-Key":
+                                MTN_SUBSCRIPTION_KEY,
+
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            amount: String(numericAmount),
+
+                            currency: currency,
+
+                            externalId: externalId,
+
+                            payer: {
+                                partyIdType: "MSISDN",
+                                partyId: String(payer_msisdn)
+                            },
+
+                            payerMessage:
+                                "FranTett Healthcare payment",
+
+                            payeeNote:
+                                description ||
+                                "FranTett Healthcare"
+                        })
+                    }
+                );
+
+                if (!mtnResponse.ok) {
+
+                    const errorText =
+                        await mtnResponse.text();
+
+                    /*
+                     * MTN rejected the request.
+                     * Mark our payment as Failed.
+                     */
+                    await pool.query(
+                        `
+                        UPDATE payments
+                        SET
+                            status = 'Failed',
+                            updated_at = CURRENT_TIMESTAMP
+                        WHERE id = $1
+                        `,
+                        [payment.id]
+                    );
+
+                    console.error(
+                        "MTN RequestToPay failed:",
+                        mtnResponse.status,
+                        errorText
+                    );
+
+                    return res.status(502).json({
+                        error:
+                            "MTN MoMo payment request was rejected.",
+                        payment_id:
+                            payment.id,
+                        mtn_status:
+                            mtnResponse.status
+                    });
+                }
+
+                /*
+                 * MTN accepted the request.
+                 * 202 means the transaction is now being processed.
+                 */
+                const updatedPayment =
+                    await pool.query(
+                        `
+                        UPDATE payments
+                        SET
+                            provider_payment_id = $1,
+                            updated_at = CURRENT_TIMESTAMP
+                        WHERE id = $2
+                        RETURNING *
+                        `,
+                        [
+                            referenceId,
+                            payment.id
+                        ]
+                    );
+
+                res.status(202).json({
+                    message:
+                        "MTN MoMo payment request accepted.",
+                    payment:
+                        updatedPayment.rows[0],
+                    reference_id:
+                        referenceId,
+                    external_id:
+                        externalId,
+                    status:
+                        "Pending"
+                });
+
+            } catch (mtnError) {
+
+                await pool.query(
+                    `
+                    UPDATE payments
+                    SET
+                        status = 'Failed',
+                        updated_at = CURRENT_TIMESTAMP
+                    WHERE id = $1
+                    `,
+                    [payment.id]
+                );
+
+                throw mtnError;
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Create MTN MoMo payment error:",
+                error
+            );
+
+            res.status(500).json({
+                error:
+                    "Failed to create MTN MoMo payment."
+            });
+        }
+    }
+);
+
+
+/* ==========================================
+   MTN MOMO - CHECK PAYMENT STATUS
+   ========================================== */
+
+app.get(
+    "/api/payments/mtn/status/:id",
+    authenticateToken,
+    async (req, res) => {
+        try {
+
+            /*
+             * Find our internal payment record.
+             */
+           const paymentResult = await pool.query(
+    `
+    SELECT *
+    FROM payments
+    WHERE id = $1::integer
+      AND payment_provider = 'mtn_momo'
+    `,
+    [req.params.id]
+);
+
+            if (paymentResult.rows.length === 0) {
+                return res.status(404).json({
+                    error:
+                        "MTN MoMo payment not found."
+                });
+            }
+
+            const payment =
+                paymentResult.rows[0];
+
+            if (!payment.provider_payment_id) {
+                return res.status(400).json({
+                    error:
+                        "MTN transaction reference is missing."
+                });
+            }
+
+            const accessToken =
+                await getMtnAccessToken();
+
+            const mtnResponse = await fetch(
+                `${MTN_BASE_URL}/collection/v1_0/requesttopay/${payment.provider_payment_id}`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${accessToken}`,
+
+                        "X-Target-Environment":
+                            MTN_TARGET_ENVIRONMENT,
+
+                        "Ocp-Apim-Subscription-Key":
+                            MTN_SUBSCRIPTION_KEY
+                    }
+                }
+            );
+
+            if (!mtnResponse.ok) {
+
+                const errorText =
+                    await mtnResponse.text();
+
+                console.error(
+                    "MTN status request failed:",
+                    mtnResponse.status,
+                    errorText
+                );
+
+                return res.status(502).json({
+                    error:
+                        "Unable to retrieve MTN MoMo payment status.",
+                    mtn_status:
+                        mtnResponse.status
+                });
+            }
+
+            const mtnData =
+                await mtnResponse.json();
+
+            const mtnStatus =
+                String(mtnData.status || "")
+                    .toUpperCase();
+
+            let localStatus =
+                payment.status;
+
+            if (mtnStatus === "SUCCESSFUL") {
+                localStatus = "Paid";
+            } else if (mtnStatus === "FAILED") {
+                localStatus = "Failed";
+            } else if (mtnStatus === "PENDING") {
+                localStatus = "Pending";
+            }
+
+            const updatedPayment =
+                await pool.query(
+                    `
+                    UPDATE payments
+                    SET
+                        status = $1,
+                        transaction_id =
+                            COALESCE($2, transaction_id),
+                        paid_at =
+                            CASE
+                                WHEN $1 = 'Paid'
+                                THEN COALESCE(
+                                    paid_at,
+                                    CURRENT_TIMESTAMP
+                                )
+                                ELSE paid_at
+                            END,
+                        updated_at =
+                            CURRENT_TIMESTAMP
+                    WHERE id = $3
+                    RETURNING *
+                    `,
+                    [
+                        localStatus,
+                        mtnData.financialTransactionId ||
+                            null,
+                        payment.id
+                    ]
+                );
+
+            res.json({
+                payment:
+                    updatedPayment.rows[0],
+                mtn_status:
+                    mtnStatus,
+                mtn_transaction:
+                    mtnData
+            });
+
+        } catch (error) {
+
+            console.error(
+                "MTN MoMo status error:",
+                error
+            );
+
+            res.status(500).json({
+                error:
+                    "Failed to check MTN MoMo payment status."
+            });
+        }
+    }
+);
+
 
 /* UPDATE PAYMENT STATUS */
+
 app.patch(
     "/api/payments/:id/status",
     authenticateToken,
