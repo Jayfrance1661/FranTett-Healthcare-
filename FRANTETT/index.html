@@ -1322,7 +1322,130 @@
                 animation: none !important;
             }
         }
-    </style>
+            /* FRANTETT BRAND COLOR */
+        .logo-text {
+            color: #0F6B4A !important;
+        }
+
+        .logo-text span {
+            color: #4B6B5C !important;
+        }
+        /* FRANTETT HEADER THEME */
+        header {
+            background: #12355B !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+            backdrop-filter: none !important;
+        }
+
+        .logo,
+        .logo-text {
+            color: #FFFFFF !important;
+        }
+
+        .logo-text span {
+            color: #DDF3EA !important;
+        }
+
+        .logo-icon {
+            background: #FFFFFF !important;
+            color: #12355B !important;
+        }
+
+        .nav-menu a {
+            color: #FFFFFF !important;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #DDF3EA !important;
+        }
+
+        .menu-toggle {
+            color: #FFFFFF !important;
+        }
+        /* FRANTETT LOGIN NAV FIX */
+
+        .top-login > button {
+            color: #FFFFFF !important;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .top-login > button:hover {
+            color: #DDF3EA !important;
+        }
+
+        .top-login-menu {
+            z-index: 1100 !important;
+        }
+
+        .top-login.open .top-login-menu {
+            display: block !important;
+        }
+
+        .top-login-menu a {
+            color: #333333 !important;
+        }
+
+        .top-login-menu a:hover {
+            color: #0B6B5C !important;
+            background: #F0F8F6 !important;
+        }
+        /* FRANTETT SCROLL HEADER */
+
+        header {
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+            will-change: transform;
+        }
+
+        header.header-hidden {
+            transform: translateY(-100%);
+            pointer-events: none;
+        }
+                /* FRANTETT NAV HOVER EFFECT */
+
+        .nav-menu > li > a,
+        .top-login > button {
+            display: inline-block;
+            transition:
+                color 0.2s ease,
+                transform 0.2s ease,
+                text-shadow 0.2s ease;
+        }
+
+        .nav-menu > li > a:hover,
+        .top-login > button:hover {
+            transform: translateY(-2px) scale(1.03) !important;
+            color: #DDF3EA !important;
+            text-shadow:
+                0 3px 10px rgba(221, 243, 234, 0.25);
+        }
+
+        .nav-menu > li > a:active,
+        .top-login > button:active {
+            transform: translateY(0) scale(1) !important;
+        }
+
+        .nav-menu > li > a.nav-book {
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .nav-menu > li > a.nav-book:hover {
+            transform: translateY(-2px) scale(1.03) !important;
+            background: #1B4A72 !important;
+            box-shadow:
+                0 8px 18px rgba(18, 53, 91, 0.28);
+        }
+
+        .nav-menu > li > a.nav-book:active {
+            transform: translateY(0) scale(1) !important;
+        }
+</style>
 </head>
 
 <body>
@@ -2742,6 +2865,50 @@
 
 </script>
 
+    <script>
+        /* ==========================================
+           HIDE HEADER WHILE SCROLLING
+        ========================================== */
+
+        (function () {
+
+            const header =
+                document.querySelector("header");
+
+            if (!header) {
+                return;
+            }
+
+            function updateHeaderVisibility() {
+
+                if (window.scrollY <= 40) {
+
+                    header.classList.remove(
+                        "header-hidden"
+                    );
+
+                } else {
+
+                    header.classList.add(
+                        "header-hidden"
+                    );
+
+                }
+
+            }
+
+            window.addEventListener(
+                "scroll",
+                updateHeaderVisibility,
+                {
+                    passive: true
+                }
+            );
+
+            updateHeaderVisibility();
+
+        })();
+    </script>
 </body>
 
 </html>

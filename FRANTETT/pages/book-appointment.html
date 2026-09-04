@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -417,7 +417,7 @@
                     </div>
 
 
-                    <div class="form-row">
+           <div class="form-row">
 
                         <div class="form-group">
 
@@ -510,6 +510,130 @@ const message =
     document.getElementById("message");
 
 
+async function loadLoggedInPatient() {
+
+    const token =
+        localStorage.getItem("patientToken") ||
+        localStorage.getItem("token");
+
+    let patient = null;
+
+    /*
+     * Prefer the current patient record
+     * from the authenticated dashboard API.
+     */
+    if (token) {
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://localhost:3000/api/patient/dashboard",
+                    {
+                        method: "GET",
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+            const result =
+                await response.json().catch(() => ({}));
+
+            if (response.ok && result.patient) {
+                patient = result.patient;
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Unable to retrieve current patient record:",
+                error
+            );
+        }
+    }
+
+
+    /*
+     * Fall back to the patient record already
+     * stored by the patient dashboard.
+     */
+    if (!patient) {
+
+        try {
+
+            const storedPatient =
+                localStorage.getItem("patient");
+
+            if (storedPatient) {
+                patient =
+                    JSON.parse(storedPatient);
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Unable to read stored patient record:",
+                error
+            );
+        }
+    }
+
+
+    if (!patient) {
+        return;
+    }
+
+
+    const patientName =
+        document.getElementById("patientName");
+
+    const phone =
+        document.getElementById("phone");
+
+    const email =
+        document.getElementById("email");
+
+
+    const fullName =
+        `${patient.first_name || ""} ${patient.last_name || ""}`
+            .trim();
+
+
+    if (patientName && fullName) {
+
+        patientName.value =
+            fullName;
+
+        patientName.readOnly =
+            true;
+    }
+
+
+    if (phone && patient.phone) {
+
+        phone.value =
+            patient.phone;
+
+        phone.readOnly =
+            true;
+    }
+
+
+    if (email && patient.email) {
+
+        email.value =
+            patient.email;
+
+        email.readOnly =
+            true;
+    }
+
+}
+
+
+loadLoggedInPatient();
 form.addEventListener("submit", async function(event) {
 
     event.preventDefault();
@@ -523,6 +647,20 @@ form.addEventListener("submit", async function(event) {
         Object.fromEntries(
             formData.entries()
         );
+
+        const token =
+    localStorage.getItem("patientToken") ||
+    localStorage.getItem("token");
+
+const headers = {
+    "Content-Type":
+        "application/json"
+};
+
+if (token) {
+    headers.Authorization =
+        "Bearer " + token;
+}
 
 
     const appointment = {
@@ -560,10 +698,7 @@ form.addEventListener("submit", async function(event) {
                 {
                     method: "POST",
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+                   headers: headers,
 
                     body:
                         JSON.stringify(

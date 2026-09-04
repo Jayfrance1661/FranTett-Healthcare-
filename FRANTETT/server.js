@@ -1,4 +1,4 @@
-﻿const cors = require("cors");
+const cors = require("cors");
 const express = require("express");
 const path = require("path");
 const { Pool } = require("pg");
@@ -1319,6 +1319,70 @@ function authenticatePatient(
 }
 
 // ==========================================
+// OPTIONAL PATIENT AUTHENTICATION
+// ==========================================
+
+function optionalAuthenticatePatient(
+    req,
+    res,
+    next
+) {
+
+    const authHeader =
+        req.headers.authorization;
+
+    if (!authHeader) {
+        return next();
+    }
+
+    const token =
+        authHeader.split(" ")[1];
+
+    if (!token) {
+
+        return res.status(401).json({
+            message:
+                "Invalid authorization header."
+        });
+
+    }
+
+    jwt.verify(
+        token,
+        JWT_SECRET,
+        (error, user) => {
+
+            if (error) {
+
+                return res.status(403).json({
+                    message:
+                        "Invalid or expired patient token."
+                });
+
+            }
+
+            if (
+                user.account_type !==
+                "patient"
+            ) {
+
+                return res.status(403).json({
+                    message:
+                        "Patient access only."
+                });
+
+            }
+
+            req.patient =
+                user;
+
+            next();
+
+        }
+    );
+
+}
+// ==========================================
 // DOCTORS API
 // ==========================================
 
@@ -2159,6 +2223,7 @@ async function createOrUpdatePatient({
 
 app.post(
     "/api/appointments",
+    optionalAuthenticatePatient,
     async (req, res) => {
 
         const client =
@@ -2166,15 +2231,61 @@ app.post(
 
         try {
 
-            const {
-                name,
+            let {
+    name,
+    email,
+    phone,
+    doctor,
+    appointment_date,
+    appointment_time,
+    reason
+} = req.body;
+
+/*
+ * For an authenticated patient, use the verified
+ * patient account instead of trusting personal
+ * details supplied by the browser.
+ */
+if (req.patient?.id) {
+
+    const authenticatedPatientResult =
+        await client.query(
+            `
+            SELECT
+                id,
+                first_name,
+                last_name,
                 email,
-                phone,
-                doctor,
-                appointment_date,
-                appointment_time,
-                reason
-            } = req.body;
+                phone
+            FROM patients
+            WHERE id = $1
+            LIMIT 1
+            `,
+            [req.patient.id]
+        );
+
+    if (
+        authenticatedPatientResult.rows.length === 0
+    ) {
+        return res.status(404).json({
+            message:
+                "Authenticated patient record not found."
+        });
+    }
+
+    const authenticatedPatient =
+        authenticatedPatientResult.rows[0];
+
+    name =
+        `${authenticatedPatient.first_name || ""} ${authenticatedPatient.last_name || ""}`
+            .trim();
+
+    email =
+        authenticatedPatient.email || "";
+
+    phone =
+        authenticatedPatient.phone || "";
+}
 
             if (
                 !name ||
@@ -3046,6 +3157,86 @@ app.delete(
 
     }
 );
+
+// ==========================================
+// ==========================================
+// PATIENT APPOINTMENT CANCELLATION
+// PATIENT ONLY
+// ==========================================
+
+app.post(
+    "/api/patient/appointments/:id/cancel",
+    authenticatePatient,
+    async (req, res) => {
+
+        try {
+
+            const appointmentId =
+                parseInt(req.params.id, 10);
+
+            if (isNaN(appointmentId)) {
+
+                return res.status(400).json({
+                    message:
+                        "Invalid appointment ID."
+                });
+
+            }
+
+            const patientId =
+                req.patient.id;
+
+            const result =
+                await pool.query(
+                    `
+                    UPDATE appointments
+                    SET
+                        status = 'Cancelled'
+                    WHERE id = $1
+                    AND patient_id = $2
+                    AND COALESCE(status, 'Pending')
+                        IN ('Pending', 'Confirmed')
+                    RETURNING *
+                    `,
+                    [
+                        appointmentId,
+                        patientId
+                    ]
+                );
+
+            if (result.rows.length === 0) {
+
+                return res.status(404).json({
+                    message:
+                        "Appointment not found, does not belong to you, or cannot be cancelled."
+                });
+
+            }
+
+            res.json({
+                message:
+                    "Appointment cancelled successfully.",
+                appointment:
+                    result.rows[0]
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Patient appointment cancellation error:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to cancel appointment."
+            });
+
+        }
+
+    }
+);
+
 
 // ==========================================
 // PATIENT RECORDS

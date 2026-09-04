@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+?<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1176,7 +1176,14 @@
                 Health Timeline
             </button>
 
-            <button
+            <a
+    class="nav-item"
+    href="book-appointment.html"
+>
+    <span class="nav-icon">+</span>
+    Book Appointment
+</a>
+<button
                 class="nav-item"
                 data-section="profile"
                 onclick="showSection('profile')"
@@ -1328,7 +1335,7 @@
                         <div class="stat-top">
 
                             <span class="stat-label">
-                                Appointments
+                                Total Appointments
                             </span>
 
                             <div class="stat-icon">
@@ -1443,8 +1450,7 @@
                                 </span>
 
                             </div>
-
-                            <button
+<button
                                 class="view-link"
                                 onclick="showSection('appointments')"
                             >
@@ -2010,7 +2016,134 @@
          JAVASCRIPT
     ========================================== -->
 
-    <script>
+    <!-- ==========================================
+     APPOINTMENT DETAILS MODAL
+========================================== -->
+
+<div
+    id="appointmentDetailsModal"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        z-index:9999;
+        background:rgba(0,0,0,0.55);
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+    "
+    onclick="if(event.target === this) closeAppointmentDetails()"
+>
+    <div
+        style="
+            width:min(560px,100%);
+            max-height:90vh;
+            overflow-y:auto;
+            background:#fff;
+            border-radius:16px;
+            padding:28px;
+            box-shadow:0 20px 60px rgba(0,0,0,0.2);
+        "
+    >
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:20px;
+            "
+        >
+            <div>
+                <div
+                    style="
+                        font-size:12px;
+                        font-weight:800;
+                        text-transform:uppercase;
+                        letter-spacing:1px;
+                        opacity:.65;
+                    "
+                >
+                    Appointment Details
+                </div>
+
+                <h3 style="margin:5px 0 0;">
+                    Appointment Information
+                </h3>
+            </div>
+
+            <button
+                type="button"
+                onclick="closeAppointmentDetails()"
+                style="
+                    border:none;
+                    background:transparent;
+                    font-size:22px;
+                    cursor:pointer;
+                "
+                aria-label="Close"
+            >
+                X
+            </button>
+        </div>
+
+        <div
+            style="
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                gap:16px;
+            "
+        >
+
+            <div>
+                <strong>Healthcare Provider</strong>
+                <div id="appointmentDetailsDoctor"></div>
+            </div>
+
+            <div>
+                <strong>Status</strong>
+                <div id="appointmentDetailsStatus"></div>
+            </div>
+
+            <div>
+                <strong>Date</strong>
+                <div id="appointmentDetailsDate"></div>
+            </div>
+
+            <div>
+                <strong>Time</strong>
+                <div id="appointmentDetailsTime"></div>
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <strong>Reason for Appointment</strong>
+                <div
+                    id="appointmentDetailsReason"
+                    style="white-space:pre-wrap;"
+                ></div>
+            </div>
+
+            <div style="grid-column:1 / -1;">
+                <strong>Appointment ID</strong>
+                <div id="appointmentDetailsId"></div>
+            </div>
+
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;margin-top:24px;">
+            <button
+                type="button"
+                class="view-link"
+                onclick="closeAppointmentDetails()"
+            >
+                Close
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
 
         /* ==========================================
            CONFIGURATION
@@ -2647,7 +2780,168 @@
         }
 
 
-        function appointmentHTML(
+        async function cancelPatientAppointment(
+    appointmentId
+) {
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        showError(
+            "Your session has expired. Please log in again."
+        );
+
+        return;
+    }
+
+    const confirmed =
+        window.confirm(
+            "Are you sure you want to cancel this appointment?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/patient/appointments/${appointmentId}/cancel`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+        const result =
+            await response.json().catch(
+                () => ({})
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Unable to cancel appointment."
+            );
+
+        }
+
+        alert(
+            result.message ||
+            "Appointment cancelled successfully."
+        );
+
+        await loadAppointments();
+
+    } catch (error) {
+
+        console.error(
+            "Cancel appointment error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to cancel appointment."
+        );
+    }
+
+}
+
+function openAppointmentDetails(
+    appointmentId
+) {
+
+    const appointment =
+        appointments.find(
+            item =>
+                Number(item.id) ===
+                Number(appointmentId)
+        );
+
+    if (!appointment) {
+
+        showError(
+            "Appointment details could not be found."
+        );
+
+        return;
+    }
+
+
+    document.getElementById(
+        "appointmentDetailsDoctor"
+    ).textContent =
+        appointment.doctor ||
+        "Healthcare Provider";
+
+
+    document.getElementById(
+        "appointmentDetailsStatus"
+    ).textContent =
+        appointment.status ||
+        "Pending";
+
+
+    document.getElementById(
+        "appointmentDetailsDate"
+    ).textContent =
+        formatDate(
+            appointment.appointment_date
+        );
+
+
+    document.getElementById(
+        "appointmentDetailsTime"
+    ).textContent =
+        formatTime(
+            appointment.appointment_time
+        );
+
+
+    document.getElementById(
+        "appointmentDetailsReason"
+    ).textContent =
+        appointment.reason ||
+        "Medical consultation";
+
+
+    document.getElementById(
+        "appointmentDetailsId"
+    ).textContent =
+        appointment.id;
+
+
+    const modal =
+        document.getElementById(
+            "appointmentDetailsModal"
+        );
+
+    modal.style.display =
+        "flex";
+}
+
+
+function closeAppointmentDetails() {
+
+    const modal =
+        document.getElementById(
+            "appointmentDetailsModal"
+        );
+
+    modal.style.display =
+        "none";
+}
+
+function appointmentHTML(
             appointment
         ) {
 
@@ -2733,6 +3027,27 @@
                             "Pending"
                         )}
                     </span>
+                    <button
+                        type="button"
+                        class="view-link"
+                        style="margin-left:12px;"
+                        onclick="openAppointmentDetails(${Number(appointment.id)})"
+                    >
+                        View Details
+                    </button>
+                    ${["Pending", "Confirmed"].includes(
+                        appointment.status
+                    ) ? `
+                        <button
+                            type="button"
+                            class="view-link"
+                            style="margin-left:12px;"
+                            onclick="cancelPatientAppointment(${Number(appointment.id)})"
+                        >
+                            Cancel Appointment
+                        </button>
+                    ` : ""}
+
 
                 </div>
 
@@ -3463,3 +3778,5 @@
 
 </body>
 </html>
+
+
