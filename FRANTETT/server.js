@@ -86,31 +86,6 @@ async function getMtnAccessToken() {
 const app = express();
 
 
-// ==========================================
-// TEMPORARY MTN CONFIGURATION TEST
-// ==========================================
-
-app.get("/api/test/mtn-token", async (req, res) => {
-    try {
-        const token = await getMtnAccessToken();
-
-        res.json({
-            success: true,
-            message: "MTN MoMo access token obtained successfully.",
-            token_received: Boolean(token)
-        });
-
-    } catch (error) {
-        console.error("MTN token test error:", error);
-
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
-    }
-});
-
-
 app.use(cors());
 
 // Stripe webhook must receive the raw request body
@@ -7182,27 +7157,27 @@ app.get(
             }
 
             const updatedPayment =
-                await pool.query(
-                    `
-                    UPDATE payments
-                    SET
-                        status = $1,
-                        transaction_id =
-                            COALESCE($2, transaction_id),
-                        paid_at =
-                            CASE
-                                WHEN $1 = 'Paid'
-                                THEN COALESCE(
-                                    paid_at,
-                                    CURRENT_TIMESTAMP
-                                )
-                                ELSE paid_at
-                            END,
-                        updated_at =
-                            CURRENT_TIMESTAMP
-                    WHERE id = $3
-                    RETURNING *
-                    `,
+    await pool.query(
+        `
+        UPDATE payments
+        SET
+            status = $1::varchar,
+            transaction_id =
+                COALESCE($2::varchar, transaction_id),
+            paid_at =
+                CASE
+                    WHEN $1::varchar = 'Paid'
+                    THEN COALESCE(
+                        paid_at,
+                        CURRENT_TIMESTAMP
+                    )
+                    ELSE paid_at
+                END,
+            updated_at =
+                CURRENT_TIMESTAMP
+        WHERE id = $3::integer
+        RETURNING *
+        `,
                     [
                         localStatus,
                         mtnData.financialTransactionId ||
