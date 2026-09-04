@@ -1445,6 +1445,249 @@
         .nav-menu > li > a.nav-book:active {
             transform: translateY(0) scale(1) !important;
         }
+        /* FRANTETT TRUST BAR THEME */
+
+        .trust-bar {
+            background: #12355B !important;
+            border-bottom: 1px solid rgba(255,255,255,0.12) !important;
+        }
+
+        .trust-item {
+            border-right: 1px solid rgba(255,255,255,0.14) !important;
+        }
+
+        .trust-item:last-child {
+            border-right: 0 !important;
+        }
+
+        .trust-item strong {
+            color: #FFFFFF !important;
+        }
+
+        .trust-item span {
+            color: #DDE8F2 !important;
+        }
+
+        @media (max-width: 768px) {
+
+            .trust-item {
+                border-right: 0 !important;
+                border-bottom: 1px solid rgba(255,255,255,0.14) !important;
+            }
+
+            .trust-item:nth-child(3),
+            .trust-item:nth-child(4) {
+                border-bottom: 0 !important;
+            }
+
+        }
+        /* FRANTTETT TRUST BAR HOVER */
+
+        .trust-item {
+            position: relative;
+            transition:
+                background 0.22s ease,
+                transform 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+
+        .trust-item:hover {
+            background: #1B4A72;
+            transform: translateY(-3px);
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.16);
+            z-index: 2;
+        }
+
+        .trust-item:hover strong {
+            color: #FFFFFF !important;
+        }
+
+        .trust-item:hover span {
+            color: #F1F6FA !important;
+        }
+        /* FRANTETT MOBILE NAV FIX */
+
+        @media (max-width: 900px) {
+
+            .nav-menu {
+                background: #12355B !important;
+                box-shadow:
+                    0 10px 25px rgba(0,0,0,0.18) !important;
+            }
+
+            .nav-menu > li > a,
+            .top-login > button {
+                color: #FFFFFF !important;
+            }
+
+            .nav-menu > li > a:hover,
+            .top-login > button:hover {
+                color: #DDF3EA !important;
+                background: rgba(255,255,255,0.08);
+            }
+
+            .nav-menu > li > a {
+                display: block !important;
+                width: 100%;
+                padding: 13px 5px !important;
+                border-bottom:
+                    1px solid rgba(255,255,255,0.14) !important;
+            }
+
+            .nav-menu .nav-book {
+                background: #FFFFFF !important;
+                color: #12355B !important;
+                margin-top: 10px;
+                border-radius: 7px;
+            }
+
+            .nav-menu .nav-book:hover {
+                background: #DDF3EA !important;
+                color: #12355B !important;
+            }
+
+            .top-login {
+                width: 100%;
+            }
+
+            .top-login > button {
+                width: 100%;
+                text-align: left;
+                padding: 13px 5px !important;
+                border-bottom:
+                    1px solid rgba(255,255,255,0.14) !important;
+            }
+
+            .top-login-menu {
+                position: static !important;
+                width: 100%;
+                margin-top: 5px;
+                background: #FFFFFF !important;
+            }
+
+        }
+        /* FRANTETT MOBILE NAV VISIBILITY FIX */
+
+        @media (max-width: 900px) {
+
+            .nav-menu.open {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                height: auto !important;
+                max-height: none !important;
+                overflow: visible !important;
+            }
+
+            .nav-menu.open > li {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                width: 100% !important;
+                transform: none !important;
+            }
+
+            .nav-menu.open > li > a {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                width: 100% !important;
+                color: #FFFFFF !important;
+                transform: none !important;
+                text-shadow: none !important;
+            }
+
+            .nav-menu.open > li > a:hover,
+            .nav-menu.open > li > a:focus,
+            .nav-menu.open > li > a:active {
+                color: #DDF3EA !important;
+                transform: none !important;
+            }
+
+            .nav-menu.open > li.top-login {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                width: 100% !important;
+            }
+
+            .nav-menu.open > li.top-login > button {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                width: 100% !important;
+                color: #FFFFFF !important;
+                transform: none !important;
+            }
+
+        }
+        /* FRANTETT MOBILE BOOK BUTTON FIX */
+
+        @media (max-width: 900px) {
+
+            .nav-menu.open > li > a.nav-book {
+                background: #FFFFFF !important;
+                color: #12355B !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .nav-menu.open > li > a.nav-book:hover,
+            .nav-menu.open > li > a.nav-book:focus {
+                background: #DDF3EA !important;
+                color: #12355B !important;
+            }
+
+        }
+        /* FRANTETT MOBILE BOOK ALIGNMENT FIX */
+
+        @media (max-width: 900px) {
+
+            .nav-menu.open > li > a.nav-book {
+                display: block !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                margin-top: 0 !important;
+                padding: 13px 5px !important;
+                text-align: left !important;
+                border-radius: 0 !important;
+                background: transparent !important;
+                color: #FFFFFF !important;
+                box-shadow: none !important;
+                transform: none !important;
+            }
+
+            .nav-menu.open > li > a.nav-book:hover,
+            .nav-menu.open > li > a.nav-book:focus {
+                background: rgba(255,255,255,0.08) !important;
+                color: #DDF3EA !important;
+                box-shadow: none !important;
+                transform: none !important;
+            }
+
+        }
+        /* FRANTETT MOBILE MENU BUTTON */
+
+        @media (max-width: 900px) {
+
+            .menu-toggle {
+                background: #FFFFFF !important;
+                color: #12355B !important;
+                border: 1px solid rgba(18,53,91,0.15) !important;
+                border-radius: 8px !important;
+                box-shadow: 0 4px 12px rgba(18,53,91,0.12) !important;
+            }
+
+            .menu-toggle:hover,
+            .menu-toggle:focus {
+                background: #FFFFFF !important;
+                color: #12355B !important;
+            }
+
+        }
 </style>
 </head>
 

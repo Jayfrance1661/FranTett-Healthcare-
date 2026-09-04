@@ -1,0 +1,10 @@
+﻿b3de395 Complete patient appointments and homepage improvements
+7358ca3 Finalize Stripe and MTN MoMo payment integration
+b5273c7 Add MTN MoMo payment integration
+9a7051e Save Phase 7 payments and MTN MoMo progress
+3ba7c1e Complete consultation clinical records and lab report display
+243dbf9 Save consultation clinical styling progress
+60cf09c Save consultation clinical records display progress
+7dd745a Save FranTett Healthcare progress August 31 2026
+7b0319a Fix consultation clinical records workflow
+ef5e226 Backup and save today's FranTett Healthcare progress

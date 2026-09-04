@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -3735,17 +3735,6 @@ async function loadConsultation() {
         populateForm(
             consultation
         );
-        /*
-         * Vital Signs are stored separately from
-         * the consultation record.
-         *
-         * Load the vital record linked to this
-         * consultation and populate the existing
-         * horizontal Vital Signs fields.
-         */
-
-        await loadConsultationLinkedVitals();
-
 
 
         isEditMode =
@@ -3869,7 +3858,9 @@ setValue(
     "bmi",
     consultation.bmi
 );
-setValue(
+
+
+    setValue(
         "chiefComplaint",
         consultation.chief_complaint
     );
@@ -4448,208 +4439,6 @@ function updateBrowserUrl() {
 
 /* =====================================================
    BMI CALCULATION
-===================================================== */
-
-/* =====================================================
-   FRANTETT CONSULTATION VITAL AUTOFILL
-   Loads the existing vital record linked to this
-   consultation and populates the current form fields.
-===================================================== */
-
-async function loadConsultationLinkedVitals() {
-
-    if (
-        !patientId ||
-        !consultationId
-    ) {
-
-        console.log(
-            "Vital autofill skipped: missing patientId or consultationId."
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        const response =
-            await fetch(
-                `${API_URL}/api/patients/${patientId}/vitals`,
-                {
-                    method:
-                        "GET",
-
-                    headers: {
-                        "Authorization":
-                            `Bearer ${getToken()}`
-                    }
-                }
-            );
-
-
-        if (
-            response.status === 401 ||
-            response.status === 403
-        ) {
-
-            showAlert(
-                "Your session has expired. Please log in again.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        if (!response.ok) {
-
-            console.error(
-                "Failed to load patient vital signs:",
-                data
-            );
-
-            return;
-
-        }
-
-
-        const vitals =
-            Array.isArray(data)
-                ? data
-                : (
-                    Array.isArray(data.records)
-                        ? data.records
-                        : []
-                );
-
-
-        /*
-         * Only select records belonging to
-         * the current consultation.
-         */
-
-        const linkedVitals =
-            vitals.filter(
-                vital =>
-                    Number(
-                        vital.consultation_id
-                    ) === Number(
-                        consultationId
-                    )
-            );
-
-
-        if (!linkedVitals.length) {
-
-            console.log(
-                "No vital signs linked to consultation:",
-                consultationId
-            );
-
-            return;
-
-        }
-
-
-        /*
-         * If several vital records exist for the
-         * same consultation, use the newest one.
-         */
-
-        linkedVitals.sort(
-            (a, b) =>
-                new Date(
-                    b.recorded_at || 0
-                ) -
-                new Date(
-                    a.recorded_at || 0
-                )
-        );
-
-
-        const vital =
-            linkedVitals[0];
-
-
-        /*
-         * Populate the EXISTING horizontal
-         * Vital Signs fields.
-         */
-
-        setValue(
-            "bloodPressure",
-            vital.blood_pressure
-        );
-
-
-        setValue(
-            "heartRate",
-            vital.heart_rate
-        );
-
-
-        setValue(
-            "temperature",
-            vital.temperature
-        );
-
-
-        setValue(
-            "respiratoryRate",
-            vital.respiratory_rate
-        );
-
-
-        setValue(
-            "oxygenSaturation",
-            vital.oxygen_saturation
-        );
-
-
-        setValue(
-            "weight",
-            vital.weight
-        );
-
-
-        setValue(
-            "height",
-            vital.height
-        );
-
-
-        setValue(
-            "bmi",
-            vital.bmi
-        );
-
-
-        console.log(
-            "CONSULTATION VITALS AUTO-POPULATED:",
-            vital
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Consultation vital autofill error:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   END FRANTETT CONSULTATION VITAL AUTOFILL
 ===================================================== */
 
 function calculateBMI() {

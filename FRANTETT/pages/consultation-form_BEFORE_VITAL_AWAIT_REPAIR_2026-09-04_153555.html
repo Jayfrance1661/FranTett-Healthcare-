@@ -3735,17 +3735,6 @@ async function loadConsultation() {
         populateForm(
             consultation
         );
-        /*
-         * Vital Signs are stored separately from
-         * the consultation record.
-         *
-         * Load the vital record linked to this
-         * consultation and populate the existing
-         * horizontal Vital Signs fields.
-         */
-
-        await loadConsultationLinkedVitals();
-
 
 
         isEditMode =
@@ -3869,6 +3858,16 @@ setValue(
     "bmi",
     consultation.bmi
 );
+
+
+    /*
+ * Vital Signs are stored separately from the
+ * consultation record. Load the record linked
+ * to this consultation and populate the form.
+ */
+
+await loadConsultationLinkedVitals();
+
 setValue(
         "chiefComplaint",
         consultation.chief_complaint

@@ -1,0 +1,3430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Clinical Consultation | FranTett Healthcare</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0b6b63;
+            --primary-dark: #084f4a;
+            --primary-light: #e9f6f4;
+            --bg: #f4f7f7;
+            --card: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #d9e2e1;
+            --danger: #b42318;
+            --success: #15803d;
+            --warning: #b45309;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .topbar {
+            background: #0b2927;
+            color: white;
+
+            min-height: 70px;
+
+            padding: 12px 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .brand span {
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 11px;
+            font-weight: 400;
+
+            opacity: .75;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mode-badge {
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            background: rgba(255,255,255,.1);
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        .page {
+            max-width: 1250px;
+
+            margin: 0 auto;
+
+            padding: 25px 20px 60px;
+        }
+
+        .page-header {
+            margin-bottom: 20px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 6px;
+
+            font-size: 28px;
+        }
+
+        .page-header p {
+            margin: 0;
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+        /* =========================================
+           ALERT
+        ========================================= */
+
+        .alert {
+            display: none;
+
+            padding: 13px 16px;
+
+            margin-bottom: 18px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert.success {
+            background: #ecfdf3;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .alert.error {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .alert.warning {
+            background: #fff7ed;
+            color: #9a3412;
+            border: 1px solid #fed7aa;
+        }
+
+        /* =========================================
+           PATIENT / APPOINTMENT CARD
+        ========================================= */
+
+        .patient-card {
+            background: var(--card);
+
+            border: 1px solid var(--border);
+
+            border-radius: 14px;
+
+            padding: 20px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.04);
+        }
+
+        .patient-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 18px;
+
+            gap: 15px;
+        }
+
+        .patient-card-header h2 {
+            margin: 0;
+
+            font-size: 17px;
+        }
+
+        .patient-status {
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            background: var(--primary-light);
+
+            color: var(--primary-dark);
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .patient-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 14px;
+        }
+
+        .info-box {
+            background: #f8faf9;
+
+            border: 1px solid #e5eceb;
+
+            border-radius: 9px;
+
+            padding: 12px;
+        }
+
+        .info-label {
+            color: var(--muted);
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .5px;
+
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 13px;
+            font-weight: 700;
+
+            word-break: break-word;
+        }
+
+        /* =========================================
+           FORM SECTIONS
+        ========================================= */
+
+        .section {
+            background: var(--card);
+
+            border: 1px solid var(--border);
+
+            border-radius: 14px;
+
+            margin-bottom: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.04);
+        }
+
+        .section-header {
+            background: #f8fbfa;
+
+            border-bottom: 1px solid var(--border);
+
+            padding: 15px 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .section-number {
+            width: 28px;
+            height: 28px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--primary);
+
+            color: white;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .section-header h2 {
+            margin: 0;
+
+            font-size: 16px;
+        }
+
+        .section-header p {
+            margin: 2px 0 0;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .section-body {
+            padding: 20px;
+        }
+
+        /* =========================================
+           FORM GRID
+        ========================================= */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 16px;
+        }
+
+        .form-grid.three {
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+        }
+
+        .form-grid.four {
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+        }
+
+        .field {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 12px;
+
+            font-weight: 700;
+
+            color: #374151;
+        }
+
+        label .required {
+            color: var(--danger);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+
+            border: 1px solid #cfdad8;
+
+            border-radius: 8px;
+
+            background: white;
+
+            color: var(--text);
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            outline: none;
+
+            transition:
+                border-color .15s,
+                box-shadow .15s;
+        }
+
+        input,
+        select {
+            height: 42px;
+
+            padding: 0 12px;
+        }
+
+        textarea {
+            min-height: 120px;
+
+            padding: 12px;
+
+            resize: vertical;
+
+            line-height: 1.5;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 3px rgba(11,107,99,.1);
+        }
+
+        input[readonly] {
+            background: #f3f6f5;
+
+            color: #5f6b69;
+        }
+
+        /* =========================================
+           VITALS
+        ========================================= */
+
+        .vital-card {
+            border: 1px solid #dce6e4;
+
+            border-radius: 10px;
+
+            padding: 14px;
+
+            background: #fbfdfc;
+        }
+
+        .vital-title {
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            color: var(--muted);
+
+            margin-bottom: 7px;
+        }
+
+        .vital-unit {
+            color: var(--muted);
+
+            font-size: 10px;
+
+            margin-top: 4px;
+        }
+
+        /* =========================================
+           TEXTAREAS
+        ========================================= */
+
+        .clinical-textarea {
+            min-height: 145px;
+        }
+
+        .large-textarea {
+            min-height: 190px;
+        }
+
+        /* =========================================
+           ACTION BAR
+        ========================================= */
+
+        .actions {
+            position: sticky;
+
+            bottom: 0;
+
+            z-index: 20;
+
+            background: rgba(244,247,247,.96);
+
+            backdrop-filter: blur(8px);
+
+            border-top: 1px solid var(--border);
+
+            padding: 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+        }
+
+        .action-left,
+        .action-right {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+
+            border-radius: 8px;
+
+            min-height: 42px;
+
+            padding: 0 17px;
+
+            font-family: inherit;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                transform .1s,
+                opacity .15s,
+                background .15s;
+        }
+
+        button:active {
+            transform: scale(.98);
+        }
+
+        button:disabled {
+            opacity: .55;
+
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: #e8efed;
+
+            color: #24413e;
+        }
+
+        .btn-secondary:hover {
+            background: #dce7e4;
+        }
+
+        .btn-danger {
+            background: #b42318;
+
+            color: white;
+        }
+
+        .btn-print {
+            background: #334155;
+
+            color: white;
+        }
+
+        /* =========================================
+           LOADING
+        ========================================= */
+
+        .loading-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(3,20,19,.45);
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 100;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .loading-box {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 25px 35px;
+
+            text-align: center;
+
+            box-shadow:
+                0 10px 40px rgba(0,0,0,.2);
+        }
+
+        .spinner {
+            width: 35px;
+            height: 35px;
+
+            border: 4px solid #dce8e6;
+
+            border-top-color: var(--primary);
+
+            border-radius: 50%;
+
+            animation:
+                spin .8s linear infinite;
+
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =========================================
+           PRINT
+        ========================================= */
+
+        @media print {
+
+            body {
+                background: white;
+            }
+
+            .topbar {
+                background: white;
+
+                color: black;
+
+                border-bottom: 2px solid #222;
+            }
+
+            .topbar-right,
+            .actions,
+            .alert {
+                display: none !important;
+            }
+
+            .page {
+                max-width: none;
+
+                padding: 0;
+            }
+
+            .section,
+            .patient-card {
+                box-shadow: none;
+
+                break-inside: avoid;
+
+                border: 1px solid #aaa;
+            }
+
+            input,
+            select,
+            textarea {
+                border: none;
+
+                padding-left: 0;
+
+                resize: none;
+
+                background: white;
+            }
+
+            textarea {
+                min-height: auto;
+            }
+
+            .section-header {
+                background: #eee;
+            }
+
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 950px) {
+
+            .patient-grid,
+            .form-grid.four {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .form-grid.three {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .topbar {
+                padding: 12px 15px;
+            }
+
+            .brand {
+                font-size: 16px;
+            }
+
+            .page {
+                padding: 18px 12px 45px;
+            }
+
+            .patient-grid,
+            .form-grid,
+            .form-grid.three,
+            .form-grid.four {
+                grid-template-columns: 1fr;
+            }
+
+            .section-body {
+                padding: 15px;
+            }
+
+            .actions {
+                position: static;
+
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+            .action-left,
+            .action-right {
+                width: 100%;
+            }
+
+            .action-left button,
+            .action-right button {
+                flex: 1;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        FRANTETT HEALTHCARE
+        <span>Your Health, Our Priority</span>
+    </div>
+
+    <div class="topbar-right">
+
+        <div
+            id="formMode"
+            class="mode-badge"
+        >
+            New Consultation
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+    <div class="page-header">
+
+        <h1>
+            Clinical Consultation
+        </h1>
+
+        <p>
+            Complete the patient's clinical consultation record.
+        </p>
+
+    </div>
+
+
+    <div
+        id="alert"
+        class="alert"
+    ></div>
+
+
+    <!-- =========================================
+         PATIENT INFORMATION
+    ========================================== -->
+
+    <section class="patient-card">
+
+        <div class="patient-card-header">
+
+            <h2>
+                Patient & Appointment Information
+            </h2>
+
+            <div
+                id="patientStatus"
+                class="patient-status"
+            >
+                Loading...
+            </div>
+
+        </div>
+
+
+        <div class="patient-grid">
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Patient Name
+                </div>
+
+                <div
+                    id="patientName"
+                    class="info-value"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Patient ID
+                </div>
+
+                <div
+                    id="patientIdDisplay"
+                    class="info-value"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Appointment ID
+                </div>
+
+                <div
+                    id="appointmentIdDisplay"
+                    class="info-value"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Consultation ID
+                </div>
+
+                <div
+                    id="consultationIdDisplay"
+                    class="info-value"
+                >
+                    New
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 1
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                1
+            </div>
+
+            <div>
+                <h2>
+                    Consultation Information
+                </h2>
+
+                <p>
+                    Basic clinical encounter information.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="form-grid three">
+
+                <div class="field">
+
+                    <label for="doctor">
+                        Doctor / Clinician
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        id="doctor"
+                        type="text"
+                        placeholder="Enter clinician name"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="consultationDate">
+                        Consultation Date
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        id="consultationDate"
+                        type="date"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="appointmentId">
+                        Appointment ID
+                    </label>
+
+                    <input
+                        id="appointmentId"
+                        type="text"
+                        readonly
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 2
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                2
+            </div>
+
+            <div>
+                <h2>
+                    Vital Signs
+                </h2>
+
+                <p>
+                    Record the patient's observations at the consultation.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="form-grid four">
+
+                <div class="vital-card">
+
+                    <div class="vital-title">
+                        Blood Pressure
+                    </div>
+
+                    <input
+                        id="bloodPressure"
+                        type="text"
+                        placeholder="e.g. 120/80"
+                    >
+
+                    <div class="vital-unit">
+                        mmHg
+                    </div>
+
+                </div>
+
+
+                <div class="vital-card">
+
+                    <div class="vital-title">
+                        Heart Rate
+                    </div>
+
+                    <input
+                        id="heartRate"
+                        type="number"
+                        min="0"
+                        placeholder="e.g. 72"
+                    >
+
+                    <div class="vital-unit">
+                        bpm
+                    </div>
+
+                </div>
+
+
+                <div class="vital-card">
+
+                    <div class="vital-title">
+                        Temperature
+                    </div>
+
+                    <input
+                        id="temperature"
+                        type="number"
+                        step="0.1"
+                        placeholder="e.g. 36.8"
+                    >
+
+                    <div class="vital-unit">
+                        °C
+                    </div>
+
+                </div>
+
+
+                <div class="vital-card">
+
+                    <div class="vital-title">
+                        Respiratory Rate
+                    </div>
+
+                    <input
+                        id="respiratoryRate"
+                        type="number"
+                        min="0"
+                        placeholder="e.g. 18"
+                    >
+
+                    <div class="vital-unit">
+                        breaths/min
+                    </div>
+
+                </div>
+
+
+                <div class="vital-card">
+
+                    <div class="vital-title">
+                        Oxygen Saturation
+                    </div>
+
+                    <input
+                        id="oxygenSaturation"
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="0.1"
+                        placeholder="e.g. 98"
+                    >
+
+                    <div class="vital-unit">
+                        %
+                    </div>
+
+                </div>
+
+
+                <div class="vital-card">
+
+                    <div class="vital-title">
+                        Weight
+                    </div>
+
+                    <input
+                        id="weight"
+                        type="number"
+                        min="0"
+                        step="0.1"
+                        placeholder="e.g. 70"
+                    >
+
+                    <div class="vital-unit">
+                        kg
+                    </div>
+
+                </div>
+
+
+                <div class="vital-card">
+
+                    <div class="vital-title">
+                        Height
+                    </div>
+
+                    <input
+                        id="height"
+                        type="number"
+                        min="0"
+                        step="0.1"
+                        placeholder="e.g. 175"
+                    >
+
+                    <div class="vital-unit">
+                        cm
+                    </div>
+
+                </div>
+
+
+                <div class="vital-card">
+
+                    <div class="vital-title">
+                        BMI
+                    </div>
+
+                    <input
+                        id="bmi"
+                        type="number"
+                        step="0.1"
+                        placeholder="Automatically calculated"
+                    >
+
+                    <div class="vital-unit">
+                        kg/m²
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 3
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                3
+            </div>
+
+            <div>
+                <h2>
+                    Chief Complaint
+                </h2>
+
+                <p>
+                    Main reason for today's consultation.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="chiefComplaint">
+                    Chief Complaint
+                </label>
+
+                <textarea
+                    id="chiefComplaint"
+                    class="clinical-textarea"
+                    placeholder="Describe the patient's main complaint..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 4
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                4
+            </div>
+
+            <div>
+                <h2>
+                    History of Presenting Complaint
+                </h2>
+
+                <p>
+                    Document the history and progression of the presenting problem.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="historyOfPresentingComplaint">
+                    History of Presenting Complaint
+                </label>
+
+                <textarea
+                    id="historyOfPresentingComplaint"
+                    class="large-textarea"
+                    placeholder="Onset, duration, location, character, aggravating/relieving factors, associated symptoms, previous treatment, etc."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 5
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                5
+            </div>
+
+            <div>
+                <h2>
+                    Past Medical History
+                </h2>
+
+                <p>
+                    Relevant previous illnesses, admissions and procedures.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="pastMedicalHistory">
+                    Past Medical History
+                </label>
+
+                <textarea
+                    id="pastMedicalHistory"
+                    class="clinical-textarea"
+                    placeholder="Previous illnesses, surgeries, hospital admissions, chronic conditions..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 6
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                6
+            </div>
+
+            <div>
+                <h2>
+                    Drug & Allergy History
+                </h2>
+
+                <p>
+                    Current medications, previous medications and allergies.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="drugAllergyHistory">
+                    Drug / Allergy History
+                </label>
+
+                <textarea
+                    id="drugAllergyHistory"
+                    class="clinical-textarea"
+                    placeholder="Current medications, previous medications, drug allergies and reactions..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 7
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                7
+            </div>
+
+            <div>
+                <h2>
+                    Family History
+                </h2>
+
+                <p>
+                    Relevant hereditary and familial conditions.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="familyHistory">
+                    Family History
+                </label>
+
+                <textarea
+                    id="familyHistory"
+                    class="clinical-textarea"
+                    placeholder="Relevant family history..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 8
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                8
+            </div>
+
+            <div>
+                <h2>
+                    Social History
+                </h2>
+
+                <p>
+                    Lifestyle and social factors relevant to care.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="socialHistory">
+                    Social History
+                </label>
+
+                <textarea
+                    id="socialHistory"
+                    class="clinical-textarea"
+                    placeholder="Occupation, tobacco, alcohol, recreational drugs, diet, exercise, living circumstances and other relevant information..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 9
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                9
+            </div>
+
+            <div>
+                <h2>
+                    Review of Systems
+                </h2>
+
+                <p>
+                    Record relevant positive and negative findings.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="systemsReview">
+                    Systems Review
+                </label>
+
+                <textarea
+                    id="systemsReview"
+                    class="large-textarea"
+                    placeholder="General, cardiovascular, respiratory, gastrointestinal, genitourinary, neurological, musculoskeletal, skin and other systems..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 10
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                10
+            </div>
+
+            <div>
+                <h2>
+                    Clinical Summary
+                </h2>
+
+                <p>
+                    Concise summary of the clinical encounter.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="summary">
+                    Clinical Summary
+                </label>
+
+                <textarea
+                    id="summary"
+                    class="large-textarea"
+                    placeholder="Summarize the patient's presentation and important clinical information..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 11
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                11
+            </div>
+
+            <div>
+                <h2>
+                    Physical Examination
+                </h2>
+
+                <p>
+                    Document examination findings.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="examination">
+                    Examination Findings
+                </label>
+
+                <textarea
+                    id="examination"
+                    class="large-textarea"
+                    placeholder="General appearance, relevant system examinations, positive and negative findings..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 12
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                12
+            </div>
+
+            <div>
+                <h2>
+                    Investigations
+                </h2>
+
+                <p>
+                    Record investigations reviewed or requested.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="investigations">
+                    Investigations
+                </label>
+
+                <textarea
+                    id="investigations"
+                    class="large-textarea"
+                    placeholder="Laboratory investigations, imaging, diagnostic tests and relevant results..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 13
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                13
+            </div>
+
+            <div>
+                <h2>
+                    Differential Diagnosis
+                </h2>
+
+                <p>
+                    Possible diagnoses considered.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="differentialDiagnosis">
+                    Differential Diagnosis
+                </label>
+
+                <textarea
+                    id="differentialDiagnosis"
+                    class="clinical-textarea"
+                    placeholder="List the differential diagnoses..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 14
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                14
+            </div>
+
+            <div>
+                <h2>
+                    Diagnosis
+                </h2>
+
+                <p>
+                    Working or confirmed clinical diagnosis.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="diagnosis">
+                    Diagnosis
+                </label>
+
+                <textarea
+                    id="diagnosis"
+                    class="clinical-textarea"
+                    placeholder="Enter the diagnosis..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 15
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                15
+            </div>
+
+            <div>
+                <h2>
+                    Management Plan
+                </h2>
+
+                <p>
+                    Clinical management and recommendations.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="managementPlan">
+                    Management Plan
+                </label>
+
+                <textarea
+                    id="managementPlan"
+                    class="large-textarea"
+                    placeholder="Treatment plan, investigations, referrals, counselling, lifestyle recommendations and other management..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 16
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                16
+            </div>
+
+            <div>
+                <h2>
+                    Treatment
+                </h2>
+
+                <p>
+                    Treatment provided or recommended during this consultation.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="treatment">
+                    Treatment
+                </label>
+
+                <textarea
+                    id="treatment"
+                    class="large-textarea"
+                    placeholder="Document treatment, medication instructions, procedures or other interventions..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 17
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                17
+            </div>
+
+            <div>
+                <h2>
+                    Clinical Notes
+                </h2>
+
+                <p>
+                    Additional clinical information.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="field">
+
+                <label for="clinicalNotes">
+                    Clinical Notes
+                </label>
+
+                <textarea
+                    id="clinicalNotes"
+                    class="large-textarea"
+                    placeholder="Additional clinical notes..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SECTION 18
+    ========================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-number">
+                18
+            </div>
+
+            <div>
+                <h2>
+                    Follow-Up
+                </h2>
+
+                <p>
+                    Schedule the next clinical review where applicable.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label for="followUpDate">
+                        Follow-Up Date
+                    </label>
+
+                    <input
+                        id="followUpDate"
+                        type="date"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================================
+     ACTION BAR
+========================================== -->
+
+<div class="actions">
+
+    <div class="action-left">
+
+        <button
+            type="button"
+            class="btn-secondary"
+            onclick="goBack()"
+        >
+            ← Back
+        </button>
+
+        <button
+            type="button"
+            class="btn-print"
+            onclick="printConsultation()"
+        >
+            Print
+        </button>
+
+    </div>
+
+
+    <div class="action-right">
+
+        <button
+            id="clearButton"
+            type="button"
+            class="btn-secondary"
+            onclick="clearForm()"
+        >
+            Clear
+        </button>
+
+        <button
+            id="saveButton"
+            type="button"
+            class="btn-primary"
+            onclick="saveConsultation()"
+        >
+            Save Consultation
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     LOADING
+========================================== -->
+
+<div
+    id="loadingOverlay"
+    class="loading-overlay"
+>
+
+    <div class="loading-box">
+
+        <div class="spinner"></div>
+
+        <strong id="loadingText">
+            Saving consultation...
+        </strong>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
+const API_URL =
+    "http://localhost:3000";
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let patientId = null;
+
+let appointmentId = null;
+
+let consultationId = null;
+
+let isEditMode = false;
+
+
+/* =====================================================
+   AUTHENTICATION
+===================================================== */
+
+function getToken() {
+
+    return localStorage.getItem(
+        "frantett_token"
+    );
+
+}
+
+
+function getAuthHeaders() {
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        throw new Error(
+            "You are not logged in."
+        );
+
+    }
+
+    return {
+
+        "Authorization":
+            `Bearer ${token}`,
+
+        "Content-Type":
+            "application/json"
+
+    };
+
+}
+
+
+/* =====================================================
+   URL PARAMETERS
+===================================================== */
+
+function getUrlParameters() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    patientId =
+        params.get("patient_id");
+
+
+    appointmentId =
+        params.get("appointment_id");
+
+
+    consultationId =
+        params.get("consultation_id");
+
+
+    /*
+     * Also support /?id=123
+     * for editing a consultation.
+     */
+
+    if (!consultationId) {
+
+        consultationId =
+            params.get("id");
+
+    }
+
+
+    if (consultationId) {
+
+        isEditMode = true;
+
+    }
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function getToday() {
+
+    const date =
+        new Date();
+
+    const year =
+        date.getFullYear();
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+/* =====================================================
+   ALERT
+===================================================== */
+
+function showAlert(
+    message,
+    type = "success"
+) {
+
+    const alert =
+        document.getElementById(
+            "alert"
+        );
+
+    alert.textContent =
+        message;
+
+    alert.className =
+        `alert show ${type}`;
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+
+    if (type === "success") {
+
+        setTimeout(
+            () => {
+
+                alert.className =
+                    "alert";
+
+            },
+            5000
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+function showLoading(
+    message = "Please wait..."
+) {
+
+    document.getElementById(
+        "loadingText"
+    ).textContent =
+        message;
+
+    document.getElementById(
+        "loadingOverlay"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function hideLoading() {
+
+    document.getElementById(
+        "loadingOverlay"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
+   SAFE VALUE
+===================================================== */
+
+function value(id) {
+
+    const element =
+        document.getElementById(id);
+
+    return element
+        ? element.value.trim()
+        : "";
+
+}
+
+
+/* =====================================================
+   SET VALUE
+===================================================== */
+
+function setValue(
+    id,
+    val
+) {
+
+    const element =
+        document.getElementById(id);
+
+    if (!element) {
+        return;
+    }
+
+    element.value =
+        val == null
+            ? ""
+            : val;
+
+}
+
+
+/* =====================================================
+   LOAD PATIENT
+===================================================== */
+
+async function loadPatient() {
+
+    if (!patientId) {
+
+        document.getElementById(
+            "patientStatus"
+        ).textContent =
+            "Patient ID missing";
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}`,
+                {
+                    headers:
+                        getAuthHeaders()
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load patient information."
+            );
+
+        }
+
+
+        const patient =
+            await response.json();
+
+
+        /*
+         * Support common response formats.
+         */
+
+        const data =
+            patient.patient ||
+            patient.data ||
+            patient;
+
+
+        const firstName =
+            data.first_name ||
+            data.firstname ||
+            "";
+
+        const lastName =
+            data.last_name ||
+            data.lastname ||
+            "";
+
+        const fullName =
+            data.full_name ||
+            data.name ||
+            `${firstName} ${lastName}`.trim();
+
+
+        document.getElementById(
+            "patientName"
+        ).textContent =
+            fullName || "Unknown patient";
+
+
+        document.getElementById(
+            "patientIdDisplay"
+        ).textContent =
+            data.id ||
+            patientId;
+
+
+        document.getElementById(
+            "patientStatus"
+        ).textContent =
+            "Patient loaded";
+
+
+    } catch (error) {
+
+        console.error(
+            "Patient loading error:",
+            error
+        );
+
+
+        document.getElementById(
+            "patientStatus"
+        ).textContent =
+            "Patient information unavailable";
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD CONSULTATION
+===================================================== */
+
+async function loadConsultation() {
+
+    if (!consultationId) {
+        return;
+    }
+
+
+    showLoading(
+        "Loading consultation..."
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/consultations/${consultationId}`,
+                {
+                    headers:
+                        getAuthHeaders()
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load consultation."
+            );
+
+        }
+
+
+        const consultation =
+            data.consultation ||
+            data;
+
+
+        /*
+         * Get patient and appointment
+         * from consultation record.
+         */
+
+        if (
+            !patientId &&
+            consultation.patient_id
+        ) {
+
+            patientId =
+                consultation.patient_id;
+
+        }
+
+
+        if (
+            !appointmentId &&
+            consultation.appointment_id
+        ) {
+
+            appointmentId =
+                consultation.appointment_id;
+
+        }
+
+
+        populateForm(
+            consultation
+        );
+
+
+        isEditMode =
+            true;
+
+
+        document.getElementById(
+            "formMode"
+        ).textContent =
+            "Edit Consultation";
+
+
+        document.getElementById(
+            "consultationIdDisplay"
+        ).textContent =
+            consultation.id ||
+            consultationId;
+
+
+        document.getElementById(
+            "saveButton"
+        ).textContent =
+            "Update Consultation";
+
+
+        /*
+         * If patient was discovered from
+         * the consultation, load patient.
+         */
+
+        await loadPatient();
+
+
+    } catch (error) {
+
+        console.error(
+            "Consultation loading error:",
+            error
+        );
+
+
+        showAlert(
+            error.message ||
+            "Unable to load consultation.",
+            "error"
+        );
+
+
+    } finally {
+
+        hideLoading();
+
+    }
+
+}
+
+
+/* =====================================================
+   POPULATE FORM
+===================================================== */
+
+function populateForm(
+    consultation
+) {
+
+    setValue(
+        "doctor",
+        consultation.doctor
+    );
+
+
+    setValue(
+        "consultationDate",
+        formatDateForInput(
+            consultation.consultation_date
+        )
+    );
+
+
+    setValue(
+        "appointmentId",
+        consultation.appointment_id
+    );
+
+    setValue(
+    "bloodPressure",
+    consultation.blood_pressure
+);
+
+setValue(
+    "heartRate",
+    consultation.heart_rate
+);
+
+setValue(
+    "temperature",
+    consultation.temperature
+);
+
+setValue(
+    "respiratoryRate",
+    consultation.respiratory_rate
+);
+
+setValue(
+    "oxygenSaturation",
+    consultation.oxygen_saturation
+);
+
+setValue(
+    "weight",
+    consultation.weight
+);
+
+setValue(
+    "height",
+    consultation.height
+);
+
+setValue(
+    "bmi",
+    consultation.bmi
+);
+
+
+    setValue(
+        "chiefComplaint",
+        consultation.chief_complaint
+    );
+
+
+    setValue(
+        "historyOfPresentingComplaint",
+        consultation.history_of_presenting_complaint
+    );
+
+
+    setValue(
+        "pastMedicalHistory",
+        consultation.past_medical_history
+    );
+
+
+    setValue(
+        "drugAllergyHistory",
+        consultation.drug_allergy_history
+    );
+
+
+    setValue(
+        "familyHistory",
+        consultation.family_history
+    );
+
+
+    setValue(
+        "socialHistory",
+        consultation.social_history
+    );
+
+
+    setValue(
+        "systemsReview",
+        consultation.systems_review
+    );
+
+
+    setValue(
+        "summary",
+        consultation.summary
+    );
+
+
+    setValue(
+        "examination",
+        consultation.examination
+    );
+
+
+    setValue(
+        "investigations",
+        consultation.investigations
+    );
+
+
+    setValue(
+        "differentialDiagnosis",
+        consultation.differential_diagnosis
+    );
+
+
+    setValue(
+        "diagnosis",
+        consultation.diagnosis
+    );
+
+
+    setValue(
+        "managementPlan",
+        consultation.management_plan
+    );
+
+
+    setValue(
+        "treatment",
+        consultation.treatment
+    );
+
+
+    setValue(
+        "clinicalNotes",
+        consultation.clinical_notes
+    );
+
+
+    setValue(
+        "followUpDate",
+        formatDateForInput(
+            consultation.follow_up_date
+        )
+    );
+
+}
+
+
+/* =====================================================
+   DATE FORMATTER
+===================================================== */
+
+function formatDateForInput(
+    dateValue
+) {
+
+    if (!dateValue) {
+        return "";
+    }
+
+
+    /*
+     * If PostgreSQL returns:
+     * YYYY-MM-DD, keep it.
+     */
+
+    if (
+        typeof dateValue === "string" &&
+        /^\d{4}-\d{2}-\d{2}$/.test(
+            dateValue
+        )
+    ) {
+
+        return dateValue;
+
+    }
+
+
+    const date =
+        new Date(dateValue);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "";
+
+    }
+
+
+    return [
+        date.getFullYear(),
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0"),
+        String(
+            date.getDate()
+        ).padStart(2, "0")
+    ].join("-");
+
+}
+
+
+/* =====================================================
+   BUILD PAYLOAD
+===================================================== */
+
+function buildPayload() {
+
+    return {
+
+        appointment_id:
+            appointmentId
+                ? Number(appointmentId)
+                : null,
+
+        doctor:
+            value("doctor") ||
+            null,
+
+       consultation_date:
+    value("consultationDate") ||
+    null,
+
+blood_pressure:
+    value("bloodPressure") ||
+    null,
+
+heart_rate:
+    value("heartRate")
+        ? Number(value("heartRate"))
+        : null,
+
+temperature:
+    value("temperature")
+        ? Number(value("temperature"))
+        : null,
+
+respiratory_rate:
+    value("respiratoryRate")
+        ? Number(value("respiratoryRate"))
+        : null,
+
+oxygen_saturation:
+    value("oxygenSaturation")
+        ? Number(value("oxygenSaturation"))
+        : null,
+
+weight:
+    value("weight")
+        ? Number(value("weight"))
+        : null,
+
+height:
+    value("height")
+        ? Number(value("height"))
+        : null,
+
+bmi:
+    value("bmi")
+        ? Number(value("bmi"))
+        : null,
+
+chief_complaint:
+            value("chiefComplaint") ||
+            null,
+
+        history_of_presenting_complaint:
+            value(
+                "historyOfPresentingComplaint"
+            ) || null,
+
+        past_medical_history:
+            value(
+                "pastMedicalHistory"
+            ) || null,
+
+        drug_allergy_history:
+            value(
+                "drugAllergyHistory"
+            ) || null,
+
+        family_history:
+            value(
+                "familyHistory"
+            ) || null,
+
+        social_history:
+            value(
+                "socialHistory"
+            ) || null,
+
+        systems_review:
+            value(
+                "systemsReview"
+            ) || null,
+
+        summary:
+            value("summary") ||
+            null,
+
+        examination:
+            value("examination") ||
+            null,
+
+        investigations:
+            value("investigations") ||
+            null,
+
+        differential_diagnosis:
+            value(
+                "differentialDiagnosis"
+            ) || null,
+
+        diagnosis:
+            value("diagnosis") ||
+            null,
+
+        management_plan:
+            value("managementPlan") ||
+            null,
+
+        treatment:
+            value("treatment") ||
+            null,
+
+        clinical_notes:
+            value("clinicalNotes") ||
+            null,
+
+        follow_up_date:
+            value("followUpDate") ||
+            null
+
+    };
+
+}
+
+
+/* =====================================================
+   VALIDATE
+===================================================== */
+
+function validateForm() {
+
+    if (!patientId) {
+
+        showAlert(
+            "Patient ID is missing. Please open the consultation from a patient or appointment record.",
+            "error"
+        );
+
+        return false;
+
+    }
+
+
+    if (!value("doctor")) {
+
+        showAlert(
+            "Please enter the doctor / clinician name.",
+            "warning"
+        );
+
+        document
+            .getElementById("doctor")
+            .focus();
+
+        return false;
+
+    }
+
+
+    if (!value("consultationDate")) {
+
+        showAlert(
+            "Please select the consultation date.",
+            "warning"
+        );
+
+        document
+            .getElementById(
+                "consultationDate"
+            )
+            .focus();
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   SAVE / UPDATE
+===================================================== */
+
+async function saveConsultation() {
+
+    if (!validateForm()) {
+        return;
+    }
+
+
+    const button =
+        document.getElementById(
+            "saveButton"
+        );
+
+
+    button.disabled =
+        true;
+
+
+    showLoading(
+        isEditMode
+            ? "Updating consultation..."
+            : "Saving consultation..."
+    );
+
+
+    try {
+
+        const payload =
+            buildPayload();
+
+
+        let response;
+
+
+        if (isEditMode) {
+
+            response =
+                await fetch(
+                    `${API_URL}/api/consultations/${consultationId}`,
+                    {
+
+                        method: "PUT",
+
+                        headers:
+                            getAuthHeaders(),
+
+                        body:
+                            JSON.stringify(
+                                payload
+                            )
+
+                    }
+                );
+
+        } else {
+
+            response =
+                await fetch(
+                    `${API_URL}/api/patients/${patientId}/consultations`,
+                    {
+
+                        method: "POST",
+
+                        headers:
+                            getAuthHeaders(),
+
+                        body:
+                            JSON.stringify(
+                                payload
+                            )
+
+                    }
+                );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to save consultation."
+            );
+
+        }
+
+
+        const savedConsultation =
+            data.consultation ||
+            data;
+
+
+        /*
+         * Capture returned ID.
+         */
+
+        if (
+            savedConsultation &&
+            savedConsultation.id
+        ) {
+
+            consultationId =
+                savedConsultation.id;
+
+        }
+
+
+        const wasNewConsultation = !isEditMode;
+
+isEditMode = true;
+
+document.getElementById(
+    "formMode"
+).textContent = "Edit Consultation";
+
+document.getElementById(
+    "consultationIdDisplay"
+).textContent =
+    consultationId || "Saved";
+
+button.textContent =
+    "Update Consultation";
+
+showAlert(
+    wasNewConsultation
+        ? "Consultation created successfully."
+        : "Consultation updated successfully.",
+    "success"
+);
+
+        /*
+         * Update browser URL so refresh
+         * continues in edit mode.
+         */
+
+        updateBrowserUrl();
+
+
+    } catch (error) {
+
+        console.error(
+            "Save consultation error:",
+            error
+        );
+
+
+        showAlert(
+            error.message ||
+            "Failed to save consultation.",
+            "error"
+        );
+
+
+    } finally {
+
+        hideLoading();
+
+        button.disabled =
+            false;
+
+    }
+
+}
+
+
+/* =====================================================
+   UPDATE URL
+===================================================== */
+
+function updateBrowserUrl() {
+
+    if (!consultationId) {
+        return;
+    }
+
+
+    const params =
+        new URLSearchParams();
+
+
+    if (patientId) {
+
+        params.set(
+            "patient_id",
+            patientId
+        );
+
+    }
+
+
+    if (appointmentId) {
+
+        params.set(
+            "appointment_id",
+            appointmentId
+        );
+
+    }
+
+
+    params.set(
+        "consultation_id",
+        consultationId
+    );
+
+
+    const newUrl =
+        `${window.location.pathname}?${params.toString()}`;
+
+
+    window.history.replaceState(
+        {},
+        "",
+        newUrl
+    );
+
+}
+
+
+/* =====================================================
+   BMI CALCULATION
+===================================================== */
+
+function calculateBMI() {
+
+    const weight =
+        parseFloat(
+            value("weight")
+        );
+
+    const heightCm =
+        parseFloat(
+            value("height")
+        );
+
+
+    if (
+        !weight ||
+        !heightCm ||
+        weight <= 0 ||
+        heightCm <= 0
+    ) {
+
+        return;
+
+    }
+
+
+    const heightM =
+        heightCm / 100;
+
+
+    const bmi =
+        weight /
+        (
+            heightM *
+            heightM
+        );
+
+
+    setValue(
+        "bmi",
+        bmi.toFixed(1)
+    );
+
+}
+
+
+/* =====================================================
+   CLEAR FORM
+===================================================== */
+
+function clearForm() {
+
+    if (isEditMode) {
+
+        showAlert(
+            "This is an existing consultation. Use Update Consultation to save changes.",
+            "warning"
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        window.confirm(
+            "Clear all consultation information?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const fields =
+        document.querySelectorAll(
+            "input:not([readonly]), textarea, select"
+        );
+
+
+    fields.forEach(
+        field => {
+
+            if (
+                field.id ===
+                "consultationDate"
+            ) {
+
+                field.value =
+                    getToday();
+
+            } else {
+
+                field.value =
+                    "";
+
+            }
+
+        }
+    );
+
+
+    showAlert(
+        "Form cleared.",
+        "success"
+    );
+
+}
+
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+function printConsultation() {
+
+    window.print();
+
+}
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+function goBack() {
+
+    if (
+        document.referrer &&
+        document.referrer.includes(
+            window.location.hostname
+        )
+    ) {
+
+        window.history.back();
+
+        return;
+
+    }
+
+
+    window.location.href =
+        "./patients.html";
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+async function initialize() {
+
+    getUrlParameters();
+
+
+    /*
+     * Appointment display.
+     */
+
+    document.getElementById(
+        "appointmentId"
+    ).value =
+        appointmentId || "";
+
+
+    document.getElementById(
+        "appointmentIdDisplay"
+    ).textContent =
+        appointmentId || "—";
+
+
+    document.getElementById(
+        "patientIdDisplay"
+    ).textContent =
+        patientId || "—";
+
+
+    /*
+     * Default date for new consultation.
+     */
+
+    if (!isEditMode) {
+
+        setValue(
+            "consultationDate",
+            getToday()
+        );
+
+    }
+
+
+    /*
+     * Load patient.
+     */
+
+    await loadPatient();
+
+
+    /*
+     * Load existing consultation.
+     */
+
+    if (consultationId) {
+
+        await loadConsultation();
+
+    }
+
+
+    /*
+     * BMI.
+     */
+
+    document
+        .getElementById("weight")
+        .addEventListener(
+            "input",
+            calculateBMI
+        );
+
+
+    document
+        .getElementById("height")
+        .addEventListener(
+            "input",
+            calculateBMI
+        );
+
+
+    /*
+     * Warn before leaving with
+     * unsaved information.
+     */
+
+    let formChanged =
+        false;
+
+
+    document
+        .querySelectorAll(
+            "input, textarea, select"
+        )
+        .forEach(
+            element => {
+
+                element.addEventListener(
+                    "input",
+                    () => {
+
+                        formChanged =
+                            true;
+
+                    }
+                );
+
+                element.addEventListener(
+                    "change",
+                    () => {
+
+                        formChanged =
+                            true;
+
+                    }
+                );
+
+            }
+        );
+
+
+    window.addEventListener(
+        "beforeunload",
+        event => {
+
+            if (formChanged) {
+
+                event.preventDefault();
+
+                event.returnValue =
+                    "";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+);
+
+</script>
+
+</body>
+</html>
