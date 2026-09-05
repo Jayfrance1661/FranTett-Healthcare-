@@ -1097,7 +1097,13 @@
         }
 
     </style>
-</head>
+<script>
+    window.FRANTETT_API =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        ":3000";
+</script></head>
 
 <body>
 
@@ -2149,7 +2155,7 @@
            CONFIGURATION
         ========================================== */
 
-        const API_BASE = "http://localhost:3000";
+        const API_BASE = window.FRANTETT_API;
 
         let patient = null;
 

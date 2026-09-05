@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -462,7 +462,13 @@
 
         }
     </style>
-</head>
+<script>
+    window.FRANTETT_API =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        ":3000";
+</script></head>
 
 <body>
 
@@ -835,7 +841,7 @@
     ========================= */
 
     const API_URL =
-        "http://localhost:3000/api/doctors";
+        window.FRANTETT_API + "/api/doctors";
 
 
     let doctors = [];

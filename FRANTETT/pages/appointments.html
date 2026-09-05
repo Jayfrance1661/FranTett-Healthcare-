@@ -440,7 +440,13 @@
 
     </style>
 
-</head>
+<script>
+    window.FRANTETT_API =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        ":3000";
+</script></head>
 
 
 <body>
@@ -1578,8 +1584,7 @@
    CONFIGURATION
 ========================================== */
 
-const API_URL =
-    "http://localhost:3000";
+const API_URL = window.FRANTETT_API;
 
 
 let appointments = [];

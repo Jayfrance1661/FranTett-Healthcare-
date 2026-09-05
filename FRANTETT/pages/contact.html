@@ -353,7 +353,13 @@
 
     </style>
 
-</head>
+<script>
+    window.FRANTETT_API =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        ":3000";
+</script></head>
 
 <body>
 
@@ -711,7 +717,7 @@ contactForm.addEventListener(
 
             const response =
                 await fetch(
-                    "http://localhost:3000/api/contact",
+                    window.FRANTETT_API + "/api/contact",
                     {
                         method: "POST",
 

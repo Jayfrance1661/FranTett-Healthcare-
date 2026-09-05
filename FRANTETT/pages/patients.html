@@ -4088,6 +4088,13 @@ input[data-field="recorded_by"] {
 }
 
 </style>
+<script>
+    window.FRANTETT_API =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        ":3000";
+</script>
 </head>
 
 <body>
@@ -6626,7 +6633,7 @@ onclick="event.stopPropagation(); openAddLabRequestModal();"
    CONFIGURATION
 ===================================================== */
 
-const API_URL = "http://localhost:3000";
+const API_URL = window.FRANTETT_API;
 
 
 /* =====================================================

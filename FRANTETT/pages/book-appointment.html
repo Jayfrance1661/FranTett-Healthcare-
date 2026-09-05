@@ -251,7 +251,13 @@
         }
 
     </style>
-</head>
+<script>
+    window.FRANTETT_API =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        ":3000";
+</script></head>
 
 <body>
 
@@ -528,7 +534,7 @@ async function loadLoggedInPatient() {
 
             const response =
                 await fetch(
-                    "http://localhost:3000/api/patient/dashboard",
+                    window.FRANTETT_API + "/api/patient/dashboard",
                     {
                         method: "GET",
                         headers: {
@@ -694,7 +700,7 @@ if (token) {
 
         const response =
             await fetch(
-                "http://localhost:3000/api/appointments",
+                window.FRANTETT_API + "/api/appointments",
                 {
                     method: "POST",
 

@@ -3,7 +3,7 @@
 // ==========================================
 
 const API_URL =
-    "http://localhost:3000/api/doctors";
+    window.FRANTETT_API + "/api/doctors";
 
 
 // ==========================================

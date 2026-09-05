@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,13 @@
     <title>Book Appointment - FranTett Healthcare</title>
 
     <link rel="stylesheet" href="../style.css">
-</head>
+<script>
+    window.FRANTETT_API =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        ":3000";
+</script></head>
 
 <body>
 
@@ -115,7 +121,7 @@
 
                 const response =
                     await fetch(
-                        "http://localhost:3000/api/doctors"
+                        window.FRANTETT_API + "/api/doctors"
                     );
 
                 if (!response.ok) {
@@ -187,7 +193,7 @@
 
                 const availabilityResponse =
                     await fetch(
-                        `http://localhost:3000/api/doctors/${doctorId}/availability`
+                        `${window.FRANTETT_API}/api/doctors/${doctorId}/availability`
                     );
 
                 if (!availabilityResponse.ok) {
@@ -202,7 +208,7 @@
 
                 const leaveResponse =
                     await fetch(
-                        `http://localhost:3000/api/doctors/${doctorId}/leave-days`
+                        `${window.FRANTETT_API}/api/doctors/${doctorId}/leave-days`
                     );
 
                 if (!leaveResponse.ok) {
@@ -476,7 +482,7 @@
 
             try {
                 const response = await fetch(
-                    "http://localhost:3000/api/appointments",
+                    window.FRANTETT_API + "/api/appointments",
                     {
                         method: "POST",
                         headers: {

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -930,7 +930,13 @@
             }
         }
     </style>
-</head>
+<script>
+    window.FRANTETT_API =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        ":3000";
+</script></head>
 
 <body>
 
@@ -1862,7 +1868,7 @@
 
     <script>
 
-        const API_BASE_URL = "http://localhost:3000";
+        const API_BASE_URL = window.FRANTETT_API;
 
         let dashboardAppointments = [];
 
