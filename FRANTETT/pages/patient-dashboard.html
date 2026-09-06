@@ -1,4 +1,4 @@
-?<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1103,7 +1103,569 @@
         "//" +
         window.location.hostname +
         ":3000";
-</script></head>
+</script>    <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js">
+
+
+</script>
+
+<style>
+
+/* =====================================================
+   PATIENT VIDEO CONSULTATION
+   RESPONSIVE FULL-SCREEN VIDEO CALL
+   CSS ONLY
+===================================================== */
+
+
+/* =====================================================
+   FULL SCREEN MODAL
+===================================================== */
+
+#patientVideoModal {
+    position: fixed !important;
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: none;
+
+    align-items: stretch !important;
+    justify-content: stretch !important;
+
+    background: #000 !important;
+
+    overflow: hidden !important;
+
+    z-index: 99999 !important;
+}
+
+
+/* =====================================================
+   MAIN VIDEO CALL WINDOW
+===================================================== */
+
+#patientVideoModal > div {
+    position: relative !important;
+
+    width: 100vw !important;
+    max-width: none !important;
+
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: none !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: #000 !important;
+
+    border-radius: 0 !important;
+
+    box-shadow: none !important;
+
+    overflow: hidden !important;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+#patientVideoModal > div > div:first-child {
+
+    position: absolute !important;
+
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    height: auto !important;
+
+    z-index: 100 !important;
+
+    margin: 0 !important;
+
+    padding: 16px 18px 24px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    color: white !important;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,.75),
+            rgba(0,0,0,0)
+        ) !important;
+}
+
+
+/* Header text */
+
+#patientVideoModal > div > div:first-child h2 {
+    margin: 4px 0 0 !important;
+    color: #fff !important;
+    font-size: 18px !important;
+}
+
+
+#patientVideoModal > div > div:first-child > div > div {
+    color: #fff !important;
+}
+
+
+/* Close button */
+
+#patientVideoModal > div > div:first-child button {
+
+    width: 42px !important;
+    height: 42px !important;
+
+    padding: 0 !important;
+
+    border: none !important;
+    border-radius: 50% !important;
+
+    background: rgba(0,0,0,.5) !important;
+
+    color: #fff !important;
+
+    font-size: 28px !important;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+#patientVideoStatus {
+
+    position: absolute !important;
+
+    top: 88px !important;
+    left: 18px !important;
+
+    z-index: 90 !important;
+
+    width: auto !important;
+    max-width: calc(100% - 36px) !important;
+
+    margin: 0 !important;
+
+    padding: 7px 10px !important;
+
+    border-radius: 7px !important;
+
+    background: rgba(0,0,0,.55) !important;
+
+    color: #fff !important;
+
+    font-size: 11px !important;
+}
+
+
+/* =====================================================
+   VIDEO AREA
+===================================================== */
+
+/*
+   This is the existing two-column video wrapper.
+   We turn it into one full-screen video stage.
+*/
+
+#patientVideoModal > div > div:nth-of-type(3) {
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    display: block !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    overflow: hidden !important;
+
+    background: #000 !important;
+}
+
+
+/* =====================================================
+   PROVIDER VIDEO CONTAINER
+===================================================== */
+
+#patientVideoModal > div > div:nth-of-type(3) > div:first-child {
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: #000 !important;
+}
+
+
+/* Provider label */
+
+#patientVideoModal > div > div:nth-of-type(3) > div:first-child > div:first-child {
+
+    position: absolute !important;
+
+    top: 110px !important;
+    left: 14px !important;
+
+    z-index: 20 !important;
+
+    margin: 0 !important;
+
+    padding: 5px 9px !important;
+
+    border-radius: 6px !important;
+
+    background: rgba(0,0,0,.5) !important;
+
+    color: #fff !important;
+
+    font-size: 11px !important;
+
+    pointer-events: none !important;
+}
+
+
+/* =====================================================
+   PROVIDER VIDEO
+===================================================== */
+
+#patientRemoteVideo {
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    max-width: none !important;
+
+    aspect-ratio: auto !important;
+
+    display: block !important;
+
+    object-fit: cover !important;
+
+    background: #111 !important;
+
+    border-radius: 0 !important;
+}
+
+
+/* =====================================================
+   PATIENT PICTURE-IN-PICTURE
+===================================================== */
+
+#patientVideoModal > div > div:nth-of-type(3) > div:nth-child(2) {
+
+    position: absolute !important;
+
+    right: 18px !important;
+    bottom: 105px !important;
+
+    width: 190px !important;
+    height: 140px !important;
+
+    z-index: 80 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    overflow: hidden !important;
+
+    background: #111 !important;
+
+    border-radius: 14px !important;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.5) !important;
+}
+
+
+/* "You" label */
+
+#patientVideoModal > div > div:nth-of-type(3) > div:nth-child(2) > div:first-child {
+
+    position: absolute !important;
+
+    top: 7px !important;
+    left: 7px !important;
+
+    z-index: 10 !important;
+
+    margin: 0 !important;
+
+    padding: 4px 7px !important;
+
+    border-radius: 5px !important;
+
+    background: rgba(0,0,0,.55) !important;
+
+    color: #fff !important;
+
+    font-size: 10px !important;
+
+    pointer-events: none !important;
+}
+
+
+/* Patient video */
+
+#patientLocalVideo {
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    max-width: none !important;
+
+    aspect-ratio: auto !important;
+
+    display: block !important;
+
+    object-fit: cover !important;
+
+    background: #111 !important;
+
+    border-radius: 0 !important;
+}
+
+
+/* =====================================================
+   CONTROLS
+===================================================== */
+
+#patientVideoModal > div > div:nth-of-type(4) {
+
+    position: absolute !important;
+
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    z-index: 100 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 10px !important;
+
+    margin: 0 !important;
+
+    padding: 18px 15px !important;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.8),
+            rgba(0,0,0,0)
+        ) !important;
+
+    flex-wrap: wrap !important;
+}
+
+
+/* Control buttons */
+
+#patientVideoModal > div > div:nth-of-type(4) button {
+
+    min-height: 44px !important;
+
+    padding: 10px 15px !important;
+
+    border: 1px solid rgba(255,255,255,.25) !important;
+
+    border-radius: 22px !important;
+
+    background: rgba(255,255,255,.14) !important;
+
+    color: #fff !important;
+
+    font-size: 12px !important;
+
+    font-weight: 700 !important;
+
+    backdrop-filter: blur(8px) !important;
+
+    -webkit-backdrop-filter: blur(8px) !important;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    #patientVideoModal > div {
+
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+
+        border-radius: 0 !important;
+    }
+
+
+    #patientVideoModal > div > div:nth-of-type(3) {
+
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+
+    #patientVideoModal > div > div:nth-of-type(3) > div:nth-child(2) {
+
+        right: 12px !important;
+        bottom: 105px !important;
+
+        width: 120px !important;
+        height: 90px !important;
+
+        border-radius: 10px !important;
+    }
+
+
+    #patientVideoModal > div > div:first-child {
+
+        padding-top:
+            max(12px, env(safe-area-inset-top)) !important;
+    }
+
+
+    #patientVideoStatus {
+
+        top: 70px !important;
+        left: 12px !important;
+
+        max-width: calc(100% - 24px) !important;
+    }
+
+
+    #patientVideoModal > div > div:nth-of-type(4) {
+
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+
+        padding-bottom:
+            max(16px, env(safe-area-inset-bottom)) !important;
+
+        gap: 7px !important;
+    }
+
+
+    #patientVideoModal > div > div:nth-of-type(4) button {
+
+        min-height: 42px !important;
+
+        padding: 9px 11px !important;
+
+        font-size: 11px !important;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+@media (max-width: 380px) {
+
+    #patientVideoModal > div > div:nth-of-type(3) > div:nth-child(2) {
+
+        width: 105px !important;
+        height: 79px !important;
+
+        right: 9px !important;
+        bottom: 108px !important;
+    }
+
+
+    #patientVideoModal > div > div:nth-of-type(4) {
+
+        gap: 5px !important;
+    }
+
+
+    #patientVideoModal > div > div:nth-of-type(4) button {
+
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+
+        font-size: 10px !important;
+    }
+
+}
+
+
+/* =====================================================
+   LANDSCAPE PHONE
+===================================================== */
+
+@media (max-width: 900px) and (orientation: landscape) {
+
+    #patientVideoModal > div > div:nth-of-type(3) > div:nth-child(2) {
+
+        width: 135px !important;
+        height: 90px !important;
+
+        right: 12px !important;
+        bottom: 80px !important;
+    }
+
+}
+
+
+/* =====================================================
+   GENERAL VIDEO SAFETY
+===================================================== */
+
+#patientVideoModal video {
+
+    max-width: none !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+}
+
+</style>
+
+</head>
 
 <body>
 
@@ -2149,6 +2711,206 @@
     </div>
 </div>
 
+
+<!-- =====================================================
+     PATIENT VIDEO CONSULTATION MODAL
+===================================================== -->
+
+<div
+    id="patientVideoModal"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        z-index:99999;
+        background:rgba(0,0,0,0.65);
+        align-items:center;
+        justify-content:center;
+        padding:20px;
+    "
+>
+    <div
+        style="
+            width:min(1100px,100%);
+            max-height:92vh;
+            overflow-y:auto;
+            background:#fff;
+            border-radius:16px;
+            padding:24px;
+            box-shadow:0 20px 60px rgba(0,0,0,0.25);
+        "
+    >
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:18px;
+            "
+        >
+
+            <div>
+
+                <div
+                    style="
+                        font-size:11px;
+                        font-weight:800;
+                        text-transform:uppercase;
+                        letter-spacing:1px;
+                        color:#0b7a75;
+                    "
+                >
+                    Live Video Consultation
+                </div>
+
+                <h2 style="margin-top:5px;">
+                    Video Consultation
+                </h2>
+
+            </div>
+
+            <button
+                type="button"
+                onclick="leavePatientVideo()"
+                style="
+                    border:none;
+                    background:transparent;
+                    font-size:24px;
+                    cursor:pointer;
+                "
+                aria-label="Close video consultation"
+            >
+                &times;
+            </button>
+
+        </div>
+
+        <div
+            id="patientVideoStatus"
+            style="
+                margin-bottom:16px;
+                padding:10px 12px;
+                border-radius:8px;
+                background:#e8f7f5;
+                color:#075e5a;
+                font-size:12px;
+                font-weight:700;
+            "
+        >
+            Connecting...
+        </div>
+
+        <div
+            style="
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                gap:16px;
+            "
+        >
+
+            <div onclick="switchPatientVideoFocus()">
+
+                <div
+                    style="
+                        margin-bottom:7px;
+                        font-size:12px;
+                        font-weight:700;
+                    "
+                >
+                    Healthcare Provider
+                </div>
+
+                <video
+                    id="patientRemoteVideo"
+                    autoplay
+                    playsinline
+                    style="
+                        width:100%;
+                        aspect-ratio:16/9;
+                        object-fit:cover;
+                        background:#111;
+                        border-radius:12px;
+                    "
+                ></video>
+
+            </div>
+
+           <div onclick="switchPatientVideoFocus()">
+
+                <div
+                    style="
+                        margin-bottom:7px;
+                        font-size:12px;
+                        font-weight:700;
+                    "
+                >
+                    You
+                </div>
+
+                <video
+                    id="patientLocalVideo"
+                    autoplay
+                    muted
+                    playsinline
+                    style="
+                        width:100%;
+                        aspect-ratio:16/9;
+                        object-fit:cover;
+                        background:#111;
+                        border-radius:12px;
+                    "
+                ></video>
+
+            </div>
+
+        </div>
+
+        <div
+            style="
+                display:flex;
+                gap:10px;
+                margin-top:18px;
+                flex-wrap:wrap;
+            "
+        >
+
+            <button
+                type="button"
+                class="view-link"
+                id="patientMicButton"
+                onclick="togglePatientMic()"
+            >
+                Mute Microphone
+            </button>
+
+            <button
+                type="button"
+                class="view-link"
+                id="patientCameraButton"
+                onclick="togglePatientCamera()"
+            >
+                Turn Camera Off
+            </button>
+
+            <button
+                type="button"
+                class="view-link"
+                onclick="leavePatientVideo()"
+                style="
+                    color:#c53030;
+                    font-weight:800;
+                "
+            >
+                Leave Consultation
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+
 <script>
 
         /* ==========================================
@@ -3055,6 +3817,22 @@ function appointmentHTML(
                     ` : ""}
 
 
+
+                    ${appointment.status === "Confirmed" ? `
+                        <button
+                            type="button"
+                            class="view-link"
+                            style="
+                                margin-left:12px;
+                                color:#0b7a75;
+                                font-weight:800;
+                            "
+                            onclick="joinPatientVideo(${Number(appointment.id)})"
+                        >
+                            Join Video Consultation
+                        </button>
+                    ` : ""}
+
                 </div>
 
             `;
@@ -3704,6 +4482,630 @@ function appointmentHTML(
                 "block";
 
         }
+
+
+
+        /* ==========================================
+           PATIENT LIVEKIT VIDEO CONSULTATION
+        ========================================== */
+
+        let patientVideoRoom = null;
+
+        let patientVideoAppointmentId = null;
+
+
+        async function joinPatientVideo(
+            appointmentId
+        ) {
+
+            try {
+
+                if (!appointmentId) {
+
+                    throw new Error(
+                        "Appointment ID is missing."
+                    );
+
+                }
+
+
+                if (
+                    typeof LivekitClient ===
+                        "undefined" ||
+                    !LivekitClient.Room
+                ) {
+
+                    throw new Error(
+                        "LiveKit video library could not be loaded."
+                    );
+
+                }
+
+
+                const modal =
+                    document.getElementById(
+                        "patientVideoModal"
+                    );
+
+                const status =
+                    document.getElementById(
+                        "patientVideoStatus"
+                    );
+
+
+                if (modal) {
+
+                    modal.style.display =
+                        "flex";
+
+                }
+
+
+                if (status) {
+
+                    status.textContent =
+                        "Requesting secure video access...";
+
+                }
+
+
+                patientVideoAppointmentId =
+                    Number(appointmentId);
+
+
+                const response =
+                    await apiFetch(
+                        "/api/patient/video/token",
+                        {
+                            method: "POST",
+
+                            body:
+                                JSON.stringify({
+                                    appointment_id:
+                                        patientVideoAppointmentId,
+
+                                    participant_name:
+                                        "Patient"
+                                })
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    let message =
+                        "Unable to join video consultation.";
+
+                    try {
+
+                        const result =
+                            await response.json();
+
+                        if (
+                            result &&
+                            result.message
+                        ) {
+
+                            message =
+                                result.message;
+
+                        }
+
+                    } catch (_) {}
+
+                    throw new Error(
+                        message
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !data.token ||
+                    !data.serverUrl ||
+                    !data.roomName
+                ) {
+
+                    throw new Error(
+                        "The video service returned incomplete connection information."
+                    );
+
+                }
+
+
+                if (patientVideoRoom) {
+
+                    await patientVideoRoom.disconnect();
+
+                    patientVideoRoom =
+                        null;
+
+                }
+
+
+                patientVideoRoom =
+                    new LivekitClient.Room({
+                        adaptiveStream:
+                            true,
+
+                        dynacast:
+                            true
+                    });
+
+
+                patientVideoRoom.on(
+                    LivekitClient.RoomEvent.TrackSubscribed,
+                    (
+                        track
+                    ) => {
+
+                        attachPatientRemoteTrack(
+                            track
+                        );
+
+                    }
+                );
+
+
+                patientVideoRoom.on(
+                    LivekitClient.RoomEvent.TrackUnsubscribed,
+                    (
+                        track
+                    ) => {
+
+                        try {
+
+                            track.detach();
+
+                        } catch (_) {}
+
+                    }
+                );
+
+
+                patientVideoRoom.on(
+                    LivekitClient.RoomEvent.ParticipantConnected,
+                    () => {
+
+                        if (status) {
+
+                            status.textContent =
+                                "Healthcare provider connected.";
+
+                        }
+
+                    }
+                );
+
+
+                patientVideoRoom.on(
+                    LivekitClient.RoomEvent.ParticipantDisconnected,
+                    () => {
+
+                        if (status) {
+
+                            status.textContent =
+                                "Healthcare provider disconnected.";
+
+                        }
+
+                    }
+                );
+
+
+                patientVideoRoom.on(
+                    LivekitClient.RoomEvent.Disconnected,
+                    () => {
+
+                        if (status) {
+
+                            status.textContent =
+                                "Video consultation ended.";
+
+                        }
+
+                    }
+                );
+
+
+                if (status) {
+
+                    status.textContent =
+                        "Connecting to video consultation...";
+
+                }
+
+
+                await patientVideoRoom.connect(
+                    data.serverUrl,
+                    data.token
+                );
+
+
+                await patientVideoRoom
+                    .localParticipant
+                    .setMicrophoneEnabled(
+                        true
+                    );
+
+
+                await patientVideoRoom
+                    .localParticipant
+                    .setCameraEnabled(
+                        true
+                    );
+
+
+                patientVideoRoom
+                    .localParticipant
+                    .videoTrackPublications
+                    .forEach(
+                        (
+                            publication
+                        ) => {
+
+                            if (
+                                publication.track
+                            ) {
+
+                                attachPatientLocalTrack(
+                                    publication.track
+                                );
+
+                            }
+
+                        }
+                    );
+
+
+                updatePatientVideoControls();
+
+
+                if (status) {
+
+                    status.textContent =
+                        "Connected. Your microphone and camera are on.";
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Patient video consultation error:",
+                    error
+                );
+
+
+                const status =
+                    document.getElementById(
+                        "patientVideoStatus"
+                    );
+
+
+                if (status) {
+
+                    status.textContent =
+                        error.message ||
+                        "Unable to join the video consultation.";
+
+                }
+
+            }
+
+        }
+
+function switchPatientVideoFocus() {
+
+    const videoArea =
+        document.querySelector(
+            "#patientVideoModal > div > div:nth-of-type(3)"
+        );
+
+    if (!videoArea) {
+        return;
+    }
+
+    const containers =
+        videoArea.querySelectorAll(":scope > div");
+
+    if (containers.length !== 2) {
+        console.error(
+            "Patient video switch: expected 2 video containers."
+        );
+        return;
+    }
+
+    const providerContainer = containers[0];
+    const patientContainer = containers[1];
+
+    const providerChildren =
+        Array.from(providerContainer.children);
+
+    const patientChildren =
+        Array.from(patientContainer.children);
+
+    /*
+     * Temporarily remove both sets of children.
+     * This preserves the actual <video> elements that
+     * LiveKit is already using.
+     */
+
+    const providerFragment =
+        document.createDocumentFragment();
+
+    const patientFragment =
+        document.createDocumentFragment();
+
+    providerChildren.forEach(
+        child => providerFragment.appendChild(child)
+    );
+
+    patientChildren.forEach(
+        child => patientFragment.appendChild(child)
+    );
+
+    providerContainer.appendChild(patientFragment);
+    patientContainer.appendChild(providerFragment);
+}
+
+        function attachPatientRemoteTrack(
+            track
+        ) {
+
+            const video =
+                document.getElementById(
+                    "patientRemoteVideo"
+                );
+
+
+            if (
+                !video ||
+                !track
+            ) {
+
+                return;
+
+            }
+
+
+            try {
+
+                track.attach(
+                    video
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to attach remote patient track:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        function attachPatientLocalTrack(
+            track
+        ) {
+
+            const video =
+                document.getElementById(
+                    "patientLocalVideo"
+                );
+
+
+            if (
+                !video ||
+                !track
+            ) {
+
+                return;
+
+            }
+
+
+            try {
+
+                track.attach(
+                    video
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to attach local patient track:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        async function togglePatientMic() {
+
+            if (!patientVideoRoom) {
+                return;
+            }
+
+
+            const enabled =
+                patientVideoRoom
+                    .localParticipant
+                    .isMicrophoneEnabled;
+
+
+            await patientVideoRoom
+                .localParticipant
+                .setMicrophoneEnabled(
+                    !enabled
+                );
+
+
+            updatePatientVideoControls();
+
+        }
+
+
+        async function togglePatientCamera() {
+
+            if (!patientVideoRoom) {
+                return;
+            }
+
+
+            const enabled =
+                patientVideoRoom
+                    .localParticipant
+                    .isCameraEnabled;
+
+
+            await patientVideoRoom
+                .localParticipant
+                .setCameraEnabled(
+                    !enabled
+                );
+
+
+            updatePatientVideoControls();
+
+        }
+
+
+        function updatePatientVideoControls() {
+
+            if (!patientVideoRoom) {
+                return;
+            }
+
+
+            const micButton =
+                document.getElementById(
+                    "patientMicButton"
+                );
+
+            const cameraButton =
+                document.getElementById(
+                    "patientCameraButton"
+                );
+
+
+            const micEnabled =
+                patientVideoRoom
+                    .localParticipant
+                    .isMicrophoneEnabled;
+
+
+            const cameraEnabled =
+                patientVideoRoom
+                    .localParticipant
+                    .isCameraEnabled;
+
+
+            if (micButton) {
+
+                micButton.textContent =
+                    micEnabled
+                        ? "Mute Microphone"
+                        : "Unmute Microphone";
+
+            }
+
+
+            if (cameraButton) {
+
+                cameraButton.textContent =
+                    cameraEnabled
+                        ? "Turn Camera Off"
+                        : "Turn Camera On";
+
+            }
+
+        }
+
+
+        async function leavePatientVideo() {
+
+            try {
+
+                if (patientVideoRoom) {
+
+                    await patientVideoRoom.disconnect();
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Error leaving patient video:",
+                    error
+                );
+
+            } finally {
+
+                patientVideoRoom =
+                    null;
+
+                patientVideoAppointmentId =
+                    null;
+
+
+                const remoteVideo =
+                    document.getElementById(
+                        "patientRemoteVideo"
+                    );
+
+                const localVideo =
+                    document.getElementById(
+                        "patientLocalVideo"
+                    );
+
+
+                if (remoteVideo) {
+
+                    remoteVideo.srcObject =
+                        null;
+
+                    remoteVideo.innerHTML =
+                        "";
+
+                }
+
+
+                if (localVideo) {
+
+                    localVideo.srcObject =
+                        null;
+
+                    localVideo.innerHTML =
+                        "";
+
+                }
+
+
+                const modal =
+                    document.getElementById(
+                        "patientVideoModal"
+                    );
+
+
+                if (modal) {
+
+                    modal.style.display =
+                        "none";
+
+                }
+
+            }
+
+        }
+
 
 
         /* ==========================================

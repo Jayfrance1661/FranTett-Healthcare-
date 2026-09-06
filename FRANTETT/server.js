@@ -1,5 +1,7 @@
-const cors = require("cors");
+﻿const cors = require("cors");
 const express = require("express");
+const https = require("https");
+const fs = require("fs");
 const path = require("path");
 const { Pool } = require("pg");
 const bcrypt = require("bcrypt");
@@ -1319,6 +1321,204 @@ function authenticatePatient(
 }
 
 // ==========================================
+// ==========================================
+// PATIENT LIVEKIT VIDEO TOKEN
+// ==========================================
+
+app.post(
+    "/api/patient/video/token",
+    authenticatePatient,
+    async (req, res) => {
+
+        try {
+
+            const {
+                appointment_id,
+                participant_name
+            } = req.body;
+
+            const appointmentId =
+                parseInt(
+                    appointment_id,
+                    10
+                );
+
+            if (
+                !Number.isInteger(appointmentId) ||
+                appointmentId <= 0
+            ) {
+
+                return res.status(400).json({
+                    message:
+                        "Valid appointment ID is required."
+                });
+
+            }
+
+            const result =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        patient_id,
+                        meeting_room,
+                        meeting_provider,
+                        status
+                    FROM appointments
+                    WHERE id = $1
+                    LIMIT 1
+                    `,
+                    [appointmentId]
+                );
+
+            if (
+                result.rows.length === 0
+            ) {
+
+                return res.status(404).json({
+                    message:
+                        "Appointment not found."
+                });
+
+            }
+
+            const appointment =
+                result.rows[0];
+
+            if (
+                Number(appointment.patient_id) !==
+                Number(req.patient.id)
+            ) {
+
+                return res.status(403).json({
+                    message:
+                        "You are not authorized to join this appointment."
+                });
+
+            }
+
+            if (
+                appointment.status !==
+                "Confirmed"
+            ) {
+
+                return res.status(400).json({
+                    message:
+                        "Video consultation is only available for confirmed appointments."
+                });
+
+            }
+
+            if (!appointment.meeting_room) {
+
+                return res.status(400).json({
+                    message:
+                        "No video meeting room exists for this appointment."
+                });
+
+            }
+
+            if (
+                appointment.meeting_provider !==
+                "livekit"
+            ) {
+
+                return res.status(400).json({
+                    message:
+                        "This appointment is not configured for LiveKit."
+                });
+
+            }
+
+            const LIVEKIT_API_KEY =
+                process.env.LIVEKIT_API_KEY;
+
+            const LIVEKIT_API_SECRET =
+                process.env.LIVEKIT_API_SECRET;
+
+            const LIVEKIT_URL =
+                process.env.LIVEKIT_URL;
+
+            if (
+                !LIVEKIT_API_KEY ||
+                !LIVEKIT_API_SECRET ||
+                !LIVEKIT_URL
+            ) {
+
+                console.error(
+                    "LiveKit environment variables are missing."
+                );
+
+                return res.status(500).json({
+                    message:
+                        "Video service is not configured."
+                });
+
+            }
+
+            const participantIdentity =
+                `patient-${req.patient.id}-${Date.now()}`;
+
+            const participantName =
+                participant_name ||
+                req.patient.email ||
+                `Patient ${req.patient.id}`;
+
+            const token =
+                new AccessToken(
+                    LIVEKIT_API_KEY,
+                    LIVEKIT_API_SECRET,
+                    {
+                        identity:
+                            participantIdentity,
+                        name:
+                            participantName,
+                        ttl:
+                            "2h"
+                    }
+                );
+
+            token.addGrant({
+                roomJoin:
+                    true,
+                room:
+                    appointment.meeting_room,
+                canPublish:
+                    true,
+                canSubscribe:
+                    true
+            });
+
+            const jwtToken =
+                await token.toJwt();
+
+            res.json({
+                token:
+                    jwtToken,
+                serverUrl:
+                    LIVEKIT_URL,
+                roomName:
+                    appointment.meeting_room
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Patient LiveKit token error:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to create video access token."
+            });
+
+        }
+
+    }
+);
+
+
 // OPTIONAL PATIENT AUTHENTICATION
 // ==========================================
 
@@ -8327,17 +8527,27 @@ app.post(
    END PAYMENT API
    ========================================== */
 
-app.listen(
+const httpsOptions = {
+    key: fs.readFileSync("./frantett-lan-key.pem"),
+    cert: fs.readFileSync("./frantett-lan.pem")
+};
+
+https.createServer(
+    httpsOptions,
+    app
+).listen(
     PORT,
     "0.0.0.0",
     () => {
 
         console.log(
-            `Server running on http://localhost:${PORT}`
+            `HTTPS server running on https://localhost:${PORT}`
         );
 
     }
 );
+
+
 
 
 

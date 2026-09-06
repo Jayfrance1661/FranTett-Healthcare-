@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -582,6 +582,520 @@
 
 }
 
+/* =====================================================
+   FRANTETT VIDEO TAP / CLICK SWITCH
+===================================================== */
+
+/* Video stage */
+.video-grid {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: min(72vh, 720px);
+    min-height: 500px;
+    overflow: hidden;
+    background: #000;
+    border-radius: 14px;
+}
+
+/* Both video cards occupy the same stage */
+.video-card {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+
+    border: none;
+    border-radius: 0;
+
+    background: #000;
+    overflow: hidden;
+
+    cursor: pointer;
+
+    transition:
+        width .25s ease,
+        height .25s ease,
+        top .25s ease,
+        right .25s ease,
+        bottom .25s ease,
+        left .25s ease,
+        border-radius .25s ease;
+}
+
+/* Main video */
+.video-card.main-video {
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+
+    border-radius: 14px;
+}
+
+/* Small floating video */
+.video-card.pip-video {
+    inset: auto;
+
+    width: 230px;
+    height: 145px;
+
+    right: 20px;
+    bottom: 20px;
+
+    z-index: 10;
+
+    border-radius: 12px;
+
+    border:
+        2px solid
+        rgba(255,255,255,.9);
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.5);
+}
+
+/* Keep the LiveKit containers filling their card */
+.video-card #remoteVideoContainer,
+.video-card #localVideoContainer {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Keep video itself filling the card */
+.video-card video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+/* Make the small video label smaller */
+.video-card.pip-video .video-label {
+    left: 8px;
+    bottom: 8px;
+    font-size: 10px;
+    padding: 5px 7px;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+
+    .video-grid {
+        height: calc(100svh - 155px);
+        min-height: 400px;
+        border-radius: 10px;
+    }
+
+    .video-card.main-video {
+        border-radius: 10px;
+    }
+
+    .video-card.pip-video {
+        width: 125px;
+        height: 170px;
+
+        right: 12px;
+        bottom: 12px;
+
+        border-radius: 10px;
+    }
+
+}
+
+/* Small phones */
+@media (max-width: 430px) {
+
+    .video-grid {
+        height: calc(100svh - 150px);
+        min-height: 360px;
+    }
+
+    .video-card.pip-video {
+        width: 105px;
+        height: 145px;
+
+        right: 9px;
+        bottom: 9px;
+    }
+
+}
+
+/* TEMPORARY RESET — restore original provider video layout */
+
+.video-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 15px !important;
+    min-height: 500px !important;
+    height: auto !important;
+    position: static !important;
+    overflow: visible !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+}
+
+.video-card {
+    position: relative !important;
+    inset: auto !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 350px !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    overflow: hidden !important;
+}
+
+.video-card:nth-child(2) {
+    width: auto !important;
+    height: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+}
+
+#remoteVideoContainer,
+#localVideoContainer {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* =====================================================
+   STEP 1 — PATIENT MAIN / PROVIDER PICTURE-IN-PICTURE
+   ===================================================== */
+
+.video-grid {
+    position: relative !important;
+
+    display: block !important;
+
+    width: 100% !important;
+
+    height: min(72vh, 720px) !important;
+
+    min-height: 500px !important;
+
+    overflow: hidden !important;
+
+    background: #000 !important;
+
+    border-radius: 14px !important;
+}
+
+
+/* -----------------------------------------
+   PATIENT — MAIN VIDEO
+----------------------------------------- */
+
+.video-grid > .video-card:first-child {
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+    min-height: 0 !important;
+
+    z-index: 1 !important;
+
+    border: none !important;
+
+    border-radius: 14px !important;
+
+    background: #000 !important;
+
+    overflow: hidden !important;
+}
+
+
+/* -----------------------------------------
+   PROVIDER — FLOATING SELF VIEW
+----------------------------------------- */
+
+.video-grid > .video-card:nth-child(2) {
+
+    position: absolute !important;
+
+    top: auto !important;
+    left: auto !important;
+
+    right: 20px !important;
+    bottom: 20px !important;
+
+    width: 230px !important;
+    height: 145px !important;
+
+    min-height: 0 !important;
+
+    z-index: 20 !important;
+
+    border: 2px solid rgba(255,255,255,.9) !important;
+
+    border-radius: 12px !important;
+
+    background: #111 !important;
+
+    overflow: hidden !important;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.5) !important;
+}
+
+
+/* -----------------------------------------
+   LIVEKIT CONTAINERS
+----------------------------------------- */
+
+#remoteVideoContainer,
+#localVideoContainer {
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+}
+
+
+/* -----------------------------------------
+   LIVEKIT VIDEO ELEMENTS
+----------------------------------------- */
+
+#remoteVideoContainer video,
+#localVideoContainer video {
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+    object-fit: cover !important;
+
+    display: block !important;
+}
+
+
+/* -----------------------------------------
+   PROVIDER LABEL
+----------------------------------------- */
+
+.video-grid > .video-card:nth-child(2) .video-label {
+
+    left: 8px !important;
+
+    bottom: 8px !important;
+
+    font-size: 10px !important;
+
+    padding: 5px 7px !important;
+
+}
+
+
+/* -----------------------------------------
+   MOBILE
+----------------------------------------- */
+
+@media (max-width: 700px) {
+
+    .video-grid {
+
+        height: calc(100svh - 155px) !important;
+
+        min-height: 400px !important;
+
+        border-radius: 10px !important;
+
+    }
+
+
+    .video-grid > .video-card:first-child {
+
+        border-radius: 10px !important;
+
+    }
+
+
+    .video-grid > .video-card:nth-child(2) {
+
+        width: 125px !important;
+
+        height: 170px !important;
+
+        right: 12px !important;
+
+        bottom: 12px !important;
+
+        border-radius: 10px !important;
+
+    }
+
+}
+
+
+/* -----------------------------------------
+   SMALL PHONES
+----------------------------------------- */
+
+@media (max-width: 430px) {
+
+    .video-grid {
+
+        height: calc(100svh - 150px) !important;
+
+        min-height: 360px !important;
+
+    }
+
+
+    .video-grid > .video-card:nth-child(2) {
+
+        width: 105px !important;
+
+        height: 145px !important;
+
+        right: 9px !important;
+
+        bottom: 9px !important;
+
+    }
+
+}
+
+/* =====================================================
+   STEP 2 — TAP / CLICK VIDEO SWITCH
+===================================================== */
+
+/* Patient becomes the main video */
+.video-grid > .video-card.video-main {
+
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    z-index: 1 !important;
+
+    border: none !important;
+    border-radius: 14px !important;
+
+    cursor: pointer !important;
+}
+
+
+/* Provider becomes the floating video */
+.video-grid > .video-card.video-pip {
+
+    position: absolute !important;
+
+    top: auto !important;
+    left: auto !important;
+
+    right: 20px !important;
+    bottom: 20px !important;
+
+    width: 230px !important;
+    height: 145px !important;
+
+    min-height: 0 !important;
+
+    z-index: 20 !important;
+
+    border: 2px solid rgba(255,255,255,.9) !important;
+
+    border-radius: 12px !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.5) !important;
+}
+
+
+/* Provider becomes the main video */
+.video-grid > .video-card.video-main {
+
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    z-index: 1 !important;
+
+    border: none !important;
+    border-radius: 14px !important;
+
+    cursor: pointer !important;
+}
+
+
+/* Patient becomes the floating video */
+.video-grid > .video-card.video-pip {
+
+    position: absolute !important;
+
+    top: auto !important;
+    left: auto !important;
+
+    right: 20px !important;
+    bottom: 20px !important;
+
+    width: 230px !important;
+    height: 145px !important;
+
+    min-height: 0 !important;
+
+    z-index: 20 !important;
+
+    border: 2px solid rgba(255,255,255,.9) !important;
+
+    border-radius: 12px !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.5) !important;
+}
+
+
+/* Mobile */
+@media (max-width: 700px) {
+
+    .video-grid > .video-card.video-pip {
+
+        width: 125px !important;
+        height: 170px !important;
+
+        right: 12px !important;
+        bottom: 12px !important;
+
+        border-radius: 10px !important;
+
+    }
+
+}
+
+
+/* Small phones */
+@media (max-width: 430px) {
+
+    .video-grid > .video-card.video-pip {
+
+        width: 105px !important;
+        height: 145px !important;
+
+        right: 9px !important;
+        bottom: 9px !important;
+
+    }
+
+}
+
 </style>
 <script>
     window.FRANTETT_API =
@@ -730,7 +1244,12 @@
 
                 <!-- REMOTE PARTICIPANT -->
 
-                <div class="video-card">
+                <div
+   <div
+    class="video-card video-main"
+    onclick="switchVideoFocus(this)"
+>
+>
 
                     <div
                         id="remoteVideoContainer"
@@ -761,12 +1280,15 @@
 
                 <!-- LOCAL PARTICIPANT -->
 
-                <div class="video-card">
-
-                    <div
-                        id="localVideoContainer"
-                        style="width:100%;height:100%;"
-                    ></div>
+               <div
+    class="video-card video-pip"
+    onclick="switchVideoFocus(this)"
+>
+>
+    <div
+        id="localVideoContainer"
+        style="width:100%;height:100%;"
+    ></div>
 
                     <div class="video-label">
                         You
@@ -1950,6 +2472,109 @@ function attachLocalTrack(
 
 }
 
+/* =====================================================
+   VIDEO MAIN / PICTURE-IN-PICTURE SWITCH
+===================================================== */
+
+function switchVideoFocus(card) {
+
+    if (!card) {
+        return;
+    }
+
+    const videoGrid =
+        document.querySelector(".video-grid");
+
+    if (!videoGrid) {
+        return;
+    }
+
+    const cards =
+        videoGrid.querySelectorAll(".video-card");
+
+    if (cards.length < 2) {
+        return;
+    }
+
+    cards.forEach(videoCard => {
+
+        videoCard.classList.remove(
+            "main-video",
+            "pip-video"
+        );
+
+    });
+
+    card.classList.add(
+        "main-video"
+    );
+
+    cards.forEach(videoCard => {
+
+        if (videoCard !== card) {
+
+            videoCard.classList.add(
+                "pip-video"
+            );
+
+        }
+
+    });
+
+}
+
+/* =====================================================
+   VIDEO FOCUS SWITCH
+===================================================== */
+
+function switchVideoFocus(card) {
+
+    const videoGrid =
+        document.querySelector(".video-grid");
+
+    if (!videoGrid || !card) {
+        return;
+    }
+
+    const cards =
+        videoGrid.querySelectorAll(".video-card");
+
+    if (cards.length !== 2) {
+        return;
+    }
+
+    const otherCard =
+        cards[0] === card
+            ? cards[1]
+            : cards[0];
+
+
+    /* Remove existing focus states */
+
+    cards.forEach(videoCard => {
+
+        videoCard.classList.remove(
+            "video-main",
+            "video-pip"
+        );
+
+    });
+
+
+    /* Clicked video becomes main */
+
+    card.classList.add(
+        "video-main"
+    );
+
+
+    /* Other video becomes PiP */
+
+    otherCard.classList.add(
+        "video-pip"
+    );
+
+}
 
 /* ==========================================
    MICROPHONE
