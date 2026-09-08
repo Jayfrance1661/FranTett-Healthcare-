@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,11 +7,7 @@
 
     <link rel="stylesheet" href="../style.css">
 <script>
-    window.FRANTETT_API =
-        window.location.protocol +
-        "//" +
-        window.location.hostname +
-        ":3000";
+    window.FRANTETT_API = "https://localhost:3000";
 </script></head>
 
 <body>
@@ -154,7 +150,7 @@
                         doctor.name +
                         (
                             doctor.specialty
-                                ? " — " + doctor.specialty
+                                ? " â€” " + doctor.specialty
                                 : ""
                         );
 
@@ -512,6 +508,7 @@
 
 </body>
 </html>
+
 
 
 

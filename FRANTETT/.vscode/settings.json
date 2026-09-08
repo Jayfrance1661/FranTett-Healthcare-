@@ -1,10 +1,10 @@
-﻿{
+{
     "liveServer.settings.https": {
-        "enable": true,
-        "cert": "C:\\Users\\jayfr\\FranTett-Healthcare-\\FRANTETT\\frantett-lan.pem",
-        "key": "C:\\Users\\jayfr\\FranTett-Healthcare-\\FRANTETT\\frantett-lan-key.pem",
+        "enable": false,
+        "cert": "",
+        "key": "",
         "passphrase": ""
     },
     "liveServer.settings.port": 5500,
-    "liveServer.settings.host": "10.0.0.63"
+    "liveServer.settings.host": "127.0.0.1"
 }
