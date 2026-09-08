@@ -1,0 +1,500 @@
+    document.getElementById(
+        "consultationAppointment"
+    );
+
+
+const appointmentId =
+    appointmentSelect
+        ? appointmentSelect.value
+        : "";
+
+
+if (!appointmentId) {
+
+    alert(
+        "Please select an appointment before saving the consultation."
+    );
+
+    return;
+
+}
+
+
+const consultationData = {
+
+    appointment_id:
+        appointmentId,
+
+    doctor:
+        document.getElementById(
+            "consultationDoctor"
+        ).value.trim(),
+
+                consultation_date:
+                    document.getElementById(
+                        "consultationDate"
+                    ).value,
+
+                chief_complaint:
+                    document.getElementById(
+                        "chiefComplaint"
+                    ).value.trim(),
+
+                history_of_presenting_complaint:
+                    document.getElementById(
+                        "historyOfPresentingComplaint"
+                    ).value.trim(),
+
+                past_medical_history:
+                    document.getElementById(
+                        "pastMedicalHistory"
+                    ).value.trim(),
+
+                drug_allergy_history:
+                    document.getElementById(
+                        "drugAllergyHistory"
+                    ).value.trim(),
+
+                family_history:
+                    document.getElementById(
+                        "familyHistory"
+                    ).value.trim(),
+
+                social_history:
+                    document.getElementById(
+                        "socialHistory"
+                    ).value.trim(),
+
+                systems_review:
+                    document.getElementById(
+                        "systemsReview"
+                    ).value.trim(),
+
+                summary:
+                    document.getElementById(
+                        "consultationSummary"
+                    ).value.trim(),
+
+                examination:
+                    document.getElementById(
+                        "examination"
+                    ).value.trim(),
+
+                investigations:
+                    document.getElementById(
+                        "investigations"
+                    ).value.trim(),
+
+                differential_diagnosis:
+                    document.getElementById(
+                        "differentialDiagnosis"
+                    ).value.trim(),
+
+                diagnosis:
+                    document.getElementById(
+                        "diagnosis"
+                    ).value.trim(),
+
+                management_plan:
+                    document.getElementById(
+                        "managementPlan"
+                    ).value.trim(),
+
+                treatment:
+                    document.getElementById(
+                        "treatment"
+                    ).value.trim(),
+
+                clinical_notes:
+                    document.getElementById(
+                        "clinicalNotes"
+                    ).value.trim(),
+
+                follow_up_date:
+                    document.getElementById(
+                        "followUpDate"
+                    ).value
+
+            };
+
+
+            const url =
+                consultationId
+                    ? `${API_URL}/api/consultations/${consultationId}`
+                    : `${API_URL}/api/patients/${currentPatientId}/consultations`;
+
+
+            const method =
+                consultationId
+                    ? "PUT"
+                    : "POST";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method,
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${token}`
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    consultationData
+                                )
+
+                        }
+                    );
+
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    handleSessionExpired();
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok
+                ) {
+
+                    console.error(
+                        "Consultation save error:",
+                        data
+                    );
+
+                    alert(
+                        data.message ||
+                        "Failed to save consultation."
+                    );
+
+                    return;
+
+                }
+
+if (data.id) {
+
+    setActiveConsultationId(
+        data.id
+    );
+
+
+    console.log(
+        "Current consultation set to:",
+        currentConsultationId
+    );
+}
+                showMessage(
+                    data.message ||
+                    "Consultation saved successfully.",
+                    "success"
+                );
+
+
+                closeConsultationFormModal();
+
+
+                await loadConsultations(
+                    currentPatientId
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Save consultation error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the server."
+                );
+
+            }
+
+        }
+    );
+
+/* =====================================================
+   VIEW CONSULTATION
+===================================================== */
+
+async function viewConsultation(
+    id
+) {
+
+    // ---------------------------------------------
+    // Validate ID
+    // ---------------------------------------------
+
+    const consultationId =
+        Number(id);
+
+
+    if (
+        !consultationId ||
+        consultationId <= 0
+    ) {
+
+        console.error(
+            "Invalid consultation ID:",
+            id
+        );
+
+        alert(
+            "Invalid consultation."
+        );
+
+        return;
+    }
+
+
+    // ---------------------------------------------
+    // IMPORTANT:
+    // Set global consultation immediately
+    // ---------------------------------------------
+
+    currentConsultationId =
+        consultationId;
+
+
+    console.log(
+        "VIEW CONSULTATION ? currentConsultationId:",
+        currentConsultationId
+    );
+
+
+    // ---------------------------------------------
+    // Store in hidden consultation field
+    // ---------------------------------------------
+
+    const consultationField =
+        document.getElementById(
+            "consultationId"
+        );
+
+
+    if (consultationField) {
+
+        consultationField.value =
+            consultationId;
+
+    }
+
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/consultations/${consultationId}`,
+                {
+                    headers: {
+
+                        "Authorization":
+                            `Bearer ${token}`
+
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const consultation =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                consultation.message ||
+                "Unable to load consultation."
+            );
+
+            return;
+
+        }
+
+
+        // -----------------------------------------
+        // IMPORTANT:
+        // Set it AGAIN from server response
+        // -----------------------------------------
+
+        if (consultation.id) {
+
+            currentConsultationId =
+                Number(
+                    consultation.id
+                );
+
+        }
+
+
+        const finalConsultationId =
+            currentConsultationId;
+
+
+        console.log(
+            "VIEW CONSULTATION ? confirmed ID:",
+            finalConsultationId
+        );
+
+
+        // -----------------------------------------
+        // Keep hidden field synchronized
+        // -----------------------------------------
+
+        if (consultationField) {
+
+            consultationField.value =
+                finalConsultationId;
+
+        }
+
+
+        // -----------------------------------------
+        // Doctor
+        // -----------------------------------------
+
+        setText(
+            "viewConsultationDoctor",
+            consultation.doctor ||
+            "Not provided"
+        );
+
+
+        // -----------------------------------------
+        // Date
+        // -----------------------------------------
+
+        setText(
+            "viewConsultationDate",
+            consultation.consultation_date
+                ? formatDate(
+                    consultation.consultation_date
+                )
+                : "Not provided"
+        );
+
+
+        // -----------------------------------------
+        // Clinical information
+        // -----------------------------------------
+
+        setText(
+            "viewChiefComplaint",
+            consultation.chief_complaint ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewHistoryOfPresentingComplaint",
+            consultation.history_of_presenting_complaint ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewPastMedicalHistory",
+            consultation.past_medical_history ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewDrugAllergyHistory",
+            consultation.drug_allergy_history ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewFamilyHistory",
+            consultation.family_history ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewSocialHistory",
+            consultation.social_history ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewSystemsReview",
+            consultation.systems_review ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewSummary",
+            consultation.summary ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewExamination",
+            consultation.examination ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewInvestigations",
+            consultation.investigations ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewDifferentialDiagnosis",
+            consultation.differential_diagnosis ||
+            "Not recorded"

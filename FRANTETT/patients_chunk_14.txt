@@ -1,0 +1,500 @@
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/vitals/${vitalId}`,
+                {
+
+                    method:
+                        "DELETE",
+
+                    headers: {
+
+                        "Authorization":
+                            `Bearer ${token}`
+
+                    }
+
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Failed to delete vital signs."
+            );
+
+        }
+
+
+        await loadVitalSigns(
+            currentPatientId
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete vital signs error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to delete vital signs."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   VITAL SIGNS FORM EVENTS
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const form =
+            document.getElementById(
+                "vitalSignsForm"
+            );
+
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                saveVitalSigns
+            );
+
+        }
+
+
+        const weight =
+            document.getElementById(
+                "vitalWeight"
+            );
+
+
+        const height =
+            document.getElementById(
+                "vitalHeight"
+            );
+
+
+        if (weight) {
+
+            weight.addEventListener(
+                "input",
+                calculateVitalBMI
+            );
+
+        }
+
+
+        if (height) {
+
+            height.addEventListener(
+                "input",
+                calculateVitalBMI
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   END VITAL SIGNS
+===================================================== */
+
+
+/* =====================================================
+   VIEW PATIENT
+===================================================== */
+
+async function viewPatient(id) {
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    currentPatientId =
+        id;
+
+
+    document.getElementById(
+        "appointmentHistory"
+    ).innerHTML = `
+        <div class="loading">
+            Loading appointment history...
+        </div>
+    `;
+
+
+    document.getElementById(
+        "consultationHistory"
+    ).innerHTML = `
+        <div class="loading">
+            Loading consultation records...
+        </div>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${id}`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const patient =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            alert(
+                patient.message ||
+                "Unable to load patient."
+            );
+
+            return;
+
+        }
+
+
+        const fullName =
+            `${patient.first_name || ""} ${patient.last_name || ""}`
+                .trim();
+
+
+        document.getElementById(
+            "viewName"
+        ).textContent =
+            fullName ||
+            "Patient";
+
+
+        document.getElementById(
+            "viewEmail"
+        ).textContent =
+            patient.email ||
+            "Not provided";
+
+
+        document.getElementById(
+            "viewPhone"
+        ).textContent =
+            patient.phone ||
+            "Not provided";
+
+
+        document.getElementById(
+            "viewDateOfBirth"
+        ).textContent =
+            formatDate(
+                patient.date_of_birth
+            ) ||
+            "Not provided";
+
+
+        document.getElementById(
+            "viewGender"
+        ).textContent =
+            patient.gender ||
+            "Not provided";
+
+
+        document.getElementById(
+            "viewAddress"
+        ).textContent =
+            patient.address ||
+            "Not provided";
+
+
+        document.getElementById(
+            "viewMedicalHistory"
+        ).textContent =
+            patient.medical_history ||
+            "None recorded";
+
+
+        document.getElementById(
+            "viewAllergies"
+        ).textContent =
+            patient.allergies ||
+            "None recorded";
+
+
+        document.getElementById(
+            "viewMedications"
+        ).textContent =
+            patient.medications ||
+            "None recorded";
+
+
+        document.getElementById(
+            "viewNotes"
+        ).textContent =
+            patient.notes ||
+            "None";
+
+
+        document.getElementById(
+            "viewPatientModal"
+        ).style.display =
+            "flex";
+
+
+        await loadAppointmentHistory(
+            id
+        );
+
+        await loadPatientTimeline(
+    id
+);
+        await loadVitalSigns(
+            id
+        );
+
+        await loadConsultations(
+            id
+        );
+
+        await loadPrescriptions(
+    id
+);
+
+
+
+
+       await loadLaboratoryReports(id);
+
+await loadLaboratoryRequests(id);
+
+await updatePatientSummary(
+    id
+);
+
+
+    } catch (error) {
+
+        console.error(
+            "View patient error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+/* =====================================================
+   LOAD APPOINTMENT HISTORY
+===================================================== */
+
+async function loadAppointmentHistory(patientId) {
+
+    const container =
+        document.getElementById("appointmentHistory");
+
+    const token =
+        getToken();
+
+    if (!container) {
+        return;
+    }
+
+    if (!token) {
+        handleSessionExpired();
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="loading">
+            Loading appointment history...
+        </div>
+    `;
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}/appointments`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+            handleSessionExpired();
+            return;
+        }
+
+        const appointments =
+            await response.json();
+
+        if (!response.ok) {
+
+            container.innerHTML = `
+                <div class="no-records">
+                    ${escapeHtml(
+                        appointments.message ||
+                        "Failed to load appointment history."
+                    )}
+                </div>
+            `;
+
+            return;
+        }
+
+        if (
+            !Array.isArray(appointments) ||
+            appointments.length === 0
+        ) {
+
+            container.innerHTML = `
+                <div class="no-records">
+                    No appointment history found.
+                </div>
+            `;
+
+            return;
+        }
+
+        let html = `
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Doctor</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+        `;
+
+        appointments.forEach(
+            appointment => {
+
+                html += `
+                    <tr>
+
+                        <td>
+                            ${escapeHtml(
+                                formatDate(
+                                    appointment.appointment_date
+                                )
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                formatTime(
+                                    appointment.appointment_time
+                                )
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.doctor ||
+                                "Not specified"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.reason ||
+                                "Not provided"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                appointment.status ||
+                                "Pending"
+                            )}
+                        </td>
+
+                        <td>

@@ -1,0 +1,500 @@
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FILTER PATIENTS
+===================================================== */
+
+function filterPatients() {
+
+    const search =
+        document.getElementById(
+            "searchInput"
+        ).value
+        .toLowerCase()
+        .trim();
+
+    const gender =
+        document.getElementById(
+            "genderFilter"
+        ).value;
+
+    const dob =
+        document.getElementById(
+            "dobFilter"
+        ).value;
+
+    const filtered =
+        patients.filter(
+            patient => {
+
+                const name =
+                    `${patient.first_name || ""} ${patient.last_name || ""}`
+                        .toLowerCase();
+
+                const email =
+                    (
+                        patient.email ||
+                        ""
+                    ).toLowerCase();
+
+                const phone =
+                    (
+                        patient.phone ||
+                        ""
+                    ).toLowerCase();
+
+                const matchesSearch =
+                    name.includes(search) ||
+                    email.includes(search) ||
+                    phone.includes(search);
+
+                const matchesGender =
+                    !gender ||
+                    patient.gender === gender;
+
+                const matchesDob =
+                    !dob ||
+                    String(
+                        patient.date_of_birth || ""
+                    ).substring(
+                        0,
+                        10
+                    ) === dob;
+
+                return (
+                    matchesSearch &&
+                    matchesGender &&
+                    matchesDob
+                );
+            }
+        );
+
+    displayPatients(
+        filtered
+    );
+}
+
+
+/* =====================================================
+   ADD PATIENT
+===================================================== */
+
+function openAddPatientModal() {
+
+    const form =
+        document.getElementById(
+            "patientForm"
+        );
+
+    form.reset();
+
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "Add Patient";
+
+
+    document.getElementById(
+        "patientId"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "patientFormModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* =====================================================
+   CLOSE PATIENT FORM
+===================================================== */
+
+function closePatientFormModal() {
+
+    document.getElementById(
+        "patientFormModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   SAVE PATIENT
+===================================================== */
+
+document
+    .getElementById(
+        "patientForm"
+    )
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const token =
+                getToken();
+
+
+            if (!token) {
+
+                handleSessionExpired();
+
+                return;
+
+            }
+
+
+            const patientId =
+                document.getElementById(
+                    "patientId"
+                ).value;
+
+
+            const patientData = {
+
+                first_name:
+                    document.getElementById(
+                        "firstName"
+                    ).value.trim(),
+
+                last_name:
+                    document.getElementById(
+                        "lastName"
+                    ).value.trim(),
+
+                email:
+                    document.getElementById(
+                        "email"
+                    ).value.trim(),
+
+                phone:
+                    document.getElementById(
+                        "phone"
+                    ).value.trim(),
+
+                date_of_birth:
+                    document.getElementById(
+                        "dateOfBirth"
+                    ).value,
+
+                gender:
+                    document.getElementById(
+                        "gender"
+                    ).value,
+
+                address:
+                    document.getElementById(
+                        "address"
+                    ).value.trim(),
+
+                medical_history:
+                    document.getElementById(
+                        "medicalHistory"
+                    ).value.trim(),
+
+                allergies:
+                    document.getElementById(
+                        "allergies"
+                    ).value.trim(),
+
+                medications:
+                    document.getElementById(
+                        "medications"
+                    ).value.trim(),
+
+                notes:
+                    document.getElementById(
+                        "notes"
+                    ).value.trim()
+
+            };
+
+
+            const url =
+                patientId
+                    ? `${API_URL}/api/patients/${patientId}`
+                    : `${API_URL}/api/patients`;
+
+
+            const method =
+                patientId
+                    ? "PUT"
+                    : "POST";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method,
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${token}`
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    patientData
+                                )
+
+                        }
+                    );
+
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    handleSessionExpired();
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok
+                ) {
+
+                    alert(
+                        data.message ||
+                        "Failed to save patient."
+                    );
+
+                    return;
+
+                }
+
+
+                showMessage(
+                    data.message ||
+                    "Patient saved successfully.",
+                    "success"
+                );
+
+
+                closePatientFormModal();
+
+
+                await loadPatients();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Save patient error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the server."
+                );
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   VITAL SIGNS
+   CONSULTATION-SAFE VERSION
+===================================================== */
+
+
+/* =====================================================
+   GET ACTIVE CONSULTATION ID
+===================================================== */
+
+function getActiveConsultationId(suppliedId = null) {
+
+    let id = null;
+
+
+    // -------------------------------------------------
+    // 1. Use supplied ID first
+    // -------------------------------------------------
+
+    if (
+        suppliedId !== null &&
+        suppliedId !== undefined &&
+        suppliedId !== ""
+    ) {
+
+        const parsed =
+            Number(suppliedId);
+
+        if (
+            Number.isInteger(parsed) &&
+            parsed > 0
+        ) {
+
+            id = parsed;
+
+        }
+
+    }
+
+
+    // -------------------------------------------------
+    // 2. Use global consultation ID
+    // -------------------------------------------------
+
+    if (!id) {
+
+        const parsed =
+            Number(currentConsultationId);
+
+        if (
+            Number.isInteger(parsed) &&
+            parsed > 0
+        ) {
+
+            id = parsed;
+
+        }
+
+    }
+
+
+    // -------------------------------------------------
+    // 3. Recover from hidden consultation field
+    // -------------------------------------------------
+
+    if (!id) {
+
+        const consultationField =
+            document.getElementById(
+                "consultationId"
+            );
+
+
+        if (
+            consultationField &&
+            consultationField.value
+        ) {
+
+            const parsed =
+                Number(
+                    consultationField.value
+                );
+
+
+            if (
+                Number.isInteger(parsed) &&
+                parsed > 0
+            ) {
+
+                id = parsed;
+
+            }
+
+        }
+
+    }
+
+
+    // -------------------------------------------------
+    // 4. Synchronize everything
+    // -------------------------------------------------
+
+    if (id) {
+
+        currentConsultationId =
+            id;
+
+
+        const consultationField =
+            document.getElementById(
+                "consultationId"
+            );
+
+
+        if (consultationField) {
+
+            consultationField.value =
+                id;
+
+        }
+
+    }
+
+
+    console.log(
+        "ACTIVE CONSULTATION ID:",
+        id
+    );
+
+
+    return id || null;
+
+}
+
+
+/* =====================================================
+   SET ACTIVE CONSULTATION ID
+===================================================== */
+
+function setActiveConsultationId(id) {
+
+    const parsed =
+        Number(id);
+
+
+    if (
+        !Number.isInteger(parsed) ||
+        parsed <= 0
+    ) {
+
+        console.warn(
+            "Attempted to set invalid consultation ID:",
+            id
+        );
+
+        return false;
+
+    }
+
+
+    currentConsultationId =
+        parsed;
+
+
+    const consultationField =
+        document.getElementById(
+            "consultationId"
+        );
+
+
+    if (consultationField) {
+
+        consultationField.value =
+            parsed;
+
+    }
+
+

@@ -1,0 +1,500 @@
+    console.log(
+        "ACTIVE CONSULTATION SET TO:",
+        parsed
+    );
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   OPEN VITAL SIGNS MODAL
+   CONSULTATION-SAFE VERSION
+===================================================== */
+
+function openVitalSignsModal(consultationId = null) {
+
+    console.log(
+        "Opening Vital Signs. Passed consultation:",
+        consultationId,
+        "Current consultation:",
+        currentConsultationId
+    );
+
+
+    /* =================================================
+       1. MAKE SURE A PATIENT IS OPEN
+    ================================================= */
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       2. RESOLVE CONSULTATION ID
+       
+       Priority:
+       A. Explicitly supplied ID
+       B. Hidden consultationId field
+       C. Current global consultation ID
+    ================================================= */
+
+    let resolvedConsultationId = null;
+
+
+    /* -----------------------------------------------
+       A. Supplied consultation ID
+    ------------------------------------------------ */
+
+    if (
+        consultationId !== null &&
+        consultationId !== undefined &&
+        consultationId !== ""
+    ) {
+
+        const parsedId =
+            Number(consultationId);
+
+        if (
+            Number.isInteger(parsedId) &&
+            parsedId > 0
+        ) {
+
+            resolvedConsultationId =
+                parsedId;
+        }
+    }
+
+
+    /* -----------------------------------------------
+       B. Consultation hidden field
+    ------------------------------------------------ */
+
+    if (!resolvedConsultationId) {
+
+        const consultationField =
+            document.getElementById(
+                "consultationId"
+            );
+
+
+        if (
+            consultationField &&
+            consultationField.value
+        ) {
+
+            const parsedId =
+                Number(
+                    consultationField.value
+                );
+
+
+            if (
+                Number.isInteger(parsedId) &&
+                parsedId > 0
+            ) {
+
+                resolvedConsultationId =
+                    parsedId;
+            }
+        }
+    }
+
+
+    /* -----------------------------------------------
+       C. Global current consultation
+    ------------------------------------------------ */
+
+    if (!resolvedConsultationId) {
+
+        const parsedId =
+            Number(
+                currentConsultationId
+            );
+
+
+        if (
+            Number.isInteger(parsedId) &&
+            parsedId > 0
+        ) {
+
+            resolvedConsultationId =
+                parsedId;
+        }
+    }
+
+
+    /* =================================================
+       3. FINAL CHECK
+    ================================================= */
+
+    console.log(
+        "Vital Signs resolved consultation ID:",
+        resolvedConsultationId
+    );
+
+
+    if (!resolvedConsultationId) {
+
+        alert(
+            "Please open a consultation before recording vital signs."
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       4. SYNCHRONIZE GLOBAL CONSULTATION ID
+    ================================================= */
+
+    currentConsultationId =
+        resolvedConsultationId;
+
+
+    /* =================================================
+       5. SYNCHRONIZE HIDDEN CONSULTATION FIELD
+    ================================================= */
+
+    const vitalConsultationField =
+        document.getElementById(
+            "vitalConsultationId"
+        );
+
+
+    if (vitalConsultationField) {
+
+        vitalConsultationField.value =
+            resolvedConsultationId;
+    }
+
+
+    /* =================================================
+       6. FIND VITAL SIGNS MODAL
+    ================================================= */
+
+    const modal =
+        document.getElementById(
+            "vitalSignsModal"
+        );
+
+
+    if (!modal) {
+
+        console.error(
+            "Vital Signs modal not found."
+        );
+
+        alert(
+            "Vital Signs form could not be opened."
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       7. RESET FORM
+    ================================================= */
+
+    const form =
+        document.getElementById(
+            "vitalSignsForm"
+        );
+
+
+    if (form) {
+
+        form.reset();
+    }
+
+
+    /* =================================================
+       8. RESTORE CONSULTATION ID AFTER RESET
+       
+       form.reset() does not guarantee that dynamically
+       assigned values remain, so set it again.
+    ================================================= */
+
+    if (vitalConsultationField) {
+
+        vitalConsultationField.value =
+            resolvedConsultationId;
+    }
+
+
+    /* =================================================
+       9. CLEAR BMI
+    ================================================= */
+
+    const bmiField =
+        document.getElementById(
+            "vitalBMI"
+        );
+
+
+    if (bmiField) {
+
+        bmiField.value = "";
+    }
+
+
+    /* =================================================
+       10. OPEN MODAL
+    ================================================= */
+
+    modal.style.display = "flex";
+
+
+    console.log(
+        "Vital Signs modal opened for consultation:",
+        resolvedConsultationId
+    );
+}
+
+
+/* =====================================================
+   CLOSE VITAL SIGNS MODAL
+===================================================== */
+
+function closeVitalSignsModal() {
+
+    const modal =
+        document.getElementById(
+            "vitalSignsModal"
+        );
+
+
+    if (modal) {
+
+        modal.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   CALCULATE BMI
+===================================================== */
+
+function calculateVitalBMI() {
+
+    const weightElement =
+        document.getElementById(
+            "vitalWeight"
+        );
+
+
+    const heightElement =
+        document.getElementById(
+            "vitalHeight"
+        );
+
+
+    const bmiField =
+        document.getElementById(
+            "vitalBMI"
+        );
+
+
+    if (
+        !weightElement ||
+        !heightElement ||
+        !bmiField
+    ) {
+
+        return;
+
+    }
+
+
+    const weight =
+        parseFloat(
+            weightElement.value
+        );
+
+
+    const heightCm =
+        parseFloat(
+            heightElement.value
+        );
+
+
+    if (
+        !Number.isFinite(weight) ||
+        !Number.isFinite(heightCm) ||
+        weight <= 0 ||
+        heightCm <= 0
+    ) {
+
+        bmiField.value =
+            "";
+
+        return;
+
+    }
+
+
+    const heightMetres =
+        heightCm / 100;
+
+
+    const bmi =
+        weight /
+        (
+            heightMetres *
+            heightMetres
+        );
+
+
+    if (Number.isFinite(bmi)) {
+
+        bmiField.value =
+            bmi.toFixed(2);
+
+    } else {
+
+        bmiField.value =
+            "";
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE VITAL SIGNS
+===================================================== */
+
+async function saveVitalSigns(event) {
+
+    if (event) {
+
+        event.preventDefault();
+
+    }
+
+
+    // -------------------------------------------------
+    // Patient check
+    // -------------------------------------------------
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+
+    }
+
+
+    // -------------------------------------------------
+    // Resolve consultation ID again
+    // -------------------------------------------------
+
+    const activeConsultationId =
+        getActiveConsultationId(
+            document.getElementById(
+                "vitalConsultationId"
+            )?.value
+        );
+
+
+    if (!activeConsultationId) {
+
+        alert(
+            "Please open a consultation before saving vital signs."
+        );
+
+        return;
+
+    }
+
+
+    // -------------------------------------------------
+    // Authentication
+    // -------------------------------------------------
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    // -------------------------------------------------
+    // Get fields safely
+    // -------------------------------------------------
+
+    const bloodPressure =
+        document.getElementById(
+            "vitalBloodPressure"
+        )?.value.trim() || "";
+
+
+    const heartRate =
+        document.getElementById(
+            "vitalHeartRate"
+        )?.value || "";
+
+
+    const temperature =
+        document.getElementById(
+            "vitalTemperature"
+        )?.value || "";
+
+
+    const respiratoryRate =
+        document.getElementById(
+            "vitalRespiratoryRate"
+        )?.value || "";
+
+
+    const oxygenSaturation =
+        document.getElementById(
+            "vitalOxygenSaturation"
+        )?.value || "";
+
+
+    const weight =
+        document.getElementById(
+            "vitalWeight"
+        )?.value || "";
+
+
+    const height =
+        document.getElementById(
+            "vitalHeight"
+        )?.value || "";
+
+
+    const bmi =
+        document.getElementById(
+            "vitalBMI"
+        )?.value || "";
+
+
+    const recordedBy =
+        document.getElementById(
+            "vitalRecordedBy"
+        )?.value.trim() || "";
+
+

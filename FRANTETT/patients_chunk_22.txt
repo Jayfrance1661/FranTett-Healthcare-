@@ -1,0 +1,500 @@
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            alert(
+                data.message ||
+                "Failed to delete consultation."
+            );
+
+            return;
+
+        }
+
+
+        showMessage(
+            data.message ||
+            "Consultation deleted successfully.",
+            "success"
+        );
+
+
+        await loadConsultations(
+            currentPatientId
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete consultation error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   EDIT PATIENT
+===================================================== */
+
+async function editPatient(
+    id
+) {
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${id}`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const patient =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            alert(
+                patient.message ||
+                "Unable to load patient."
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "formTitle"
+        ).textContent =
+            "Edit Patient";
+
+
+        document.getElementById(
+            "patientId"
+        ).value =
+            patient.id;
+
+
+        setInput(
+            "firstName",
+            patient.first_name
+        );
+
+        setInput(
+            "lastName",
+            patient.last_name
+        );
+
+        setInput(
+            "email",
+            patient.email
+        );
+
+        setInput(
+            "phone",
+            patient.phone
+        );
+
+
+        setInputDate(
+            "dateOfBirth",
+            patient.date_of_birth
+        );
+
+
+        setInput(
+            "gender",
+            patient.gender
+        );
+
+        setInput(
+            "address",
+            patient.address
+        );
+
+        setInput(
+            "medicalHistory",
+            patient.medical_history
+        );
+
+        setInput(
+            "allergies",
+            patient.allergies
+        );
+
+        setInput(
+            "medications",
+            patient.medications
+        );
+
+        setInput(
+            "notes",
+            patient.notes
+        );
+
+
+        document.getElementById(
+            "patientFormModal"
+        ).style.display =
+            "flex";
+
+
+    } catch (error) {
+
+        console.error(
+            "Edit patient error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DELETE PATIENT
+===================================================== */
+
+async function deletePatient(
+    id
+) {
+
+    const patient =
+        patients.find(
+            item =>
+                Number(item.id) ===
+                Number(id)
+        );
+
+
+    if (!patient) {
+
+        alert(
+            "Patient not found."
+        );
+
+        return;
+
+    }
+
+
+    const fullName =
+        `${patient.first_name || ""} ${patient.last_name || ""}`
+            .trim();
+
+
+    const confirmed =
+        confirm(
+            `Are you sure you want to delete ${fullName}?`
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${id}`,
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            alert(
+                data.message ||
+                "Failed to delete patient."
+            );
+
+            return;
+
+        }
+
+
+        showMessage(
+            data.message ||
+            "Patient deleted successfully.",
+            "success"
+        );
+
+
+        await loadPatients();
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete patient error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CLOSE PATIENT VIEW
+===================================================== */
+
+function closeViewPatientModal() {
+
+    document.getElementById(
+        "viewPatientModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   CLOSE CONSULTATION VIEW
+===================================================== */
+
+function closeViewConsultationModal() {
+
+    document.getElementById(
+        "viewConsultationModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   CLOSE MODALS ON BACKDROP
+===================================================== */
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        const patientFormModal =
+            document.getElementById(
+                "patientFormModal"
+            );
+
+        const patientViewModal =
+            document.getElementById(
+                "viewPatientModal"
+            );
+
+        const consultationFormModal =
+            document.getElementById(
+                "consultationFormModal"
+            );
+
+        const consultationViewModal =
+            document.getElementById(
+                "viewConsultationModal"
+            );
+
+
+        if (
+            event.target ===
+            patientFormModal
+        ) {
+
+            closePatientFormModal();
+
+        }
+
+
+        if (
+            event.target ===
+            patientViewModal
+        ) {
+
+            closeViewPatientModal();
+
+        }
+
+
+        if (
+            event.target ===
+            consultationFormModal
+        ) {
+
+            closeConsultationFormModal();
+
+        }
+
+
+        if (
+            event.target ===
+            consultationViewModal
+        ) {
+
+            closeViewConsultationModal();
+
+        }
+
+    }
+);
+
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+/* =====================================================
+   LABORATORY REQUEST HISTORY
+===================================================== */
+
+async function loadLaboratoryRequests(patientId) {
+
+    const container =
+        document.getElementById("labRequestsHistory");
+
+    if (!container || !patientId) {
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="lab-request-loading">
+            <div class="loading-spinner"></div>
+            <span>Loading laboratory requests...</span>
+        </div>
+    `;
+
+    try {
+
+        const token = getToken();
+
+        const response = await fetch(
+            `${API_URL}/api/patients/${patientId}/lab-requests`,
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization":
+                        `Bearer ${token}`
+                }
+            }
+        );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Failed to load laboratory requests."

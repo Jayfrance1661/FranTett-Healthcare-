@@ -1,0 +1,500 @@
+            "display: block;" +
+            "font-weight: bold;" +
+            "margin-bottom: 5px;" +
+        "}" +
+
+        "input[type='text']," +
+        "textarea {" +
+            "width: 100%;" +
+            "border: 1px solid #999;" +
+            "padding: 7px;" +
+            "font-family: Arial, Helvetica, sans-serif;" +
+            "font-size: 12px;" +
+            "background: #fff;" +
+        "}" +
+
+        "textarea {" +
+            "min-height: 70px;" +
+            "resize: none;" +
+        "}" +
+
+        ".lab-request-signature {" +
+            "display: flex;" +
+            "flex-direction: column;" +
+            "align-items: flex-start;" +
+            "margin-top: 20px;" +
+        "}" +
+
+        ".signature-line {" +
+            "border-bottom: 1px solid #222;" +
+            "height: 28px;" +
+            "margin-top: 5px;" +
+        "}" +
+
+        ".lab-request-footer {" +
+            "margin-top: 40px;" +
+            "padding-top: 10px;" +
+            "border-top: 1px solid #aaa;" +
+            "text-align: center;" +
+            "font-size: 10px;" +
+            "line-height: 1.5;" +
+        "}" +
+
+        ".no-print," +
+        "button," +
+        ".close-modal {" +
+            "display: none !important;" +
+        "}" +
+
+        "</style>" +
+
+
+        "</head>" +
+
+        "<body>" +
+        "<div id='labRequestPrintable'>" +
+            printContent +
+        "</div>" +
+
+        "<\/body>" +
+        "<\/html>";
+
+    printWindow.document.open();
+
+    printWindow.document.write(
+        printHtml
+    );
+
+    printWindow.document.close();
+
+    printWindow.focus();
+
+    setTimeout(
+        function () {
+
+            printWindow.print();
+
+        },
+        500
+    );
+}
+
+
+// Close Lab Request when clicking outside the modal
+window.addEventListener(
+    "click",
+    function(event) {
+
+        const modal =
+            document.getElementById(
+                "labRequestModal"
+            );
+
+        if (
+            modal &&
+            event.target === modal
+        ) {
+            closeLabRequestModal();
+        }
+
+    }
+);
+
+
+function openAddLabReportModal() {
+
+    if (!currentPatientId) {
+        alert("Please open a patient profile first.");
+        return;
+    }
+
+    const modal = document.getElementById("labReportModal");
+    const form = document.getElementById("labReportForm");
+
+    if (!modal || !form) {
+        console.error("Laboratory report modal/form not found.");
+        return;
+    }
+
+    form.reset();
+
+    const idField = document.getElementById("labReportId");
+    if (idField) idField.value = "";
+
+    const title = document.getElementById("labReportFormTitle");
+    if (title) title.textContent = "Add Laboratory Report";
+
+    const container =
+        document.getElementById("labParametersContainer");
+
+    if (container) {
+        container.innerHTML = "";
+        addLabParameterRow();
+    }
+
+    modal.style.display = "flex";
+}
+
+
+function closeLabReportModal() {
+
+    const modal =
+        document.getElementById("labReportModal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+function addLabParameterRow(
+    parameter = {}
+) {
+
+    const container =
+        document.getElementById("labParametersContainer");
+
+    if (!container) {
+        console.error("labParametersContainer not found.");
+        return;
+    }
+
+    const row = document.createElement("div");
+
+    row.className = "lab-parameter-row";
+
+    row.innerHTML = `
+
+        <input
+            type="text"
+            class="lab-parameter-name"
+            placeholder="Parameter"
+            value="${escapeHtml(parameter.parameter_name || "")}"
+        >
+
+        <input
+            type="text"
+            class="lab-parameter-result"
+            placeholder="Result"
+            value="${escapeHtml(parameter.result_value || "")}"
+        >
+
+        <input
+            type="text"
+            class="lab-parameter-unit"
+            placeholder="Unit"
+            value="${escapeHtml(parameter.unit || "")}"
+        >
+
+        <select class="lab-parameter-flag">
+
+            <option value="">Flag</option>
+            <option value="Low" ${parameter.flag === "Low" ? "selected" : ""}>
+                Low
+            </option>
+            <option value="Normal" ${parameter.flag === "Normal" ? "selected" : ""}>
+                Normal
+            </option>
+            <option value="High" ${parameter.flag === "High" ? "selected" : ""}>
+                High
+            </option>
+
+        </select>
+
+        <input
+            type="text"
+            class="lab-parameter-reference"
+            placeholder="Reference Range"
+            value="${escapeHtml(parameter.reference_range || "")}"
+        >
+
+        <button
+            type="button"
+            class="danger-btn"
+            onclick="this.parentElement.remove()"
+        >
+            Remove
+        </button>
+
+    `;
+
+    container.appendChild(row);
+}
+
+
+/* =====================================================
+   SAVE LABORATORY REPORT
+===================================================== */
+
+const labReportForm =
+    document.getElementById("labReportForm");
+
+if (labReportForm) {
+
+    labReportForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            if (!currentPatientId) {
+                alert("Please open a patient profile first.");
+                return;
+            }
+
+            const rows =
+                document.querySelectorAll(
+                    ".lab-parameter-row"
+                );
+
+            const parameters = [];
+
+            rows.forEach(row => {
+
+                const parameterName =
+                    row.querySelector(
+                        ".lab-parameter-name"
+                    )?.value.trim();
+
+                if (!parameterName) {
+                    return;
+                }
+
+                parameters.push({
+
+                    parameter_name:
+                        parameterName,
+
+                    result_value:
+                        row.querySelector(
+                            ".lab-parameter-result"
+                        )?.value.trim() || null,
+
+                    unit:
+                        row.querySelector(
+                            ".lab-parameter-unit"
+                        )?.value.trim() || null,
+
+                    flag:
+                        row.querySelector(
+                            ".lab-parameter-flag"
+                        )?.value || null,
+
+                    reference_range:
+                        row.querySelector(
+                            ".lab-parameter-reference"
+                        )?.value.trim() || null
+
+                });
+
+            });
+
+            const payload = {
+
+                test_name:
+                    document.getElementById(
+                        "labReportTestName"
+                    )?.value.trim(),
+
+                result_date:
+                    document.getElementById(
+                        "labReportDate"
+                    )?.value || null,
+
+                status:
+                    document.getElementById(
+                        "labReportStatus"
+                    )?.value || "Final",
+
+                recorded_by:
+                    document.getElementById(
+                        "labReportRecordedBy"
+                    )?.value.trim() || null,
+
+                notes:
+                    document.getElementById(
+                        "labReportNotes"
+                    )?.value.trim() || null,
+
+                parameters
+
+            };
+
+            if (!payload.test_name) {
+                alert("Please enter the laboratory test name.");
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    `${API_URL}/api/patients/${currentPatientId}/lab-reports`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(payload)
+                    }
+                );
+
+                const data =
+                    await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.message ||
+                        "Failed to save laboratory report."
+                    );
+                }
+
+                closeLabReportModal();
+
+                await loadLaboratoryReports(
+                    currentPatientId
+                );
+
+                showMessage(
+                    "Laboratory report saved successfully.",
+                    "success"
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Save laboratory report error:",
+                    error
+                );
+
+                alert(
+                    error.message ||
+                    "Unable to save laboratory report."
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE LAB REPORT ON BACKDROP
+===================================================== */
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        const modal =
+            document.getElementById(
+                "labReportModal"
+            );
+
+        if (
+            modal &&
+            event.target === modal
+        ) {
+            closeLabReportModal();
+        }
+
+    }
+);
+
+function printPatientRecord() {
+    window.print();
+}
+
+loadPatients();
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

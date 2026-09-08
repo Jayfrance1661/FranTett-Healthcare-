@@ -1,0 +1,500 @@
+                            type="text"
+                            class="medication-route"
+                            value="${escapeHtml(
+                                medication.route || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-frequency"
+                            value="${escapeHtml(
+                                medication.frequency || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-duration"
+                            value="${escapeHtml(
+                                medication.duration || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-quantity"
+                            value="${escapeHtml(
+                                medication.quantity || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <button
+                            type="button"
+                            class="danger-btn remove-medication-btn"
+                            onclick="removeMedicationItem(this)"
+                        >
+                            Remove
+                        </button>
+                    </td>
+
+                `;
+
+                medicationContainer.appendChild(
+                    row
+                );
+
+            }
+        );
+
+        if (medications.length === 0) {
+
+            addMedicationItem();
+
+        }
+
+        updateMedicationRemoveButtons();
+
+        document.getElementById(
+            "prescriptionFormModal"
+        ).style.display =
+            "flex";
+
+    } catch (error) {
+
+        console.error(
+            "Error editing prescription:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// DELETE PRESCRIPTION
+// ==========================================
+
+async function deletePrescription(
+    id
+) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this prescription record?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/prescriptions/${id}`,
+                {
+                    method:
+                        "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                data.message ||
+                "Failed to delete prescription."
+            );
+
+            return;
+
+        }
+
+        showMessage(
+            data.message ||
+            "Prescription deleted successfully.",
+            "success"
+        );
+
+        await loadPrescriptions(
+            currentPatientId
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error deleting prescription:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+/* =====================================================
+   ADD CONSULTATION
+===================================================== */
+
+function openAddConsultationModal() {
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+    }
+
+
+    const form =
+        document.getElementById(
+            "consultationForm"
+        );
+
+
+    form.reset();
+
+
+    document.getElementById(
+        "consultationFormTitle"
+    ).textContent =
+        "Add Consultation";
+
+
+    document.getElementById(
+        "consultationId"
+    ).value =
+        "";
+currentConsultationId = null;
+
+    document.getElementById(
+        "consultationDate"
+    ).value =
+        getTodayDate();
+
+
+    // ---------------------------------------------
+    // Reset appointment dropdown
+    // ---------------------------------------------
+
+    const appointmentSelect =
+        document.getElementById(
+            "consultationAppointment"
+        );
+
+
+    if (appointmentSelect) {
+
+        appointmentSelect.innerHTML = `
+            <option value="">
+                Loading appointments...
+            </option>
+        `;
+
+    }
+
+
+    // ---------------------------------------------
+    // Open modal
+    // ---------------------------------------------
+
+    document.getElementById(
+        "consultationFormModal"
+    ).style.display =
+        "flex";
+
+
+    // ---------------------------------------------
+    // Load patient's appointments
+    // ---------------------------------------------
+
+    loadConsultationAppointments(
+        currentPatientId
+    );
+
+}
+
+/* =====================================================
+   LOAD APPOINTMENTS FOR CONSULTATION
+===================================================== */
+
+async function loadConsultationAppointments(patientId) {
+
+    const select =
+        document.getElementById(
+            "consultationAppointment"
+        );
+
+
+    if (!select) {
+        return;
+    }
+
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}/appointments`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const appointments =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            select.innerHTML = `
+                <option value="">
+                    Unable to load appointments
+                </option>
+            `;
+
+            alert(
+                appointments.message ||
+                "Failed to load appointments."
+            );
+
+            return;
+        }
+
+
+        if (
+            !Array.isArray(appointments) ||
+            appointments.length === 0
+        ) {
+
+            select.innerHTML = `
+                <option value="">
+                    No appointments found
+                </option>
+            `;
+
+            return;
+        }
+
+
+        // -----------------------------------------
+        // Build appointment options
+        // -----------------------------------------
+
+        select.innerHTML = `
+            <option value="">
+                Select appointment
+            </option>
+        `;
+
+
+        appointments.forEach(
+            appointment => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    appointment.id;
+
+
+                const date =
+                    appointment.appointment_date
+                        ? formatDate(
+                            appointment.appointment_date
+                        )
+                        : "No date";
+
+
+                const time =
+                    appointment.appointment_time
+                        ? formatTime(
+                            appointment.appointment_time
+                        )
+                        : "No time";
+
+
+                const doctor =
+                    appointment.doctor ||
+                    "Doctor not specified";
+
+
+                const status =
+                    appointment.status ||
+                    "Pending";
+
+
+                option.textContent =
+                    `${date} - ${time} - ${doctor} (${status})`;
+
+
+                select.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Load consultation appointments error:",
+            error
+        );
+
+
+        select.innerHTML = `
+            <option value="">
+                Unable to load appointments
+            </option>
+        `;
+
+    }
+
+}
+
+/* =====================================================
+   CLOSE CONSULTATION FORM
+===================================================== */
+
+function closeConsultationFormModal() {
+
+    document.getElementById(
+        "consultationFormModal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   SAVE CONSULTATION
+===================================================== */
+
+document
+    .getElementById(
+        "consultationForm"
+    )
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const token =
+                getToken();
+
+
+            if (!token) {
+
+                handleSessionExpired();
+
+                return;
+
+            }
+
+
+            if (
+                !currentPatientId
+            ) {
+
+                alert(
+                    "No patient selected."
+                );
+
+                return;
+
+            }
+
+
+            const consultationId =
+                document.getElementById(
+                    "consultationId"
+                ).value;
+
+
+            const appointmentSelect =

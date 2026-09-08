@@ -1,0 +1,500 @@
+    background: white;
+}
+
+.prescription-entry-table th {
+    background: #f0f3f5;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.prescription-entry-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    vertical-align: middle;
+}
+
+.prescription-entry-table input {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 0;
+}
+
+.prescription-entry-table th:nth-child(1),
+.prescription-entry-table td:nth-child(1) {
+    width: 22%;
+}
+
+.prescription-entry-table th:nth-child(2),
+.prescription-entry-table td:nth-child(2) {
+    width: 12%;
+}
+
+.prescription-entry-table th:nth-child(3),
+.prescription-entry-table td:nth-child(3) {
+    width: 12%;
+}
+
+.prescription-entry-table th:nth-child(4),
+.prescription-entry-table td:nth-child(4) {
+    width: 15%;
+}
+
+.prescription-entry-table th:nth-child(5),
+.prescription-entry-table td:nth-child(5) {
+    width: 14%;
+}
+
+.prescription-entry-table th:nth-child(6),
+.prescription-entry-table td:nth-child(6) {
+    width: 12%;
+}
+
+.prescription-entry-table th:nth-child(7),
+.prescription-entry-table td:nth-child(7) {
+    width: 13%;
+}
+
+.record-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.record-actions button {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.prescription-extra {
+    margin-top: 18px;
+}
+
+/* =====================================================
+   VITAL SIGNS TABLE
+===================================================== */
+
+#vitalSignsHistory {
+    width: 100%;
+}
+
+#vitalSignsHistory h4 {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    margin-bottom: 12px;
+}
+
+#vitalSignsHistory > div {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#vitalSignsHistory table {
+    width: 100%;
+    min-width: 1050px;
+    border-collapse: collapse;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 13px;
+}
+
+#vitalSignsHistory th {
+    white-space: nowrap;
+    font-weight: 600;
+    text-align: left;
+    padding: 11px 12px;
+}
+
+#vitalSignsHistory td {
+    white-space: nowrap;
+    padding: 11px 12px;
+    vertical-align: middle;
+    font-weight: 400;
+}
+
+/* Keep values and units together */
+#vitalSignsHistory td:nth-child(2),
+#vitalSignsHistory td:nth-child(3),
+#vitalSignsHistory td:nth-child(4),
+#vitalSignsHistory td:nth-child(5),
+#vitalSignsHistory td:nth-child(6),
+#vitalSignsHistory td:nth-child(7),
+#vitalSignsHistory td:nth-child(8),
+#vitalSignsHistory td:nth-child(9) {
+    white-space: nowrap;
+}
+
+/* Date and recorded-by columns */
+#vitalSignsHistory td:first-child,
+#vitalSignsHistory td:nth-child(10) {
+    white-space: nowrap;
+}
+
+/* Delete button */
+#vitalSignsHistory .danger-btn {
+    white-space: nowrap;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+#labRequestPrintable .signature-pad-wrapper {
+    width: 100%;
+    max-width: 500px;
+    height: 160px;
+    border: 1px solid #9ca3af;
+    border-radius: 5px;
+    background: #fff;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+#labRequestPrintable #labRequestSignaturePad {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    background: #fff;
+}
+
+#labRequestPrintable .signature-actions {
+    margin-top: 8px;
+}
+
+#labRequestPrintable .signature-actions button {
+    font-size: 11px;
+    padding: 6px 10px;
+}
+
+#labRequestPrintable .signature-status {
+    margin-top: 5px;
+    font-size: 10px;
+    color: #666;
+}
+
+@media print {
+
+    #labRequestPrintable .signature-pad-wrapper {
+        border: none;
+        height: auto;
+    }
+
+    #labRequestPrintable #labRequestSignaturePad {
+        border: none;
+        height: 90px;
+    }
+
+    #labRequestPrintable .signature-actions,
+    #labRequestPrintable .signature-status {
+        display: none !important;
+    }
+
+}
+
+/* =====================================================
+   LABORATORY REQUEST HISTORY
+===================================================== */
+
+.lab-request-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.lab-request-card:hover {
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.10);
+    transform: translateY(-1px);
+}
+
+
+/* HEADER */
+
+.lab-request-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 22px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.lab-request-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.lab-request-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e0f2fe;
+    border-radius: 10px;
+    font-size: 21px;
+}
+
+.lab-request-title h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.lab-request-id {
+    margin-top: 3px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.lab-request-date {
+    text-align: right;
+}
+
+.lab-request-date-label {
+    display: block;
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 3px;
+}
+
+.lab-request-date strong {
+    font-size: 13px;
+    color: #334155;
+}
+
+
+/* BODY */
+
+.lab-request-card-body {
+    padding: 22px;
+}
+
+.lab-request-field {
+    margin-bottom: 18px;
+}
+
+.lab-request-field-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.field-icon {
+    font-size: 14px;
+}
+
+.lab-request-field-value {
+    font-size: 14px;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+
+/* TEST BADGES */
+
+.lab-request-tests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.lab-test-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 11px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* DETAILS GRID */
+
+.lab-request-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding-top: 4px;
+}
+
+.lab-request-details-grid .lab-request-field {
+    margin-bottom: 0;
+    padding: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+}
+
+.lab-request-clinical-info {
+    grid-column: 1 / -1;
+}
+
+
+/* MUTED TEXT */
+
+.lab-request-muted {
+    color: #94a3b8;
+    font-style: italic;
+}
+
+
+/* SIGNATURE */
+
+.lab-request-signature-section {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.lab-request-signature {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 4px 8px;
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 9px;
+}
+
+.lab-request-signature img {
+    display: block;
+    width: auto;
+    max-width: 300px;
+    height: auto;
+    max-height: 100px;
+    object-fit: contain;
+}
+
+.lab-request-signature-status {
+    margin-top: 3px;
+    font-size: 11px;
+    color: #15803d;
+    font-weight: 700;
+}
+
+.lab-request-no-signature {
+    display: inline-flex;
+    padding: 10px 13px;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+
+/* FOOTER */
+
+.lab-request-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 14px 22px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+}
+
+.lab-request-created {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.lab-request-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.lab-request-print-btn,
+.lab-request-delete-btn {
+    border: none;
+    border-radius: 7px;
+    padding: 8px 13px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.lab-request-print-btn {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.lab-request-print-btn:hover {
+    background: #1d4ed8;
+}
+
+.lab-request-delete-btn {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.lab-request-delete-btn:hover {
+    background: #fecaca;
+}
+
+
+/* LOADING */
+
+.lab-request-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 35px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.loading-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #dbeafe;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: labRequestSpin 0.8s linear infinite;
+}
+
+@keyframes labRequestSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* EMPTY */
+
+.lab-request-empty {
+    text-align: center;
+    padding: 45px 20px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    background: #f8fafc;
+}
+

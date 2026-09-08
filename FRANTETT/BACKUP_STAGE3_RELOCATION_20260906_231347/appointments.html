@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -446,123 +446,7 @@
         "//" +
         window.location.hostname +
         ":3000";
-</script>
-<style>
-/* ============================================================
-   FRANTETT RESPONSIVE FIX — APPOINTMENTS
-   Stage 3 — 2026-09-06
-   ============================================================ */
-
-@media (max-width: 700px) {
-
-    /* Keep the main appointment table inside its own viewport. */
-
-    .table-container {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: auto;
-        overflow-y: visible;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .table-container table {
-        min-width: 1100px;
-    }
-
-    .table-container th,
-    .table-container td {
-        padding: 8px 7px;
-        font-size: 12px;
-        vertical-align: middle;
-    }
-
-    .table-container th {
-        white-space: nowrap;
-        font-size: 12px;
-    }
-
-    .table-container td {
-        overflow-wrap: anywhere;
-    }
-
-    .table-container .actions {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 4px;
-        min-width: 190px;
-        max-width: 220px;
-    }
-
-    .table-container .actions button {
-        margin: 0;
-        padding: 7px 9px;
-        font-size: 12px;
-        line-height: 1.2;
-        min-height: 34px;
-        white-space: normal;
-    }
-
-    /*
-       The original mobile rule makes the navigation a large
-       vertical block. Keep it compact instead.
-    */
-
-    nav {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
-
-    nav ul {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        width: auto;
-    }
-
-    nav li {
-        margin-left: 0;
-    }
-}
-
-
-/* ============================================================
-   SMALL PHONES
-   ============================================================ */
-
-@media (max-width: 480px) {
-
-    .table-container table {
-        min-width: 1000px;
-    }
-
-    .table-container th,
-    .table-container td {
-        padding: 7px 6px;
-        font-size: 11px;
-    }
-
-    .table-container .actions {
-        min-width: 175px;
-        max-width: 200px;
-        gap: 4px;
-    }
-
-    .table-container .actions button {
-        padding: 6px 8px;
-        font-size: 11px;
-        min-height: 32px;
-    }
-
-    nav {
-        padding: 12px 14px;
-    }
-}
-</style>
-</head>
+</script></head>
 
 
 <body>
@@ -928,7 +812,7 @@
                 class="close-btn"
                 onclick="closeStaffAddAppointmentModal()"
             >
-                Ã—
+                ×
             </button>
 
         </div>
@@ -1350,7 +1234,7 @@
                 class="close-btn"
                 onclick="closeEditAppointmentModal()"
             >
-                Ãƒâ€”
+                Ã—
             </button>
 
         </div>
@@ -4449,3 +4333,132 @@ async function joinConsultation(
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   FRANTETT RESPONSIVE FIX � APPOINTMENTS
+   Stage 3 � 2026-09-06
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    /* Keep the main appointment table inside its own viewport. */
+
+    .table-container {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: visible;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-container table {
+        min-width: 1100px;
+    }
+
+    .table-container th,
+    .table-container td {
+        padding: 8px 7px;
+        font-size: 12px;
+        vertical-align: middle;
+    }
+
+    .table-container th {
+        white-space: nowrap;
+        font-size: 12px;
+    }
+
+    .table-container td {
+        overflow-wrap: anywhere;
+    }
+
+    .table-container .actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px;
+        min-width: 190px;
+        max-width: 220px;
+    }
+
+    .table-container .actions button {
+        margin: 0;
+        padding: 7px 9px;
+        font-size: 12px;
+        line-height: 1.2;
+        min-height: 34px;
+        white-space: normal;
+    }
+
+    /*
+       The original mobile rule makes the navigation a large
+       vertical block. Keep it compact instead.
+    */
+
+    nav {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        width: auto;
+    }
+
+    nav li {
+        margin-left: 0;
+    }
+}
+
+
+/* ============================================================
+   SMALL PHONES
+   ============================================================ */
+
+@media (max-width: 480px) {
+
+    .table-container table {
+        min-width: 1000px;
+    }
+
+    .table-container th,
+    .table-container td {
+        padding: 7px 6px;
+        font-size: 11px;
+    }
+
+    .table-container .actions {
+        min-width: 175px;
+        max-width: 200px;
+        gap: 4px;
+    }
+
+    .table-container .actions button {
+        padding: 6px 8px;
+        font-size: 11px;
+        min-height: 32px;
+    }
+
+    nav {
+        padding: 12px 14px;
+    }
+}
+

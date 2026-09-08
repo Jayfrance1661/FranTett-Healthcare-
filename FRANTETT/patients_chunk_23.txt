@@ -1,0 +1,500 @@
+            );
+        }
+
+
+        if (
+            !Array.isArray(data) ||
+            data.length === 0
+        ) {
+
+            container.innerHTML = `
+                <div class="lab-request-empty">
+
+                    <div class="lab-request-empty-icon">
+                        ??
+                    </div>
+
+                    <h4>
+                        No Laboratory Requests
+                    </h4>
+
+                    <p>
+                        No laboratory investigations have
+                        been requested for this patient.
+                    </p>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            data.map(
+                (request, index) => {
+
+                    const signature =
+                        request.electronic_signature
+                            ? String(
+                                request.electronic_signature
+                            ).trim()
+                            : "";
+
+
+                    const requestDate =
+                        request.request_date
+                            ? formatDate(
+                                request.request_date
+                            )
+                            : "Not provided";
+
+
+                    const createdDate =
+                        request.created_at
+                            ? formatDate(
+                                request.created_at
+                            )
+                            : "";
+
+
+                    const investigations =
+                        request.requested_tests
+                            ? String(
+                                request.requested_tests
+                            )
+                            .split(",")
+                            .map(
+                                test => test.trim()
+                            )
+                            .filter(Boolean)
+                            : [];
+
+
+                    return `
+                        <div
+                            class="lab-request-card"
+                            data-request-id="${Number(request.id)}"
+                        >
+
+                            <!-- HEADER -->
+                            <div class="lab-request-card-header">
+
+                                <div class="lab-request-title">
+
+                                    <div class="lab-request-icon">
+                                        ??
+                                    </div>
+
+                                    <div>
+
+                                        <h4>
+                                            Laboratory Request
+                                        </h4>
+
+                                        <div class="lab-request-id">
+                                            Request #${Number(request.id)}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="lab-request-date">
+
+                                    <span class="lab-request-date-label">
+                                        Requested
+                                    </span>
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            requestDate
+                                        )}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BODY -->
+                            <div class="lab-request-card-body">
+
+
+                                <!-- INVESTIGATIONS -->
+                                <div class="lab-request-field lab-request-investigations">
+
+                                    <div class="lab-request-field-label">
+                                        <span class="field-icon">??</span>
+                                        Requested Investigations
+                                    </div>
+
+
+                                    <div class="lab-request-tests">
+
+                                        ${
+                                            investigations.length
+                                            ?
+                                            investigations
+                                                .map(
+                                                    test => `
+                                                        <span class="lab-test-badge">
+                                                            ${escapeHtml(test)}
+                                                        </span>
+                                                    `
+                                                )
+                                                .join("")
+                                            :
+                                            `
+                                                <span class="lab-request-muted">
+                                                    No investigations recorded
+                                                </span>
+                                            `
+                                        }
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- DETAILS GRID -->
+                                <div class="lab-request-details-grid">
+
+
+                                    <div class="lab-request-field">
+
+                                        <div class="lab-request-field-label">
+                                            <span class="field-icon">?????</span>
+                                            Requested By
+                                        </div>
+
+                                        <div class="lab-request-field-value">
+                                            ${escapeHtml(
+                                                request.requested_by ||
+                                                "Not provided"
+                                            )}
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="lab-request-field">
+
+                                        <div class="lab-request-field-label">
+                                            <span class="field-icon">??</span>
+                                            Request Date
+                                        </div>
+
+                                        <div class="lab-request-field-value">
+                                            ${escapeHtml(
+                                                requestDate
+                                            )}
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="lab-request-field lab-request-clinical-info">
+
+                                        <div class="lab-request-field-label">
+                                            <span class="field-icon">??</span>
+                                            Clinical Information
+                                        </div>
+
+                                        <div class="lab-request-field-value">
+
+                                            ${
+                                                request.clinical_information
+                                                ?
+                                                escapeHtml(
+                                                    request.clinical_information
+                                                )
+                                                :
+                                                `
+                                                    <span class="lab-request-muted">
+                                                        No clinical information provided
+                                                    </span>
+                                                `
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <!-- ELECTRONIC SIGNATURE -->
+                                <div class="lab-request-signature-section">
+
+                                    <div class="lab-request-field-label">
+                                        <span class="field-icon">??</span>
+                                        Electronic Signature
+                                    </div>
+
+
+                                    ${
+                                        signature
+                                        ?
+                                        `
+                                            <div class="lab-request-signature">
+
+                                                <img
+                                                    src="${signature}"
+                                                    alt="Electronic signature"
+                                                >
+
+                                                <div class="lab-request-signature-status">
+                                                    ? Electronically signed
+                                                </div>
+
+                                            </div>
+                                        `
+                                        :
+                                        `
+                                            <div class="lab-request-no-signature">
+                                                <span>
+                                                    No electronic signature provided
+                                                </span>
+                                            </div>
+                                        `
+                                    }
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- FOOTER -->
+                            <div class="lab-request-card-footer">
+
+                                <div class="lab-request-created">
+
+                                    ${
+                                        createdDate
+                                        ?
+                                        `Created ${escapeHtml(createdDate)}`
+                                        :
+                                        ""
+                                    }
+
+                                </div>
+
+
+                                <div class="lab-request-actions">
+
+                                    <button
+                                        type="button"
+                                        class="lab-request-print-btn"
+                                        onclick="printSavedLabRequest(${Number(request.id)})"
+                                    >
+                                        ?? Print
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="lab-request-delete-btn"
+                                        onclick="deleteLaboratoryRequest(${Number(request.id)})"
+                                    >
+                                        ?? Delete
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "Load laboratory requests error:",
+            error
+        );
+
+
+        container.innerHTML = `
+            <div class="lab-request-error">
+
+                <strong>
+                    Unable to load laboratory requests
+                </strong>
+
+                <span>
+                    ${escapeHtml(
+                        error.message ||
+                        "Please try again."
+                    )}
+                </span>
+
+            </div>
+        `;
+    }
+}
+
+/* =====================================================
+   LABORATORY RESULTS
+===================================================== */
+
+
+async function deleteLaboratoryRequest(id) {
+
+    if (!id) {
+        console.error("Delete laboratory request: missing ID.");
+        return;
+    }
+
+    const confirmed = confirm(
+        "Are you sure you want to delete this laboratory request?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const token = getToken();
+
+        const response = await fetch(
+            `${API_URL}/api/lab-requests/${Number(id)}`,
+            {
+                method: "DELETE",
+
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const data =
+            await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Failed to delete laboratory request."
+            );
+        }
+
+        /*
+         * Remove the deleted request from the screen immediately.
+         */
+        const deletedCard =
+            document.querySelector(
+                `.lab-request-card[data-request-id="${Number(id)}"]`
+            );
+
+        if (deletedCard) {
+            deletedCard.remove();
+        }
+
+        /*
+         * If there are no requests left,
+         * show the normal empty state.
+         */
+        const container =
+            document.getElementById("labRequestsHistory");
+
+        if (
+            container &&
+            !container.querySelector(".lab-request-card")
+        ) {
+
+            container.innerHTML = `
+                <div class="lab-request-empty">
+
+                    <div class="lab-request-empty-icon">
+                        ??
+                    </div>
+
+                    <h4>
+                        No Laboratory Requests
+                    </h4>
+
+                    <p>
+                        No laboratory investigations have
+                        been requested for this patient.
+                    </p>
+
+                </div>
+            `;
+        }
+
+        alert(
+            data.message ||
+            "Laboratory request deleted successfully."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Delete laboratory request error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Failed to delete laboratory request."
+        );
+    }
+}
+
+async function loadLaboratoryResults(patientId) {
+
+    const container =
+        document.getElementById("labResultsHistory");
+
+    if (!container || !patientId) {
+        return;
+    }
+
+    container.innerHTML =
+        '<div class="loading">Loading laboratory results...</div>';
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/patients/${patientId}/labs`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to load laboratory results (${response.status})`
+            );
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+
+            container.innerHTML = `
+                <div class="empty-state">
+                    No laboratory results recorded.
+                </div>
+            `;
+
+            return;
+        }
+
+        container.innerHTML = data.map(lab => `
+
+            <div class="clinical-record-card">
+
+                <div class="clinical-record-header">
+
+                    <strong>
+                        ${escapeHtml(lab.test_name || "Laboratory Test")}
+                    </strong>
+

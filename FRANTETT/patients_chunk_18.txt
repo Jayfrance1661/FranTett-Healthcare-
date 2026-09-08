@@ -1,0 +1,500 @@
+                                            ${escapeHtml(
+                                                prescription.notes
+                                            )}
+
+                                            <div class="record-actions">
+
+    <button
+        type="button"
+        class="edit-btn"
+        onclick="editPrescription(${Number(prescription.id)})"
+    >
+        Edit
+    </button>
+
+    <button
+        type="button"
+        class="danger-btn"
+        onclick="deletePrescription(${Number(prescription.id)})"
+    >
+        Delete
+    </button>
+
+</div>
+
+                                        </div>
+
+                                    </div>
+
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+                `;
+            }
+        ).join("");
+}
+
+// ==========================================
+// SAVE PRESCRIPTION
+// ==========================================
+
+const prescriptionForm =
+    document.getElementById(
+        "prescriptionForm"
+    );
+
+if (prescriptionForm) {
+
+    prescriptionForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            const token =
+                getToken();
+
+            if (!token) {
+                handleSessionExpired();
+                return;
+            }
+
+            if (!currentPatientId) {
+                alert("No patient selected.");
+                return;
+            }
+
+            const prescriptionId =
+                document.getElementById(
+                    "prescriptionId"
+                ).value;
+
+            const medicationRows =
+                document.querySelectorAll(
+                    "#medicationItems .medication-item"
+                );
+
+            const items = [];
+
+            medicationRows.forEach(
+                row => {
+
+                    const medicationName =
+                        row.querySelector(
+                            ".medication-name"
+                        ).value.trim();
+
+                    if (!medicationName) {
+                        return;
+                    }
+
+                    items.push({
+
+                        medication_name:
+                            medicationName,
+
+                        dose:
+                            row.querySelector(
+                                ".medication-dose"
+                            ).value.trim(),
+
+                        route:
+                            row.querySelector(
+                                ".medication-route"
+                            ).value.trim(),
+
+                        frequency:
+                            row.querySelector(
+                                ".medication-frequency"
+                            ).value.trim(),
+
+                        duration:
+                            row.querySelector(
+                                ".medication-duration"
+                            ).value.trim(),
+
+                        quantity:
+                            row.querySelector(
+                                ".medication-quantity"
+                            ).value.trim()
+
+                    });
+
+                }
+            );
+
+            if (items.length === 0) {
+
+                alert(
+                    "Please enter at least one medication."
+                );
+
+                return;
+            }
+
+            const prescriptionData = {
+
+                doctor:
+                    document.getElementById(
+                        "prescriptionDoctor"
+                    ).value.trim(),
+
+                prescription_date:
+                    document.getElementById(
+                        "prescriptionDate"
+                    ).value,
+
+                notes:
+                    document.getElementById(
+                        "prescriptionNotes"
+                    ).value.trim(),
+
+                items:
+                    items
+
+            };
+
+            const url =
+                prescriptionId
+                    ? `${API_URL}/api/prescriptions/${prescriptionId}`
+                    : `${API_URL}/api/patients/${currentPatientId}/prescriptions`;
+
+            const method =
+                prescriptionId
+                    ? "PUT"
+                    : "POST";
+
+            try {
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method: method,
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${token}`
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    prescriptionData
+                                )
+
+                        }
+                    );
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    handleSessionExpired();
+                    return;
+
+                }
+
+                const data =
+                    await response.json();
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Prescription save error:",
+                        data
+                    );
+
+                    alert(
+                        data.message ||
+                        "Failed to save prescription."
+                    );
+
+                    return;
+                }
+
+                showMessage(
+                    data.message ||
+                    "Prescription saved successfully.",
+                    "success"
+                );
+
+                closePrescriptionFormModal();
+
+                await loadPrescriptions(
+                    currentPatientId
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Error saving prescription:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the server."
+                );
+
+            }
+
+        }
+    );
+
+}
+
+// ==========================================
+// VIEW PRESCRIPTION
+// ==========================================
+
+async function viewPrescription(
+    id
+) {
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/prescriptions/${id}`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+        const prescription =
+            await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                prescription.message ||
+                "Unable to load prescription."
+            );
+
+            return;
+
+        }
+
+        alert(
+            `Prescription\n\n` +
+
+            `Medication: ${
+                prescription.medication_name ||
+                "Not provided"
+            }\n` +
+
+            `Dose: ${
+                prescription.dose ||
+                "Not provided"
+            }\n` +
+
+            `Route: ${
+                prescription.route ||
+                "Not provided"
+            }\n` +
+
+            `Frequency: ${
+                prescription.frequency ||
+                "Not provided"
+            }\n` +
+
+            `Duration: ${
+                prescription.duration ||
+                "Not provided"
+            }\n` +
+
+            `Quantity: ${
+                prescription.quantity ||
+                "Not provided"
+            }\n\n` +
+
+            `Instructions: ${
+                prescription.instructions ||
+                "Not provided"
+            }\n\n` +
+
+            `Notes: ${
+                prescription.notes ||
+                "Not provided"
+            }`
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error viewing prescription:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// EDIT PRESCRIPTION
+// ==========================================
+
+async function editPrescription(id) {
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/prescriptions/${id}`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+        }
+
+        const prescription =
+            await response.json();
+
+        if (!response.ok) {
+
+            alert(
+                prescription.message ||
+                "Unable to load prescription."
+            );
+
+            return;
+        }
+
+        document.getElementById(
+            "prescriptionFormTitle"
+        ).textContent =
+            "Edit Prescription";
+
+        document.getElementById(
+            "prescriptionId"
+        ).value =
+            prescription.id;
+
+        document.getElementById(
+            "prescriptionDoctor"
+        ).value =
+            prescription.doctor || "";
+
+        document.getElementById(
+            "prescriptionDate"
+        ).value =
+            prescription.prescription_date
+                ? prescription.prescription_date.substring(
+                    0,
+                    10
+                )
+                : "";
+
+        document.getElementById(
+            "prescriptionNotes"
+        ).value =
+            prescription.notes || "";
+
+        const medicationContainer =
+            document.getElementById(
+                "medicationItems"
+            );
+
+        medicationContainer.innerHTML = "";
+
+        const medications =
+            Array.isArray(
+                prescription.medications
+            )
+                ? prescription.medications
+                : [];
+
+        medications.forEach(
+            medication => {
+
+                const row =
+                    document.createElement("tr");
+
+                row.className =
+                    "medication-item";
+
+                row.innerHTML = `
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-name"
+                            value="${escapeHtml(
+                                medication.medication_name || ""
+                            )}"
+                            required
+                        >
+                    </td>
+
+                    <td>
+                        <input
+                            type="text"
+                            class="medication-dose"
+                            value="${escapeHtml(
+                                medication.dose || ""
+                            )}"
+                        >
+                    </td>
+
+                    <td>
+                        <input

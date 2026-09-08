@@ -1,0 +1,500 @@
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    History of Presenting Complaint
+                </label>
+
+                <textarea
+                    id="historyOfPresentingComplaint"
+                    placeholder="History of the presenting complaint..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Past Medical History
+                </label>
+
+                <textarea
+                    id="pastMedicalHistory"
+                    placeholder="Past medical history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Drug and Allergy History
+                </label>
+
+                <textarea
+                    id="drugAllergyHistory"
+                    placeholder="Current drugs and allergy history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Family History
+                </label>
+
+                <textarea
+                    id="familyHistory"
+                    placeholder="Relevant family history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Social History
+                </label>
+
+                <textarea
+                    id="socialHistory"
+                    placeholder="Social history..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Systems Review
+                </label>
+
+                <textarea
+                    id="systemsReview"
+                    placeholder="Review of systems..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Summary
+                </label>
+
+                <textarea
+                    id="consultationSummary"
+                    placeholder="Clinical summary..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Examination
+                </label>
+
+                <textarea
+                    id="examination"
+                    placeholder="Physical examination findings..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Investigations
+                </label>
+
+                <textarea
+                    id="investigations"
+                    placeholder="Laboratory tests, imaging and other investigations..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Differential Diagnosis
+                </label>
+
+                <textarea
+                    id="differentialDiagnosis"
+                    placeholder="Differential diagnoses..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Diagnosis
+                </label>
+
+                <textarea
+                    id="diagnosis"
+                    placeholder="Final diagnosis..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Management Plan
+                </label>
+
+                <textarea
+                    id="managementPlan"
+                    placeholder="Management plan..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Treatment
+                </label>
+
+                <textarea
+                    id="treatment"
+                    placeholder="Treatment provided or prescribed..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Clinical Notes
+                </label>
+
+                <textarea
+                    id="clinicalNotes"
+                    placeholder="Additional clinical notes..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Follow-up Date
+                </label>
+
+                <input
+                    type="date"
+                    id="followUpDate"
+                >
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Consultation
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeConsultationFormModal()"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     VIEW CONSULTATION MODAL
+===================================================== -->
+
+<div
+    id="viewConsultationModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeViewConsultationModal()"
+        >
+            &times;
+        </span>
+
+        <h2>Consultation Record</h2>
+
+
+        <div class="info-grid">
+
+            <div class="info-card">
+
+                <strong>Doctor</strong>
+
+                <span id="viewConsultationDoctor"></span>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <strong>Consultation Date</strong>
+
+                <span id="viewConsultationDate"></span>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <div class="clinical-item">
+
+                <strong>Presenting Complaint</strong>
+
+                <div
+                    id="viewChiefComplaint"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>
+                    History of Presenting Complaint
+                </strong>
+
+                <div
+                    id="viewHistoryOfPresentingComplaint"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Past Medical History</strong>
+
+                <div
+                    id="viewPastMedicalHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Drug and Allergy History</strong>
+
+                <div
+                    id="viewDrugAllergyHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Family History</strong>
+
+                <div
+                    id="viewFamilyHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Social History</strong>
+
+                <div
+                    id="viewSocialHistory"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Systems Review</strong>
+
+                <div
+                    id="viewSystemsReview"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Summary</strong>
+
+                <div
+                    id="viewSummary"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Examination</strong>
+
+                <div
+                    id="viewExamination"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Investigations</strong>
+
+                <div
+                    id="viewInvestigations"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Differential Diagnosis</strong>
+
+                <div
+                    id="viewDifferentialDiagnosis"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Diagnosis</strong>
+
+                <div
+                    id="viewDiagnosis"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Management Plan</strong>
+
+                <div
+                    id="viewManagementPlan"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Treatment</strong>
+
+                <div
+                    id="viewTreatment"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Clinical Notes</strong>
+
+                <div
+                    id="viewClinicalNotes"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+
+            <div class="clinical-item">
+
+                <strong>Follow-up Date</strong>
+
+                <div
+                    id="viewFollowUpDate"
+                    class="clinical-value"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
+const API_URL = "http://localhost:3000";
+
+
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
+
+let patients = [];
+
+let currentPatientId = null;

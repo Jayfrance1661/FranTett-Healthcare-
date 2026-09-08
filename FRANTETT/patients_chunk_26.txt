@@ -1,0 +1,500 @@
+        0,
+        0,
+        labSignatureCanvas.width,
+        labSignatureCanvas.height
+    );
+
+
+    // Restore blue ink
+    labSignatureContext.strokeStyle =
+        "#2563EB";
+
+
+    const status =
+        document.getElementById(
+            "labRequestSignatureStatus"
+        );
+
+    if (status) {
+
+        status.textContent =
+            "Signature not provided";
+
+    }
+}
+
+/* =====================================================
+   LABORATORY REPORT PANEL FUNCTIONS
+===================================================== */
+  
+// =====================================================
+// LABORATORY REQUEST
+// =====================================================
+
+
+/* =====================================================
+   OPEN LABORATORY REQUEST MODAL
+===================================================== */
+
+function openAddLabRequestModal(
+    consultationId = null
+) {
+
+
+    // -------------------------------------------------
+    // Patient must be selected
+    // -------------------------------------------------
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+    }
+
+
+    // -------------------------------------------------
+    // 1. Use supplied consultation ID if available
+    // -------------------------------------------------
+
+    if (
+        consultationId !== null &&
+        consultationId !== undefined &&
+        consultationId !== ""
+    ) {
+
+        currentConsultationId =
+            Number(consultationId);
+
+    }
+
+
+    // -------------------------------------------------
+    // 2. Recover consultation ID from hidden field
+    // -------------------------------------------------
+
+    if (
+        !currentConsultationId ||
+        Number.isNaN(
+            Number(currentConsultationId)
+        )
+    ) {
+
+        const consultationField =
+            document.getElementById(
+                "consultationId"
+            );
+
+
+        if (
+            consultationField &&
+            consultationField.value
+        ) {
+
+            currentConsultationId =
+                Number(
+                    consultationField.value
+                );
+
+        }
+
+    }
+
+
+    // -------------------------------------------------
+    // 3. Final consultation check
+    // -------------------------------------------------
+
+    if (
+        !currentConsultationId ||
+        Number.isNaN(
+            Number(currentConsultationId)
+        )
+    ) {
+
+        alert(
+            "Please open a consultation before creating a laboratory request."
+        );
+
+        return;
+    }
+
+
+    // -------------------------------------------------
+    // Normalize consultation ID
+    // -------------------------------------------------
+
+    currentConsultationId =
+        Number(currentConsultationId);
+
+
+    console.log(
+        "Lab request consultation ID:",
+        currentConsultationId
+    );
+
+
+    // -------------------------------------------------
+    // Find modal
+    // -------------------------------------------------
+
+    const modal =
+        document.getElementById(
+            "labRequestModal"
+        );
+
+
+    if (!modal) {
+
+        console.error(
+            "Laboratory Request modal not found."
+        );
+
+        return;
+    }
+
+
+    // -------------------------------------------------
+    // Clear previous test selections
+    // -------------------------------------------------
+
+    document
+        .querySelectorAll(
+            ".lab-request-test"
+        )
+        .forEach(
+            function (checkbox) {
+
+                checkbox.checked =
+                    false;
+
+            }
+        );
+
+
+    // -------------------------------------------------
+    // Clear form fields
+    // -------------------------------------------------
+
+    const otherTest =
+        document.getElementById(
+            "labRequestOtherTest"
+        );
+
+
+    const clinicalInformation =
+        document.getElementById(
+            "labRequestClinicalInformation"
+        );
+
+
+    const requestedBy =
+        document.getElementById(
+            "labRequestRequestedBy"
+        );
+
+
+    if (otherTest) {
+
+        otherTest.value = "";
+
+    }
+
+
+    if (clinicalInformation) {
+
+        clinicalInformation.value = "";
+
+    }
+
+
+    if (requestedBy) {
+
+        requestedBy.value = "";
+
+    }
+
+
+    // -------------------------------------------------
+    // Initialize electronic signature
+    // -------------------------------------------------
+
+    if (
+        typeof initializeLabRequestSignature ===
+        "function"
+    ) {
+
+        initializeLabRequestSignature();
+
+    }
+
+
+    // -------------------------------------------------
+    // Clear electronic signature
+    // -------------------------------------------------
+
+    if (
+        typeof clearLabRequestSignature ===
+        "function"
+    ) {
+
+        clearLabRequestSignature();
+
+    }
+
+
+    // -------------------------------------------------
+    // Patient ID
+    // -------------------------------------------------
+
+    const patientIdField =
+        document.getElementById(
+            "labRequestPatientId"
+        );
+
+
+    if (patientIdField) {
+
+        patientIdField.textContent =
+            currentPatientId;
+
+    }
+
+
+    // -------------------------------------------------
+    // Patient name
+    // -------------------------------------------------
+
+    const patientName =
+        document.getElementById(
+            "viewName"
+        );
+
+
+    const patientNameField =
+        document.getElementById(
+            "labRequestPatientName"
+        );
+
+
+    if (patientNameField) {
+
+        patientNameField.textContent =
+            patientName
+                ? patientName.textContent.trim()
+                : "?";
+
+    }
+
+
+    // -------------------------------------------------
+    // Date of birth
+    // -------------------------------------------------
+
+    const dob =
+        document.getElementById(
+            "viewDateOfBirth"
+        );
+
+
+    const dobField =
+        document.getElementById(
+            "labRequestPatientDob"
+        );
+
+
+    if (dobField) {
+
+        dobField.textContent =
+            dob
+                ? dob.textContent.trim()
+                : "?";
+
+    }
+
+
+    // -------------------------------------------------
+    // Gender
+    // -------------------------------------------------
+
+    const gender =
+        document.getElementById(
+            "viewGender"
+        );
+
+
+    const genderField =
+        document.getElementById(
+            "labRequestPatientGender"
+        );
+
+
+    if (genderField) {
+
+        genderField.textContent =
+            gender
+                ? gender.textContent.trim()
+                : "?";
+
+    }
+
+
+    // -------------------------------------------------
+    // Current date
+    // -------------------------------------------------
+
+    const today =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    const dateDisplay =
+        document.getElementById(
+            "labRequestDateDisplay"
+        );
+
+
+    const signatureDate =
+        document.getElementById(
+            "labRequestSignatureDate"
+        );
+
+
+    if (dateDisplay) {
+
+        dateDisplay.textContent =
+            today;
+
+    }
+
+
+    if (signatureDate) {
+
+        signatureDate.textContent =
+            today;
+
+    }
+
+
+    // -------------------------------------------------
+    // Store consultation ID in hidden field
+    // -------------------------------------------------
+
+    const labConsultationField =
+        document.getElementById(
+            "labRequestConsultationId"
+        );
+
+
+    if (labConsultationField) {
+
+        labConsultationField.value =
+            currentConsultationId;
+
+    }
+
+
+    // -------------------------------------------------
+    // Also synchronize main consultation field
+    // -------------------------------------------------
+
+    const consultationField =
+        document.getElementById(
+            "consultationId"
+        );
+
+
+    if (consultationField) {
+
+        consultationField.value =
+            currentConsultationId;
+
+    }
+
+
+    // -------------------------------------------------
+    // Open modal
+    // -------------------------------------------------
+
+    modal.style.display =
+        "block";
+
+
+    console.log(
+        "Laboratory Request opened successfully. Consultation ID:",
+        currentConsultationId
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE LABORATORY REQUEST MODAL
+===================================================== */
+
+function closeLabRequestModal() {
+
+    const modal =
+        document.getElementById(
+            "labRequestModal"
+        );
+
+
+    if (modal) {
+
+        modal.style.display =
+            "none";
+
+    }
+
+}
+
+
+// =====================================================
+// SAVE LABORATORY REQUEST
+// Includes electronic signature
+// =====================================================
+
+async function saveLabRequest() {
+
+    // -------------------------------------------------
+    // Make sure a patient is open
+    // -------------------------------------------------
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+    }
+
+
+    // -------------------------------------------------
+    // Collect selected laboratory investigations
+    // -------------------------------------------------
+
+    const selectedTests = [];
+
+    document
+        .querySelectorAll(
+            ".lab-request-test:checked"
+        )
+        .forEach(
+            function (checkbox) {
+
+                selectedTests.push(
+                    checkbox.value
+                );
+
+            }
+        );
+
+
+    // -------------------------------------------------
+    // Add "Other Investigation"
+    // -------------------------------------------------

@@ -1,0 +1,500 @@
+                            ${
+                                consultation.doctor
+                                    ? ` &bull; ${escapeHtml(
+                                        consultation.doctor
+                                    )}`
+                                    : ""
+                            }
+
+                            ${
+                                consultation.created_at
+                                    ? ` &bull; Entered ${escapeHtml(
+                                        formatDateTime(
+                                            consultation.created_at
+                                        )
+                                    )}`
+                                    : ""
+                            }
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="clinical-grid">
+
+                    <div class="clinical-item">
+                        <strong>Presenting Complaint</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.chief_complaint ||
+                                consultation.presenting_complaint ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>History of Presenting Complaint</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.history_of_presenting_complaint ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Past Medical History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.past_medical_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Drug and Allergy History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.drug_allergy_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Family History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.family_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Social History</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.social_history ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Systems Review</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.systems_review ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Summary</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.summary ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Examination</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.examination ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Investigations</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.investigations ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Differential Diagnosis</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.differential_diagnosis ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Diagnosis</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.diagnosis ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Management Plan</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.management_plan ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Treatment</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.treatment ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Clinical Notes</strong>
+                        <div class="clinical-value">
+                            ${escapeHtml(
+                                consultation.clinical_notes ||
+                                "Not recorded"
+                            )}
+                        </div>
+                    </div>
+
+                    <div class="clinical-item">
+                        <strong>Follow-up Date</strong>
+                        <div class="clinical-value">
+                            ${
+                                consultation.follow_up_date
+                                    ? escapeHtml(
+                                        formatDate(
+                                            consultation.follow_up_date
+                                        )
+                                    )
+                                    : "No follow-up scheduled"
+                            }
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="record-actions">
+
+                    <button
+                        type="button"
+                        class="edit-btn"
+                        onclick="editConsultation(${Number(consultation.id)})"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="deleteConsultation(${Number(consultation.id)})"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        `
+    ).join("");
+}
+
+// ==========================================
+// PRESCRIPTION FUNCTIONS
+// ==========================================
+
+// ==========================================
+// OPEN ADD PRESCRIPTION
+// ==========================================
+
+function openAddPrescriptionModal() {
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+    }
+
+    const form =
+        document.getElementById(
+            "prescriptionForm"
+        );
+
+    if (form) {
+        form.reset();
+    }
+
+    const medicationContainer =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    if (medicationContainer) {
+
+        medicationContainer.innerHTML = `
+            <tr class="medication-item">
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-name"
+                        placeholder="Medication"
+                        required
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-dose"
+                        placeholder="500 mg"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-route"
+                        placeholder="Oral"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-frequency"
+                        placeholder="BID"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-duration"
+                        placeholder="7 days"
+                    >
+                </td>
+
+                <td>
+                    <input
+                        type="text"
+                        class="medication-quantity"
+                        placeholder="14"
+                    >
+                </td>
+
+                <td>
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="removeMedicationItem(this)"
+                        style="display: none;"
+                    >
+                        Remove
+                    </button>
+                </td>
+
+            </tr>
+        `;
+    }
+
+    document.getElementById(
+        "prescriptionFormTitle"
+    ).textContent =
+        "Add Prescription";
+
+    document.getElementById(
+        "prescriptionId"
+    ).value =
+        "";
+
+    document.getElementById(
+        "prescriptionDate"
+    ).value =
+        getTodayDate();
+
+    document.getElementById(
+        "prescriptionFormModal"
+    ).style.display =
+        "flex";
+}
+
+
+// ==========================================
+// ADD MEDICATION ROW
+// ==========================================
+
+function addMedicationItem() {
+
+    const container =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    const row =
+        document.createElement("tr");
+
+    row.className =
+        "medication-item";
+
+    row.innerHTML = `
+        <td>
+            <input
+                type="text"
+                class="medication-name"
+                placeholder="Medication"
+                required
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-dose"
+                placeholder="500 mg"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-route"
+                placeholder="Oral"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-frequency"
+                placeholder="BID"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-duration"
+                placeholder="7 days"
+            >
+        </td>
+
+        <td>
+            <input
+                type="text"
+                class="medication-quantity"
+                placeholder="14"
+            >
+        </td>
+
+        <td>
+            <button
+                type="button"
+                class="danger-btn remove-medication-btn"
+                onclick="removeMedicationItem(this)"
+            >
+                Remove
+            </button>
+        </td>
+    `;
+
+    container.appendChild(row);
+
+    updateMedicationRemoveButtons();
+}
+
+
+// ==========================================
+// REMOVE MEDICATION ROW
+// ==========================================
+
+function removeMedicationItem(button) {
+
+    const row =
+        button.closest(
+            ".medication-item"
+        );
+
+    if (!row) {
+        return;
+    }
+
+    const container =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    const rows =
+        container.querySelectorAll(
+            ".medication-item"
+        );
+
+    if (rows.length <= 1) {
+
+        alert(
+            "At least one medication is required."
+        );
+
+        return;
+    }
+
+    row.remove();
+
+    updateMedicationRemoveButtons();
+}
+
+
+// ==========================================
+// UPDATE REMOVE BUTTONS
+// ==========================================
+
+function updateMedicationRemoveButtons() {
+
+    const container =
+        document.getElementById(
+            "medicationItems"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    const rows =
+        container.querySelectorAll(
+            ".medication-item"
+        );
+
+    rows.forEach(
+        row => {
+
+            const button =
+                row.querySelector(
+                    ".remove-medication-btn"
+                );
+

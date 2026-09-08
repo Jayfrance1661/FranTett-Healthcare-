@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - FranTett Healthcare</title>
+
+    <link rel="stylesheet" href="../style.css">
+<script>
+    window.FRANTETT_API =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        ":3000";
+</script></head>
+
+<body>
+
+    <nav>
+        <h2>FranTett Healthcare</h2>
+
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="doctors.html">Doctors</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="appointment.html">Appointments</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Book an Appointment</h1>
+
+        <form id="appointmentForm">
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                required
+            >
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                required
+            >
+
+            <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number"
+                required
+            >
+
+            <label for="doctorSelect">Select a Doctor</label>
+            <select name="doctor" id="doctorSelect" required><option value="">Loading doctors...</option></select><p id="doctorScheduleMessage" style="margin:8px 0;font-size:14px;color:#176b87;"></p>
+
+            <label for="appointment_date">Appointment Date</label>
+
+            <input
+                type="date"
+                id="appointment_date"
+                name="appointment_date"
+                required
+            >
+
+            <label for="appointment_time">Appointment Time</label>
+
+            <input
+                type="time"
+                id="appointment_time"
+                name="appointment_time"
+                required
+            >
+
+            <textarea
+                name="reason"
+                placeholder="Reason for appointment"
+                rows="5"
+            ></textarea>
+
+            <button type="submit">Book Appointment</button>
+
+        </form>
+
+        <p id="message"></p>
+
+    </main>
+
+    <script>
+        const form = document.getElementById("appointmentForm");
+        const message = document.getElementById("message");
+
+        const doctorSelect =
+            document.getElementById("doctorSelect");
+
+        const appointmentDate =
+            document.getElementById("appointment_date");
+
+        const appointmentTime =
+            document.getElementById("appointment_time");
+
+        const doctorScheduleMessage =
+            document.getElementById("doctorScheduleMessage");
+
+
+        let doctors = [];
+
+        let selectedDoctor = null;
+
+        let doctorAvailability = [];
+
+        let doctorLeaveDays = [];
+
+
+        async function loadDoctors() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        window.FRANTETT_API + "/api/doctors"
+                    );
+
+                if (!response.ok) {
+                    throw new Error("Failed to load doctors");
+                }
+
+                doctors =
+                    await response.json();
+
+                const activeDoctors =
+                    doctors.filter(
+                        doctor =>
+                            String(
+                                doctor.status || ""
+                            ).toLowerCase() === "active"
+                    );
+
+                doctorSelect.innerHTML =
+                    '<option value="">Choose a doctor...</option>';
+
+                activeDoctors.forEach(doctor => {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value =
+                        doctor.name;
+
+                    option.textContent =
+                        doctor.name +
+                        (
+                            doctor.specialty
+                                ? " — " + doctor.specialty
+                                : ""
+                        );
+
+                    option.dataset.doctorId =
+                        doctor.id;
+
+                    doctorSelect.appendChild(option);
+
+                });
+
+            } catch (error) {
+
+                console.error(
+                    "Load doctors error:",
+                    error
+                );
+
+                doctorSelect.innerHTML =
+                    '<option value="">Unable to load doctors</option>';
+
+            }
+
+        }
+
+
+        async function loadDoctorSchedule(doctorId) {
+
+            doctorAvailability = [];
+
+            doctorLeaveDays = [];
+
+            doctorScheduleMessage.textContent =
+                "Loading doctor's availability...";
+
+            try {
+
+                const availabilityResponse =
+                    await fetch(
+                        `${window.FRANTETT_API}/api/doctors/${doctorId}/availability`
+                    );
+
+                if (!availabilityResponse.ok) {
+                    throw new Error(
+                        "Failed to load availability"
+                    );
+                }
+
+                doctorAvailability =
+                    await availabilityResponse.json();
+
+
+                const leaveResponse =
+                    await fetch(
+                        `${window.FRANTETT_API}/api/doctors/${doctorId}/leave-days`
+                    );
+
+                if (!leaveResponse.ok) {
+                    throw new Error(
+                        "Failed to load leave days"
+                    );
+                }
+
+                doctorLeaveDays =
+                    await leaveResponse.json();
+
+
+                if (!doctorAvailability.length) {
+
+                    doctorScheduleMessage.textContent =
+                        "This doctor has no availability set.";
+
+                } else {
+
+                    doctorScheduleMessage.textContent =
+                        "Please select a date and time within the doctor's available hours.";
+
+                }
+
+                validateAppointmentDateTime();
+
+            } catch (error) {
+
+                console.error(
+                    "Load doctor schedule error:",
+                    error
+                );
+
+                doctorScheduleMessage.textContent =
+                    "Unable to load doctor's schedule.";
+
+            }
+
+        }
+
+
+        doctorSelect.addEventListener(
+            "change",
+            async () => {
+
+                const selectedOption =
+                    doctorSelect.options[
+                        doctorSelect.selectedIndex
+                    ];
+
+                const doctorId =
+                    selectedOption.dataset.doctorId;
+
+
+                selectedDoctor =
+                    doctors.find(
+                        doctor =>
+                            Number(doctor.id) ===
+                            Number(doctorId)
+                    );
+
+
+                appointmentDate.value = "";
+
+                appointmentTime.value = "";
+
+                appointmentTime.disabled = true;
+
+
+                if (!doctorId) {
+
+                    doctorScheduleMessage.textContent =
+                        "";
+
+                    return;
+
+                }
+
+
+                await loadDoctorSchedule(
+                    doctorId
+                );
+
+            }
+        );
+
+
+        function getDayName(dateString) {
+
+            const date =
+                new Date(
+                    dateString + "T00:00:00"
+                );
+
+            return date.toLocaleDateString(
+                "en-US",
+                {
+                    weekday: "long"
+                }
+            );
+
+        }
+
+
+        function validateAppointmentDateTime() {
+
+            const date =
+                appointmentDate.value;
+
+            const time =
+                appointmentTime.value;
+
+
+            if (!selectedDoctor || !date) {
+
+                appointmentTime.disabled =
+                    true;
+
+                return false;
+
+            }
+
+
+            const dayName =
+                getDayName(date);
+
+
+            const availability =
+                doctorAvailability.find(
+                    item =>
+                        String(
+                            item.day_of_week
+                        ).toLowerCase() ===
+                        dayName.toLowerCase()
+                );
+
+
+            const onLeave =
+                doctorLeaveDays.some(
+                    item =>
+                        String(
+                            item.leave_date
+                        ).substring(0, 10) ===
+                        date
+                );
+
+
+            if (onLeave) {
+
+                doctorScheduleMessage.textContent =
+                    "This doctor is on leave on the selected date.";
+
+                appointmentTime.disabled =
+                    true;
+
+                appointmentTime.value =
+                    "";
+
+                return false;
+
+            }
+
+
+            if (!availability) {
+
+                doctorScheduleMessage.textContent =
+                    `This doctor is not available on ${dayName}. Please choose another date.`;
+
+                appointmentTime.disabled =
+                    true;
+
+                appointmentTime.value =
+                    "";
+
+                return false;
+
+            }
+
+
+            appointmentTime.disabled =
+                false;
+
+
+            const start =
+                String(
+                    availability.start_time
+                ).substring(0, 5);
+
+            const end =
+                String(
+                    availability.end_time
+                ).substring(0, 5);
+
+
+            appointmentTime.min =
+                start;
+
+            appointmentTime.max =
+                end;
+
+
+            doctorScheduleMessage.textContent =
+                `${dayName}: Available from ${start} to ${end}.`;
+
+
+            if (time) {
+
+                if (
+                    time < start ||
+                    time > end
+                ) {
+
+                    doctorScheduleMessage.textContent =
+                        `Please select a time between ${start} and ${end}.`;
+
+                    return false;
+
+                }
+
+            }
+
+
+            return true;
+
+        }
+
+
+        appointmentDate.addEventListener(
+            "change",
+            () => {
+
+                validateAppointmentDateTime();
+
+            }
+        );
+
+
+        appointmentTime.addEventListener(
+            "change",
+            () => {
+
+                validateAppointmentDateTime();
+
+            }
+        );
+
+
+        appointmentDate.min =
+            new Date()
+                .toISOString()
+                .split("T")[0];
+
+
+        loadDoctors();
+
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const appointment = {
+                name: formData.get("name"),
+                email: formData.get("email"),
+                phone: formData.get("phone"),
+                doctor: formData.get("doctor"),
+                appointment_date: formData.get("appointment_date"),
+                appointment_time: formData.get("appointment_time"),
+                reason: formData.get("reason")
+            };
+
+            try {
+                const response = await fetch(
+                    window.FRANTETT_API + "/api/appointments",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(appointment)
+                    }
+                );
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    message.textContent = "Appointment booked successfully!";
+                    form.reset();
+                } else {
+                    message.textContent =
+                        data.message || "Failed to book appointment.";
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                message.textContent =
+                    "Unable to connect to the server.";
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+
+

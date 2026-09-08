@@ -1,0 +1,500 @@
+
+    const otherTest =
+        document.getElementById(
+            "labRequestOtherTest"
+        );
+
+    if (
+        otherTest &&
+        otherTest.value.trim()
+    ) {
+
+        selectedTests.push(
+            otherTest.value.trim()
+        );
+
+    }
+
+
+    // -------------------------------------------------
+    // Require at least one investigation
+    // -------------------------------------------------
+
+    if (
+        selectedTests.length === 0
+    ) {
+
+        alert(
+            "Please select at least one laboratory investigation."
+        );
+
+        return;
+    }
+
+
+    // -------------------------------------------------
+    // Get clinical information
+    // -------------------------------------------------
+
+    const clinicalInformation =
+        document.getElementById(
+            "labRequestClinicalInformation"
+        );
+
+
+    // -------------------------------------------------
+    // Get requesting clinician
+    // -------------------------------------------------
+
+    const requestedBy =
+        document.getElementById(
+            "labRequestRequestedBy"
+        );
+
+
+    // -------------------------------------------------
+    // Request date
+    // -------------------------------------------------
+
+    const requestDate =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    // -------------------------------------------------
+    // Get electronic signature
+    // -------------------------------------------------
+
+    const signatureCanvas =
+        document.getElementById(
+            "labRequestSignaturePad"
+        );
+
+    let electronicSignature = "";
+
+
+    if (signatureCanvas) {
+
+        electronicSignature =
+            signatureCanvas.toDataURL(
+                "image/png"
+            );
+
+    }
+
+
+    // -------------------------------------------------
+    // Make sure we actually captured the signature
+    // -------------------------------------------------
+
+    if (
+        !electronicSignature ||
+        electronicSignature.length < 100
+    ) {
+
+        alert(
+            "Please provide an electronic signature before saving the laboratory request."
+        );
+
+        return;
+    }
+
+
+    // -------------------------------------------------
+    // Prepare laboratory request
+    // -------------------------------------------------
+
+    const consultationId =
+    currentConsultationId || null;
+
+const labRequestData = {
+
+    consultation_id:
+    currentConsultationId || null,
+
+    requested_tests:
+        selectedTests.join(", "),
+
+        clinical_information:
+            clinicalInformation
+                ? clinicalInformation.value.trim()
+                : "",
+
+        requested_by:
+            requestedBy
+                ? requestedBy.value.trim()
+                : "",
+
+        request_date:
+            requestDate,
+
+        electronic_signature:
+            electronicSignature
+
+    };
+
+
+    // -------------------------------------------------
+    // Send request to server
+    // -------------------------------------------------
+
+    try {
+
+    const token = getToken();
+
+    if (!token) {
+        throw new Error(
+            "Authentication required. Please log in again."
+        );
+    }
+
+    const response =
+        await fetch(
+            `${API_URL}/api/patients/${currentPatientId}/lab-requests`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json",
+
+                    "Authorization":
+                        `Bearer ${token}`
+                },
+
+                body:
+                    JSON.stringify(
+                        labRequestData
+                    )
+            }
+        );
+
+        // -------------------------------------------------
+        // Read server response
+        // -------------------------------------------------
+
+        const data =
+            await response.json();
+
+
+        // -------------------------------------------------
+        // Handle server error
+        // -------------------------------------------------
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Failed to save laboratory request."
+            );
+
+        }
+
+
+        // -------------------------------------------------
+        // Success
+        // -------------------------------------------------
+
+        alert(
+            "Laboratory request saved successfully."
+        );
+
+
+        // -------------------------------------------------
+        // Close laboratory request modal
+        // -------------------------------------------------
+
+        closeLabRequestModal();
+
+        await loadLaboratoryRequests(currentPatientId);
+
+    } catch (error) {
+
+        console.error(
+            "Save laboratory request error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to save laboratory request."
+        );
+
+    }
+
+}
+
+// =====================================================
+// PRINT LABORATORY REQUEST - SINGLE A4 PAGE
+// =====================================================
+
+function printLabRequest() {
+
+    const printable =
+        document.getElementById("labRequestPrintable");
+
+    if (!printable) {
+        alert("Laboratory request form not found.");
+        return;
+    }
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=900,height=1100"
+        );
+
+    if (!printWindow) {
+        alert(
+            "Please allow pop-ups for printing."
+        );
+        return;
+    }
+
+    const printClone =
+    printable.cloneNode(true);
+
+const originalCheckboxes =
+    printable.querySelectorAll(
+        ".lab-request-test"
+    );
+
+const clonedCheckboxes =
+    printClone.querySelectorAll(
+        ".lab-request-test"
+    );
+
+originalCheckboxes.forEach(
+    function (originalCheckbox, index) {
+
+        const clonedCheckbox =
+            clonedCheckboxes[index];
+
+        if (!clonedCheckbox) {
+            return;
+        }
+
+        const label =
+            clonedCheckbox.closest("label");
+
+        if (!label) {
+            return;
+        }
+
+        const testName =
+            label.textContent.trim();
+
+        /*
+         * Remove the real checkbox because
+         * browsers may not print its checked state.
+         */
+        clonedCheckbox.remove();
+
+        /*
+         * Create a visible printed checkbox.
+         */
+        const printedCheckbox =
+            document.createElement("span");
+
+        printedCheckbox.textContent =
+            originalCheckbox.checked
+                ? "? "
+                : "? ";
+
+        printedCheckbox.style.fontSize =
+            "14px";
+
+        printedCheckbox.style.fontWeight =
+            "bold";
+
+        /*
+         * Replace the label content with
+         * the visible checkbox + test name.
+         */
+        label.textContent = "";
+
+        label.appendChild(
+            printedCheckbox
+        );
+
+        label.appendChild(
+            document.createTextNode(testName)
+        );
+    }
+);
+
+// =====================================================
+// CONVERT ELECTRONIC SIGNATURE CANVAS TO IMAGE
+// =====================================================
+
+const originalSignatureCanvas =
+    printable.querySelector(
+        "#labRequestSignaturePad"
+    );
+
+const clonedSignatureCanvas =
+    printClone.querySelector(
+        "#labRequestSignaturePad"
+    );
+
+if (
+    originalSignatureCanvas &&
+    clonedSignatureCanvas
+) {
+
+    const signatureImage =
+        originalSignatureCanvas.toDataURL(
+            "image/png"
+        );
+
+    const signatureImg =
+        document.createElement("img");
+
+    signatureImg.src =
+        signatureImage;
+
+    signatureImg.alt =
+        "Electronic Signature";
+
+    signatureImg.style.width =
+        "500px";
+
+    signatureImg.style.height =
+        "160px";
+
+    signatureImg.style.objectFit =
+        "contain";
+
+    signatureImg.style.display =
+        "block";
+
+    signatureImg.style.background =
+        "#ffffff";
+
+    clonedSignatureCanvas.replaceWith(
+        signatureImg
+    );
+}
+
+
+// Remove the Clear Signature button
+const clonedSignatureActions =
+    printClone.querySelector(
+        ".signature-actions"
+    );
+
+if (clonedSignatureActions) {
+    clonedSignatureActions.remove();
+}
+
+
+// Remove signature status text
+const clonedSignatureStatus =
+    printClone.querySelector(
+        "#labRequestSignatureStatus"
+    );
+
+if (clonedSignatureStatus) {
+    clonedSignatureStatus.remove();
+}
+
+const printContent =
+    printClone.innerHTML;
+
+    const printHtml =
+        "<!DOCTYPE html>" +
+        "<html>" +
+        "<head>" +
+
+        "<meta charset='UTF-8'>" +
+
+        "<title>" +
+        "Laboratory Request - FranTett Healthcare" +
+        "</title>" +
+
+        "<style>" +
+
+        "@page {" +
+            "size: A4;" +
+            "margin: 14mm;" +
+        "}" +
+
+        "* {" +
+            "box-sizing: border-box;" +
+        "}" +
+
+        "html, body {" +
+            "margin: 0;" +
+            "padding: 0;" +
+            "background: #fff;" +
+            "color: #222;" +
+            "font-family: Arial, Helvetica, sans-serif;" +
+            "font-size: 12px;" +
+        "}" +
+
+        "body {" +
+            "width: 100%;" +
+        "}" +
+
+        ".lab-request-header {" +
+            "text-align: center;" +
+            "border-bottom: 2px solid #222;" +
+            "padding-bottom: 12px;" +
+            "margin-bottom: 18px;" +
+        "}" +
+
+        ".lab-request-header h1 {" +
+            "margin: 0;" +
+            "font-size: 24px;" +
+        "}" +
+
+        ".lab-request-header p {" +
+            "margin: 5px 0 10px;" +
+            "font-size: 12px;" +
+        "}" +
+
+        ".lab-request-header h2 {" +
+            "margin: 0;" +
+            "font-size: 18px;" +
+        "}" +
+
+        ".lab-request-patient-section," +
+        ".lab-request-section {" +
+            "margin-bottom: 18px;" +
+        "}" +
+
+        ".lab-request-patient-section h3," +
+        ".lab-request-section h3 {" +
+            "margin: 0 0 8px;" +
+            "font-size: 14px;" +
+            "border-bottom: 1px solid #aaa;" +
+            "padding-bottom: 4px;" +
+        "}" +
+
+        ".lab-request-patient-grid {" +
+            "display: grid;" +
+            "grid-template-columns: 1fr 1fr;" +
+            "gap: 8px 20px;" +
+        "}" +
+
+        ".lab-request-tests {" +
+            "display: grid;" +
+            "grid-template-columns: 1fr 1fr;" +
+            "gap: 7px 15px;" +
+        "}" +
+
+        ".lab-request-tests label {" +
+            "display: block;" +
+        "}" +
+
+        ".lab-request-tests input {" +
+            "margin-right: 6px;" +
+        "}" +
+
+        ".form-group {" +
+            "margin-top: 10px;" +
+        "}" +
+
+        ".form-group label {" +

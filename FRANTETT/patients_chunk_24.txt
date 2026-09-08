@@ -1,0 +1,500 @@
+                    <span>
+                        ${escapeHtml(lab.status || "Final")}
+                    </span>
+
+                </div>
+
+                <div class="clinical-record-body">
+
+                    <p>
+                        <strong>Result:</strong>
+                        ${escapeHtml(lab.result_value || "?")}
+                    </p>
+
+                    <p>
+                        <strong>Unit:</strong>
+                        ${escapeHtml(lab.unit || "?")}
+                    </p>
+
+                    <p>
+                        <strong>Reference Range:</strong>
+                        ${escapeHtml(lab.reference_range || "?")}
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        ${escapeHtml(lab.result_date || "?")}
+                    </p>
+
+                    <p>
+                        <strong>Notes:</strong>
+                        ${escapeHtml(lab.notes || "?")}
+                    </p>
+
+                    <div style="margin-top:10px;">
+
+                        <button
+                            type="button"
+                            class="primary-btn"
+                            onclick="openEditLabResultModal(${lab.id})"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            type="button"
+                            class="danger-btn"
+                            onclick="deleteLaboratoryResult(${lab.id})"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+    } catch (error) {
+
+        console.error(
+            "Load laboratory results error:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="error-message">
+                Unable to load laboratory results.
+            </div>
+        `;
+    }
+}
+
+
+/* =====================================================
+   OPEN ADD LAB RESULT MODAL
+===================================================== */
+
+function openAddLabResultModal() {
+
+    if (!currentPatientId) {
+
+        alert(
+            "Please open a patient profile first."
+        );
+
+        return;
+    }
+
+    const modal =
+        document.getElementById("labResultModal");
+
+    const form =
+        document.getElementById("labResultForm");
+
+    if (!modal || !form) {
+
+        console.error(
+            "Laboratory result modal or form not found."
+        );
+
+        return;
+    }
+
+    form.reset();
+
+    const idField =
+        document.getElementById("labResultId");
+
+    if (idField) {
+        idField.value = "";
+    }
+
+    const title =
+        document.getElementById("labResultFormTitle");
+
+    if (title) {
+        title.textContent = "Add Laboratory Result";
+    }
+
+    const dateField =
+        document.getElementById("labResultDate");
+
+    if (dateField) {
+
+        const today =
+            new Date().toISOString().split("T")[0];
+
+        dateField.value = today;
+    }
+
+    modal.style.display = "flex";
+}
+
+
+/* =====================================================
+   CLOSE LAB RESULT MODAL
+===================================================== */
+
+function closeLabResultModal() {
+
+    const modal =
+        document.getElementById("labResultModal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+/* =====================================================
+   EDIT LAB RESULT
+===================================================== */
+
+async function openEditLabResultModal(id) {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/patients/${currentPatientId}/labs`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to load laboratory result (${response.status})`
+            );
+        }
+
+        const results = await response.json();
+
+        const lab =
+            results.find(item => Number(item.id) === Number(id));
+
+        if (!lab) {
+
+            alert(
+                "Laboratory result not found."
+            );
+
+            return;
+        }
+
+        const modal =
+            document.getElementById("labResultModal");
+
+        const title =
+            document.getElementById("labResultFormTitle");
+
+        if (title) {
+            title.textContent = "Edit Laboratory Result";
+        }
+
+        document.getElementById("labResultId").value =
+            lab.id || "";
+
+        document.getElementById("labTestName").value =
+            lab.test_name || "";
+
+        document.getElementById("labResultValue").value =
+            lab.result_value || "";
+
+        document.getElementById("labResultUnit").value =
+            lab.unit || "";
+
+        document.getElementById("labReferenceRange").value =
+            lab.reference_range || "";
+
+        document.getElementById("labResultDate").value =
+            lab.result_date
+                ? String(lab.result_date).substring(0, 10)
+                : "";
+
+        document.getElementById("labResultStatus").value =
+            lab.status || "Final";
+
+        document.getElementById("labResultNotes").value =
+            lab.notes || "";
+
+        modal.style.display = "flex";
+
+    } catch (error) {
+
+        console.error(
+            "Open laboratory result error:",
+            error
+        );
+
+        alert(
+            "Unable to load laboratory result."
+        );
+    }
+}
+
+
+/* =====================================================
+   SAVE LABORATORY RESULT
+===================================================== */
+
+const labResultForm =
+    document.getElementById("labResultForm");
+
+if (labResultForm) {
+
+    labResultForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            if (!currentPatientId) {
+
+                alert(
+                    "Please open a patient profile first."
+                );
+
+                return;
+            }
+
+            const id =
+                document.getElementById("labResultId")?.value || "";
+
+            const payload = {
+
+                test_name:
+                    document.getElementById("labTestName")?.value.trim() || "",
+
+                result_value:
+                    document.getElementById("labResultValue")?.value.trim() || "",
+
+                unit:
+                    document.getElementById("labResultUnit")?.value.trim() || "",
+
+                reference_range:
+                    document.getElementById("labReferenceRange")?.value.trim() || "",
+
+                result_date:
+                    document.getElementById("labResultDate")?.value || null,
+
+                status:
+                    document.getElementById("labResultStatus")?.value || "Final",
+
+                notes:
+                    document.getElementById("labResultNotes")?.value.trim() || ""
+
+            };
+
+            if (!payload.test_name) {
+
+                alert(
+                    "Please enter the laboratory test name."
+                );
+
+                return;
+            }
+
+            const saveButton =
+                labResultForm.querySelector(
+                    'button[type="submit"]'
+                );
+
+            if (saveButton) {
+                saveButton.disabled = true;
+                saveButton.textContent = "Saving...";
+            }
+
+            try {
+
+                const url = id
+                    ? `${API_URL}/api/labs/${id}`
+                    : `${API_URL}/api/patients/${currentPatientId}/labs`;
+
+                const response = await fetch(
+                    url,
+                    {
+                        method: id ? "PUT" : "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(payload)
+                    }
+                );
+
+                const responseText =
+                    await response.text();
+
+                let data = {};
+
+                if (responseText) {
+
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (parseError) {
+
+                        console.error(
+                            "Server returned non-JSON response:",
+                            responseText
+                        );
+
+                        throw new Error(
+                            `Server returned an invalid response (${response.status}).`
+                        );
+                    }
+                }
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        `Failed to save laboratory result (${response.status}).`
+                    );
+                }
+
+                closeLabResultModal();
+
+                await loadLaboratoryResults(
+                    currentPatientId
+                );
+
+                alert(
+                    id
+                        ? "Laboratory result updated successfully."
+                        : "Laboratory result saved successfully."
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Save laboratory result error:",
+                    error
+                );
+
+                alert(
+                    error.message ||
+                    "Unable to save laboratory result."
+                );
+
+            } finally {
+
+                if (saveButton) {
+                    saveButton.disabled = false;
+                    saveButton.textContent =
+                        "Save Laboratory Result";
+                }
+            }
+
+        }
+    );
+}
+
+
+/* =====================================================
+   DELETE LABORATORY RESULT
+===================================================== */
+
+async function deleteLaboratoryResult(id) {
+
+    if (
+        !confirm(
+            "Are you sure you want to delete this laboratory result?"
+        )
+    ) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/labs/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        const responseText =
+            await response.text();
+
+        let data = {};
+
+        if (responseText) {
+
+            try {
+                data = JSON.parse(responseText);
+            } catch (error) {
+                console.error(
+                    "Invalid delete response:",
+                    responseText
+                );
+            }
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                `Failed to delete laboratory result (${response.status}).`
+            );
+        }
+
+        await loadLaboratoryResults(
+            currentPatientId
+        );
+
+        alert(
+            "Laboratory result deleted successfully."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Delete laboratory result error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to delete laboratory result."
+        );
+    }
+}
+
+
+/* =====================================================
+   CLOSE LAB RESULT MODAL ON BACKDROP
+===================================================== */
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        const modal =
+            document.getElementById("labResultModal");
+
+        if (
+            modal &&
+            event.target === modal
+        ) {
+            closeLabResultModal();
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   LABORATORY REPORT PANELS
+===================================================== */
+
+async function loadLaboratoryReports(patientId) {
+
+    const container =
+        document.getElementById("labResultsHistory");
+
+    if (!container || !patientId) {
+        return;
+    }
+

@@ -1,0 +1,500 @@
+        );
+
+
+        setText(
+            "viewDiagnosis",
+            consultation.diagnosis ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewManagementPlan",
+            consultation.management_plan ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewTreatment",
+            consultation.treatment ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewClinicalNotes",
+            consultation.clinical_notes ||
+            "Not recorded"
+        );
+
+
+        setText(
+            "viewFollowUpDate",
+            consultation.follow_up_date
+                ? formatDate(
+                    consultation.follow_up_date
+                )
+                : "No follow-up scheduled"
+        );
+
+
+        // -----------------------------------------
+        // Open consultation modal
+        // -----------------------------------------
+
+        const modal =
+            document.getElementById(
+                "viewConsultationModal"
+            );
+
+
+        if (modal) {
+
+            modal.style.display =
+                "flex";
+
+        }
+
+
+        // -----------------------------------------
+        // Final verification
+        // -----------------------------------------
+
+        console.log(
+            "CONSULTATION OPENED SUCCESSFULLY. ID:",
+            currentConsultationId
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "View consultation error:",
+            error
+        );
+
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+/* =====================================================
+   SAFE TEXT SETTER
+===================================================== */
+
+function setText(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+}
+
+/* =====================================================
+   SAFE TEXT SETTER
+===================================================== */
+
+function setText(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+/* =====================================================
+   EDIT CONSULTATION
+===================================================== */
+
+async function editConsultation(
+    id
+) {
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/consultations/${id}`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const consultation =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            alert(
+                consultation.message ||
+                "Unable to load consultation."
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "consultationFormTitle"
+        ).textContent =
+            "Edit Consultation";
+
+
+       document.getElementById(
+    "consultationId"
+).value =
+    consultation.id;
+
+
+setActiveConsultationId(
+    consultationId
+);
+
+
+// ---------------------------------------------
+// Load patient's appointments
+// ---------------------------------------------
+
+await loadConsultationAppointments(
+    consultation.patient_id
+);
+
+
+// ---------------------------------------------
+// Select the appointment linked to this
+// consultation
+// ---------------------------------------------
+
+const appointmentSelect =
+    document.getElementById(
+        "consultationAppointment"
+    );
+
+
+if (appointmentSelect) {
+
+    appointmentSelect.value =
+        consultation.appointment_id
+            ? String(
+                consultation.appointment_id
+            )
+            : "";
+
+}
+
+
+setInput(
+    "consultationDoctor",
+    consultation.doctor
+);
+
+
+        setInputDate(
+            "consultationDate",
+            consultation.consultation_date
+        );
+
+
+        setInput(
+            "chiefComplaint",
+            consultation.chief_complaint
+        );
+
+
+        setInput(
+            "historyOfPresentingComplaint",
+            consultation.history_of_presenting_complaint
+        );
+
+
+        setInput(
+            "pastMedicalHistory",
+            consultation.past_medical_history
+        );
+
+
+        setInput(
+            "drugAllergyHistory",
+            consultation.drug_allergy_history
+        );
+
+
+        setInput(
+            "familyHistory",
+            consultation.family_history
+        );
+
+
+        setInput(
+            "socialHistory",
+            consultation.social_history
+        );
+
+
+        setInput(
+            "systemsReview",
+            consultation.systems_review
+        );
+
+
+        setInput(
+            "consultationSummary",
+            consultation.summary
+        );
+
+
+        setInput(
+            "examination",
+            consultation.examination
+        );
+
+
+        setInput(
+            "investigations",
+            consultation.investigations
+        );
+
+
+        setInput(
+            "differentialDiagnosis",
+            consultation.differential_diagnosis
+        );
+
+
+        setInput(
+            "diagnosis",
+            consultation.diagnosis
+        );
+
+
+        setInput(
+            "managementPlan",
+            consultation.management_plan
+        );
+
+
+        setInput(
+            "treatment",
+            consultation.treatment
+        );
+
+
+
+        setInput(
+            "clinicalNotes",
+            consultation.clinical_notes
+        );
+
+
+        setInputDate(
+            "followUpDate",
+            consultation.follow_up_date
+        );
+
+
+        document.getElementById(
+            "consultationFormModal"
+        ).style.display =
+            "flex";
+
+
+    } catch (error) {
+
+        console.error(
+            "Edit consultation error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SET INPUT
+===================================================== */
+
+function setInput(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+    if (element) {
+
+        element.value =
+            value || "";
+
+    }
+
+}
+
+
+/* =====================================================
+   SET DATE INPUT
+===================================================== */
+
+function setInputDate(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    if (!element) {
+
+        return;
+
+    }
+
+
+    if (!value) {
+
+        element.value =
+            "";
+
+        return;
+
+    }
+
+
+    element.value =
+        String(value).substring(
+            0,
+            10
+        );
+
+}
+
+
+/* =====================================================
+   DELETE CONSULTATION
+===================================================== */
+
+async function deleteConsultation(
+    id
+) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this consultation record?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/consultations/${id}`,
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;

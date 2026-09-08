@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -303,7 +303,7 @@
 
 .patient-profile-modal .clinical-table th + th,
 .patient-profile-modal .clinical-table td + td {
-    border-left: 1px solid #aab7bd !important;
+    border-left: 0 !important;
 }
 
 .patient-profile-modal .clinical-table tbody tr + tr td {
@@ -2296,22 +2296,6 @@
 }
 
 /* Prescriptions */
-/* Space between consultation clinical departments */
-.patient-profile-modal .consultation-linked-records {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-/* Visible column dividers for consultation department tables */
-.patient-profile-modal .consultation-linked-records table th,
-.patient-profile-modal .consultation-linked-records table td {
-    border-right: 1px solid #d0d0d0;
-}
-
-.patient-profile-modal .consultation-linked-records table th:last-child,
-.patient-profile-modal .consultation-linked-records table td:last-child {
-    border-right: none;
-}
 .patient-profile-modal .clinical-department-prescriptions {
     border-color: #81c784;
     border-top: 3px solid #43a047;
@@ -4114,8 +4098,8 @@ input[data-field="recorded_by"] {
 
 <style>
 /* ============================================================
-   FRANTETT RESPONSIVE FIX ï¿½ MAIN PATIENT RECORDS TABLE
-   Stage 3 ï¿½ 2026-09-06
+   FRANTETT RESPONSIVE FIX — MAIN PATIENT RECORDS TABLE
+   Stage 3 — 2026-09-06
    ============================================================ */
 
 #nk13mb {
@@ -4151,7 +4135,7 @@ input[data-field="recorded_by"] {
 
 
 /* ============================================================
-   FRANTETT RESPONSIVE FIX ï¿½ APPOINTMENTS TABLE
+   FRANTETT RESPONSIVE FIX — APPOINTMENTS TABLE
    ============================================================ */
 
 .table-container {
@@ -4191,7 +4175,7 @@ input[data-field="recorded_by"] {
 
 
 /* ============================================================
-   MOBILE ï¿½ PATIENT RECORDS
+   MOBILE — PATIENT RECORDS
    ============================================================ */
 
 @media (max-width: 768px) {
@@ -4223,7 +4207,7 @@ input[data-field="recorded_by"] {
 
 
 /* ============================================================
-   SMALL PHONES ï¿½ PATIENT RECORDS
+   SMALL PHONES — PATIENT RECORDS
    ============================================================ */
 
 @media (max-width: 480px) {
@@ -4256,7 +4240,7 @@ input[data-field="recorded_by"] {
 
 
 /* ============================================================
-   MOBILE ï¿½ APPOINTMENTS
+   MOBILE — APPOINTMENTS
    ============================================================ */
 
 @media (max-width: 700px) {
@@ -4329,7 +4313,7 @@ input[data-field="recorded_by"] {
 
 
 /* ============================================================
-   SMALL PHONES ï¿½ APPOINTMENTS
+   SMALL PHONES — APPOINTMENTS
    ============================================================ */
 
 @media (max-width: 480px) {
@@ -4363,7 +4347,7 @@ input[data-field="recorded_by"] {
 
 <style>
 /* =========================================================
-   STAGE 4D ï¿½ VIEW CONSULTATION MOBILE FIX
+   STAGE 4D — VIEW CONSULTATION MOBILE FIX
    Scoped only to #viewConsultationModal
    ========================================================= */
 
@@ -4549,7 +4533,7 @@ input[data-field="recorded_by"] {
 
 <style>
 /* =========================================================
-   STAGE 5 ï¿½ MOBILE CLINICAL TABLE SCROLL FIX
+   STAGE 5 — MOBILE CLINICAL TABLE SCROLL FIX
    Scope: Vital Signs, Prescriptions, Lab Requests,
           Lab Results
    ========================================================= */
@@ -5029,7 +5013,7 @@ input[data-field="recorded_by"] {
 
 <style id="frantett-vital-signs-mobile-fix">
 /* =========================================================
-   STAGE 5 ï¿½ VITAL SIGNS MOBILE TABLE SCROLL FIX
+   STAGE 5 — VITAL SIGNS MOBILE TABLE SCROLL FIX
 ========================================================= */
 
 @media (max-width: 768px) {
@@ -12057,7 +12041,7 @@ function renderVitalSigns(records) {
                             ${
     isEditing
         ? `
-            <div class="record-meta" style="margin-top: 10px;">
+            <div class="record-meta">
 
                 <strong>Notes:</strong>
 
@@ -12088,7 +12072,7 @@ function renderVitalSigns(records) {
         : (
             prescription.notes
                 ? `
-                    <div class="record-meta" style="margin-top: 10px;">
+                    <div class="record-meta">
                         <strong>Notes:</strong>
                         ${valueOrNone(
                             prescription.notes

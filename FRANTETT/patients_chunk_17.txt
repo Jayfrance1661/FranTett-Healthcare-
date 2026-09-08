@@ -1,0 +1,500 @@
+            if (!button) {
+                return;
+            }
+
+            button.style.display =
+                rows.length > 1
+                    ? "inline-block"
+                    : "none";
+        }
+    );
+}
+
+// ==========================================
+// CLOSE PRESCRIPTION FORM
+// ==========================================
+
+function closePrescriptionFormModal() {
+
+    const modal =
+        document.getElementById(
+            "prescriptionFormModal"
+        );
+
+    if (modal) {
+
+        modal.style.display =
+            "none";
+
+    }
+
+}
+
+
+// ==========================================
+// LOAD PRESCRIPTIONS
+// ==========================================
+
+async function loadPrescriptions(
+    patientId
+) {
+
+    const container =
+        document.getElementById(
+            "prescriptionHistory"
+        );
+
+    const token =
+        getToken();
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="loading">
+            Loading prescription records...
+        </div>
+    `;
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}/prescriptions`,
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+        const prescriptions =
+            await response.json();
+
+        if (!response.ok) {
+
+            container.innerHTML = `
+                <div class="error-message">
+                    ${escapeHtml(
+                        prescriptions.message ||
+                        "Failed to load prescription records."
+                    )}
+                </div>
+            `;
+
+            return;
+
+        }
+
+        currentPrescriptions =
+            prescriptions;
+
+        displayPrescriptions(
+            prescriptions
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error loading prescriptions:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="error-message">
+                Failed to load prescription records.
+            </div>
+        `;
+
+    }
+
+}
+
+function updatePatientSummary(
+    appointments,
+    consultations,
+    prescriptions
+) {
+
+    const totalAppointments =
+        Array.isArray(appointments)
+            ? appointments.length
+            : 0;
+
+    const completedAppointments =
+        Array.isArray(appointments)
+            ? appointments.filter(
+                appointment =>
+                    appointment.status === "Completed"
+            ).length
+            : 0;
+
+    const totalConsultations =
+        Array.isArray(consultations)
+            ? consultations.length
+            : 0;
+
+    const totalPrescriptions =
+        Array.isArray(prescriptions)
+            ? prescriptions.length
+            : 0;
+
+    document.getElementById(
+        "summaryTotalAppointments"
+    ).textContent =
+        totalAppointments;
+
+    document.getElementById(
+        "summaryCompletedAppointments"
+    ).textContent =
+        completedAppointments;
+
+    document.getElementById(
+        "summaryTotalConsultations"
+    ).textContent =
+        totalConsultations;
+
+    document.getElementById(
+        "summaryTotalPrescriptions"
+    ).textContent =
+        totalPrescriptions;
+}
+
+async function updatePatientSummary(patientId) {
+
+    const token = getToken();
+
+    if (!token) {
+        return;
+    }
+
+    try {
+
+        const [
+            appointmentsResponse,
+            consultationsResponse,
+            prescriptionsResponse
+        ] = await Promise.all([
+            fetch(
+                `${API_URL}/api/patients/${patientId}/appointments`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            ),
+
+            fetch(
+                `${API_URL}/api/patients/${patientId}/consultations`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            ),
+
+            fetch(
+                `${API_URL}/api/patients/${patientId}/prescriptions`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            )
+        ]);
+
+        const appointments =
+            appointmentsResponse.ok
+                ? await appointmentsResponse.json()
+                : [];
+
+        const consultations =
+            consultationsResponse.ok
+                ? await consultationsResponse.json()
+                : [];
+
+        const prescriptions =
+            prescriptionsResponse.ok
+                ? await prescriptionsResponse.json()
+                : [];
+
+        const totalAppointments =
+            Array.isArray(appointments)
+                ? appointments.length
+                : 0;
+
+        const completedAppointments =
+            Array.isArray(appointments)
+                ? appointments.filter(
+                    appointment =>
+                        appointment.status === "Completed"
+                ).length
+                : 0;
+
+        const totalConsultations =
+            Array.isArray(consultations)
+                ? consultations.length
+                : 0;
+
+        const totalPrescriptions =
+            Array.isArray(prescriptions)
+                ? prescriptions.length
+                : 0;
+
+        document.getElementById(
+            "summaryTotalAppointments"
+        ).textContent =
+            totalAppointments;
+
+        document.getElementById(
+            "summaryCompletedAppointments"
+        ).textContent =
+            completedAppointments;
+
+        document.getElementById(
+            "summaryTotalConsultations"
+        ).textContent =
+            totalConsultations;
+
+        document.getElementById(
+            "summaryTotalPrescriptions"
+        ).textContent =
+            totalPrescriptions;
+
+    } catch (error) {
+
+        console.error(
+            "Patient summary error:",
+            error
+        );
+
+    }
+}
+
+// ==========================================
+// DISPLAY PRESCRIPTIONS
+// ==========================================
+
+function displayPrescriptions(prescriptions) {
+
+    const container =
+        document.getElementById("prescriptionHistory");
+
+    if (!container) {
+        return;
+    }
+
+    if (
+        !Array.isArray(prescriptions) ||
+        prescriptions.length === 0
+    ) {
+
+        container.innerHTML = `
+            <div class="no-records">
+                No prescription records found.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        prescriptions.map(
+            prescription => {
+
+                const medications =
+                    Array.isArray(
+                        prescription.medications
+                    )
+                        ? prescription.medications
+                        : [];
+
+                return `
+
+                    <div class="clinical-record">
+
+                        <div class="clinical-record-header">
+
+                            <div>
+
+                                <h4>
+                                    Prescription
+                                </h4>
+
+                                <div class="clinical-date">
+
+                                    ${escapeHtml(
+                                        formatDate(
+                                            prescription.prescription_date
+                                        )
+                                    )}
+
+                                    ${
+                                        prescription.doctor
+                                            ? ` &bull; ${escapeHtml(
+                                                prescription.doctor
+                                            )}`
+                                            : ""
+                                    }
+
+                                    ${
+                                        prescription.created_at
+                                            ? ` &bull; Entered ${escapeHtml(
+                                                formatDateTime(
+                                                    prescription.created_at
+                                                )
+                                            )}`
+                                            : ""
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="prescription-table-wrapper">
+
+                            <table class="prescription-entry-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Medication
+                                        </th>
+
+                                        <th>
+                                            Dose
+                                        </th>
+
+                                        <th>
+                                            Route
+                                        </th>
+
+                                        <th>
+                                            Frequency
+                                        </th>
+
+                                        <th>
+                                            Duration
+                                        </th>
+
+                                        <th>
+                                            Quantity
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    ${
+                                        medications.length > 0
+
+                                            ? medications.map(
+                                                medication => `
+
+                                                    <tr>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.medication_name ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.dose ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.route ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.frequency ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.duration ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                        <td>
+                                                            ${escapeHtml(
+                                                                medication.quantity ||
+                                                                "Not recorded"
+                                                            )}
+                                                        </td>
+
+                                                    </tr>
+
+                                                `
+                                            ).join("")
+
+                                            : `
+                                                <tr>
+
+                                                    <td colspan="6">
+                                                        No medication details available.
+                                                    </td>
+
+                                                </tr>
+                                            `
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                        ${
+                            prescription.notes
+                                ? `
+
+                                    <div class="clinical-item prescription-extra">
+
+                                        <strong>
+                                            Notes
+                                        </strong>
+
+                                        <div class="clinical-value">

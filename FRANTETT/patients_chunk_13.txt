@@ -1,0 +1,500 @@
+    // -------------------------------------------------
+    // Required field
+    // -------------------------------------------------
+
+    if (!bloodPressure) {
+
+        alert(
+            "Please enter the blood pressure."
+        );
+
+        return;
+
+    }
+
+
+    // -------------------------------------------------
+    // Prepare data
+    // -------------------------------------------------
+
+    const vitalData = {
+
+        consultation_id:
+            activeConsultationId,
+
+        blood_pressure:
+            bloodPressure,
+
+        heart_rate:
+            heartRate || null,
+
+        temperature:
+            temperature || null,
+
+        respiratory_rate:
+            respiratoryRate || null,
+
+        oxygen_saturation:
+            oxygenSaturation || null,
+
+        weight:
+            weight || null,
+
+        height:
+            height || null,
+
+        bmi:
+            bmi || null,
+
+        recorded_by:
+            recordedBy || null
+
+    };
+
+
+    console.log(
+        "Saving vital signs:",
+        vitalData
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${currentPatientId}/vitals`,
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            vitalData
+                        )
+
+                }
+            );
+
+
+        // -------------------------------------------------
+        // Authentication error
+        // -------------------------------------------------
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        // -------------------------------------------------
+        // Read response
+        // -------------------------------------------------
+
+        const result =
+            await response.json();
+
+
+        // -------------------------------------------------
+        // Server error
+        // -------------------------------------------------
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Failed to save vital signs."
+            );
+
+        }
+
+
+        // -------------------------------------------------
+        // Keep consultation synchronized
+        // -------------------------------------------------
+
+        setActiveConsultationId(
+            activeConsultationId
+        );
+
+
+        // -------------------------------------------------
+        // Close modal
+        // -------------------------------------------------
+
+        closeVitalSignsModal();
+
+
+        // -------------------------------------------------
+        // Reload history
+        // -------------------------------------------------
+
+        await loadVitalSigns(
+            currentPatientId
+        );
+
+
+        // -------------------------------------------------
+        // Success
+        // -------------------------------------------------
+
+        alert(
+            "Vital signs saved successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Save vital signs error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to save vital signs."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD VITAL SIGNS
+===================================================== */
+
+async function loadVitalSigns(
+    patientId
+) {
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        handleSessionExpired();
+
+        return;
+
+    }
+
+
+    const historyContainer =
+        document.getElementById(
+            "vitalSignsHistory"
+        );
+
+
+    if (!historyContainer) {
+
+        return;
+
+    }
+
+
+    historyContainer.innerHTML = `
+        <div class="loading">
+            Loading vital signs history...
+        </div>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients/${patientId}/vitals`,
+                {
+
+                    headers: {
+
+                        "Authorization":
+                            `Bearer ${token}`
+
+                    }
+
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const vitals =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                vitals.message ||
+                "Failed to load vital signs."
+            );
+
+        }
+
+
+        if (
+            !Array.isArray(vitals) ||
+            vitals.length === 0
+        ) {
+
+            historyContainer.innerHTML = `
+                <div class="loading">
+                    No vital signs recorded.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        let historyHtml = `
+
+            <h4 style="margin-bottom: 10px;">
+                Vital Signs History
+            </h4>
+
+            <div style="overflow-x:auto;">
+
+                <table class="data-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+                            <th>BP</th>
+                            <th>HR</th>
+                            <th>Temp.</th>
+                            <th>RR</th>
+                            <th>SpO2</th>
+                            <th>Weight</th>
+                            <th>Height</th>
+                            <th>BMI</th>
+                            <th>Recorded By</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+        `;
+
+
+        vitals.forEach(
+            function (vital) {
+
+                historyHtml += `
+
+                    <tr>
+
+                        <td>
+                            ${formatDateTime(
+                                vital.recorded_at
+                            )}
+                        </td>
+
+                        <td>
+                            ${vital.blood_pressure || "—"}
+                        </td>
+
+                        <td>
+                            ${
+                                vital.heart_rate != null
+                                    ? Number(
+                                        vital.heart_rate
+                                    ).toFixed(2)
+                                    : "—"
+                            }
+                        </td>
+
+                        <td>
+                            ${
+                                vital.temperature != null
+                                    ? Number(
+                                        vital.temperature
+                                    ).toFixed(2) +
+                                      " &deg;C"
+                                    : "—"
+                            }
+                        </td>
+
+                        <td>
+                            ${
+                                vital.respiratory_rate != null
+                                    ? Number(
+                                        vital.respiratory_rate
+                                    ).toFixed(2) +
+                                      " /min"
+                                    : "—"
+                            }
+                        </td>
+
+                        <td>
+                            ${
+                                vital.oxygen_saturation != null
+                                    ? Number(
+                                        vital.oxygen_saturation
+                                    ).toFixed(2) +
+                                      "%"
+                                    : "—"
+                            }
+                        </td>
+
+                        <td>
+                            ${
+                                vital.weight != null
+                                    ? Number(
+                                        vital.weight
+                                    ).toFixed(2) +
+                                      " kg"
+                                    : "—"
+                            }
+                        </td>
+
+                        <td>
+                            ${
+                                vital.height != null
+                                    ? Number(
+                                        vital.height
+                                    ).toFixed(2) +
+                                      " cm"
+                                    : "—"
+                            }
+                        </td>
+
+                        <td>
+                            ${
+                                vital.bmi != null
+                                    ? Number(
+                                        vital.bmi
+                                    ).toFixed(2)
+                                    : "—"
+                            }
+                        </td>
+
+                        <td>
+                            ${vital.recorded_by || "—"}
+                        </td>
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="danger-btn"
+                                onclick="deleteVitalSigns(${Number(vital.id)})"
+                            >
+                                Delete
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+
+        historyHtml += `
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        `;
+
+
+        historyContainer.innerHTML =
+            historyHtml;
+
+
+    } catch (error) {
+
+        console.error(
+            "Load vital signs error:",
+            error
+        );
+
+
+        historyContainer.innerHTML = `
+            <div class="loading">
+                Failed to load vital signs.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   DELETE VITAL SIGNS
+===================================================== */
+
+async function deleteVitalSigns(id) {
+
+    const vitalId =
+        Number(id);
+
+
+    if (
+        !Number.isInteger(vitalId) ||
+        vitalId <= 0
+    ) {
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this vital signs record?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    const token =
+        getToken();
+
+

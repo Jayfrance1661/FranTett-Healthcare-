@@ -303,7 +303,7 @@
 
 .patient-profile-modal .clinical-table th + th,
 .patient-profile-modal .clinical-table td + td {
-    border-left: 1px solid #aab7bd !important;
+    border-left: 0 !important;
 }
 
 .patient-profile-modal .clinical-table tbody tr + tr td {
@@ -2296,22 +2296,6 @@
 }
 
 /* Prescriptions */
-/* Space between consultation clinical departments */
-.patient-profile-modal .consultation-linked-records {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-/* Visible column dividers for consultation department tables */
-.patient-profile-modal .consultation-linked-records table th,
-.patient-profile-modal .consultation-linked-records table td {
-    border-right: 1px solid #d0d0d0;
-}
-
-.patient-profile-modal .consultation-linked-records table th:last-child,
-.patient-profile-modal .consultation-linked-records table td:last-child {
-    border-right: none;
-}
 .patient-profile-modal .clinical-department-prescriptions {
     border-color: #81c784;
     border-top: 3px solid #43a047;
@@ -4114,8 +4098,8 @@ input[data-field="recorded_by"] {
 
 <style>
 /* ============================================================
-   FRANTETT RESPONSIVE FIX � MAIN PATIENT RECORDS TABLE
-   Stage 3 � 2026-09-06
+   FRANTETT RESPONSIVE FIX — MAIN PATIENT RECORDS TABLE
+   Stage 3 — 2026-09-06
    ============================================================ */
 
 #nk13mb {
@@ -4151,7 +4135,7 @@ input[data-field="recorded_by"] {
 
 
 /* ============================================================
-   FRANTETT RESPONSIVE FIX � APPOINTMENTS TABLE
+   FRANTETT RESPONSIVE FIX — APPOINTMENTS TABLE
    ============================================================ */
 
 .table-container {
@@ -4191,7 +4175,7 @@ input[data-field="recorded_by"] {
 
 
 /* ============================================================
-   MOBILE � PATIENT RECORDS
+   MOBILE — PATIENT RECORDS
    ============================================================ */
 
 @media (max-width: 768px) {
@@ -4223,7 +4207,7 @@ input[data-field="recorded_by"] {
 
 
 /* ============================================================
-   SMALL PHONES � PATIENT RECORDS
+   SMALL PHONES — PATIENT RECORDS
    ============================================================ */
 
 @media (max-width: 480px) {
@@ -4256,7 +4240,7 @@ input[data-field="recorded_by"] {
 
 
 /* ============================================================
-   MOBILE � APPOINTMENTS
+   MOBILE — APPOINTMENTS
    ============================================================ */
 
 @media (max-width: 700px) {
@@ -4329,7 +4313,7 @@ input[data-field="recorded_by"] {
 
 
 /* ============================================================
-   SMALL PHONES � APPOINTMENTS
+   SMALL PHONES — APPOINTMENTS
    ============================================================ */
 
 @media (max-width: 480px) {
@@ -4363,7 +4347,7 @@ input[data-field="recorded_by"] {
 
 <style>
 /* =========================================================
-   STAGE 4D � VIEW CONSULTATION MOBILE FIX
+   STAGE 4D — VIEW CONSULTATION MOBILE FIX
    Scoped only to #viewConsultationModal
    ========================================================= */
 
@@ -4549,7 +4533,7 @@ input[data-field="recorded_by"] {
 
 <style>
 /* =========================================================
-   STAGE 5 � MOBILE CLINICAL TABLE SCROLL FIX
+   STAGE 5 — MOBILE CLINICAL TABLE SCROLL FIX
    Scope: Vital Signs, Prescriptions, Lab Requests,
           Lab Results
    ========================================================= */
@@ -4665,7 +4649,7 @@ input[data-field="recorded_by"] {
 
     .clinical-vitals-horizontal::after {
 
-        content: "? Swipe or scroll right to see more";
+        content: "↔ Swipe or scroll right to see more";
 
         display: block;
 
@@ -4780,7 +4764,7 @@ input[data-field="recorded_by"] {
 
     .prescription-items::after {
 
-        content: "? Swipe or scroll right to see more";
+        content: "↔ Swipe or scroll right to see more";
 
         display: block;
 
@@ -4877,7 +4861,7 @@ input[data-field="recorded_by"] {
     #labRequestsHistory
     > div:has(> .consultation-edit-lab-request-table)::after {
 
-        content: "? Swipe or scroll right to see more";
+        content: "↔ Swipe or scroll right to see more";
 
         display: block;
 
@@ -4941,7 +4925,7 @@ input[data-field="recorded_by"] {
 
     .lab-table-wrapper::after {
 
-        content: "? Swipe or scroll right to see more";
+        content: "↔ Swipe or scroll right to see more";
 
         display: block;
 
@@ -4965,7 +4949,7 @@ input[data-field="recorded_by"] {
 
     .clinical-lab-report-table-wrapper::after {
 
-        content: "? Swipe or scroll right to see more";
+        content: "↔ Swipe or scroll right to see more";
 
         display: block;
 
@@ -5029,7 +5013,7 @@ input[data-field="recorded_by"] {
 
 <style id="frantett-vital-signs-mobile-fix">
 /* =========================================================
-   STAGE 5 � VITAL SIGNS MOBILE TABLE SCROLL FIX
+   STAGE 5 — VITAL SIGNS MOBILE TABLE SCROLL FIX
 ========================================================= */
 
 @media (max-width: 768px) {
@@ -5083,7 +5067,7 @@ input[data-field="recorded_by"] {
 
     #completeConsultationClinicalRecord
     .clinical-vitals-horizontal::after {
-        content: "? Swipe or scroll right to see more";
+        content: "↔ Swipe or scroll right to see more";
 
         display: block !important;
 
@@ -6064,7 +6048,7 @@ input[data-field="recorded_by"] {
                 <input
                     type="text"
                     id="labReferenceRange"
-                    placeholder="e.g. 12ï¿½16 g/dL"
+                    placeholder="e.g. 12Ã¯Â¿Â½16 g/dL"
                 >
 
             </div>
@@ -9565,7 +9549,7 @@ async function loadVitalSigns(
                         </td>
 
                         <td>
-                            ${vital.blood_pressure || "ï¿½"}
+                            ${vital.blood_pressure || "Ã¯Â¿Â½"}
                         </td>
 
                         <td>
@@ -9574,7 +9558,7 @@ async function loadVitalSigns(
                                     ? Number(
                                         vital.heart_rate
                                     ).toFixed(2)
-                                    : "ï¿½"
+                                    : "Ã¯Â¿Â½"
                             }
                         </td>
 
@@ -9585,7 +9569,7 @@ async function loadVitalSigns(
                                         vital.temperature
                                     ).toFixed(2) +
                                       " &deg;C"
-                                    : "ï¿½"
+                                    : "Ã¯Â¿Â½"
                             }
                         </td>
 
@@ -9596,7 +9580,7 @@ async function loadVitalSigns(
                                         vital.respiratory_rate
                                     ).toFixed(2) +
                                       " /min"
-                                    : "ï¿½"
+                                    : "Ã¯Â¿Â½"
                             }
                         </td>
 
@@ -9607,7 +9591,7 @@ async function loadVitalSigns(
                                         vital.oxygen_saturation
                                     ).toFixed(2) +
                                       "%"
-                                    : "ï¿½"
+                                    : "Ã¯Â¿Â½"
                             }
                         </td>
 
@@ -9618,7 +9602,7 @@ async function loadVitalSigns(
                                         vital.weight
                                     ).toFixed(2) +
                                       " kg"
-                                    : "ï¿½"
+                                    : "Ã¯Â¿Â½"
                             }
                         </td>
 
@@ -9629,7 +9613,7 @@ async function loadVitalSigns(
                                         vital.height
                                     ).toFixed(2) +
                                       " cm"
-                                    : "ï¿½"
+                                    : "Ã¯Â¿Â½"
                             }
                         </td>
 
@@ -9639,12 +9623,12 @@ async function loadVitalSigns(
                                     ? Number(
                                         vital.bmi
                                     ).toFixed(2)
-                                    : "ï¿½"
+                                    : "Ã¯Â¿Â½"
                             }
                         </td>
 
                         <td>
-                            ${vital.recorded_by || "ï¿½"}
+                            ${vital.recorded_by || "Ã¯Â¿Â½"}
                         </td>
 
                         <td>
@@ -11589,7 +11573,7 @@ function renderVitalSigns(records) {
                                                     vital.temperature !== null &&
                                                     vital.temperature !== undefined &&
                                                     String(vital.temperature).trim() !== ""
-                                                        ? " °C"
+                                                        ? " Â°C"
                                                         : ""
                                                 }
                                             `
@@ -12057,7 +12041,7 @@ function renderVitalSigns(records) {
                             ${
     isEditing
         ? `
-            <div class="record-meta" style="margin-top: 10px;">
+            <div class="record-meta">
 
                 <strong>Notes:</strong>
 
@@ -12088,7 +12072,7 @@ function renderVitalSigns(records) {
         : (
             prescription.notes
                 ? `
-                    <div class="record-meta" style="margin-top: 10px;">
+                    <div class="record-meta">
                         <strong>Notes:</strong>
                         ${valueOrNone(
                             prescription.notes
@@ -12798,6 +12782,14 @@ function renderVitalSigns(records) {
                     </div>
 
                     <div class="consultation-actions">
+
+                        <button
+                            type="button"
+                            class="secondary-btn"
+                            onclick="viewConsultation(${consultationId})"
+                        >
+                            View
+                        </button>
 
                         <button
                             type="button"
@@ -17287,7 +17279,7 @@ async function populateConsultationVitals(
                                                             Number(
                                                                 vital.temperature
                                                             ).toFixed(2)
-                                                        )} °C`
+                                                        )} Â°C`
                                                         : "None recorded"
                                                 }
                                             </td>
@@ -21553,7 +21545,7 @@ function renderVitals(records) {
                     <tr>
                         <td>${clinicalValue(vital.blood_pressure)}</td>
                         <td>${clinicalValue(vital.heart_rate ? `${vital.heart_rate} bpm` : null)}</td>
-                        <td>${clinicalValue(vital.temperature ? `${vital.temperature} °C` : null)}</td>
+                        <td>${clinicalValue(vital.temperature ? `${vital.temperature} Â°C` : null)}</td>
                         <td>${clinicalValue(vital.respiratory_rate ? `${vital.respiratory_rate} /min` : null)}</td>
                         <td>${clinicalValue(vital.oxygen_saturation ? `${vital.oxygen_saturation}%` : null)}</td>
                         <td>${clinicalValue(vital.weight ? `${vital.weight} kg` : null)}</td>
@@ -21568,7 +21560,7 @@ function renderVitals(records) {
             </div>
 
             <div class="clinical-vitals-recorded-at">
-                <strong>Recorded At:</strong> ${vital.recorded_at ? formatDate(vital.recorded_at) : "ï¿½"}
+                <strong>Recorded At:</strong> ${vital.recorded_at ? formatDate(vital.recorded_at) : "Ã¯Â¿Â½"}
             </div>
 
         </div>
@@ -22361,6 +22353,112 @@ function renderVitals(records) {
 
 </script>
 
+<script>
+(function () {
+
+    if (window.__clinicalRecordClickBridgeInstalled) {
+        return;
+    }
+
+    window.__clinicalRecordClickBridgeInstalled = true;
+
+
+document.addEventListener(
+        "click",
+        function (event) {
+
+            const target =
+                event.target.closest(
+                    '[onclick*="viewConsultation("]'
+                );
+
+            if (!target) {
+                return;
+            }
+
+            const onclickValue =
+                target.getAttribute("onclick") || "";
+
+            const match =
+                onclickValue.match(
+                    /viewConsultation\s*\(\s*['"]?(\d+)['"]?\s*\)/
+                );
+
+            if (!match) {
+                return;
+            }
+
+            const consultationId =
+                Number(match[1]);
+
+            if (!consultationId) {
+                return;
+            }
+
+            setTimeout(
+                async function () {
+
+                    try {
+
+                        const token =
+                            getToken();
+
+                        if (!token) {
+                            console.error(
+                                "Clinical record bridge: no token."
+                            );
+                            return;
+                        }
+
+                        const response =
+                            await fetch(
+                                `${API_URL}/api/consultations/${consultationId}`,
+                                {
+                                    headers: {
+                                        "Authorization":
+                                            `Bearer ${token}`
+                                    }
+                                }
+                            );
+
+                        if (!response.ok) {
+                            console.error(
+                                "Clinical record bridge fetch failed:",
+                                response.status
+                            );
+                            return;
+                        }
+
+                        const consultation =
+                            await response.json();
+
+                        await window.displayCompleteClinicalRecord(
+                            consultation
+                        );
+
+                        console.log(
+                            "Clinical record bridge rendered consultation:",
+                            consultationId
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+                            "Clinical record bridge error:",
+                            error
+                        );
+
+                    }
+
+                },
+                500
+            );
+
+        },
+        true
+    );
+
+})();
 </script></body>
 </html>
 
@@ -22369,25 +22467,4 @@ function renderVitals(records) {
 
 
 
-
-
-<style id="FINAL-VITAL-SCROLL-FIX">
-.clinical-vitals-horizontal {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    touch-action: pan-x !important;
-}
-
-.clinical-vitals-horizontal .clinical-vitals-table {
-    display: table !important;
-    width: 850px !important;
-    min-width: 850px !important;
-    max-width: none !important;
-}
-</style>
 

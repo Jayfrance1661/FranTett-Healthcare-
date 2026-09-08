@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FranTett Healthcare - Patient Records</title>
+
+    
+<style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fa;
+            color: #222;
+        }
+
+        nav {
+            background: #0b6b4f;
+            color: white;
+            padding: 16px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav .links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 30px auto;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            padding: 10px 16px;
+            font-size: 14px;
+        }
+
+        .primary-btn,
+        .save-btn {
+            background: #0b6b4f;
+            color: white;
+        }
+
+        .primary-btn:hover,
+        .save-btn:hover {
+            background: #09563f;
+        }
+
+        .cancel-btn {
+            background: #777;
+            color: white;
+        }
+
+        .danger-btn {
+            background: #c62828;
+            color: white;
+        }
+
+        .view-btn {
+            background: #1976d2;
+            color: white;
+        }
+
+        .edit-btn {
+            background: #f39c12;
+            color: white;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 8px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f0f3f5;
+            font-weight: bold;
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+
+        .message {
+            display: none;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .message.success {
+            background: #dff5e8;
+            color: #176b3a;
+        }
+
+        .message.error {
+            background: #fde2e2;
+            color: #a71919;
+        }
+
+        /* ==========================
+           MODAL
+        ========================== */
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.55);
+            overflow-y: auto;
+            padding: 30px 15px;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            border-radius: 8px;
+            padding: 25px;
+            position: relative;
+        }
+
+        .large-modal {
+            max-width: 1100px;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 12px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        /* =====================================================
+           PATIENT PROFILE - PROFESSIONAL MEDICAL RECORD DESIGN
+        ===================================================== */
+
+        .patient-profile-modal {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 28px;
+        }
+
+        .patient-profile-modal > h2 {
+            margin: 0 0 18px 0;
+            font-size: 26px;
+            font-weight: 700;
+            color: #173f35;
+            border-bottom: 1px solid #e5ebe8;
+            padding-bottom: 14px;
+        }
+
+        .patient-profile-modal .top-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .patient-header {
+            background: linear-gradient(135deg, #f0f8f5, #f8fbfa);
+            border: 1px solid #dce9e4;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .patient-header > h2 {
+            margin: 0 0 20px 0;
+            font-size: 25px;
+            font-weight: 700;
+            color: #173f35;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .info-card {
+            background: #ffffff;
+            border: 1px solid #e2e9e6;
+            border-radius: 9px;
+            padding: 15px 16px;
+            min-height: 72px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+        }
+
+        .info-card strong {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #60736d;
+            text-transform: uppercase;
+            letter-spacing: 0.35px;
+        }
+
+        .info-card span {
+            display: block;
+            color: #1d2d28;
+            font-size: 15px;
+            font-weight: 500;
+            word-break: break-word;
+        }
+
+        .patient-header > .info-grid:first-of-type {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .patient-header > .info-grid:first-of-type .info-card {
+            min-height: 88px;
+            text-align: center;
+            align-items: center;
+            background: #ffffff;
+            border-color: #d8e7e1;
+        }
+
+        .patient-header > .info-grid:first-of-type .info-card span {
+            font-size: 25px;
+            font-weight: 700;
+            color: #17624f;
+        }
+
+        .patient-profile-modal .section {
+            background: #ffffff;
+            border: 1px solid #e1e8e5;
+            border-radius: 12px;
+            padding: 22px;
+            margin-top: 22px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.035);
+        }
+
+        .patient-profile-modal .section > h3 {
+            margin: 0 0 18px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e6ece9;
+            color: #173f35;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .clinical-item {
+            background: #f8faf9;
+            border: 1px solid #e5ebe8;
+            border-radius: 9px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .clinical-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .clinical-item > strong {
+            display: block;
+            margin-bottom: 9px;
+            color: #31554b;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .history-box {
+            background: #ffffff;
+            border: 1px solid #e1e7e4;
+            border-radius: 7px;
+            padding: 12px 14px;
+            min-height: 45px;
+            color: #273a34;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           PATIENT PROFILE - VERSION 2 DEPARTMENT DESIGN
+        ===================================================== */
+
+        .patient-profile-modal {
+            background: #f6f8f9;
+            border-radius: 14px;
+            padding: 28px;
+        }
+
+        .patient-profile-modal > h2 {
+            margin: 0 0 18px 0;
+            font-size: 26px;
+            font-weight: 700;
+            color: #173f35;
+            border-bottom: 1px solid #dfe7e4;
+            padding-bottom: 14px;
+        }
+
+        .patient-profile-modal .top-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        /* =========================
+           PATIENT OVERVIEW
+        ========================= */
+
+        .patient-header {
+            background: #ffffff;
+            border: 1px solid #cfe2da;
+            border-left: 5px solid #18815f;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .patient-header > h2 {
+            margin: 0 0 20px 0;
+            font-size: 25px;
+            font-weight: 700;
+            color: #17624f;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .info-card {
+            background: #ffffff;
+            border: 1px solid #e1e7e4;
+            border-radius: 9px;
+            padding: 15px 16px;
+            min-height: 72px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+        }
+
+        .info-card strong {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #60736d;
+            text-transform: uppercase;
+            letter-spacing: .35px;
+        }
+
+        .info-card span {
+            display: block;
+            color: #1d2d28;
+            font-size: 15px;
+            font-weight: 500;
+            word-break: break-word;
+        }
+
+        .patient-header > .info-grid:first-of-type {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+

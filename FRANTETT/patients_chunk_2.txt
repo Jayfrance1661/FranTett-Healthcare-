@@ -1,0 +1,500 @@
+        .patient-header > .info-grid:first-of-type .info-card {
+            min-height: 88px;
+            text-align: center;
+            align-items: center;
+            border-color: #cfe2da;
+            background: #f7fbf9;
+        }
+
+        .patient-header > .info-grid:first-of-type .info-card span {
+            font-size: 25px;
+            font-weight: 700;
+            color: #17624f;
+        }
+
+        /* =========================
+           GENERAL SECTIONS
+        ========================= */
+
+        .patient-profile-modal .section {
+            background: #ffffff;
+            border: 1px solid #e1e7e4;
+            border-radius: 12px;
+            padding: 22px;
+            margin-top: 22px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.035);
+        }
+
+        .patient-profile-modal .section > h3 {
+            margin: 0 0 18px 0;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border-left: 5px solid #60736d;
+            background: #f5f7f6;
+            color: #263a34;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           CLINICAL INFORMATION
+        ========================= */
+
+        .patient-profile-modal .section:has(#viewMedicalHistory) > h3 {
+            border-left-color: #18815f;
+            background: #f0f8f5;
+            color: #17624f;
+        }
+
+        .clinical-item {
+            background: #f8faf9;
+            border: 1px solid #e1e8e5;
+            border-radius: 9px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .clinical-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .clinical-item > strong {
+            display: block;
+            margin-bottom: 9px;
+            color: #31554b;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .3px;
+        }
+
+        .history-box {
+            background: #ffffff;
+            border: 1px solid #e1e7e4;
+            border-radius: 7px;
+            padding: 12px 14px;
+            min-height: 45px;
+            color: #273a34;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* =========================
+           VITAL SIGNS - BLUE
+        ========================= */
+
+        .patient-profile-modal .section:has(#vitalSignsHistory) {
+            border-top: 4px solid #2878b8;
+        }
+
+        .patient-profile-modal .section:has(#vitalSignsHistory) > .top-actions h3 {
+            border-left-color: #2878b8;
+            background: #eef6fc;
+            color: #205f91;
+        }
+
+        /* =========================
+           APPOINTMENTS - PURPLE
+        ========================= */
+
+        .patient-profile-modal .section:has(#appointmentHistory) {
+            border-top: 4px solid #7656a6;
+        }
+
+        .patient-profile-modal .section:has(#appointmentHistory) > h3 {
+            border-left-color: #7656a6;
+            background: #f5f1fa;
+            color: #60438e;
+        }
+
+        /* =========================
+           PATIENT TIMELINE - SLATE
+        ========================= */
+
+        .patient-profile-modal .section:has(#patientTimeline) {
+            border-top: 4px solid #526777;
+            background: #fbfcfd;
+        }
+
+        .patient-profile-modal .section:has(#patientTimeline) > h3 {
+            border-left-color: #526777;
+            background: #f0f4f7;
+            color: #405564;
+        }
+
+        #patientTimeline {
+            position: relative;
+            padding-left: 18px;
+        }
+
+        /* =========================
+           CONSULTATIONS - ORANGE
+        ========================= */
+
+        .patient-profile-modal .section:has(#consultationHistory) {
+            border-top: 4px solid #d87928;
+        }
+
+        .patient-profile-modal .section:has(#consultationHistory) > .top-actions h3 {
+            border-left-color: #d87928;
+            background: #fff5eb;
+            color: #a95d20;
+        }
+
+        /* =========================
+           LAB RESULTS - RED
+        ========================= */
+
+        .patient-profile-modal .section:has(#labResultsHistory) {
+            border-top: 4px solid #c74b4b;
+        }
+
+        .patient-profile-modal .section:has(#labResultsHistory) > .top-actions h3 {
+            border-left-color: #c74b4b;
+            background: #fff1f1;
+            color: #a43d3d;
+        }
+
+        /* =========================
+           LAB REQUESTS - TEAL
+        ========================= */
+
+        .patient-profile-modal .section:has(#labRequestsHistory) {
+            border-top: 4px solid #159a9c;
+        }
+
+        .patient-profile-modal .section:has(#labRequestsHistory) > .top-actions h3 {
+            border-left-color: #159a9c;
+            background: #edfafa;
+            color: #117578;
+        }
+
+        /* =========================
+           PRESCRIPTIONS - AMBER
+        ========================= */
+
+        .patient-profile-modal .section:has(#prescriptionHistory) {
+            border-top: 4px solid #c99425;
+        }
+
+        .patient-profile-modal .section:has(#prescriptionHistory) > .top-actions h3 {
+            border-left-color: #c99425;
+            background: #fff9e9;
+            color: #966f18;
+        }
+
+        /* =========================
+           DEPARTMENT HOVER EFFECT
+        ========================= */
+
+        .patient-profile-modal .section {
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .patient-profile-modal .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+        }
+
+        /* Vital Signs */
+        .patient-profile-modal .section:has(#vitalSignsHistory):hover {
+            border-top-color: #1d6fa5;
+        }
+
+        /* Appointments */
+        .patient-profile-modal .section:has(#appointmentHistory):hover {
+            border-top-color: #60438e;
+        }
+
+        /* Timeline */
+        .patient-profile-modal .section:has(#patientTimeline):hover {
+            border-top-color: #405564;
+        }
+
+        /* Consultations */
+        .patient-profile-modal .section:has(#consultationHistory):hover {
+            border-top-color: #b85f1c;
+        }
+
+        /* Laboratory Results */
+        .patient-profile-modal .section:has(#labResultsHistory):hover {
+            border-top-color: #a43d3d;
+        }
+
+        /* Laboratory Requests */
+        .patient-profile-modal .section:has(#labRequestsHistory):hover {
+            border-top-color: #117578;
+        }
+
+        /* Prescriptions */
+        .patient-profile-modal .section:has(#prescriptionHistory):hover {
+            border-top-color: #966f18;
+        }
+        /* =========================
+           BUTTON ALIGNMENT
+        ========================= */
+        /* =========================
+           LAB REPORT HEADER LAYOUT
+        ========================= */
+
+        .lab-report-card .lab-report-header {
+            display: block;
+            position: relative;
+            padding-bottom: 14px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #eee1e1;
+        }
+
+        .lab-report-card .lab-report-date {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #5f6865;
+        }
+
+        .lab-report-card .lab-report-header h4 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #a43d3d;
+        }
+
+        .lab-report-card .lab-report-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-right: 150px;
+            flex-wrap: wrap;
+        }
+
+        .lab-report-card .lab-report-header > .danger-btn {
+            position: absolute;
+            right: 0;
+            bottom: 14px;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 700px) {
+            .lab-report-card .lab-report-header > .danger-btn {
+                position: static;
+                margin-top: 10px;
+                width: 100%;
+            }
+
+            .lab-report-card .lab-report-meta {
+                padding-right: 0;
+            }
+        }
+
+
+        .patient-profile-modal .section .top-actions {
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .patient-profile-modal .section .top-actions h3 {
+            flex: 1;
+            margin: 0;
+        }
+
+        @media (max-width: 700px) {
+
+            .patient-profile-modal {
+                padding: 18px;
+            }
+
+            .patient-header {
+                padding: 16px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-profile-modal .top-actions {
+                justify-content: stretch;
+                flex-wrap: wrap;
+            }
+
+            .patient-profile-modal .top-actions button {
+                width: 100%;
+            }
+
+            .patient-profile-modal .section .top-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+        }
+        @media (max-width: 700px) {
+            .patient-profile-modal {
+                padding: 18px;
+            }
+
+            .patient-header {
+                padding: 16px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-profile-modal .top-actions {
+                justify-content: stretch;
+            }
+
+            .patient-profile-modal .top-actions button {
+                width: 100%;
+            }
+        }
+
+        .info-card strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .section {
+            margin-top: 25px;
+        }
+
+        .section h3 {
+            border-bottom: 2px solid #0b6b4f;
+            padding-bottom: 8px;
+        }
+
+        .history-box {
+            background: #fafafa;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+
+        /* ==========================
+           CONSULTATIONS
+        ========================== */
+
+        .consultation-card {
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            padding: 18px;
+            margin-bottom: 15px;
+            background: white;
+        }
+
+        .consultation-title {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .consultation-title h4 {
+            margin: 0;
+        }
+
+        .consultation-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .clinical-item {
+            margin-bottom: 12px;
+        }
+
+.clinical-date {
+    margin-bottom: 12px;
+}
+
+        .clinical-item strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #444;
+        }
+
+        .clinical-value {
+            white-space: pre-wrap;
+            background: #fafafa;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+        .no-records {
+            background: #fafafa;
+            padding: 18px;
+            border-radius: 5px;
+            color: #666;
+        }
+
+                .info-card strong {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #60736d;
+            text-transform: uppercase;
+            letter-spacing: .35px;
+        }
+
+        .info-card span {
+            display: block;
+            color: #1d2d28;
+            font-size: 15px;
+            font-weight: 500;
+            word-break: break-word;
+        }
+
+        .patient-header > .info-grid:first-of-type {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .patient-header > .info-grid:first-of-type .info-card {
+            min-height: 88px;
+            text-align: center;
+            align-items: center;
+            border-color: #cfe2da;
+            background: #f7fbf9;
+        }
+
+        .patient-header > .info-grid:first-of-type .info-card span {
+            font-size: 25px;
+            font-weight: 700;
+            color: #17624f;
+        }
+
+        /* =========================
+           GENERAL SECTIONS
+        ========================= */
+
+        .patient-profile-modal .section {
+            background: #ffffff;
+            border: 1px solid #e1e7e4;
+            border-radius: 12px;
+            padding: 22px;
+            margin-top: 22px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.035);
+        }
+
+        .patient-profile-modal .section > h3 {
+            margin: 0 0 18px 0;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border-left: 5px solid #60736d;
+            background: #f5f7f6;
+            color: #263a34;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           CLINICAL INFORMATION
+        ========================= */
+
+        .patient-profile-modal .section:has(#viewMedicalHistory) > h3 {

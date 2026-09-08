@@ -1,0 +1,500 @@
+    container.innerHTML =
+        '<div class="loading">Loading laboratory results...</div>';
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/patients/${patientId}/lab-reports`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to load laboratory reports (${response.status})`
+            );
+        }
+
+        const reports = await response.json();
+
+        if (!Array.isArray(reports) || reports.length === 0) {
+
+            container.innerHTML = `
+                <div class="empty-state">
+                    No laboratory results recorded.
+                </div>
+            `;
+
+            return;
+        }
+
+        container.innerHTML = reports.map(report => {
+
+            const parameters =
+                Array.isArray(report.parameters)
+                    ? report.parameters
+                    : [];
+
+            return `
+                <div class="lab-report-card">
+
+                    <div class="lab-report-header">
+
+                        <div>
+                            <div class="lab-report-date">Date: ${escapeHtml(report.result_date ? new Date(report.result_date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "N/A")}</div><h4>
+                                ${escapeHtml(
+                                    report.test_name ||
+                                    "Laboratory Report"
+                                )}
+                            </h4><div class="lab-report-meta"><span>
+                                    Status:
+                                    ${escapeHtml(
+                                        report.status || "Final"
+                                    )}
+                                </span>
+
+                                ${
+                                    report.recorded_by
+                                    ? `
+                                    <span>
+                                        Recorded by:
+                                        ${escapeHtml(
+                                            report.recorded_by
+                                        )}
+                                    </span>
+                                    `
+                                    : ""
+                                }
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="danger-btn"
+                            onclick="deleteLaboratoryReport(${report.id})"
+                        >
+                            Delete Report
+                        </button>
+
+                    </div>
+
+
+                    <div class="lab-table-wrapper">
+
+                        <table class="lab-results-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Result</th>
+                                    <th>Unit</th>
+                                    <th>Flag</th>
+                                    <th>Reference Range</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                ${
+                                    parameters.length
+                                    ?
+                                    parameters.map(parameter => `
+
+                                        <tr>
+
+                                            <td>
+                                                ${escapeHtml(
+                                                    parameter.parameter_name ||
+                                                    "?"
+                                                )}
+                                            </td>
+
+                                            <td class="lab-result-value">
+                                                ${escapeHtml(
+                                                    parameter.result_value ||
+                                                    "?"
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                ${escapeHtml(
+                                                    parameter.unit ||
+                                                    "?"
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                <span class="
+                                                    lab-flag
+                                                    ${
+                                                        String(
+                                                            parameter.flag || ""
+                                                        )
+                                                        .toLowerCase()
+                                                        .replace(/\s+/g, "-")
+                                                    }
+                                                ">
+                                                    ${escapeHtml(
+                                                        parameter.flag ||
+                                                        "?"
+                                                    )}
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                ${escapeHtml(
+                                                    parameter.reference_range ||
+                                                    "?"
+                                                )}
+                                            </td>
+
+                                        </tr>
+
+                                    `).join("")
+                                    :
+                                    `
+                                    <tr>
+                                        <td
+                                            colspan="5"
+                                            class="empty-state"
+                                        >
+                                            No parameters recorded.
+                                        </td>
+                                    </tr>
+                                    `
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    ${
+                        report.notes
+                        ?
+                        `
+                        <div class="lab-report-notes">
+                            <strong>Notes:</strong>
+                            ${escapeHtml(report.notes)}
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+            `;
+
+        }).join("");
+
+    } catch (error) {
+
+        console.error(
+            "Load laboratory reports error:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="error-message">
+                Unable to load laboratory results.
+            </div>
+        `;
+    }
+}
+
+
+async function deleteLaboratoryReport(id) {
+
+    if (!id) {
+        return;
+    }
+
+    const confirmed = confirm(
+        "Delete this laboratory report and all its parameters?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/lab-reports/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                "Failed to delete laboratory report."
+            );
+        }
+
+        showMessage(
+            data.message ||
+            "Laboratory report deleted successfully.",
+            "success"
+        );
+
+        await loadLaboratoryReports(
+            currentPatientId
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Delete laboratory report error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to delete laboratory report."
+        );
+    }
+}
+
+// =====================================================
+// LABORATORY REQUEST ELECTRONIC SIGNATURE
+// =====================================================
+
+let labSignatureCanvas = null;
+let labSignatureContext = null;
+let labSignatureDrawing = false;
+
+
+// =====================================================
+// INITIALIZE LABORATORY REQUEST SIGNATURE
+// =====================================================
+
+function initializeLabRequestSignature() {
+
+    labSignatureCanvas =
+        document.getElementById(
+            "labRequestSignaturePad"
+        );
+
+    if (!labSignatureCanvas) {
+        console.error(
+            "Laboratory signature canvas not found."
+        );
+        return;
+    }
+
+
+    labSignatureContext =
+        labSignatureCanvas.getContext("2d");
+
+
+    // Clear canvas
+    labSignatureContext.clearRect(
+        0,
+        0,
+        labSignatureCanvas.width,
+        labSignatureCanvas.height
+    );
+
+
+    // White background
+    labSignatureContext.fillStyle = "#ffffff";
+
+    labSignatureContext.fillRect(
+        0,
+        0,
+        labSignatureCanvas.width,
+        labSignatureCanvas.height
+    );
+
+
+    // Blue signature ink
+    labSignatureContext.lineWidth = 2;
+
+    labSignatureContext.lineCap = "round";
+
+    labSignatureContext.lineJoin = "round";
+
+    labSignatureContext.strokeStyle = "#2563EB";
+
+
+    labSignatureDrawing = false;
+
+
+    // -------------------------------------------------
+    // Mouse events
+    // -------------------------------------------------
+
+    labSignatureCanvas.onmousedown =
+        function (event) {
+
+            labSignatureDrawing = true;
+
+            labSignatureContext.beginPath();
+
+            labSignatureContext.moveTo(
+                event.offsetX,
+                event.offsetY
+            );
+        };
+
+
+    labSignatureCanvas.onmousemove =
+        function (event) {
+
+            if (!labSignatureDrawing) {
+                return;
+            }
+
+            labSignatureContext.lineTo(
+                event.offsetX,
+                event.offsetY
+            );
+
+            labSignatureContext.stroke();
+        };
+
+
+    labSignatureCanvas.onmouseup =
+        function () {
+
+            labSignatureDrawing = false;
+
+            labSignatureContext.closePath();
+
+        };
+
+
+    labSignatureCanvas.onmouseleave =
+        function () {
+
+            labSignatureDrawing = false;
+
+        };
+
+
+    // -------------------------------------------------
+    // Touch events
+    // -------------------------------------------------
+
+    labSignatureCanvas.ontouchstart =
+        function (event) {
+
+            event.preventDefault();
+
+            const rect =
+                labSignatureCanvas.getBoundingClientRect();
+
+            const touch =
+                event.touches[0];
+
+            const x =
+                touch.clientX - rect.left;
+
+            const y =
+                touch.clientY - rect.top;
+
+
+            labSignatureDrawing = true;
+
+            labSignatureContext.beginPath();
+
+            labSignatureContext.moveTo(
+                x,
+                y
+            );
+        };
+
+
+    labSignatureCanvas.ontouchmove =
+        function (event) {
+
+            event.preventDefault();
+
+            if (!labSignatureDrawing) {
+                return;
+            }
+
+            const rect =
+                labSignatureCanvas.getBoundingClientRect();
+
+            const touch =
+                event.touches[0];
+
+            const x =
+                touch.clientX - rect.left;
+
+            const y =
+                touch.clientY - rect.top;
+
+
+            labSignatureContext.lineTo(
+                x,
+                y
+            );
+
+            labSignatureContext.stroke();
+        };
+
+
+    labSignatureCanvas.ontouchend =
+        function (event) {
+
+            event.preventDefault();
+
+            labSignatureDrawing = false;
+
+            labSignatureContext.closePath();
+
+        };
+
+
+    // -------------------------------------------------
+    // Signature status
+    // -------------------------------------------------
+
+    const status =
+        document.getElementById(
+            "labRequestSignatureStatus"
+        );
+
+    if (status) {
+
+        status.textContent =
+            "Signature not provided";
+
+    }
+}
+
+
+// =====================================================
+// CLEAR LABORATORY REQUEST SIGNATURE
+// =====================================================
+
+function clearLabRequestSignature() {
+
+    if (
+        !labSignatureCanvas ||
+        !labSignatureContext
+    ) {
+        initializeLabRequestSignature();
+        return;
+    }
+
+
+    labSignatureContext.clearRect(
+        0,
+        0,
+        labSignatureCanvas.width,
+        labSignatureCanvas.height
+    );
+
+
+    // Restore white background
+    labSignatureContext.fillStyle =
+        "#ffffff";
+
+    labSignatureContext.fillRect(

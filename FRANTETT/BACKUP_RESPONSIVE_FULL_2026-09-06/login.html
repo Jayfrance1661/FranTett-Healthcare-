@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Staff Login - FranTett Healthcare</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+        background:
+            radial-gradient(circle at top left, rgba(105,184,170,.20), transparent 35%),
+            linear-gradient(135deg, #eef8f6 0%, #f8fbfc 50%, #eaf5f3 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 20px;
+        color: #24343b;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 460px;
+    }
+
+    .login-card {
+        background: rgba(255,255,255,.98);
+        border: 1px solid rgba(11,107,92,.10);
+        border-radius: 24px;
+        padding: 42px;
+        box-shadow:
+            0 20px 55px rgba(31,67,73,.13),
+            0 5px 18px rgba(0,0,0,.04);
+    }
+
+    .login-card h1 {
+        margin: 0;
+        text-align: center;
+        color: #123f38;
+        font-size: 28px;
+        line-height: 1.2;
+        letter-spacing: -.4px;
+    }
+
+    .login-card .subtitle {
+        margin: 10px 0 30px;
+        text-align: center;
+        color: #718085;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .login-card h1::before {
+        content: "✚";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 16px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #0b6b5c, #69b8aa);
+        color: #ffffff;
+        font-size: 34px;
+        font-weight: 700;
+        box-shadow: 0 12px 28px rgba(11,107,92,.22);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #30464b;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .form-group input {
+        width: 100%;
+        height: 52px;
+        padding: 0 15px;
+        border: 1px solid #d7e1e3;
+        border-radius: 11px;
+        background: #fbfdfd;
+        color: #263a3f;
+        font-size: 15px;
+        transition: .2s ease;
+    }
+
+    .form-group input::placeholder {
+        color: #a0adb0;
+    }
+
+    .form-group input:hover {
+        border-color: #b7ceca;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        background: #ffffff;
+        border-color: #0b6b5c;
+        box-shadow: 0 0 0 4px rgba(11,107,92,.10);
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: transparent;
+        color: #71827f;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 6px;
+    }
+
+    .password-toggle:hover {
+        color: #0b6b5c;
+    }
+
+    .login-btn {
+        width: 100%;
+        height: 53px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 11px;
+        background: linear-gradient(135deg, #0b6b5c, #168575);
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: .2px;
+        cursor: pointer;
+        box-shadow: 0 9px 20px rgba(11,107,92,.20);
+        transition: .2s ease;
+    }
+
+    .login-btn:hover {
+        background: linear-gradient(135deg, #09584d, #0b6b5c);
+        transform: translateY(-1px);
+        box-shadow: 0 12px 25px rgba(11,107,92,.27);
+    }
+
+    .login-btn:active {
+        transform: translateY(0);
+    }
+
+    .login-btn:disabled {
+        opacity: .65;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .message {
+        display: none;
+        margin-bottom: 20px;
+        padding: 13px 15px;
+        border-radius: 10px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .error {
+        background: #fff0f1;
+        color: #9b2630;
+        border: 1px solid #f4c6ca;
+    }
+
+    .success {
+        background: #edf9f2;
+        color: #196b3a;
+        border: 1px solid #c4e8d0;
+    }
+
+    .security-note {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        margin-top: 22px;
+        color: #7a898d;
+        font-size: 12px;
+    }
+
+    .back-link {
+        display: block;
+        margin-top: 25px;
+        text-align: center;
+        color: #0b6b5c;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    .footer-text {
+        text-align: center;
+        margin-top: 22px;
+        color: #849296;
+        font-size: 12px;
+    }
+
+    @media (max-width: 520px) {
+
+        body {
+            padding: 20px 15px;
+        }
+
+        .login-card {
+            padding: 30px 22px;
+            border-radius: 20px;
+        }
+
+        .login-card h1 {
+            font-size: 24px;
+        }
+
+        .login-card h1::before {
+            width: 58px;
+            height: 58px;
+            font-size: 30px;
+        }
+
+    }
+
+</style>
+
+<script>
+    window.FRANTETT_API =
+        window.location.protocol +
+        "//" +
+        window.location.hostname +
+        ":3000";
+</script></head>
+
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <h1>
+                FranTett Healthcare
+            </h1>
+
+            <p class="subtitle">
+                Staff Login
+            </p>
+
+
+            <!-- =========================
+                 MESSAGE
+            ========================= -->
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+
+            <!-- =========================
+                 LOGIN FORM
+            ========================= -->
+
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                    id="loginButton"
+                >
+                    Login
+                </button>
+
+            </form>
+
+
+            <a
+                href="appointment.html"
+                class="back-link"
+            >
+                Back to booking
+            </a>
+
+        </div>
+
+    </div>
+
+
+<script>
+
+    const API_URL = window.FRANTETT_API;
+
+
+    // ==========================================
+    // LOGIN FORM
+    // ==========================================
+
+    document
+        .getElementById("loginForm")
+        .addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
+
+
+                const message =
+                    document
+                        .getElementById("message");
+
+
+                const loginButton =
+                    document
+                        .getElementById("loginButton");
+
+
+                // ==================================
+                // CLEAR PREVIOUS MESSAGE
+                // ==================================
+
+                message.style.display =
+                    "none";
+
+
+                message.textContent =
+                    "";
+
+
+                // ==================================
+                // DISABLE BUTTON
+                // ==================================
+
+                loginButton.disabled =
+                    true;
+
+
+                loginButton.textContent =
+                    "Logging in...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `${API_URL}/api/login`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        email:
+                                            email,
+
+                                        password:
+                                            password
+                                    })
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    // ==================================
+                    // LOGIN FAILED
+                    // ==================================
+
+                    if (!response.ok) {
+
+                        message.className =
+                            "message error";
+
+
+                        message.textContent =
+                            data.message ||
+                            "Invalid email or password.";
+
+
+                        message.style.display =
+                            "block";
+
+
+                        loginButton.disabled =
+                            false;
+
+
+                        loginButton.textContent =
+                            "Login";
+
+
+                        return;
+
+                    }
+
+
+                    // ==================================
+                    // STORE JWT TOKEN
+                    // ==================================
+
+                    if (!data.token) {
+
+                        message.className =
+                            "message error";
+
+
+                        message.textContent =
+                            "Login succeeded but no authentication token was received.";
+
+
+                        message.style.display =
+                            "block";
+
+
+                        loginButton.disabled =
+                            false;
+
+
+                        loginButton.textContent =
+                            "Login";
+
+
+                        return;
+
+                    }
+
+
+                    localStorage.setItem(
+                        "frantett_token",
+                        data.token
+                    );
+
+
+                    // ==================================
+                    // SUCCESS MESSAGE
+                    // ==================================
+
+                    message.className =
+                        "message success";
+
+
+                    message.textContent =
+                        "Login successful. Redirecting...";
+
+
+                    message.style.display =
+                        "block";
+
+
+                    // ==================================
+                    // REDIRECT
+                    // ==================================
+
+                    setTimeout(
+                        function() {
+
+                            window.location.href =
+                                "./dashboard.html";
+
+                        },
+                        500
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Login error:",
+                        error
+                    );
+
+
+                    message.className =
+                        "message error";
+
+
+                    message.textContent =
+                        "Unable to connect to the server. Make sure the server is running.";
+
+
+                    message.style.display =
+                        "block";
+
+
+                    loginButton.disabled =
+                        false;
+
+
+                    loginButton.textContent =
+                        "Login";
+
+                }
+
+            }
+        );
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,500 @@
+
+let currentAppointmentId = null;
+
+let currentConsultationId = null;
+
+let currentConsultations = [];
+
+
+/* =====================================================
+   TOKEN
+===================================================== */
+
+function getToken() {
+
+    return localStorage.getItem(
+        "frantett_token"
+    );
+
+}
+
+
+/* =====================================================
+   AUTHENTICATION
+===================================================== */
+
+function checkAuthentication() {
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        alert(
+            "Please log in to access patient records."
+        );
+
+        window.location.href =
+            "./login.html";
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+/* =====================================================
+   SESSION EXPIRED
+===================================================== */
+
+function handleSessionExpired() {
+
+    localStorage.removeItem(
+        "frantett_token"
+    );
+
+    alert(
+        "Your session has expired. Please log in again."
+    );
+
+    window.location.href =
+        "./login.html";
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(value) {
+
+    if (!value) {
+
+        return "";
+
+    }
+
+    const date =
+        new Date(value);
+
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return String(value);
+
+    }
+
+    return date.toLocaleDateString();
+
+}
+
+function formatDateTime(value) {
+
+    if (!value) {
+        return "";
+    }
+
+    const date = new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return String(value);
+    }
+
+    return date.toLocaleString();
+}
+
+/* =====================================================
+   TIME
+===================================================== */
+
+function formatTime(value) {
+
+    if (!value) {
+
+        return "";
+
+    }
+
+    const parts =
+        String(value).split(":");
+
+    if (
+        parts.length < 2
+    ) {
+
+        return value;
+
+    }
+
+    let hours =
+        parseInt(
+            parts[0],
+            10
+        );
+
+    const minutes =
+        parts[1];
+
+    if (
+        isNaN(hours)
+    ) {
+
+        return value;
+
+    }
+
+    const ampm =
+        hours >= 12
+            ? "PM"
+            : "AM";
+
+    hours =
+        hours % 12 || 12;
+
+    return `${hours}:${minutes} ${ampm}`;
+
+}
+
+
+/* =====================================================
+   TODAY
+===================================================== */
+
+function getTodayDate() {
+
+    const today =
+        new Date();
+
+    const year =
+        today.getFullYear();
+
+    const month =
+        String(
+            today.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+    const day =
+        String(
+            today.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+    text,
+    type = "success"
+) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    if (!message) {
+
+        return;
+
+    }
+
+    message.textContent =
+        text;
+
+    message.className =
+        `message ${type}`;
+
+    message.style.display =
+        "block";
+
+    setTimeout(
+        () => {
+
+            message.style.display =
+                "none";
+
+        },
+        4000
+    );
+
+}
+
+
+/* =====================================================
+   LOAD PATIENTS
+===================================================== */
+
+async function loadPatients() {
+
+    if (
+        !checkAuthentication()
+    ) {
+
+        return;
+
+    }
+
+    const table =
+        document.getElementById(
+            "patientsTable"
+        );
+
+    const token =
+        getToken();
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/patients`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            handleSessionExpired();
+
+            return;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="7">
+                        ${escapeHtml(
+                            data.message ||
+                            "Failed to load patients."
+                        )}
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        patients =
+            Array.isArray(data)
+                ? data
+                : [];
+
+
+        displayPatients(
+            patients
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Load patients error:",
+            error
+        );
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    Unable to connect to the server.
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   DISPLAY PATIENTS
+===================================================== */
+
+function displayPatients(data) {
+
+    const table =
+        document.getElementById(
+            "patientsTable"
+        );
+
+    table.innerHTML =
+        "";
+
+
+    if (
+        !Array.isArray(data) ||
+        data.length === 0
+    ) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    No patient records found.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    data.forEach(
+        patient => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            const fullName =
+                `${patient.first_name || ""} ${patient.last_name || ""}`
+                    .trim();
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHtml(patient.id)}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        fullName ||
+                        "Unnamed patient"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        patient.email ||
+                        ""
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        patient.phone ||
+                        ""
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        formatDate(
+                            patient.date_of_birth
+                        )
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        patient.gender ||
+                        ""
+                    )}
+                </td>
+
+                <td>
+
+                    <div class="actions">
+
+                        <button
+                            class="view-btn"
+                            onclick="viewPatient(${Number(patient.id)})"
+                        >
+                            View
+                        </button>
+
+                        <button
+                            class="edit-btn"
+                            onclick="editPatient(${Number(patient.id)})"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="danger-btn"
+                            onclick="deletePatient(${Number(patient.id)})"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                </td>
+
+            `;
+
+
+            table.appendChild(
+                row
+            );
+

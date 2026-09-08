@@ -1,0 +1,500 @@
+                            value="HbA1c"
+                            class="lab-request-test"
+                        >
+                        HbA1c
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Thyroid Function Test"
+                            class="lab-request-test"
+                        >
+                        Thyroid Function Test
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Urinalysis"
+                            class="lab-request-test"
+                        >
+                        Urinalysis
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="Pregnancy Test"
+                            class="lab-request-test"
+                        >
+                        Pregnancy Test
+                    </label>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Other Investigation</label>
+
+                    <input
+                        type="text"
+                        id="labRequestOtherTest"
+                        placeholder="Enter other investigation"
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <div class="lab-request-section">
+
+                <h3>Requesting Clinician</h3>
+
+                <input
+                    type="text"
+                    id="labRequestRequestedBy"
+                    placeholder="Name of requesting doctor / clinician"
+                >
+
+            </div>
+
+
+            <div class="lab-request-signature">
+
+    <div class="electronic-signature-section">
+
+        <strong>Electronic Signature:</strong>
+
+        <div
+            class="signature-pad-wrapper"
+        >
+            <canvas
+                id="labRequestSignaturePad"
+                width="500"
+                height="160"
+            ></canvas>
+        </div>
+
+        <div class="signature-actions">
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="clearLabRequestSignature()"
+            >
+                Clear Signature
+            </button>
+
+        </div>
+
+        <div
+            id="labRequestSignatureStatus"
+            class="signature-status"
+        >
+            Signature not provided
+        </div>
+
+    </div>
+
+
+    <div>
+
+        <strong>Date:</strong>
+
+        <div
+            class="signature-line"
+            id="labRequestSignatureDate"
+        ></div>
+
+    </div>
+
+</div>
+
+
+            <div class="lab-request-footer">
+
+                <strong>FRANTETT HEALTHCARE</strong>
+
+                <div>
+                    Address: [hospital address]
+                </div>
+
+                <div>
+                    Tel: [hospital telephone]
+                </div>
+
+                <div>
+                    Email: [hospital email]
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-actions no-print">
+
+            <button
+                type="button"
+                class="save-btn"
+                onclick="saveLabRequest()"
+            >
+                Save Request
+            </button>
+
+            <button
+                type="button"
+                class="primary-btn"
+                onclick="printLabRequest()"
+            >
+                Print Request
+            </button>
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="closeLabRequestModal()"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    id="prescriptionFormModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closePrescriptionFormModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="prescriptionFormTitle">
+            Add Prescription
+        </h2>
+
+        <form id="prescriptionForm">
+
+    <input
+        type="hidden"
+        id="prescriptionId"
+    >
+
+    <!-- ==============================
+         PRESCRIPTION HEADER
+    =============================== -->
+
+    <div class="form-group">
+
+        <label>
+            Doctor
+        </label>
+
+        <input
+            type="text"
+            id="prescriptionDoctor"
+            placeholder="Doctor name"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Prescription Date *
+        </label>
+
+        <input
+            type="date"
+            id="prescriptionDate"
+            required
+        >
+
+    </div>
+
+
+    <!-- ==============================
+         MEDICATIONS
+    =============================== -->
+
+   <h3>
+    Medications
+</h3>
+
+<div class="prescription-table-wrapper">
+
+    <table class="prescription-entry-table">
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Medication
+                </th>
+
+                <th>
+                    Dose
+                </th>
+
+                <th>
+                    Route
+                </th>
+
+                <th>
+                    Frequency
+                </th>
+
+                <th>
+                    Duration
+                </th>
+
+                <th>
+                    Quantity
+                </th>
+
+
+            </tr>
+
+        </thead>
+
+        <tbody id="medicationItems">
+
+            <tr class="medication-item">
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-name"
+                        placeholder="Medication"
+                        required
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-dose"
+                        placeholder="500 mg"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-route"
+                        placeholder="Oral"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-frequency"
+                        placeholder="BID"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-duration"
+                        placeholder="7 days"
+                    >
+
+                </td>
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="medication-quantity"
+                        placeholder="14"
+                    >
+
+                </td>
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="danger-btn"
+                        onclick="removeMedicationItem(this)"
+                        style="display: none;"
+                    >
+                        Remove
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<div style="margin-top: 12px;">
+
+    <button
+        type="button"
+        class="primary-btn"
+        onclick="addMedicationItem()"
+    >
+        + Add Another Medication
+    </button>
+
+</div>
+
+
+<div class="form-group">
+
+    <label>
+        Notes
+    </label>
+
+    <textarea
+        id="prescriptionNotes"
+        placeholder="Additional prescription notes..."
+    ></textarea>
+
+</div>
+
+
+    <!-- ==============================
+         ACTIONS
+    =============================== -->
+
+    <div class="form-actions">
+
+        <button
+            type="submit"
+            class="save-btn"
+        >
+            Save Prescription
+        </button>
+
+        <button
+            type="button"
+            class="cancel-btn"
+            onclick="closePrescriptionFormModal()"
+        >
+            Cancel
+        </button>
+
+    </div>
+
+</form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CONSULTATION FORM MODAL
+===================================================== -->
+
+<div
+    id="consultationFormModal"
+    class="modal"
+>
+
+    <div class="modal-content large-modal">
+
+        <span
+            class="close-modal"
+            onclick="closeConsultationFormModal()"
+        >
+            &times;
+        </span>
+
+        <h2 id="consultationFormTitle">
+            Add Consultation
+        </h2>
+
+        <form id="consultationForm">
+
+           <input
+    type="hidden"
+    id="consultationId"
+>
+
+<div class="form-group">
+
+    <label for="consultationAppointment">
+        Appointment *
+    </label>
+
+    <select
+        id="consultationAppointment"
+        required
+    >
+        <option value="">
+            Select appointment
+        </option>
+    </select>
+
+</div>
+
+
+<div class="form-group">
+
+    <label>Doctor</label>
+
+                <input
+                    type="text"
+                    id="consultationDoctor"
+                    placeholder="Doctor name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Consultation Date *</label>
+
+                <input
+                    type="date"
+                    id="consultationDate"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Presenting Complaint</label>
+
+                <textarea
+                    id="chiefComplaint"
+                    placeholder="Main reason for consultation..."
+                ></textarea>
+

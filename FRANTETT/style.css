@@ -194,4 +194,275 @@ button{
 
 .appointment-card button:hover {
     opacity: 0.85;
+}/* ============================================================
+   FRANTETT HEALTHCARE
+   SHARED RESPONSIVE FOUNDATION
+   Added: 2026-09-06
+   ============================================================ */
+
+/* ---------- GLOBAL RESPONSIVE SAFETY ---------- */
+
+html {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+img,
+video,
+iframe,
+canvas,
+svg {
+    max-width: 100%;
+}
+
+input,
+select,
+textarea,
+button {
+    max-width: 100%;
+    font-family: inherit;
+}
+
+
+/* ---------- SHARED NAVIGATION ---------- */
+
+nav {
+    width: 100%;
+    max-width: 100%;
+}
+
+nav ul {
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+nav li {
+    margin-left: 17px;
+}
+
+
+/* ---------- SHARED BUTTONS ---------- */
+
+button {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+}
+
+
+/* ---------- SHARED FORMS ---------- */
+
+.appointment-form {
+    width: min(400px, calc(100% - 32px));
+    max-width: 400px;
+}
+
+.appointment-form input,
+.appointment-form select,
+.appointment-form textarea {
+    width: 100%;
+    min-width: 0;
+}
+
+
+/* ---------- SHARED APPOINTMENT CARDS ---------- */
+
+.appointment-card {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.appointment-card button {
+    max-width: 100%;
+    white-space: normal;
+}
+
+
+/* ---------- SHARED TABLE SAFETY ---------- */
+
+/*
+   Tables remain tables.
+   Horizontal scrolling is confined to their wrapper rather
+   than allowing the entire page to become wider than the phone.
+*/
+
+.table-wrapper,
+.table-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-wrapper table,
+.table-container table {
+    max-width: none;
+}
+
+.table-wrapper th,
+.table-wrapper td,
+.table-container th,
+.table-container td {
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+
+/* ---------- MOBILE FOUNDATION ---------- */
+
+@media (max-width: 768px) {
+
+    nav {
+        padding: 14px 18px;
+        gap: 12px;
+    }
+
+    nav h2 {
+        font-size: 20px;
+        line-height: 1.2;
+    }
+
+    nav ul {
+        gap: 4px 12px;
+    }
+
+    nav li {
+        margin-left: 0;
+    }
+
+    nav a {
+        font-size: 14px;
+    }
+
+    .hero {
+        margin-top: 60px;
+        padding: 0 18px;
+    }
+
+    .hero h1 {
+        font-size: clamp(32px, 9vw, 44px);
+        line-height: 1.1;
+    }
+
+    .hero p {
+        font-size: 17px;
+        line-height: 1.5;
+        margin: 18px auto;
+        max-width: 600px;
+    }
+
+    .page-title {
+        margin-top: 30px;
+        padding: 0 18px;
+        font-size: 30px;
+        line-height: 1.2;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 11px 18px;
+    }
+
+    .doctor-container {
+        width: 100%;
+        padding: 0 16px;
+        gap: 18px;
+        margin-top: 30px;
+    }
+
+    .doctor-card {
+        width: min(300px, 100%);
+        padding: 20px;
+    }
+
+    .appointment-form {
+        width: calc(100% - 32px);
+        margin: 30px auto;
+    }
+
+    #appointments {
+        width: 100%;
+        max-width: 700px;
+        padding: 0 16px;
+    }
+
+    .appointment-card {
+        padding: 16px;
+    }
+
+    .appointment-card button {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+}
+
+
+/* ---------- SMALL PHONES ---------- */
+
+@media (max-width: 480px) {
+
+    nav {
+        padding: 12px 14px;
+    }
+
+    nav h2 {
+        font-size: 18px;
+    }
+
+    nav a {
+        font-size: 13px;
+    }
+
+    .hero {
+        margin-top: 40px;
+        padding: 0 14px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .page-title {
+        margin-top: 24px;
+        padding: 0 14px;
+        font-size: 26px;
+    }
+
+    button {
+        font-size: 15px;
+        padding: 10px 14px;
+    }
+
+    .doctor-container {
+        padding: 0 12px;
+    }
+
+    .doctor-card {
+        padding: 16px;
+    }
+
+    .appointment-form {
+        width: calc(100% - 24px);
+    }
+
+    #appointments {
+        padding: 0 12px;
+    }
+
+    .appointment-card {
+        padding: 14px;
+    }
 }
