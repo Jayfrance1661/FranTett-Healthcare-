@@ -1699,30 +1699,129 @@ select {
 
 <style id="FRANTETT-LAB-DISPLAY-COMPACT-FIX">
 
-.linked-record-lab-report .linked-lab-report-header {
+/* =========================================================
+   LABORATORY REPORTS — HEADER + RESULTS ALIGNMENT
+========================================================= */
+
+.linked-record-lab-report #linkedLabReportsList {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.linked-record-lab-report #linkedLabReportsList .linked-record-table-wrapper {
+    width: 100% !important;
+    margin: 0 0 16px 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+}
+
+/* Report title */
+.linked-record-lab-report #linkedLabReportsList .linked-lab-report-header {
+    width: 100% !important;
     display: flex !important;
     align-items: center !important;
     gap: 6px !important;
-    margin: 8px 0 5px 0 !important;
-    padding: 6px 9px !important;
-    font-size: 13px !important;
-    line-height: 1.2 !important;
-    color: #263238 !important;
+
+    margin: 8px 0 0 0 !important;
+    padding: 8px 10px !important;
+
+    box-sizing: border-box !important;
+
     background: #f1f8f9 !important;
     border-left: 3px solid #00897b !important;
-    border-radius: 4px !important;
+    border-radius: 4px 4px 0 0 !important;
+
+    font-size: 13px !important;
+    line-height: 1.2 !important;
 }
 
-.linked-record-lab-report .linked-lab-report-header strong {
+/* Test name */
+.linked-record-lab-report #linkedLabReportsList
+.linked-lab-report-header strong {
     color: #00695c !important;
     font-weight: 700 !important;
 }
 
-.linked-record-lab-report .linked-lab-report-header span {
+/* Date/separator */
+.linked-record-lab-report #linkedLabReportsList
+.linked-lab-report-header span {
     white-space: nowrap !important;
 }
 
-</style><script>
+/* Results container directly below header */
+.linked-record-lab-report #linkedLabReportsList
+.linked-record-subtable {
+    width: 100% !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Results table directly under header */
+.linked-record-lab-report #linkedLabReportsList
+.linked-record-subtable table {
+    width: 100% !important;
+    display: table !important;
+    table-layout: fixed !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+
+    box-sizing: border-box !important;
+}
+
+/* Five equal columns */
+.linked-record-lab-report #linkedLabReportsList
+.linked-record-subtable th,
+.linked-record-lab-report #linkedLabReportsList
+.linked-record-subtable td {
+    width: 20% !important;
+    box-sizing: border-box !important;
+
+    margin: 0 !important;
+    padding: 8px 10px !important;
+
+    text-align: left !important;
+    vertical-align: middle !important;
+
+    overflow-wrap: anywhere !important;
+}
+
+/* Header row */
+.linked-record-lab-report #linkedLabReportsList
+.linked-record-subtable th {
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .linked-record-lab-report #linkedLabReportsList
+    .linked-record-subtable {
+        overflow-x: auto !important;
+    }
+
+    .linked-record-lab-report #linkedLabReportsList
+    .linked-record-subtable table {
+        min-width: 650px !important;
+    }
+
+}
+
+</style>
+
+<script>
     window.FRANTETT_API = "https://localhost:3000";
 </script>
 <style>
@@ -1771,193 +1870,47 @@ select {
 }
 
 #labRequestModal .lab-request-header {
-    text-align: center;
-    border-bottom: 2px solid #0b6b63;
-    padding-bottom: 18px;
-    margin-bottom: 22px;
+    display: block !important;
+    position: relative !important;
+    text-align: center !important;
+    padding: 28px 180px 24px !important;
+    border-bottom: 2px solid #0b6b63 !important;
 }
 
-#labRequestModal .lab-request-header h1 {
-    margin: 0;
-    color: #0b6b63;
-}
-
-#labRequestModal .lab-request-header h2 {
-    margin: 12px 0 0;
-}
-
-#labRequestModal .lab-request-patient-section,
-#labRequestModal .lab-request-section,
-#labRequestModal .lab-request-signature {
-    margin-bottom: 22px;
-}
-
-#labRequestModal .lab-request-patient-section h3,
-#labRequestModal .lab-request-section h3 {
-    margin-bottom: 12px;
-    color: #084f4a;
-}
-
-#labRequestModal .lab-request-patient-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 20px;
-    padding: 16px;
-    background: #f4f7f7;
-    border: 1px solid #d9e2e1;
-    border-radius: 8px;
-}
-
-#labRequestModal .lab-request-patient-grid div {
-    display: flex;
-    gap: 6px;
-}
-
-#labRequestModal textarea,
-#labRequestModal input[type="text"] {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-#labRequestModal .lab-request-tests {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px 16px;
-    margin-bottom: 18px;
-}
-
-#labRequestModal .lab-request-tests label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px;
-}
-
-#labRequestModal .signature-pad-wrapper {
-    width: 100%;
-    max-width: 500px;
-    border: 1px solid #d9e2e1;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #ffffff;
-    margin-top: 8px;
-}
-
-#labRequestModal #labRequestSignaturePad {
-    display: block;
-    width: 100%;
-    height: auto;
-    touch-action: none;
-}
-
-#labRequestModal .signature-actions {
-    margin-top: 8px;
-}
-
-#labRequestModal .signature-status {
-    margin-top: 6px;
-    color: #6b7280;
-    font-size: 14px;
-}
-
-#labRequestModal .lab-request-footer {
-    border-top: 1px solid #d9e2e1;
-    margin-top: 24px;
-    padding-top: 16px;
-    text-align: center;
-    color: #6b7280;
-}
-
-#labRequestModal .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-@media (max-width: 700px) {
-    #labRequestModal.modal {
-        padding: 10px;
-    }
-
-    #labRequestModal .modal-content {
-        margin: 10px auto;
-        padding: 18px;
-        border-radius: 10px;
-    }
-
-    #labRequestModal .lab-request-patient-grid {
-        grid-template-columns: 1fr;
-    }
-
-    #labRequestModal .lab-request-tests {
-        grid-template-columns: 1fr;
-    }
-
-    #labRequestModal .form-actions {
-        flex-direction: column;
-    }
-
-    #labRequestModal .form-actions button {
-        width: 100%;
-    }
-}
-
-/* =========================================================
-   PROFESSIONAL LAB REQUEST FORM
-========================================================= */
-
-#labRequestModal .lab-request-modal-content {
-    width: min(1100px, 96vw);
-    max-width: 1100px;
-    max-height: 92vh;
-    overflow-y: auto;
-    padding: 0;
-    border-radius: 18px;
-}
-
-#labRequestModal #labRequestPrintable {
-    background: #fff;
-}
-
-#labRequestModal .lab-request-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 24px;
-    padding: 30px 34px 24px;
-    border-bottom: 1px solid #e5e7eb;
+#labRequestModal .lab-request-header > div:first-child {
+    width: 100% !important;
+    text-align: center !important;
 }
 
 #labRequestModal .lab-request-eyebrow {
-    display: block;
-    margin-bottom: 7px;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: .12em;
-    color: #2563eb;
+    display: block !important;
+    margin: 0 0 6px !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    letter-spacing: .08em !important;
+    color: #2563eb !important;
+    text-align: center !important;
 }
 
 #labRequestModal .lab-request-header h1 {
-    margin: 0;
-    font-size: 26px;
-    line-height: 1.2;
-    color: #111827;
+    margin: 0 !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    color: #374151 !important;
+    text-align: center !important;
 }
 
 #labRequestModal .lab-request-header p {
-    margin: 7px 0 0;
-    color: #6b7280;
-    font-size: 14px;
+    display: none !important;
 }
 
 #labRequestModal .lab-request-date-card {
-    min-width: 145px;
-    padding: 12px 15px;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    background: #f9fafb;
+    position: absolute !important;
+    right: 34px !important;
+    top: 28px !important;
 }
+
 
 #labRequestModal .lab-request-date-card span,
 #labRequestModal .lab-field-label {
@@ -2284,6 +2237,123 @@ select {
     #labRequestModal .form-actions button {
         width: 100%;
     }
+}
+</style>
+<style>
+/* =========================================================
+   LINKED LAB REPORT MODAL
+========================================================= */
+
+#linkedLabReportForm.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.55);
+    box-sizing: border-box;
+}
+
+#linkedLabReportForm .modal-content {
+    position: relative;
+    width: min(1100px, 96vw);
+    max-width: 1100px;
+    margin: 30px auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    padding: 28px;
+}
+
+#linkedLabReportForm .close-modal {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+    color: #6b7280;
+    cursor: pointer;
+    z-index: 2;
+}
+
+#linkedLabReportForm .close-modal:hover {
+    color: #1f2937;
+}
+
+@media (max-width: 700px) {
+    #linkedLabReportForm .modal-content {
+        width: 96vw;
+        margin: 20px auto;
+        padding: 22px 18px;
+        border-radius: 12px;
+    }
+}
+</style>
+<style>
+/* =========================================================
+   LINKED PRESCRIPTION MODAL
+========================================================= */
+
+#linkedPrescriptionForm.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.55);
+    box-sizing: border-box;
+}
+
+#linkedPrescriptionForm .modal-content {
+    position: relative;
+    width: min(1100px, 96vw);
+    max-width: 1100px;
+    margin: 30px auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    padding: 28px;
+}
+
+#linkedPrescriptionForm .close-modal {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+    color: #6b7280;
+    cursor: pointer;
+    z-index: 2;
+}
+
+#linkedPrescriptionForm .close-modal:hover {
+    color: #1f2937;
+}
+
+@media (max-width: 700px) {
+    #linkedPrescriptionForm .modal-content {
+        width: 96vw;
+        margin: 20px auto;
+        padding: 22px 18px;
+        border-radius: 12px;
+    }
+}
+</style>
+<style>
+/* Compact prescription date */
+.linked-prescription-date {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4b5563;
 }
 </style>
 </head>
@@ -3496,11 +3566,9 @@ select {
             </button>
         </div>
 
-        <div
-            id="linkedLabReportForm"
-            class="linked-record-form"
-            style="display:none;"
-        >
+        <div id="linkedLabReportForm" class="modal" style="display:none;">
+        <div class="modal-content large-modal">
+            <span class="close-modal" onclick="hideLinkedLabReportForm()">&times;</span>
 
             <div class="linked-form-grid">
 
@@ -3585,7 +3653,10 @@ select {
 
         </div>
 
-        <div id="linkedLabReportsList">
+                </div>
+    </div>
+
+    <div id="linkedLabReportsList">
             <div class="linked-record-empty">
                 Loading laboratory reports...
             </div>
@@ -3613,11 +3684,9 @@ select {
             </button>
         </div>
 
-        <div
-            id="linkedPrescriptionForm"
-            class="linked-record-form"
-            style="display:none;"
-        >
+        <div id="linkedPrescriptionForm" class="modal" style="display:none;">
+        <div class="modal-content large-modal">
+            <span class="close-modal" onclick="hideLinkedPrescriptionForm()">&times;</span>
 
             <div class="linked-form-grid">
 
@@ -3645,13 +3714,7 @@ select {
                     ></textarea>
                 </div>
 
-                <div class="form-group linked-form-full">
-                    <label>Notes</label>
-                    <textarea
-                        id="linkedPrescriptionNotes"
-                        rows="2"
-                    ></textarea>
-                </div>
+                
 
             </div>
 
@@ -3691,7 +3754,10 @@ select {
 
         </div>
 
-        <div id="linkedPrescriptionsList">
+                </div>
+    </div>
+
+    <div id="linkedPrescriptionsList">
             <div class="linked-record-empty">
                 Loading prescriptions...
             </div>
@@ -5648,7 +5714,9 @@ async function loadLinkedLabRequests() {
 
         container.innerHTML = `
             <div class="linked-record-table-wrapper">
-                <table class="linked-record-table">
+                
+
+                        <table class="linked-record-table">
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -5662,11 +5730,11 @@ async function loadLinkedLabRequests() {
 
                         ${consultationRecords.map(record => `
                             <tr>
-                                <td>${linkedEscape(linkedDate(record.request_date))}</td>
-                                <td>${linkedEscape(record.requested_tests)}</td>
-                                <td>${linkedEscape(record.clinical_information)}</td>
-                                <td>${linkedEscape(record.requested_by)}</td>
-                            </tr>
+    <td>${linkedEscape(linkedDate(record.request_date))}</td>
+    <td>${linkedEscape(record.requested_tests || "—")}</td>
+    <td>${linkedEscape(record.clinical_information || "—")}</td>
+    <td>${linkedEscape(record.requested_by || "—")}</td>
+</tr>
                         `).join("")}
 
                     </tbody>
@@ -6005,13 +6073,13 @@ async function loadLinkedLabReports() {
                 <div class="linked-record-table-wrapper">
 
                     <div class="linked-lab-report-header">
-                        <strong>${linkedEscape(record.test_name)}</strong>
-                        <span>â€”</span>
-                        <span>${linkedEscape(linkedDate(record.result_date))}</span>
-                    </div>
+    <strong>${linkedEscape(record.test_name)}</strong>
+    <span> - </span>
+    <span>${linkedEscape(linkedDate(record.result_date))}</span>
+</div>
 
-                    ${
-                        record.parameters &&
+${
+    record.parameters &&
                         record.parameters.length
                             ? `
                                 <div class="linked-record-subtable">
@@ -6411,6 +6479,8 @@ async function loadLinkedPrescriptions() {
                 return `
 
                     <div class="linked-record-table-wrapper">
+
+                        <div class="linked-prescription-date">${record.prescription_date ? `Date: ${linkedEscape(String(record.prescription_date).slice(0, 10))}` : ""}</div>
 
                         <table class="linked-record-table">
 
@@ -7135,7 +7205,71 @@ function printConsultationLabRequest() {
                 canvas {
                     max-width: 500px;
                 }
-            </style>
+            
+/* FranTett Lab Request Header */
+#labRequestModal .lab-request-header {
+    position: relative;
+    display: block;
+    text-align: center;
+    padding: 28px 180px 24px;
+    border-bottom: 2px solid #0b6b63;
+}
+
+#labRequestModal .lab-request-header > div:first-child {
+    width: 100%;
+    text-align: center;
+}
+
+#labRequestModal .lab-request-eyebrow {
+    display: block;
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: .08em;
+    color: #2563eb;
+    text-align: center;
+}
+
+#labRequestModal .lab-request-header h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #374151;
+    text-align: center;
+}
+
+#labRequestModal .lab-request-header p {
+    display: none;
+}
+
+#labRequestModal .lab-request-date-card {
+    position: absolute;
+    right: 34px;
+    top: 28px;
+}
+
+@media (max-width: 700px) {
+    #labRequestModal .lab-request-header {
+        padding: 22px 18px 18px;
+    }
+
+    #labRequestModal .lab-request-eyebrow {
+        font-size: 18px;
+    }
+
+    #labRequestModal .lab-request-header h1 {
+        font-size: 16px;
+    }
+
+    #labRequestModal .lab-request-date-card {
+        position: static;
+        width: 100%;
+        margin-top: 16px;
+        box-sizing: border-box;
+    }
+}
+</style>
         </head>
         <body>
             ${printable.innerHTML}
@@ -7170,9 +7304,9 @@ function printConsultationLabRequest() {
 
             <div class="lab-request-header">
                 <div>
-                    <span class="lab-request-eyebrow">DIAGNOSTIC SERVICES</span>
+                    <span class="lab-request-eyebrow">FRANTETT HEALTHCARE</span>
                     <h1>Laboratory Investigation Request</h1>
-                    <p>Consultation-linked laboratory request</p>
+                    <p></p>
                 </div>
 
                 <div class="lab-request-date-card">
@@ -7605,6 +7739,16 @@ function printConsultationLabRequest() {
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
 
 
