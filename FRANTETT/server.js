@@ -1,4 +1,4 @@
-﻿const cors = require("cors");
+const cors = require("cors");
 const express = require("express");
 const https = require("https");
 const fs = require("fs");
@@ -5585,47 +5585,76 @@ app.delete(
             parseInt(req.params.id, 10);
 
         if (isNaN(prescriptionId)) {
-
             return res.status(400).json({
                 message: "Invalid prescription ID."
             });
-
         }
+
+        let client;
 
         try {
 
+            client = await pool.connect();
+
+            await client.query("BEGIN");
+
+            const prescriptionResult =
+                await client.query(
+                    `
+                    SELECT *
+                    FROM prescriptions
+                    WHERE id = $1
+                    FOR UPDATE
+                    `,
+                    [prescriptionId]
+                );
+
+            if (prescriptionResult.rows.length === 0) {
+
+                await client.query("ROLLBACK");
+
+                return res.status(404).json({
+                    message: "Prescription not found."
+                });
+            }
+
+            await client.query(
+                `
+                DELETE FROM prescription_items
+                WHERE prescription_id = $1
+                `,
+                [prescriptionId]
+            );
+
             const result =
-                await pool.query(
+                await client.query(
                     `
                     DELETE FROM prescriptions
-
                     WHERE id = $1
-
                     RETURNING *
                     `,
                     [prescriptionId]
                 );
 
-            if (result.rows.length === 0) {
-
-                return res.status(404).json({
-                    message:
-                        "Prescription not found."
-                });
-
-            }
+            await client.query("COMMIT");
 
             res.json({
-
-                message:
-                    "Prescription deleted successfully.",
-
-                prescription:
-                    result.rows[0]
-
+                message: "Prescription deleted successfully.",
+                prescription: result.rows[0]
             });
 
         } catch (error) {
+
+            if (client) {
+                try {
+                    await client.query("ROLLBACK");
+                } catch (rollbackError) {
+                    console.error(
+                        "Prescription delete rollback error:",
+                        rollbackError
+                    );
+                }
+            }
 
             console.error(
                 "Error deleting prescription:",
@@ -5633,15 +5662,19 @@ app.delete(
             );
 
             res.status(500).json({
-                message:
-                    "Failed to delete prescription."
+                message: "Failed to delete prescription."
             });
+
+        } finally {
+
+            if (client) {
+                client.release();
+            }
 
         }
 
     }
 );
-
 // ==========================================
 // CONTACT MESSAGES
 // ==========================================

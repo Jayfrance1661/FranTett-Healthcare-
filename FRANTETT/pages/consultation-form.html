@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -2356,7 +2356,14 @@ select {
     color: #4b5563;
 }
 </style>
-</head>
+<style>
+#linkedPrescriptionsList textarea.unified-inline-edit[data-field="notes"] {
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 48px !important;
+    resize: vertical !important;
+}
+</style></head>
 
 <body>
 
@@ -2657,7 +2664,7 @@ select {
                     >
 
                     <div class="vital-unit">
-                        Â°C
+                        °C
                     </div>
 
                 </div>
@@ -2761,7 +2768,7 @@ select {
                     >
 
                     <div class="vital-unit">
-                        kg/mÂ²
+                        kg/m²
                     </div>
 
                 </div>
@@ -3557,13 +3564,13 @@ select {
                 
             </div>
 
-            <button
+            <span style="display:inline-flex;align-items:center;gap:8px;float:right;"><button
                 type="button"
                 class="btn-secondary"
                 onclick="showLinkedLabReportForm()"
             >
                 + Laboratory Report
-            </button>
+            </button></span>
         </div>
 
         <div id="linkedLabReportForm" class="modal" style="display:none;">
@@ -3611,7 +3618,7 @@ select {
                     <label>Notes</label>
                     <textarea
                         id="linkedLabReportNotes"
-                        rows="3"
+                        rows="1"
                     ></textarea>
                 </div>
 
@@ -3710,7 +3717,7 @@ select {
                     <label>Instructions</label>
                     <textarea
                         id="linkedPrescriptionInstructions"
-                        rows="3"
+                        rows="1"
                     ></textarea>
                 </div>
 
@@ -3783,7 +3790,7 @@ select {
             class="btn-secondary"
             onclick="goBack()"
         >
-            Ã¢â€ Â Back
+            ← Back
         </button>
 
         <button
@@ -3808,7 +3815,7 @@ select {
             Clear
         </button>
 
-        <button
+<button
             id="saveButton"
             type="button"
             class="btn-primary"
@@ -5603,13 +5610,7 @@ function linkedClinicalHeaders() {
 
 function linkedEscape(value) {
 
-    if (
-        value === null ||
-        value === undefined ||
-        value === ""
-    ) {
-        return "â€”";
-    }
+    if (value === null || value === undefined || value === "") { return ""; }
 
     return String(value)
         .replace(/&/g, "&amp;")
@@ -5659,6 +5660,84 @@ function linkedRequireConsultation() {
    LAB REQUEST
 ===================================================== */
 
+async function saveLinkedLabRequestInline(id, row) {
+
+    try {
+
+        const payload = {
+            consultation_id: Number(consultationId),
+            requested_tests:
+                row.querySelector(".inline-lab-request-tests").value.trim(),
+            clinical_information:
+                row.querySelector(".inline-lab-request-clinical").value.trim() || null,
+            requested_by:
+                row.querySelector(".inline-lab-request-by").value.trim() || null,
+            request_date:
+                row.querySelector(".inline-lab-request-date").value || null,
+            electronic_signature: null
+        };
+
+        const response = await fetch(
+            `${API_URL}/api/lab-requests/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...linkedClinicalHeaders()
+                },
+                body: JSON.stringify(payload)
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                "Failed to update laboratory request."
+            );
+        }
+
+        const status =
+            row.querySelector(".inline-record-save-status");
+
+        if (status) {
+            status.textContent = "Saved";
+            status.classList.remove("error");
+            status.classList.add("saved");
+
+            setTimeout(() => {
+                if (status) {
+                    status.textContent = "";
+                }
+            }, 2000);
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Inline lab request update error:",
+            error
+        );
+
+        const status =
+            row.querySelector(".inline-record-save-status");
+
+        if (status) {
+            status.textContent = "Save failed";
+            status.classList.remove("saved");
+            status.classList.add("error");
+        }
+
+        showAlert(
+            error.message ||
+            "Failed to update laboratory request.",
+            "error"
+        );
+    }
+}
+
+
 async function loadLinkedLabRequests() {
 
     const container =
@@ -5680,8 +5759,7 @@ async function loadLinkedLabRequests() {
                 }
             );
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
         if (!response.ok) {
             throw new Error(
@@ -5714,31 +5792,81 @@ async function loadLinkedLabRequests() {
 
         container.innerHTML = `
             <div class="linked-record-table-wrapper">
-                
 
-                        <table class="linked-record-table">
+                <table class="linked-record-table">
+
                     <thead>
                         <tr>
                             <th>Date</th>
                             <th>Requested Tests</th>
                             <th>Clinical Information</th>
                             <th>Requested By</th>
+                            <th>Status</th><th>Remove</th>
                         </tr>
                     </thead>
 
                     <tbody>
 
                         ${consultationRecords.map(record => `
-                            <tr>
-    <td>${linkedEscape(linkedDate(record.request_date))}</td>
-    <td>${linkedEscape(record.requested_tests || "—")}</td>
-    <td>${linkedEscape(record.clinical_information || "—")}</td>
-    <td>${linkedEscape(record.requested_by || "—")}</td>
-</tr>
+
+                            <tr
+                                class="inline-linked-record"
+                                data-record-id="${record.id}"
+                            >
+
+                                <td>
+                                    <input
+                                        type="date"
+                                        class="inline-lab-request-date"
+                                        value="${linkedEscape(
+                                            record.request_date
+                                                ? String(record.request_date).slice(0, 10)
+                                                : ""
+                                        )}"
+                                        onchange="saveLinkedLabRequestInline(${record.id}, this.closest('tr'))"
+                                    >
+                                </td>
+
+                                <td>
+                                    <textarea
+                                        class="inline-lab-request-tests"
+                                        rows="1"
+                                        onchange="saveLinkedLabRequestInline(${record.id}, this.closest('tr'))"
+                                        onblur="saveLinkedLabRequestInline(${record.id}, this.closest('tr'))"
+                                    >${linkedEscape(record.requested_tests || "")}</textarea>
+                                </td>
+
+                                <td>
+                                    <textarea
+                                        class="inline-lab-request-clinical"
+                                        rows="1"
+                                        onchange="saveLinkedLabRequestInline(${record.id}, this.closest('tr'))"
+                                        onblur="saveLinkedLabRequestInline(${record.id}, this.closest('tr'))"
+                                    >${linkedEscape(record.clinical_information || "")}</textarea>
+                                </td>
+
+                                <td>
+                                    <input
+                                        type="text"
+                                        class="inline-lab-request-by"
+                                        value="${linkedEscape(record.requested_by || "")}"
+                                        onchange="saveLinkedLabRequestInline(${record.id}, this.closest('tr'))"
+                                        onblur="saveLinkedLabRequestInline(${record.id}, this.closest('tr'))"
+                                    >
+                                </td>
+
+                                <td>
+                                    <span class="inline-record-save-status"></span>
+                                </td><td style="text-align:right;white-space:nowrap;"><button type="button" class="inline-lab-request-remove" onclick="deleteLinkedLabRequest(${record.id})" style="padding:5px 12px;border:1px solid #dc2626;border-radius:6px;background:#fff;color:#dc2626;cursor:pointer;">Remove</button></td>
+
+                            </tr>
+
                         `).join("")}
 
                     </tbody>
+
                 </table>
+
             </div>
         `;
 
@@ -5756,10 +5884,45 @@ async function loadLinkedLabRequests() {
     }
 }
 
-
 /* =====================================================
    LAB REPORT
 ===================================================== */
+
+async function deleteLinkedLabRequest(id) {
+
+    if (!confirm("Remove this laboratory request? This cannot be undone.")) return;
+
+    const token = getToken();
+    if (!token) {
+        handleSessionExpired();
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/api/lab-requests/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            handleSessionExpired();
+            return;
+        }
+
+        const data = await response.json();
+        if (!response.ok) {
+            alert(data.message || "Unable to remove the laboratory request.");
+            return;
+        }
+
+        await loadLinkedLabRequests();
+    } catch (error) {
+        console.error("Error removing laboratory request:", error);
+        alert("Unable to connect to the server.");
+    }
+}
 
 function showLinkedLabReportForm() {
 
@@ -6014,6 +6177,181 @@ async function saveLinkedLabReport() {
 }
 
 
+async function saveLinkedLabReportInline(id, wrapper) {
+
+    try {
+
+        const parameters = Array.from(
+            wrapper.querySelectorAll(".inline-lab-parameter")
+        ).map(row => ({
+            parameter_name:
+                row.querySelector(".inline-lab-parameter-name").value.trim(),
+            result_value:
+                row.querySelector(".inline-lab-result-value").value.trim(),
+            unit:
+                row.querySelector(".inline-lab-unit").value.trim(),
+            flag:
+                row.querySelector(".inline-lab-flag").value.trim(),
+            reference_range:
+                row.querySelector(".inline-lab-reference").value.trim()
+        })).filter(parameter =>
+            parameter.parameter_name ||
+            parameter.result_value
+        );
+
+        const payload = {
+            consultation_id: Number(consultationId),
+            test_name:
+                wrapper.querySelector(".inline-lab-test-name").value.trim(),
+            result_date:
+                wrapper.querySelector(".inline-lab-result-date").value || null,
+            status:
+                wrapper.querySelector(".inline-lab-status").value || "Final",
+            recorded_by:
+                wrapper.querySelector(".inline-lab-recorded-by").value.trim() || null,
+            notes:
+                wrapper.querySelector(".inline-lab-notes").value.trim() || null,
+            parameters
+        };
+
+        const response = await fetch(
+            `${API_URL}/api/lab-reports/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...linkedClinicalHeaders()
+                },
+                body: JSON.stringify(payload)
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                "Failed to update laboratory report."
+            );
+        }
+
+        const status =
+            wrapper.querySelector(".inline-record-save-status");
+
+        if (status) {
+            status.textContent = "Saved";
+            status.classList.remove("error");
+            status.classList.add("saved");
+
+            setTimeout(() => {
+                if (status) {
+                    status.textContent = "";
+                }
+            }, 2000);
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Inline lab report update error:",
+            error
+        );
+
+        const status =
+            wrapper.querySelector(".inline-record-save-status");
+
+        if (status) {
+            status.textContent = "Save failed";
+            status.classList.remove("saved");
+            status.classList.add("error");
+        }
+
+        showAlert(
+            error.message ||
+            "Failed to update laboratory report.",
+            "error"
+        );
+    }
+}
+
+
+async function deleteLinkedLabReport(id) {
+    if (!confirm("Remove this laboratory report? This cannot be undone.")) return;
+
+    try {
+        const response = await fetch(`${API_URL}/api/lab-reports/${id}`, {
+            method: "DELETE"
+        });
+
+        if (!response.ok) throw new Error("Failed to remove laboratory report.");
+
+        await loadLinkedLabReports();
+    } catch (error) {
+        console.error("Error removing laboratory report:", error);
+        alert("Unable to remove the laboratory report.");
+    }
+}
+
+async function deleteLinkedPrescription(id) {
+
+    if (!confirm("Remove this prescription? This cannot be undone.")) {
+        return;
+    }
+
+    const token = getToken();
+
+    if (!token) {
+        handleSessionExpired();
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/prescriptions/${id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        if (response.status === 401 || response.status === 403) {
+            handleSessionExpired();
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error(
+                "Prescription delete error:",
+                data
+            );
+
+            alert(
+                data.message ||
+                "Unable to remove the prescription."
+            );
+
+            return;
+        }
+
+        await loadLinkedPrescriptions();
+
+    } catch (error) {
+
+        console.error(
+            "Error removing prescription:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the server."
+        );
+    }
+}
 async function loadLinkedLabReports() {
 
     const container =
@@ -6035,8 +6373,7 @@ async function loadLinkedLabReports() {
                 }
             );
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
         if (!response.ok) {
             throw new Error(
@@ -6070,18 +6407,51 @@ async function loadLinkedLabReports() {
         container.innerHTML =
             consultationRecords.map(record => `
 
-                <div class="linked-record-table-wrapper">
+                <div
+                    class="linked-record-table-wrapper inline-linked-record"
+                    data-record-id="${record.id}"
+                >
 
-                    <div class="linked-lab-report-header">
-    <strong>${linkedEscape(record.test_name)}</strong>
-    <span> - </span>
-    <span>${linkedEscape(linkedDate(record.result_date))}</span>
-</div>
+                    <div class="linked-lab-report-header" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><button type="button" class="inline-lab-report-remove" onclick="deleteLinkedLabReport(${record.id})" style="margin-left:auto;padding:5px 12px;border:1px solid #dc2626;border-radius:6px;background:#fff;color:#dc2626;cursor:pointer;">Remove</button>
 
-${
-    record.parameters &&
+                        <input
+                            type="text"
+                            class="inline-lab-test-name"
+                            value="${linkedEscape(record.test_name || "")}"
+                            placeholder="Laboratory test"
+                            onchange="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                            onblur="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                        >
+
+                        <span> - </span>
+
+                        <input
+                            type="date"
+                            class="inline-lab-result-date"
+                            value="${linkedEscape(
+                                record.result_date
+                                    ? String(record.result_date).slice(0, 10)
+                                    : ""
+                            )}"
+                            onchange="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                        >
+
+                        <select
+                            class="inline-lab-status"
+                            onchange="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                        >
+                            <option value="Final" ${record.status === "Final" ? "selected" : ""}>Final</option>
+                            <option value="Preliminary" ${record.status === "Preliminary" ? "selected" : ""}>Preliminary</option>
+                            <option value="Corrected" ${record.status === "Corrected" ? "selected" : ""}>Corrected</option>
+                        </select>
+
+                    </div>
+
+                    ${
+                        record.parameters &&
                         record.parameters.length
                             ? `
+
                                 <div class="linked-record-subtable">
 
                                     <table>
@@ -6099,13 +6469,56 @@ ${
                                         <tbody>
 
                                             ${record.parameters.map(parameter => `
-                                                <tr>
-                                                    <td>${linkedEscape(parameter.parameter_name)}</td>
-                                                    <td>${linkedEscape(parameter.result_value)}</td>
-                                                    <td>${linkedEscape(parameter.unit)}</td>
-                                                    <td>${linkedEscape(parameter.flag)}</td>
-                                                    <td>${linkedEscape(parameter.reference_range)}</td>
+
+                                                <tr class="inline-lab-parameter">
+
+                                                    <td>
+                                                        <input
+                                                            type="text"
+                                                            class="inline-lab-parameter-name"
+                                                            value="${linkedEscape(parameter.parameter_name || "")}"
+                                                            onchange="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                                                        >
+                                                    </td>
+
+                                                    <td>
+                                                        <input
+                                                            type="text"
+                                                            class="inline-lab-result-value"
+                                                            value="${linkedEscape(parameter.result_value || "")}"
+                                                            onchange="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                                                        >
+                                                    </td>
+
+                                                    <td>
+                                                        <input
+                                                            type="text"
+                                                            class="inline-lab-unit"
+                                                            value="${linkedEscape(parameter.unit || "")}"
+                                                            onchange="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                                                        >
+                                                    </td>
+
+                                                    <td>
+                                                        <input
+                                                            type="text"
+                                                            class="inline-lab-flag"
+                                                            value="${linkedEscape(parameter.flag || "")}"
+                                                            onchange="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                                                        >
+                                                    </td>
+
+                                                    <td>
+                                                        <input
+                                                            type="text"
+                                                            class="inline-lab-reference"
+                                                            value="${linkedEscape(parameter.reference_range || "")}"
+                                                            onchange="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                                                        >
+                                                    </td>
+
                                                 </tr>
+
                                             `).join("")}
 
                                         </tbody>
@@ -6113,20 +6526,43 @@ ${
                                     </table>
 
                                 </div>
-                            `
-                            : ""
-                    }
 
-                    ${
-                        record.notes
-                            ? `
-                                <div class="linked-record-meta">
-                                    <strong>Notes:</strong>
-                                    ${linkedEscape(record.notes)}
+                            `
+                            : `
+                                <div class="linked-record-empty">
+                                    No result parameters recorded.
                                 </div>
                             `
-                            : ""
                     }
+
+                    <div class="linked-record-meta">
+
+                        <strong>Recorded By:</strong>
+
+                        <input
+                            type="text"
+                            class="inline-lab-recorded-by"
+                            value="${linkedEscape(record.recorded_by || "")}"
+                            onchange="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                            onblur="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                        >
+
+                    </div>
+
+                    <div class="linked-record-meta">
+
+                        <strong>Notes:</strong>
+
+                        <textarea
+                            class="inline-lab-notes" style="height:30px !important; min-height:30px !important; max-height:40px !important; padding:4px 8px !important; box-sizing:border-box !important; resize:vertical !important;"
+                            rows="1"
+                            onchange="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                            onblur="saveLinkedLabReportInline(${record.id}, this.closest('.inline-linked-record'))"
+                        >${linkedEscape(String(record.notes || "").replace(/â€”|—|–/g, ""))}</textarea>
+
+                    </div>
+
+                    <span class="inline-record-save-status"></span>
 
                 </div>
 
@@ -6145,7 +6581,6 @@ ${
             </div>`;
     }
 }
-
 
 /* =====================================================
    PRESCRIPTION
@@ -6411,6 +6846,102 @@ async function saveLinkedPrescription() {
 }
 
 
+async function saveLinkedPrescriptionInline(id, wrapper) {
+
+    try {
+
+        const items = Array.from(
+            wrapper.querySelectorAll(".inline-medication")
+        ).map(row => ({
+            medication_name:
+                row.querySelector(".inline-medication-name").value.trim(),
+            dose:
+                row.querySelector(".inline-medication-dose").value.trim(),
+            route:
+                row.querySelector(".inline-medication-route").value.trim(),
+            frequency:
+                row.querySelector(".inline-medication-frequency").value.trim(),
+            duration:
+                row.querySelector(".inline-medication-duration").value.trim(),
+            quantity:
+                row.querySelector(".inline-medication-quantity").value.trim()
+        })).filter(item =>
+            item.medication_name
+        );
+
+        const payload = {
+            consultation_id: Number(consultationId),
+            doctor:
+                wrapper.querySelector(".inline-prescription-doctor").value.trim() || null,
+            prescription_date:
+                wrapper.querySelector(".inline-prescription-date").value || null,
+            instructions: "" || null,
+            notes:
+                (wrapper.querySelector(".inline-prescription-notes")?.value || "").trim() || null,
+            items
+        };
+
+        const response = await fetch(
+            `${API_URL}/api/prescriptions/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...linkedClinicalHeaders()
+                },
+                body: JSON.stringify(payload)
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                "Failed to update prescription."
+            );
+        }
+
+        const status =
+            wrapper.querySelector(".inline-record-save-status");
+
+        if (status) {
+            status.textContent = "Saved";
+            status.classList.remove("error");
+            status.classList.add("saved");
+
+            setTimeout(() => {
+                if (status) {
+                    status.textContent = "";
+                }
+            }, 2000);
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Inline prescription update error:",
+            error
+        );
+
+        const status =
+            wrapper.querySelector(".inline-record-save-status");
+
+        if (status) {
+            status.textContent = "Save failed";
+            status.classList.remove("saved");
+            status.classList.add("error");
+        }
+
+        showAlert(
+            error.message ||
+            "Failed to update prescription.",
+            "error"
+        );
+    }
+}
+
+
 async function loadLinkedPrescriptions() {
 
     const container =
@@ -6432,8 +6963,7 @@ async function loadLinkedPrescriptions() {
                 }
             );
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
         if (!response.ok) {
             throw new Error(
@@ -6478,9 +7008,41 @@ async function loadLinkedPrescriptions() {
 
                 return `
 
-                    <div class="linked-record-table-wrapper">
+                    <div
+                        class="linked-record-table-wrapper inline-linked-record"
+                        data-record-id="${record.id}"
+                    >
 
-                        <div class="linked-prescription-date">${record.prescription_date ? `Date: ${linkedEscape(String(record.prescription_date).slice(0, 10))}` : ""}</div>
+                        <div class="linked-prescription-date"><div style="display:flex;justify-content:flex-end;margin-bottom:8px;"><button type="button" class="inline-prescription-remove" onclick="deleteLinkedPrescription(${record.id})" style="padding:5px 12px;border:1px solid #dc2626;border-radius:6px;background:#fff;color:#dc2626;cursor:pointer;">Remove</button></div>
+
+                            <label>Date</label>
+
+                            <input
+                                type="date"
+                                class="inline-prescription-date"
+                                value="${linkedEscape(
+                                    record.prescription_date
+                                        ? String(record.prescription_date).slice(0, 10)
+                                        : ""
+                                )}"
+                                onchange="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
+                            >
+
+                        </div>
+
+                        <div class="linked-record-meta">
+
+                            <strong>Doctor:</strong>
+
+                            <input
+                                type="text"
+                                class="inline-prescription-doctor"
+                                value="${linkedEscape(record.doctor || "")}"
+                                onchange="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
+                                onblur="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
+                            >
+
+                        </div>
 
                         <table class="linked-record-table">
 
@@ -6500,14 +7062,65 @@ async function loadLinkedPrescriptions() {
                                 ${
                                     medications.length
                                         ? medications.map(item => `
-                                            <tr>
-                                                <td>${linkedEscape(item.medication_name)}</td>
-                                                <td>${linkedEscape(item.dose)}</td>
-                                                <td>${linkedEscape(item.route)}</td>
-                                                <td>${linkedEscape(item.frequency)}</td>
-                                                <td>${linkedEscape(item.duration)}</td>
-                                                <td>${linkedEscape(item.quantity)}</td>
+
+                                            <tr class="inline-medication">
+
+                                                <td>
+                                                    <input
+                                                        type="text"
+                                                        class="inline-medication-name"
+                                                        value="${linkedEscape(item.medication_name || "")}"
+                                                        onchange="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
+                                                    >
+                                                </td>
+
+                                                <td>
+                                                    <input
+                                                        type="text"
+                                                        class="inline-medication-dose"
+                                                        value="${linkedEscape(item.dose || "")}"
+                                                        onchange="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
+                                                    >
+                                                </td>
+
+                                                <td>
+                                                    <input
+                                                        type="text"
+                                                        class="inline-medication-route"
+                                                        value="${linkedEscape(item.route || "")}"
+                                                        onchange="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
+                                                    >
+                                                </td>
+
+                                                <td>
+                                                    <input
+                                                        type="text"
+                                                        class="inline-medication-frequency"
+                                                        value="${linkedEscape(item.frequency || "")}"
+                                                        onchange="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
+                                                    >
+                                                </td>
+
+                                                <td>
+                                                    <input
+                                                        type="text"
+                                                        class="inline-medication-duration"
+                                                        value="${linkedEscape(item.duration || "")}"
+                                                        onchange="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
+                                                    >
+                                                </td>
+
+                                                <td>
+                                                    <input
+                                                        type="text"
+                                                        class="inline-medication-quantity"
+                                                        value="${linkedEscape(item.quantity || "")}"
+                                                        onchange="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
+                                                    >
+                                                </td>
+
                                             </tr>
+
                                         `).join("")
                                         : `
                                             <tr>
@@ -6522,29 +7135,23 @@ async function loadLinkedPrescriptions() {
 
                         </table>
 
-                        ${
-                            record.instructions
-                                ? `
-                                    <div class="linked-record-meta">
-                                        <strong>Instructions:</strong>
-                                        ${linkedEscape(record.instructions)}
-                                    </div>
-                                `
-                                : ""
-                        }
+                        <div class="linked-record-meta">
 
-                        ${
-                            record.notes
-                                ? `
-                                    <div class="linked-record-meta">
-                                        <strong>Notes:</strong>
-                                        ${linkedEscape(record.notes)}
-                                    </div>
-                                `
-                                : ""
-                        }
+                            <strong>Notes:</strong>
+
+                            <textarea
+                                class="inline-prescription-notes" style="height:30px !important; min-height:30px !important; max-height:40px !important; padding:4px 8px !important; box-sizing:border-box !important; resize:vertical !important;"
+                                rows="1"
+                                onchange="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
+                                onblur="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
+                            >${linkedEscape(String(record.notes || "").replace(/â€”|—|–/g, ""))}</textarea>
+
+                        </div>
+
+                        <span class="inline-record-save-status"></span>
 
                     </div>
+
                 `;
 
             }).join("");
@@ -6562,7 +7169,6 @@ async function loadLinkedPrescriptions() {
             </div>`;
     }
 }
-
 
 /* =====================================================
    LOAD ALL LINKED RECORDS
@@ -7269,8 +7875,701 @@ function printConsultationLabRequest() {
         box-sizing: border-box;
     }
 }
+
+/* =========================================================
+   FINAL LINKED CLINICAL RECORD TABLE LAYOUT
+   ========================================================= */
+
+.linked-record-table-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 12px 0 18px 0 !important;
+    padding: 0 !important;
+    overflow-x: auto !important;
+    box-sizing: border-box !important;
+}
+
+.linked-record-table-wrapper table {
+    display: table !important;
+    width: 100% !important;
+    min-width: 850px !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+}
+
+.linked-record-table-wrapper thead {
+    display: table-header-group !important;
+}
+
+.linked-record-table-wrapper tbody {
+    display: table-row-group !important;
+}
+
+.linked-record-table-wrapper tr {
+    display: table-row !important;
+}
+
+.linked-record-table-wrapper th,
+.linked-record-table-wrapper td {
+    display: table-cell !important;
+    box-sizing: border-box !important;
+    vertical-align: top !important;
+    text-align: left !important;
+    padding: 8px 10px !important;
+    overflow: hidden !important;
+}
+
+.linked-record-table-wrapper th {
+    white-space: normal !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+}
+
+.linked-record-table-wrapper input,
+.linked-record-table-wrapper textarea,
+.linked-record-table-wrapper select {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+}
+
+.linked-record-table-wrapper textarea {
+    resize: vertical !important;
+    min-height: 48px !important;
+    line-height: 1.35 !important;
+}
+
+.linked-record-table-wrapper input,
+.linked-record-table-wrapper select {
+    min-height: 38px !important;
+}
+
+/* LAB REQUESTS */
+#linkedLabRequestsList .linked-record-table {
+    min-width: 900px !important;
+}
+
+#linkedLabRequestsList .linked-record-table th:nth-child(1),
+#linkedLabRequestsList .linked-record-table td:nth-child(1) {
+    width: 12% !important;
+}
+
+#linkedLabRequestsList .linked-record-table th:nth-child(2),
+#linkedLabRequestsList .linked-record-table td:nth-child(2) {
+    width: 27% !important;
+}
+
+#linkedLabRequestsList .linked-record-table th:nth-child(3),
+#linkedLabRequestsList .linked-record-table td:nth-child(3) {
+    width: 27% !important;
+}
+
+#linkedLabRequestsList .linked-record-table th:nth-child(4),
+#linkedLabRequestsList .linked-record-table td:nth-child(4) {
+    width: 22% !important;
+}
+
+#linkedLabRequestsList .linked-record-table th:nth-child(5),
+#linkedLabRequestsList .linked-record-table td:nth-child(5) {
+    width: 12% !important;
+}
+
+/* LAB REPORT HEADER */
+#linkedLabReportsList .linked-lab-report-header {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto 160px 150px !important;
+    gap: 10px !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+    margin: 8px 0 0 0 !important;
+    padding: 10px !important;
+}
+
+#linkedLabReportsList .linked-lab-report-header input,
+#linkedLabReportsList .linked-lab-report-header select {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+/* LAB REPORT PARAMETERS */
+#linkedLabReportsList .linked-record-subtable {
+    width: 100% !important;
+    overflow-x: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#linkedLabReportsList .linked-record-subtable table {
+    display: table !important;
+    width: 100% !important;
+    min-width: 760px !important;
+    table-layout: fixed !important;
+}
+
+#linkedLabReportsList .linked-record-subtable thead {
+    display: table-header-group !important;
+}
+
+#linkedLabReportsList .linked-record-subtable tbody {
+    display: table-row-group !important;
+}
+
+#linkedLabReportsList .linked-record-subtable tr {
+    display: table-row !important;
+}
+
+#linkedLabReportsList .linked-record-subtable th,
+#linkedLabReportsList .linked-record-subtable td {
+    display: table-cell !important;
+    box-sizing: border-box !important;
+    padding: 8px 10px !important;
+    vertical-align: middle !important;
+    text-align: left !important;
+}
+
+#linkedLabReportsList .linked-record-subtable th:nth-child(1),
+#linkedLabReportsList .linked-record-subtable td:nth-child(1) {
+    width: 25% !important;
+}
+
+#linkedLabReportsList .linked-record-subtable th:nth-child(2),
+#linkedLabReportsList .linked-record-subtable td:nth-child(2) {
+    width: 20% !important;
+}
+
+#linkedLabReportsList .linked-record-subtable th:nth-child(3),
+#linkedLabReportsList .linked-record-subtable td:nth-child(3) {
+    width: 15% !important;
+}
+
+#linkedLabReportsList .linked-record-subtable th:nth-child(4),
+#linkedLabReportsList .linked-record-subtable td:nth-child(4) {
+    width: 15% !important;
+}
+
+#linkedLabReportsList .linked-record-subtable th:nth-child(5),
+#linkedLabReportsList .linked-record-subtable td:nth-child(5) {
+    width: 25% !important;
+}
+
+/* LAB REPORT META FIELDS */
+#linkedLabReportsList .linked-record-meta {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-top: 10px !important;
+}
+
+#linkedLabReportsList .linked-record-meta strong {
+    flex: 0 0 100px !important;
+    padding-top: 9px !important;
+}
+
+#linkedLabReportsList .linked-record-meta input,
+#linkedLabReportsList .linked-record-meta textarea {
+    flex: 1 1 auto !important;
+    width: auto !important;
+}
+
+/* PRESCRIPTIONS */
+#linkedPrescriptionsList .linked-record-table {
+    min-width: 950px !important;
+}
+
+#linkedPrescriptionsList .linked-record-table th:nth-child(1),
+#linkedPrescriptionsList .linked-record-table td:nth-child(1) {
+    width: 22% !important;
+}
+
+#linkedPrescriptionsList .linked-record-table th:nth-child(2),
+#linkedPrescriptionsList .linked-record-table td:nth-child(2) {
+    width: 15% !important;
+}
+
+#linkedPrescriptionsList .linked-record-table th:nth-child(3),
+#linkedPrescriptionsList .linked-record-table td:nth-child(3) {
+    width: 13% !important;
+}
+
+#linkedPrescriptionsList .linked-record-table th:nth-child(4),
+#linkedPrescriptionsList .linked-record-table td:nth-child(4) {
+    width: 18% !important;
+}
+
+#linkedPrescriptionsList .linked-record-table th:nth-child(5),
+#linkedPrescriptionsList .linked-record-table td:nth-child(5) {
+    width: 17% !important;
+}
+
+#linkedPrescriptionsList .linked-record-table th:nth-child(6),
+#linkedPrescriptionsList .linked-record-table td:nth-child(6) {
+    width: 15% !important;
+}
+
+#linkedPrescriptionsList .linked-record-meta {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-top: 10px !important;
+}
+
+#linkedPrescriptionsList .linked-record-meta strong {
+    flex: 0 0 100px !important;
+    padding-top: 9px !important;
+}
+
+#linkedPrescriptionsList .linked-record-meta input,
+#linkedPrescriptionsList .linked-record-meta textarea {
+    flex: 1 1 auto !important;
+    width: auto !important;
+}
+
+/* PRESCRIPTION DATE */
+#linkedPrescriptionsList .linked-prescription-date {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin: 0 0 10px 0 !important;
+}
+
+#linkedPrescriptionsList .linked-prescription-date label {
+    flex: 0 0 100px !important;
+}
+
+#linkedPrescriptionsList .linked-prescription-date input {
+    width: 180px !important;
+}
+
+/* MOBILE */
+@media (max-width: 700px) {
+
+    #linkedLabReportsList .linked-lab-report-header {
+        grid-template-columns: 1fr !important;
+    }
+
+    #linkedLabReportsList .linked-lab-report-header span {
+        display: none !important;
+    }
+
+    #linkedLabReportsList .linked-record-meta,
+    #linkedPrescriptionsList .linked-record-meta {
+        flex-direction: column !important;
+        gap: 5px !important;
+    }
+
+    #linkedLabReportsList .linked-record-meta strong,
+    #linkedPrescriptionsList .linked-record-meta strong {
+        flex: none !important;
+        padding-top: 0 !important;
+    }
+
+    #linkedLabReportsList .linked-record-meta input,
+    #linkedLabReportsList .linked-record-meta textarea,
+    #linkedPrescriptionsList .linked-record-meta input,
+    #linkedPrescriptionsList .linked-record-meta textarea {
+        width: 100% !important;
+    }
+
+    #linkedPrescriptionsList .linked-prescription-date {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+}
+
 </style>
-        </head>
+/* =========================================================
+   INLINE LINKED RECORD TABLE LAYOUT FIX
+   Layout only — editing/save behavior unchanged
+========================================================= */
+
+.linked-record-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 12px;
+}
+
+.linked-record-table-wrapper table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.linked-record-table-wrapper th,
+.linked-record-table-wrapper td {
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.linked-record-table-wrapper input,
+.linked-record-table-wrapper textarea,
+.linked-record-table-wrapper select {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    font: inherit;
+}
+
+.linked-record-table-wrapper textarea {
+    resize: vertical;
+    min-height: 42px;
+    line-height: 1.35;
+}
+
+.linked-record-table-wrapper input {
+    min-height: 38px;
+}
+
+.linked-record-table-wrapper table th,
+.linked-record-table-wrapper table td {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+/* Laboratory Requests */
+.linked-record-lab-request .linked-record-table th:nth-child(1),
+.linked-record-lab-request .linked-record-table td:nth-child(1) {
+    width: 12%;
+}
+
+.linked-record-lab-request .linked-record-table th:nth-child(2),
+.linked-record-lab-request .linked-record-table td:nth-child(2) {
+    width: 27%;
+}
+
+.linked-record-lab-request .linked-record-table th:nth-child(3),
+.linked-record-lab-request .linked-record-table td:nth-child(3) {
+    width: 27%;
+}
+
+.linked-record-lab-request .linked-record-table th:nth-child(4),
+.linked-record-lab-request .linked-record-table td:nth-child(4) {
+    width: 22%;
+}
+
+.linked-record-lab-request .linked-record-table th:nth-child(5),
+.linked-record-lab-request .linked-record-table td:nth-child(5) {
+    width: 12%;
+}
+
+/* Laboratory Reports */
+.linked-record-lab-report .linked-record-subtable {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.linked-record-lab-report .linked-record-subtable table {
+    min-width: 760px;
+}
+
+.linked-record-lab-report .linked-record-subtable th:nth-child(1),
+.linked-record-lab-report .linked-record-subtable td:nth-child(1) {
+    width: 25%;
+}
+
+.linked-record-lab-report .linked-record-subtable th:nth-child(2),
+.linked-record-lab-report .linked-record-subtable td:nth-child(2) {
+    width: 20%;
+}
+
+.linked-record-lab-report .linked-record-subtable th:nth-child(3),
+.linked-record-lab-report .linked-record-subtable td:nth-child(3) {
+    width: 15%;
+}
+
+.linked-record-lab-report .linked-record-subtable th:nth-child(4),
+.linked-record-lab-report .linked-record-subtable td:nth-child(4) {
+    width: 15%;
+}
+
+.linked-record-lab-report .linked-record-subtable th:nth-child(5),
+.linked-record-lab-report .linked-record-subtable td:nth-child(5) {
+    width: 25%;
+}
+
+/* Prescription */
+.linked-record-prescription .linked-record-table {
+    min-width: 900px;
+}
+
+.linked-record-prescription .linked-record-table th:nth-child(1),
+.linked-record-prescription .linked-record-table td:nth-child(1) {
+    width: 22%;
+}
+
+.linked-record-prescription .linked-record-table th:nth-child(2),
+.linked-record-prescription .linked-record-table td:nth-child(2) {
+    width: 15%;
+}
+
+.linked-record-prescription .linked-record-table th:nth-child(3),
+.linked-record-prescription .linked-record-table td:nth-child(3) {
+    width: 13%;
+}
+
+.linked-record-prescription .linked-record-table th:nth-child(4),
+.linked-record-prescription .linked-record-table td:nth-child(4) {
+    width: 18%;
+}
+
+.linked-record-prescription .linked-record-table th:nth-child(5),
+.linked-record-prescription .linked-record-table td:nth-child(5) {
+    width: 17%;
+}
+
+.linked-record-prescription .linked-record-table th:nth-child(6),
+.linked-record-prescription .linked-record-table td:nth-child(6) {
+    width: 15%;
+}
+
+@media (max-width: 768px) {
+    .linked-record-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .linked-record-table-wrapper table {
+        min-width: 720px;
+    }
+
+    .linked-record-lab-request .linked-record-table {
+        min-width: 850px;
+    }
+}
+
+        <style id="linked-record-final-table-fix">
+/* =====================================================
+   FINAL LINKED CLINICAL RECORD TABLE LAYOUT
+   Scoped only to linked clinical records
+===================================================== */
+
+#linkedLabRequestsList .linked-record-table,
+#linkedPrescriptionsList .linked-record-table,
+#linkedLabReportsList .linked-record-subtable table {
+    display: table !important;
+    width: 100% !important;
+    min-width: 720px !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+}
+
+#linkedLabRequestsList .linked-record-table thead,
+#linkedPrescriptionsList .linked-record-table thead,
+#linkedLabReportsList .linked-record-subtable table thead {
+    display: table-header-group !important;
+}
+
+#linkedLabRequestsList .linked-record-table tbody,
+#linkedPrescriptionsList .linked-record-table tbody,
+#linkedLabReportsList .linked-record-subtable table tbody {
+    display: table-row-group !important;
+}
+
+#linkedLabRequestsList .linked-record-table tr,
+#linkedPrescriptionsList .linked-record-table tr,
+#linkedLabReportsList .linked-record-subtable table tr {
+    display: table-row !important;
+}
+
+#linkedLabRequestsList .linked-record-table th,
+#linkedLabRequestsList .linked-record-table td,
+#linkedPrescriptionsList .linked-record-table th,
+#linkedPrescriptionsList .linked-record-table td,
+#linkedLabReportsList .linked-record-subtable table th,
+#linkedLabReportsList .linked-record-subtable table td {
+    display: table-cell !important;
+    box-sizing: border-box !important;
+    vertical-align: middle !important;
+    text-align: left !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+    padding: 8px 10px !important;
+}
+
+/* Laboratory Requests */
+#linkedLabRequestsList .linked-record-table th:nth-child(1),
+#linkedLabRequestsList .linked-record-table td:nth-child(1) {
+    width: 13% !important;
+}
+
+#linkedLabRequestsList .linked-record-table th:nth-child(2),
+#linkedLabRequestsList .linked-record-table td:nth-child(2) {
+    width: 27% !important;
+}
+
+#linkedLabRequestsList .linked-record-table th:nth-child(3),
+#linkedLabRequestsList .linked-record-table td:nth-child(3) {
+    width: 27% !important;
+}
+
+#linkedLabRequestsList .linked-record-table th:nth-child(4),
+#linkedLabRequestsList .linked-record-table td:nth-child(4) {
+    width: 21% !important;
+}
+
+#linkedLabRequestsList .linked-record-table th:nth-child(5),
+#linkedLabRequestsList .linked-record-table td:nth-child(5) {
+    width: 12% !important;
+}
+
+/* Laboratory Report Parameters */
+#linkedLabReportsList .linked-record-subtable {
+    width: 100% !important;
+    overflow-x: auto !important;
+    box-sizing: border-box !important;
+}
+
+#linkedLabReportsList .linked-record-subtable table th:nth-child(1),
+#linkedLabReportsList .linked-record-subtable table td:nth-child(1) {
+    width: 25% !important;
+}
+
+#linkedLabReportsList .linked-record-subtable table th:nth-child(2),
+#linkedLabReportsList .linked-record-subtable table td:nth-child(2) {
+    width: 20% !important;
+}
+
+#linkedLabReportsList .linked-record-subtable table th:nth-child(3),
+#linkedLabReportsList .linked-record-subtable table td:nth-child(3) {
+    width: 15% !important;
+}
+
+#linkedLabReportsList .linked-record-subtable table th:nth-child(4),
+#linkedLabReportsList .linked-record-subtable table td:nth-child(4) {
+    width: 15% !important;
+}
+
+#linkedLabReportsList .linked-record-subtable table th:nth-child(5),
+#linkedLabReportsList .linked-record-subtable table td:nth-child(5) {
+    width: 25% !important;
+}
+
+/* Prescription table */
+#linkedPrescriptionsList .linked-record-table th:nth-child(1),
+#linkedPrescriptionsList .linked-record-table td:nth-child(1) {
+    width: 22% !important;
+}
+
+#linkedPrescriptionsList .linked-record-table th:nth-child(2),
+#linkedPrescriptionsList .linked-record-table td:nth-child(2) {
+    width: 15% !important;
+}
+
+#linkedPrescriptionsList .linked-record-table th:nth-child(3),
+#linkedPrescriptionsList .linked-record-table td:nth-child(3) {
+    width: 13% !important;
+}
+
+#linkedPrescriptionsList .linked-record-table th:nth-child(4),
+#linkedPrescriptionsList .linked-record-table td:nth-child(4) {
+    width: 18% !important;
+}
+
+#linkedPrescriptionsList .linked-record-table th:nth-child(5),
+#linkedPrescriptionsList .linked-record-table td:nth-child(5) {
+    width: 17% !important;
+}
+
+#linkedPrescriptionsList .linked-record-table th:nth-child(6),
+#linkedPrescriptionsList .linked-record-table td:nth-child(6) {
+    width: 15% !important;
+}
+
+/* Inline editable controls */
+#linkedLabRequestsList .linked-record-table input,
+#linkedLabRequestsList .linked-record-table textarea,
+#linkedLabRequestsList .linked-record-table select,
+#linkedLabReportsList .linked-record-subtable input,
+#linkedLabReportsList .linked-record-subtable textarea,
+#linkedLabReportsList .linked-record-subtable select,
+#linkedPrescriptionsList .linked-record-table input,
+#linkedPrescriptionsList .linked-record-table textarea,
+#linkedPrescriptionsList .linked-record-table select {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#linkedLabRequestsList .linked-record-table textarea {
+    min-height: 70px !important;
+    resize: vertical !important;
+}
+
+#linkedLabReportsList .linked-record-subtable input {
+    min-height: 36px !important;
+}
+
+#linkedPrescriptionsList .linked-record-table input {
+    min-height: 36px !important;
+}
+
+/* Keep each linked record separated cleanly */
+#linkedLabRequestsList .linked-record-table-wrapper,
+#linkedLabReportsList .linked-record-table-wrapper,
+#linkedPrescriptionsList .linked-record-table-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    box-sizing: border-box !important;
+    margin-bottom: 18px !important;
+}
+
+@media (max-width: 700px) {
+    #linkedLabRequestsList .linked-record-table,
+    #linkedPrescriptionsList .linked-record-table,
+    #linkedLabReportsList .linked-record-subtable table {
+        min-width: 720px !important;
+    }
+}
+</style><style id="linked-record-note-box-fix">
+#linkedLabReportsList .linked-record-meta textarea,
+#linkedPrescriptionsList textarea.inline-prescription-notes,
+#linkedPrescriptionsList textarea.inline-prescription-instructions {
+    min-height: 38px !important;
+    height: 38px !important;
+    max-height: 70px !important;
+    resize: vertical !important;
+}
+</style><style id="final-note-size-fix">
+#linkedLabReportsList textarea,
+#linkedPrescriptionsList textarea {
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 80px !important;
+    box-sizing: border-box !important;
+    resize: vertical !important;
+}
+</style><style id="final-note-box-size-fix">
+textarea.unified-inline-edit[data-field="notes"] {
+    height: 45px !important;
+    min-height: 45px !important;
+    max-height: 80px !important;
+    padding: 6px 8px !important;
+    resize: vertical !important;
+    box-sizing: border-box !important;
+}
+</style><style>
+#linkedPrescriptionsList textarea.unified-inline-edit[data-field="notes"] {
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 48px !important;
+    resize: vertical !important;
+}
+</style></head>
         <body>
             ${printable.innerHTML}
         ${closingBody}
@@ -7636,7 +8935,7 @@ function printConsultationLabRequest() {
 
                 <textarea
                     id="labRequestSpecialInstructions"
-                    rows="3"
+                    rows="1"
                     placeholder="Other instructions for the laboratory..."
                 ></textarea>
 
@@ -7737,8 +9036,33 @@ function printConsultationLabRequest() {
         </div>
     </div>
 </div>
+<script>
+function enableConsultationEditMode() {
+    isEditMode = true;
+    const mode = document.getElementById("formMode");
+    const save = document.getElementById("saveButton");
+    if (mode) mode.textContent = "Edit Consultation";
+    if (save) save.textContent = "Update Consultation";
+    document.querySelectorAll("input, select, textarea").forEach(el => {
+        if (el.dataset.editable === "true") {
+            el.disabled = false;
+            el.readOnly = false;
+        }
+    });
+}
+</script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
 
 
