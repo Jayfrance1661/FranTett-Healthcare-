@@ -1659,9 +1659,245 @@
     min-height: 0 !important;
 }
 
+/* =====================================================
+   FRANTETT HEALTHCARE - READ-ONLY LAB REQUEST
+===================================================== */
+
+.ft-lab-document{background:#fff;color:#111827}
+.ft-lab-header{display:block;position:relative;text-align:center;padding:28px 180px 24px;border-bottom:2px solid #0b6b63}
+.ft-lab-header-main{width:100%;text-align:center}
+.ft-lab-eyebrow{display:block;margin:0 0 6px;font-size:22px;font-weight:900;letter-spacing:.08em;color:#2563eb}
+.ft-lab-header h1{margin:0;font-size:18px;font-weight:600;line-height:1.3;color:#374151}
+.ft-lab-date-card{position:absolute;right:34px;top:28px;text-align:left}
+.ft-lab-date-card span,.ft-lab-field-label{display:block;margin-bottom:5px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#6b7280}
+.ft-lab-date-card strong{font-size:14px;color:#111827}
+.ft-lab-section{margin:0 34px;padding:25px 0;border-bottom:1px solid #e5e7eb}
+.ft-lab-section-heading{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
+.ft-lab-section-number{display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px;width:30px;height:30px;border-radius:8px;background:#eff6ff;color:#2563eb;font-size:11px;font-weight:800}
+.ft-lab-section-heading h3{margin:1px 0 3px;font-size:17px;color:#111827}
+.ft-lab-section-heading p{margin:0;color:#6b7280;font-size:13px}
+.ft-lab-patient-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.ft-lab-patient-grid>div,.ft-lab-authorization-grid>div{padding:13px 14px;border:1px solid #e5e7eb;border-radius:10px;background:#f9fafb}
+.ft-lab-patient-grid strong,.ft-lab-authorization-grid strong{display:block;font-size:14px;color:#111827}
+.ft-lab-test-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ft-lab-readonly-test{display:flex;align-items:center;gap:10px;min-height:48px;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;background:#fafafa;font-size:13px;color:#374151}
+.ft-lab-readonly-check{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;flex:0 0 22px;border-radius:6px;background:#eff6ff;color:#2563eb;font-size:13px;font-weight:800}
+.ft-lab-empty{padding:14px;border:1px dashed #d1d5db;border-radius:10px;color:#6b7280;font-size:13px}
+.ft-lab-readonly-box{min-height:84px;box-sizing:border-box;padding:13px 14px;border:1px solid #d1d5db;border-radius:9px;background:#fff;color:#374151;font-size:13px;line-height:1.5;white-space:pre-wrap}
+.ft-lab-authorization-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}
+.ft-lab-readonly-notice{display:flex;flex-direction:column;gap:3px;padding:20px 34px 24px}
+.ft-lab-readonly-notice strong{font-size:13px;color:#111827}
+.ft-lab-readonly-notice span{color:#6b7280;font-size:11px}
+@media (max-width:800px){.ft-lab-patient-grid{grid-template-columns:repeat(2,1fr)}.ft-lab-test-list{grid-template-columns:1fr}}
+@media (max-width:600px){.ft-lab-header{padding:22px 18px 18px}.ft-lab-eyebrow{font-size:18px}.ft-lab-header h1{font-size:16px}.ft-lab-date-card{position:static;margin-top:16px;text-align:center}.ft-lab-section{margin:0 18px;padding:20px 0}.ft-lab-patient-grid,.ft-lab-authorization-grid{grid-template-columns:1fr}.ft-lab-readonly-notice{padding:18px}}
+@media print{.ft-lab-document{box-shadow:none}.ft-lab-header{padding-top:10px}.ft-lab-section{break-inside:avoid}}
+/* =====================================================
+   FRANTETT HEALTHCARE - READ-ONLY LAB SIGNATURE
+===================================================== */
+
+.ft-lab-signature-box{margin-top:16px;padding:15px;border:1px solid #e5e7eb;border-radius:12px;background:#fafafa}
+.ft-lab-signature-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.ft-lab-signature-status{font-size:11px;font-weight:700;color:#0b6b63}
+.ft-lab-signature-pad{display:flex;align-items:center;justify-content:flex-start;min-height:110px;padding:10px 14px;box-sizing:border-box;border:1px dashed #9ca3af;border-radius:8px;background:#fff}
+.ft-lab-signature-pad img{display:block;max-width:260px;max-height:90px;width:auto;height:auto;object-fit:contain}
+.ft-lab-signature-pad span{font-size:12px;color:#6b7280}
+@media (max-width:600px){.ft-lab-signature-heading{align-items:flex-start;gap:10px}.ft-lab-signature-pad img{max-width:220px}}
+@media print{.ft-lab-signature-box{break-inside:avoid}}
 </style>
 
-</head>
+<style id="ft-one-page-print-scale">
+@media print {
+    @page {
+        size: Letter portrait;
+        margin: 8mm;
+    }
+
+    body {
+        margin:0 !important;
+        padding:0 !important;
+        background:#fff !important;
+    }
+
+    body > * {
+        display:none !important;
+    }
+
+    body > .ft-document-modal {
+        display:none !important;
+    }
+
+    body > .ft-document-modal[style*="display: flex"] {
+        display:flex !important;
+        position:static !important;
+        width:100% !important;
+        height:auto !important;
+        min-height:0 !important;
+        padding:0 !important;
+        margin:0 !important;
+        background:#fff !important;
+        overflow:visible !important;
+    }
+
+    .ft-document-panel {
+        display:block !important;
+        width:100% !important;
+        max-width:none !important;
+        max-height:none !important;
+        margin:0 !important;
+        padding:0 !important;
+        overflow:visible !important;
+        box-shadow:none !important;
+        border-radius:0 !important;
+    }
+
+    .ft-document-actions {
+        display:none !important;
+    }
+
+    .ft-lab-document {
+        width:100% !important;
+        margin:0 !important;
+        padding:0 !important;
+        box-shadow:none !important;
+    }
+}
+</style><style id="ft-compact-lab-print">
+@media print {
+    .ft-lab-header {
+        padding:10px 120px 10px !important;
+    }
+
+    .ft-lab-eyebrow {
+        font-size:15px !important;
+        margin-bottom:2px !important;
+    }
+
+    .ft-lab-header h1 {
+        font-size:15px !important;
+    }
+
+    .ft-lab-date-card {
+        right:20px !important;
+        top:10px !important;
+    }
+
+    .ft-lab-date-card span,
+    .ft-lab-field-label {
+        font-size:8px !important;
+        margin-bottom:2px !important;
+    }
+
+    .ft-lab-date-card strong,
+    .ft-lab-patient-grid strong,
+    .ft-lab-authorization-grid strong {
+        font-size:10px !important;
+    }
+
+    .ft-lab-section {
+        margin:0 18px !important;
+        padding:10px 0 !important;
+    }
+
+    .ft-lab-section-heading {
+        gap:7px !important;
+        margin-bottom:7px !important;
+    }
+
+    .ft-lab-section-number {
+        flex-basis:22px !important;
+        width:22px !important;
+        height:22px !important;
+        border-radius:5px !important;
+        font-size:8px !important;
+    }
+
+    .ft-lab-section-heading h3 {
+        font-size:12px !important;
+        margin:0 0 1px !important;
+    }
+
+    .ft-lab-section-heading p {
+        font-size:9px !important;
+    }
+
+    .ft-lab-patient-grid {
+        gap:6px !important;
+    }
+
+    .ft-lab-patient-grid > div,
+    .ft-lab-authorization-grid > div {
+        padding:7px 9px !important;
+        border-radius:6px !important;
+    }
+
+    .ft-lab-test-list {
+        gap:5px !important;
+    }
+
+    .ft-lab-readonly-test {
+        min-height:30px !important;
+        padding:6px 9px !important;
+        border-radius:6px !important;
+        font-size:9px !important;
+    }
+
+    .ft-lab-readonly-check {
+        width:16px !important;
+        height:16px !important;
+        flex-basis:16px !important;
+        border-radius:4px !important;
+        font-size:9px !important;
+    }
+
+    .ft-lab-readonly-box {
+        min-height:45px !important;
+        padding:7px 9px !important;
+        border-radius:6px !important;
+        font-size:9px !important;
+        line-height:1.25 !important;
+    }
+
+    .ft-lab-authorization-grid {
+        gap:6px !important;
+    }
+
+    .ft-lab-signature-box {
+        margin-top:7px !important;
+        padding:7px !important;
+        border-radius:7px !important;
+    }
+
+    .ft-lab-signature-heading {
+        margin-bottom:4px !important;
+    }
+
+    .ft-lab-signature-pad {
+        min-height:55px !important;
+        padding:5px 8px !important;
+    }
+
+    .ft-lab-signature-pad img {
+        max-width:170px !important;
+        max-height:45px !important;
+    }
+
+    .ft-lab-signature-status {
+        font-size:8px !important;
+    }
+
+    .ft-lab-readonly-notice {
+        padding:8px 18px 10px !important;
+    }
+
+    .ft-lab-readonly-notice strong {
+        font-size:9px !important;
+    }
+
+    .ft-lab-readonly-notice span {
+        font-size:8px !important;
+    }
+}
+</style></head>
 
 <body>
 
@@ -1700,7 +1936,7 @@
                 data-section="dashboard"
                 onclick="showSection('dashboard')"
             >
-                <span class="nav-icon">âŒ‚</span>
+                <span class="nav-icon">&#8962;</span>
                 Dashboard
             </button>
 
@@ -1709,7 +1945,7 @@
                 data-section="appointments"
                 onclick="showSection('appointments')"
             >
-                <span class="nav-icon">â–£</span>
+                <span class="nav-icon">&#9633;</span>
                 Appointments
             </button>
 
@@ -1718,8 +1954,25 @@
                 data-section="consultations"
                 onclick="showSection('consultations')"
             >
-                <span class="nav-icon">â˜‘</span>
+                <span class="nav-icon">&#9745;</span>
                 Consultations
+            </button>
+
+            <button
+                class="nav-item"
+                data-section="labRequests"
+                onclick="showSection('labRequests'); renderFTLabRequests();"
+            >
+                <span class="nav-icon">&#128203;</span>
+                Lab Requests
+            </button>
+            <button
+                class="nav-item"
+                data-section="labReports"
+                onclick="showSection('labReports'); renderFTLabReports();"
+            >
+                <span class="nav-icon">&#128202;</span>
+                Lab Reports
             </button>
 
             <button
@@ -1727,7 +1980,7 @@
                 data-section="prescriptions"
                 onclick="showSection('prescriptions')"
             >
-                <span class="nav-icon">âœš</span>
+                <span class="nav-icon">&#10003;</span>
                 Prescriptions
             </button>
 
@@ -1736,7 +1989,7 @@
                 data-section="timeline"
                 onclick="showSection('timeline')"
             >
-                <span class="nav-icon">â—‰</span>
+                <span class="nav-icon">&#9673;</span>
                 Health Timeline
             </button>
 
@@ -1752,7 +2005,7 @@
                 data-section="profile"
                 onclick="showSection('profile')"
             >
-                <span class="nav-icon">â—¯</span>
+                <span>&#9673;</span>
                 My Profile
             </button>
 
@@ -1764,7 +2017,7 @@
                 class="logout-button"
                 onclick="logout()"
             >
-                <span>â†ª</span>
+                <span>&#8617;</span>
                 Sign Out
             </button>
 
@@ -1802,7 +2055,7 @@
                     onclick="openSidebar()"
                     aria-label="Open menu"
                 >
-                    â˜°
+                    &#9776;
                 </button>
 
                 <div class="page-title">
@@ -1872,7 +2125,7 @@
                             Welcome back,
                             <span id="welcomeName">
                                 Patient
-                            </span> ðŸ‘‹
+                            </span> &#128075;
                         </h1>
 
                         <p>
@@ -1884,7 +2137,7 @@
                     </div>
 
                     <div class="welcome-medical">
-                        âš•
+                        &#9877;
                     </div>
 
                 </div>
@@ -1903,7 +2156,7 @@
                             </span>
 
                             <div class="stat-icon">
-                                â–£
+                                &#9633;
                             </div>
 
                         </div>
@@ -1927,7 +2180,7 @@
                             </span>
 
                             <div class="stat-icon">
-                                â˜‘
+                                &#9745;
                             </div>
 
                         </div>
@@ -1951,7 +2204,7 @@
                             </span>
 
                             <div class="stat-icon">
-                                âœš
+                                &#10003;
                             </div>
 
                         </div>
@@ -1975,7 +2228,7 @@
                             </span>
 
                             <div class="stat-icon">
-                                â—·
+                                &#9671;
                             </div>
 
                         </div>
@@ -2064,7 +2317,7 @@
                                 class="profile-email"
                                 id="profileEmail"
                             >
-                                â€”
+                                &#8212;
                             </div>
 
                             <div class="profile-details">
@@ -2079,7 +2332,7 @@
                                         class="detail-value"
                                         id="profilePhone"
                                     >
-                                        â€”
+                                        &#8212;
                                     </span>
 
                                 </div>
@@ -2094,7 +2347,7 @@
                                         class="detail-value"
                                         id="profileDOB"
                                     >
-                                        â€”
+                                        &#8212;
                                     </span>
 
                                 </div>
@@ -2109,7 +2362,7 @@
                                         class="detail-value"
                                         id="profileGender"
                                     >
-                                        â€”
+                                        &#8212;
                                     </span>
 
                                 </div>
@@ -2124,7 +2377,7 @@
                                         class="detail-value"
                                         id="profileAddress"
                                     >
-                                        â€”
+                                        &#8212;
                                     </span>
 
                                 </div>
@@ -2311,11 +2564,38 @@
             ========================================== -->
 
             <div
-                id="prescriptionsSection"
+                id="labRequestsSection"
                 style="display:none;"
             >
 
                 <div class="card">
+
+                    <div class="card-header">
+                        <div>
+                            <h3>
+                                My Laboratory Requests
+                            </h3>
+                            <span>
+                                Laboratory investigations requested during your care
+                            </span>
+                        </div>
+                    </div>
+
+                    <div id="ftPatientLabRequestsList">
+                        <div class="loading-state">
+                            Loading laboratory requests...
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div
+                id="prescriptionsSection"
+                style="display:none;"
+            >
+
+                <div id="labReportsSection" style="display:none;"><div class="card"><div class="card-header"><div><h3>My Laboratory Reports</h3><span>Laboratory results and reports recorded during your care</span></div></div><div id="ftPatientLabReportsList"><div class="loading-state">Loading laboratory reports...</div></div></div></div><div class="card">
 
                     <div class="card-header">
 
@@ -2423,7 +2703,7 @@
                                     class="detail-value"
                                     id="fullProfileName"
                                 >
-                                    â€”
+                                    &#8212;
                                 </span>
 
                             </div>
@@ -2438,7 +2718,7 @@
                                     class="detail-value"
                                     id="fullProfileEmail"
                                 >
-                                    â€”
+                                    &#8212;
                                 </span>
 
                             </div>
@@ -2453,7 +2733,7 @@
                                     class="detail-value"
                                     id="fullProfilePhone"
                                 >
-                                    â€”
+                                    &#8212;
                                 </span>
 
                             </div>
@@ -2468,7 +2748,7 @@
                                     class="detail-value"
                                     id="fullProfileDOB"
                                 >
-                                    â€”
+                                    &#8212;
                                 </span>
 
                             </div>
@@ -2483,7 +2763,7 @@
                                     class="detail-value"
                                     id="fullProfileGender"
                                 >
-                                    â€”
+                                    &#8212;
                                 </span>
 
                             </div>
@@ -2498,7 +2778,7 @@
                                     class="detail-value"
                                     id="fullProfileAddress"
                                 >
-                                    â€”
+                                    &#8212;
                                 </span>
 
                             </div>
@@ -2513,7 +2793,7 @@
                                     class="detail-value"
                                     id="fullProfileHistory"
                                 >
-                                    â€”
+                                    &#8212;
                                 </span>
 
                             </div>
@@ -2528,7 +2808,7 @@
                                     class="detail-value"
                                     id="fullProfileAllergies"
                                 >
-                                    â€”
+                                    &#8212;
                                 </span>
 
                             </div>
@@ -2543,7 +2823,7 @@
                                     class="detail-value"
                                     id="fullProfileMedications"
                                 >
-                                    â€”
+                                    &#8212;
                                 </span>
 
                             </div>
@@ -2558,7 +2838,7 @@
                                     class="detail-value"
                                     id="fullProfileNotes"
                                 >
-                                    â€”
+                                    &#8212;
                                 </span>
 
                             </div>
@@ -3096,7 +3376,7 @@
         ) {
 
             if (!value) {
-                return "â€”";
+                return "&#8212;";
             }
 
             const date =
@@ -3320,12 +3600,12 @@
             document.getElementById(
                 "profileEmail"
             ).textContent =
-                patient.email || "â€”";
+                patient.email || "&#8212;";
 
             document.getElementById(
                 "profilePhone"
             ).textContent =
-                patient.phone || "â€”";
+                patient.phone || "&#8212;";
 
             document.getElementById(
                 "profileDOB"
@@ -3337,28 +3617,28 @@
             document.getElementById(
                 "profileGender"
             ).textContent =
-                patient.gender || "â€”";
+                patient.gender || "&#8212;";
 
             document.getElementById(
                 "profileAddress"
             ).textContent =
-                patient.address || "â€”";
+                patient.address || "&#8212;";
 
 
             document.getElementById(
                 "fullProfileName"
             ).textContent =
-                fullName || "â€”";
+                fullName || "&#8212;";
 
             document.getElementById(
                 "fullProfileEmail"
             ).textContent =
-                patient.email || "â€”";
+                patient.email || "&#8212;";
 
             document.getElementById(
                 "fullProfilePhone"
             ).textContent =
-                patient.phone || "â€”";
+                patient.phone || "&#8212;";
 
             document.getElementById(
                 "fullProfileDOB"
@@ -3370,32 +3650,32 @@
             document.getElementById(
                 "fullProfileGender"
             ).textContent =
-                patient.gender || "â€”";
+                patient.gender || "&#8212;";
 
             document.getElementById(
                 "fullProfileAddress"
             ).textContent =
-                patient.address || "â€”";
+                patient.address || "&#8212;";
 
             document.getElementById(
                 "fullProfileHistory"
             ).textContent =
-                patient.medical_history || "â€”";
+                patient.medical_history || "&#8212;";
 
             document.getElementById(
                 "fullProfileAllergies"
             ).textContent =
-                patient.allergies || "â€”";
+                patient.allergies || "&#8212;";
 
             document.getElementById(
                 "fullProfileMedications"
             ).textContent =
-                patient.medications || "â€”";
+                patient.medications || "&#8212;";
 
             document.getElementById(
                 "fullProfileNotes"
             ).textContent =
-                patient.notes || "â€”";
+                patient.notes || "&#8212;";
 
         }
 
@@ -3501,7 +3781,7 @@
 
                 container.innerHTML =
                     emptyState(
-                        "â–£",
+                        "&#9633;",
                         "No appointments found."
                     );
 
@@ -3526,7 +3806,7 @@
 
                 dashboardContainer.innerHTML =
                     emptyState(
-                        "â–£",
+                        "&#9633;",
                         "You have no upcoming appointments."
                     );
 
@@ -3729,7 +4009,7 @@ function appointmentHTML(
             const day =
                 date
                     ? date.getDate()
-                    : "â€”";
+                    : "&#8212;";
 
             return `
 
@@ -3767,7 +4047,7 @@ function appointmentHTML(
                             </span>
 
                             <span>
-                                â€¢
+                                &#8226;
                             </span>
 
                             <span>
@@ -3890,7 +4170,7 @@ function appointmentHTML(
 
                 const empty =
                     emptyState(
-                        "â˜‘",
+                        "&#9745;",
                         "No consultation records found."
                     );
 
@@ -4018,7 +4298,256 @@ function appointmentHTML(
         }
 
 
-        function renderPrescriptions() {
+        async function loadFTLabRequests() {
+    const patientId = getPatientIdFromToken();
+    const response = await apiFetch(
+        `/api/patients/${patientId}/lab-requests`
+    );
+    if (!response.ok) {
+        throw new Error("Unable to load laboratory requests.");
+    }
+    window.ftLabRequests = await response.json();
+}
+
+function openFTLabRequest(id) {
+    const request =
+        (window.ftLabRequests || []).find(
+            item => Number(item.id) === Number(id)
+        );
+
+    if (!request) return;
+
+    const tests = Array.isArray(request.requested_tests)
+        ? request.requested_tests
+        : String(request.requested_tests || "")
+            .split(/\r?\n|,/)
+            .map(item => item.trim())
+            .filter(Boolean);
+
+    const patientName = patient
+        ? `${patient.first_name || ""} ${patient.last_name || ""}`.trim()
+        : "Patient";
+
+    const requestedTests = tests.length
+        ? tests.map(test => `
+            <div class="ft-lab-readonly-test">
+                <span class="ft-lab-readonly-check">&#10003;</span>
+                <span>${escapeHTML(test)}</span>
+            </div>
+        `).join("")
+        : `<div class="ft-lab-empty">No investigation details recorded.</div>`;
+
+    document.getElementById("ftLabRequestContent").innerHTML = `
+        <div class="ft-lab-document">
+
+            <div class="ft-lab-header">
+                <div class="ft-lab-header-main">
+                    <span class="ft-lab-eyebrow">FRANTETT HEALTHCARE</span>
+                    <h1>Laboratory Investigation Request</h1>
+                </div>
+
+                <div class="ft-lab-date-card">
+                    <span>Request Date</span>
+                    <strong>${escapeHTML(formatDate(request.request_date))}</strong>
+                </div>
+            </div>
+
+            <section class="ft-lab-section">
+                <div class="ft-lab-section-heading">
+                    <span class="ft-lab-section-number">01</span>
+                    <div>
+                        <h3>Patient Information</h3>
+                        <p>Patient details associated with this laboratory request.</p>
+                    </div>
+                </div>
+
+                <div class="ft-lab-patient-grid">
+                    <div>
+                        <span class="ft-lab-field-label">Patient Name</span>
+                        <strong>${escapeHTML(patientName)}</strong>
+                    </div>
+                    <div>
+                        <span class="ft-lab-field-label">Patient ID</span>
+                        <strong>${escapeHTML(String(request.patient_id || "—"))}</strong>
+                    </div>
+                    <div>
+                        <span class="ft-lab-field-label">Request ID</span>
+                        <strong>${escapeHTML(String(request.id || "—"))}</strong>
+                    </div>
+                    <div>
+                        <span class="ft-lab-field-label">Consultation ID</span>
+                        <strong>${escapeHTML(String(request.consultation_id || "—"))}</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ft-lab-section">
+                <div class="ft-lab-section-heading">
+                    <span class="ft-lab-section-number">02</span>
+                    <div>
+                        <h3>Investigations Requested</h3>
+                        <p>Laboratory investigations requested during your consultation.</p>
+                    </div>
+                </div>
+
+                <div class="ft-lab-test-list">
+                    ${requestedTests}
+                </div>
+            </section>
+
+            <section class="ft-lab-section">
+                <div class="ft-lab-section-heading">
+                    <span class="ft-lab-section-number">03</span>
+                    <div>
+                        <h3>Clinical Information</h3>
+                        <p>Relevant clinical information recorded with the request.</p>
+                    </div>
+                </div>
+
+                <div class="ft-lab-readonly-box">
+                    ${request.clinical_information
+                        ? escapeHTML(request.clinical_information)
+                        : "No clinical information recorded."}
+                </div>
+            </section>
+
+            <section class="ft-lab-section">
+                <div class="ft-lab-section-heading">
+                    <span class="ft-lab-section-number">04</span>
+                    <div>
+                        <h3>Authorization</h3>
+                        <p>Clinician information recorded when the request was submitted.</p>
+                    </div>
+                </div>
+
+                <div class="ft-lab-authorization-grid">
+                    <div>
+                        <span class="ft-lab-field-label">Requesting Clinician</span>
+                        <strong>${escapeHTML(request.requested_by || "Healthcare Provider")}</strong>
+                    </div>
+                    <div>
+                        <span class="ft-lab-field-label">Request Date</span>
+                        <strong>${escapeHTML(formatDate(request.request_date))}</strong>
+                    </div>
+                </div>
+
+                <div class="ft-lab-signature-box">
+                    <div class="ft-lab-signature-heading">
+                        <span class="ft-lab-field-label">Electronic Signature</span>
+                        <span class="ft-lab-signature-status">${request.electronic_signature ? "Signed" : "Not signed"}</span>
+                    </div>
+                    <div class="ft-lab-signature-pad">
+                        ${request.electronic_signature ? `<img src="${escapeHTML(String(request.electronic_signature))}" alt="Electronic signature">` : `<span>No electronic signature recorded.</span>`}
+                    </div>
+                </div>
+            </section>
+
+            <div class="ft-lab-readonly-notice">
+                <strong>Read-only clinical document</strong>
+                <span>This laboratory request is a record of information submitted during your care.</span>
+            </div>
+
+        </div>
+    `;
+
+    document.getElementById("ftLabRequestModal").style.display = "flex";
+}
+
+async function renderFTLabRequests() {
+    const container = document.getElementById("ftPatientLabRequestsList");
+    if (!container) return;
+
+    try {
+        await loadFTLabRequests();
+
+        const requests = window.ftLabRequests || [];
+
+        if (!requests.length) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">&#128203;</div>
+                    <div class="empty-state-title">No laboratory requests found.</div>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = requests.map(request => `
+            <div
+                class="prescription-item"
+                style="cursor:pointer;"
+                onclick="openFTLabRequest(${Number(request.id)})"
+            >
+                <div class="prescription-icon">
+                    &#128203;
+                </div>
+
+                <div class="prescription-details">
+                    <div class="prescription-name">
+                        ${escapeHTML(
+                            String(
+                                request.requested_tests ||
+                                "Laboratory Investigation"
+                            )
+                        )}
+                    </div>
+
+                    <div class="prescription-meta">
+                        ${escapeHTML(
+                            formatDate(request.request_date)
+                        )}
+                        &#8226;
+                        ${escapeHTML(
+                            request.requested_by ||
+                            "Healthcare Provider"
+                        )}
+                    </div>
+                </div>
+            </div>
+        `).join("");
+    } catch (error) {
+        console.error("Unable to render laboratory requests:", error);
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-title">
+                    Unable to load laboratory requests.
+                </div>
+            </div>
+        `;
+    }
+}async function loadFTLabReports() {
+    const patientId = getPatientIdFromToken();
+    const response = await apiFetch(`/api/patients/${patientId}/lab-reports`);
+    if (!response.ok) throw new Error("Unable to load laboratory reports.");
+    window.ftLabReports = await response.json();
+}
+
+async function renderFTLabReports() {
+    const container = document.getElementById("ftPatientLabReportsList");
+    if (!container) return;
+    try {
+        await loadFTLabReports();
+        const reports = window.ftLabReports || [];
+        if (!reports.length) {
+            container.innerHTML = '<div class="empty-state">No laboratory reports available.</div>';
+            return;
+        }
+        container.innerHTML = reports.map(report => `
+            <div class="card" style="margin-bottom:12px;">
+                <strong>${escapeHTML(report.test_name || "Laboratory Report")}</strong>
+                <div style="margin:6px 0;color:#6b7280;">
+                    ${escapeHTML(report.result_date || report.created_at || "")}
+                    ${report.status ? " • " + escapeHTML(report.status) : ""}
+                </div>
+                <button type="button" onclick="openFTLabResult(${Number(report.id)})">View Report</button>
+            </div>
+        `).join("");
+    } catch (error) {
+        container.innerHTML = '<div class="empty-state">Unable to load laboratory reports.</div>';
+        console.error(error);
+    }
+}
+function renderPrescriptions() {
 
             document.getElementById(
                 "prescriptionCount"
@@ -4042,7 +4571,7 @@ function appointmentHTML(
 
                 const empty =
                     emptyState(
-                        "âœš",
+                        "&#10003;",
                         "No prescriptions found."
                     );
 
@@ -4089,10 +4618,14 @@ function appointmentHTML(
 
                 return `
 
-                    <div class="prescription-item">
+                    <div
+                        class="prescription-item"
+                        style="cursor:pointer;"
+                        onclick="openFTPrescription(${Number(prescription.id)})"
+                    >
 
                         <div class="prescription-icon">
-                            âœš
+                            &#10003;
                         </div>
 
                         <div class="prescription-details">
@@ -4116,7 +4649,7 @@ function appointmentHTML(
                                     )
                                 )}
 
-                                â€¢
+                                &#8226;
 
                                 ${escapeHTML(
                                     prescription.doctor ||
@@ -4127,13 +4660,202 @@ function appointmentHTML(
 
                         </div>
 
+                        <div
+                            style="
+                                font-size:11px;
+                                font-weight:700;
+                                color:#4169d8;
+                            "
+                        >
+                            View
+                        </div>
+
                     </div>
 
                 `;
 
             }
 
+            window.openFTPrescription = function(id) {
 
+                const prescription =
+                    prescriptions.find(
+                        item =>
+                            Number(item.id) === Number(id)
+                    );
+
+                if (!prescription) return;
+
+                const medications =
+                    Array.isArray(
+                        prescription.medications
+                    )
+                        ? prescription.medications
+                        : [];
+
+                document.getElementById(
+                    "ftPrescriptionContent"
+                ).innerHTML = `
+
+                    <div class="ft-document-grid">
+
+                        <div class="ft-document-field">
+                            <div class="ft-document-label">
+                                Patient
+                            </div>
+                            <div class="ft-document-value">
+                                ${escapeHTML(
+                                    patient
+                                        ? (
+                                            `${patient.first_name || ""} ${patient.last_name || ""}`
+                                        ).trim()
+                                        : "Patient"
+                                )}
+                            </div>
+                        </div>
+
+                        <div class="ft-document-field">
+                            <div class="ft-document-label">
+                                Prescription Date
+                            </div>
+                            <div class="ft-document-value">
+                                ${escapeHTML(
+                                    formatDate(
+                                        prescription.prescription_date
+                                    )
+                                )}
+                            </div>
+                        </div>
+
+                        <div class="ft-document-field">
+                            <div class="ft-document-label">
+                                Healthcare Provider
+                            </div>
+                            <div class="ft-document-value">
+                                ${escapeHTML(
+                                    prescription.doctor ||
+                                    "Healthcare Provider"
+                                )}
+                            </div>
+                        </div>
+
+                        <div class="ft-document-field">
+                            <div class="ft-document-label">
+                                Prescription ID
+                            </div>
+                            <div class="ft-document-value">
+                                ${escapeHTML(
+                                    String(
+                                        prescription.id ||
+                                        "—"
+                                    )
+                                )}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <table class="ft-document-table">
+
+                        <thead>
+                            <tr>
+                                <th>Medication</th>
+                                <th>Dose</th>
+                                <th>Route</th>
+                                <th>Frequency</th>
+                                <th>Duration</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            ${
+                                medications.length
+                                    ? medications.map(
+                                        medication => `
+                                            <tr>
+                                                <td>
+                                                    ${escapeHTML(
+                                                        medication.medication_name ||
+                                                        "—"
+                                                    )}
+                                                </td>
+                                                <td>
+                                                    ${escapeHTML(
+                                                        medication.dose ||
+                                                        "—"
+                                                    )}
+                                                </td>
+                                                <td>
+                                                    ${escapeHTML(
+                                                        medication.route ||
+                                                        "—"
+                                                    )}
+                                                </td>
+                                                <td>
+                                                    ${escapeHTML(
+                                                        medication.frequency ||
+                                                        "—"
+                                                    )}
+                                                </td>
+                                                <td>
+                                                    ${escapeHTML(
+                                                        medication.duration ||
+                                                        "—"
+                                                    )}
+                                                </td>
+                                                <td>
+                                                    ${escapeHTML(
+                                                        medication.quantity ||
+                                                        "—"
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        `
+                                    ).join("")
+                                    : `
+                                        <tr>
+                                            <td colspan="6">
+                                                No medication details recorded.
+                                            </td>
+                                        </tr>
+                                    `
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                    ${
+                        prescription.instructions
+                            ? `
+                                <div
+                                    class="ft-document-field full"
+                                    style="margin-top:18px;"
+                                >
+                                    <div class="ft-document-label">
+                                        Instructions
+                                    </div>
+                                    <div class="ft-document-value">
+                                        ${escapeHTML(
+                                            prescription.instructions
+                                        )}
+                                    </div>
+                                </div>
+                            `
+                            : ""
+                    }
+
+                    <div class="ft-document-field full" style="margin-top:12px;"><div class="ft-document-label">Notes</div><div class="ft-document-value">${escapeHTML(prescription.notes || "No notes recorded.")}</div></div>
+
+                `;
+
+                document.getElementById(
+                    "ftPrescriptionModal"
+                ).style.display = "flex";
+
+            }
             dashboard.innerHTML =
                 prescriptions
                     .slice(0, 3)
@@ -4193,7 +4915,7 @@ function appointmentHTML(
 
                 container.innerHTML =
                     emptyState(
-                        "â—‰",
+                        "&#9673;",
                         "No health timeline records found."
                     );
 
@@ -4241,7 +4963,7 @@ function appointmentHTML(
                                         )}
 
                                         ${item.event_time
-                                            ? " â€¢ " +
+                                            ? " &#8226; " +
                                               escapeHTML(
                                                 formatTime(
                                                     item.event_time
@@ -4251,7 +4973,7 @@ function appointmentHTML(
 
                                         ${
                                             item.doctor
-                                                ? " â€¢ " +
+                                                ? " &#8226; " +
                                                   escapeHTML(
                                                     item.doctor
                                                   )
@@ -4312,6 +5034,7 @@ function appointmentHTML(
                 "dashboard",
                 "appointments",
                 "consultations",
+                "labRequests","labReports",
                 "prescriptions",
                 "timeline",
                 "profile"
@@ -5180,8 +5903,355 @@ function switchPatientVideoFocus() {
 
     </script>
 
+<!-- FRANTETT READ-ONLY CLINICAL DOCUMENT VIEWERS -->
+<style>
+.ft-document-modal {
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:10000;
+    background:rgba(0,0,0,.58);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+.ft-document-panel {
+    width:min(850px,100%);
+    max-height:92vh;
+    overflow-y:auto;
+    background:#fff;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 24px 70px rgba(0,0,0,.25);
+}
+.ft-document-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+    border-bottom:2px solid #eef2f6;
+    padding-bottom:18px;
+    margin-bottom:22px;
+}
+.ft-document-brand {
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:1.5px;
+    color:#4169d8;
+    margin-bottom:5px;
+}
+.ft-document-title {
+    margin:0;
+    font-size:24px;
+    font-weight:800;
+    color:#172033;
+}
+.ft-document-close {
+    border:none;
+    background:#f3f5f8;
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    font-size:20px;
+    cursor:pointer;
+}
+.ft-document-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+.ft-document-field {
+    background:#f8fafc;
+    border:1px solid #e8edf2;
+    border-radius:10px;
+    padding:13px 15px;
+}
+.ft-document-field.full {
+    grid-column:1 / -1;
+}
+.ft-document-label {
+    font-size:10px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    color:#7a8494;
+    margin-bottom:6px;
+}
+.ft-document-value {
+    font-size:13px;
+    color:#202938;
+    white-space:pre-wrap;
+}
+.ft-document-table {
+    width:100%;
+    border-collapse:collapse;
+    margin-top:18px;
+    font-size:12px;
+}
+.ft-document-table th,
+.ft-document-table td {
+    border:1px solid #e1e6eb;
+    padding:10px;
+    text-align:left;
+}
+.ft-document-table th {
+    background:#f5f7fa;
+    font-weight:800;
+}
+.ft-document-actions {
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:24px;
+}
+.ft-print-button {
+    border:none;
+    border-radius:9px;
+    padding:10px 18px;
+    background:#4169d8;
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+}
+@media print {
+    @page {
+        size: Letter portrait;
+        margin: 8mm;
+    }
+
+    body {
+        margin:0 !important;
+        padding:0 !important;
+        background:#fff !important;
+    }
+
+    body > * {
+        display:none !important;
+    }
+
+    .ft-document-modal {
+        display:flex !important;
+        position:static !important;
+        width:100% !important;
+        height:auto !important;
+        min-height:0 !important;
+        padding:0 !important;
+        margin:0 !important;
+        background:#fff !important;
+        overflow:visible !important;
+    }
+
+    .ft-document-panel {
+        display:block !important;
+        width:100% !important;
+        max-width:none !important;
+        max-height:none !important;
+        margin:0 !important;
+        padding:0 !important;
+        overflow:visible !important;
+        box-shadow:none !important;
+        border-radius:0 !important;
+    }
+
+    .ft-document-actions {
+        display:none !important;
+    }
+
+    .ft-lab-document {
+        width:100% !important;
+        margin:0 !important;
+        padding:0 !important;
+        box-shadow:none !important;
+    }
+}
+
+@media (max-width:600px) {
+    .ft-document-modal {
+        padding:10px;
+    }
+    .ft-document-panel {
+        padding:18px;
+        border-radius:14px;
+    }
+    .ft-document-grid {
+        grid-template-columns:1fr;
+    }
+    .ft-document-field.full {
+        grid-column:auto;
+    }
+    .ft-document-title {
+        font-size:20px;
+    }
+}
+</style>
+
+<div id="ftLabRequestModal" class="ft-document-modal" onclick="if(event.target===this) closeFTDocumentModal('ftLabRequestModal')">
+    <div class="ft-document-panel ft-lab-request-document">
+        <div id="ftLabRequestContent"></div>
+        <div class="ft-document-actions">
+            <button type="button" class="ft-print-button" onclick="printFTDocument('ftLabRequestModal')">Print / Save PDF</button>
+        </div>
+    </div>
+</div>
+
+<div id="ftLabResultModal" class="ft-document-modal" onclick="if(event.target===this) closeFTDocumentModal('ftLabResultModal')">
+    <div class="ft-document-panel">
+        <div class="ft-document-header">
+            <div>
+                <div class="ft-document-brand">FRANTETT HEALTHCARE</div>
+                <h2 class="ft-document-title">Laboratory Result</h2>
+            </div>
+            <button type="button" class="ft-document-close" onclick="closeFTDocumentModal('ftLabResultModal')">&times;</button>
+        </div>
+        <div id="ftLabResultContent"></div>
+        <div class="ft-document-actions">
+            <button type="button" class="ft-print-button" onclick="printFTDocument('ftLabResultModal')">Print / Save PDF</button>
+        </div>
+    </div>
+</div>
+
+<div id="ftPrescriptionModal" class="ft-document-modal" onclick="if(event.target===this) closeFTDocumentModal('ftPrescriptionModal')">
+    <div class="ft-document-panel">
+        <div class="ft-document-header">
+            <div>
+                <div class="ft-document-brand">FRANTETT HEALTHCARE</div>
+                <h2 class="ft-document-title">Prescription</h2>
+            </div>
+            <button type="button" class="ft-document-close" onclick="closeFTDocumentModal('ftPrescriptionModal')">&times;</button>
+        </div>
+        <div id="ftPrescriptionContent"></div>
+        <div class="ft-document-actions">
+            <button type="button" class="ft-print-button" onclick="printFTDocument('ftPrescriptionModal')">Print / Save PDF</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function closeFTDocumentModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) modal.style.display = "none";
+}
+
+function printFTDocument(id) {
+    const modal = document.getElementById(id);
+    if (!modal) return;
+    modal.style.display = "flex";
+    window.print();
+}
+window.openFTLabResult = function(id) {
+    const report = (window.ftLabReports || []).find(r => Number(r.id) === Number(id));
+    if (!report) return;
+
+    const parameters = Array.isArray(report.parameters) ? report.parameters : [];
+
+    document.getElementById("ftLabResultContent").innerHTML = `
+        <div class="ft-document-header">
+            <div>
+                <div class="ft-document-brand">FRANTETT HEALTHCARE</div>
+                <h2 class="ft-document-title">Laboratory Result</h2>
+            </div>
+            <button type="button" class="ft-document-close" onclick="closeFTDocumentModal('ftLabResultModal')">&times;</button>
+        </div>
+
+        <div class="ft-document-grid">
+            <div class="ft-document-field">
+                <div class="ft-document-label">Patient</div>
+                <div class="ft-document-value">${escapeHTML(report.patient_name || "Patient")}</div>
+            </div>
+
+            <div class="ft-document-field">
+                <div class="ft-document-label">Test</div>
+                <div class="ft-document-value">${escapeHTML(report.test_name || "Laboratory Test")}</div>
+            </div>
+
+            <div class="ft-document-field">
+                <div class="ft-document-label">Result Date</div>
+                <div class="ft-document-value">${escapeHTML(report.result_date || report.created_at || "Not recorded")}</div>
+            </div>
+
+            <div class="ft-document-field">
+                <div class="ft-document-label">Status</div>
+                <div class="ft-document-value">${escapeHTML(report.status || "Completed")}</div>
+            </div>
+
+            <div class="ft-document-field">
+                <div class="ft-document-label">Recorded By</div>
+                <div class="ft-document-value">${escapeHTML(report.recorded_by || "Not recorded")}</div>
+            </div>
+
+            <div class="ft-document-field">
+                <div class="ft-document-label">Report ID</div>
+                <div class="ft-document-value">${escapeHTML(String(report.id))}</div>
+            </div>
+        </div>
+
+        <div style="margin-top:20px;">
+            <div class="ft-document-label" style="margin-bottom:8px;">Laboratory Findings</div>
+            ${
+                parameters.length
+                ? `
+                    <div style="overflow-x:auto;">
+                        <table class="ft-document-table">
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Result</th>
+                                    <th>Unit</th>
+                                    <th>Flag</th>
+                                    <th>Reference Range</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${parameters.map(p => `
+                                    <tr>
+                                        <td>${escapeHTML(p.parameter_name || "")}</td>
+                                        <td>${escapeHTML(p.result_value || "")}</td>
+                                        <td>${escapeHTML(p.unit || "")}</td>
+                                        <td>${escapeHTML(p.flag || "")}</td>
+                                        <td>${escapeHTML(p.reference_range || "")}</td>
+                                    </tr>
+                                `).join("")}
+                            </tbody>
+                        </table>
+                    </div>
+                `
+                : '<div class="empty-state">No individual laboratory parameters recorded.</div>'
+            }
+        </div>
+
+        <div class="ft-document-field full" style="margin-top:20px;">
+            <div class="ft-document-label">Notes</div>
+            <div class="ft-document-value">${escapeHTML(report.notes || "No notes recorded.")}</div>
+        </div>
+    `;
+
+    document.getElementById("ftLabResultModal").style.display = "flex";
+};</script>
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
