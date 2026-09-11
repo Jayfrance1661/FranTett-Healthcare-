@@ -1,0 +1,33 @@
+﻿
+FRANTETT HEALTHCARE BACKUP
+Date: 09/04/2026 16:04:33
+
+Project:
+C:\Users\TOSOP13\Music\FranTett-Healthcare-\FRANTETT
+
+Database:
+frantett
+
+Database backups:
+frantett_2026-09-04.dump
+frantett_2026-09-04.sql
+postgresql_globals_2026-09-04.sql
+
+Source files captured:
+server.js
+package.json
+package-lock.json
+pages\patients.html
+pages\appointments.html
+pages\consultation.html
+pages\consultation-form.html
+
+Git state:
+git_status.txt
+git_diff.txt
+git_recent_commits.txt
+git_backup_commit.txt
+
+Full project ZIP:
+.\FranTett_Healthcare_FULL_BACKUP_2026-09-04_2026-09-04_160359.zip
+

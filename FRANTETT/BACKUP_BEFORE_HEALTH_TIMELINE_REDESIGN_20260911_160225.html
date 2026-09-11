@@ -2118,228 +2118,34 @@
 }
 
 /* =========================================================
-   FRANTETT HEALTH TIMELINE
-   CLEAN FINAL DESIGN
+   TIMELINE
    ========================================================= */
 
 #timelineSection {
-    position: relative !important;
+    position:relative;
 }
 
-#timelineSection .timeline {
-    position: relative !important;
-    margin: 0 !important;
-    padding: 10px 0 10px 54px !important;
+#timelineSection .timeline-item,
+#timelineSection .timeline-entry {
+    position:relative;
+    border-left:3px solid #ccebe7;
+    padding:4px 0 22px 24px;
+    margin-left:10px;
 }
 
-/* Continuous timeline line */
-#timelineSection .timeline::before {
-    content: "" !important;
-    position: absolute !important;
-    left: 18px !important;
-    top: 12px !important;
-    bottom: 12px !important;
-    width: 3px !important;
-    background: #d7ebe8 !important;
-    border-radius: 4px !important;
+#timelineSection .timeline-item::before,
+#timelineSection .timeline-entry::before {
+    content:"";
+    position:absolute;
+    left:-8px;
+    top:5px;
+    width:11px;
+    height:11px;
+    border-radius:50%;
+    background:var(--ft-teal);
+    border:3px solid #e5f7f5;
 }
 
-/* Timeline event card */
-#timelineSection .timeline .timeline-item {
-    position: relative !important;
-    display: block !important;
-
-    margin: 0 0 18px 0 !important;
-    padding: 18px 20px !important;
-
-    background: #ffffff !important;
-    border: 1px solid #dce9e8 !important;
-    border-radius: 14px !important;
-
-    min-height: 0 !important;
-
-    box-sizing: border-box !important;
-
-    box-shadow: 0 3px 12px rgba(20,55,70,.06) !important;
-
-    transition:
-        transform .18s ease,
-        box-shadow .18s ease,
-        border-color .18s ease !important;
-}
-
-/* Last event */
-#timelineSection .timeline .timeline-item:last-child {
-    margin-bottom: 0 !important;
-}
-
-/* Event dot */
-#timelineSection .timeline .timeline-item .timeline-dot {
-    position: absolute !important;
-
-    left: -46px !important;
-    top: 22px !important;
-
-    width: 14px !important;
-    height: 14px !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
-
-    background: #087f78 !important;
-    border: 4px solid #e8f6f4 !important;
-    border-radius: 50% !important;
-
-    box-sizing: content-box !important;
-
-    z-index: 5 !important;
-}
-
-/* Event type badge */
-#timelineSection .timeline .timeline-item .timeline-type {
-    display: inline-flex !important;
-    align-items: center !important;
-
-    width: fit-content !important;
-
-    margin: 0 0 8px 0 !important;
-    padding: 5px 10px !important;
-
-    background: #e8f6f4 !important;
-    color: #087f78 !important;
-
-    border-radius: 999px !important;
-
-    font-size: 10px !important;
-    font-weight: 800 !important;
-
-    line-height: 1.2 !important;
-
-    letter-spacing: .7px !important;
-    text-transform: uppercase !important;
-}
-
-/* Event title */
-#timelineSection .timeline .timeline-item .timeline-title {
-    display: block !important;
-
-    margin: 0 0 7px 0 !important;
-    padding: 0 !important;
-
-    color: #173f3d !important;
-
-    font-size: 17px !important;
-    font-weight: 750 !important;
-
-    line-height: 1.4 !important;
-
-    word-break: break-word !important;
-}
-
-/* Event date/time/doctor */
-#timelineSection .timeline .timeline-item .timeline-date {
-    display: block !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
-
-    color: #718281 !important;
-
-    font-size: 13px !important;
-    font-weight: 500 !important;
-
-    line-height: 1.5 !important;
-
-    word-break: break-word !important;
-}
-
-/* Hover */
-#timelineSection .timeline .timeline-item:hover {
-    transform: translateY(-2px) !important;
-
-    border-color: #b9dcd8 !important;
-
-    box-shadow: 0 8px 20px rgba(20,55,70,.09) !important;
-}
-
-/* Empty timeline */
-#timelineSection #timelineList .empty-state {
-    padding: 45px 25px !important;
-    text-align: center !important;
-    color: var(--ft-muted) !important;
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 768px) {
-
-    #timelineSection .timeline {
-        padding-left: 43px !important;
-    }
-
-    #timelineSection .timeline::before {
-        left: 13px !important;
-    }
-
-    #timelineSection .timeline .timeline-item {
-        padding: 16px 17px !important;
-        margin-bottom: 15px !important;
-    }
-
-    #timelineSection .timeline .timeline-item .timeline-dot {
-        left: -38px !important;
-        top: 20px !important;
-
-        width: 13px !important;
-        height: 13px !important;
-    }
-
-    #timelineSection .timeline .timeline-item .timeline-title {
-        font-size: 16px !important;
-    }
-}
-
-@media (max-width: 430px) {
-
-    #timelineSection .timeline {
-        padding-left: 34px !important;
-    }
-
-    #timelineSection .timeline::before {
-        left: 9px !important;
-        width: 2px !important;
-    }
-
-    #timelineSection .timeline .timeline-item {
-        padding: 15px !important;
-        border-radius: 12px !important;
-    }
-
-    #timelineSection .timeline .timeline-item .timeline-dot {
-        left: -31px !important;
-        top: 19px !important;
-
-        width: 11px !important;
-        height: 11px !important;
-
-        border-width: 3px !important;
-    }
-
-    #timelineSection .timeline .timeline-item .timeline-type {
-        font-size: 9px !important;
-        padding: 4px 8px !important;
-    }
-
-    #timelineSection .timeline .timeline-item .timeline-title {
-        font-size: 15px !important;
-    }
-
-    #timelineSection .timeline .timeline-item .timeline-date {
-        font-size: 12px !important;
-    }
-}
 /* =========================================================
    PROFILE
    ========================================================= */
@@ -10334,9 +10140,6 @@ window.addEventListener("load",function(){
 </script>
 </body>
 </html>
-
-
-
 
 
 
