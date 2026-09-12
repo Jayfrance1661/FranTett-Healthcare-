@@ -1,4 +1,4 @@
-const cors = require("cors");
+﻿const cors = require("cors");
 const express = require("express");
 const https = require("https");
 const fs = require("fs");
@@ -4943,141 +4943,130 @@ app.get(
     "/api/patients/:id/timeline",
     authenticateToken,
     async (req, res) => {
-
-        const patientId =
-            parseInt(req.params.id, 10);
-
-        if (isNaN(patientId)) {
-
-            return res.status(400).json({
-                message: "Invalid patient ID."
-            });
-
-        }
-
         try {
+            const patientId = Number(req.params.id);
 
-            const patientResult =
-                await pool.query(
-                    `
-                    SELECT id
-                    FROM patients
-                    WHERE id = $1
-                    `,
-                    [patientId]
-                );
+            const consultationsResult = await pool.query(
+                `
+                SELECT
+                    id,
+                    'consultation' AS type,
+                    consultation_date AS event_date,
+                    NULL AS event_time,
+                    doctor,
+                    COALESCE(
+                        diagnosis,
+                        chief_complaint,
+                        'Clinical Consultation'
+                    ) AS title,
+                    NULL AS status,
+                    created_at
+                FROM consultations
+                WHERE patient_id = $1
+                `,
+                [patientId]
+            );
 
-            if (patientResult.rows.length === 0) {
+            const prescriptionsResult = await pool.query(
+                `
+                SELECT
+                    id,
+                    'prescription' AS type,
+                    prescription_date AS event_date,
+                    NULL AS event_time,
+                    doctor,
+                    COALESCE(
+                        (
+                            SELECT string_agg(
+                                pi.medication_name,
+                                ' • '
+                                ORDER BY pi.id
+                            )
+                            FROM prescription_items pi
+                            WHERE pi.prescription_id = prescriptions.id
+                        ),
+                        medication_name,
+                        'Prescription'
+                    ) AS title,
+                    NULL AS status,
+                    created_at
+                FROM prescriptions
+                WHERE patient_id = $1
+                `,
+                [patientId]
+            );
 
-                return res.status(404).json({
-                    message: "Patient not found."
-                });
+            const labRequestsResult = await pool.query(
+                `
+                SELECT
+                    id,
+                    'laboratory request' AS type,
+                    request_date AS event_date,
+                    NULL AS event_time,
+                    requested_by AS doctor,
+                    requested_tests AS title,
+                    NULL AS status,
+                    created_at
+                FROM lab_requests
+                WHERE patient_id = $1
+                `,
+                [patientId]
+            );
 
-            }
-
-            const appointmentsResult =
-                await pool.query(
-                    `
-                    SELECT
-                        id,
-                        'appointment' AS type,
-                        appointment_date AS event_date,
-                        appointment_time AS event_time,
-                        doctor,
-                        reason AS title,
-                        status,
-                        created_at
-                    FROM appointments
-                    WHERE patient_id = $1
-                    `,
-                    [patientId]
-                );
-
-            const consultationsResult =
-                await pool.query(
-                    `
-                    SELECT
-                        id,
-                        'consultation' AS type,
-                        consultation_date AS event_date,
-                        NULL AS event_time,
-                        doctor,
-                        COALESCE(
-                            diagnosis,
-                            chief_complaint,
-                            'Clinical Consultation'
-                        ) AS title,
-                        NULL AS status,
-                        created_at
-                    FROM consultations
-                    WHERE patient_id = $1
-                    `,
-                    [patientId]
-                );
-
-            const prescriptionsResult =
-                await pool.query(
-                    `
-                    SELECT
-                        id,
-                        'prescription' AS type,
-                        prescription_date AS event_date,
-                        NULL AS event_time,
-                        doctor,
-                        medication_name AS title,
-                        NULL AS status,
-                        created_at
-                    FROM prescriptions
-                    WHERE patient_id = $1
-                    `,
-                    [patientId]
-                );
+            const labReportsResult = await pool.query(
+                `
+                SELECT
+                    id,
+                    'laboratory report' AS type,
+                    result_date AS event_date,
+                    NULL AS event_time,
+                    recorded_by AS doctor,
+                    test_name AS title,
+                    status,
+                    created_at
+                FROM lab_reports
+                WHERE patient_id = $1
+                `,
+                [patientId]
+            );
 
             const timeline = [
-                ...appointmentsResult.rows,
-                ...consultationsResult.rows,
-                ...prescriptionsResult.rows
+                ...prescriptionsResult.rows,
+                ...labReportsResult.rows,
+                ...labRequestsResult.rows,
+                ...consultationsResult.rows
             ];
 
-            timeline.sort(
-                (a, b) => {
+            const timelineOrder = {
+                consultation: 1,
+                "laboratory request": 2,
+                "laboratory report": 3,
+                prescription: 4
+            };
 
-                    const dateA =
-                        new Date(
-                            a.event_date ||
-                            a.created_at
-                        );
+            timeline.sort((a, b) => {
+                const orderA = timelineOrder[a.type] || 99;
+                const orderB = timelineOrder[b.type] || 99;
 
-                    const dateB =
-                        new Date(
-                            b.event_date ||
-                            b.created_at
-                        );
-
-                    return dateB - dateA;
+                if (orderA !== orderB) {
+                    return orderA - orderB;
                 }
-            );
 
-            res.json(timeline);
+                const dateA = new Date(a.event_date || a.created_at);
+                const dateB = new Date(b.event_date || b.created_at);
 
-        } catch (error) {
-
-            console.error(
-                "Error fetching patient timeline:",
-                error
-            );
-
-            res.status(500).json({
-                message:
-                    "Failed to load patient timeline."
+                return dateB - dateA;
             });
 
+            res.json(timeline);
+        } catch (error) {
+            console.error("Health timeline error:", error);
+            res.status(500).json({
+                error: "Unable to load health timeline."
+            });
         }
-
     }
 );
-
-// ==========================================
 // GET ONE PRESCRIPTION
 // ==========================================
 
@@ -8579,6 +8568,10 @@ https.createServer(
 
     }
 );
+
+
+
+
 
 
 

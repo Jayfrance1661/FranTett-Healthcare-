@@ -1931,8 +1931,8 @@
 </style><style id="frantett-patient-section-design-v1">
 
 /* =========================================================
-   FRANTETT PATIENT PORTAL — UNIFIED SECTION DESIGN
-   VISUAL ONLY — NO JAVASCRIPT / BACKEND CHANGES
+   FRANTETT PATIENT PORTAL â€” UNIFIED SECTION DESIGN
+   VISUAL ONLY â€” NO JAVASCRIPT / BACKEND CHANGES
    ========================================================= */
 
 :root {
@@ -2748,8 +2748,8 @@
 </style><style id="frantett-patient-dashboard-design-final">
 
 /* =========================================================
-   FRANTETT PATIENT DASHBOARD — FINAL VISUAL DESIGN
-   VISUAL ONLY — NO FUNCTIONALITY CHANGED
+   FRANTETT PATIENT DASHBOARD â€” FINAL VISUAL DESIGN
+   VISUAL ONLY â€” NO FUNCTIONALITY CHANGED
    ========================================================= */
 
 #dashboardSection{
@@ -3217,7 +3217,7 @@
 <style id="frantett-dashboard-labs-v1">
 
 /* =========================================================
-   FRANTETT DASHBOARD — LAB REQUESTS / LAB REPORTS
+   FRANTETT DASHBOARD â€” LAB REQUESTS / LAB REPORTS
    VISUAL + DASHBOARD DISPLAY ONLY
    ========================================================= */
 
@@ -3772,7 +3772,7 @@
 </style><style id="frantett-lab-requests-card-design">
 
 /* ==========================================================
-   FRANTETT — MY LABORATORY REQUESTS
+   FRANTETT â€” MY LABORATORY REQUESTS
    Visual redesign only
    ========================================================== */
 
@@ -3855,7 +3855,7 @@
 
 /* Laboratory icon */
 #ftPatientLabRequestsList > div::before {
-    content: "🧪";
+    content: "ðŸ§ª";
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -4005,7 +4005,7 @@
 }
 
 #dashboardSection #dashboardLabRequests .dashboard-lab-row::before{
-    content:"🧪" !important;
+    content:"ðŸ§ª" !important;
     position:absolute !important;
     left:22px !important;
     top:22px !important;
@@ -4092,7 +4092,7 @@
 </style><style id="frantett-dashboard-lab-name-cleanup">
 
 /* =========================================================
-   FRANTETT DASHBOARD — CLEAN LAB REQUEST NAMES
+   FRANTETT DASHBOARD â€” CLEAN LAB REQUEST NAMES
    Visual only
    ========================================================= */
 
@@ -4118,7 +4118,7 @@
 
 /* Laboratory flask/icon */
 #dashboardSection #dashboardLabRequests .dashboard-lab-row::before {
-    content: "🧪" !important;
+    content: "\1F9EA" !important;
     position: absolute !important;
     left: 18px !important;
     top: 20px !important;
@@ -4307,7 +4307,7 @@
 <style id="frantett-lab-reports-card-design">
 
 /* ============================================================
-   FRANTETT — LABORATORY REPORTS
+   FRANTETT â€” LABORATORY REPORTS
    Visual redesign only
    ============================================================ */
 
@@ -4618,7 +4618,7 @@
 <style id="frantett-dashboard-lab-reports-design">
 
 /* ============================================================
-   FRANTETT DASHBOARD — RECENT LAB REPORTS
+   FRANTETT DASHBOARD â€” RECENT LAB REPORTS
    Visual redesign only
    ============================================================ */
 
@@ -4651,7 +4651,7 @@
 /* Laboratory report heading */
 
 #dashboardSection #dashboardLabReports .dashboard-lab-row::before {
-    content: "🧪" !important;
+    content: "\1F9EA" !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -4784,7 +4784,7 @@
 <style id="frantett-prescription-card-design">
 
 /* =========================================================
-   FRANTETT PRESCRIPTIONS — DEDICATED CARD DESIGN
+   FRANTETT PRESCRIPTIONS â€” DEDICATED CARD DESIGN
    Visual only. Existing prescription functionality preserved.
    ========================================================= */
 
@@ -5479,6 +5479,2533 @@
 
 }
 
+</style><style id="frantett-health-timeline-final-design">
+
+/* ============================================================
+   FRANTETT HEALTH TIMELINE
+   Compact connected medical-record design
+   ============================================================ */
+
+#timelineSection {
+    background: #ffffff !important;
+}
+
+#timelineSection > .card {
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    border: 1px solid #e5eeee !important;
+    box-shadow: 0 6px 20px rgba(20, 80, 80, 0.06) !important;
+}
+
+#timelineSection .card-header {
+    padding: 22px 24px !important;
+    border-bottom: 1px solid #edf2f2 !important;
+    background: #ffffff !important;
+}
+
+#timelineSection .card-header h3 {
+    margin: 0 !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #173b3b !important;
+}
+
+#timelineSection .card-header span {
+    display: block !important;
+    margin-top: 5px !important;
+    font-size: 13px !important;
+    color: #718181 !important;
+}
+
+#timelineSection #timelineList {
+    padding: 26px 28px 28px !important;
+}
+
+/* Timeline container */
+#timelineSection #timelineList .timeline {
+    position: relative !important;
+    margin: 0 !important;
+    padding: 4px 0 4px 34px !important;
+}
+
+/* Continuous vertical line */
+#timelineSection #timelineList .timeline::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 8px !important;
+    top: 8px !important;
+    bottom: 8px !important;
+    width: 2px !important;
+    background: #d7e8e7 !important;
+}
+
+/* Individual event */
+#timelineSection #timelineList .timeline-item {
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 0 24px 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Last event has less bottom spacing */
+#timelineSection #timelineList .timeline-item:last-child {
+    padding-bottom: 2px !important;
+}
+
+/* Timeline dot */
+#timelineSection #timelineList .timeline-dot {
+    position: absolute !important;
+    left: -32px !important;
+    top: 2px !important;
+    width: 12px !important;
+    height: 12px !important;
+    box-sizing: border-box !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    border: 3px solid #159b91 !important;
+    z-index: 2 !important;
+}
+
+/* Event type */
+#timelineSection #timelineList .timeline-type {
+    margin: 0 0 5px 0 !important;
+    color: #159b91 !important;
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+    font-weight: 800 !important;
+    letter-spacing: .8px !important;
+    text-transform: uppercase !important;
+}
+
+/* Event title */
+#timelineSection #timelineList .timeline-title {
+    margin: 0 0 4px 0 !important;
+    color: #173b3b !important;
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+    font-weight: 700 !important;
+    word-break: break-word !important;
+}
+
+/* Date */
+#timelineSection #timelineList .timeline-date {
+    margin: 0 !important;
+    color: #7b8989 !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    font-weight: 500 !important;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    #timelineSection #timelineList {
+        padding: 22px 18px 24px !important;
+    }
+
+    #timelineSection #timelineList .timeline {
+        padding-left: 30px !important;
+    }
+
+    #timelineSection #timelineList .timeline::before {
+        left: 7px !important;
+    }
+
+    #timelineSection #timelineList .timeline-dot {
+        left: -29px !important;
+        width: 11px !important;
+        height: 11px !important;
+    }
+
+    #timelineSection #timelineList .timeline-item {
+        padding-bottom: 22px !important;
+    }
+
+    #timelineSection #timelineList .timeline-title {
+        font-size: 14px !important;
+    }
+}
+
+</style>
+<style id="frantett-health-timeline-premium-design">
+
+/* ==========================================
+   FRANTETT PREMIUM HEALTH TIMELINE
+   Clinical-record feed
+   ========================================== */
+
+#timelineSection #timelineList .ft-health-timeline {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 30px 8px !important;
+    margin: 0 !important;
+}
+
+#timelineSection #timelineList .ft-health-timeline-event {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-bottom: 1px solid #e5eeee !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+#timelineSection #timelineList .ft-health-timeline-event:first-child {
+    padding-top: 4px !important;
+}
+
+#timelineSection #timelineList .ft-health-timeline-event:last-child {
+    padding-bottom: 4px !important;
+    border-bottom: 0 !important;
+}
+
+#timelineSection #timelineList .ft-health-timeline-meta {
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+#timelineSection #timelineList .ft-health-timeline-type {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #138f86 !important;
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+}
+
+#timelineSection #timelineList .ft-health-timeline-date {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #8a9696 !important;
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+}
+
+#timelineSection #timelineList .ft-health-timeline-title {
+    margin: 7px 0 0 0 !important;
+    padding: 0 !important;
+    color: #263b3b !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    font-weight: 500 !important;
+    letter-spacing: 0 !important;
+    word-break: break-word !important;
+}
+
+#timelineSection #timelineList .ft-health-timeline .empty-state {
+    margin: 0 !important;
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 600px) {
+
+    #timelineSection #timelineList .ft-health-timeline {
+        padding: 2px 18px 6px !important;
+    }
+
+    #timelineSection #timelineList .ft-health-timeline-event {
+        padding: 16px 0 !important;
+    }
+
+    #timelineSection #timelineList .ft-health-timeline-event:first-child {
+        padding-top: 2px !important;
+    }
+
+    #timelineSection #timelineList .ft-health-timeline-event:last-child {
+        padding-bottom: 2px !important;
+    }
+
+    #timelineSection #timelineList .ft-health-timeline-meta {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        gap: 3px !important;
+    }
+
+    #timelineSection #timelineList .ft-health-timeline-type {
+        font-size: 9px !important;
+        letter-spacing: 0.11em !important;
+    }
+
+    #timelineSection #timelineList .ft-health-timeline-date {
+        font-size: 11px !important;
+        white-space: normal !important;
+    }
+
+    #timelineSection #timelineList .ft-health-timeline-title {
+        margin-top: 6px !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+    }
+}
+
+</style>
+<style>
+
+
+
+
+</style>
+<style>
+
+/* FRANTETT PATIENT STORY TIMELINE V1 */
+
+.ft-patient-story {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.ft-story-card {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+}
+
+.ft-story-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.ft-story-type {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #2563eb;
+    text-transform: uppercase;
+}
+
+.ft-story-date {
+    flex-shrink: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.ft-story-card-body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.ft-story-main {
+    min-width: 0;
+    flex: 1;
+}
+
+.ft-story-title {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.35;
+    font-weight: 750;
+    color: #0f172a;
+    overflow-wrap: anywhere;
+}
+
+.ft-story-description {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #475569;
+    overflow-wrap: anywhere;
+}
+
+.ft-story-doctor {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 13px;
+}
+
+.ft-story-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ft-story-doctor-name {
+    font-size: 14px;
+    font-weight: 650;
+    color: #334155;
+}
+
+.ft-story-status {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 12px;
+    font-weight: 750;
+    text-transform: capitalize;
+}
+
+@media (max-width: 640px) {
+
+    .ft-patient-story {
+        gap: 12px;
+    }
+
+    .ft-story-card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .ft-story-card-top {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 11px;
+    }
+
+    .ft-story-card-body {
+        flex-direction: column;
+        gap: 11px;
+    }
+
+    .ft-story-title {
+        font-size: 18px;
+    }
+
+    .ft-story-description {
+        font-size: 13px;
+    }
+
+    .ft-story-status {
+        align-self: flex-start;
+    }
+}
+
+</style>
+<style id="frantett-patient-story-green-safe">
+
+/* ==========================================
+   FRANTETT PATIENT STORY
+   SUBTLE CLINICAL GREEN THEME
+   ========================================== */
+
+.ft-patient-story .ft-story-card {
+
+    position: relative;
+
+    background: #ffffff;
+
+    border: 1px solid #d9e8df;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 3px 12px rgba(22, 101, 52, 0.06);
+
+    overflow: hidden;
+
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.18s ease;
+}
+
+
+/* Thin professional green strip */
+
+.ft-patient-story .ft-story-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 4px;
+
+    background: #2f855a;
+}
+
+
+/* Green record labels */
+
+.ft-patient-story .ft-story-type {
+
+    color: #166534;
+}
+
+
+/* Subtle green date */
+
+.ft-patient-story .ft-story-date {
+
+    color: #64748b;
+}
+
+
+/* Main title remains dark and clinical */
+
+.ft-patient-story .ft-story-title {
+
+    color: #0f172a;
+}
+
+
+/* Description remains neutral */
+
+.ft-patient-story .ft-story-description {
+
+    color: #475569;
+}
+
+
+/* Clinician label */
+
+.ft-patient-story .ft-story-label {
+
+    color: #7a9183;
+}
+
+
+/* Clinician name */
+
+.ft-patient-story .ft-story-doctor-name {
+
+    color: #315443;
+}
+
+
+/* Green status badge */
+
+.ft-patient-story .ft-story-status {
+
+    background: #ecfdf3;
+
+    color: #166534;
+
+    border: 1px solid #bbf7d0;
+}
+
+
+/* Professional hover */
+
+.ft-patient-story .ft-story-card:hover {
+
+    border-color: #86b99b;
+
+    box-shadow:
+        0 8px 22px rgba(22, 101, 52, 0.12);
+
+    transform: translateY(-1px);
+}
+
+
+/* Keep the green strip slightly darker on hover */
+
+.ft-patient-story .ft-story-card:hover::before {
+
+    background: #166534;
+}
+
+
+/* Mobile:
+   preserve the existing layout and spacing */
+
+@media (max-width: 640px) {
+
+    .ft-patient-story .ft-story-card:hover {
+
+        transform: none;
+    }
+
+}
+
+</style>
+
+<style id="frantett-dashboard-top-navy">
+
+/* ==========================================
+   FRANTETT TOP DASHBOARD HEADER - NAVY
+   Targets the top header only.
+   Sidebar untouched.
+   ========================================== */
+
+header {
+    background: #0f2742 !important;
+    color: #ffffff !important;
+    border-color: #193b5d !important;
+    box-shadow: 0 8px 24px rgba(15, 39, 66, 0.14) !important;
+}
+
+header .page-title h2,
+header .page-title p,
+header .profile-name,
+header .profile-role {
+    color: #ffffff !important;
+}
+
+header .profile-role {
+    opacity: 0.82;
+}
+
+header .avatar {
+    background: rgba(255,255,255,0.14) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255,255,255,0.24) !important;
+}
+
+header .menu-toggle {
+    color: #ffffff !important;
+}
+
+</style>
+<style id="frantett-menu-icon-visible">
+
+/* Make the top â˜° menu icon clearly visible on navy header */
+header .menu-toggle,
+header button.menu-toggle,
+header .hamburger,
+header button[aria-label*="menu" i] {
+    color: #ffffff !important;
+    background: transparent !important;
+    border-color: rgba(255,255,255,0.25) !important;
+}
+
+header .menu-toggle svg,
+header button.menu-toggle svg,
+header .hamburger svg,
+header button[aria-label*="menu" i] svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+</style>
+<style id="frantett-hide-middle-profile-card">
+
+/* Hide only the standalone profile card in the dashboard.
+   Profile data and My Profile functionality remain untouched. */
+.profile-card {
+    display: none !important;
+}
+
+</style>
+<style id="frantett-dashboard-section-colors-v2">
+
+/* ==========================================================
+   FRANTETT PATIENT DASHBOARD
+   PROFESSIONAL SECTION COLOR SYSTEM
+   ========================================================== */
+
+/* Base dashboard card treatment */
+#dashboardSection .dashboard-grid > .card {
+    position: relative;
+    overflow: hidden;
+}
+
+/* ----------------------------------------------------------
+   UPCOMING APPOINTMENTS
+   Blue â€” scheduling / trust
+   ---------------------------------------------------------- */
+
+.frantett-section-appointments {
+    --ft-section-color: #2563eb;
+    --ft-section-soft: #eff6ff;
+    --ft-section-dark: #1e40af;
+}
+
+.frantett-section-appointments::before {
+    content: "";
+    display: block;
+    height: 3px;
+    margin: -20px -20px 16px -20px;
+    background: #2563eb;
+}
+
+.frantett-section-appointments ~ * {
+    --ft-unused: 0;
+}
+
+/* Target the appointment card through its body */
+.frantett-section-appointments {
+    border-top: 0;
+}
+
+/* ----------------------------------------------------------
+   CONSULTATIONS
+   Indigo â€” clinical interaction
+   ---------------------------------------------------------- */
+
+.frantett-section-consultations {
+    --ft-section-color: #4f46e5;
+    --ft-section-soft: #eef2ff;
+    --ft-section-dark: #3730a3;
+}
+
+.frantett-section-consultations::before {
+    content: "";
+    display: block;
+    height: 3px;
+    margin: -20px -20px 16px -20px;
+    background: #4f46e5;
+}
+
+/* ----------------------------------------------------------
+   LAB REQUESTS
+   Teal â€” diagnostics
+   ---------------------------------------------------------- */
+
+#dashboardLabRequestsCard {
+    border-top: 3px solid #0f766e !important;
+}
+
+#dashboardLabRequestsCard .card-header h3 {
+    color: #115e59 !important;
+}
+
+#dashboardLabRequestsCard .view-link {
+    color: #0f766e !important;
+}
+
+/* ----------------------------------------------------------
+   LAB REPORTS
+   Sky blue â€” results / data
+   ---------------------------------------------------------- */
+
+#dashboardLabReportsCard {
+    border-top: 3px solid #0284c7 !important;
+}
+
+#dashboardLabReportsCard .card-header h3 {
+    color: #075985 !important;
+}
+
+#dashboardLabReportsCard .view-link {
+    color: #0284c7 !important;
+}
+
+/* ----------------------------------------------------------
+   PRESCRIPTIONS
+   Green â€” treatment
+   ---------------------------------------------------------- */
+
+#dashboardSection .dashboard-grid > .card:has(
+    #dashboardPrescriptions
+),
+#dashboardSection .dashboard-grid > .card:has(
+    [id*="prescription"]
+) {
+    border-top: 3px solid #15803d !important;
+}
+
+#dashboardSection .dashboard-grid > .card:has(
+    #dashboardPrescriptions
+) .card-header h3,
+#dashboardSection .dashboard-grid > .card:has(
+    [id*="prescription"]
+) .card-header h3 {
+    color: #166534 !important;
+}
+
+/* ----------------------------------------------------------
+   CARD HEADER ACCENTS
+   Keep body white and clean.
+   ---------------------------------------------------------- */
+
+#dashboardSection .dashboard-grid > .card .card-header {
+    position: relative;
+}
+
+/* Appointment header */
+.frantett-section-appointments {
+    position: relative;
+}
+
+/* Consultation header */
+.frantett-section-consultations {
+    position: relative;
+}
+
+/* ----------------------------------------------------------
+   SUBTLE HOVER
+   ---------------------------------------------------------- */
+
+#dashboardSection .dashboard-grid > .card {
+    transition:
+        box-shadow 0.18s ease,
+        transform 0.18s ease;
+}
+
+#dashboardSection .dashboard-grid > .card:hover {
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+/* Keep mobile dashboard stable */
+@media (max-width: 768px) {
+
+    #dashboardSection .dashboard-grid > .card:hover {
+        transform: none;
+    }
+
+    #dashboardAppointments::before,
+    .frantett-section-consultations::before {
+        height: 2px;
+    }
+}
+
+</style>
+
+
+<style id="frantett-dashboard-section-colors">
+
+/* =========================================================
+   FRANTETT DASHBOARD CARD COLOR SYSTEM
+   CSS ONLY â€” NO DASHBOARD FUNCTIONALITY CHANGED
+   ========================================================= */
+
+/* UPCOMING APPOINTMENTS â€” BLUE */
+#dashboardSection .card:has(#dashboardAppointments) {
+    border-top: 4px solid #2563EB !important;
+}
+
+#dashboardSection .card:has(#dashboardAppointments) .card-header h3 {
+    color: #1D4ED8 !important;
+}
+
+#dashboardSection .card:has(#dashboardAppointments) .view-link {
+    color: #2563EB !important;
+}
+
+
+/* RECENT CONSULTATIONS â€” INDIGO */
+#dashboardSection .card:has(#dashboardConsultations) {
+    border-top: 4px solid #4F46E5 !important;
+}
+
+#dashboardSection .card:has(#dashboardConsultations) .card-header h3 {
+    color: #4338CA !important;
+}
+
+#dashboardSection .card:has(#dashboardConsultations) .view-link {
+    color: #4F46E5 !important;
+}
+
+
+/* RECENT LAB REQUESTS â€” TEAL */
+#dashboardSection .card:has(#dashboardLabRequests) {
+    border-top: 4px solid #0F766E !important;
+}
+
+#dashboardSection .card:has(#dashboardLabRequests) .card-header h3 {
+    color: #0F766E !important;
+}
+
+#dashboardSection .card:has(#dashboardLabRequests) .view-link {
+    color: #0F766E !important;
+}
+
+
+/* RECENT LAB REPORTS â€” SKY BLUE */
+#dashboardSection .card:has(#dashboardLabReports) {
+    border-top: 4px solid #0284C7 !important;
+}
+
+#dashboardSection .card:has(#dashboardLabReports) .card-header h3 {
+    color: #0369A1 !important;
+}
+
+#dashboardSection .card:has(#dashboardLabReports) .view-link {
+    color: #0284C7 !important;
+}
+
+
+/* RECENT PRESCRIPTIONS â€” GREEN */
+#dashboardSection .card:has(#dashboardPrescriptions) {
+    border-top: 4px solid #15803D !important;
+}
+
+#dashboardSection .card:has(#dashboardPrescriptions) .card-header h3 {
+    color: #15803D !important;
+}
+
+#dashboardSection .card:has(#dashboardPrescriptions) .view-link {
+    color: #15803D !important;
+}
+
+
+/* Keep all dashboard cards clean and professional */
+#dashboardSection .card {
+    background: #FFFFFF;
+}
+
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+    #dashboardSection .card:has(#dashboardAppointments),
+    #dashboardSection .card:has(#dashboardConsultations),
+    #dashboardSection .card:has(#dashboardLabRequests),
+    #dashboardSection .card:has(#dashboardLabReports),
+    #dashboardSection .card:has(#dashboardPrescriptions) {
+        border-top-width: 3px !important;
+    }
+
+}
+
+</style>
+<style id="frantett-consultation-indigo-fix">
+
+/* =========================================================
+   RECENT CONSULTATIONS â€” INDIGO OVERRIDE
+   Styling only â€” no functionality changed
+   ========================================================= */
+
+#dashboardSection .card:has(#dashboardConsultations) {
+    border-top: 4px solid #4F46E5 !important;
+}
+
+#dashboardSection .card:has(#dashboardConsultations) .card-header h3,
+#dashboardSection .card:has(#dashboardConsultations) .card-header h3 *,
+#dashboardSection .card:has(#dashboardConsultations) .card-header i,
+#dashboardSection .card:has(#dashboardConsultations) .card-header svg {
+    color: #4338CA !important;
+}
+
+#dashboardSection .card:has(#dashboardConsultations) .view-link,
+#dashboardSection .card:has(#dashboardConsultations) .view-link * {
+    color: #4F46E5 !important;
+}
+
+@media (max-width: 768px) {
+    #dashboardSection .card:has(#dashboardConsultations) {
+        border-top-width: 3px !important;
+    }
+}
+
+</style>
+<style id="frantett-appointment-empty-state">
+
+/* ============================================================
+   FRANTETT â€” UPCOMING APPOINTMENTS EMPTY STATE
+   Visual improvement only
+   ============================================================ */
+
+#dashboardSection #dashboardAppointments {
+    min-height: 150px !important;
+}
+
+#dashboardSection #dashboardAppointments .empty-state,
+#dashboardSection #dashboardAppointments .empty-state-message,
+#dashboardSection #dashboardAppointments .no-data,
+#dashboardSection #dashboardAppointments .no-appointments {
+    padding: 28px 20px !important;
+    text-align: center !important;
+    color: #64748B !important;
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+}
+
+/* Prevent broken placeholder icons from dominating the message */
+#dashboardSection #dashboardAppointments .empty-state-icon,
+#dashboardSection #dashboardAppointments .no-data-icon,
+#dashboardSection #dashboardAppointments .no-appointments-icon {
+    color: #2563EB !important;
+    font-size: 30px !important;
+    margin-bottom: 10px !important;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    #dashboardSection #dashboardAppointments {
+        min-height: 125px !important;
+    }
+
+    #dashboardSection #dashboardAppointments .empty-state,
+    #dashboardSection #dashboardAppointments .empty-state-message,
+    #dashboardSection #dashboardAppointments .no-data,
+    #dashboardSection #dashboardAppointments .no-appointments {
+        padding: 22px 14px !important;
+    }
+}
+
+</style>
+<style id="frantett-appointment-calendar-empty-icon">
+#dashboardSection #dashboardAppointments .ft-appointment-empty-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563EB;
+    background: #EFF6FF;
+    border-radius: 12px;
+}
+
+#dashboardSection #dashboardAppointments .ft-appointment-empty-icon svg {
+    width: 27px;
+    height: 27px;
+    display: block;
+}
+
+#dashboardSection #dashboardAppointments .empty-state,
+#dashboardSection #dashboardAppointments .empty-state-message,
+#dashboardSection #dashboardAppointments .no-data,
+#dashboardSection #dashboardAppointments .no-appointments {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    #dashboardSection #dashboardAppointments .ft-appointment-empty-icon {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 12px;
+    }
+
+    #dashboardSection #dashboardAppointments .ft-appointment-empty-icon svg {
+        width: 25px;
+        height: 25px;
+    }
+}
+</style>
+<style id="frantett-consultation-purple-direct">
+/* Recent Consultations â€” Purple */
+#dashboardSection .card:has(#dashboardConsultations) {
+    border-top: 4px solid #7C3AED !important;
+}
+
+#dashboardSection .card:has(#dashboardConsultations) .card-header h3,
+#dashboardSection .card:has(#dashboardConsultations) .card-header h3 *,
+#dashboardSection .card:has(#dashboardConsultations) .card-header i,
+#dashboardSection .card:has(#dashboardConsultations) .card-header svg {
+    color: #6D28D9 !important;
+}
+
+#dashboardSection .card:has(#dashboardConsultations) .view-link,
+#dashboardSection .card:has(#dashboardConsultations) .view-link * {
+    color: #7C3AED !important;
+}
+
+@media (max-width: 768px) {
+    #dashboardSection .card:has(#dashboardConsultations) {
+        border-top-width: 3px !important;
+    }
+}
+</style>
+
+<style id="frantett-prescription-vertical-layout">
+/* =====================================================
+   FULL PRESCRIPTION SECTION â€” VERTICAL CARD
+   Dashboard prescription card is NOT affected.
+   ===================================================== */
+
+#prescriptionsSection .ft-prescription-card {
+    display: block !important;
+    padding: 20px 22px !important;
+    border-radius: 14px !important;
+}
+
+/* Icon on its own line */
+#prescriptionsSection .ft-prescription-card-top {
+    display: block !important;
+    margin: 0 0 10px 0 !important;
+}
+
+/* Prescription icon */
+#prescriptionsSection .ft-prescription-icon {
+    display: block !important;
+    margin: 0 0 8px 0 !important;
+}
+
+/* PRESCRIPTION + ACTIVE on one line */
+#prescriptionsSection .ft-prescription-label {
+    display: inline !important;
+    margin: 0 !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    letter-spacing: .4px !important;
+}
+
+#prescriptionsSection .ft-prescription-status {
+    display: inline !important;
+    margin-left: 4px !important;
+}
+
+#prescriptionsSection .ft-prescription-status::before {
+    content: " · ";
+    color: #94A3B8;
+    white-space: pre;
+}
+
+/* Medication */
+#prescriptionsSection .ft-prescription-medication {
+    display: block !important;
+    font-size: 22px !important;
+    line-height: 1.25 !important;
+    font-weight: 750 !important;
+    margin: 0 0 10px 0 !important;
+    color: #183B38 !important;
+}
+
+/* Date + doctor */
+#prescriptionsSection .ft-prescription-info-grid {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#prescriptionsSection .ft-prescription-info {
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#prescriptionsSection .ft-prescription-info-label {
+    display: none !important;
+}
+
+#prescriptionsSection .ft-prescription-info-value {
+    display: inline !important;
+    color: #64748B !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 1.5 !important;
+}
+
+/* Prescribed before date */
+#prescriptionsSection .ft-prescription-info:nth-child(1)
+.ft-prescription-info-value::before {
+    content: "Prescribed ";
+}
+
+/* Separator before doctor */
+#prescriptionsSection .ft-prescription-info:nth-child(2)::before {
+    content: " · ";
+    color: #94A3B8;
+    white-space: pre;
+}
+
+/* View button below everything */
+#prescriptionsSection .ft-prescription-view-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    width: auto !important;
+    margin: 14px 0 0 0 !important;
+    padding: 8px 0 !important;
+    border: none !important;
+    background: transparent !important;
+    color: #087F76 !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+}
+
+#prescriptionsSection .ft-prescription-view-button::after {
+    content: " →";
+    font-size: 16px;
+    margin-left: 3px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    #prescriptionsSection .ft-prescription-card {
+        padding: 17px 18px !important;
+    }
+
+    #prescriptionsSection .ft-prescription-medication {
+        font-size: 19px !important;
+    }
+
+    #prescriptionsSection .ft-prescription-info-value {
+        font-size: 12px !important;
+    }
+}
+</style>
+<style id="frantett-appointments-clinical-row">
+/* =========================================================
+   MY APPOINTMENTS â€” PROFESSIONAL CLINICAL ROW
+   VISUAL ONLY
+   ========================================================= */
+
+#appointmentsSection .appointment-card,
+#appointmentsSection .appointment-item,
+#appointmentsSection .appointment-row,
+#appointmentsSection .appointment-list-item {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 22px 24px !important;
+    margin: 0 0 14px 0 !important;
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, .05) !important;
+}
+
+/* Date */
+#appointmentsSection .appointment-date {
+    display: block !important;
+    margin: 0 0 12px 0 !important;
+    color: #64748B !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: .7px !important;
+    text-transform: uppercase !important;
+}
+
+/* Doctor */
+#appointmentsSection .appointment-doctor {
+    display: block !important;
+    margin: 0 !important;
+    color: #183B38 !important;
+    font-size: 17px !important;
+    line-height: 1.35 !important;
+    font-weight: 750 !important;
+}
+
+/* Doctor subtitle */
+#appointmentsSection .appointment-doctor-title {
+    display: block !important;
+    margin: 3px 0 12px 0 !important;
+    color: #64748B !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+}
+
+/* Time + reason */
+#appointmentsSection .appointment-time,
+#appointmentsSection .appointment-reason {
+    display: inline !important;
+    color: #475569 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
+#appointmentsSection .appointment-time::after {
+    content: "\00B7";
+    color: #94A3B8 !important;
+}
+
+/* Status */
+#appointmentsSection .appointment-status {
+    display: inline-flex !important;
+    align-items: center !important;
+    width: fit-content !important;
+    margin: 14px 0 0 0 !important;
+    padding: 5px 10px !important;
+    border-radius: 999px !important;
+    background: #ECFDF5 !important;
+    color: #047857 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: .3px !important;
+}
+
+/* Status dot */
+#appointmentsSection .appointment-status::before {
+    content: "\25CF";
+    margin-right: 5px !important;
+    font-size: 8px !important;
+}
+
+/* Action area */
+#appointmentsSection .appointment-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+    margin-top: 16px !important;
+    padding-top: 14px !important;
+    border-top: 1px solid #F1F5F9 !important;
+}
+
+/* Actions */
+#appointmentsSection .appointment-actions button,
+#appointmentsSection .appointment-actions a {
+    width: auto !important;
+    min-width: 0 !important;
+    padding: 5px 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    font-size: 12px !important;
+    font-weight: 750 !important;
+    cursor: pointer !important;
+}
+
+/* View */
+#appointmentsSection .appointment-actions .view-btn,
+#appointmentsSection .appointment-actions .view-details {
+    color: #087F76 !important;
+}
+
+/* Cancel */
+#appointmentsSection .appointment-actions .danger-btn,
+#appointmentsSection .appointment-actions .cancel-btn {
+    color: #B45309 !important;
+}
+
+/* Video */
+#appointmentsSection .appointment-actions .video-btn,
+#appointmentsSection .appointment-actions .join-video,
+#appointmentsSection .appointment-actions [class*="video"] {
+    color: #2563EB !important;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    #appointmentsSection .appointment-card,
+    #appointmentsSection .appointment-item,
+    #appointmentsSection .appointment-row,
+    #appointmentsSection .appointment-list-item {
+        padding: 18px !important;
+        border-radius: 11px !important;
+    }
+
+    #appointmentsSection .appointment-doctor {
+        font-size: 16px !important;
+    }
+
+    #appointmentsSection .appointment-actions {
+        justify-content: flex-start !important;
+        gap: 14px !important;
+    }
+}
+</style>
+<style id="frantett-my-appointments-final">
+
+/* =========================================================
+   MY APPOINTMENTS â€” FINAL CLINICAL CARD DESIGN
+   Scoped only to #appointmentsSection
+========================================================= */
+
+#appointmentsSection .appointment-item {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas:
+        "main status"
+        "actions actions" !important;
+    gap: 0 24px !important;
+
+    width: 100% !important;
+    box-sizing: border-box !important;
+
+    padding: 22px 24px !important;
+    margin: 0 0 14px 0 !important;
+
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 14px !important;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, .05) !important;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease !important;
+}
+
+#appointmentsSection .appointment-item:hover {
+    transform: translateY(-1px) !important;
+    border-color: #CBD5E1 !important;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, .08) !important;
+}
+
+/* Main information */
+
+#appointmentsSection .appointment-main {
+    grid-area: main !important;
+    min-width: 0 !important;
+}
+
+#appointmentsSection .appointment-date {
+    display: block !important;
+    margin: 0 0 11px 0 !important;
+
+    color: #64748B !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+
+    letter-spacing: .7px !important;
+    text-transform: uppercase !important;
+}
+
+#appointmentsSection .appointment-doctor {
+    display: block !important;
+    margin: 0 !important;
+
+    color: #183B38 !important;
+    font-size: 17px !important;
+    line-height: 1.35 !important;
+    font-weight: 750 !important;
+}
+
+#appointmentsSection .appointment-doctor-title {
+    display: block !important;
+    margin: 3px 0 12px 0 !important;
+
+    color: #64748B !important;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+    font-weight: 500 !important;
+}
+
+/* Time + reason */
+
+#appointmentsSection .appointment-meta {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 0 !important;
+
+    margin: 0 !important;
+}
+
+#appointmentsSection .appointment-time,
+#appointmentsSection .appointment-reason {
+    display: inline !important;
+
+    color: #475569 !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    font-weight: 600 !important;
+}
+
+#appointmentsSection .appointment-reason::before {
+    content: "\00B7" !important !important;
+    color: #94A3B8 !important;
+    font-weight: 500 !important;
+}
+
+/* Status */
+
+#appointmentsSection .appointment-status-wrap {
+    grid-area: status !important;
+
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-end !important;
+}
+
+#appointmentsSection .appointment-status {
+    display: inline-flex !important;
+    align-items: center !important;
+
+    width: fit-content !important;
+    margin: 0 !important;
+    padding: 5px 10px !important;
+
+    border-radius: 999px !important;
+
+    background: #ECFDF5 !important;
+    color: #047857 !important;
+
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+
+    letter-spacing: .3px !important;
+    white-space: nowrap !important;
+}
+
+#appointmentsSection .appointment-status::before {
+    content: "\25CF" !important;
+    margin-right: 5px !important;
+    font-size: 7px !important;
+}
+
+/* Actions */
+
+#appointmentsSection .appointment-actions {
+    grid-area: actions !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+
+    gap: 0 !important;
+
+    margin-top: 17px !important;
+    padding-top: 14px !important;
+
+    border-top: 1px solid #F1F5F9 !important;
+}
+
+#appointmentsSection .appointment-actions .view-link {
+    width: auto !important;
+    min-width: 0 !important;
+
+    margin: 0 !important;
+    padding: 4px 0 !important;
+
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+
+    color: #087F76 !important;
+
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+    font-weight: 750 !important;
+
+    cursor: pointer !important;
+}
+
+#appointmentsSection .appointment-actions .view-link:hover {
+    text-decoration: underline !important;
+}
+
+/* Separators between actions */
+
+#appointmentsSection .appointment-actions .view-link + .view-link::before {
+    content: "\00B7" !important !important;
+
+    display: inline-block !important;
+    margin: 0 12px !important;
+
+    color: #CBD5E1 !important;
+    text-decoration: none !important;
+}
+
+/* Cancel */
+
+#appointmentsSection .appointment-actions
+.view-link[onclick^="cancelPatientAppointment"] {
+    color: #B45309 !important;
+}
+
+/* Video */
+
+#appointmentsSection .appointment-actions
+.view-link[onclick^="joinPatientVideo"] {
+    color: #2563EB !important;
+    font-weight: 800 !important;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    #appointmentsSection .appointment-item {
+        grid-template-columns: 1fr !important;
+        grid-template-areas:
+            "status"
+            "main"
+            "actions" !important;
+
+        gap: 0 !important;
+
+        padding: 18px !important;
+        border-radius: 12px !important;
+    }
+
+    #appointmentsSection .appointment-status-wrap {
+        justify-content: flex-start !important;
+        margin-bottom: 14px !important;
+    }
+
+    #appointmentsSection .appointment-date {
+        margin-bottom: 9px !important;
+    }
+
+    #appointmentsSection .appointment-doctor {
+        font-size: 16px !important;
+    }
+
+    #appointmentsSection .appointment-meta {
+        align-items: flex-start !important;
+    }
+
+    #appointmentsSection .appointment-actions {
+        justify-content: flex-start !important;
+        gap: 0 !important;
+        margin-top: 15px !important;
+        padding-top: 13px !important;
+    }
+
+    #appointmentsSection .appointment-actions .view-link {
+        font-size: 12px !important;
+    }
+
+}
+
+</style>
+<style id="frantett-my-profile-design">
+/* =========================================================
+   FRANTETT â€” PROFESSIONAL MY PROFILE
+   ========================================================= */
+
+#profileSection {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 0 30px;
+}
+
+#profileSection .card {
+    background: #ffffff;
+    border: 1px solid #e4ebe7;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(24, 80, 52, 0.08);
+}
+
+#profileSection .card-header {
+    position: relative;
+    padding: 28px 32px 25px !important;
+    background: linear-gradient(135deg, #f3faf6 0%, #ffffff 72%);
+    border-bottom: 1px solid #e3eee8;
+}
+
+#profileSection .card-header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: #2e8b57;
+}
+
+#profileSection .card-header h2,
+#profileSection .card-header h3 {
+    margin: 0 !important;
+    color: #183b2a !important;
+    font-size: 25px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.2px;
+}
+
+#profileSection .card-header p {
+    margin: 7px 0 0 !important;
+    color: #6b7b73 !important;
+    font-size: 14px !important;
+}
+
+#profileSection .profile-details {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px !important;
+    padding: 28px 32px 32px !important;
+}
+
+#profileSection .detail-row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 7px !important;
+    min-width: 0;
+    padding: 15px 17px !important;
+    background: #f8fbf9 !important;
+    border: 1px solid #e5eee9 !important;
+    border-radius: 12px !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#profileSection .detail-row:hover {
+    border-color: #b9d9c7 !important;
+    box-shadow: 0 4px 14px rgba(46, 139, 87, 0.07);
+}
+
+#profileSection .detail-label {
+    color: #2e8b57 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+#profileSection .detail-value {
+    color: #26352e !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    line-height: 1.55 !important;
+    min-height: 23px;
+    overflow-wrap: anywhere;
+}
+
+#profileSection .detail-value:empty::after {
+    content: "-";
+    color: #9aa9a1;
+}
+
+#profileSection #fullProfileName {
+    color: #183b2a !important;
+    font-weight: 700 !important;
+}
+
+#profileSection #fullProfileHistory,
+#profileSection #fullProfileAllergies,
+#profileSection #fullProfileMedications,
+#profileSection #fullProfileNotes {
+    white-space: pre-wrap;
+}
+
+/* Full-width clinical-information fields */
+#profileSection .detail-row:has(#fullProfileHistory),
+#profileSection .detail-row:has(#fullProfileAllergies),
+#profileSection .detail-row:has(#fullProfileMedications),
+#profileSection .detail-row:has(#fullProfileNotes) {
+    grid-column: span 2;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    #profileSection {
+        padding: 5px 0 20px;
+    }
+
+    #profileSection .card-header {
+        padding: 22px 20px 20px !important;
+    }
+
+    #profileSection .card-header h2,
+    #profileSection .card-header h3 {
+        font-size: 21px !important;
+    }
+
+    #profileSection .profile-details {
+        grid-template-columns: 1fr !important;
+        padding: 20px !important;
+        gap: 11px !important;
+    }
+
+    #profileSection .detail-row {
+        grid-column: span 1 !important;
+        padding: 14px !important;
+    }
+}
+</style><style id="frantett-appointments-green-design">
+/* =========================================================
+   FRANTETT â€” PROFESSIONAL MY APPOINTMENTS
+   ========================================================= */
+
+#appointmentsSection {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 0 30px;
+}
+
+#appointmentsSection .card {
+    border: 1px solid #e4ebe7 !important;
+    border-radius: 18px !important;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(24, 80, 52, 0.07);
+}
+
+#appointmentsSection .card-header {
+    position: relative;
+    padding: 26px 30px !important;
+    background: linear-gradient(135deg, #f3faf6 0%, #ffffff 75%) !important;
+    border-bottom: 1px solid #e3eee8 !important;
+}
+
+#appointmentsSection .card-header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: #2e8b57;
+}
+
+#appointmentsSection .card-header h2,
+#appointmentsSection .card-header h3 {
+    margin: 0 !important;
+    color: #183b2a !important;
+    font-size: 25px !important;
+    font-weight: 700 !important;
+}
+
+#appointmentsSection .card-header p {
+    margin: 6px 0 0 !important;
+    color: #6b7b73 !important;
+    font-size: 14px !important;
+}
+
+/* Appointment cards */
+#appointmentsSection .appointment-card {
+    position: relative;
+    margin: 18px 22px !important;
+    padding: 22px 24px !important;
+    background: #ffffff !important;
+    border: 1px solid #e3ebe6 !important;
+    border-left: 4px solid #2e8b57 !important;
+    border-radius: 13px !important;
+    box-shadow: 0 3px 12px rgba(24, 80, 52, 0.05) !important;
+    transition: transform 0.18s ease, box-shadow 0.18s ease,
+                border-color 0.18s ease;
+}
+
+#appointmentsSection .appointment-card:hover {
+    transform: translateY(-2px);
+    border-color: #b9d9c7 !important;
+    box-shadow: 0 7px 20px rgba(46, 139, 87, 0.10) !important;
+}
+
+/* Date */
+#appointmentsSection .appointment-card strong:first-child {
+    color: #237447 !important;
+}
+
+/* Provider */
+#appointmentsSection .appointment-card strong {
+    color: #26352e;
+}
+
+/* Appointment information */
+#appointmentsSection .appointment-card {
+    color: #52615a;
+}
+
+#appointmentsSection .appointment-card .appointment-time,
+#appointmentsSection .appointment-card .appointment-details {
+    color: #34463d !important;
+}
+
+/* Confirmed status */
+#appointmentsSection .status-confirmed,
+#appointmentsSection .confirmed,
+#appointmentsSection [class*="status"][class*="confirm"] {
+    color: #237447 !important;
+    background: #edf8f1 !important;
+    border: 1px solid #cce8d6 !important;
+    border-radius: 20px !important;
+    padding: 5px 11px !important;
+    font-weight: 700 !important;
+}
+
+/* Buttons */
+#appointmentsSection button {
+    border-radius: 8px !important;
+    transition: all 0.18s ease;
+}
+
+#appointmentsSection .view-btn {
+    border-color: #b9d9c7 !important;
+    color: #237447 !important;
+    background: #f4faf6 !important;
+}
+
+#appointmentsSection .view-btn:hover {
+    background: #e8f5ed !important;
+}
+
+#appointmentsSection .cancel-btn {
+    color: #a34a4a !important;
+}
+
+#appointmentsSection .join-video-btn,
+#appointmentsSection button[class*="join"],
+#appointmentsSection button[class*="video"] {
+    background: #2e8b57 !important;
+    border-color: #2e8b57 !important;
+    color: #ffffff !important;
+}
+
+#appointmentsSection .join-video-btn:hover,
+#appointmentsSection button[class*="join"]:hover,
+#appointmentsSection button[class*="video"]:hover {
+    background: #246f46 !important;
+    border-color: #246f46 !important;
+}
+
+/* Arrow */
+#appointmentsSection .appointment-card a,
+#appointmentsSection .appointment-card button {
+    font-weight: 600;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    #appointmentsSection {
+        padding: 5px 0 20px;
+    }
+
+    #appointmentsSection .card-header {
+        padding: 21px 20px !important;
+    }
+
+    #appointmentsSection .card-header h2,
+    #appointmentsSection .card-header h3 {
+        font-size: 21px !important;
+    }
+
+    #appointmentsSection .appointment-card {
+        margin: 13px 12px !important;
+        padding: 18px 16px !important;
+    }
+}
+</style><style id="frantett-lab-requests-content-green-design-v1">
+
+/* =========================================================
+   FRANTETT — MY LABORATORY REQUESTS
+   Professional green clinical design
+   CONTENT SECTION ONLY
+   ========================================================= */
+
+#labRequestsSection {
+    padding: 0 !important;
+}
+
+/* Main card */
+#labRequestsSection > .card {
+    background: #ffffff !important;
+    border: 1px solid #dfe9e5 !important;
+    border-radius: 18px !important;
+    box-shadow: 0 7px 24px rgba(25, 70, 55, 0.06) !important;
+    overflow: hidden !important;
+    margin-bottom: 24px !important;
+}
+
+/* Header */
+#labRequestsSection > .card > .card-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    padding: 21px 24px !important;
+    background: #ffffff !important;
+    border-top: 3px solid #2e8b57 !important;
+    border-bottom: 1px solid #edf2ef !important;
+}
+
+/* Header title */
+#labRequestsSection .card-header h3 {
+    margin: 0 0 5px 0 !important;
+    color: #24523d !important;
+    font-size: 17px !important;
+    line-height: 1.35 !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.1px !important;
+}
+
+/* Header subtitle */
+#labRequestsSection .card-header span {
+    display: block !important;
+    color: #788982 !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+}
+
+/* Request list container */
+#labRequestsSection #ftPatientLabRequestsList {
+    padding: 0 !important;
+    background: #ffffff !important;
+}
+
+/* Loading / empty state */
+#labRequestsSection .loading-state {
+    padding: 42px 24px !important;
+    text-align: center !important;
+    color: #7b8984 !important;
+    font-size: 13px !important;
+    background: #ffffff !important;
+}
+
+/* Every dynamically generated request item */
+#labRequestsSection #ftPatientLabRequestsList > * {
+    position: relative !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #edf2ef !important;
+    transition: background .18s ease, box-shadow .18s ease !important;
+}
+
+/* Remove last divider */
+#labRequestsSection #ftPatientLabRequestsList > *:last-child {
+    border-bottom: none !important;
+}
+
+/* Subtle hover */
+#labRequestsSection #ftPatientLabRequestsList > *:hover {
+    background: #f9fcfa !important;
+}
+
+/* Green accent on request items */
+#labRequestsSection #ftPatientLabRequestsList > *::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 3px !important;
+    background: #2e8b57 !important;
+    opacity: .72 !important;
+}
+
+/* Buttons inside laboratory requests */
+#labRequestsSection #ftPatientLabRequestsList button {
+    border: 1px solid #b9d8c7 !important;
+    background: #f3faf6 !important;
+    color: #276b47 !important;
+    border-radius: 9px !important;
+    padding: 8px 14px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all .18s ease !important;
+}
+
+/* Button hover */
+#labRequestsSection #ftPatientLabRequestsList button:hover {
+    background: #2e8b57 !important;
+    color: #ffffff !important;
+    border-color: #2e8b57 !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Links inside request records */
+#labRequestsSection #ftPatientLabRequestsList a {
+    color: #2e8b57 !important;
+}
+
+/* Status badges */
+#labRequestsSection #ftPatientLabRequestsList .status,
+#labRequestsSection #ftPatientLabRequestsList .badge,
+#labRequestsSection #ftPatientLabRequestsList [class*="status"] {
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+}
+
+/* Stronger request headings */
+#labRequestsSection #ftPatientLabRequestsList h4,
+#labRequestsSection #ftPatientLabRequestsList h5 {
+    color: #294c3b !important;
+    font-weight: 720 !important;
+}
+
+/* Request metadata */
+#labRequestsSection #ftPatientLabRequestsList small {
+    color: #7b8984 !important;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    #labRequestsSection > .card {
+        border-radius: 14px !important;
+        margin-bottom: 18px !important;
+    }
+
+    #labRequestsSection > .card > .card-header {
+        padding: 18px 17px !important;
+    }
+
+    #labRequestsSection .card-header h3 {
+        font-size: 16px !important;
+    }
+
+    #labRequestsSection .card-header span {
+        font-size: 11px !important;
+    }
+
+    #labRequestsSection #ftPatientLabRequestsList > * {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    #labRequestsSection #ftPatientLabRequestsList button {
+        padding: 8px 12px !important;
+        font-size: 11px !important;
+    }
+}
+
+</style><style id="frantett-lab-reports-content-green-design-v1">
+
+/* =========================================================
+   FRANTETT — MY LABORATORY REPORTS
+   Professional green clinical design
+   CONTENT SECTION ONLY
+   ========================================================= */
+
+#labReportsSection {
+    padding: 0 !important;
+}
+
+/* Main card */
+#labReportsSection > .card {
+    background: #ffffff !important;
+    border: 1px solid #dfe9e5 !important;
+    border-radius: 18px !important;
+    box-shadow: 0 7px 24px rgba(25, 70, 55, 0.06) !important;
+    overflow: hidden !important;
+    margin-bottom: 24px !important;
+}
+
+/* Header */
+#labReportsSection > .card > .card-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    padding: 21px 24px !important;
+    background: #ffffff !important;
+    border-top: 3px solid #2e8b57 !important;
+    border-bottom: 1px solid #edf2ef !important;
+}
+
+/* Header title */
+#labReportsSection .card-header h3 {
+    margin: 0 0 5px 0 !important;
+    color: #24523d !important;
+    font-size: 17px !important;
+    line-height: 1.35 !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.1px !important;
+}
+
+/* Header subtitle */
+#labReportsSection .card-header span {
+    display: block !important;
+    color: #788982 !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+}
+
+/* Report list container */
+#labReportsSection #ftPatientLabReportsList {
+    padding: 0 !important;
+    background: #ffffff !important;
+}
+
+/* Loading / empty state */
+#labReportsSection .loading-state {
+    padding: 42px 24px !important;
+    text-align: center !important;
+    color: #7b8984 !important;
+    font-size: 13px !important;
+    background: #ffffff !important;
+}
+
+/* Every dynamically generated report item */
+#labReportsSection #ftPatientLabReportsList > * {
+    position: relative !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #edf2ef !important;
+    transition: background .18s ease, box-shadow .18s ease !important;
+}
+
+/* Remove last divider */
+#labReportsSection #ftPatientLabReportsList > *:last-child {
+    border-bottom: none !important;
+}
+
+/* Subtle hover */
+#labReportsSection #ftPatientLabReportsList > *:hover {
+    background: #f9fcfa !important;
+}
+
+/* Green clinical accent */
+#labReportsSection #ftPatientLabReportsList > *::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 3px !important;
+    background: #2e8b57 !important;
+    opacity: .72 !important;
+}
+
+/* Report headings */
+#labReportsSection #ftPatientLabReportsList h4,
+#labReportsSection #ftPatientLabReportsList h5 {
+    color: #294c3b !important;
+    font-weight: 720 !important;
+}
+
+/* Report metadata */
+#labReportsSection #ftPatientLabReportsList small {
+    color: #7b8984 !important;
+}
+
+/* Links */
+#labReportsSection #ftPatientLabReportsList a {
+    color: #2e8b57 !important;
+}
+
+/* Buttons */
+#labReportsSection #ftPatientLabReportsList button {
+    border: 1px solid #b9d8c7 !important;
+    background: #f3faf6 !important;
+    color: #276b47 !important;
+    border-radius: 9px !important;
+    padding: 8px 14px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all .18s ease !important;
+}
+
+/* Button hover */
+#labReportsSection #ftPatientLabReportsList button:hover {
+    background: #2e8b57 !important;
+    color: #ffffff !important;
+    border-color: #2e8b57 !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Status badges */
+#labReportsSection #ftPatientLabReportsList .status,
+#labReportsSection #ftPatientLabReportsList .badge,
+#labReportsSection #ftPatientLabReportsList [class*="status"] {
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    #labReportsSection > .card {
+        border-radius: 14px !important;
+        margin-bottom: 18px !important;
+    }
+
+    #labReportsSection > .card > .card-header {
+        padding: 18px 17px !important;
+    }
+
+    #labReportsSection .card-header h3 {
+        font-size: 16px !important;
+    }
+
+    #labReportsSection .card-header span {
+        font-size: 11px !important;
+    }
+
+    #labReportsSection #ftPatientLabReportsList > * {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    #labReportsSection #ftPatientLabReportsList button {
+        padding: 8px 12px !important;
+        font-size: 11px !important;
+    }
+}
+
+</style><style id="frantett-prescriptions-content-green-design-v1">
+
+/* =========================================================
+   FRANTETT — MY PRESCRIPTIONS
+   Professional green clinical design
+   CONTENT SECTION ONLY
+   ========================================================= */
+
+#prescriptionsSection {
+    padding: 0 !important;
+}
+
+/* Main card */
+#prescriptionsSection > .card {
+    background: #ffffff !important;
+    border: 1px solid #dfe9e5 !important;
+    border-radius: 18px !important;
+    box-shadow: 0 7px 24px rgba(25, 70, 55, 0.06) !important;
+    overflow: hidden !important;
+    margin-bottom: 24px !important;
+}
+
+/* Header */
+#prescriptionsSection > .card > .card-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    padding: 21px 24px !important;
+    background: #ffffff !important;
+    border-top: 3px solid #2e8b57 !important;
+    border-bottom: 1px solid #edf2ef !important;
+}
+
+/* Header title */
+#prescriptionsSection .card-header h3 {
+    margin: 0 0 5px 0 !important;
+    color: #24523d !important;
+    font-size: 17px !important;
+    line-height: 1.35 !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.1px !important;
+}
+
+/* Header subtitle */
+#prescriptionsSection .card-header span {
+    display: block !important;
+    color: #788982 !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+}
+
+/* Prescription list container */
+#prescriptionsSection > .card > div:last-child {
+    background: #ffffff !important;
+}
+
+/* Loading / empty state */
+#prescriptionsSection .loading-state {
+    padding: 42px 24px !important;
+    text-align: center !important;
+    color: #7b8984 !important;
+    font-size: 13px !important;
+    background: #ffffff !important;
+}
+
+/* Dynamically generated prescription records */
+#prescriptionsSection > .card > div:last-child > * {
+    position: relative !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #edf2ef !important;
+    transition: background .18s ease, box-shadow .18s ease !important;
+}
+
+/* Remove final divider */
+#prescriptionsSection > .card > div:last-child > *:last-child {
+    border-bottom: none !important;
+}
+
+/* Subtle hover */
+#prescriptionsSection > .card > div:last-child > *:hover {
+    background: #f9fcfa !important;
+}
+
+/* Green clinical accent */
+#prescriptionsSection > .card > div:last-child > *::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 3px !important;
+    background: #2e8b57 !important;
+    opacity: .72 !important;
+}
+
+/* Prescription headings */
+#prescriptionsSection h4,
+#prescriptionsSection h5 {
+    color: #294c3b !important;
+    font-weight: 720 !important;
+}
+
+/* Prescription metadata */
+#prescriptionsSection small {
+    color: #7b8984 !important;
+}
+
+/* Links */
+#prescriptionsSection a {
+    color: #2e8b57 !important;
+}
+
+/* Buttons */
+#prescriptionsSection button {
+    border: 1px solid #b9d8c7 !important;
+    background: #f3faf6 !important;
+    color: #276b47 !important;
+    border-radius: 9px !important;
+    padding: 8px 14px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all .18s ease !important;
+}
+
+/* Button hover */
+#prescriptionsSection button:hover {
+    background: #2e8b57 !important;
+    color: #ffffff !important;
+    border-color: #2e8b57 !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Status badges */
+#prescriptionsSection .status,
+#prescriptionsSection .badge,
+#prescriptionsSection [class*="status"] {
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    #prescriptionsSection > .card {
+        border-radius: 14px !important;
+        margin-bottom: 18px !important;
+    }
+
+    #prescriptionsSection > .card > .card-header {
+        padding: 18px 17px !important;
+    }
+
+    #prescriptionsSection .card-header h3 {
+        font-size: 16px !important;
+    }
+
+    #prescriptionsSection .card-header span {
+        font-size: 11px !important;
+    }
+
+    #prescriptionsSection > .card > div:last-child > * {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    #prescriptionsSection button {
+        padding: 8px 12px !important;
+        font-size: 11px !important;
+    }
+}
+
+</style><style id="ft-lab-reports-layout-fix">
+#labReportsSection .ft-lab-summary-icon{
+    margin-right:10px !important;
+    flex-shrink:0 !important;
+}
+#labReportsSection .ft-lab-report-label{
+    display:flex !important;
+    align-items:center !important;
+    gap:10px !important;
+    flex-wrap:wrap !important;
+}
+#labReportsSection .ft-lab-report-type,
+#labReportsSection .ft-lab-report-status{
+    display:inline-flex !important;
+    align-items:center !important;
+    margin:0 !important;
+}
+#labReportsSection .ft-lab-report-meta{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    align-items:flex-start !important;
+    gap:18px !important;
+}
+#labReportsSection .ft-lab-report-meta > div{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:4px !important;
+}
+#labReportsSection .ft-lab-report-icon{
+    font-size:0 !important;
+}
+#labReportsSection .ft-lab-report-icon::before{
+    content:"\1F9EA" !important;
+    font-size:22px !important;
+}
+#labReportsSection .ft-lab-reports-empty-icon{
+    font-size:0 !important;
+}
+#labReportsSection .ft-lab-reports-empty-icon::before{
+    content:"\1F9EA" !important;
+    font-size:32px !important;
+}
+</style><style id="ft-lab-summary-spacing-fix">
+#labReportsSection .ft-lab-summary-icon + div{
+    display:flex !important;
+    align-items:center !important;
+    gap:7px !important;
+}
+#labReportsSection .ft-lab-summary-icon + div strong,
+#labReportsSection .ft-lab-summary-icon + div span{
+    margin:0 !important;
+}
+</style><style id="ft-lab-summary-test-tube-fix">
+#labReportsSection .ft-lab-summary-icon{
+    font-size:0 !important;
+}
+#labReportsSection .ft-lab-summary-icon::before{
+    content:"\1F9EA" !important;
+    font-size:20px !important;
+    line-height:1 !important;
+    display:block !important;
+}
+</style><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><style id="patient-nav-icon-colors">
+.nav .nav-item .nav-icon {
+    width: 24px !important;
+    min-width: 24px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.nav .nav-item:nth-of-type(1) .nav-icon { color: #2563eb !important; }
+.nav .nav-item:nth-of-type(2) .nav-icon { color: #7c3aed !important; }
+.nav .nav-item:nth-of-type(3) .nav-icon { color: #16a34a !important; }
+.nav .nav-item:nth-of-type(4) .nav-icon { color: #ea580c !important; }
+.nav .nav-item:nth-of-type(5) .nav-icon { color: #0891b2 !important; }
+.nav .nav-item:nth-of-type(6) .nav-icon { color: #dc2626 !important; }
+.nav .nav-item:nth-of-type(7) .nav-icon { color: #4f46e5 !important; }
+.nav .nav-item:nth-of-type(8) .nav-icon { color: #2563eb !important; }
+</style><style id="patient-nav-compact-spacing">
+.nav .nav-item {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    min-height: 38px !important;
+}
+
+.nav .nav-item .nav-icon {
+    margin-right: 8px !important;
+}
+</style><style id="patient-my-profile-align">
+.nav .nav-item.profile,
+.nav .profile-nav-item,
+.nav .nav-profile {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    min-height: 38px !important;
+    line-height: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+}
 </style></head>
 
 <body>
@@ -5518,7 +8045,7 @@
                 data-section="dashboard"
                 onclick="showSection('dashboard')"
             >
-                <span class="nav-icon">&#8962;</span>
+                <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
                 Dashboard
             </button>
 
@@ -5527,7 +8054,7 @@
                 data-section="appointments"
                 onclick="showSection('appointments')"
             >
-                <span class="nav-icon">&#9633;</span>
+                <span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span>
                 Appointments
             </button>
 
@@ -5536,7 +8063,7 @@
                 data-section="consultations"
                 onclick="showSection('consultations')"
             >
-                <span class="nav-icon">&#9745;</span>
+                <span class="nav-icon"><i class="fa-solid fa-stethoscope"></i></span>
                 Consultations
             </button>
 
@@ -5545,7 +8072,7 @@
                 data-section="labRequests"
                 onclick="showSection('labRequests'); renderFTLabRequests();"
             >
-                <span class="nav-icon">&#128203;</span>
+                <span class="nav-icon"><i class="fa-solid fa-flask"></i></span>
                 Lab Requests
             </button>
             <button
@@ -5553,7 +8080,7 @@
                 data-section="labReports"
                 onclick="showSection('labReports'); renderFTLabReports();"
             >
-                <span class="nav-icon">&#128202;</span>
+                <span class="nav-icon"><i class="fa-solid fa-chart-column"></i></span>
                 Lab Reports
             </button>
 
@@ -5562,7 +8089,7 @@
                 data-section="prescriptions"
                 onclick="showSection('prescriptions')"
             >
-                <span class="nav-icon">&#10003;</span>
+                <span class="nav-icon"><i class="fa-solid fa-pills"></i></span>
                 Prescriptions
             </button>
 
@@ -5571,7 +8098,7 @@
                 data-section="timeline"
                 onclick="showSection('timeline')"
             >
-                <span class="nav-icon">&#9673;</span>
+                <span class="nav-icon"><i class="fa-solid fa-timeline"></i></span>
                 Health Timeline
             </button>
 
@@ -5579,7 +8106,7 @@
     class="nav-item"
     href="book-appointment.html"
 >
-    <span class="nav-icon">+</span>
+    <span class="nav-icon"><i class="fa-solid fa-plus"></i></span>
     Book Appointment
 </a>
 <button
@@ -5587,7 +8114,7 @@
                 data-section="profile"
                 onclick="showSection('profile')"
             >
-                <span>&#9673;</span>
+                <span class="nav-icon"><i class="fa-solid fa-circle-user"></i></span>
                 My Profile
             </button>
 
@@ -5834,7 +8361,7 @@
 
                     <!-- APPOINTMENTS -->
 
-                    <div class="card">
+                    <div class="card" frantett-dashboard-appointments>
 
                         <div class="card-header">
 
@@ -5973,7 +8500,7 @@
 
                     <!-- CONSULTATIONS -->
 
-                    <div class="card">
+                    <div class="card" frantett-dashboard-consultations>
 
                         <div class="card-header">
 
@@ -7006,7 +9533,7 @@
         ) {
 
             if (!value) {
-                return "&#8212;";
+                return "-";
             }
 
             const date =
@@ -7230,12 +9757,12 @@
             document.getElementById(
                 "profileEmail"
             ).textContent =
-                patient.email || "&#8212;";
+                patient.email || "-";
 
             document.getElementById(
                 "profilePhone"
             ).textContent =
-                patient.phone || "&#8212;";
+                patient.phone || "-";
 
             document.getElementById(
                 "profileDOB"
@@ -7247,28 +9774,28 @@
             document.getElementById(
                 "profileGender"
             ).textContent =
-                patient.gender || "&#8212;";
+                patient.gender || "-";
 
             document.getElementById(
                 "profileAddress"
             ).textContent =
-                patient.address || "&#8212;";
+                patient.address || "-";
 
 
             document.getElementById(
                 "fullProfileName"
             ).textContent =
-                fullName || "&#8212;";
+                fullName || "-";
 
             document.getElementById(
                 "fullProfileEmail"
             ).textContent =
-                patient.email || "&#8212;";
+                patient.email || "-";
 
             document.getElementById(
                 "fullProfilePhone"
             ).textContent =
-                patient.phone || "&#8212;";
+                patient.phone || "-";
 
             document.getElementById(
                 "fullProfileDOB"
@@ -7280,32 +9807,32 @@
             document.getElementById(
                 "fullProfileGender"
             ).textContent =
-                patient.gender || "&#8212;";
+                patient.gender || "-";
 
             document.getElementById(
                 "fullProfileAddress"
             ).textContent =
-                patient.address || "&#8212;";
+                patient.address || "-";
 
             document.getElementById(
                 "fullProfileHistory"
             ).textContent =
-                patient.medical_history || "&#8212;";
+                patient.medical_history || "-";
 
             document.getElementById(
                 "fullProfileAllergies"
             ).textContent =
-                patient.allergies || "&#8212;";
+                patient.allergies || "-";
 
             document.getElementById(
                 "fullProfileMedications"
             ).textContent =
-                patient.medications || "&#8212;";
+                patient.medications || "-";
 
             document.getElementById(
                 "fullProfileNotes"
             ).textContent =
-                patient.notes || "&#8212;";
+                patient.notes || "-";
 
         }
 
@@ -7436,8 +9963,8 @@
 
                 dashboardContainer.innerHTML =
                     emptyState(
-                        "&#9633;",
-                        "You have no upcoming appointments."
+                        '<span class="ft-appointment-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4.5" width="18" height="17" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M7.5 2.75V6.5M16.5 2.75V6.5M3.5 9H20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8 13H8.01M12 13H12.01M16 13H16.01M8 17H8.01M12 17H12.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>',
+                        "You're all caught up. Your next appointment will appear here."
                     );
 
             } else {
@@ -7616,138 +10143,134 @@ function closeAppointmentDetails() {
 }
 
 function appointmentHTML(
-            appointment
-        ) {
+    appointment
+) {
 
-            const date =
-                appointment.appointment_date
-                    ? new Date(
-                        appointment.appointment_date
-                    )
-                    : null;
+    const date =
+        appointment.appointment_date
+            ? new Date(appointment.appointment_date)
+            : null;
 
-            const month =
-                date
-                    ? date.toLocaleDateString(
-                        "en-US",
-                        {
-                            month: "short"
-                        }
-                    )
-                    : "";
+    const formattedDate =
+        date
+            ? date.toLocaleDateString(
+                "en-US",
+                {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric"
+                }
+            )
+            : "Appointment date unavailable";
 
-            const day =
-                date
-                    ? date.getDate()
-                    : "&#8212;";
+    const doctorTitle =
+        appointment.doctor_title ||
+        appointment.doctor_specialty ||
+        appointment.specialty ||
+        "Healthcare Provider";
 
-            return `
+    const appointmentStatus =
+        appointment.status ||
+        "Pending";
 
-                <div class="appointment-item">
+    return `
 
-                    <div class="date-box">
+        <div class="appointment-item">
 
-                        <span class="month">
-                            ${escapeHTML(month)}
-                        </span>
+            <div class="appointment-main">
 
-                        <span class="day">
-                            ${escapeHTML(day)}
-                        </span>
+                <div class="appointment-date">
+                    ${escapeHTML(formattedDate)}
+                </div>
 
-                    </div>
+                <div class="appointment-doctor">
+                    ${escapeHTML(
+                        appointment.doctor ||
+                        "Healthcare Provider"
+                    )}
+                </div>
 
-                    <div class="appointment-details">
+                <div class="appointment-doctor-title">
+                    ${escapeHTML(doctorTitle)}
+                </div>
 
-                        <div class="appointment-doctor">
-                            ${escapeHTML(
-                                appointment.doctor ||
-                                "Healthcare Provider"
-                            )}
-                        </div>
+                <div class="appointment-meta">
 
-                        <div class="appointment-meta">
-
-                            <span>
-                                ${escapeHTML(
-                                    formatTime(
-                                        appointment.appointment_time
-                                    )
-                                )}
-                            </span>
-
-                            <span>
-                                &#8226;
-                            </span>
-
-                            <span>
-                                ${escapeHTML(
-                                    appointment.reason ||
-                                    "Medical consultation"
-                                )}
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                    <span
-                        class="status ${statusClass(
-                            appointment.status
-                        )}"
-                    >
+                    <span class="appointment-time">
                         ${escapeHTML(
-                            appointment.status ||
-                            "Pending"
+                            formatTime(
+                                appointment.appointment_time
+                            )
                         )}
                     </span>
-                    <button
-                        type="button"
-                        class="view-link"
-                        style="margin-left:12px;"
-                        onclick="openAppointmentDetails(${Number(appointment.id)})"
-                    >
-                        View Details
-                    </button>
-                    ${["Pending", "Confirmed"].includes(
-                        appointment.status
-                    ) ? `
-                        <button
-                            type="button"
-                            class="view-link"
-                            style="margin-left:12px;"
-                            onclick="cancelPatientAppointment(${Number(appointment.id)})"
-                        >
-                            Cancel Appointment
-                        </button>
-                    ` : ""}
 
-
-
-                    ${appointment.status === "Confirmed" ? `
-                        <button
-                            type="button"
-                            class="view-link"
-                            style="
-                                margin-left:12px;
-                                color:#0b7a75;
-                                font-weight:800;
-                            "
-                            onclick="joinPatientVideo(${Number(appointment.id)})"
-                        >
-                            Join Video Consultation
-                        </button>
-                    ` : ""}
+                    <span class="appointment-reason">
+                        ${escapeHTML(
+                            appointment.reason ||
+                            "Medical consultation"
+                        )}
+                    </span>
 
                 </div>
 
-            `;
+            </div>
 
-        }
+            <div class="appointment-status-wrap">
+
+                <span
+                    class="appointment-status status ${statusClass(
+                        appointmentStatus
+                    )}"
+                >
+                    ${escapeHTML(appointmentStatus)}
+                </span>
+
+            </div>
+
+            <div class="appointment-actions">
+
+                <button
+                    type="button"
+                    class="view-link"
+                    onclick="openAppointmentDetails(${Number(appointment.id)})"
+                >
+                    View Details
+                </button>
+
+                ${["Pending", "Confirmed"].includes(
+                    appointment.status
+                ) ? `
+                    <button
+                        type="button"
+                        class="view-link"
+                        onclick="cancelPatientAppointment(${Number(appointment.id)})"
+                    >
+                        Cancel
+                    </button>
+                ` : ""}
+
+                ${appointment.status === "Confirmed" ? `
+                    <button
+                        type="button"
+                        class="view-link"
+                        onclick="joinPatientVideo(${Number(appointment.id)})"
+                    >
+                        Join Video
+                        <span aria-hidden="true">&rarr;</span>
+                    </button>
+                ` : ""}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
 
 
-        /* ==========================================
-           LOAD CONSULTATIONS
+/* ==========================================
+   LOAD CONSULTATIONS
         ========================================== */
 
         async function loadConsultations() {
@@ -7998,15 +10521,15 @@ function openFTLabRequest(id) {
                     </div>
                     <div>
                         <span class="ft-lab-field-label">Patient ID</span>
-                        <strong>${escapeHTML(String(request.patient_id || "—"))}</strong>
+                        <strong>${escapeHTML(String(request.patient_id || "â€”"))}</strong>
                     </div>
                     <div>
                         <span class="ft-lab-field-label">Request ID</span>
-                        <strong>${escapeHTML(String(request.id || "—"))}</strong>
+                        <strong>${escapeHTML(String(request.id || "â€”"))}</strong>
                     </div>
                     <div>
                         <span class="ft-lab-field-label">Consultation ID</span>
-                        <strong>${escapeHTML(String(request.consultation_id || "—"))}</strong>
+                        <strong>${escapeHTML(String(request.consultation_id || "â€”"))}</strong>
                     </div>
                 </div>
             </section>
@@ -8174,7 +10697,7 @@ async function renderFTLabReports() {
         if (!reports.length) {
             container.innerHTML = `
                 <div class="ft-lab-reports-empty">
-                    <div class="ft-lab-reports-empty-icon">🧪</div>
+                    <div class="ft-lab-reports-empty-icon">&#129505;</div>
                     <strong>No laboratory reports available</strong>
                     <span>Your completed laboratory reports will appear here.</span>
                 </div>
@@ -8211,31 +10734,7 @@ async function renderFTLabReports() {
         container.innerHTML = `
             <div class="ft-lab-reports-summary">
 
-                <div class="ft-lab-report-summary-card">
-                    <span class="ft-lab-summary-icon">🧪</span>
-                    <div>
-                        <strong>${totalCount}</strong>
-                        <span>Total Reports</span>
-                    </div>
-                </div>
-
-                <div class="ft-lab-report-summary-card">
-                    <span class="ft-lab-summary-icon">✓</span>
-                    <div>
-                        <strong>${finalCount}</strong>
-                        <span>Final</span>
-                    </div>
-                </div>
-
-                <div class="ft-lab-report-summary-card">
-                    <span class="ft-lab-summary-icon">◷</span>
-                    <div>
-                        <strong>${pendingCount}</strong>
-                        <span>Pending</span>
-                    </div>
-                </div>
-
-            </div>
+                
 
             <div class="ft-lab-reports-list">
 
@@ -8266,7 +10765,7 @@ async function renderFTLabReports() {
                             <div class="ft-lab-report-top">
 
                                 <div class="ft-lab-report-label">
-                                    <span class="ft-lab-report-icon">🧪</span>
+                                    <span class="ft-lab-report-icon">&#129505;</span>
 
                                     <div>
                                         <span class="ft-lab-report-type">
@@ -8318,7 +10817,7 @@ async function renderFTLabReports() {
 
         container.innerHTML = `
             <div class="ft-lab-reports-empty">
-                <div class="ft-lab-reports-empty-icon">⚠️</div>
+                <div class="ft-lab-reports-empty-icon">&#9888;</div>
                 <strong>Unable to load laboratory reports</strong>
                 <span>Please try again.</span>
             </div>
@@ -8545,7 +11044,7 @@ window.openFTPrescription = function(id) {
                                 ${escapeHTML(
                                     String(
                                         prescription.id ||
-                                        "—"
+                                        "â€”"
                                     )
                                 )}
                             </div>
@@ -8576,37 +11075,37 @@ window.openFTPrescription = function(id) {
                                                 <td>
                                                     ${escapeHTML(
                                                         medication.medication_name ||
-                                                        "—"
+                                                        "â€”"
                                                     )}
                                                 </td>
                                                 <td>
                                                     ${escapeHTML(
                                                         medication.dose ||
-                                                        "—"
+                                                        "â€”"
                                                     )}
                                                 </td>
                                                 <td>
                                                     ${escapeHTML(
                                                         medication.route ||
-                                                        "—"
+                                                        "â€”"
                                                     )}
                                                 </td>
                                                 <td>
                                                     ${escapeHTML(
                                                         medication.frequency ||
-                                                        "—"
+                                                        "â€”"
                                                     )}
                                                 </td>
                                                 <td>
                                                     ${escapeHTML(
                                                         medication.duration ||
-                                                        "—"
+                                                        "â€”"
                                                     )}
                                                 </td>
                                                 <td>
                                                     ${escapeHTML(
                                                         medication.quantity ||
-                                                        "—"
+                                                        "â€”"
                                                     )}
                                                 </td>
                                             </tr>
@@ -8701,100 +11200,290 @@ window.openFTPrescription = function(id) {
 
         function renderTimeline() {
 
-            const container =
-                document.getElementById(
-                    "timelineList"
-                );
+    const container =
+        document.getElementById("timelineList");
 
+    if (!container) return;
 
-            if (
-                timeline.length === 0
-            ) {
+    if (
+        !Array.isArray(timeline) ||
+        timeline.length === 0
+    ) {
 
-                container.innerHTML =
-                    emptyState(
-                        "&#9673;",
-                        "No health timeline records found."
+        container.innerHTML =
+            emptyState(
+                "&#9673;",
+                "No health timeline records found."
+            );
+
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="ft-patient-story">
+
+            ${timeline.map(item => {
+
+                const rawType =
+                    String(
+                        item.type ||
+                        "record"
                     );
 
-                return;
+                const typeLower =
+                    rawType.toLowerCase();
 
-            }
+                let title =
+                    item.title ||
+                    "";
 
+                let doctor =
+                    item.doctor ||
+                    item.requested_by ||
+                    item.recorded_by ||
+                    item.prescribing_doctor ||
+                    item.doctor_name ||
+                    "";
 
-            container.innerHTML = `
+                let description = "";
 
-                <div class="timeline">
+                let status =
+                    item.status ||
+                    "";
 
-                    ${timeline.map(
-                        item => {
+                /*
+                 * PRESCRIPTION
+                 */
+                if (
+                    typeLower.includes("prescription")
+                ) {
 
-                            let title =
-                                item.title ||
-                                "Healthcare Event";
+                    title =
+                        item.medication_name ||
+                        item.medication ||
+                        item.medicine ||
+                        item.drug_name ||
+                        item.drug ||
+                        title ||
+                        "Prescription";
 
-                            let type =
-                                item.type ||
-                                "record";
+                    doctor =
+                        doctor ||
+                        item.prescribed_by ||
+                        "";
 
-                            return `
+                    description =
+                        item.dosage ||
+                        item.instructions ||
+                        item.frequency ||
+                        "";
 
-                                <div class="timeline-item">
+                }
 
-                                    <div class="timeline-dot"></div>
+                /*
+                 * LABORATORY REPORT
+                 */
+                else if (
+                    typeLower.includes("laboratory report") ||
+                    typeLower.includes("lab report")
+                ) {
 
-                                    <div class="timeline-type">
-                                        ${escapeHTML(type)}
-                                    </div>
+                    title =
+                        item.test_name ||
+                        item.test ||
+                        item.lab_test ||
+                        item.report_name ||
+                        title ||
+                        "Laboratory Report";
 
-                                    <div class="timeline-title">
-                                        ${escapeHTML(title)}
-                                    </div>
+                    description =
+                        item.notes ||
+                        item.result ||
+                        "";
 
-                                    <div class="timeline-date">
+                }
 
-                                        ${escapeHTML(
-                                            formatDate(
-                                                item.event_date ||
-                                                item.created_at
-                                            )
-                                        )}
+                /*
+                 * LABORATORY REQUEST
+                 */
+                else if (
+                    typeLower.includes("laboratory request") ||
+                    typeLower.includes("lab request")
+                ) {
 
-                                        ${item.event_time
-                                            ? " &#8226; " +
-                                              escapeHTML(
-                                                formatTime(
-                                                    item.event_time
-                                                )
-                                              )
-                                            : ""}
+                    title =
+                        item.requested_tests ||
+                        item.test_name ||
+                        item.test ||
+                        item.lab_test ||
+                        title ||
+                        "Laboratory Request";
 
-                                        ${
-                                            item.doctor
-                                                ? " &#8226; " +
-                                                  escapeHTML(
-                                                    item.doctor
-                                                  )
-                                                : ""
-                                        }
+                    description =
+                        item.clinical_information ||
+                        "";
 
-                                    </div>
+                }
 
-                                </div>
+                /*
+                 * CONSULTATION
+                 */
+                else if (
+                    typeLower.includes("consultation")
+                ) {
 
-                            `;
+                    title =
+                        item.diagnosis ||
+                        item.chief_complaint ||
+                        item.consultation_type ||
+                        item.reason ||
+                        title ||
+                        "Clinical Consultation";
 
-                        }
-                    ).join("")}
+                    description =
+                        item.chief_complaint ||
+                        item.consultation_type ||
+                        "";
 
-                </div>
+                }
 
-            `;
+                /*
+                 * CLEAN TYPE
+                 */
+                let type =
+                    rawType
+                        .replace(/_/g, " ")
+                        .replace(/\s+/g, " ")
+                        .trim()
+                        .toUpperCase();
 
-        }
+                if (
+                    type === "LAB REPORT" ||
+                    type === "LABORATORY REPORTS"
+                ) {
+                    type = "LABORATORY REPORT";
+                }
 
+                if (
+                    type === "LAB REQUEST" ||
+                    type === "LABORATORY REQUESTS"
+                ) {
+                    type = "LABORATORY REQUEST";
+                }
 
-        /* ==========================================
+                if (
+                    type === "PRESCRIPTIONS"
+                ) {
+                    type = "PRESCRIPTION";
+                }
+
+                if (
+                    type === "CONSULTATIONS"
+                ) {
+                    type = "CONSULTATION";
+                }
+
+                /*
+                 * DATE
+                 */
+                const date =
+                    formatDate(
+                        item.event_date ||
+                        item.created_at
+                    );
+
+                /*
+                 * STATUS
+                 */
+                const statusHTML =
+                    status
+                        ? `
+                            <span class="ft-story-status">
+                                ${escapeHTML(
+                                    String(status)
+                                )}
+                            </span>
+                          `
+                        : "";
+
+                /*
+                 * DOCTOR
+                 */
+                const doctorHTML =
+                    doctor
+                        ? `
+                            <div class="ft-story-doctor">
+                                <span class="ft-story-label">
+                                    Clinician
+                                </span>
+                                <span class="ft-story-doctor-name">
+                                    ${escapeHTML(
+                                        String(doctor)
+                                    )}
+                                </span>
+                            </div>
+                          `
+                        : "";
+
+                /*
+                 * DESCRIPTION
+                 */
+                const descriptionHTML =
+                    description
+                        ? `
+                            <div class="ft-story-description">
+                                ${escapeHTML(
+                                    String(description)
+                                )}
+                            </div>
+                          `
+                        : "";
+
+                return `
+                    <article class="ft-story-card">
+
+                        <div class="ft-story-card-top">
+
+                            <div class="ft-story-type">
+                                ${escapeHTML(type)}
+                            </div>
+
+                            <time class="ft-story-date">
+                                ${escapeHTML(date)}
+                            </time>
+
+                        </div>
+
+                        <div class="ft-story-card-body">
+
+                            <div class="ft-story-main">
+
+                                <h3 class="ft-story-title">
+                                    ${escapeHTML(
+                                        String(title)
+                                    )}
+                                </h3>
+
+                                ${descriptionHTML}
+
+                                ${doctorHTML}
+
+                            </div>
+
+                            ${statusHTML}
+
+                        </div>
+
+                    </article>
+                `;
+
+            }).join("")}
+
+        </div>
+    `;
+}
+
+/* ==========================================
            EMPTY STATE
         ========================================== */
 
@@ -9881,7 +12570,7 @@ function switchPatientVideoFocus() {
         font-size:20px;
     }
 }
-</style>
+<style id="frantett-my-appointments-action-spacing-fix">#appointmentsSection .appointment-actions .view-link{display:inline-flex !important;align-items:center !important;white-space:nowrap !important;}#appointmentsSection .appointment-actions .view-link + .view-link{margin-left:14px !important;}#appointmentsSection .appointment-actions .view-link + .view-link::before{margin-right:14px !important;margin-left:0 !important;}</style></style>
 
 <div id="ftLabRequestModal" class="ft-document-modal" onclick="if(event.target===this) closeFTDocumentModal('ftLabRequestModal')">
     <div class="ft-document-panel ft-lab-request-document">
@@ -10334,6 +13023,61 @@ window.addEventListener("load",function(){
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
