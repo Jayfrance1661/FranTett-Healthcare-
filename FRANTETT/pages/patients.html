@@ -12,6 +12,77 @@
 
     
 <style>
+/* Patient table typography - compact appointment style */
+@media (max-width: 768px) {
+    .table-container th,
+    .table-container td {
+        font-size: 12px;
+    }
+
+    .table-container td strong {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .table-container th,
+    .table-container td {
+        font-size: 11px;
+    }
+
+    .table-container td strong {
+        font-size: 11px;
+    }
+}
+
+/* Patient action buttons - plain background, colored text */
+.patient-actions-row td > button.view-btn {
+    background: #eef6ff !important;
+    color: #007bff !important;
+}
+
+.patient-actions-row td > button.edit-btn {
+    background: #fff8e1 !important;
+    color: #d39e00 !important;
+}
+
+.patient-actions-row td > button.danger-btn {
+    background: #fff1f2 !important;
+    color: #dc3545 !important;
+}
+
+/* Patient record action buttons - compact appointment style */
+.patient-actions-row td > button {
+    padding: 7px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 2px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+    min-height: 0;
+    width: auto;
+}
+
+@media (max-width: 768px) {
+    .patient-actions-row td > button {
+        padding: 6px 8px;
+        font-size: 12px;
+        min-height: 0;
+        margin: 2px;
+    }
+}
+
+@media (max-width: 480px) {
+    .patient-actions-row td > button {
+        padding: 5px 7px;
+        font-size: 11px;
+        min-height: 0;
+        margin: 2px;
+    }
+}
+
 
         * {
             box-sizing: border-box;
@@ -4105,7 +4176,10 @@ input[data-field="recorded_by"] {
 
 </style>
 <script>
-    window.FRANTETT_API = "https://10.0.0.63:3000";
+    window.FRANTETT_API =
+        "https://" +
+        window.location.hostname +
+        ":3000";
 </script>
 
 <style>
@@ -5202,13 +5276,13 @@ input[data-field="recorded_by"] {
 
                 <tr>
 
-                    <th>ID</th>
+                    <th>#</th><th>ID</th>
                     <th>Patient</th>
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Date of Birth</th>
                     <th>Gender</th>
-                    <th>Actions</th>
+                    
 
                 </tr>
 
@@ -5217,7 +5291,7 @@ input[data-field="recorded_by"] {
             <tbody id="patientsTable">
 
                 <tr>
-                    <td colspan="7" class="loading">
+                    <td colspan="6" class="loading">
                         Loading patients...
                     </td>
                 </tr>
@@ -7978,7 +8052,7 @@ async function loadPatients() {
 
             table.innerHTML = `
                 <tr>
-                    <td colspan="7">
+                    <td colspan="6">
                         ${escapeHtml(
                             data.message ||
                             "Failed to load patients."
@@ -8011,7 +8085,7 @@ async function loadPatients() {
 
         table.innerHTML = `
             <tr>
-                <td colspan="7">
+                <td colspan="6">
                     Unable to connect to the server.
                 </td>
             </tr>
@@ -8028,134 +8102,98 @@ async function loadPatients() {
 
 function displayPatients(data) {
 
-    const table =
-        document.getElementById(
-            "patientsTable"
-        );
+    const table = document.getElementById("patientsTable");
 
-    table.innerHTML =
-        "";
+    table.innerHTML = "";
 
-
-    if (
-        !Array.isArray(data) ||
-        data.length === 0
-    ) {
+    if (!Array.isArray(data) || data.length === 0) {
 
         table.innerHTML = `
             <tr>
-                <td colspan="7">
+                <td colspan="6">
                     No patient records found.
                 </td>
             </tr>
         `;
 
         return;
-
     }
 
+    data.forEach((patient, index) => {
 
-    data.forEach(
-        patient => {
+        const fullName =
+            `${patient.first_name || ""} ${patient.last_name || ""}`.trim();
 
-            const row =
-                document.createElement(
-                    "tr"
-                );
+        const row = document.createElement("tr");
 
+        row.className = "patient-record-row";
 
-            const fullName =
-                `${patient.first_name || ""} ${patient.last_name || ""}`
-                    .trim();
+        row.innerHTML = `
+            <td><span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#007bff;color:#fff;font-size:12px;font-weight:500;line-height:1;">${index + 1}</span></td><td>${patient.id ?? ""}</td>
 
+            <td>
+                <strong>${escapeHtml(fullName)}</strong>
+            </td>
 
-            row.innerHTML = `
+            <td>
+                ${escapeHtml(patient.email || "")}
+            </td>
 
-                <td>
-                    ${escapeHtml(patient.id)}
-                </td>
+            <td>
+                ${escapeHtml(patient.phone || "")}
+            </td>
 
-                <td>
-                    ${escapeHtml(
-                        fullName ||
-                        "Unnamed patient"
-                    )}
-                </td>
+            <td>
+                ${patient.date_of_birth
+                    ? escapeHtml(formatDate(patient.date_of_birth))
+                    : ""}
+            </td>
 
-                <td>
-                    ${escapeHtml(
-                        patient.email ||
-                        ""
-                    )}
-                </td>
+            <td>
+                ${escapeHtml(patient.gender || "")}
+            </td>
+`;
 
-                <td>
-                    ${escapeHtml(
-                        patient.phone ||
-                        ""
-                    )}
-                </td>
+        table.appendChild(row);
 
-                <td>
-                    ${escapeHtml(
-                        formatDate(
-                            patient.date_of_birth
-                        )
-                    )}
-                </td>
+        /*
+         * Patient actions are intentionally placed
+         * underneath the complete patient record.
+         */
+        const actionRow = document.createElement("tr");
 
-                <td>
-                    ${escapeHtml(
-                        patient.gender ||
-                        ""
-                    )}
-                </td>
+        actionRow.className = "patient-actions-row";
 
-                <td>
+        actionRow.innerHTML = `
+            <td colspan="6">
+    <button
+        class="view-btn"
+        onclick="viewPatient(${Number(patient.id)})"
+    >
+        View
+    </button>
 
-                    <div class="actions">
+    <button
+        class="edit-btn"
+        onclick="editPatient(${Number(patient.id)})"
+    >
+        Edit
+    </button>
 
-                        <button
-                            class="view-btn"
-                            onclick="viewPatient(${Number(patient.id)})"
-                        >
-                            View
-                        </button>
+    <button
+        class="danger-btn"
+        onclick="deletePatient(${Number(patient.id)})"
+    >
+        Delete
+    </button>
+</td>
+        `;
 
-                        <button
-                            class="edit-btn"
-                            onclick="editPatient(${Number(patient.id)})"
-                        >
-                            Edit
-                        </button>
+        table.appendChild(actionRow);
 
-                        <button
-                            class="danger-btn"
-                            onclick="deletePatient(${Number(patient.id)})"
-                        >
-                            Delete
-                        </button>
-
-                    </div>
-
-                </td>
-
-            `;
-
-
-            table.appendChild(
-                row
-            );
-
-        }
-    );
-
+    });
 }
 
-
-/* =====================================================
-   FILTER PATIENTS
-===================================================== */
 
 function filterPatients() {
 
@@ -10820,7 +10858,7 @@ async function loadAppointmentHistory(patientId) {
                             <th>Doctor</th>
                             <th>Reason</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            
                         </tr>
                     </thead>
 
@@ -22385,7 +22423,178 @@ function renderVitals(records) {
     min-width: 850px !important;
     max-width: none !important;
 }
-</style>
+
+/* ============================================================
+   FINAL PATIENT RECORD TABLE TYPOGRAPHY
+   Matches compact appointment-page sizing
+   ============================================================ */
+
+.patient-record-row td {
+    font-size: 13px !important;
+}
+
+.patient-record-row td strong {
+    font-size: 13px !important;
+}
+
+@media (max-width: 768px) {
+    .patient-record-row td {
+        font-size: 12px !important;
+    }
+
+    .patient-record-row td strong {
+        font-size: 12px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .patient-record-row td {
+        font-size: 11px !important;
+    }
+
+    .patient-record-row td strong {
+        font-size: 11px !important;
+    }
+}
+<style id="patient-dob-single-line">
+/* Keep Date of Birth on one line */
+.patient-record-row td:nth-child(5) {
+    white-space: nowrap !important;
+    width: 1% !important;
+}
+
+/* Prevent the date from wrapping on phones */
+@media (max-width: 768px) {
+    .patient-record-row td:nth-child(5) {
+        white-space: nowrap !important;
+        min-width: 82px !important;
+    }
+}
+</style><style id="patient-table-compact-typography">
+/* ============================================================
+   COMPACT PATIENT TABLE TYPOGRAPHY
+   Matches the compact appointment-page appearance
+   ============================================================ */
+
+.patient-record-row td {
+    font-size: 13px !important;
+    line-height: 1.25 !important;
+}
+
+.patient-record-row td strong {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
+
+.patient-actions-row td {
+    font-size: 13px !important;
+}
+
+.patient-actions-row td > button {
+    font-size: 13px !important;
+}
+
+/* Phone */
+@media (max-width: 768px) {
+    .patient-record-row td {
+        font-size: 12px !important;
+        line-height: 1.2 !important;
+    }
+
+    .patient-record-row td strong {
+        font-size: 12px !important;
+    }
+
+    .patient-actions-row td {
+        font-size: 12px !important;
+    }
+
+    .patient-actions-row td > button {
+        font-size: 12px !important;
+    }
+}
+
+/* Small phone */
+@media (max-width: 480px) {
+    .patient-record-row td {
+        font-size: 11px !important;
+    }
+
+    .patient-record-row td strong {
+        font-size: 11px !important;
+    }
+
+    .patient-actions-row td {
+        font-size: 11px !important;
+    }
+
+    .patient-actions-row td > button {
+        font-size: 11px !important;
+    }
+}
+</style><style id="patient-dob-heading-single-line">
+/* Keep Date of Birth heading and values on one line */
+.table-container th:nth-child(5),
+.patient-record-row td:nth-child(5) {
+    white-space: nowrap !important;
+}
+
+/* Give the heading enough room on phones */
+@media (max-width: 768px) {
+    .table-container th:nth-child(5),
+    .patient-record-row td:nth-child(5) {
+        white-space: nowrap !important;
+        min-width: 82px !important;
+    }
+}
+</style></style><style id="final-dob-column-fix">
+/* FINAL FIX - Date of Birth column */
+.table-wrapper table th:nth-child(5),
+.table-wrapper table td:nth-child(5) {
+    white-space: nowrap !important;
+    min-width: 105px !important;
+    width: 105px !important;
+}
+
+@media (max-width: 768px) {
+    .table-container table th:nth-child(5),
+    .table-container table td:nth-child(5) {
+        white-space: nowrap !important;
+        min-width: 105px !important;
+        width: 105px !important;
+    }
+}
+.table-wrapper table th:nth-child(6),
+.table-wrapper table td:nth-child(6) {
+    white-space: nowrap !important;
+    min-width: 105px !important;
+    width: 105px !important;
+}</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

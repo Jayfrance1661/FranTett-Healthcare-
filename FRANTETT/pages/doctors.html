@@ -463,7 +463,10 @@
         }
     </style>
 <script>
-    window.FRANTETT_API = "https://10.0.0.63:3000";
+    window.FRANTETT_API =
+        "https://" +
+        window.location.hostname +
+        ":3000";
 </script></head>
 
 <body>
@@ -2406,6 +2409,7 @@ function bookAppointment(
 
 </body>
 </html>
+
 
 
 

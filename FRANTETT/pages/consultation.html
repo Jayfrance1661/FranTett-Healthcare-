@@ -1098,7 +1098,10 @@
 
 </style>
 <script>
-    window.FRANTETT_API = "https://10.0.0.63:3000";
+    window.FRANTETT_API =
+        "https://" +
+        window.location.hostname +
+        ":3000";
 </script></head>
 
 <body>
@@ -1866,7 +1869,7 @@ if (consultationId) {
 
 
 const formUrl =
-    `/pages/consultation-form.html?${params.toString()}`;
+    `/consultation-form.html?${params.toString()}`;
 
     console.log(
         "Loading consultation form:",
@@ -2716,6 +2719,8 @@ document.addEventListener(
 
 </body>
 </html>
+
+
 
 
 
