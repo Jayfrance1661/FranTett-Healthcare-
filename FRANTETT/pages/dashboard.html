@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -931,8 +931,14 @@
         }
     </style>
 <script>
-    window.FRANTETT_API = "https://localhost:3000";
-</script></head>
+    window.FRANTETT_API = "https://10.0.0.63:3000";
+</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+.stat-icon .fa-users {
+    color: #2563eb !important;
+}
+</style>
+</head>
 
 <body>
 
@@ -952,7 +958,7 @@
             type="button"
             aria-label="Open navigation"
             aria-expanded="false">
-            â˜°
+            <i class="fa-solid fa-bars"></i>
         </button>
 
         <nav id="mainNav">
@@ -1051,7 +1057,7 @@
             <div class="stat-card">
 
                 <span class="stat-icon">
-                    👥
+                    <i class="fa-solid fa-users"></i>
                 </span>
 
                 <h3>
@@ -1714,7 +1720,7 @@
                     type="button"
                     onclick="closeMessageModal()"
                     aria-label="Close">
-                    Ã—
+                    ×
                 </button>
 
             </div>
@@ -2632,7 +2638,7 @@
 
                 document.getElementById(
                     "totalDoctors"
-                ).textContent = "â€”";
+                ).textContent = "5";
 
             }
 
@@ -2692,7 +2698,7 @@
 
                 document.getElementById(
                     "totalPatients"
-                ).textContent = "â€”";
+                ).textContent = "Ã¢â‚¬â€";
 
             }
 
@@ -3573,7 +3579,7 @@
                 document.getElementById(
                     "newMessagesCount"
                 ).textContent =
-                    "â€”";
+                    "Ã¢â‚¬â€";
 
             }
 
@@ -4330,7 +4336,7 @@ else if (
 
                             <td style="padding:12px;">
                                 ${escapeHtml(
-                                    request.phone || "â€”"
+                                    request.phone || "Ã¢â‚¬â€"
                                 )}
                             </td>
 
@@ -4543,14 +4549,14 @@ else if (
         function formatStaffDate(value) {
 
             if (!value) {
-                return "â€”";
+                return "Ã¢â‚¬â€";
             }
 
             const date =
                 new Date(value);
 
             if (isNaN(date.getTime())) {
-                return "â€”";
+                return "Ã¢â‚¬â€";
             }
 
             return date.toLocaleString(
@@ -5010,6 +5016,9 @@ else if (
 
 </body>
 </html>
+
+
+
 
 
 

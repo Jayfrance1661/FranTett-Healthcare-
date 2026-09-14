@@ -100,6 +100,9 @@ app.use(express.json());
 
 // Serve all files inside the pages folder
 app.use(express.static(path.join(__dirname, "pages")));
+app.get(["/","/index.html"], (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
 
 const PORT = 3000;
 
@@ -8568,6 +8571,7 @@ https.createServer(
 
     }
 );
+
 
 
 
