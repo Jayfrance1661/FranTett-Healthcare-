@@ -2044,7 +2044,250 @@ nav h2 {
         text-decoration: underline !important;
     }
 }
-</style></head>
+</style>
+<!-- FRANTETT MOBILE STATUS APPOINTMENT CARDS -->
+<style id="frantett-mobile-status-cards">
+@media (max-width: 768px) {
+
+    /* Hide the wide desktop table on phones */
+    .table-container {
+        display: none !important;
+    }
+
+    #mobileAppointments {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 12px;
+    }
+
+    .ft-mobile-appointment-card {
+        width: 100%;
+        box-sizing: border-box;
+        background: #ffffff;
+        border: 1px solid #dfe7eb;
+        border-radius: 14px;
+        padding: 14px;
+        box-shadow: 0 2px 8px rgba(20,45,55,.06);
+    }
+
+    .ft-mobile-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .ft-mobile-patient-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: #173b4a;
+        line-height: 1.25;
+        overflow-wrap: anywhere;
+    }
+
+    .ft-mobile-patient-id {
+        margin-top: 4px;
+        font-size: 12px;
+        color: #6a7d86;
+    }
+
+    .ft-mobile-details {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 5px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid #edf1f3;
+    }
+
+    .ft-mobile-detail {
+        font-size: 12px;
+        color: #52656d;
+        line-height: 1.35;
+    }
+
+    .ft-mobile-detail strong {
+        color: #304953;
+    }
+
+    .ft-mobile-status {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 28px;
+        padding: 5px 9px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .ft-mobile-status-pending {
+        background: #fff7df;
+        color: #8a6500;
+    }
+
+    .ft-mobile-status-confirmed {
+        background: #eaf7f1;
+        color: #17734f;
+    }
+
+    .ft-mobile-status-cancelled {
+        background: #fff1f1;
+        color: #a43b3b;
+    }
+
+    .ft-mobile-status-completed {
+        background: #eef1fb;
+        color: #42549a;
+    }
+
+    .ft-mobile-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 14px;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+
+    .ft-mobile-more-wrap {
+        position: relative;
+        flex: 0 0 auto;
+        z-index: 20;
+    }
+
+    .ft-mobile-actions > button {
+        min-height: 44px;
+        border-radius: 9px;
+        border: 1px solid transparent;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 9px 12px;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+
+    .ft-mobile-primary-action {
+        flex: 1 1 auto;
+        min-width: 0;
+        background: #eaf7f7;
+        color: #087477;
+        border-color: #cfe9e9 !important;
+    }
+
+    .ft-mobile-confirm-action {
+        flex: 1 1 auto;
+        min-width: 0;
+        background: #eaf7f1;
+        color: #17734f;
+        border-color: #cfe8dc !important;
+    }
+
+    .ft-mobile-more-wrap {
+        position: relative;
+        flex: 0 0 auto;
+    }
+
+    .ft-mobile-more {
+        min-width: 82px;
+        background: #f5f7f8;
+        color: #40555f;
+        border-color: #dce4e8 !important;
+    }
+
+    .ft-mobile-menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        bottom: calc(100% + 7px);
+        z-index: 1000;
+        width: 190px;
+        max-width: calc(100vw - 28px);
+        background: #ffffff;
+        border: 1px solid #dce5e9;
+        border-radius: 11px;
+        box-shadow: 0 8px 25px rgba(20,45,55,.16);
+        padding: 6px;
+        box-sizing: border-box;
+    }
+
+    .ft-mobile-menu.open {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .ft-mobile-menu button {
+        width: 100%;
+        min-height: 42px;
+        padding: 9px 10px;
+        border: 0;
+        border-radius: 7px;
+        background: #ffffff;
+        color: #304953;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .ft-mobile-menu button:hover {
+        background: #f2f7f8;
+    }
+
+    .ft-mobile-menu .ft-danger {
+        color: #a43b3b;
+    }
+
+    .ft-mobile-empty {
+        padding: 28px 16px;
+        text-align: center;
+        color: #687b84;
+        background: #ffffff;
+        border: 1px solid #dfe7eb;
+        border-radius: 14px;
+        font-size: 13px;
+    }
+}
+
+@media (min-width: 769px) {
+    #mobileAppointments {
+        display: none !important;
+    }
+}
+</style>
+<!-- END FRANTETT MOBILE STATUS APPOINTMENT CARDS -->
+<style id="frantett-mobile-add-appointment">
+@media (max-width: 768px) {
+
+    .add-appointment-btn,
+    .add-appointment-button,
+    button[onclick*="addAppointment"],
+    button[onclick*="AddAppointment"] {
+        width: 100% !important;
+        min-height: 50px !important;
+        height: 50px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 0 16px 0 !important;
+        box-sizing: border-box !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        background: #0b6b50 !important;
+        color: #ffffff !important;
+        border-color: #0b6b50 !important;
+    }
+
+}
+</style>
+</head>
 
 
 <body>
@@ -2385,6 +2628,8 @@ nav h2 {
             </tbody>
 
         </table>
+</div>
+<div id="mobileAppointments" aria-label="Mobile appointments"></div>
 
     </div>
 
@@ -3843,6 +4088,357 @@ function applyFilters() {
 /* ==========================================
    RENDER APPOINTMENTS
 ========================================== */
+/* =========================================================
+   FRANTETT MOBILE STATUS APPOINTMENT CARDS
+   ========================================================= */
+
+function closeMobileAppointmentMenus() {
+    document
+        .querySelectorAll(".ft-mobile-menu.open")
+        .forEach(menu => menu.classList.remove("open"));
+}
+
+document.addEventListener("click", function(event) {
+    if (!event.target.closest(".ft-mobile-more-wrap")) {
+        closeMobileAppointmentMenus();
+    }
+});
+
+function toggleMobileAppointmentMenu(menuId) {
+    const menu = document.getElementById(menuId);
+
+    if (!menu) {
+        return;
+    }
+
+    const wasOpen = menu.classList.contains("open");
+
+    closeMobileAppointmentMenus();
+
+    if (!wasOpen) {
+        menu.classList.add("open");
+    }
+}
+
+function mobileAppointmentAction(action, appointmentId) {
+    closeMobileAppointmentMenus();
+
+    if (action === "view") {
+        viewAppointment(appointmentId);
+        return;
+    }
+
+    if (action === "edit") {
+        editAppointment(appointmentId);
+        return;
+    }
+
+    
+if (action === "confirm") {
+    updateAppointmentStatus(appointmentId, "Confirmed");
+    return;
+}
+    if (action === "cancel") {
+        updateAppointmentStatus(appointmentId, "Cancelled");
+        return;
+    }
+
+    if (action === "complete") {
+        updateAppointmentStatus(appointmentId, "Completed");
+        return;
+    }
+
+    if (action === "delete") {
+        deleteAppointment(appointmentId);
+        return;
+    }
+
+    if (action === "consultation") {
+        const appointment = appointments.find(
+            item => Number(item.id) === Number(appointmentId)
+        );
+
+        if (appointment && appointment.patient_id) {
+            openConsultationForm(
+                appointment.id,
+                appointment.patient_id
+            );
+        }
+
+        return;
+    }
+
+    if (action === "join") {
+        const appointment = appointments.find(
+            item => Number(item.id) === Number(appointmentId)
+        );
+
+        if (
+            appointment &&
+            appointment.patient_id &&
+            appointment.meeting_room
+        ) {
+            joinConsultation(
+                appointment.id,
+                appointment.patient_id,
+                appointment.meeting_room
+            );
+        }
+
+        return;
+    }
+}
+
+function renderMobileAppointmentCards(list) {
+
+    const container =
+        document.getElementById("mobileAppointments");
+
+    if (!container) {
+        return;
+    }
+
+    if (!list.length) {
+        container.innerHTML = `
+            <div class="ft-mobile-empty">
+                No appointments found.
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = list.map((appointment, index) => {
+
+        const status =
+            appointment.status || "Pending";
+
+        const statusClass =
+            status.toLowerCase().replace(/\s+/g, "-");
+
+        const patientName =
+            appointment.name ||
+            appointment.patient_name ||
+            "Unknown patient";
+
+        const doctor =
+            appointment.doctor ||
+            appointment.doctor_name ||
+            "Not assigned";
+
+        const date =
+            appointment.appointment_date
+                ? String(appointment.appointment_date).substring(0, 10)
+                : "Not scheduled";
+
+        const time =
+            appointment.appointment_time ||
+            "Not set";
+
+        const menuId =
+            `mobileAppointmentMenu_${appointment.id}_${index}`;
+
+        let primaryAction = "";
+
+        if (
+            status === "Confirmed" &&
+            appointment.meeting_room
+        ) {
+            primaryAction = `
+                <button
+                    type="button"
+                    class="ft-mobile-primary-action"
+                    onclick="mobileAppointmentAction('join', ${appointment.id})"
+                >
+                    Join Consultation
+                </button>
+            `;
+        }
+        else if (
+            status === "Confirmed" &&
+            appointment.patient_id
+        ) {
+            primaryAction = `
+                <button
+                    type="button"
+                    class="ft-mobile-primary-action"
+                    onclick="mobileAppointmentAction('consultation', ${appointment.id})"
+                >
+                    Clinical Consultation
+                </button>
+            `;
+        }
+        else if (status === "Pending") {
+            primaryAction = `
+                <button
+                    type="button"
+                    class="ft-mobile-confirm-action"
+                    onclick="mobileAppointmentAction('confirm', ${appointment.id})"
+                >
+                    Confirm
+                </button>
+            `;
+        }
+
+        let menuItems = `
+            <button
+                type="button"
+                onclick="mobileAppointmentAction('view', ${appointment.id})"
+            >
+                View
+            </button>
+
+            <button
+                type="button"
+                onclick="mobileAppointmentAction('edit', ${appointment.id})"
+            >
+                Edit
+            </button>
+        `;
+
+        if (status === "Pending") {
+            menuItems += `
+                <button
+                    type="button"
+                    onclick="mobileAppointmentAction('cancel', ${appointment.id})"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    onclick="mobileAppointmentAction('complete', ${appointment.id})"
+                >
+                    Complete
+                </button>
+            `;
+        }
+
+        if (status === "Confirmed") {
+
+            if (appointment.patient_id) {
+                menuItems += `
+                    <button
+                        type="button"
+                        onclick="mobileAppointmentAction('consultation', ${appointment.id})"
+                    >
+                        Clinical Consultation
+                    </button>
+                `;
+            }
+
+            if (appointment.meeting_room) {
+                menuItems += `
+                    <button
+                        type="button"
+                        onclick="mobileAppointmentAction('join', ${appointment.id})"
+                    >
+                        Join Consultation
+                    </button>
+                `;
+            }
+
+            menuItems += `
+                <button
+                    type="button"
+                    onclick="mobileAppointmentAction('cancel', ${appointment.id})"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    onclick="mobileAppointmentAction('complete', ${appointment.id})"
+                >
+                    Complete
+                </button>
+            `;
+        }
+
+        menuItems += `
+            <button
+                type="button"
+                class="ft-danger"
+                onclick="mobileAppointmentAction('delete', ${appointment.id})"
+            >
+                Delete
+            </button>
+        `;
+
+        return `
+            <article class="ft-mobile-appointment-card">
+
+                <div class="ft-mobile-card-top">
+
+                    <div>
+                        <div class="ft-mobile-patient-name">
+                            ${escapeHtml(patientName)}
+                        </div>
+
+                        <div class="ft-mobile-patient-id">
+                            Patient ID: ${escapeHtml(String(
+                                appointment.patient_id ||
+                                appointment.id ||
+                                ""
+                            ))}
+                        </div>
+                    </div>
+
+                    <span class="ft-mobile-status ft-mobile-status-${statusClass}">
+                        ${escapeHtml(status)}
+                    </span>
+
+                </div>
+
+                <div class="ft-mobile-details">
+
+                    <div class="ft-mobile-detail">
+                        <strong>Doctor:</strong>
+                        ${escapeHtml(doctor)}
+                    </div>
+
+                    <div class="ft-mobile-detail">
+                        <strong>Date:</strong>
+                        ${escapeHtml(date)}
+                    </div>
+
+                    <div class="ft-mobile-detail">
+                        <strong>Time:</strong>
+                        ${escapeHtml(String(time))}
+                    </div>
+
+                </div>
+
+                <div class="ft-mobile-actions">
+
+                    ${primaryAction}
+
+                    <div class="ft-mobile-more-wrap">
+
+                        <button
+                            type="button"
+                            class="ft-mobile-more"
+                            onclick="toggleMobileAppointmentMenu('${menuId}')"
+                            aria-label="More appointment actions"
+                        >
+                            More ⋮
+                        </button>
+
+                        <div
+                            id="${menuId}"
+                            class="ft-mobile-menu"
+                        >
+                            ${menuItems}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+        `;
+
+    }).join("");
+}
 
 function renderAppointments(
     list
@@ -4117,6 +4713,7 @@ if (status === "Confirmed" && appointment.patient_id) {
 
             }
         ).join("");
+    renderMobileAppointmentCards(list);
 
 }
 
@@ -5971,6 +6568,11 @@ async function joinConsultation(
 </body>
 
 </html>
+
+
+
+
+
 
 
 

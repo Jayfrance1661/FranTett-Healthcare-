@@ -5173,6 +5173,1427 @@ input[data-field="recorded_by"] {
         white-space: normal !important;
     }
 }
+</style><style id="frantett-mobile-patient-cards">
+/* ============================================================
+   FRANTETT MOBILE PATIENT CARDS
+   Desktop patient table remains unchanged.
+   ============================================================ */
+
+#mobilePatients {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    .table-wrapper {
+        display: none !important;
+    }
+
+    #mobilePatients {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 4px;
+    }
+
+    .ft-mobile-patient-card {
+        width: 100%;
+        box-sizing: border-box;
+        background: #ffffff;
+        border: 1px solid #dce5e9;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 3px 12px rgba(20,45,55,.08);
+    }
+
+    .ft-mobile-patient-name {
+        font-size: 17px;
+        font-weight: 700;
+        color: #17343d;
+        margin-bottom: 6px;
+    }
+
+    .ft-mobile-patient-id {
+        font-size: 13px;
+        color: #687b83;
+        margin-bottom: 12px;
+    }
+
+    .ft-mobile-patient-details {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 7px;
+        margin-bottom: 15px;
+    }
+
+    .ft-mobile-patient-detail {
+        font-size: 13px;
+        color: #40555f;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .ft-mobile-patient-detail strong {
+        color: #17343d;
+        font-weight: 700;
+    }
+
+    .ft-mobile-patient-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+        z-index: 20;
+    }
+
+    .ft-mobile-view-patient,
+    .ft-mobile-more {
+        min-height: 44px;
+        border-radius: 8px;
+        padding: 0 15px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+
+    .ft-mobile-view-patient {
+        background: #0b6b50;
+        color: #ffffff;
+        border: 1px solid #0b6b50;
+        flex: 1 1 auto;
+    }
+
+    .ft-mobile-more-wrap {
+        position: relative;
+        flex: 0 0 auto;
+        z-index: 30;
+    }
+
+    .ft-mobile-more {
+        min-width: 82px;
+        background: #f5f7f8;
+        color: #40555f;
+        border: 1px solid #dce4e8;
+    }
+
+    .ft-mobile-menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        bottom: calc(100% + 7px);
+        z-index: 1000;
+        width: 180px;
+        max-width: calc(100vw - 28px);
+        background: #ffffff;
+        border: 1px solid #dce5e9;
+        border-radius: 11px;
+        box-shadow: 0 8px 25px rgba(20,45,55,.16);
+        padding: 6px;
+        box-sizing: border-box;
+    }
+
+    .ft-mobile-menu.open {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .ft-mobile-menu button {
+        width: 100%;
+        min-height: 42px;
+        border: 0;
+        border-radius: 7px;
+        background: #ffffff;
+        color: #304b55;
+        text-align: left;
+        padding: 8px 11px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .ft-mobile-menu button:hover {
+        background: #f1f6f4;
+    }
+
+    .ft-mobile-menu .danger {
+        color: #b42318;
+    }
+
+    .ft-mobile-empty {
+        padding: 22px 16px;
+        text-align: center;
+        color: #687b83;
+        background: #ffffff;
+        border: 1px solid #dce5e9;
+        border-radius: 12px;
+    }
+
+    .top-actions .primary-btn {
+        width: 100% !important;
+        min-height: 50px !important;
+        height: 50px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        margin: 0 0 16px 0 !important;
+        background: #0b6b50 !important;
+        color: #ffffff !important;
+        border-color: #0b6b50 !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+    }
+}
+
+@media (min-width: 769px) {
+    #mobilePatients {
+        display: none !important;
+    }
+}
+</style>
+<style id="frantett-mobile-nav">
+.ft-mobile-nav-toggle {
+    display: none;
+    border: 0;
+    background: transparent;
+    color: #ffffff;
+    font-size: 27px;
+    line-height: 1;
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+    padding: 0;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.ft-mobile-nav-toggle:hover {
+    background: rgba(255,255,255,.12);
+}
+
+@media (max-width: 700px) {
+
+    nav {
+        position: relative !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 12px 16px !important;
+        box-sizing: border-box !important;
+    }
+
+    nav .logo {
+        font-size: 20px !important;
+        line-height: 1.2 !important;
+    }
+
+    .ft-mobile-nav-toggle {
+        display: flex !important;
+        flex: 0 0 46px !important;
+    }
+
+    nav .links {
+        display: none !important;
+        position: absolute !important;
+        top: calc(100% + 4px) !important;
+        left: 10px !important;
+        right: 10px !important;
+        width: auto !important;
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+        gap: 0 !important;
+        background: #ffffff !important;
+        border: 1px solid #dce5e9 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 10px 28px rgba(20,45,55,.18) !important;
+        padding: 6px !important;
+        z-index: 9999 !important;
+        box-sizing: border-box !important;
+    }
+
+    nav .links.ft-mobile-nav-open {
+        display: flex !important;
+    }
+
+    nav .links a {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        min-height: 46px !important;
+        padding: 11px 14px !important;
+        box-sizing: border-box !important;
+        color: #29434d !important;
+        text-decoration: none !important;
+        border-radius: 8px !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+    }
+
+    nav .links a:hover,
+    nav .links a:focus {
+        background: #f0f7f4 !important;
+        color: #0b6b50 !important;
+    }
+}
+</style>
+<style id="frantett-patient-profile-v2">
+
+/* =========================================================
+   FRANTETT PATIENT PROFILE V2
+   Visual redesign only - existing functionality preserved
+   ========================================================= */
+
+.patient-profile-modal {
+    background: #f6f9f8 !important;
+    border-radius: 18px !important;
+    padding: 26px !important;
+    max-width: 1180px !important;
+    width: min(1180px, calc(100vw - 40px)) !important;
+    box-shadow: 0 20px 55px rgba(18, 52, 43, 0.18) !important;
+    border: 1px solid #dfeae6 !important;
+}
+
+/* Top heading */
+.patient-profile-modal > h2 {
+    margin: 0 0 18px 0 !important;
+    color: #173d33 !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+}
+
+/* Close button */
+.patient-profile-modal .close-modal {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    background: #eef5f2 !important;
+    color: #31584e !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 25px !important;
+    line-height: 1 !important;
+    transition: .2s ease !important;
+}
+
+.patient-profile-modal .close-modal:hover {
+    background: #0b6b4f !important;
+    color: #fff !important;
+}
+
+/* Print button */
+.patient-profile-modal > .top-actions {
+    display: flex !important;
+    justify-content: flex-end !important;
+    margin-bottom: 18px !important;
+}
+
+.patient-profile-modal > .top-actions .primary-btn {
+    background: #0b6b4f !important;
+    border-color: #0b6b4f !important;
+    color: #fff !important;
+    min-height: 44px !important;
+    border-radius: 9px !important;
+    font-weight: 700 !important;
+    padding: 10px 17px !important;
+}
+
+/* =========================================================
+   PATIENT IDENTITY HEADER
+   ========================================================= */
+
+.patient-profile-modal .patient-header {
+    position: relative !important;
+    background: linear-gradient(135deg, #0b6b4f 0%, #095b45 100%) !important;
+    color: #fff !important;
+    border-radius: 16px !important;
+    padding: 24px 26px !important;
+    margin-bottom: 20px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 24px rgba(11, 107, 79, .16) !important;
+}
+
+.patient-profile-modal .patient-header::before {
+    content: attr(data-initials) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    float: left !important;
+    width: 68px !important;
+    height: 68px !important;
+    margin-right: 18px !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.16) !important;
+    border: 2px solid rgba(255,255,255,.35) !important;
+    color: #fff !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+}
+
+/* Patient name */
+.patient-profile-modal #viewName {
+    margin: 0 !important;
+    padding-top: 4px !important;
+    color: #fff !important;
+    font-size: 27px !important;
+    font-weight: 800 !important;
+    letter-spacing: -.2px !important;
+}
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.patient-profile-modal > .patient-header + .info-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+}
+
+.patient-profile-modal > .patient-header + .info-grid .info-card {
+    background: #fff !important;
+    border: 1px solid #e0eae6 !important;
+    border-radius: 13px !important;
+    padding: 16px !important;
+    min-height: 78px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    box-shadow: 0 3px 12px rgba(18,52,43,.05) !important;
+}
+
+.patient-profile-modal > .patient-header + .info-grid .info-card strong {
+    order: 2 !important;
+    color: #687b75 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: .55px !important;
+    line-height: 1.35 !important;
+}
+
+.patient-profile-modal > .patient-header + .info-grid .info-card span {
+    order: 1 !important;
+    color: #0b6b4f !important;
+    font-size: 25px !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    margin-bottom: 5px !important;
+}
+
+/* =========================================================
+   PERSONAL INFORMATION
+   ========================================================= */
+
+.patient-profile-modal .patient-header + .info-grid + .info-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 22px !important;
+}
+
+.patient-profile-modal .patient-header + .info-grid + .info-grid .info-card {
+    background: #fff !important;
+    border: 1px solid #e1e9e6 !important;
+    border-radius: 12px !important;
+    padding: 15px 16px !important;
+    min-height: 76px !important;
+    box-shadow: 0 2px 9px rgba(18,52,43,.04) !important;
+}
+
+.patient-profile-modal .patient-header + .info-grid + .info-grid .info-card strong {
+    display: block !important;
+    color: #70817c !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: .5px !important;
+    margin-bottom: 7px !important;
+}
+
+.patient-profile-modal .patient-header + .info-grid + .info-grid .info-card span {
+    display: block !important;
+    color: #203d35 !important;
+    font-size: 14px !important;
+    font-weight: 650 !important;
+    overflow-wrap: anywhere !important;
+}
+
+/* Address should have room */
+.patient-profile-modal .patient-header + .info-grid + .info-grid .info-card:last-child {
+    grid-column: span 2 !important;
+}
+
+/* =========================================================
+   ALL PROFILE SECTIONS
+   ========================================================= */
+
+.patient-profile-modal .section {
+    background: #fff !important;
+    border: 1px solid #e1e9e6 !important;
+    border-radius: 15px !important;
+    padding: 20px !important;
+    margin-top: 16px !important;
+    box-shadow: 0 3px 13px rgba(18,52,43,.045) !important;
+}
+
+.patient-profile-modal .section > .top-actions {
+    margin-bottom: 16px !important;
+    padding-bottom: 12px !important;
+    border-bottom: 1px solid #edf1ef !important;
+}
+
+.patient-profile-modal .section > .top-actions h3 {
+    color: #183f34 !important;
+    background: transparent !important;
+    border-left: 4px solid #0b6b4f !important;
+    padding: 5px 0 5px 11px !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+}
+
+/* Section buttons */
+.patient-profile-modal .section .primary-btn {
+    background: #0b6b4f !important;
+    border-color: #0b6b4f !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    min-height: 42px !important;
+    font-weight: 700 !important;
+}
+
+/* =========================================================
+   CLINICAL SUMMARY
+   ========================================================= */
+
+.patient-profile-modal .section:has(#medicalHistory),
+.patient-profile-modal .section:has(#patientMedicalHistory) {
+    background: #fbfdfc !important;
+}
+
+/* Existing clinical item/card elements */
+.patient-profile-modal .clinical-item {
+    background: #f8fbfa !important;
+    border: 1px solid #e5eeeb !important;
+    border-radius: 10px !important;
+    padding: 13px 15px !important;
+}
+
+.patient-profile-modal .clinical-item strong {
+    color: #49655d !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: .35px !important;
+}
+
+.patient-profile-modal .clinical-value {
+    color: #243c35 !important;
+    margin-top: 6px !important;
+    line-height: 1.55 !important;
+}
+
+/* =========================================================
+   CONSULTATION RECORDS
+   ========================================================= */
+
+.patient-profile-modal .consultation-card,
+.patient-profile-modal .clinical-record,
+.patient-profile-modal .record-card {
+    background: #fff !important;
+    border: 1px solid #dfe9e5 !important;
+    border-left: 4px solid #0b6b4f !important;
+    border-radius: 11px !important;
+    margin-bottom: 14px !important;
+    padding: 17px !important;
+    box-shadow: 0 2px 9px rgba(18,52,43,.04) !important;
+}
+
+.patient-profile-modal .consultation-card h4,
+.patient-profile-modal .clinical-record h4,
+.patient-profile-modal .record-card h4 {
+    color: #173f34 !important;
+}
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+.patient-profile-modal table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    overflow: hidden !important;
+    border: 1px solid #e1e9e6 !important;
+    border-radius: 10px !important;
+}
+
+.patient-profile-modal table th {
+    background: #f1f7f4 !important;
+    color: #35564c !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: .35px !important;
+    font-weight: 800 !important;
+}
+
+.patient-profile-modal table td,
+.patient-profile-modal table th {
+    border-bottom: 1px solid #edf1ef !important;
+    padding: 11px 12px !important;
+    vertical-align: middle !important;
+}
+
+.patient-profile-modal table tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .patient-profile-modal {
+        width: calc(100vw - 16px) !important;
+        max-width: none !important;
+        padding: 15px !important;
+        border-radius: 14px !important;
+    }
+
+    .patient-profile-modal > h2 {
+        font-size: 21px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .patient-profile-modal > .top-actions {
+        margin-bottom: 13px !important;
+    }
+
+    .patient-profile-modal > .top-actions .primary-btn {
+        width: 100% !important;
+        min-height: 46px !important;
+    }
+
+    .patient-profile-modal .patient-header {
+        padding: 20px !important;
+        border-radius: 14px !important;
+    }
+
+    .patient-profile-modal .patient-header::before {
+        width: 56px !important;
+        height: 56px !important;
+        margin-right: 13px !important;
+        font-size: 18px !important;
+    }
+
+    .patient-profile-modal #viewName {
+        font-size: 22px !important;
+        padding-top: 3px !important;
+    }
+
+    .patient-profile-modal > .patient-header + .info-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 9px !important;
+    }
+
+    .patient-profile-modal > .patient-header + .info-grid .info-card {
+        min-height: 70px !important;
+        padding: 12px !important;
+    }
+
+    .patient-profile-modal > .patient-header + .info-grid .info-card span {
+        font-size: 22px !important;
+    }
+
+    .patient-profile-modal .patient-header + .info-grid + .info-grid {
+        grid-template-columns: 1fr !important;
+        gap: 9px !important;
+    }
+
+    .patient-profile-modal .patient-header + .info-grid + .info-grid .info-card:last-child {
+        grid-column: auto !important;
+    }
+
+    .patient-profile-modal .section {
+        padding: 15px !important;
+        border-radius: 13px !important;
+    }
+
+    .patient-profile-modal .section > .top-actions {
+        gap: 10px !important;
+    }
+
+    .patient-profile-modal .section > .top-actions h3 {
+        font-size: 16px !important;
+    }
+
+    .patient-profile-modal .section .primary-btn {
+        width: 100% !important;
+        min-height: 44px !important;
+    }
+
+    .patient-profile-modal table {
+        display: block !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+    }
+
+    .patient-profile-modal .clinical-item {
+        padding: 12px !important;
+    }
+}
+
+/* =========================================================
+   PRINT - preserve existing print behavior
+   ========================================================= */
+
+@media print {
+    .patient-profile-modal {
+        background: #fff !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+}
+
+</style>
+<style id="frantett-profile-fullscreen-mobile">
+@media (max-width:768px){
+    #viewPatientModal{
+        padding:0!important;
+        margin:0!important;
+        width:100vw!important;
+    }
+
+    #viewPatientModal .patient-profile-modal,
+    #viewPatientModal .modal-content{
+        width:100vw!important;
+        max-width:100vw!important;
+        min-width:100vw!important;
+        margin:0!important;
+        border-radius:0!important;
+        box-sizing:border-box!important;
+    }
+
+    #viewPatientModal .patient-profile-modal{
+        padding-left:12px!important;
+        padding-right:12px!important;
+    }
+}
+</style><style id="frantett-clinical-sections-wide-mobile">
+@media (max-width:768px){
+
+    /* Give the clinical sections more usable screen width */
+    #viewPatientModal .patient-profile-modal{
+        padding-left:6px!important;
+        padding-right:6px!important;
+    }
+
+    /* Clinical consultation and sections below */
+    #viewPatientModal .patient-profile-modal .clinical-section,
+    #viewPatientModal .patient-profile-modal .clinical-item,
+    #viewPatientModal .patient-profile-modal .clinical-record,
+    #viewPatientModal .patient-profile-modal .clinical-record-card,
+    #viewPatientModal .patient-profile-modal .clinical-consultation,
+    #viewPatientModal .patient-profile-modal .section:has(#consultationHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#labReportsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory){
+        width:100%!important;
+        max-width:none!important;
+        box-sizing:border-box!important;
+    }
+
+    /* Consultation details */
+    #viewPatientModal .clinical-item{
+        padding-left:10px!important;
+        padding-right:10px!important;
+    }
+
+    /* Tables below the consultation */
+    #viewPatientModal .patient-profile-modal table{
+        width:100%!important;
+        max-width:none!important;
+        box-sizing:border-box!important;
+    }
+
+    #viewPatientModal .patient-profile-modal .table-wrapper{
+        width:100%!important;
+        max-width:none!important;
+        overflow-x:auto!important;
+        box-sizing:border-box!important;
+    }
+
+    /* Lab and prescription cards */
+    #viewPatientModal .patient-profile-modal .record-card,
+    #viewPatientModal .patient-profile-modal .clinical-card{
+        width:100%!important;
+        max-width:none!important;
+        box-sizing:border-box!important;
+    }
+
+    /* Keep buttons usable without wasting horizontal space */
+    #viewPatientModal .patient-profile-modal .record-actions{
+        width:100%!important;
+        box-sizing:border-box!important;
+        flex-wrap:wrap!important;
+    }
+}
+</style><style id="frantett-clinical-outer-card-wide">
+@media (max-width:768px){
+
+    /* Remove excess horizontal space from the main profile container */
+    #viewPatientModal .patient-profile-modal{
+        padding-left:2px!important;
+        padding-right:2px!important;
+    }
+
+    /* Make the large clinical section containers nearly edge-to-edge */
+    #viewPatientModal .patient-profile-modal .section:has(#consultationHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#labReportsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory){
+        width:100%!important;
+        max-width:none!important;
+        margin-left:0!important;
+        margin-right:0!important;
+        padding-left:8px!important;
+        padding-right:8px!important;
+        box-sizing:border-box!important;
+    }
+
+    /* Consultation cards fill the available clinical area */
+    #viewPatientModal .patient-profile-modal .section:has(#consultationHistory) .clinical-item,
+    #viewPatientModal .patient-profile-modal .section:has(#consultationHistory) .clinical-record,
+    #viewPatientModal .patient-profile-modal .section:has(#consultationHistory) .clinical-record-card{
+        width:100%!important;
+        max-width:none!important;
+        box-sizing:border-box!important;
+    }
+
+    /* Lower clinical tables/cards use the full available width */
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory) table,
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryRequestsHistory) table,
+    #viewPatientModal .patient-profile-modal .section:has(#labReportsHistory) table,
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) table{
+        width:100%!important;
+        max-width:none!important;
+    }
+
+    /* Prevent inner wrappers from creating another narrow layer */
+    #viewPatientModal .patient-profile-modal .section:has(#consultationHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryRequestsHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#labReportsHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) > *{
+        max-width:100%!important;
+        box-sizing:border-box!important;
+    }
+}
+</style>
+<!-- frantett-last-outer-card-fix -->
+<style id="frantett-last-outer-card-fix">
+@media (max-width:768px){
+
+    /* Remove the remaining large background card behind the clinical cards */
+    #viewPatientModal .patient-profile-modal {
+        background:transparent !important;
+        border:none !important;
+        box-shadow:none !important;
+    }
+
+    /* Keep the actual clinical sections visually separated */
+    #viewPatientModal .patient-profile-modal .section:has(#consultationHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#labReportsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) {
+        background:transparent !important;
+        border:none !important;
+        box-shadow:none !important;
+    }
+
+    /* Make the real cards sit directly on the page */
+    #viewPatientModal .patient-profile-modal .clinical-item,
+    #viewPatientModal .patient-profile-modal .clinical-record,
+    #viewPatientModal .patient-profile-modal .clinical-record-card {
+        position:relative !important;
+        z-index:2 !important;
+    }
+}
+</style>
+<!-- frantett-profile-edge-to-edge -->
+<style id="frantett-profile-edge-to-edge">
+@media (max-width:768px){
+
+    html,
+    body {
+        width:100% !important;
+        max-width:100% !important;
+        margin:0 !important;
+        padding:0 !important;
+        overflow-x:hidden !important;
+    }
+
+    #viewPatientModal {
+        width:100vw !important;
+        max-width:100vw !important;
+        min-width:100vw !important;
+        margin:0 !important;
+        padding:0 !important;
+        left:0 !important;
+        right:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    #viewPatientModal .patient-profile-modal {
+        width:100vw !important;
+        max-width:100vw !important;
+        min-width:100vw !important;
+        margin:0 !important;
+        padding-left:0 !important;
+        padding-right:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    #viewPatientModal .patient-profile-modal > * {
+        max-width:100% !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Keep a small readable internal padding only where needed */
+    #viewPatientModal .patient-profile-modal .section,
+    #viewPatientModal .patient-profile-modal .clinical-item,
+    #viewPatientModal .patient-profile-modal .clinical-record,
+    #viewPatientModal .patient-profile-modal .clinical-record-card {
+        box-sizing:border-box !important;
+    }
+}
+</style>
+<!-- frantett-clinical-sections-full-width -->
+<style id="frantett-clinical-sections-full-width">
+@media (max-width:768px){
+
+    /* Clinical Consultation Records and everything below */
+    #viewPatientModal .patient-profile-modal .section:has(#consultationHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#labReportsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) {
+
+        width:100vw !important;
+        max-width:100vw !important;
+        min-width:100vw !important;
+
+        margin-left:0 !important;
+        margin-right:0 !important;
+
+        padding-left:0 !important;
+        padding-right:0 !important;
+
+        border-radius:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Remove the horizontal inset from the contents */
+    #viewPatientModal .patient-profile-modal .section:has(#consultationHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryRequestsHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#labReportsHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) > * {
+
+        max-width:100% !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Clinical records/cards use the available screen width */
+    #viewPatientModal .patient-profile-modal .clinical-item,
+    #viewPatientModal .patient-profile-modal .clinical-record,
+    #viewPatientModal .patient-profile-modal .clinical-record-card {
+
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+
+        margin-left:0 !important;
+        margin-right:0 !important;
+
+        box-sizing:border-box !important;
+    }
+
+    /* Tables and their wrappers */
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory) table,
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryRequestsHistory) table,
+    #viewPatientModal .patient-profile-modal .section:has(#labReportsHistory) table,
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) table {
+
+        width:100% !important;
+        max-width:100% !important;
+        box-sizing:border-box !important;
+    }
+
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory) .table-wrapper,
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryRequestsHistory) .table-wrapper,
+    #viewPatientModal .patient-profile-modal .section:has(#labReportsHistory) .table-wrapper,
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) .table-wrapper {
+
+        width:100% !important;
+        max-width:100% !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        box-sizing:border-box !important;
+    }
+}
+</style>
+<!-- frantett-lab-report-spacing -->
+<style id="frantett-lab-report-spacing">
+
+/* Space between separate Laboratory Reports */
+.lab-report-card {
+    margin-bottom: 24px !important;
+}
+
+/* Slightly more separation when one report follows another */
+.lab-report-card + .lab-report-card {
+    margin-top: 24px !important;
+}
+
+/* Keep the final report from creating unnecessary extra space */
+.lab-report-card:last-child {
+    margin-bottom: 0 !important;
+}
+
+@media (max-width:768px) {
+
+    .lab-report-card {
+        margin-bottom: 20px !important;
+    }
+
+    .lab-report-card + .lab-report-card {
+        margin-top: 20px !important;
+    }
+
+    .lab-report-card:last-child {
+        margin-bottom: 0 !important;
+    }
+}
+
+</style>
+<!-- frantett-lab-report-spacing-increase -->
+<style id="frantett-lab-report-spacing-increase">
+.lab-report-card + .lab-report-card {
+    margin-top: 32px !important;
+}
+
+@media (max-width:768px) {
+    .lab-report-card + .lab-report-card {
+        margin-top: 28px !important;
+    }
+}
+</style><style id="frantett-lab-report-spacing-more">
+/* FranTett - More spacing between separate Laboratory Reports */
+.lab-report-card + .lab-report-card {
+    margin-top: 40px !important;
+}
+
+@media (max-width:768px) {
+    .lab-report-card + .lab-report-card {
+        margin-top: 34px !important;
+    }
+}
+</style><style id="frantett-request-report-prescription-full-width">
+/* FranTett - Full-width clinical records on mobile */
+@media (max-width:768px) {
+
+    /* Laboratory Requests */
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryRequestsHistory),
+
+    /* Laboratory Reports */
+    #viewPatientModal .patient-profile-modal .section:has(#labReportsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryReportsHistory),
+
+    /* Prescriptions */
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionsHistory) {
+        width:100vw !important;
+        max-width:100vw !important;
+        min-width:100vw !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        padding-left:0 !important;
+        padding-right:0 !important;
+        border-radius:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Inner content */
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryRequestsHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#labReportsHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#laboratoryReportsHistory) > *,
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) > * {
+        max-width:100% !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Request/report/prescription cards */
+    #viewPatientModal .lab-request-card,
+    #viewPatientModal .lab-report-card,
+    #viewPatientModal .prescription-card {
+        width:100% !important;
+        max-width:100% !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Tables and table wrappers */
+    #viewPatientModal .lab-table-wrapper,
+    #viewPatientModal .lab-results-table,
+    #viewPatientModal .lab-request-table,
+    #viewPatientModal .prescription-table {
+        width:100% !important;
+        max-width:100% !important;
+        box-sizing:border-box !important;
+    }
+}
+</style><style id="frantett-request-report-prescription-edge-fix">
+/* FranTett - Remove remaining mobile side margins */
+
+@media (max-width:768px) {
+
+    /* Laboratory Results / Reports */
+    #viewPatientModal .patient-profile-modal .section:has(#labResultsHistory),
+
+    /* Laboratory Requests */
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+
+    /* Prescription Records */
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) {
+        width: calc(100% + 24px) !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        margin-left: -12px !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Make the actual record containers fill the section */
+    #viewPatientModal #labResultsHistory,
+    #viewPatientModal #labRequestsHistory,
+    #viewPatientModal #prescriptionHistory {
+        width: 100% !important;
+        max-width: none !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Records themselves */
+    #viewPatientModal #labResultsHistory .lab-report-card,
+    #viewPatientModal #labRequestsHistory .lab-request-card,
+    #viewPatientModal #prescriptionHistory .prescription-card {
+        width: 100% !important;
+        max-width: none !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+}
+</style><style id="frantett-clinical-cards-screen-fit">
+
+/* FranTett - Make clinical record sections use the full mobile screen */
+
+@media (max-width:768px) {
+
+    #viewPatientModal .patient-profile-modal {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#labResultsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        min-width: 100vw !important;
+
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+
+        box-sizing: border-box !important;
+    }
+
+    /* Keep the section headings aligned with the screen */
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory) > .top-actions,
+    #viewPatientModal .patient-profile-modal .section:has(#labResultsHistory) > .top-actions,
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) > .top-actions {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Actual records fill the available width */
+    #viewPatientModal #labRequestsHistory,
+    #viewPatientModal #labResultsHistory,
+    #viewPatientModal #prescriptionHistory {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    #viewPatientModal #labRequestsHistory > *,
+    #viewPatientModal #labResultsHistory > *,
+    #viewPatientModal #prescriptionHistory > * {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Do not remove the cards' own internal spacing */
+    #viewPatientModal .lab-request-card,
+    #viewPatientModal .lab-report-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+}
+</style><style id="frantett-clinical-viewport-fix">
+
+/* FranTett - clinical records flush to mobile viewport */
+
+@media (max-width:768px) {
+
+    /* Remove the profile's horizontal constraint */
+    #viewPatientModal .patient-profile-modal {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        box-sizing: border-box !important;
+        overflow-x: visible !important;
+    }
+
+    /* Make the three clinical sections span the actual viewport */
+    #viewPatientModal .patient-profile-modal > .section:has(#labResultsHistory),
+    #viewPatientModal .patient-profile-modal > .section:has(#labRequestsHistory),
+    #viewPatientModal .patient-profile-modal > .section:has(#prescriptionHistory) {
+        position: relative !important;
+
+        left: calc(50% - 50vw) !important;
+
+        width: 100vw !important;
+        max-width: 100vw !important;
+        min-width: 100vw !important;
+
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+
+        box-sizing: border-box !important;
+        border-left: 0 !important;
+        border-right: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    /* Make the actual records use the available width */
+    #viewPatientModal #labResultsHistory,
+    #viewPatientModal #labRequestsHistory,
+    #viewPatientModal #prescriptionHistory {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Report/request cards fill the section */
+    #viewPatientModal #labResultsHistory .lab-report-card,
+    #viewPatientModal #labRequestsHistory .lab-request-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Prescription records also fill the section */
+    #viewPatientModal #prescriptionHistory > * {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+}
+
+</style><style id="frantett-lab-inner-spacing-final">
+/* =========================================================
+   FRANTETT LAB / PRESCRIPTION INNER WIDTH FIX
+   Does NOT modify Clinical Consultation
+   ========================================================= */
+
+/* The three affected profile sections */
+#viewPatientModal .patient-profile-modal .section:has(#labResultsHistory),
+#viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+#viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    box-sizing: border-box !important;
+}
+
+/* Laboratory Results */
+#viewPatientModal #labResultsHistory {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#viewPatientModal #labResultsHistory .lab-report-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#viewPatientModal #labResultsHistory .lab-table-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#viewPatientModal #labResultsHistory .lab-results-table {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Laboratory Requests */
+#viewPatientModal #labRequestsHistory {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#viewPatientModal #labRequestsHistory .lab-request-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#viewPatientModal #labRequestsHistory .lab-request-card-header,
+#viewPatientModal #labRequestsHistory .lab-request-card-body,
+#viewPatientModal #labRequestsHistory .lab-request-card-footer {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    box-sizing: border-box !important;
+}
+
+/* Prescription Records */
+#viewPatientModal #prescriptionHistory {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#viewPatientModal #prescriptionHistory .clinical-record {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#viewPatientModal #prescriptionHistory .prescription-table-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#viewPatientModal #prescriptionHistory .prescription-entry-table {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Phone: use the available width without creating a new outer margin */
+@media (max-width:700px) {
+    #viewPatientModal .patient-profile-modal .section:has(#labResultsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) {
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+    }
+
+    #viewPatientModal #labRequestsHistory .lab-request-card-header,
+    #viewPatientModal #labRequestsHistory .lab-request-card-body,
+    #viewPatientModal #labRequestsHistory .lab-request-card-footer {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}
+</style><style id="frantett-remove-lab-outer-containers">
+/* =========================================================
+   FRANTETT - REMOVE OUTER CONTAINERS
+   Laboratory Results / Laboratory Requests / Prescriptions
+   Clinical Consultation is NOT touched.
+   ========================================================= */
+
+#viewPatientModal .patient-profile-modal .section:has(#labResultsHistory),
+#viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+#viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Keep the actual content cards visible and intact */
+#viewPatientModal #labResultsHistory,
+#viewPatientModal #labRequestsHistory,
+#viewPatientModal #prescriptionHistory {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Preserve individual report/request/prescription cards */
+#viewPatientModal #labResultsHistory .lab-report-card,
+#viewPatientModal #labRequestsHistory .lab-request-card,
+#viewPatientModal #prescriptionHistory .clinical-record {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
 </style></head>
 
 <body>
@@ -5182,6 +6603,15 @@ input[data-field="recorded_by"] {
     <div class="logo">
         FranTett Healthcare
     </div>
+<button
+    type="button"
+    class="ft-mobile-nav-toggle"
+    id="ftMobileNavToggle"
+    aria-label="Open navigation menu"
+    aria-expanded="false"
+>
+    ☰
+</button>
 
     <div class="links">
 
@@ -5301,6 +6731,7 @@ input[data-field="recorded_by"] {
         </table>
 
     </div>
+<div id="mobilePatients" aria-label="Mobile patient records"></div>
 
 </div>
 
@@ -5491,353 +6922,484 @@ input[data-field="recorded_by"] {
     id="viewPatientModal"
     class="modal"
 >
+    <div class="modal-content large-modal patient-profile-modal frantett-emr-profile">
 
-    <div class="modal-content large-modal patient-profile-modal">
+        <!-- PROFILE HEADER -->
+        <div class="emr-profile-topbar">
+            <div>
+                <div class="emr-brand">FranTett Healthcare</div>
+                <div class="emr-profile-title">Patient Profile</div>
+                <div class="emr-profile-subtitle">
+                    Electronic Medical Record
+                </div>
+            </div>
 
-        <span
-            class="close-modal"
-            onclick="closeViewPatientModal()"
-        >
-            &times;
-        </span>
+            <div class="emr-profile-actions">
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    onclick="printPatientRecord()"
+                >
+                    Print Record
+                </button>
 
-        <h2>Patient Profile</h2>
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="editPatient(currentPatientId)"
+                >
+                    Edit Patient
+                </button>
 
-        <div class="top-actions">
-    <button
-        type="button"
-        class="primary-btn"
-        onclick="printPatientRecord()"
-    >
-        Print Patient Record
-    </button>
-</div>
+                <button
+                    type="button"
+                    class="close-modal emr-close"
+                    onclick="closeViewPatientModal()"
+                    aria-label="Close patient profile"
+                >
+                    &times;
+                </button>
+            </div>
+        </div>
 
-        <div class="patient-header">
+        <!-- PATIENT IDENTITY -->
+        <section class="emr-identity-card">
 
-            <h2 id="viewName">
-                Patient
-            </h2>
-<div class="info-grid">
+            <div class="emr-avatar">
+                <span>PT</span>
+            </div>
 
-    <div class="info-card">
-        <strong>Total Appointments</strong>
-        <span id="summaryTotalAppointments">0</span>
-    </div>
+            <div class="emr-identity-main">
+                <div class="emr-label">PATIENT</div>
 
-    <div class="info-card">
-        <strong>Completed Appointments</strong>
-        <span id="summaryCompletedAppointments">0</span>
-    </div>
+                <h2 id="viewName">Patient</h2>
 
-    <div class="info-card">
-        <strong>Total Consultations</strong>
-        <span id="summaryTotalConsultations">0</span>
-    </div>
+                <div class="emr-identity-meta">
+                    <span>
+                        <strong>Gender:</strong>
+                        <span id="viewGender"></span>
+                    </span>
 
-    <div class="info-card">
-        <strong>Total Prescriptions</strong>
-        <span id="summaryTotalPrescriptions">0</span>
-    </div>
+                    <span>
+                        <strong>Date of Birth:</strong>
+                        <span id="viewDateOfBirth"></span>
+                    </span>
+                </div>
+            </div>
 
-</div>
-            <div class="info-grid">
+            <div class="emr-status-badge">
+                Active Patient
+            </div>
 
-                <div class="info-card">
-                    <strong>Email</strong>
-                    <span id="viewEmail"></span>
+        </section>
+
+        <!-- SUMMARY -->
+        <section class="emr-summary-grid">
+
+            <div class="emr-stat-card">
+                <span class="emr-stat-label">Appointments</span>
+                <strong id="summaryTotalAppointments">0</strong>
+            </div>
+
+            <div class="emr-stat-card">
+                <span class="emr-stat-label">Completed</span>
+                <strong id="summaryCompletedAppointments">0</strong>
+            </div>
+
+            <div class="emr-stat-card">
+                <span class="emr-stat-label">Consultations</span>
+                <strong id="summaryTotalConsultations">0</strong>
+            </div>
+
+            <div class="emr-stat-card">
+                <span class="emr-stat-label">Prescriptions</span>
+                <strong id="summaryTotalPrescriptions">0</strong>
+            </div>
+
+        </section>
+
+        <!-- PERSONAL INFORMATION -->
+        <section class="emr-section">
+
+            <div class="emr-section-heading">
+                <div>
+                    <span class="emr-section-kicker">PATIENT DETAILS</span>
+                    <h3>Personal Information</h3>
+                </div>
+            </div>
+
+            <div class="emr-detail-grid">
+
+                <div class="emr-detail-card">
+                    <span>Email</span>
+                    <strong id="viewEmail">Not provided</strong>
                 </div>
 
-                <div class="info-card">
-                    <strong>Phone</strong>
-                    <span id="viewPhone"></span>
+                <div class="emr-detail-card">
+                    <span>Phone</span>
+                    <strong id="viewPhone">Not provided</strong>
                 </div>
 
-                <div class="info-card">
-                    <strong>Date of Birth</strong>
-                    <span id="viewDateOfBirth"></span>
+                <div class="emr-detail-card">
+                    <span>Date of Birth</span>
+                    <strong id="viewDateOfBirthProfile">Not provided</strong>
                 </div>
 
-                <div class="info-card">
-                    <strong>Gender</strong>
-                    <span id="viewGender"></span>
+                <div class="emr-detail-card">
+                    <span>Gender</span>
+                    <strong id="viewGenderProfile">Not provided</strong>
                 </div>
 
-                <div class="info-card">
-                    <strong>Address</strong>
-                    <span id="viewAddress"></span>
+                <div class="emr-detail-card emr-detail-wide">
+                    <span>Address</span>
+                    <strong id="viewAddress">Not provided</strong>
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
+        <!-- CLINICAL SUMMARY -->
+        <section class="emr-section">
 
-        
+            <div class="emr-section-heading">
+                <div>
+                    <span class="emr-section-kicker">CLINICAL OVERVIEW</span>
+                    <h3>Clinical Information</h3>
+                </div>
+            </div>
 
+            <div class="emr-clinical-grid">
 
+                <article class="emr-clinical-card">
+                    <div class="emr-card-title">
+                        Medical History
+                    </div>
+                    <div
+                        id="viewMedicalHistory"
+                        class="emr-clinical-value"
+                    >
+                        None recorded
+                    </div>
+                </article>
 
-<div class="section">
+                <article class="emr-clinical-card">
+                    <div class="emr-card-title">
+                        Allergies
+                    </div>
+                    <div
+                        id="viewAllergies"
+                        class="emr-clinical-value"
+                    >
+                        None recorded
+                    </div>
+                </article>
 
+                <article class="emr-clinical-card">
+                    <div class="emr-card-title">
+                        Current Medications
+                    </div>
+                    <div
+                        id="viewMedications"
+                        class="emr-clinical-value"
+                    >
+                        None recorded
+                    </div>
+                </article>
 
-    <h3>Clinical Information</h3>
+                <article class="emr-clinical-card">
+                    <div class="emr-card-title">
+                        Clinical Notes
+                    </div>
+                    <div
+                        id="viewNotes"
+                        class="emr-clinical-value"
+                    >
+                        None
+                    </div>
+                </article>
 
-    <div class="info-grid">
+            </div>
 
-        <div class="info-card">
-            <strong>Medical History</strong>
-            <span id="viewMedicalHistory"></span>
-        </div>
+        </section>
 
-        <div class="info-card">
-            <strong>Allergies</strong>
-            <span id="viewAllergies"></span>
-        </div>
+        <!-- APPOINTMENT HISTORY -->
+        <section class="emr-section">
 
-        <div class="info-card">
-            <strong>Current Medications</strong>
-            <span id="viewMedications"></span>
-        </div>
+            <div class="emr-section-heading">
+                <div>
+                    <span class="emr-section-kicker">CARE HISTORY</span>
+                    <h3>Appointment History</h3>
+                </div>
+            </div>
 
-        <div class="info-card">
-            <strong>Notes</strong>
-            <span id="viewNotes"></span>
-        </div>
-
-    </div>
-
-</div>
-
-
-<div class="section">
-<h3>Appointment History</h3>
-
-            <div id="appointmentHistory">
-
+            <div
+                id="appointmentHistory"
+                class="emr-record-container"
+            >
                 <div class="loading">
                     Loading appointment history...
                 </div>
-
             </div>
 
-        </div>
+        </section>
 
-<!-- =====================================================
-     FRANTETT PATIENT PAYMENTS ACCESS
-===================================================== -->
+        <!-- CONSULTATIONS -->
+        <section class="emr-section">
 
-<div class="section frantett-payments-access">
-
-    <div class="top-actions frantett-payments-access-header">
-
-        <div>
-
-            <h3>
-                Payments
-            </h3>
-
-            <span class="frantett-payments-subtitle">
-                Billing, secure payment options and payment history
-            </span>
-
-        </div>
-
-        <button
-            type="button"
-            class="primary-btn frantett-payments-toggle"
-            id="patientPaymentsToggle"
-            onclick="event.stopPropagation(); togglePatientPayments()"
-            aria-expanded="false"
-        >
-            Payments
-        </button>
-
-    </div>
-
-
-    <div
-        id="patientPaymentsPanel"
-        class="frantett-payments-panel"
-        style="display:none;"
-    >
-<div class="section">
-
-    <div class="top-actions">
-
-        <h3>
-            Payments
-        </h3>
-
-    </div>
-
-    <div class="payment-panel">
-
-        <div class="payment-form">
-
-            <div class="form-group">
-
-                <label for="paymentAmount">
-                    Amount (CAD)
-                </label>
-
-                <input
-                    type="number"
-                    id="paymentAmount"
-                    min="0.01"
-                    step="0.01"
-                    placeholder="Enter amount"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="paymentDescription">
-                    Payment Description
-                </label>
-
-                <input
-                    type="text"
-                    id="paymentDescription"
-                    placeholder="e.g. Consultation fee"
-                >
-
-            </div>
-
-            <div class="payment-method-card">
-
-                <strong>Payment Method</strong>
-
+            <div class="emr-section-heading emr-section-heading-actions">
                 <div>
-                    Credit / Debit Card - CAD
+                    <span class="emr-section-kicker">CLINICAL RECORD</span>
+                    <h3>Clinical Consultation Records</h3>
                 </div>
 
-                <small>
-                    Secure payment processed through Stripe.
-                </small>
-
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="openAddConsultationModal()"
+                >
+                    + Add Consultation
+                </button>
             </div>
-
-            <button
-                type="button"
-                class="primary-btn"
-                onclick="startStripePayment()"
-            >
-                Pay Securely with Card
-            </button>
-
-            <div class="payment-method-card" style="margin-top:15px;">
-
-    <strong>MTN MoMo</strong>
-
-    <div style="margin-top:8px;">
-        Ghana Mobile Money - Sandbox (EUR)
-    </div>
-
-    <small>
-        Pay securely using your MTN MoMo number.
-    </small>
-
-    <div class="form-group" style="margin-top:12px;">
-
-        <label for="mtnMomoPhone">
-            MTN MoMo Phone Number
-        </label>
-
-        <input
-            type="tel"
-            id="mtnMomoPhone"
-            maxlength="10"
-            placeholder="e.g. 0241234567"
-        >
-
-    </div>
-
-    <button
-        type="button"
-        class="primary-btn"
-        onclick="startMtnMomoPayment()"
-    >
-        Pay with MTN MoMo
-    </button>
-
-</div>
 
             <div
-                id="paymentMessage"
-                style="margin-top:12px;"
-            ></div>
-
-        </div>
-
-    </div>
-
-    <div style="margin-top:20px;">
-
-        <h4>
-            Payment History
-        </h4>
-
-        <div id="paymentHistory">
-
-            <div class="loading">
-                Loading payment history...
+                id="consultationHistory"
+                class="emr-record-container"
+            >
+                <div class="loading">
+                    Loading consultation records...
+                </div>
             </div>
 
-        </div>
+        </section>
+
+        <!-- VITAL SIGNS -->
+        <section class="emr-section">
+
+            <div class="emr-section-heading">
+                <div>
+                    <span class="emr-section-kicker">OBSERVATIONS</span>
+                    <h3>Vital Signs</h3>
+                </div>
+            </div>
+
+            <div
+                id="profileVitalSignsHistory"
+                class="emr-record-container"
+            >
+                <div class="loading">
+                    Loading vital signs...
+                </div>
+            </div>
+
+        </section>
+
+        <!-- LABORATORY REQUESTS -->
+        <section class="emr-section">
+
+            <div class="emr-section-heading emr-section-heading-actions">
+                <div>
+                    <span class="emr-section-kicker">ORDERS</span>
+                    <h3>Laboratory Requests</h3>
+                </div>
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="openAddLabRequestModal()"
+                >
+                    + Lab Request
+                </button>
+            </div>
+
+            <div
+                id="profileLabRequestsHistory"
+                class="emr-record-container"
+            >
+                <div class="loading">
+                    Loading laboratory requests...
+                </div>
+            </div>
+
+        </section>
+
+        <!-- LABORATORY RESULTS -->
+        <section class="emr-section">
+
+            <div class="emr-section-heading">
+                <div>
+                    <span class="emr-section-kicker">DIAGNOSTICS</span>
+                    <h3>Laboratory Results</h3>
+                </div>
+            </div>
+
+            <div
+                id="profileLabResultsHistory"
+                class="emr-record-container"
+            >
+                <div class="loading">
+                    Loading laboratory results...
+                </div>
+            </div>
+
+        </section>
+
+        <!-- PRESCRIPTIONS -->
+        <section class="emr-section">
+
+            <div class="emr-section-heading emr-section-heading-actions">
+                <div>
+                    <span class="emr-section-kicker">MEDICATIONS</span>
+                    <h3>Prescription Records</h3>
+                </div>
+
+                <button
+                    type="button"
+                    class="primary-btn"
+                    onclick="openAddPrescriptionModal()"
+                >
+                    + Prescription
+                </button>
+            </div>
+
+            <div
+                id="profilePrescriptionHistory"
+                class="emr-record-container"
+            >
+                <div class="loading">
+                    Loading prescription records...
+                </div>
+            </div>
+
+        </section>
+
+        <!-- PATIENT TIMELINE -->
+        <section class="emr-section">
+
+            <div class="emr-section-heading">
+                <div>
+                    <span class="emr-section-kicker">LONGITUDINAL RECORD</span>
+                    <h3>Patient Timeline</h3>
+                </div>
+            </div>
+
+            <div
+                id="patientTimeline"
+                class="emr-record-container"
+            >
+                <div class="loading">
+                    Loading patient timeline...
+                </div>
+            </div>
+
+        </section>
+
+        <!-- PAYMENTS -->
+        <section class="emr-section frantett-payments-access">
+
+            <div class="emr-section-heading">
+                <div>
+                    <span class="emr-section-kicker">BILLING</span>
+                    <h3>Payments</h3>
+                </div>
+
+                <button
+                    type="button"
+                    class="primary-btn frantett-payments-toggle"
+                    id="patientPaymentsToggle"
+                    onclick="event.stopPropagation(); togglePatientPayments()"
+                >
+                    Payments
+                </button>
+            </div>
+
+            <div
+                id="patientPaymentsPanel"
+                class="frantett-payments-panel"
+                style="display:none;"
+            >
+
+                <div class="emr-payment-grid">
+
+                    <div>
+                        <label for="paymentAmount">
+                            Amount
+                        </label>
+
+                        <input
+                            type="number"
+                            id="paymentAmount"
+                            min="0.01"
+                            step="0.01"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="paymentDescription">
+                            Description
+                        </label>
+
+                        <input
+                            type="text"
+                            id="paymentDescription"
+                            placeholder="e.g. Consultation fee"
+                        >
+                    </div>
+
+                </div>
+
+                <div class="emr-payment-actions">
+
+                    <button
+                        type="button"
+                        class="primary-btn"
+                        onclick="startStripePayment()"
+                    >
+                        Pay with Card
+                    </button>
+
+                    <div class="emr-momo-group">
+
+                        <input
+                            type="tel"
+                            id="mtnMomoPhone"
+                            maxlength="10"
+                            placeholder="MTN MoMo number"
+                        >
+
+                        <button
+                            type="button"
+                            class="primary-btn"
+                            onclick="startMtnMomoPayment()"
+                        >
+                            Pay with MTN MoMo
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="paymentMessage"
+                    style="margin-top:12px;"
+                ></div>
+
+                <div class="emr-payment-history">
+                    <h4>Payment History</h4>
+
+                    <div id="paymentHistory">
+                        <div class="loading">
+                            Loading payment history...
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
 
     </div>
-
-</div>
-
-    </div>
-
-</div>
-<div class="section">
-
-    <div class="top-actions">
-
-        <h3>
-            Clinical Consultation Records
-        </h3>
-
-        <button
-
-    type="button"
-    class="primary-btn"
-    onclick="openAddConsultationModal()"
->
-    + Add Consultation
-
-</button>
-
-    </div>
-
-    <div id="consultationHistory">
-
-        <div class="loading">
-            Loading consultation records...
-        </div>
-
-    </div>
-
-</div>
-
-
-    </div>
-
-</div>
-
-</div>
-</div>
-
-
-
-
-
-
-        
-<!-- =====================================================
+</div><!-- =====================================================
      VITAL SIGNS MODAL
 ===================================================== -->
 
@@ -8192,6 +9754,10 @@ function displayPatients(data) {
         table.appendChild(actionRow);
 
     });
+
+    if (typeof window.renderMobilePatientCards === "function") {
+        window.renderMobilePatientCards(data);
+    }
 }
 
 
@@ -22394,8 +23960,1066 @@ function renderVitals(records) {
 })();
 
 </script>
+<script id="frantett-mobile-patient-cards-js">
+(function () {
 
-</script></body>
+    function closeMobilePatientMenus() {
+        document.querySelectorAll(".ft-mobile-menu.open").forEach(function (menu) {
+            menu.classList.remove("open");
+        });
+    }
+
+    document.addEventListener("click", function (event) {
+        if (!event.target.closest(".ft-mobile-more-wrap")) {
+            closeMobilePatientMenus();
+        }
+    });
+
+    window.toggleMobilePatientMenu = function (menuId) {
+        const menu = document.getElementById(menuId);
+        if (!menu) return;
+
+        const wasOpen = menu.classList.contains("open");
+        closeMobilePatientMenus();
+
+        if (!wasOpen) {
+            menu.classList.add("open");
+        }
+    };
+
+    window.mobilePatientAction = function (action, patientId) {
+        closeMobilePatientMenus();
+
+        const id = Number(patientId);
+        if (!Number.isFinite(id)) return;
+
+        if (action === "view") {
+            if (typeof window.viewPatient === "function") {
+                window.viewPatient(id);
+            }
+            return;
+        }
+
+        if (action === "edit") {
+            if (typeof window.editPatient === "function") {
+                window.editPatient(id);
+            }
+            return;
+        }
+
+        if (action === "delete") {
+            if (typeof window.deletePatient === "function") {
+                window.deletePatient(id);
+            }
+        }
+    };
+
+    window.renderMobilePatientCards = function (data) {
+
+        const container = document.getElementById("mobilePatients");
+        if (!container) return;
+
+        container.innerHTML = "";
+
+        if (!Array.isArray(data) || data.length === 0) {
+            container.innerHTML =
+                '<div class="ft-mobile-empty">No patient records found.</div>';
+            return;
+        }
+
+        data.forEach(function (patient, index) {
+
+            const id = Number(patient.id);
+            const fullName =
+                ((patient.first_name || "") + " " + (patient.last_name || "")).trim();
+
+            const safeName = typeof escapeHtml === "function"
+                ? escapeHtml(fullName)
+                : fullName;
+
+            const email = typeof escapeHtml === "function"
+                ? escapeHtml(patient.email || "")
+                : (patient.email || "");
+
+            const phone = typeof escapeHtml === "function"
+                ? escapeHtml(patient.phone || "")
+                : (patient.phone || "");
+
+            const gender = typeof escapeHtml === "function"
+                ? escapeHtml(patient.gender || "")
+                : (patient.gender || "");
+
+            let dob = patient.date_of_birth || "";
+
+            if (dob && typeof formatDate === "function") {
+                dob = formatDate(dob);
+            }
+
+            dob = typeof escapeHtml === "function"
+                ? escapeHtml(dob)
+                : dob;
+
+            const menuId = "mobilePatientMenu_" + id + "_" + index;
+
+            const card = document.createElement("div");
+            card.className = "ft-mobile-patient-card";
+
+            card.innerHTML = `
+                <div class="ft-mobile-patient-name">${safeName || "Unnamed Patient"}</div>
+                <div class="ft-mobile-patient-id">Patient ID: ${Number.isFinite(id) ? id : ""}</div>
+
+                <div class="ft-mobile-patient-details">
+                    <div class="ft-mobile-patient-detail">
+                        <strong>Email:</strong> ${email || "-"}
+                    </div>
+
+                    <div class="ft-mobile-patient-detail">
+                        <strong>Phone:</strong> ${phone || "-"}
+                    </div>
+
+                    <div class="ft-mobile-patient-detail">
+                        <strong>Date of Birth:</strong> ${dob || "-"}
+                    </div>
+
+                    <div class="ft-mobile-patient-detail">
+                        <strong>Gender:</strong> ${gender || "-"}
+                    </div>
+                </div>
+
+                <div class="ft-mobile-patient-actions">
+
+                    <button
+                        type="button"
+                        class="ft-mobile-view-patient"
+                        onclick="mobilePatientAction('view', ${Number.isFinite(id) ? id : 0})">
+                        View Patient
+                    </button>
+
+                    <div class="ft-mobile-more-wrap">
+
+                        <button
+                            type="button"
+                            class="ft-mobile-more"
+                            onclick="toggleMobilePatientMenu('${menuId}')">
+                            More ⋮
+                        </button>
+
+                        <div
+                            id="${menuId}"
+                            class="ft-mobile-menu"
+                            role="menu">
+
+                            <button
+                                type="button"
+                                onclick="mobilePatientAction('edit', ${Number.isFinite(id) ? id : 0})">
+                                Edit Patient
+                            </button>
+
+                            <button
+                                type="button"
+                                class="danger"
+                                onclick="mobilePatientAction('delete', ${Number.isFinite(id) ? id : 0})">
+                                Delete Patient
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+    };
+
+})();
+</script>
+<script id="frantett-mobile-nav-js">
+(function () {
+    const toggle = document.getElementById("ftMobileNavToggle");
+    const links = document.querySelector("nav .links");
+
+    if (!toggle || !links) return;
+
+    function closeMobileNav() {
+        links.classList.remove("ft-mobile-nav-open");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("aria-label", "Open navigation menu");
+        toggle.textContent = "☰";
+    }
+
+    toggle.addEventListener("click", function (event) {
+        event.stopPropagation();
+
+        const isOpen =
+            links.classList.toggle("ft-mobile-nav-open");
+
+        toggle.setAttribute(
+            "aria-expanded",
+            isOpen ? "true" : "false"
+        );
+
+        toggle.setAttribute(
+            "aria-label",
+            isOpen
+                ? "Close navigation menu"
+                : "Open navigation menu"
+        );
+
+        toggle.textContent = isOpen ? "✕" : "☰";
+    });
+
+    links.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            closeMobileNav();
+        });
+    });
+
+    document.addEventListener("click", function (event) {
+        if (
+            !event.target.closest(".ft-mobile-nav-toggle") &&
+            !event.target.closest("nav .links")
+        ) {
+            closeMobileNav();
+        }
+    });
+
+    window.addEventListener("resize", function () {
+        if (window.innerWidth > 700) {
+            closeMobileNav();
+        }
+    });
+})();
+</script>
+<style id="frantett-lab-inner-margin-fix2">
+/* FranTett - tighten inner lab/request/prescription spacing only */
+@media (max-width:768px) {
+
+    #viewPatientModal #labResultsHistory .lab-report-card,
+    #viewPatientModal #labRequestsHistory .lab-request-card,
+    #viewPatientModal #prescriptionHistory .clinical-record {
+        width:100% !important;
+        max-width:100% !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    #viewPatientModal #labResultsHistory .lab-table-wrapper {
+        width:100% !important;
+        max-width:100% !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    #viewPatientModal #labResultsHistory table {
+        width:100% !important;
+        max-width:100% !important;
+        box-sizing:border-box !important;
+    }
+}
+</style><style id="frantett-lab-inner-tighter">
+/* FranTett - tighter inner spacing for Lab Results, Lab Requests and Prescriptions */
+@media (max-width:768px) {
+
+    /* LABORATORY RESULTS */
+    #viewPatientModal #labResultsHistory .lab-report-card {
+        padding:12px !important;
+    }
+
+    #viewPatientModal #labResultsHistory .lab-report-header {
+        padding-left:4px !important;
+        padding-right:4px !important;
+    }
+
+    #viewPatientModal #labResultsHistory .lab-table-wrapper {
+        width:calc(100% + 8px) !important;
+        max-width:none !important;
+        margin-left:-4px !important;
+        margin-right:-4px !important;
+    }
+
+    /* LABORATORY REQUESTS */
+    #viewPatientModal #labRequestsHistory .lab-request-card {
+        margin-left:0 !important;
+        margin-right:0 !important;
+    }
+
+    #viewPatientModal #labRequestsHistory .lab-request-card .lab-request-header {
+        padding-left:14px !important;
+        padding-right:14px !important;
+    }
+
+    #viewPatientModal #labRequestsHistory .lab-request-card .lab-request-body {
+        padding-left:14px !important;
+        padding-right:14px !important;
+    }
+
+    #viewPatientModal #labRequestsHistory .lab-request-card .lab-request-footer {
+        padding-left:14px !important;
+        padding-right:14px !important;
+    }
+
+    /* PRESCRIPTION RECORDS */
+    #viewPatientModal #prescriptionHistory .clinical-record {
+        margin-left:0 !important;
+        margin-right:0 !important;
+    }
+
+    #viewPatientModal #prescriptionHistory .clinical-record > * {
+        box-sizing:border-box !important;
+    }
+}
+</style><style id="frantett-table-container-fix">
+/* FranTett - targeted table/container spacing fix */
+@media (max-width:700px) {
+
+    /* Laboratory Results - let the table wrapper use the card width */
+    #viewPatientModal #labResultsHistory .lab-table-wrapper {
+        width:100% !important;
+        max-width:100% !important;
+        margin:0 !important;
+        padding:0 !important;
+        box-sizing:border-box !important;
+        overflow-x:auto !important;
+    }
+
+    #viewPatientModal #labResultsHistory .lab-results-table {
+        width:100% !important;
+        margin:0 !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Laboratory Requests - reduce the large inner container gap */
+    #viewPatientModal #labRequestsHistory .lab-request-card-body {
+        padding-left:12px !important;
+        padding-right:12px !important;
+    }
+
+    #viewPatientModal #labRequestsHistory .lab-request-card-header {
+        padding-left:12px !important;
+        padding-right:12px !important;
+    }
+
+    #viewPatientModal #labRequestsHistory .lab-request-card-footer {
+        padding-left:12px !important;
+        padding-right:12px !important;
+    }
+
+    /* Prescription table wrapper */
+    #viewPatientModal #prescriptionHistory .prescription-table-wrapper {
+        width:100% !important;
+        max-width:100% !important;
+        margin-top:8px !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        padding:0 !important;
+        box-sizing:border-box !important;
+        overflow-x:auto !important;
+    }
+
+    #viewPatientModal #prescriptionHistory .prescription-entry-table {
+        width:100% !important;
+        margin:0 !important;
+        box-sizing:border-box !important;
+    }
+}
+</style><style id="frantett-lab-card-padding-fix">
+
+/* FranTett - mobile inner spacing only */
+@media (max-width:700px) {
+
+    /* LABORATORY REPORT */
+    #viewPatientModal #labResultsHistory .lab-report-card {
+        padding: 12px !important;
+        box-sizing: border-box !important;
+    }
+
+    #viewPatientModal #labResultsHistory .lab-table-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* LABORATORY REQUEST */
+    #viewPatientModal #labRequestsHistory .lab-request-card-header {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    #viewPatientModal #labRequestsHistory .lab-request-card-body {
+        padding: 12px !important;
+    }
+
+    #viewPatientModal #labRequestsHistory .lab-request-card-footer {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    /* PRESCRIPTION */
+    #viewPatientModal #prescriptionHistory .clinical-record {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+        box-sizing: border-box !important;
+    }
+
+    #viewPatientModal #prescriptionHistory .prescription-table-wrapper {
+        margin-top: 8px !important;
+        padding: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+}
+
+</style><style id="frantett-lab-section-padding-fix">
+
+/* FranTett - reduce only the inner section padding
+   for Laboratory Results, Laboratory Requests and Prescriptions */
+
+#viewPatientModal .patient-profile-modal .section:has(#labResultsHistory),
+#viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+#viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+/* Keep the actual content using the full available section width */
+#viewPatientModal #labResultsHistory,
+#viewPatientModal #labRequestsHistory,
+#viewPatientModal #prescriptionHistory {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+#viewPatientModal #labResultsHistory .lab-table-wrapper,
+#viewPatientModal #prescriptionHistory .prescription-table-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Desktop + phone: keep Lab Request card aligned to section content */
+#viewPatientModal #labRequestsHistory .lab-request-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+</style><style id="frantett-final-lab-section-fit">
+
+/* FINAL LAB / PRESCRIPTION OUTER SECTION FIT
+   Clinical Consultation intentionally excluded.
+*/
+
+#viewPatientModal .patient-profile-modal .section:has(#labResultsHistory),
+#viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+#viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    margin-top: 12px !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    box-sizing: border-box !important;
+}
+
+/* Keep the actual clinical cards intact */
+#viewPatientModal .patient-profile-modal .section:has(#labResultsHistory) .lab-report-card,
+#viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory) .lab-request-card,
+#viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) .clinical-record {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Phone */
+@media (max-width: 768px) {
+    #viewPatientModal .patient-profile-modal .section:has(#labResultsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#labRequestsHistory),
+    #viewPatientModal .patient-profile-modal .section:has(#prescriptionHistory) {
+        margin-top: 10px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+</style>
+
+<!-- frantett-consultation-lab-sections-final -->
+<style>
+
+/* =========================================================
+   FRANTETT - CONSULTATION CLINICAL SECTIONS
+   Laboratory Requests / Results / Prescriptions
+   ========================================================= */
+
+#consultationFormModal #labRequestsHistory,
+#consultationFormModal #labResultsHistory,
+#consultationFormModal #prescriptionHistory {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Remove the large outer card/container from these sections */
+#consultationFormModal .section:has(#labRequestsHistory),
+#consultationFormModal .section:has(#labResultsHistory),
+#consultationFormModal .section:has(#prescriptionHistory) {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+}
+
+/* Keep the actual clinical records full width */
+#consultationFormModal #labRequestsHistory > *,
+#consultationFormModal #labResultsHistory > *,
+#consultationFormModal #prescriptionHistory > * {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Give the three sections clean vertical separation */
+#consultationFormModal .section:has(#labRequestsHistory),
+#consultationFormModal .section:has(#labResultsHistory),
+#consultationFormModal .section:has(#prescriptionHistory) {
+    margin-top: 18px !important;
+    margin-bottom: 18px !important;
+}
+
+/* Mobile: remove side margins completely */
+@media (max-width: 768px) {
+
+    #consultationFormModal .section:has(#labRequestsHistory),
+    #consultationFormModal .section:has(#labResultsHistory),
+    #consultationFormModal .section:has(#prescriptionHistory) {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-top: 14px !important;
+        margin-bottom: 14px !important;
+    }
+
+    #consultationFormModal #labRequestsHistory,
+    #consultationFormModal #labResultsHistory,
+    #consultationFormModal #prescriptionHistory {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+</style>
+<style id="FRANTETT-PATIENT-PROFILE-V4">
+
+/* ==================================================
+   FRANTETT PATIENT PROFILE V4
+   Scoped to Patient Profile only
+   ================================================== */
+
+#viewPatientModal .frantett-emr-profile {
+    background: #f5f8f7;
+    color: #18332b;
+    padding: 0 !important;
+    overflow-x: hidden;
+}
+
+#viewPatientModal .emr-profile-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 28px;
+    background: #ffffff;
+    border-bottom: 1px solid #dfe9e5;
+}
+
+#viewPatientModal .emr-brand {
+    color: #0b6b50;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+#viewPatientModal .emr-profile-title {
+    margin-top: 4px;
+    font-size: 25px;
+    font-weight: 800;
+    color: #18332b;
+}
+
+#viewPatientModal .emr-profile-subtitle {
+    margin-top: 3px;
+    color: #6b7d76;
+    font-size: 13px;
+}
+
+#viewPatientModal .emr-profile-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#viewPatientModal .emr-close {
+    position: static !important;
+    margin-left: 4px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #d9e4df;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #53665f;
+    font-size: 25px;
+    line-height: 1;
+}
+
+#viewPatientModal .emr-identity-card {
+    margin: 24px 28px 0;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: #ffffff;
+    border: 1px solid #dfe9e5;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(25, 61, 49, .05);
+}
+
+#viewPatientModal .emr-avatar {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: #e6f3ee;
+    color: #0b6b50;
+    font-weight: 800;
+    font-size: 18px;
+}
+
+#viewPatientModal .emr-label,
+#viewPatientModal .emr-section-kicker {
+    color: #0b6b50;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+#viewPatientModal .emr-identity-main h2 {
+    margin: 3px 0 8px;
+    font-size: 25px;
+    color: #18332b;
+}
+
+#viewPatientModal .emr-identity-meta {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    color: #667a72;
+    font-size: 13px;
+}
+
+#viewPatientModal .emr-identity-meta strong {
+    color: #334a42;
+}
+
+#viewPatientModal .emr-status-badge {
+    margin-left: auto;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #e8f5ef;
+    color: #0b6b50;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+#viewPatientModal .emr-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 18px 28px 0;
+}
+
+#viewPatientModal .emr-stat-card {
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #dfe9e5;
+    border-radius: 14px;
+}
+
+#viewPatientModal .emr-stat-label {
+    display: block;
+    color: #71827c;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#viewPatientModal .emr-stat-card strong {
+    display: block;
+    margin-top: 6px;
+    color: #0b6b50;
+    font-size: 25px;
+}
+
+#viewPatientModal .emr-section {
+    margin: 18px 28px 0;
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #dfe9e5;
+    border-radius: 16px;
+}
+
+#viewPatientModal .emr-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+#viewPatientModal .emr-section-heading h3 {
+    margin: 3px 0 0;
+    color: #18332b;
+    font-size: 19px;
+}
+
+#viewPatientModal .emr-section-heading-actions {
+    align-items: center;
+}
+
+#viewPatientModal .emr-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+#viewPatientModal .emr-detail-card {
+    min-width: 0;
+    padding: 15px 16px;
+    background: #f8fbfa;
+    border: 1px solid #e2ebe7;
+    border-radius: 12px;
+}
+
+#viewPatientModal .emr-detail-card span {
+    display: block;
+    margin-bottom: 5px;
+    color: #74857f;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#viewPatientModal .emr-detail-card strong {
+    display: block;
+    color: #263f36;
+    font-size: 14px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+#viewPatientModal .emr-detail-wide {
+    grid-column: 1 / -1;
+}
+
+#viewPatientModal .emr-clinical-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+#viewPatientModal .emr-clinical-card {
+    padding: 18px;
+    background: #f8fbfa;
+    border: 1px solid #e2ebe7;
+    border-radius: 12px;
+}
+
+#viewPatientModal .emr-card-title {
+    color: #0b6b50;
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 9px;
+}
+
+#viewPatientModal .emr-clinical-value {
+    color: #3e514a;
+    font-size: 14px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+#viewPatientModal .emr-record-container {
+    width: 100%;
+    min-width: 0;
+}
+
+#viewPatientModal .emr-payment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 14px;
+}
+
+#viewPatientModal .emr-payment-grid label {
+    display: block;
+    margin-bottom: 6px;
+    color: #52665e;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#viewPatientModal .emr-payment-grid input,
+#viewPatientModal .emr-momo-group input {
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+    border: 1px solid #d4e1dc;
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+#viewPatientModal .emr-payment-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+#viewPatientModal .emr-momo-group {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    min-width: 280px;
+}
+
+#viewPatientModal .emr-payment-history {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #e1ebe7;
+}
+
+#viewPatientModal .emr-payment-history h4 {
+    margin: 0 0 12px;
+    color: #29433a;
+}
+
+#viewPatientModal .primary-btn,
+#viewPatientModal .secondary-btn {
+    min-height: 44px;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 700;
+}
+
+#viewPatientModal .secondary-btn {
+    background: #ffffff;
+    border: 1px solid #cfded8;
+    color: #29433a;
+}
+
+@media (max-width: 800px) {
+
+    #viewPatientModal .emr-profile-topbar {
+        padding: 18px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    #viewPatientModal .emr-profile-actions {
+        width: 100%;
+    }
+
+    #viewPatientModal .emr-profile-actions button:not(.emr-close) {
+        flex: 1;
+    }
+
+    #viewPatientModal .emr-identity-card {
+        margin: 14px 14px 0;
+        padding: 18px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    #viewPatientModal .emr-status-badge {
+        margin-left: 0;
+    }
+
+    #viewPatientModal .emr-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+        margin: 14px 14px 0;
+    }
+
+    #viewPatientModal .emr-section {
+        margin: 14px 14px 0;
+        padding: 17px;
+    }
+
+    #viewPatientModal .emr-detail-grid,
+    #viewPatientModal .emr-clinical-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #viewPatientModal .emr-detail-wide {
+        grid-column: auto;
+    }
+
+    #viewPatientModal .emr-section-heading-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    #viewPatientModal .emr-section-heading-actions button {
+        width: 100%;
+    }
+
+    #viewPatientModal .emr-payment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #viewPatientModal .emr-momo-group {
+        flex-direction: column;
+        min-width: 0;
+        width: 100%;
+    }
+
+    #viewPatientModal .emr-momo-group button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    #viewPatientModal .emr-summary-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #viewPatientModal .emr-profile-title {
+        font-size: 21px;
+    }
+
+    #viewPatientModal .emr-identity-main h2 {
+        font-size: 21px;
+    }
+}
+
+</style>
+<script id="FRANTETT-PATIENT-PROFILE-V4-BRIDGE">
+(function () {
+
+    function mirror(sourceId, targetId) {
+        const source = document.getElementById(sourceId);
+        const target = document.getElementById(targetId);
+
+        if (!source || !target) return;
+
+        if (target.innerHTML !== source.innerHTML) {
+            target.innerHTML = source.innerHTML;
+        }
+    }
+
+    function syncProfileClinicalRecords() {
+
+        mirror(
+            "vitalSignsHistory",
+            "profileVitalSignsHistory"
+        );
+
+        mirror(
+            "labRequestsHistory",
+            "profileLabRequestsHistory"
+        );
+
+        mirror(
+            "labResultsHistory",
+            "profileLabResultsHistory"
+        );
+
+        mirror(
+            "prescriptionHistory",
+            "profilePrescriptionHistory"
+        );
+
+        const dob = document.getElementById("viewDateOfBirth");
+        const dobProfile = document.getElementById("viewDateOfBirthProfile");
+
+        if (dob && dobProfile) {
+            dobProfile.textContent = dob.textContent || "Not provided";
+        }
+
+        const gender = document.getElementById("viewGender");
+        const genderProfile = document.getElementById("viewGenderProfile");
+
+        if (gender && genderProfile) {
+            genderProfile.textContent = gender.textContent || "Not provided";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        syncProfileClinicalRecords();
+
+        const sourceIds = [
+            "vitalSignsHistory",
+            "labRequestsHistory",
+            "labResultsHistory",
+            "prescriptionHistory",
+            "viewDateOfBirth",
+            "viewGender"
+        ];
+
+        sourceIds.forEach(function (sourceId) {
+
+            const source = document.getElementById(sourceId);
+
+            if (!source) return;
+
+            const observer = new MutationObserver(function () {
+                syncProfileClinicalRecords();
+            });
+
+            observer.observe(source, {
+                childList: true,
+                subtree: true,
+                characterData: true
+            });
+
+        });
+
+    });
+
+})();
+</script>
+</body>
 </html>
 
 
@@ -22570,6 +25194,35 @@ function renderVitals(records) {
     min-width: 105px !important;
     width: 105px !important;
 }</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
