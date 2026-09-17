@@ -1,0 +1,7734 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Patient Record - FranTett Healthcare</title>
+
+<style>
+
+:root {
+    --ft-green: #087f5b;
+    --ft-green-dark: #056247;
+    --ft-green-soft: #eaf7f2;
+
+    --ft-ink: #17332a;
+    --ft-muted: #6b7d76;
+
+    --ft-border: #e2ebe7;
+    --ft-bg: #f5f8f7;
+    --ft-card: #ffffff;
+
+    --ft-blue: #2563eb;
+    --ft-red: #c0392b;
+
+    --ft-radius: 14px;
+    --ft-shadow:
+        0 8px 24px rgba(20, 50, 40, 0.07);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--ft-bg);
+    color: var(--ft-ink);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    line-height: 1.5;
+}
+
+/* =====================================================
+   TOP BAR
+===================================================== */
+
+.ft-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(12px);
+
+    border-bottom:
+        1px solid var(--ft-border);
+}
+
+.ft-topbar-inner {
+    width: min(1440px, calc(100% - 40px));
+    margin: auto;
+
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.ft-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-weight: 800;
+    color: var(--ft-green-dark);
+}
+
+.ft-brand-mark {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 11px;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--ft-green);
+    color: white;
+
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.ft-top-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.ft-btn {
+    min-height: 42px;
+
+    padding: 0 16px;
+
+    border-radius: 9px;
+
+    border: 1px solid var(--ft-border);
+
+    background: white;
+    color: var(--ft-ink);
+
+    font-weight: 700;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        background .15s ease;
+}
+
+.ft-btn:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 5px 14px rgba(20,50,40,.09);
+}
+
+.ft-btn-primary {
+    background: var(--ft-green);
+    border-color: var(--ft-green);
+    color: white;
+}
+
+.ft-btn-primary:hover {
+    background: var(--ft-green-dark);
+}
+
+/* =====================================================
+   PAGE
+===================================================== */
+
+.ft-page {
+    width: min(1440px, calc(100% - 40px));
+    margin: 0 auto;
+
+    padding: 28px 0 70px;
+}
+
+/* =====================================================
+   BREADCRUMB
+===================================================== */
+
+.ft-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 18px;
+
+    color: var(--ft-muted);
+    font-size: 13px;
+}
+
+.ft-breadcrumb button {
+    border: 0;
+    background: none;
+    padding: 0;
+
+    color: var(--ft-green);
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+/* =====================================================
+   PATIENT HERO
+===================================================== */
+
+.ft-patient-hero {
+    background: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #f7fcfa 100%
+    );
+
+    border:
+        1px solid var(--ft-border);
+
+    border-radius: 18px;
+
+    padding: 26px;
+
+    box-shadow: var(--ft-shadow);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+}
+
+.ft-patient-identity {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.ft-avatar {
+    width: 76px;
+    height: 76px;
+
+    flex: 0 0 76px;
+
+    border-radius: 22px;
+
+    display: grid;
+    place-items: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--ft-green),
+            #0b9b70
+        );
+
+    color: white;
+
+    font-size: 25px;
+    font-weight: 800;
+
+    box-shadow:
+        0 10px 25px rgba(8,127,91,.22);
+}
+
+.ft-eyebrow {
+    margin-bottom: 3px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: .12em;
+    text-transform: uppercase;
+
+    color: var(--ft-green);
+}
+
+.ft-patient-name {
+    margin: 0;
+
+    font-size: clamp(25px, 3vw, 34px);
+    line-height: 1.15;
+}
+
+.ft-patient-meta {
+    margin-top: 8px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px 14px;
+
+    color: var(--ft-muted);
+    font-size: 14px;
+}
+
+.ft-patient-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 8px 12px;
+
+    border-radius: 999px;
+
+    background: var(--ft-green-soft);
+    color: var(--ft-green-dark);
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.ft-status-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #16a34a;
+}
+
+/* =====================================================
+   QUICK STATS
+===================================================== */
+
+.ft-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin-top: 18px;
+}
+
+.ft-stat {
+    background: white;
+
+    border: 1px solid var(--ft-border);
+    border-radius: 13px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 4px 16px rgba(20,50,40,.045);
+}
+
+.ft-stat-label {
+    color: var(--ft-muted);
+
+    font-size: 12px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.ft-stat-value {
+    margin-top: 4px;
+
+    font-size: 27px;
+    font-weight: 800;
+
+    color: var(--ft-green-dark);
+}
+
+/* =====================================================
+   SECTION NAVIGATION
+===================================================== */
+
+.ft-section-nav {
+    position: sticky;
+    top: 70px;
+
+    z-index: 80;
+
+    margin: 22px 0;
+
+    background: rgba(245,248,247,.94);
+    backdrop-filter: blur(10px);
+
+    padding: 5px;
+
+    border:
+        1px solid var(--ft-border);
+
+    border-radius: 12px;
+
+    display: flex;
+    gap: 3px;
+
+    overflow-x: auto;
+}
+
+.ft-section-nav a {
+    flex: 0 0 auto;
+
+    padding: 10px 14px;
+
+    border-radius: 8px;
+
+    color: var(--ft-muted);
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.ft-section-nav a:hover {
+    background: white;
+    color: var(--ft-green-dark);
+}
+
+/* =====================================================
+   MAIN GRID
+===================================================== */
+
+.ft-main-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.65fr)
+        minmax(300px, .85fr);
+
+    gap: 20px;
+
+    align-items: start;
+}
+
+.ft-main-column,
+.ft-side-column {
+    display: grid;
+    gap: 20px;
+}
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+.ft-card {
+    background: var(--ft-card);
+
+    border:
+        1px solid var(--ft-border);
+
+    border-radius: var(--ft-radius);
+
+    box-shadow: var(--ft-shadow);
+
+    overflow: hidden;
+}
+
+.ft-card-header {
+    padding: 20px 22px;
+
+    border-bottom:
+        1px solid var(--ft-border);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 14px;
+}
+
+.ft-card-title {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.ft-card-subtitle {
+    margin-top: 3px;
+
+    color: var(--ft-muted);
+    font-size: 12px;
+}
+
+.ft-card-body {
+    padding: 22px;
+}
+
+/* =====================================================
+   INFORMATION GRID
+===================================================== */
+
+.ft-info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px 24px;
+}
+
+.ft-info-item {
+    min-width: 0;
+}
+
+.ft-info-label {
+    margin-bottom: 4px;
+
+    color: var(--ft-muted);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: .07em;
+}
+
+.ft-info-value {
+    color: var(--ft-ink);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+.ft-clinical-info {
+    display: grid;
+    gap: 16px;
+}
+
+.ft-clinical-field {
+    padding: 15px;
+
+    background: #f8faf9;
+
+    border:
+        1px solid var(--ft-border);
+
+    border-radius: 10px;
+}
+
+.ft-clinical-field-label {
+    margin-bottom: 5px;
+
+    color: var(--ft-muted);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.ft-clinical-field-value {
+    font-size: 14px;
+    white-space: pre-wrap;
+}
+
+/* =====================================================
+   TABLES
+===================================================== */
+
+.ft-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.ft-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    min-width: 680px;
+
+    font-size: 13px;
+}
+
+.ft-table th {
+    padding: 12px 14px;
+
+    background: #f5f8f7;
+
+    border-bottom:
+        1px solid var(--ft-border);
+
+    color: var(--ft-muted);
+
+    text-align: left;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.ft-table td {
+    padding: 14px;
+
+    border-bottom:
+        1px solid #edf2ef;
+
+    vertical-align: top;
+}
+
+.ft-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.ft-table tbody tr:hover {
+    background: #fbfdfc;
+}
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.ft-status {
+    display: inline-flex;
+
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    background: #eef7f3;
+    color: var(--ft-green-dark);
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* =====================================================
+   CONSULTATION
+===================================================== */
+
+.ft-consultation {
+    border:
+        1px solid var(--ft-border);
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    margin-bottom: 16px;
+}
+
+.ft-consultation:last-child {
+    margin-bottom: 0;
+}
+
+.ft-consultation-header {
+    padding: 17px 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f2faf6,
+            #ffffff
+        );
+
+    border-bottom:
+        1px solid var(--ft-border);
+
+    display: flex;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.ft-consultation-title {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.ft-consultation-meta {
+    margin-top: 4px;
+
+    color: var(--ft-muted);
+    font-size: 12px;
+}
+
+.ft-consultation-body {
+    padding: 18px;
+}
+
+/* =====================================================
+   VITALS
+===================================================== */
+
+.ft-vitals {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.ft-vital {
+    padding: 14px;
+
+    border:
+        1px solid var(--ft-border);
+
+    border-radius: 10px;
+
+    background: #fbfdfc;
+}
+
+.ft-vital-label {
+    color: var(--ft-muted);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+.ft-vital-value {
+    margin-top: 5px;
+
+    font-size: 18px;
+    font-weight: 800;
+
+    color: var(--ft-green-dark);
+}
+
+/* =====================================================
+   CLINICAL GRID
+===================================================== */
+
+.ft-clinical-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+.ft-clinical-box {
+    padding: 14px;
+
+    background: white;
+
+    border:
+        1px solid var(--ft-border);
+
+    border-radius: 9px;
+}
+
+.ft-clinical-box-label {
+    margin-bottom: 5px;
+
+    color: var(--ft-muted);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+.ft-clinical-box-value {
+    font-size: 13px;
+
+    white-space: pre-wrap;
+}
+
+/* =====================================================
+   LAB / PRESCRIPTION CARDS
+===================================================== */
+
+.ft-record-list {
+    display: grid;
+    gap: 14px;
+}
+
+.ft-record {
+    border:
+        1px solid var(--ft-border);
+
+    border-radius: 11px;
+
+    overflow: hidden;
+}
+
+.ft-record-header {
+    padding: 15px 17px;
+
+    background: #f8faf9;
+
+    border-bottom:
+        1px solid var(--ft-border);
+
+    display: flex;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.ft-record-title {
+    margin: 0;
+
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.ft-record-meta {
+    margin-top: 3px;
+
+    color: var(--ft-muted);
+    font-size: 11px;
+}
+
+.ft-record-body {
+    padding: 17px;
+}
+
+/* =====================================================
+   LAB TEST BADGES
+===================================================== */
+
+.ft-test-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+.ft-test {
+    padding: 6px 9px;
+
+    background: var(--ft-green-soft);
+
+    color: var(--ft-green-dark);
+
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* =====================================================
+   EMPTY / ERROR / LOADING
+===================================================== */
+
+.ft-loading,
+.ft-empty,
+.ft-error {
+    padding: 28px 15px;
+
+    text-align: center;
+
+    color: var(--ft-muted);
+
+    font-size: 13px;
+}
+
+.ft-error {
+    color: var(--ft-red);
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 1050px) {
+
+    .ft-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ft-side-column {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .ft-vitals {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+
+    .ft-topbar-inner,
+    .ft-page {
+        width: min(100% - 24px, 1440px);
+    }
+
+    .ft-topbar-inner {
+        min-height: 62px;
+    }
+
+    .ft-brand span {
+        display: none;
+    }
+
+    .ft-top-actions .ft-btn {
+        padding: 0 11px;
+    }
+
+    .ft-page {
+        padding-top: 18px;
+    }
+
+    .ft-patient-hero {
+        padding: 20px;
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .ft-patient-identity {
+        width: 100%;
+    }
+
+    .ft-patient-status {
+        align-self: flex-start;
+    }
+
+    .ft-avatar {
+        width: 62px;
+        height: 62px;
+        flex-basis: 62px;
+
+        border-radius: 18px;
+
+        font-size: 20px;
+    }
+
+    .ft-patient-name {
+        font-size: 25px;
+    }
+
+    .ft-stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .ft-section-nav {
+        top: 62px;
+    }
+
+    .ft-side-column {
+        grid-template-columns: 1fr;
+    }
+
+    .ft-info-grid,
+    .ft-clinical-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ft-vitals {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .ft-card-header,
+    .ft-card-body {
+        padding: 17px;
+    }
+
+    .ft-table-wrap {
+        overflow: visible;
+    }
+
+    .ft-table {
+        min-width: 0;
+        border-collapse: separate;
+        border-spacing: 0 9px;
+    }
+
+    .ft-table thead {
+        display: none;
+    }
+
+    .ft-table,
+    .ft-table tbody,
+    .ft-table tr,
+    .ft-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .ft-table tbody tr {
+        background: white;
+
+        border:
+            1px solid var(--ft-border);
+
+        border-radius: 10px;
+
+        padding: 8px 13px;
+    }
+
+    .ft-table td {
+        display: grid;
+
+        grid-template-columns:
+            105px minmax(0, 1fr);
+
+        gap: 10px;
+
+        padding: 9px 0;
+
+        border-bottom:
+            1px solid #edf2ef;
+    }
+
+    .ft-table td:last-child {
+        border-bottom: 0;
+    }
+
+    .ft-table td::before {
+        content: attr(data-label);
+
+        color: var(--ft-muted);
+
+        font-size: 10px;
+        font-weight: 800;
+
+        text-transform: uppercase;
+        letter-spacing: .04em;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .ft-topbar-inner,
+    .ft-page {
+        width: calc(100% - 16px);
+    }
+
+    .ft-top-actions {
+        gap: 5px;
+    }
+
+    .ft-top-actions .ft-btn {
+        font-size: 12px;
+        min-height: 38px;
+    }
+
+    .ft-patient-hero {
+        border-radius: 13px;
+        padding: 16px;
+    }
+
+    .ft-stats {
+        gap: 8px;
+    }
+
+    .ft-stat {
+        padding: 13px;
+    }
+
+    .ft-stat-value {
+        font-size: 22px;
+    }
+
+    .ft-vitals {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .ft-vital {
+        padding: 11px;
+    }
+
+    .ft-vital-value {
+        font-size: 16px;
+    }
+
+    .ft-table td {
+        grid-template-columns:
+            88px minmax(0, 1fr);
+
+        font-size: 12px;
+    }
+
+    .ft-consultation-header {
+        flex-direction: column;
+    }
+}
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .ft-topbar,
+    .ft-section-nav {
+        display: none !important;
+    }
+
+    .ft-page {
+        width: 100%;
+        padding: 0;
+    }
+
+    .ft-card,
+    .ft-patient-hero,
+    .ft-stat {
+        box-shadow: none;
+    }
+
+    .ft-card {
+        break-inside: avoid;
+    }
+
+    .ft-main-grid {
+        display: block;
+    }
+
+    .ft-side-column {
+        display: block;
+    }
+
+    .ft-card {
+        margin-bottom: 15px;
+    }
+}
+
+</style>
+<style id="FRANTETT-PATIENT-RECORD-V2">
+
+/* =========================================================
+   FRANTETT PATIENT RECORD â€” V2
+   Presentation-only redesign
+========================================================= */
+
+:root {
+    --ft-v2-green: #087f5b;
+    --ft-v2-green-dark: #056247;
+    --ft-v2-green-soft: #eaf7f2;
+    --ft-v2-blue: #2563eb;
+    --ft-v2-blue-soft: #eff6ff;
+    --ft-v2-amber: #b7791f;
+    --ft-v2-amber-soft: #fff8e7;
+    --ft-v2-red: #c0392b;
+    --ft-v2-red-soft: #fff1ef;
+    --ft-v2-ink: #17332a;
+    --ft-v2-muted: #6b7d76;
+    --ft-v2-border: #dfe9e5;
+    --ft-v2-bg: #f4f8f6;
+    --ft-v2-white: #ffffff;
+    --ft-v2-shadow: 0 10px 30px rgba(20,50,40,.07);
+    --ft-v2-shadow-hover: 0 16px 38px rgba(20,50,40,.11);
+    --ft-v2-radius: 16px;
+}
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+html {
+    background: var(--ft-v2-bg);
+}
+
+body {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(8,127,91,.055),
+            transparent 32rem
+        ),
+        var(--ft-v2-bg) !important;
+    color: var(--ft-v2-ink) !important;
+    overflow-x: hidden !important;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.ft-page {
+    width: min(1480px, calc(100% - 48px)) !important;
+    margin: 0 auto !important;
+    padding: 28px 0 80px !important;
+}
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.ft-topbar {
+    background: rgba(255,255,255,.94) !important;
+    border-bottom: 1px solid var(--ft-v2-border) !important;
+    box-shadow: 0 2px 12px rgba(20,50,40,.035);
+}
+
+.ft-topbar-inner {
+    width: min(1480px, calc(100% - 48px)) !important;
+    min-height: 72px !important;
+}
+
+.ft-brand {
+    color: var(--ft-v2-green-dark) !important;
+    font-size: 15px !important;
+}
+
+.ft-brand-mark {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 13px !important;
+    background: linear-gradient(
+        145deg,
+        var(--ft-v2-green),
+        #0b9b70
+    ) !important;
+    box-shadow: 0 7px 18px rgba(8,127,91,.18);
+}
+
+.ft-top-actions {
+    gap: 9px !important;
+}
+
+.ft-btn {
+    min-height: 42px !important;
+    border-radius: 10px !important;
+    border-color: var(--ft-v2-border) !important;
+    font-weight: 750 !important;
+    transition:
+        transform .16s ease,
+        box-shadow .16s ease,
+        background .16s ease !important;
+}
+
+.ft-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(20,50,40,.08);
+}
+
+.ft-btn-primary {
+    background: var(--ft-v2-green) !important;
+    border-color: var(--ft-v2-green) !important;
+}
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.ft-breadcrumb {
+    margin-bottom: 18px !important;
+    font-size: 13px !important;
+}
+
+.ft-breadcrumb button {
+    color: var(--ft-v2-green) !important;
+    font-weight: 800 !important;
+}
+
+/* =========================================================
+   PATIENT HERO
+========================================================= */
+
+.ft-patient-hero {
+    position: relative !important;
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f7fcfa 62%,
+            #eef9f4 100%
+        ) !important;
+    border: 1px solid var(--ft-v2-border) !important;
+    border-radius: 22px !important;
+    padding: 30px !important;
+    box-shadow: var(--ft-v2-shadow) !important;
+    overflow: hidden !important;
+}
+
+.ft-patient-hero::after {
+    content: "";
+    position: absolute;
+    width: 210px;
+    height: 210px;
+    right: -70px;
+    top: -85px;
+    border-radius: 50%;
+    background: rgba(8,127,91,.055);
+    pointer-events: none;
+}
+
+.ft-avatar {
+    width: 86px !important;
+    height: 86px !important;
+    min-width: 86px !important;
+    border-radius: 24px !important;
+    background:
+        linear-gradient(
+            145deg,
+            var(--ft-v2-green),
+            #0aa173
+        ) !important;
+    color: #fff !important;
+    box-shadow: 0 12px 26px rgba(8,127,91,.22) !important;
+    font-size: 27px !important;
+    font-weight: 850 !important;
+}
+
+.ft-patient-name {
+    color: var(--ft-v2-ink) !important;
+    font-size: clamp(26px, 3vw, 38px) !important;
+    font-weight: 850 !important;
+    letter-spacing: -.025em !important;
+    line-height: 1.12 !important;
+}
+
+.ft-patient-meta {
+    color: var(--ft-v2-muted) !important;
+    font-size: 14px !important;
+}
+
+.ft-patient-status,
+.ft-status-dot {
+    border-radius: 999px !important;
+    background: var(--ft-v2-green-soft) !important;
+    color: var(--ft-v2-green-dark) !important;
+    border: 1px solid #cce9dd !important;
+    font-weight: 800 !important;
+}
+
+/* =========================================================
+   SECTION NAV
+========================================================= */
+
+.ft-section-nav {
+    margin: 20px 0 !important;
+    padding: 6px !important;
+    border: 1px solid var(--ft-v2-border) !important;
+    border-radius: 14px !important;
+    background: rgba(255,255,255,.78) !important;
+    box-shadow: 0 4px 15px rgba(20,50,40,.035);
+}
+
+.ft-section-nav a {
+    border-radius: 9px !important;
+    color: var(--ft-v2-muted) !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    transition: background .15s ease, color .15s ease !important;
+}
+
+.ft-section-nav a:hover {
+    background: var(--ft-v2-green-soft) !important;
+    color: var(--ft-v2-green-dark) !important;
+}
+
+/* =========================================================
+   QUICK STATS
+========================================================= */
+
+.ft-stats {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+    gap: 15px !important;
+    margin: 0 0 22px !important;
+}
+
+.ft-stat {
+    position: relative !important;
+    min-height: 118px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 20px !important;
+    background: var(--ft-v2-white) !important;
+    border: 1px solid var(--ft-v2-border) !important;
+    border-radius: var(--ft-v2-radius) !important;
+    box-shadow: 0 7px 22px rgba(20,50,40,.055) !important;
+    overflow: hidden;
+}
+
+.ft-stat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--ft-v2-green);
+}
+
+.ft-stat-label {
+    color: var(--ft-v2-muted) !important;
+    font-size: 11px !important;
+    font-weight: 850 !important;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+}
+
+.ft-stat-value {
+    color: var(--ft-v2-ink) !important;
+    font-size: 30px !important;
+    line-height: 1 !important;
+    font-weight: 850 !important;
+}
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.ft-main-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0,1.65fr) minmax(300px,.8fr) !important;
+    gap: 20px !important;
+    align-items: start !important;
+}
+
+.ft-main-column,
+.ft-side-column {
+    min-width: 0 !important;
+}
+
+.ft-main-column {
+    display: grid !important;
+    gap: 20px !important;
+}
+
+.ft-side-column {
+    display: grid !important;
+    gap: 20px !important;
+}
+
+/* =========================================================
+   SECTION CARDS
+========================================================= */
+
+.ft-card {
+    background: var(--ft-v2-white) !important;
+    border: 1px solid var(--ft-v2-border) !important;
+    border-radius: var(--ft-v2-radius) !important;
+    box-shadow: var(--ft-v2-shadow) !important;
+    overflow: hidden !important;
+}
+
+.ft-card:hover {
+    box-shadow: var(--ft-v2-shadow-hover) !important;
+}
+
+.ft-card-title {
+    padding: 19px 21px !important;
+    border-bottom: 1px solid #edf2ef !important;
+    background: linear-gradient(
+        180deg,
+        #ffffff,
+        #fbfdfc
+    ) !important;
+    color: var(--ft-v2-ink) !important;
+    font-size: 17px !important;
+    font-weight: 850 !important;
+}
+
+.ft-card-subtitle {
+    color: var(--ft-v2-ink) !important;
+    font-weight: 850 !important;
+}
+
+.ft-card-body {
+    padding: 20px !important;
+}
+
+/* =========================================================
+   PATIENT INFORMATION
+========================================================= */
+
+.ft-info-grid,
+.ft-clinical-grid {
+    gap: 12px !important;
+}
+
+.ft-info-item,
+.ft-clinical-box {
+    background: #fbfdfc !important;
+    border: 1px solid #e8efec !important;
+    border-radius: 11px !important;
+    padding: 14px !important;
+}
+
+.ft-info-label,
+.ft-clinical-box-label,
+.ft-clinical-field-label {
+    color: var(--ft-v2-muted) !important;
+    font-size: 10px !important;
+    font-weight: 850 !important;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.ft-info-value,
+.ft-clinical-box-value,
+.ft-clinical-field-value {
+    color: var(--ft-v2-ink) !important;
+    font-size: 14px !important;
+    font-weight: 650 !important;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   CLINICAL SNAPSHOT
+========================================================= */
+
+.ft-vitals {
+    display: grid !important;
+    grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+    gap: 10px !important;
+    padding: 16px !important;
+    background: #fbfdfc !important;
+    border-bottom: 1px solid var(--ft-v2-border) !important;
+}
+
+.ft-vital {
+    display: block !important;
+    padding: 14px !important;
+    border-radius: 12px !important;
+    background: var(--ft-v2-white) !important;
+    border: 1px solid #e3ece8 !important;
+}
+
+.ft-vital-label {
+    display: block !important;
+    margin-bottom: 6px !important;
+    color: var(--ft-v2-muted) !important;
+    font-size: 10px !important;
+    font-weight: 850 !important;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.ft-vital-value {
+    color: var(--ft-v2-green-dark) !important;
+    font-size: 20px !important;
+    font-weight: 850 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+}
+
+/* =========================================================
+   APPOINTMENTS / CONSULTATIONS
+========================================================= */
+
+.ft-record-list {
+    display: grid !important;
+    gap: 12px !important;
+    padding: 16px !important;
+}
+
+.ft-record,
+.ft-consultation {
+    background: #fff !important;
+    border: 1px solid #e2ebe7 !important;
+    border-radius: 13px !important;
+    box-shadow: 0 4px 15px rgba(20,50,40,.045) !important;
+    overflow: hidden !important;
+}
+
+.ft-record-header,
+.ft-consultation-header {
+    padding: 15px 17px !important;
+    background: #f8fbf9 !important;
+    border-bottom: 1px solid #e8efec !important;
+}
+
+.ft-record-title,
+.ft-consultation-title {
+    color: var(--ft-v2-ink) !important;
+    font-size: 15px !important;
+    font-weight: 850 !important;
+}
+
+.ft-record-meta,
+.ft-consultation-meta {
+    color: var(--ft-v2-muted) !important;
+    font-size: 12px !important;
+    font-weight: 650 !important;
+}
+
+.ft-record-body,
+.ft-consultation-body {
+    color: var(--ft-v2-ink) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+.ft-record > *,
+.ft-consultation > * {
+    max-width: 100%;
+}
+
+.ft-status {
+    border-radius: 999px !important;
+    font-size: 11px !important;
+    font-weight: 850 !important;
+}
+
+/* =========================================================
+   LAB TEST TAGS
+========================================================= */
+
+.ft-test-list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 7px !important;
+    padding: 15px 17px !important;
+}
+
+.ft-test {
+    border: 1px solid #cde7dc !important;
+    border-radius: 999px !important;
+    background: var(--ft-v2-green-soft) !important;
+    color: var(--ft-v2-green-dark) !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    font-weight: 750 !important;
+}
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.ft-table-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 11px;
+}
+
+.ft-table {
+    width: 100% !important;
+    min-width: 620px;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    font-size: 13px !important;
+}
+
+.ft-table th {
+    background: #f5f9f7 !important;
+    color: var(--ft-v2-muted) !important;
+    font-size: 10px !important;
+    font-weight: 850 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .045em !important;
+    padding: 12px !important;
+    border-bottom: 1px solid var(--ft-v2-border) !important;
+}
+
+.ft-table td {
+    background: #fff !important;
+    color: var(--ft-v2-ink) !important;
+    padding: 13px 12px !important;
+    border-bottom: 1px solid #edf2ef !important;
+    vertical-align: top !important;
+    font-size: 13px !important;
+}
+
+.ft-table tbody tr:last-child td {
+    border-bottom: 0 !important;
+}
+
+.ft-table tbody tr:hover td {
+    background: #fbfdfc !important;
+}
+
+/* =========================================================
+   CLINICAL FIELDS
+========================================================= */
+
+.ft-clinical-field {
+    margin: 12px 16px !important;
+    padding: 14px !important;
+    border: 1px solid #e4ece9 !important;
+    border-radius: 11px !important;
+    background: #fbfdfc !important;
+}
+
+.ft-clinical-field-label {
+    display: block !important;
+    margin-bottom: 6px !important;
+}
+
+.ft-clinical-field-value {
+    white-space: pre-wrap !important;
+    line-height: 1.55 !important;
+}
+
+/* =========================================================
+   EMPTY / ERROR / LOADING
+========================================================= */
+
+.ft-loading,
+.ft-empty,
+.ft-error {
+    margin: 16px !important;
+    padding: 24px 18px !important;
+    border-radius: 12px !important;
+    text-align: center !important;
+    font-size: 13px !important;
+}
+
+.ft-loading,
+.ft-empty {
+    background: #f8fbf9 !important;
+    color: var(--ft-v2-muted) !important;
+    border: 1px dashed #d8e5df !important;
+}
+
+.ft-error {
+    background: var(--ft-v2-red-soft) !important;
+    color: var(--ft-v2-red) !important;
+    border: 1px solid #f2c9c3 !important;
+}
+
+/* =========================================================
+   MOBILE â€” REAL REORGANIZATION
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .ft-page {
+        width: min(100% - 28px, 760px) !important;
+        padding-top: 18px !important;
+    }
+
+    .ft-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .ft-side-column {
+        order: -1;
+    }
+
+    .ft-stats {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    }
+
+    .ft-patient-hero {
+        padding: 22px !important;
+    }
+
+    .ft-vitals {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    }
+}
+
+@media (max-width: 600px) {
+
+    body {
+        font-size: 14px !important;
+    }
+
+    .ft-topbar-inner {
+        width: calc(100% - 24px) !important;
+        min-height: 60px !important;
+    }
+
+    .ft-brand-mark {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 10px !important;
+        font-size: 16px !important;
+    }
+
+    .ft-brand span {
+        font-size: 13px !important;
+    }
+
+    .ft-top-actions {
+        gap: 6px !important;
+    }
+
+    .ft-top-actions .ft-btn {
+        min-height: 38px !important;
+        padding: 0 10px !important;
+        font-size: 12px !important;
+    }
+
+    .ft-page {
+        width: calc(100% - 20px) !important;
+        padding: 12px 0 50px !important;
+    }
+
+    .ft-breadcrumb {
+        margin-bottom: 12px !important;
+    }
+
+    .ft-patient-hero {
+        display: block !important;
+        padding: 18px !important;
+        border-radius: 17px !important;
+    }
+
+    .ft-avatar {
+        width: 68px !important;
+        height: 68px !important;
+        min-width: 68px !important;
+        border-radius: 19px !important;
+        font-size: 22px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .ft-patient-name {
+        font-size: 26px !important;
+    }
+
+    .ft-patient-meta {
+        font-size: 13px !important;
+        line-height: 1.55 !important;
+    }
+
+    .ft-section-nav {
+        display: flex !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        margin: 12px 0 !important;
+    }
+
+    .ft-section-nav a {
+        flex: 0 0 auto !important;
+        padding: 9px 11px !important;
+    }
+
+    .ft-stats {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 9px !important;
+    }
+
+    .ft-stat {
+        min-height: 92px !important;
+        padding: 15px !important;
+        border-radius: 13px !important;
+    }
+
+    .ft-stat-value {
+        font-size: 25px !important;
+    }
+
+    .ft-stat-label {
+        font-size: 9px !important;
+    }
+
+    .ft-main-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 13px !important;
+    }
+
+    .ft-main-column,
+    .ft-side-column {
+        width: 100% !important;
+        display: grid !important;
+        gap: 13px !important;
+    }
+
+    .ft-side-column {
+        order: -1 !important;
+    }
+
+    .ft-card {
+        border-radius: 14px !important;
+    }
+
+    .ft-card-title {
+        padding: 15px !important;
+        font-size: 15px !important;
+    }
+
+    .ft-card-body {
+        padding: 14px !important;
+    }
+
+    .ft-info-grid,
+    .ft-clinical-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+
+    .ft-info-item,
+    .ft-clinical-box {
+        padding: 12px !important;
+    }
+
+    .ft-vitals {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        padding: 11px !important;
+    }
+
+    .ft-vital {
+        padding: 12px !important;
+    }
+
+    .ft-vital-value {
+        font-size: 17px !important;
+    }
+
+    .ft-record-list {
+        padding: 10px !important;
+        gap: 9px !important;
+    }
+
+    .ft-record-header,
+    .ft-consultation-header {
+        padding: 13px !important;
+    }
+
+    .ft-record-title,
+    .ft-consultation-title {
+        font-size: 14px !important;
+    }
+
+    .ft-record-meta,
+    .ft-consultation-meta {
+        font-size: 11px !important;
+    }
+
+    .ft-record-body,
+    .ft-consultation-body {
+        font-size: 13px !important;
+    }
+
+    /* Mobile clinical tables become stacked cards. */
+    .ft-table-wrap {
+        overflow: visible !important;
+    }
+
+    .ft-table {
+        min-width: 0 !important;
+        width: 100% !important;
+        display: block !important;
+    }
+
+    .ft-table thead {
+        display: none !important;
+    }
+
+    .ft-table tbody {
+        display: grid !important;
+        gap: 8px !important;
+    }
+
+    .ft-table tr {
+        display: block !important;
+        padding: 10px !important;
+        border: 1px solid #e3ece8 !important;
+        border-radius: 11px !important;
+        background: #fbfdfc !important;
+    }
+
+    .ft-table td {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        gap: 14px !important;
+        padding: 8px 4px !important;
+        border-bottom: 1px solid #edf2ef !important;
+        background: transparent !important;
+        font-size: 12px !important;
+        text-align: right !important;
+    }
+
+    .ft-table td:last-child {
+        border-bottom: 0 !important;
+    }
+
+    .ft-table td::before {
+        content: attr(data-label) !important;
+        flex: 0 0 42% !important;
+        color: var(--ft-v2-muted) !important;
+        font-size: 9px !important;
+        font-weight: 850 !important;
+        text-transform: uppercase !important;
+        letter-spacing: .04em !important;
+        text-align: left !important;
+    }
+
+    .ft-test-list {
+        padding: 12px !important;
+    }
+
+    .ft-test {
+        font-size: 11px !important;
+        padding: 5px 8px !important;
+    }
+
+    .ft-clinical-field {
+        margin: 9px !important;
+        padding: 12px !important;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .ft-stats {
+        grid-template-columns: 1fr !important;
+    }
+
+    .ft-vitals {
+        grid-template-columns: 1fr !important;
+    }
+
+    .ft-top-actions .ft-btn {
+        padding: 0 8px !important;
+        font-size: 11px !important;
+    }
+
+    .ft-patient-name {
+        font-size: 23px !important;
+    }
+}
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print {
+
+    .ft-topbar,
+    .ft-section-nav,
+    .ft-top-actions,
+    .ft-breadcrumb {
+        display: none !important;
+    }
+
+    body {
+        background: #fff !important;
+    }
+
+    .ft-page {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .ft-card,
+    .ft-record,
+    .ft-consultation,
+    .ft-patient-hero {
+        box-shadow: none !important;
+        break-inside: avoid !important;
+    }
+}
+
+</style><style id="FRANTETT-PATIENT-RECORD-V3">
+
+/* =========================================================
+   FRANTETT HEALTHCARE
+   PATIENT RECORD - V3 CLINICAL EMR PRESENTATION
+   PRESENTATION ONLY - NO JS/API/DATABASE CHANGES
+   ========================================================= */
+
+:root {
+    --ft-v3-green: #087f5b;
+    --ft-v3-green-dark: #056b4d;
+    --ft-v3-green-soft: #eaf7f2;
+    --ft-v3-green-pale: #f4fbf8;
+
+    --ft-v3-navy: #17324d;
+    --ft-v3-text: #263746;
+    --ft-v3-muted: #6b7c8d;
+
+    --ft-v3-border: #dce5e9;
+    --ft-v3-bg: #f5f8f9;
+    --ft-v3-white: #ffffff;
+
+    --ft-v3-radius: 16px;
+    --ft-v3-shadow: 0 5px 22px rgba(20, 45, 60, .07);
+}
+
+/* ---------------------------------------------------------
+   PAGE
+   --------------------------------------------------------- */
+
+.ft-page {
+    background:
+        linear-gradient(
+            180deg,
+            #f7fbfa 0,
+            var(--ft-v3-bg) 260px,
+            var(--ft-v3-bg) 100%
+        ) !important;
+    color: var(--ft-v3-text) !important;
+}
+
+/* ---------------------------------------------------------
+   TOP BAR
+   --------------------------------------------------------- */
+
+.ft-topbar {
+    background: rgba(255,255,255,.96) !important;
+    border-bottom: 1px solid var(--ft-v3-border) !important;
+    box-shadow: 0 2px 14px rgba(25,50,65,.05) !important;
+    backdrop-filter: blur(10px);
+}
+
+.ft-topbar-inner {
+    min-height: 68px !important;
+}
+
+.ft-brand {
+    color: var(--ft-v3-navy) !important;
+    font-weight: 800 !important;
+    letter-spacing: -.02em;
+}
+
+.ft-brand-mark {
+    background: var(--ft-v3-green) !important;
+    box-shadow: 0 5px 14px rgba(8,127,91,.22) !important;
+}
+
+/* ---------------------------------------------------------
+   BREADCRUMB
+   --------------------------------------------------------- */
+
+.ft-breadcrumb {
+    color: var(--ft-v3-muted) !important;
+    font-size: 13px !important;
+}
+
+.ft-breadcrumb button {
+    color: var(--ft-v3-green) !important;
+    font-weight: 700 !important;
+}
+
+/* ---------------------------------------------------------
+   MAIN
+   --------------------------------------------------------- */
+
+.ft-main-column,
+.ft-side-column {
+    min-width: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   PATIENT HERO
+   --------------------------------------------------------- */
+
+.ft-patient-hero {
+    position: relative !important;
+    overflow: hidden !important;
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f7fcfa 65%,
+            #edf8f4 100%
+        ) !important;
+    border: 1px solid var(--ft-v3-border) !important;
+    border-radius: 22px !important;
+    box-shadow: var(--ft-v3-shadow) !important;
+    padding: 28px !important;
+}
+
+.ft-patient-hero::after {
+    content: "";
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    right: -80px;
+    top: -90px;
+    border-radius: 50%;
+    background: rgba(8,127,91,.07);
+    pointer-events: none;
+}
+
+.ft-patient-identity {
+    position: relative;
+    z-index: 1;
+}
+
+.ft-avatar,
+.ft-patient-hero .ft-avatar {
+    background: var(--ft-v3-green) !important;
+    color: #fff !important;
+    box-shadow: 0 7px 20px rgba(8,127,91,.22) !important;
+    border: 4px solid #fff !important;
+}
+
+.ft-eyebrow {
+    color: var(--ft-v3-green) !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .12em !important;
+}
+
+.ft-patient-name {
+    color: var(--ft-v3-navy) !important;
+    font-size: clamp(25px, 3vw, 36px) !important;
+    font-weight: 850 !important;
+    letter-spacing: -.035em !important;
+    line-height: 1.08 !important;
+}
+
+.ft-patient-meta {
+    color: var(--ft-v3-muted) !important;
+    font-size: 14px !important;
+}
+
+.ft-patient-status {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    background: var(--ft-v3-green-soft) !important;
+    color: var(--ft-v3-green-dark) !important;
+    border: 1px solid #cbe9de !important;
+    border-radius: 999px !important;
+    padding: 7px 12px !important;
+    font-weight: 750 !important;
+    font-size: 12px !important;
+}
+
+.ft-status-dot {
+    background: #12a16f !important;
+}
+
+/* ---------------------------------------------------------
+   ACTIONS
+   --------------------------------------------------------- */
+
+.ft-top-actions {
+    position: relative;
+    z-index: 2;
+}
+
+.ft-btn {
+    border-radius: 10px !important;
+    font-weight: 750 !important;
+    min-height: 40px !important;
+    transition: transform .15s ease, box-shadow .15s ease !important;
+}
+
+.ft-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------
+   QUICK STATS
+   --------------------------------------------------------- */
+
+.ft-stats {
+    gap: 14px !important;
+}
+
+.ft-stat {
+    background: #fff !important;
+    border: 1px solid var(--ft-v3-border) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 3px 14px rgba(25,50,65,.05) !important;
+    padding: 18px !important;
+    min-height: 92px !important;
+}
+
+.ft-stat-value {
+    color: var(--ft-v3-navy) !important;
+    font-size: 25px !important;
+    font-weight: 850 !important;
+}
+
+.ft-stat-label {
+    color: var(--ft-v3-muted) !important;
+    font-size: 11px !important;
+    font-weight: 750 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .07em !important;
+}
+
+/* ---------------------------------------------------------
+   SECTION NAVIGATION
+   --------------------------------------------------------- */
+
+.ft-section-nav {
+    background: rgba(255,255,255,.94) !important;
+    border: 1px solid var(--ft-v3-border) !important;
+    border-radius: 13px !important;
+    box-shadow: 0 2px 12px rgba(25,50,65,.04) !important;
+    padding: 6px !important;
+}
+
+.ft-section-nav a {
+    color: var(--ft-v3-muted) !important;
+    border-radius: 9px !important;
+    font-weight: 700 !important;
+    padding: 9px 12px !important;
+}
+
+.ft-section-nav a:hover,
+.ft-section-nav a.active {
+    background: var(--ft-v3-green-soft) !important;
+    color: var(--ft-v3-green-dark) !important;
+}
+
+/* ---------------------------------------------------------
+   MAIN CARDS
+   --------------------------------------------------------- */
+
+.ft-card {
+    background: #fff !important;
+    border: 1px solid var(--ft-v3-border) !important;
+    border-radius: var(--ft-v3-radius) !important;
+    box-shadow: var(--ft-v3-shadow) !important;
+    overflow: hidden !important;
+}
+
+.ft-card-title {
+    color: var(--ft-v3-navy) !important;
+    font-weight: 800 !important;
+    letter-spacing: -.015em !important;
+}
+
+.ft-card-subtitle {
+    color: var(--ft-v3-muted) !important;
+}
+
+/* ---------------------------------------------------------
+   SECTION HEADERS
+   --------------------------------------------------------- */
+
+.ft-card > .ft-card-header,
+.ft-record-header {
+    border-bottom: 1px solid #edf1f3 !important;
+}
+
+.ft-record-header {
+    background: #fbfcfc !important;
+}
+
+.ft-record-title,
+.ft-consultation-title {
+    color: var(--ft-v3-navy) !important;
+    font-weight: 800 !important;
+}
+
+.ft-record-meta,
+.ft-consultation-meta {
+    color: var(--ft-v3-muted) !important;
+}
+
+/* ---------------------------------------------------------
+   PATIENT INFORMATION
+   --------------------------------------------------------- */
+
+.ft-info-grid {
+    gap: 10px !important;
+}
+
+.ft-info-item {
+    background: #f8fafb !important;
+    border: 1px solid #e7edef !important;
+    border-radius: 11px !important;
+    padding: 13px !important;
+}
+
+.ft-info-label {
+    color: var(--ft-v3-muted) !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .06em !important;
+}
+
+.ft-info-value {
+    color: var(--ft-v3-text) !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+}
+
+/* ---------------------------------------------------------
+   VITAL SIGNS
+   --------------------------------------------------------- */
+
+.ft-vitals {
+    gap: 12px !important;
+}
+
+.ft-vital {
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            var(--ft-v3-green-pale)
+        ) !important;
+    border: 1px solid #dceee7 !important;
+    border-radius: 13px !important;
+    padding: 16px !important;
+    box-shadow: none !important;
+}
+
+.ft-vital-label {
+    color: var(--ft-v3-muted) !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .06em !important;
+}
+
+.ft-vital-value {
+    color: var(--ft-v3-navy) !important;
+    font-size: 22px !important;
+    font-weight: 850 !important;
+}
+
+/* ---------------------------------------------------------
+   CLINICAL RECORDS
+   --------------------------------------------------------- */
+
+.ft-record-list {
+    gap: 14px !important;
+}
+
+.ft-record {
+    background: #fff !important;
+    border: 1px solid var(--ft-v3-border) !important;
+    border-left: 4px solid var(--ft-v3-green) !important;
+    border-radius: 13px !important;
+    box-shadow: 0 3px 13px rgba(25,50,65,.045) !important;
+    overflow: hidden !important;
+}
+
+.ft-record-body {
+    padding: 18px !important;
+}
+
+.ft-consultation {
+    border-left: 4px solid var(--ft-v3-navy) !important;
+    background: #fff !important;
+    border-radius: 13px !important;
+    box-shadow: 0 3px 13px rgba(25,50,65,.045) !important;
+}
+
+.ft-clinical-box {
+    background: #f8fafb !important;
+    border: 1px solid #e5ecef !important;
+    border-radius: 11px !important;
+    padding: 14px !important;
+}
+
+.ft-clinical-box-label,
+.ft-clinical-field-label {
+    color: var(--ft-v3-muted) !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .06em !important;
+}
+
+.ft-clinical-box-value,
+.ft-clinical-field-value {
+    color: var(--ft-v3-text) !important;
+    line-height: 1.55 !important;
+}
+
+/* ---------------------------------------------------------
+   LAB TEST TAGS
+   --------------------------------------------------------- */
+
+.ft-test {
+    display: inline-flex !important;
+    background: var(--ft-v3-green-soft) !important;
+    color: var(--ft-v3-green-dark) !important;
+    border: 1px solid #cbe9de !important;
+    border-radius: 999px !important;
+    font-weight: 750 !important;
+    padding: 6px 10px !important;
+}
+
+/* ---------------------------------------------------------
+   TABLES - DESKTOP
+   --------------------------------------------------------- */
+
+.ft-table-wrap {
+    border: 1px solid var(--ft-v3-border) !important;
+    border-radius: 12px !important;
+    overflow-x: auto !important;
+    background: #fff !important;
+}
+
+.ft-table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    width: 100% !important;
+}
+
+.ft-table th {
+    background: #f5f8f9 !important;
+    color: var(--ft-v3-muted) !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .06em !important;
+    white-space: nowrap !important;
+    border-bottom: 1px solid var(--ft-v3-border) !important;
+}
+
+.ft-table td {
+    color: var(--ft-v3-text) !important;
+    border-bottom: 1px solid #edf1f3 !important;
+    vertical-align: top !important;
+}
+
+.ft-table tbody tr:last-child td {
+    border-bottom: 0 !important;
+}
+
+.ft-table tbody tr:hover {
+    background: #fbfdfc !important;
+}
+
+/* ---------------------------------------------------------
+   EMPTY / LOADING / ERROR STATES
+   --------------------------------------------------------- */
+
+.ft-loading,
+.ft-empty,
+.ft-error {
+    border-radius: 12px !important;
+    padding: 22px !important;
+}
+
+.ft-loading {
+    background: #f8fafb !important;
+    color: var(--ft-v3-muted) !important;
+}
+
+.ft-empty {
+    background: var(--ft-v3-green-pale) !important;
+    border: 1px dashed #cfe7de !important;
+    color: var(--ft-v3-muted) !important;
+}
+
+.ft-error {
+    background: #fff8f8 !important;
+    border: 1px solid #f0d7d7 !important;
+}
+
+/* ---------------------------------------------------------
+   CLINICAL SNAPSHOT / SUMMARY
+   --------------------------------------------------------- */
+
+.ft-clinical-grid {
+    gap: 12px !important;
+}
+
+.ft-clinical-field {
+    background: #fff !important;
+    border: 1px solid var(--ft-v3-border) !important;
+    border-radius: 11px !important;
+    padding: 14px !important;
+}
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 900px) {
+
+    .ft-page {
+        padding-bottom: 30px !important;
+    }
+
+    .ft-patient-hero {
+        padding: 20px !important;
+        border-radius: 17px !important;
+    }
+
+    .ft-patient-name {
+        font-size: 27px !important;
+    }
+
+    .ft-stats {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .ft-main-grid {
+        display: block !important;
+    }
+
+    .ft-side-column {
+        margin-top: 16px !important;
+    }
+
+    .ft-section-nav {
+        overflow-x: auto !important;
+        display: flex !important;
+        gap: 4px !important;
+        scrollbar-width: none;
+    }
+
+    .ft-section-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .ft-section-nav a {
+        flex: 0 0 auto !important;
+        white-space: nowrap !important;
+    }
+
+    .ft-info-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .ft-vitals {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .ft-top-actions {
+        width: 100% !important;
+        display: flex !important;
+        gap: 8px !important;
+        flex-wrap: wrap !important;
+    }
+
+    .ft-top-actions .ft-btn {
+        flex: 1 1 150px !important;
+    }
+
+    .ft-table-wrap {
+        overflow: visible !important;
+        border: 0 !important;
+    }
+
+    .ft-table {
+        display: block !important;
+    }
+
+    .ft-table thead {
+        display: none !important;
+    }
+
+    .ft-table tbody {
+        display: grid !important;
+        gap: 10px !important;
+    }
+
+    .ft-table tr {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        border: 1px solid var(--ft-v3-border) !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        background: #fff !important;
+    }
+
+    .ft-table td {
+        display: grid !important;
+        grid-template-columns: minmax(105px, 38%) 1fr !important;
+        gap: 12px !important;
+        border-bottom: 1px solid #edf1f3 !important;
+        padding: 11px 13px !important;
+    }
+
+    .ft-table td:last-child {
+        border-bottom: 0 !important;
+    }
+
+    .ft-table td::before {
+        content: attr(data-label);
+        color: var(--ft-v3-muted);
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .ft-topbar-inner {
+        min-height: 60px !important;
+    }
+
+    .ft-patient-hero {
+        padding: 17px !important;
+        border-radius: 15px !important;
+    }
+
+    .ft-patient-identity {
+        align-items: flex-start !important;
+    }
+
+    .ft-avatar,
+    .ft-patient-hero .ft-avatar {
+        width: 48px !important;
+        height: 48px !important;
+        min-width: 48px !important;
+    }
+
+    .ft-patient-name {
+        font-size: 23px !important;
+    }
+
+    .ft-patient-meta {
+        font-size: 12px !important;
+        line-height: 1.5 !important;
+    }
+
+    .ft-stats {
+        gap: 8px !important;
+    }
+
+    .ft-stat {
+        padding: 13px !important;
+        min-height: 76px !important;
+    }
+
+    .ft-stat-value {
+        font-size: 21px !important;
+    }
+
+    .ft-stat-label {
+        font-size: 9px !important;
+    }
+
+    .ft-card {
+        border-radius: 13px !important;
+    }
+
+    .ft-card-body {
+        padding: 14px !important;
+    }
+
+    .ft-record-body {
+        padding: 14px !important;
+    }
+
+    .ft-vitals {
+        gap: 8px !important;
+    }
+
+    .ft-vital {
+        padding: 12px !important;
+        border-radius: 11px !important;
+    }
+
+    .ft-vital-value {
+        font-size: 19px !important;
+    }
+
+    .ft-info-item,
+    .ft-clinical-box,
+    .ft-clinical-field {
+        padding: 12px !important;
+    }
+
+    .ft-table td {
+        grid-template-columns: 1fr !important;
+        gap: 4px !important;
+    }
+
+    .ft-top-actions .ft-btn {
+        flex: 1 1 100% !important;
+    }
+}
+
+/* ---------------------------------------------------------
+   PRINT
+   --------------------------------------------------------- */
+
+@media print {
+
+    .ft-topbar,
+    .ft-section-nav,
+    .ft-top-actions {
+        display: none !important;
+    }
+
+    .ft-page {
+        background: #fff !important;
+    }
+
+    .ft-card,
+    .ft-patient-hero,
+    .ft-record,
+    .ft-consultation {
+        box-shadow: none !important;
+        break-inside: avoid !important;
+    }
+}
+
+</style><style id="frantett-payment-v3-styles">
+.patient-profile-section:has(#patientPaymentsPanel){margin-top:24px;padding:0;border:1px solid #d9e8df;border-radius:18px;background:#fff;box-shadow:0 8px 28px rgba(20,83,45,.08);overflow:hidden}
+.patient-profile-section:has(#patientPaymentsPanel) .patient-section-heading{padding:22px 24px 16px;margin:0;background:linear-gradient(135deg,#f2fbf5 0%,#fff 100%);border-bottom:1px solid #e1eee5}
+.patient-profile-section:has(#patientPaymentsPanel) .patient-section-heading h3{margin:0;font-size:21px;font-weight:750;color:#14532d}
+.patient-profile-section:has(#patientPaymentsPanel) .patient-section-heading p{margin:6px 0 0;color:#64748b;font-size:14px}
+#patientPaymentsToggle{margin:18px 24px;padding:11px 18px;border:0;border-radius:10px;background:#166534;color:#fff;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(22,101,52,.18)}
+#patientPaymentsToggle:hover{filter:brightness(.96)}
+#patientPaymentsPanel{padding:0 24px 24px}
+.patient-payment-form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:18px;border:1px solid #e2eee6;border-radius:14px;background:#f8fcf9}
+.patient-payment-form label{display:block;margin-bottom:7px;font-size:13px;font-weight:700;color:#475569}
+.patient-payment-form input{width:100%;box-sizing:border-box;min-height:44px;padding:10px 12px;border:1px solid #cbded2;border-radius:9px;background:#fff;color:#1f2937}
+.patient-payment-form input:focus{outline:none;border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.12)}
+#paymentMessage{margin:14px 0;min-height:20px}
+.patient-payment-actions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+.patient-payment-actions button{min-height:44px;padding:10px 18px;border:0;border-radius:10px;background:#15803d;color:#fff;font-weight:700;cursor:pointer}
+.patient-payment-actions button:hover{filter:brightness(.96)}
+#paymentHistory{overflow-x:auto;border:1px solid #e2eee6;border-radius:14px;background:#fff}
+#paymentHistory table{width:100%;min-width:620px;border-collapse:collapse}
+#paymentHistory th{padding:12px 14px;background:#f0f8f2;color:#31543d;text-align:left;font-size:12px;font-weight:750;text-transform:uppercase;letter-spacing:.03em}
+#paymentHistory td{padding:13px 14px;border-top:1px solid #edf2ee;color:#475569;font-size:14px}
+@media(max-width:760px){.patient-payment-form{grid-template-columns:1fr}#patientPaymentsPanel{padding:0 16px 18px}.patient-profile-section:has(#patientPaymentsPanel) .patient-section-heading{padding:18px 16px 14px}#patientPaymentsToggle{margin:14px 16px}.patient-payment-actions{flex-direction:column}.patient-payment-actions button{width:100%}#paymentHistory{margin-top:8px}}
+</style>
+<style id="frantett-vitals-top-meta">
+.ft-vitals-meta {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px solid var(--ft-border,#e2e8f0);
+    font-size:13px;
+}
+
+.ft-vitals-meta-item {
+    display:flex;
+    align-items:baseline;
+    gap:6px;
+    color:var(--ft-muted,#64748b);
+}
+
+.ft-vitals-meta-item strong {
+    color:var(--ft-text,#1e293b);
+    font-weight:700;
+}
+
+@media (max-width:700px) {
+    .ft-vitals-meta {
+        grid-template-columns:1fr;
+        gap:8px;
+    }
+}
+</style>
+<style id="frantett-professional-topbar">
+
+/* =========================================================
+   FRANTETT PROFESSIONAL PATIENT RECORD TOP BAR
+   ========================================================= */
+
+.ft-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    width: 100%;
+
+    background: #166534;
+
+    border-bottom: 1px solid rgba(255,255,255,0.14);
+
+    box-shadow: 0 2px 10px rgba(15,23,42,0.12);
+}
+
+.ft-topbar-inner {
+    width: min(100%, 1440px);
+    min-height: 64px;
+
+    margin: 0 auto;
+    padding: 0 28px;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+
+    gap: 24px;
+}
+
+
+/* ---------------------------------------------------------
+   BACK
+   --------------------------------------------------------- */
+
+.ft-topbar-back {
+    justify-self: start;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 8px;
+
+    min-height: 40px;
+
+    padding: 0 12px;
+
+    border: 1px solid rgba(255,255,255,0.20);
+    border-radius: 8px;
+
+    background: transparent;
+    color: #ffffff;
+
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease;
+}
+
+.ft-topbar-back:hover {
+    background: rgba(255,255,255,0.10);
+    border-color: rgba(255,255,255,0.34);
+}
+
+.ft-back-arrow {
+    font-size: 20px;
+    line-height: 1;
+}
+
+
+/* ---------------------------------------------------------
+   CENTER BRAND
+   --------------------------------------------------------- */
+
+.ft-topbar-brand {
+    justify-self: center;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    color: #ffffff;
+
+    white-space: nowrap;
+}
+
+.ft-topbar-brand-mark {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    border: 1px solid rgba(255,255,255,0.30);
+
+    background: rgba(255,255,255,0.10);
+
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.ft-topbar-brand-text {
+    display: flex;
+    align-items: baseline;
+
+    gap: 5px;
+}
+
+.ft-topbar-brand-name {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -.2px;
+}
+
+.ft-topbar-brand-subtitle {
+    font-size: 14px;
+    font-weight: 500;
+
+    opacity: .82;
+}
+
+
+/* ---------------------------------------------------------
+   RIGHT ACTIONS
+   --------------------------------------------------------- */
+
+.ft-topbar-actions {
+    justify-self: end;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.ft-topbar-print {
+    min-height: 40px;
+
+    padding: 0 13px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    border: 1px solid rgba(255,255,255,0.24);
+    border-radius: 8px;
+
+    background: rgba(255,255,255,0.08);
+    color: #ffffff;
+
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease;
+}
+
+.ft-topbar-print:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.38);
+}
+
+.ft-print-icon {
+    font-size: 15px;
+}
+
+.ft-topbar-more {
+    width: 38px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 8px;
+
+    background: transparent;
+    color: #ffffff;
+
+    font-size: 21px;
+
+    cursor: pointer;
+}
+
+.ft-topbar-more:hover {
+    background: rgba(255,255,255,0.10);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .ft-topbar-inner {
+        min-height: 62px;
+
+        padding: 0 12px;
+
+        grid-template-columns: auto 1fr auto;
+
+        gap: 8px;
+    }
+
+    .ft-topbar-back {
+        min-height: 38px;
+
+        padding: 0 5px;
+
+        border: 0;
+
+        gap: 4px;
+    }
+
+    .ft-topbar-back:hover {
+        background: rgba(255,255,255,0.10);
+    }
+
+    .ft-back-arrow {
+        font-size: 20px;
+    }
+
+    .ft-back-label {
+        font-size: 13px;
+    }
+
+    .ft-topbar-brand {
+        justify-self: center;
+
+        gap: 7px;
+    }
+
+    .ft-topbar-brand-mark {
+        width: 30px;
+        height: 30px;
+
+        border-radius: 7px;
+
+        font-size: 14px;
+    }
+
+    .ft-topbar-brand-text {
+        display: block;
+
+        line-height: 1.05;
+    }
+
+    .ft-topbar-brand-name {
+        font-size: 15px;
+        line-height: 1.1;
+    }
+
+    .ft-topbar-brand-subtitle {
+        display: block;
+
+        margin-top: 2px;
+
+        font-size: 11px;
+        line-height: 1.1;
+    }
+
+    .ft-topbar-actions {
+        gap: 4px;
+    }
+
+    .ft-topbar-print {
+        width: 38px;
+        min-height: 38px;
+
+        padding: 0;
+
+        border-radius: 7px;
+    }
+
+    .ft-print-label {
+        display: none;
+    }
+
+    .ft-print-icon {
+        font-size: 16px;
+    }
+
+    .ft-topbar-more {
+        display: none;
+    }
+
+    /* Remove duplicate breadcrumb on phone */
+    .ft-breadcrumb {
+        display: none !important;
+    }
+}
+
+
+/* ---------------------------------------------------------
+   VERY SMALL PHONES
+   --------------------------------------------------------- */
+
+@media (max-width: 390px) {
+
+    .ft-topbar-inner {
+        padding-left: 9px;
+        padding-right: 9px;
+
+        gap: 5px;
+    }
+
+    .ft-back-label {
+        font-size: 12px;
+    }
+
+    .ft-topbar-brand {
+        gap: 5px;
+    }
+
+    .ft-topbar-brand-mark {
+        display: none;
+    }
+
+    .ft-topbar-brand-name {
+        font-size: 14px;
+    }
+
+    .ft-topbar-brand-subtitle {
+        font-size: 10px;
+    }
+}
+
+
+/* ---------------------------------------------------------
+   PRINT
+   --------------------------------------------------------- */
+
+@media print {
+
+    .ft-topbar {
+        display: none !important;
+    }
+
+}
+
+</style>
+<style id="frantett-topbar-visibility-fix">
+
+/* =========================================================
+   FINAL TOP BAR VISIBILITY OVERRIDE
+   ========================================================= */
+
+header.ft-topbar {
+    background: #166534 !important;
+    color: #ffffff !important;
+}
+
+header.ft-topbar .ft-topbar-inner {
+    background: transparent !important;
+}
+
+header.ft-topbar .ft-topbar-back,
+header.ft-topbar .ft-topbar-back span,
+header.ft-topbar .ft-back-arrow,
+header.ft-topbar .ft-back-label {
+    color: #ffffff !important;
+}
+
+header.ft-topbar .ft-topbar-brand,
+header.ft-topbar .ft-topbar-brand *,
+header.ft-topbar .ft-topbar-brand-name,
+header.ft-topbar .ft-topbar-brand-subtitle,
+header.ft-topbar .ft-topbar-brand-mark {
+    color: #ffffff !important;
+}
+
+header.ft-topbar .ft-topbar-print,
+header.ft-topbar .ft-topbar-print *,
+header.ft-topbar .ft-print-label,
+header.ft-topbar .ft-print-icon {
+    color: #ffffff !important;
+}
+
+header.ft-topbar .ft-topbar-more {
+    color: #ffffff !important;
+}
+
+header.ft-topbar .ft-topbar-back {
+    background: transparent !important;
+}
+
+header.ft-topbar .ft-topbar-print {
+    background: rgba(255,255,255,0.08) !important;
+}
+
+header.ft-topbar .ft-topbar-more {
+    background: transparent !important;
+}
+
+header.ft-topbar .ft-topbar-brand-mark {
+    background: rgba(255,255,255,0.10) !important;
+    border-color: rgba(255,255,255,0.30) !important;
+}
+
+</style>
+<style id="frantett-clean-brand-topbar">
+
+/* =========================================================
+   FRANTETT HEALTHCARE â€” CLEAN PROFESSIONAL TOP BAR
+   ========================================================= */
+
+header.ft-topbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+
+    width: 100% !important;
+
+    background: #166534 !important;
+    color: #ffffff !important;
+
+    border-bottom: 1px solid rgba(255,255,255,0.16) !important;
+
+    box-shadow: 0 2px 10px rgba(15,23,42,0.12) !important;
+}
+
+header.ft-topbar .ft-topbar-inner {
+    width: min(100%, 1440px) !important;
+    min-height: 64px !important;
+
+    margin: 0 auto !important;
+    padding: 0 30px !important;
+
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    align-items: center !important;
+
+    gap: 24px !important;
+
+    background: transparent !important;
+}
+
+
+/* =========================================================
+   BACK TO PATIENTS
+   ========================================================= */
+
+header.ft-topbar .ft-topbar-back {
+    justify-self: start !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+
+    gap: 8px !important;
+
+    min-height: 38px !important;
+    padding: 0 10px !important;
+
+    border: 1px solid rgba(255,255,255,0.20) !important;
+    border-radius: 7px !important;
+
+    background: transparent !important;
+    color: #ffffff !important;
+
+    font-size: 14px !important;
+    font-weight: 600 !important;
+
+    cursor: pointer !important;
+}
+
+header.ft-topbar .ft-topbar-back:hover {
+    background: rgba(255,255,255,0.10) !important;
+    border-color: rgba(255,255,255,0.32) !important;
+}
+
+header.ft-topbar .ft-back-arrow {
+    color: #ffffff !important;
+    font-size: 19px !important;
+    line-height: 1 !important;
+}
+
+header.ft-topbar .ft-back-label {
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   FRANTETT HEALTHCARE BRAND
+   ========================================================= */
+
+header.ft-topbar .ft-topbar-brand {
+    justify-self: center !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #ffffff !important;
+
+    white-space: nowrap !important;
+}
+
+header.ft-topbar .ft-topbar-brand-text {
+    display: flex !important;
+    align-items: baseline !important;
+
+    gap: 6px !important;
+
+    color: #ffffff !important;
+}
+
+header.ft-topbar .ft-topbar-brand-name {
+    color: #ffffff !important;
+
+    font-size: 20px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: -0.4px !important;
+    line-height: 1 !important;
+}
+
+header.ft-topbar .ft-topbar-brand-subtitle {
+    color: rgba(255,255,255,0.82) !important;
+
+    font-size: 15px !important;
+    font-weight: 500 !important;
+
+    line-height: 1 !important;
+}
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+header.ft-topbar .ft-topbar-actions {
+    justify-self: end !important;
+
+    display: flex !important;
+    align-items: center !important;
+}
+
+header.ft-topbar .ft-topbar-print {
+    min-height: 38px !important;
+
+    padding: 0 13px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 8px !important;
+
+    border: 1px solid rgba(255,255,255,0.24) !important;
+    border-radius: 7px !important;
+
+    background: rgba(255,255,255,0.08) !important;
+    color: #ffffff !important;
+
+    font-size: 13px !important;
+    font-weight: 600 !important;
+
+    cursor: pointer !important;
+}
+
+header.ft-topbar .ft-topbar-print:hover {
+    background: rgba(255,255,255,0.15) !important;
+    border-color: rgba(255,255,255,0.38) !important;
+}
+
+header.ft-topbar .ft-print-label,
+header.ft-topbar .ft-print-icon {
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   PHONE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    header.ft-topbar .ft-topbar-inner {
+        min-height: 62px !important;
+
+        padding: 0 12px !important;
+
+        grid-template-columns: auto 1fr auto !important;
+
+        gap: 8px !important;
+    }
+
+    header.ft-topbar .ft-topbar-back {
+        min-height: 38px !important;
+
+        padding: 0 4px !important;
+
+        border: 0 !important;
+
+        gap: 4px !important;
+    }
+
+    header.ft-topbar .ft-back-arrow {
+        font-size: 20px !important;
+    }
+
+    header.ft-topbar .ft-back-label {
+        font-size: 13px !important;
+    }
+
+    header.ft-topbar .ft-topbar-brand {
+        justify-self: center !important;
+    }
+
+    header.ft-topbar .ft-topbar-brand-text {
+        display: block !important;
+
+        text-align: center !important;
+
+        line-height: 1 !important;
+    }
+
+    header.ft-topbar .ft-topbar-brand-name {
+        font-size: 16px !important;
+        line-height: 1.05 !important;
+    }
+
+    header.ft-topbar .ft-topbar-brand-subtitle {
+        display: block !important;
+
+        margin-top: 3px !important;
+
+        font-size: 11px !important;
+        line-height: 1 !important;
+    }
+
+    header.ft-topbar .ft-topbar-actions {
+        justify-self: end !important;
+    }
+
+    header.ft-topbar .ft-topbar-print {
+        width: 38px !important;
+        height: 38px !important;
+
+        min-height: 38px !important;
+
+        padding: 0 !important;
+
+        border-radius: 7px !important;
+    }
+
+    header.ft-topbar .ft-print-label {
+        display: none !important;
+    }
+
+    header.ft-topbar .ft-print-icon {
+        font-size: 16px !important;
+    }
+
+    /* The breadcrumb is redundant on mobile */
+    .ft-breadcrumb {
+        display: none !important;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 390px) {
+
+    header.ft-topbar .ft-topbar-inner {
+        padding-left: 9px !important;
+        padding-right: 9px !important;
+
+        gap: 5px !important;
+    }
+
+    header.ft-topbar .ft-back-label {
+        font-size: 12px !important;
+    }
+
+    header.ft-topbar .ft-topbar-brand-name {
+        font-size: 15px !important;
+    }
+
+    header.ft-topbar .ft-topbar-brand-subtitle {
+        font-size: 10px !important;
+    }
+}
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+@media print {
+
+    header.ft-topbar {
+        display: none !important;
+    }
+
+}
+
+</style>
+<style id="frantett-final-topbar-alignment">
+
+/* =========================================================
+   FRANTETT HEALTHCARE â€” FINAL TOP BAR
+   ========================================================= */
+
+header.ft-topbar {
+    background: #166534 !important;
+    color: #ffffff !important;
+}
+
+header.ft-topbar .ft-topbar-inner {
+    width: 100% !important;
+    max-width: none !important;
+
+    min-height: 64px !important;
+
+    margin: 0 !important;
+    padding: 0 32px !important;
+
+    display: grid !important;
+
+    /*
+       Left      Center       Right
+       1fr        auto         1fr
+    */
+    grid-template-columns: 1fr auto 1fr !important;
+
+    align-items: center !important;
+
+    gap: 20px !important;
+
+    background: transparent !important;
+}
+
+
+/* =========================================================
+   LEFT â€” PATIENTS
+   ========================================================= */
+
+header.ft-topbar .ft-topbar-back {
+    justify-self: start !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+
+    gap: 7px !important;
+
+    min-height: 38px !important;
+
+    padding: 0 10px !important;
+
+    border: 1px solid rgba(255,255,255,0.20) !important;
+    border-radius: 7px !important;
+
+    background: transparent !important;
+
+    color: #ffffff !important;
+
+    font-size: 14px !important;
+    font-weight: 600 !important;
+
+    white-space: nowrap !important;
+
+    cursor: pointer !important;
+}
+
+header.ft-topbar .ft-topbar-back:hover {
+    background: rgba(255,255,255,0.10) !important;
+    border-color: rgba(255,255,255,0.32) !important;
+}
+
+header.ft-topbar .ft-back-arrow,
+header.ft-topbar .ft-back-label {
+    color: #ffffff !important;
+}
+
+header.ft-topbar .ft-back-arrow {
+    font-size: 19px !important;
+    line-height: 1 !important;
+}
+
+
+/* =========================================================
+   CENTER â€” FRANTETT HEALTHCARE
+   ========================================================= */
+
+header.ft-topbar .ft-topbar-brand {
+    justify-self: center !important;
+
+    display: block !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: #ffffff !important;
+
+    white-space: nowrap !important;
+}
+
+header.ft-topbar .ft-topbar-brand-text {
+    display: inline-flex !important;
+
+    align-items: center !important;
+
+    gap: 6px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: #ffffff !important;
+
+    white-space: nowrap !important;
+}
+
+header.ft-topbar .ft-topbar-brand-name,
+header.ft-topbar .ft-topbar-brand-subtitle {
+    display: inline !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: #ffffff !important;
+
+    font-size: 20px !important;
+    font-weight: 800 !important;
+
+    line-height: 1 !important;
+
+    letter-spacing: -0.3px !important;
+}
+
+
+/* =========================================================
+   RIGHT â€” PRINT
+   ========================================================= */
+
+header.ft-topbar .ft-topbar-actions {
+    justify-self: end !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    margin: 0 !important;
+}
+
+header.ft-topbar .ft-topbar-print {
+    min-height: 38px !important;
+
+    padding: 0 13px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 8px !important;
+
+    border: 1px solid rgba(255,255,255,0.24) !important;
+    border-radius: 7px !important;
+
+    background: rgba(255,255,255,0.08) !important;
+
+    color: #ffffff !important;
+
+    font-size: 13px !important;
+    font-weight: 600 !important;
+
+    white-space: nowrap !important;
+
+    cursor: pointer !important;
+}
+
+header.ft-topbar .ft-topbar-print:hover {
+    background: rgba(255,255,255,0.15) !important;
+}
+
+header.ft-topbar .ft-print-label,
+header.ft-topbar .ft-print-icon {
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   PHONE â€” EVERYTHING ON ONE LINE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    header.ft-topbar .ft-topbar-inner {
+        min-height: 56px !important;
+
+        padding: 0 10px !important;
+
+        grid-template-columns: auto minmax(0, 1fr) auto !important;
+
+        gap: 6px !important;
+    }
+
+    /* LEFT */
+
+    header.ft-topbar .ft-topbar-back {
+        justify-self: start !important;
+
+        min-height: 36px !important;
+
+        padding: 0 3px !important;
+
+        gap: 4px !important;
+
+        border: 0 !important;
+
+        flex-shrink: 0 !important;
+    }
+
+    header.ft-topbar .ft-back-arrow {
+        font-size: 18px !important;
+    }
+
+    header.ft-topbar .ft-back-label {
+        font-size: 12px !important;
+    }
+
+
+    /* CENTER â€” ONE SINGLE LINE */
+
+    header.ft-topbar .ft-topbar-brand {
+        justify-self: center !important;
+
+        min-width: 0 !important;
+
+        overflow: hidden !important;
+
+        text-align: center !important;
+    }
+
+    header.ft-topbar .ft-topbar-brand-text {
+        display: inline-flex !important;
+
+        align-items: center !important;
+
+        justify-content: center !important;
+
+        gap: 4px !important;
+
+        white-space: nowrap !important;
+    }
+
+    header.ft-topbar .ft-topbar-brand-name,
+    header.ft-topbar .ft-topbar-brand-subtitle {
+        display: inline !important;
+
+        font-size: 15px !important;
+        font-weight: 800 !important;
+
+        line-height: 1 !important;
+
+        color: #ffffff !important;
+    }
+
+
+    /* RIGHT â€” PRINT ICON */
+
+    header.ft-topbar .ft-topbar-actions {
+        justify-self: end !important;
+
+        flex-shrink: 0 !important;
+    }
+
+    header.ft-topbar .ft-topbar-print {
+        width: 36px !important;
+        height: 36px !important;
+
+        min-height: 36px !important;
+
+        padding: 0 !important;
+
+        border-radius: 7px !important;
+    }
+
+    header.ft-topbar .ft-print-label {
+        display: none !important;
+    }
+
+    header.ft-topbar .ft-print-icon {
+        display: inline !important;
+
+        font-size: 15px !important;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 390px) {
+
+    header.ft-topbar .ft-topbar-inner {
+        padding-left: 7px !important;
+        padding-right: 7px !important;
+
+        gap: 4px !important;
+    }
+
+    header.ft-topbar .ft-back-label {
+        font-size: 11px !important;
+    }
+
+    header.ft-topbar .ft-topbar-brand-text {
+        gap: 3px !important;
+    }
+
+    header.ft-topbar .ft-topbar-brand-name,
+    header.ft-topbar .ft-topbar-brand-subtitle {
+        font-size: 13px !important;
+    }
+
+    header.ft-topbar .ft-topbar-print {
+        width: 34px !important;
+        height: 34px !important;
+        min-height: 34px !important;
+    }
+}
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+@media print {
+
+    header.ft-topbar {
+        display: none !important;
+    }
+
+}
+
+</style>
+
+<style id="frantett-nav-colour-only">
+
+/* FranTett Patient Record navigation */
+.ft-nav-link,
+.ft-breadcrumb a,
+.ft-breadcrumb button {
+    color: #166534 !important;
+    font-weight: 700 !important;
+}
+
+/* Hover */
+.ft-nav-link:hover,
+.ft-breadcrumb a:hover,
+.ft-breadcrumb button:hover {
+    color: #14532d !important;
+}
+
+/* Active/current navigation */
+.ft-nav-link.active {
+    color: #166534 !important;
+    font-weight: 800 !important;
+}
+
+</style>
+<style id="frantett-nav-colour-final">
+
+/* =========================================================
+   FRANTETT PATIENT RECORD SECTION NAVIGATION
+   ========================================================= */
+
+.ft-nav-link {
+    color: #166534 !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+}
+
+.ft-nav-link:hover {
+    color: #14532d !important;
+    background: #dcfce7 !important;
+}
+
+.ft-nav-link.active {
+    color: #166534 !important;
+    background: #dcfce7 !important;
+    font-weight: 800 !important;
+}
+
+/* If the navigation uses buttons instead of anchors */
+.ft-nav-link button,
+button.ft-nav-link {
+    color: #166534 !important;
+    font-weight: 700 !important;
+}
+
+/* Keyboard focus */
+.ft-nav-link:focus-visible {
+    color: #14532d !important;
+    outline: 2px solid #166534 !important;
+    outline-offset: 2px !important;
+}
+
+</style>
+<style id="frantett-section-nav-colour-final">
+
+/* =========================================================
+   FRANTETT PATIENT RECORD SECTION NAVIGATION
+   ========================================================= */
+
+.ft-section-nav a {
+    color: #166534 !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+}
+
+.ft-section-nav a:hover {
+    color: #14532d !important;
+    background: #dcfce7 !important;
+}
+
+.ft-section-nav a.active {
+    color: #166534 !important;
+    background: #dcfce7 !important;
+    font-weight: 800 !important;
+}
+
+/* Keep all navigation items visually consistent */
+.ft-section-nav a:visited {
+    color: #166534 !important;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .ft-section-nav a {
+        color: #166534 !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+    }
+}
+
+</style>
+<style id="frantett-section-nav-desktop-spread">
+
+/* =========================================================
+   DESKTOP PATIENT RECORD NAVIGATION
+   Spread navigation evenly across the full bar.
+   Phone layout remains unchanged.
+   ========================================================= */
+
+@media (min-width: 701px) {
+
+    .ft-section-nav {
+        display: grid !important;
+        grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+        width: 100% !important;
+        gap: 0 !important;
+        padding: 0 !important;
+    }
+
+    .ft-section-nav a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        padding: 13px 8px !important;
+    }
+
+}
+
+/* =========================================================
+   PHONE
+   No layout changes here.
+   ========================================================= */
+
+
+
+</style>
+<style id="frantett-clinical-text-wrap-fix">
+
+/* =========================================================
+   FRANTETT CLINICAL NARRATIVE TEXT
+   Normal wrapping prevents preserved template indentation
+   from shifting wrapped clinical text.
+   ========================================================= */
+
+.ft-clinical-box-value {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    text-align: left !important;
+    text-indent: 0 !important;
+}
+
+</style><style id="frantett-clinical-overview-grid-fix">
+/* Clinical Overview - clean two-column desktop / one-column mobile */
+.ft-clinical-overview-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    width: 100% !important;
+}
+
+.ft-overview-item {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 14px 16px !important;
+    margin: 0 !important;
+    border: 1px solid #d1fae5 !important;
+    border-radius: 10px !important;
+    background: #f8fffb !important;
+    text-align: left !important;
+    cursor: pointer !important;
+}
+
+.ft-overview-label {
+    display: block !important;
+    margin-bottom: 6px !important;
+    color: #166534 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    line-height: 1.3 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .04em !important;
+}
+
+.ft-overview-value {
+    display: block !important;
+    color: #1f2937 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 1.45 !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    white-space: normal !important;
+}
+
+.ft-overview-item:hover {
+    border-color: #86efac !important;
+    background: #f0fdf4 !important;
+    transform: translateY(-1px) !important;
+}
+
+@media (max-width: 700px) {
+    .ft-clinical-overview-grid {
+        grid-template-columns: 1fr !important;
+        gap: 9px !important;
+    }
+
+    .ft-overview-item {
+        padding: 12px 14px !important;
+    }
+
+    .ft-overview-label {
+        font-size: 10px !important;
+    }
+
+    .ft-overview-value {
+        font-size: 13px !important;
+    }
+}
+</style>
+<style id="frantett-clinical-overview-heading-spacing">
+.ft-clinical-overview .ft-section-header {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+@media (max-width: 700px) {
+    .ft-clinical-overview .ft-section-header {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+}
+</style><style id="frantett-clinical-overview-subtitle-nowrap">
+@media (max-width: 700px) {
+    .ft-clinical-overview .ft-section-header p {
+        white-space: nowrap !important;
+        font-size: 12px !important;
+        line-height: 1.2 !important;
+        letter-spacing: -0.01em !important;
+        margin-top: 3px !important;
+    }
+}
+</style></head>
+
+<body>
+
+<header class="ft-topbar">
+
+    <div class="ft-topbar-inner">
+
+        <button
+            type="button"
+            class="ft-topbar-back"
+            onclick="goBack()"
+            aria-label="Back to Patients"
+        >
+            <span class="ft-back-arrow">â†</span>
+            <span class="ft-back-label">Patients</span>
+        </button>
+
+        <div class="ft-topbar-brand" aria-label="FranTett Healthcare">
+
+            <div class="ft-topbar-brand-text">
+                <div class="ft-topbar-brand-name">FranTett</div>
+                <div class="ft-topbar-brand-subtitle">Healthcare</div>
+            </div>
+
+        </div>
+
+        <div class="ft-topbar-actions">
+
+            <button
+                type="button"
+                class="ft-topbar-print"
+                onclick="window.print()"
+                aria-label="Print Patient Record"
+            >
+                <span class="ft-print-label">Print Record</span>
+                <span class="ft-print-icon">â–£</span>
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="ft-page">
+
+    <div class="ft-breadcrumb">
+
+        <button
+            type="button"
+            onclick="goBack()"
+        >
+            Patients
+        </button>
+
+        <span>â€º</span>
+
+        <span>Patient Record</span>
+
+    </div>
+
+
+    <!-- PATIENT HERO -->
+
+    <section class="ft-patient-hero">
+
+        <div class="ft-patient-identity">
+
+            <div
+                class="ft-avatar"
+                id="patientAvatar"
+            >
+                --
+            </div>
+
+            <div>
+
+                <div class="ft-eyebrow">
+                    Patient Record
+                </div>
+
+                <h1
+                    class="ft-patient-name"
+                    id="patientName"
+                >
+                    Loading patient...
+                </h1>
+
+                <div
+                    class="ft-patient-meta"
+                    id="patientMeta"
+                >
+                    Loading...
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="ft-patient-status">
+
+            <span class="ft-status-dot"></span>
+
+            Active Patient
+
+        </div>
+
+    </section>
+
+
+    <!-- QUICK STATS -->
+
+    <section class="ft-stats">
+
+        <div class="ft-stat">
+            <div class="ft-stat-label">
+                Appointments
+            </div>
+            <div
+                class="ft-stat-value"
+                id="statAppointments"
+            >
+                â€”
+            </div>
+        </div>
+
+        <div class="ft-stat">
+            <div class="ft-stat-label">
+                Consultations
+            </div>
+            <div
+                class="ft-stat-value"
+                id="statConsultations"
+            >
+                â€”
+            </div>
+        </div>
+
+        <div class="ft-stat">
+            <div class="ft-stat-label">
+                Prescriptions
+            </div>
+            <div
+                class="ft-stat-value"
+                id="statPrescriptions"
+            >
+                â€”
+            </div>
+        </div>
+
+        <div class="ft-stat">
+            <div class="ft-stat-label">
+                Lab Results
+            </div>
+            <div
+                class="ft-stat-value"
+                id="statLabResults"
+            >
+                â€”
+            </div>
+        </div>
+
+    </section>
+
+<section class="ft-card ft-clinical-overview" id="frantett-clinical-overview">
+
+    <div class="ft-section-header">
+        <div>
+            <h2>Clinical Overview</h2>
+            <p>At-a-glance summary of the patient's current clinical record</p>
+        </div>
+    </div>
+
+    <div class="ft-clinical-overview-grid">
+
+        <button type="button"
+                class="ft-overview-item"
+                data-overview-target="consultations">
+
+            <span class="ft-overview-label">Last Consultation</span>
+
+            <span class="ft-overview-value"
+                  id="overviewLastConsultation">—</span>
+
+        </button>
+
+        <button type="button"
+                class="ft-overview-item"
+                data-overview-target="appointments">
+
+            <span class="ft-overview-label">Upcoming Appointment</span>
+
+            <span class="ft-overview-value"
+                  id="overviewNextAppointment">—</span>
+
+        </button>
+
+        <button type="button"
+                class="ft-overview-item"
+                data-overview-target="consultations">
+
+            <span class="ft-overview-label">Presenting Complaint</span>
+
+            <span class="ft-overview-value"
+                  id="overviewComplaint">—</span>
+
+        </button>
+
+        <button type="button"
+                class="ft-overview-item"
+                data-overview-target="consultations">
+
+            <span class="ft-overview-label">Diagnosis</span>
+
+            <span class="ft-overview-value"
+                  id="overviewDiagnosis">—</span>
+
+        </button>
+
+        <button type="button"
+                class="ft-overview-item"
+                data-overview-target="consultations">
+
+            <span class="ft-overview-label">Follow-up</span>
+
+            <span class="ft-overview-value"
+                  id="overviewFollowUp">—</span>
+
+        </button>
+
+        <button type="button"
+                class="ft-overview-item"
+                data-overview-target="lab-results">
+
+            <span class="ft-overview-label">Laboratory Status</span>
+
+            <span class="ft-overview-value"
+                  id="overviewLabStatus">—</span>
+
+        </button>
+
+    </div>
+
+</section>
+
+
+    <!-- SECTION NAVIGATION -->
+
+    <nav class="ft-section-nav">
+
+        <a href="#overview">
+            Overview
+        </a>
+
+        <a href="#appointments">
+            Appointments
+        </a>
+
+        <a href="#consultations">
+            Consultations
+        </a>
+
+        <a href="#vitals">
+            Vital Signs
+        </a>
+
+        <a href="#lab-requests">
+            Lab Requests
+        </a>
+
+        <a href="#lab-results">
+            Lab Results
+        </a>
+
+        <a href="#prescriptions">
+            Prescriptions
+        </a>
+<a href="#patientPaymentsToggle" class="ft-nav-link">Payments</a>
+
+    </nav>
+
+
+    <div class="ft-main-grid">
+
+        <div class="ft-main-column">
+
+
+            <!-- OVERVIEW -->
+
+            <section
+                class="ft-card"
+                id="overview"
+            >
+
+                <div class="ft-card-header">
+
+                    <div>
+                        <h2 class="ft-card-title">
+                            Patient Overview
+                        </h2>
+
+                        <div class="ft-card-subtitle">
+                            Personal and clinical information
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="ft-card-body">
+
+                    <div class="ft-info-grid">
+
+                        <div class="ft-info-item">
+                            <div class="ft-info-label">
+                                Patient ID
+                            </div>
+                            <div
+                                class="ft-info-value"
+                                id="infoPatientId"
+                            >
+                                â€”
+                            </div>
+                        </div>
+
+                        <div class="ft-info-item">
+                            <div class="ft-info-label">
+                                Gender
+                            </div>
+                            <div
+                                class="ft-info-value"
+                                id="infoGender"
+                            >
+                                â€”
+                            </div>
+                        </div>
+
+                        <div class="ft-info-item">
+                            <div class="ft-info-label">
+                                Date of Birth
+                            </div>
+                            <div
+                                class="ft-info-value"
+                                id="infoDob"
+                            >
+                                â€”
+                            </div>
+                        </div>
+
+                        <div class="ft-info-item">
+                            <div class="ft-info-label">
+                                Phone
+                            </div>
+                            <div
+                                class="ft-info-value"
+                                id="infoPhone"
+                            >
+                                â€”
+                            </div>
+                        </div>
+
+                        <div class="ft-info-item">
+                            <div class="ft-info-label">
+                                Email
+                            </div>
+                            <div
+                                class="ft-info-value"
+                                id="infoEmail"
+                            >
+                                â€”
+                            </div>
+                        </div>
+
+                        <div class="ft-info-item">
+                            <div class="ft-info-label">
+                                Address
+                            </div>
+                            <div
+                                class="ft-info-value"
+                                id="infoAddress"
+                            >
+                                â€”
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="ft-clinical-info"
+                        style="margin-top:22px;"
+                    >
+
+                        <div class="ft-clinical-field">
+
+                            <div class="ft-clinical-field-label">
+                                Medical History
+                            </div>
+
+                            <div
+                                class="ft-clinical-field-value"
+                                id="medicalHistory"
+                            >
+                                â€”
+                            </div>
+
+                        </div>
+
+                        <div class="ft-clinical-field">
+
+                            <div class="ft-clinical-field-label">
+                                Allergies
+                            </div>
+
+                            <div
+                                class="ft-clinical-field-value"
+                                id="allergies"
+                            >
+                                â€”
+                            </div>
+
+                        </div>
+
+                        <div class="ft-clinical-field">
+
+                            <div class="ft-clinical-field-label">
+                                Current Medications
+                            </div>
+
+                            <div
+                                class="ft-clinical-field-value"
+                                id="medications"
+                            >
+                                â€”
+                            </div>
+
+                        </div>
+
+                        <div class="ft-clinical-field">
+
+                            <div class="ft-clinical-field-label">
+                                Notes
+                            </div>
+
+                            <div
+                                class="ft-clinical-field-value"
+                                id="patientNotes"
+                            >
+                                â€”
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- APPOINTMENTS -->
+
+            <section
+                class="ft-card"
+                id="appointments"
+            >
+
+                <div class="ft-card-header">
+
+                    <div>
+                        <h2 class="ft-card-title">
+                            Appointment History
+                        </h2>
+
+                        <div class="ft-card-subtitle">
+                            Patient appointments and visit status
+                        </div>
+                    </div>
+
+                </div>
+
+                <div
+                    class="ft-card-body"
+                    id="appointmentsContent"
+                >
+                    <div class="ft-loading">
+                        Loading appointments...
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- CONSULTATIONS -->
+
+            <section
+                class="ft-card"
+                id="consultations"
+            >
+
+                <div class="ft-card-header">
+
+                    <div>
+                        <h2 class="ft-card-title">
+                            Clinical Consultation Records
+                        </h2>
+
+                        <div class="ft-card-subtitle">
+                            Clinical assessments, diagnoses and treatment
+                        </div>
+                    </div>
+
+                </div>
+
+                <div
+                    class="ft-card-body"
+                    id="consultationsContent"
+                >
+                    <div class="ft-loading">
+                        Loading consultations...
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- VITALS -->
+
+            <section
+                class="ft-card"
+                id="vitals"
+            >
+
+                <div class="ft-card-header">
+
+                    <div>
+                        <h2 class="ft-card-title">
+                            Vital Signs
+                        </h2>
+
+                        <div class="ft-card-subtitle">
+                            Recorded patient measurements
+                        </div>
+                    </div>
+
+                </div>
+
+                <div
+                    class="ft-card-body"
+                    id="vitalsContent"
+                >
+                    <div class="ft-loading">
+                        Loading vital signs...
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- LAB REQUESTS -->
+
+            <section
+                class="ft-card"
+                id="lab-requests"
+            >
+
+                <div class="ft-card-header">
+
+                    <div>
+                        <h2 class="ft-card-title">
+                            Laboratory Requests
+                        </h2>
+
+                        <div class="ft-card-subtitle">
+                            Investigations requested for this patient
+                        </div>
+                    </div>
+
+                </div>
+
+                <div
+                    class="ft-card-body"
+                    id="labRequestsContent"
+                >
+                    <div class="ft-loading">
+                        Loading laboratory requests...
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- LAB RESULTS -->
+
+            <section
+                class="ft-card"
+                id="lab-results"
+            >
+
+                <div class="ft-card-header">
+
+                    <div>
+                        <h2 class="ft-card-title">
+                            Laboratory Results
+                        </h2>
+
+                        <div class="ft-card-subtitle">
+                            Recorded laboratory findings
+                        </div>
+                    </div>
+
+                </div>
+
+                <div
+                    class="ft-card-body"
+                    id="labResultsContent"
+                >
+                    <div class="ft-loading">
+                        Loading laboratory results...
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- PRESCRIPTIONS -->
+
+            <section
+                class="ft-card"
+                id="prescriptions"
+            >
+
+                <div class="ft-card-header">
+
+                    <div>
+                        <h2 class="ft-card-title">
+                            Prescription Records
+                        </h2>
+
+                        <div class="ft-card-subtitle">
+                            Prescribed medications and instructions
+                        </div>
+                    </div>
+
+                </div>
+
+                <div
+                    class="ft-card-body"
+                    id="prescriptionsContent"
+                >
+                    <div class="ft-loading">
+                        Loading prescriptions...
+                    </div>
+                </div>
+
+            </section>
+
+<section class="patient-profile-section">
+        <div class="patient-section-heading">
+            <h3>Billing / Payments</h3>
+            <p>Patient payment information</p>
+        </div>
+
+        <button
+            type="button"
+            id="patientPaymentsToggle"
+            onclick="event.stopPropagation(); togglePatientPayments()">
+            Payments
+        </button>
+
+        <div id="patientPaymentsPanel">
+
+            <div class="patient-payment-form">
+
+                <div>
+                    <label for="paymentAmount">Amount</label>
+                    <input id="paymentAmount" type="number" step="0.01">
+                </div>
+
+                <div>
+                    <label for="paymentDescription">Description</label>
+                    <input id="paymentDescription" type="text">
+                </div>
+
+                <div>
+                    <label for="mtnMomoPhone">MTN MoMo Phone</label>
+                    <input id="mtnMomoPhone" type="text">
+                </div>
+
+            </div>
+
+            <div id="paymentMessage"></div>
+
+            <div class="patient-payment-actions">
+                <button type="button" onclick="startStripePayment()">
+                    Pay with Stripe
+                </button>
+
+                <button type="button" onclick="startMtnMomoPayment()">
+                    Pay with MTN MoMo
+                </button>
+            </div>
+
+            <div id="paymentHistory"></div>
+
+        </div>
+    </section>
+
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+
+        <aside class="ft-side-column">
+
+            <section class="ft-card">
+
+                <div class="ft-card-header">
+
+                    <div>
+                        <h2 class="ft-card-title">
+                            Clinical Snapshot
+                        </h2>
+
+                        <div class="ft-card-subtitle">
+                            Most recent recorded vitals
+                        </div>
+                    </div>
+
+                </div>
+
+                <div
+                    class="ft-card-body"
+                    id="snapshotContent"
+                >
+
+                    <div class="ft-empty">
+                        No recent vitals.
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="ft-card">
+
+                <div class="ft-card-header">
+
+                    <div>
+                        <h2 class="ft-card-title">
+                            Record Summary
+                        </h2>
+
+                        <div class="ft-card-subtitle">
+                            Patient record at a glance
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="ft-card-body">
+
+                    <div class="ft-clinical-info">
+
+                        <div class="ft-clinical-field">
+
+                            <div class="ft-clinical-field-label">
+                                Patient
+                            </div>
+
+                            <div
+                                class="ft-clinical-field-value"
+                                id="summaryName"
+                            >
+                                â€”
+                            </div>
+
+                        </div>
+
+                        <div class="ft-clinical-field">
+
+                            <div class="ft-clinical-field-label">
+                                Patient ID
+                            </div>
+
+                            <div
+                                class="ft-clinical-field-value"
+                                id="summaryId"
+                            >
+                                â€”
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </aside>
+
+    </div>
+
+</main>
+
+
+<script>
+
+"use strict";
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
+let currentPatientId = null;
+
+const API_URL =
+    `${window.location.protocol}//${window.location.host}`;
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function getToken() {
+
+    return localStorage.getItem(
+        "frantett_token"
+    );
+}
+
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function formatDate(value) {
+
+    if (!value) {
+        return "Not provided";
+    }
+
+    const date =
+        new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return String(value);
+    }
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        }
+    );
+}
+
+
+function formatDateTime(value) {
+
+    if (!value) {
+        return "Not provided";
+    }
+
+    const date =
+        new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return String(value);
+    }
+
+    return date.toLocaleString(
+        "en-US",
+        {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        }
+    );
+}
+
+
+function formatTime(value) {
+
+    if (!value) {
+        return "â€”";
+    }
+
+    const parts =
+        String(value).split(":");
+
+    if (parts.length < 2) {
+        return String(value);
+    }
+
+    let hour =
+        Number(parts[0]);
+
+    const minute =
+        parts[1];
+
+    if (Number.isNaN(hour)) {
+        return String(value);
+    }
+
+    const suffix =
+        hour >= 12
+            ? "PM"
+            : "AM";
+
+    hour =
+        hour % 12 || 12;
+
+    return `${hour}:${minute} ${suffix}`;
+}
+
+
+function initials(first, last) {
+
+    const a =
+        String(first || "")
+            .trim()
+            .charAt(0);
+
+    const b =
+        String(last || "")
+            .trim()
+            .charAt(0);
+
+    return (
+        (a + b)
+            .toUpperCase()
+            .trim()
+            || "PT"
+    );
+}
+
+
+function noValue(value) {
+
+    return (
+        value === null ||
+        value === undefined ||
+        value === ""
+    )
+        ? "Not recorded"
+        : String(value);
+}
+
+
+function goBack() {
+
+    if (
+        document.referrer &&
+        document.referrer.includes("patients.html")
+    ) {
+        history.back();
+        return;
+    }
+
+    window.location.href =
+        "patients.html";
+}
+
+
+/* =====================================================
+   AUTHENTICATED FETCH
+===================================================== */
+
+async function apiGet(url) {
+
+    const token =
+        getToken();
+
+    if (!token) {
+
+        window.location.href =
+            "login.html";
+
+        throw new Error(
+            "Session expired."
+        );
+    }
+
+    const response =
+        await fetch(
+            url,
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization":
+                        `Bearer ${token}`
+                }
+            }
+        );
+
+    if (
+        response.status === 401 ||
+        response.status === 403
+    ) {
+
+        localStorage.removeItem(
+            "frantett_token"
+        );
+
+        window.location.href =
+            "login.html";
+
+        throw new Error(
+            "Session expired."
+        );
+    }
+
+    const data =
+        await response.json();
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.message ||
+            `Request failed (${response.status})`
+        );
+    }
+
+    return data;
+}
+
+
+/* =====================================================
+   PATIENT
+===================================================== */
+
+async function loadPatient(patientId) {
+
+    const patient =
+        await apiGet(
+            `${API_URL}/api/patients/${patientId}`
+        );
+
+    const fullName =
+        `${patient.first_name || ""} ${patient.last_name || ""}`
+            .trim()
+            || "Patient";
+
+    document.title =
+        `${fullName} - Patient Record - FranTett Healthcare`;
+
+    document.getElementById(
+        "patientName"
+    ).textContent =
+        fullName;
+
+    document.getElementById(
+        "patientAvatar"
+    ).textContent =
+        initials(
+            patient.first_name,
+            patient.last_name
+        );
+
+    document.getElementById(
+        "patientMeta"
+    ).innerHTML = `
+        <span>Patient #${escapeHtml(patient.id || patientId)}</span>
+        <span>${escapeHtml(patient.gender || "Gender not recorded")}</span>
+        <span>DOB: ${escapeHtml(formatDate(patient.date_of_birth))}</span>
+    `;
+
+    document.getElementById(
+        "infoPatientId"
+    ).textContent =
+        patient.id || patientId;
+
+    document.getElementById(
+        "infoGender"
+    ).textContent =
+        noValue(patient.gender);
+
+    document.getElementById(
+        "infoDob"
+    ).textContent =
+        formatDate(patient.date_of_birth);
+
+    document.getElementById(
+        "infoPhone"
+    ).textContent =
+        noValue(patient.phone);
+
+    document.getElementById(
+        "infoEmail"
+    ).textContent =
+        noValue(patient.email);
+
+    document.getElementById(
+        "infoAddress"
+    ).textContent =
+        noValue(patient.address);
+
+    document.getElementById(
+        "medicalHistory"
+    ).textContent =
+        noValue(patient.medical_history);
+
+    document.getElementById(
+        "allergies"
+    ).textContent =
+        noValue(patient.allergies);
+
+    document.getElementById(
+        "medications"
+    ).textContent =
+        noValue(patient.medications);
+
+    document.getElementById(
+        "patientNotes"
+    ).textContent =
+        noValue(patient.notes);
+
+    document.getElementById(
+        "summaryName"
+    ).textContent =
+        fullName;
+
+    document.getElementById(
+        "summaryId"
+    ).textContent =
+        patient.id || patientId;
+}
+
+
+/* =====================================================
+   APPOINTMENTS
+===================================================== */
+
+async function loadAppointments(patientId) {
+
+    const container =
+        document.getElementById(
+            "appointmentsContent"
+        );
+
+    try {
+
+        const data =
+            await apiGet(
+                `${API_URL}/api/patients/${patientId}/appointments`
+            );
+
+        const appointments =
+            Array.isArray(data)
+                ? data
+                : [];
+
+        document.getElementById(
+            "statAppointments"
+        ).textContent =
+            appointments.length;
+
+        if (!appointments.length) {
+
+            container.innerHTML =
+                `<div class="ft-empty">No appointment history found.</div>`;
+
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="ft-table-wrap">
+
+                <table class="ft-table">
+
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Doctor</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        ${appointments.map(
+                            appointment => `
+                                <tr>
+
+                                    <td data-label="Date">
+                                        ${escapeHtml(
+                                            formatDate(
+                                                appointment.appointment_date
+                                            )
+                                        )}
+                                    </td>
+
+                                    <td data-label="Time">
+                                        ${escapeHtml(
+                                            formatTime(
+                                                appointment.appointment_time
+                                            )
+                                        )}
+                                    </td>
+
+                                    <td data-label="Doctor">
+                                        ${escapeHtml(
+                                            appointment.doctor ||
+                                            "Not specified"
+                                        )}
+                                    </td>
+
+                                    <td data-label="Reason">
+                                        ${escapeHtml(
+                                            appointment.reason ||
+                                            "Not provided"
+                                        )}
+                                    </td>
+
+                                    <td data-label="Status">
+                                        <span class="ft-status">
+                                            ${escapeHtml(
+                                                appointment.status ||
+                                                "Pending"
+                                            )}
+                                        </span>
+                                    </td>
+
+                                </tr>
+                            `
+                        ).join("")}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(
+            "Appointments:",
+            error
+        );
+
+        container.innerHTML =
+            `<div class="ft-error">Unable to load appointment history.</div>`;
+    }
+}
+
+
+/* =====================================================
+   CONSULTATIONS
+===================================================== */
+
+async function loadConsultations(patientId) {
+
+    const container =
+        document.getElementById(
+            "consultationsContent"
+        );
+
+    try {
+
+        const data =
+            await apiGet(
+                `${API_URL}/api/patients/${patientId}/consultations`
+            );
+
+        const consultations =
+            Array.isArray(data)
+                ? data
+                : [];
+
+        document.getElementById(
+            "statConsultations"
+        ).textContent =
+            consultations.length;
+
+        if (!consultations.length) {
+
+            container.innerHTML =
+                `<div class="ft-empty">No consultation records found.</div>`;
+
+            return;
+        }
+
+        container.innerHTML =
+            consultations.map(
+                consultation => `
+
+                    <article class="ft-consultation">
+
+                        <div class="ft-consultation-header">
+
+                            <div>
+
+                                <h3 class="ft-consultation-title">
+                                    Clinical Consultation
+                                </h3>
+
+                                <div class="ft-consultation-meta">
+
+                                    ${escapeHtml(
+                                        formatDate(
+                                            consultation.consultation_date
+                                        )
+                                    )}
+
+                                    ${
+                                        consultation.doctor
+                                            ? ` Â· ${escapeHtml(consultation.doctor)}`
+                                            : ""
+                                    }
+
+                                    ${
+                                        consultation.created_at
+                                            ? ` Â· Entered ${escapeHtml(formatDateTime(consultation.created_at))}`
+                                            : ""
+                                    }
+
+                                </div>
+
+                            </div>
+
+                            <span class="ft-status">
+                                Consultation #${escapeHtml(
+                                    consultation.id
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="ft-consultation-body">
+
+                            <div class="ft-clinical-grid">
+
+                                ${clinicalField(
+                                    "Presenting Complaint",
+                                    consultation.chief_complaint ||
+                                    consultation.presenting_complaint
+                                )}
+
+                                ${clinicalField(
+                                    "History of Presenting Complaint",
+                                    consultation.history_of_presenting_complaint
+                                )}
+
+                                ${clinicalField(
+                                    "Past Medical History",
+                                    consultation.past_medical_history
+                                )}
+
+                                ${clinicalField(
+                                    "Drug and Allergy History",
+                                    consultation.drug_allergy_history
+                                )}
+
+                                ${clinicalField(
+                                    "Family History",
+                                    consultation.family_history
+                                )}
+
+                                ${clinicalField(
+                                    "Social History",
+                                    consultation.social_history
+                                )}
+
+                                ${clinicalField(
+                                    "Systems Review",
+                                    consultation.systems_review
+                                )}
+
+                                ${clinicalField(
+                                    "Summary",
+                                    consultation.summary
+                                )}
+
+                                ${clinicalField(
+                                    "Examination",
+                                    consultation.examination
+                                )}
+
+                                ${clinicalField(
+                                    "Investigations",
+                                    consultation.investigations
+                                )}
+
+                                ${clinicalField(
+                                    "Differential Diagnosis",
+                                    consultation.differential_diagnosis
+                                )}
+
+                                ${clinicalField(
+                                    "Diagnosis",
+                                    consultation.diagnosis
+                                )}
+
+                                ${clinicalField(
+                                    "Management Plan",
+                                    consultation.management_plan
+                                )}
+
+                                ${clinicalField(
+                                    "Treatment",
+                                    consultation.treatment
+                                )}
+
+                                ${clinicalField(
+                                    "Clinical Notes",
+                                    consultation.clinical_notes
+                                )}
+
+                                ${clinicalField(
+                                    "Follow-up Date",
+                                    consultation.follow_up_date
+                                        ? formatDate(
+                                            consultation.follow_up_date
+                                        )
+                                        : null
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    </article>
+                `
+            )
+            .join("");
+
+    } catch (error) {
+
+        console.error(
+            "Consultations:",
+            error
+        );
+
+        container.innerHTML =
+            `<div class="ft-error">Unable to load consultation records.</div>`;
+    }
+}
+
+
+function clinicalField(
+    label,
+    value
+) {
+
+    /*
+     * DISPLAY-ONLY CLINICAL TEXT CLEANUP
+     *
+     * This changes only how clinical narrative is displayed.
+     * Stored consultation/database data is NOT modified.
+     */
+
+    const rawClinicalValue = noValue(value);
+
+    const cleanedClinicalValue = String(rawClinicalValue)
+        .replace(/\*\*/g, "")
+        .replace(/\r\n/g, "\n")
+        .replace(/\r/g, "\n")
+        .split("\n")
+        .map(line => line.trim())
+        .join("\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+
+    return `
+        <div class="ft-clinical-box">
+
+            <div class="ft-clinical-box-label">
+                ${escapeHtml(label)}
+            </div>
+
+            <div class="ft-clinical-box-value">
+                ${escapeHtml(cleanedClinicalValue)}
+            </div>
+
+        </div>
+    `;
+}
+
+
+function vitalCard(
+    label,
+    value
+) {
+
+    return `
+        <div class="ft-vital">
+
+            <div class="ft-vital-label">
+                ${escapeHtml(label)}
+            </div>
+
+            <div class="ft-vital-value">
+                ${escapeHtml(
+                    value || "â€”"
+                )}
+            </div>
+
+        </div>
+    `;
+}
+
+
+function renderSnapshot(vital) {
+
+    document.getElementById(
+        "snapshotContent"
+    ).innerHTML = `
+
+        <div class="ft-vitals">
+
+            ${vitalCard(
+                "BP",
+                vital.blood_pressure
+            )}
+
+            ${vitalCard(
+                "HR",
+                vital.heart_rate != null
+                    ? `${Number(vital.heart_rate).toFixed(0)} bpm`
+                    : null
+            )}
+
+            ${vitalCard(
+                "Temp",
+                vital.temperature != null
+                    ? `${Number(vital.temperature).toFixed(2)} Â°C`
+                    : null
+            )}
+
+            ${vitalCard(
+                "SpOâ‚‚",
+                vital.oxygen_saturation != null
+                    ? `${Number(vital.oxygen_saturation).toFixed(0)}%`
+                    : null
+            )}
+
+        </div>
+
+        <div
+            style="
+                margin-top:12px;
+                color:var(--ft-muted);
+                font-size:11px;
+            "
+        >
+            Recorded:
+            ${escapeHtml(
+                formatDateTime(
+                    vital.recorded_at
+                )
+            )}
+        </div>
+    `;
+}
+
+
+/* =====================================================
+   LAB REQUESTS
+===================================================== */
+async function loadVitals(patientId) {
+
+    const container =
+        document.getElementById(
+            "vitalsContent"
+        );
+
+    try {
+
+        const data =
+            await apiGet(
+                `${API_URL}/api/patients/${patientId}/vitals`
+            );
+
+        const vitals =
+            Array.isArray(data)
+                ? data
+                : [];
+
+        if (!vitals.length) {
+
+            container.innerHTML =
+                `<div class="ft-empty">No vital signs recorded.</div>`;
+
+            document.getElementById(
+                "snapshotContent"
+            ).innerHTML =
+                `<div class="ft-empty">No recent vitals.</div>`;
+
+            return;
+        }
+
+        const latest =
+            vitals[0];
+
+        renderSnapshot(latest);
+
+        container.innerHTML = `
+            <div class="ft-vitals">
+
+                ${vitalCard(
+                    "Blood Pressure",
+                    latest.blood_pressure
+                )}
+
+                ${vitalCard(
+                    "Heart Rate",
+                    latest.heart_rate != null
+                        ? `${Number(latest.heart_rate).toFixed(0)} bpm`
+                        : null
+                )}
+
+                ${vitalCard(
+                    "Temperature",
+                    latest.temperature != null
+                        ? `${Number(latest.temperature).toFixed(2)} Â°C`
+                        : null
+                )}
+
+                ${vitalCard(
+                    "SpOâ‚‚",
+                    latest.oxygen_saturation != null
+                        ? `${Number(latest.oxygen_saturation).toFixed(0)}%`
+                        : null
+                )}
+
+                ${vitalCard(
+                    "Respiratory Rate",
+                    latest.respiratory_rate != null
+                        ? `${Number(latest.respiratory_rate).toFixed(0)} /min`
+                        : null
+                )}
+
+                ${vitalCard(
+                    "Weight",
+                    latest.weight != null
+                        ? `${Number(latest.weight).toFixed(1)} kg`
+                        : null
+                )}
+
+                ${vitalCard(
+                    "Height",
+                    latest.height != null
+                        ? `${Number(latest.height).toFixed(1)} cm`
+                        : null
+                )}
+
+                ${vitalCard(
+                    "BMI",
+                    latest.bmi != null
+                        ? Number(latest.bmi).toFixed(2)
+                        : null
+                )}
+
+            </div>
+
+            <div class="ft-vitals-meta">
+
+                <div class="ft-vitals-meta-item">
+                    <strong>Date:</strong>
+                    <span>
+                        ${escapeHtml(
+                            formatDateTime(
+                                latest.recorded_at
+                            )
+                        )}
+                    </span>
+                </div>
+
+                <div class="ft-vitals-meta-item">
+                    <strong>Recorded By:</strong>
+                    <span>
+                        ${escapeHtml(
+                            latest.recorded_by || "â€”"
+                        )}
+                    </span>
+                </div>
+
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(
+            "Vitals:",
+            error
+        );
+
+        container.innerHTML =
+            `<div class="ft-error">Unable to load vital signs.</div>`;
+    }
+}
+
+async function loadLabRequests(patientId) {
+
+    const container =
+        document.getElementById(
+            "labRequestsContent"
+        );
+
+    try {
+
+        const data =
+            await apiGet(
+                `${API_URL}/api/patients/${patientId}/lab-requests`
+            );
+
+        const requests =
+            Array.isArray(data)
+                ? data
+                : [];
+
+        if (!requests.length) {
+
+            container.innerHTML =
+                `<div class="ft-empty">No laboratory requests found.</div>`;
+
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="ft-record-list">
+
+                ${requests.map(
+                    request => {
+
+                        const investigations =
+                            request.requested_tests
+                                ? String(
+                                    request.requested_tests
+                                )
+                                    .split(",")
+                                    .map(
+                                        item => item.trim()
+                                    )
+                                    .filter(Boolean)
+                                : [];
+
+                        return `
+
+                            <article class="ft-record">
+
+                                <div class="ft-record-header">
+
+                                    <div>
+
+                                        <h3 class="ft-record-title">
+                                            Laboratory Request #${escapeHtml(
+                                                request.id
+                                            )}
+                                        </h3>
+
+                                        <div class="ft-record-meta">
+                                            Requested
+                                            ${escapeHtml(
+                                                formatDate(
+                                                    request.request_date
+                                                )
+                                            )}
+                                        </div>
+
+                                    </div>
+
+                                    <span class="ft-status">
+                                        Laboratory
+                                    </span>
+
+                                </div>
+
+                                <div class="ft-record-body">
+
+                                    <div class="ft-info-label">
+                                        Requested Investigations
+                                    </div>
+
+                                    <div
+                                        class="ft-test-list"
+                                        style="margin-top:8px;"
+                                    >
+
+                                        ${
+                                            investigations.length
+                                                ? investigations.map(
+                                                    test => `
+                                                        <span class="ft-test">
+                                                            ${escapeHtml(test)}
+                                                        </span>
+                                                    `
+                                                ).join("")
+                                                :
+                                                `<span class="ft-record-meta">No investigations recorded</span>`
+                                        }
+
+                                    </div>
+
+
+                                    <div
+                                        class="ft-info-grid"
+                                        style="margin-top:18px;"
+                                    >
+
+                                        <div class="ft-info-item">
+
+                                            <div class="ft-info-label">
+                                                Requested By
+                                            </div>
+
+                                            <div class="ft-info-value">
+                                                ${escapeHtml(
+                                                    request.requested_by ||
+                                                    "Not provided"
+                                                )}
+                                            </div>
+
+                                        </div>
+
+                                        <div class="ft-info-item">
+
+                                            <div class="ft-info-label">
+                                                Request Date
+                                            </div>
+
+                                            <div class="ft-info-value">
+                                                ${escapeHtml(
+                                                    formatDate(
+                                                        request.request_date
+                                                    )
+                                                )}
+                                            </div>
+
+                                        </div>
+
+                                        <div
+                                            class="ft-info-item"
+                                            style="grid-column:1/-1;"
+                                        >
+
+                                            <div class="ft-info-label">
+                                                Clinical Information
+                                            </div>
+
+                                            <div class="ft-info-value">
+                                                ${escapeHtml(
+                                                    request.clinical_information ||
+                                                    "Not provided"
+                                                )}
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+                        `;
+                    }
+                ).join("")}
+
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(
+            "Lab requests:",
+            error
+        );
+
+        container.innerHTML =
+            `<div class="ft-error">Unable to load laboratory requests.</div>`;
+    }
+}
+
+
+/* =====================================================
+   LAB RESULTS
+===================================================== */
+
+async function loadLabResults(patientId) {
+
+    const container =
+        document.getElementById(
+            "labResultsContent"
+        );
+
+    try {
+
+        const data =
+            await apiGet(
+                `${API_URL}/api/patients/${patientId}/lab-reports`
+            );
+
+        const reports =
+            Array.isArray(data)
+                ? data
+                : [];
+
+        document.getElementById(
+            "statLabResults"
+        ).textContent =
+            reports.length;
+
+        if (!reports.length) {
+
+            container.innerHTML =
+                `<div class="ft-empty">No laboratory results recorded.</div>`;
+
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="ft-record-list">
+
+                ${reports.map(
+                    report => {
+
+                        const parameters =
+                            Array.isArray(
+                                report.parameters
+                            )
+                                ? report.parameters
+                                : [];
+
+                        return `
+
+                            <article class="ft-record">
+
+                                <div class="ft-record-header">
+
+                                    <div>
+
+                                        <h3 class="ft-record-title">
+                                            ${escapeHtml(
+                                                report.test_name ||
+                                                "Laboratory Report"
+                                            )}
+                                        </h3>
+
+                                        <div class="ft-record-meta">
+                                            ${escapeHtml(
+                                                formatDate(
+                                                    report.result_date
+                                                )
+                                            )}
+
+                                            ${
+                                                report.recorded_by
+                                                    ? ` Â· Recorded by ${escapeHtml(report.recorded_by)}`
+                                                    : ""
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                    <span class="ft-status">
+                                        ${escapeHtml(
+                                            report.status ||
+                                            "Final"
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="ft-record-body">
+
+                                    ${
+                                        parameters.length
+                                            ? `
+
+                                                <div class="ft-table-wrap">
+
+                                                    <table class="ft-table">
+
+                                                        <thead>
+
+                                                            <tr>
+                                                                <th>Parameter</th>
+                                                                <th>Result</th>
+                                                                <th>Unit</th>
+                                                                <th>Flag</th>
+                                                                <th>Reference Range</th>
+                                                            </tr>
+
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            ${parameters.map(
+                                                                parameter => `
+
+                                                                    <tr>
+
+                                                                        <td data-label="Parameter">
+                                                                            ${escapeHtml(
+                                                                                parameter.parameter_name ||
+                                                                                "Not recorded"
+                                                                            )}
+                                                                        </td>
+
+                                                                        <td data-label="Result">
+                                                                            ${escapeHtml(
+                                                                                parameter.result_value ||
+                                                                                "Not recorded"
+                                                                            )}
+                                                                        </td>
+
+                                                                        <td data-label="Unit">
+                                                                            ${escapeHtml(
+                                                                                parameter.unit ||
+                                                                                "â€”"
+                                                                            )}
+                                                                        </td>
+
+                                                                        <td data-label="Flag">
+                                                                            ${escapeHtml(
+                                                                                parameter.flag ||
+                                                                                "â€”"
+                                                                            )}
+                                                                        </td>
+
+                                                                        <td data-label="Reference Range">
+                                                                            ${escapeHtml(
+                                                                                parameter.reference_range ||
+                                                                                "â€”"
+                                                                            )}
+                                                                        </td>
+
+                                                                    </tr>
+                                                                `
+                                                            ).join("")}
+
+                                                        </tbody>
+
+                                                    </table>
+
+                                                </div>
+                                            `
+                                            :
+                                            `<div class="ft-empty">No parameters recorded.</div>`
+                                    }
+
+                                    ${
+                                        report.notes
+                                            ? `
+                                                <div
+                                                    class="ft-clinical-field"
+                                                    style="margin-top:14px;"
+                                                >
+                                                    <div class="ft-clinical-field-label">
+                                                        Notes
+                                                    </div>
+
+                                                    <div class="ft-clinical-field-value">
+                                                        ${escapeHtml(
+                                                            report.notes
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            `
+                                            :
+                                            ""
+                                    }
+
+                                </div>
+
+                            </article>
+                        `;
+                    }
+                ).join("")}
+
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(
+            "Lab results:",
+            error
+        );
+
+        container.innerHTML =
+            `<div class="ft-error">Unable to load laboratory results.</div>`;
+    }
+}
+
+
+/* =====================================================
+   PRESCRIPTIONS
+===================================================== */
+
+async function loadPrescriptions(patientId) {
+
+    const container =
+        document.getElementById(
+            "prescriptionsContent"
+        );
+
+    try {
+
+        const data =
+            await apiGet(
+                `${API_URL}/api/patients/${patientId}/prescriptions`
+            );
+
+        const prescriptions =
+            Array.isArray(data)
+                ? data
+                : [];
+
+        document.getElementById(
+            "statPrescriptions"
+        ).textContent =
+            prescriptions.length;
+
+        if (!prescriptions.length) {
+
+            container.innerHTML =
+                `<div class="ft-empty">No prescription records found.</div>`;
+
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="ft-record-list">
+
+                ${prescriptions.map(
+                    prescription => {
+
+                        const medications =
+                            Array.isArray(
+                                prescription.medications
+                            )
+                                ? prescription.medications
+                                : [];
+
+                        return `
+
+                            <article class="ft-record">
+
+                                <div class="ft-record-header">
+
+                                    <div>
+
+                                        <h3 class="ft-record-title">
+                                            Prescription
+                                        </h3>
+
+                                        <div class="ft-record-meta">
+
+                                            ${escapeHtml(
+                                                formatDate(
+                                                    prescription.prescription_date
+                                                )
+                                            )}
+
+                                            ${
+                                                prescription.doctor
+                                                    ? ` Â· ${escapeHtml(prescription.doctor)}`
+                                                    : ""
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                    <span class="ft-status">
+                                        Prescription
+                                    </span>
+
+                                </div>
+
+
+                                <div class="ft-record-body">
+
+                                    ${
+                                        medications.length
+                                            ? `
+
+                                                <div class="ft-table-wrap">
+
+                                                    <table class="ft-table">
+
+                                                        <thead>
+
+                                                            <tr>
+                                                                <th>Medication</th>
+                                                                <th>Dose</th>
+                                                                <th>Route</th>
+                                                                <th>Frequency</th>
+                                                                <th>Duration</th>
+                                                                <th>Quantity</th>
+                                                            </tr>
+
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            ${medications.map(
+                                                                medication => `
+
+                                                                    <tr>
+
+                                                                        <td data-label="Medication">
+                                                                            ${escapeHtml(
+                                                                                medication.medication_name ||
+                                                                                "Not recorded"
+                                                                            )}
+                                                                        </td>
+
+                                                                        <td data-label="Dose">
+                                                                            ${escapeHtml(
+                                                                                medication.dose ||
+                                                                                "Not recorded"
+                                                                            )}
+                                                                        </td>
+
+                                                                        <td data-label="Route">
+                                                                            ${escapeHtml(
+                                                                                medication.route ||
+                                                                                "Not recorded"
+                                                                            )}
+                                                                        </td>
+
+                                                                        <td data-label="Frequency">
+                                                                            ${escapeHtml(
+                                                                                medication.frequency ||
+                                                                                "Not recorded"
+                                                                            )}
+                                                                        </td>
+
+                                                                        <td data-label="Duration">
+                                                                            ${escapeHtml(
+                                                                                medication.duration ||
+                                                                                "Not recorded"
+                                                                            )}
+                                                                        </td>
+
+                                                                        <td data-label="Quantity">
+                                                                            ${escapeHtml(
+                                                                                medication.quantity ||
+                                                                                "Not recorded"
+                                                                            )}
+                                                                        </td>
+
+                                                                    </tr>
+                                                                `
+                                                            ).join("")}
+
+                                                        </tbody>
+
+                                                    </table>
+
+                                                </div>
+                                            `
+                                            :
+                                            `<div class="ft-empty">No medication details available.</div>`
+                                    }
+
+                                    ${
+                                        prescription.notes
+                                            ? `
+                                                <div
+                                                    class="ft-clinical-field"
+                                                    style="margin-top:14px;"
+                                                >
+                                                    <div class="ft-clinical-field-label">
+                                                        Notes
+                                                    </div>
+
+                                                    <div class="ft-clinical-field-value">
+                                                        ${escapeHtml(
+                                                            prescription.notes
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            `
+                                            :
+                                            ""
+                                    }
+
+                                </div>
+
+                            </article>
+                        `;
+                    }
+                ).join("")}
+
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(
+            "Prescriptions:",
+            error
+        );
+
+        container.innerHTML =
+            `<div class="ft-error">Unable to load prescription records.</div>`;
+    }
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+async function renderClinicalOverview(patientId) {
+
+    const lastEl =
+        document.getElementById("overviewLastConsultation");
+
+    const appointmentEl =
+        document.getElementById("overviewNextAppointment");
+
+    const complaintEl =
+        document.getElementById("overviewComplaint");
+
+    const diagnosisEl =
+        document.getElementById("overviewDiagnosis");
+
+    const followUpEl =
+        document.getElementById("overviewFollowUp");
+
+    const labEl =
+        document.getElementById("overviewLabStatus");
+
+    if (
+        !lastEl ||
+        !appointmentEl ||
+        !complaintEl ||
+        !diagnosisEl ||
+        !followUpEl ||
+        !labEl
+    ) {
+        console.warn("Clinical Overview elements not found.");
+        return;
+    }
+
+    try {
+
+        const consultations =
+            await apiGet(
+                API_URL + "/api/patients/" + patientId + "/consultations"
+            );
+
+        const appointments =
+            await apiGet(
+                API_URL + "/api/patients/" + patientId + "/appointments"
+            );
+
+        const labResults =
+            await apiGet(
+                API_URL + "/api/patients/" + patientId + "/lab-reports"
+            );
+
+        const consultationList =
+            Array.isArray(consultations)
+                ? consultations
+                : [];
+
+        const appointmentList =
+            Array.isArray(appointments)
+                ? appointments
+                : [];
+
+        const labList =
+            Array.isArray(labResults)
+                ? labResults
+                : [];
+
+        const sortedConsultations =
+            [...consultationList].sort(
+                (a, b) =>
+                    new Date(
+                        b.consultation_date || 0
+                    ) -
+                    new Date(
+                        a.consultation_date || 0
+                    )
+            );
+
+        const latest =
+            sortedConsultations[0];
+
+        if (latest) {
+
+            const doctor =
+                latest.doctor
+                    ? " · " + latest.doctor
+                    : "";
+
+            lastEl.textContent =
+                formatDate(
+                    latest.consultation_date
+                ) + doctor;
+
+            complaintEl.textContent =
+                latest.chief_complaint ||
+                latest.presenting_complaint ||
+                "Not recorded";
+
+            diagnosisEl.textContent =
+                latest.diagnosis ||
+                "Not recorded";
+
+            followUpEl.textContent =
+                latest.follow_up_date
+                    ? formatDate(
+                        latest.follow_up_date
+                    )
+                    : "Not recorded";
+
+        } else {
+
+            lastEl.textContent =
+                "No consultation recorded";
+
+            complaintEl.textContent =
+                "Not recorded";
+
+            diagnosisEl.textContent =
+                "Not recorded";
+
+            followUpEl.textContent =
+                "Not recorded";
+        }
+
+        const now = new Date();
+
+        const upcoming =
+            appointmentList
+                .filter(
+                    appointment =>
+                        appointment.appointment_date
+                )
+                .map(
+                    appointment => {
+
+                        const dateTime =
+                            new Date(
+                                String(
+                                    appointment.appointment_date
+                                ) +
+                                "T" +
+                                (
+                                    appointment.appointment_time ||
+                                    "00:00:00"
+                                )
+                            );
+
+                        return {
+                            appointment,
+                            dateTime
+                        };
+                    }
+                )
+                .filter(
+                    item =>
+                        !Number.isNaN(
+                            item.dateTime.getTime()
+                        ) &&
+                        item.dateTime >= now
+                )
+                .sort(
+                    (a, b) =>
+                        a.dateTime -
+                        b.dateTime
+                )[0];
+
+        if (upcoming) {
+
+            const appointment =
+                upcoming.appointment;
+
+            const doctor =
+                appointment.doctor
+                    ? " · " + appointment.doctor
+                    : "";
+
+            const time =
+                appointment.appointment_time
+                    ? " · " +
+                        formatTime(
+                            appointment.appointment_time
+                        )
+                    : "";
+
+            appointmentEl.textContent =
+                formatDate(
+                    appointment.appointment_date
+                ) +
+                time +
+                doctor;
+
+        } else {
+
+            appointmentEl.textContent =
+                "No upcoming appointment";
+        }
+
+        if (labList.length === 0) {
+
+            labEl.textContent =
+                "No results recorded";
+
+        } else {
+
+            labEl.textContent =
+                String(labList.length) +
+                " laboratory result" +
+                (
+                    labList.length === 1
+                        ? ""
+                        : "s"
+                ) +
+                " recorded";
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Clinical Overview:",
+            error
+        );
+
+        lastEl.textContent =
+            "Unable to load";
+
+        appointmentEl.textContent =
+            "Unable to load";
+
+        complaintEl.textContent =
+            "Unable to load";
+
+        diagnosisEl.textContent =
+            "Unable to load";
+
+        followUpEl.textContent =
+            "Unable to load";
+
+        labEl.textContent =
+            "Unable to load";
+    }
+}
+async function initPatientRecord() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const patientId =
+        params.get(
+            "patient_id"
+        );
+
+    currentPatientId = patientId;
+
+    if (!patientId) {
+
+        document.getElementById(
+            "patientName"
+        ).textContent =
+            "Patient not specified";
+
+        return;
+    }
+
+    try {
+
+        await loadPatient(
+            patientId
+        );
+
+        await Promise.all([
+            loadAppointments(patientId),
+            loadConsultations(patientId),
+            loadVitals(patientId),
+            loadLabRequests(patientId),
+            loadLabResults(patientId),
+            loadPrescriptions(patientId),
+            loadPaymentHistory(patientId)
+        ]);
+
+        await renderClinicalOverview(patientId);
+
+    } catch (error) {
+        console.error(
+            "Patient record initialization error:",
+            error
+        );
+
+        document.getElementById(
+            "patientName"
+        ).textContent =
+            "Unable to load patient";
+
+        document.getElementById(
+            "patientMeta"
+        ).textContent =
+            error.message ||
+            "Unable to connect to the server.";
+    }
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    initPatientRecord
+);
+
+
+
+async function startStripePayment() {
+
+    const amountInput = document.getElementById("paymentAmount");
+    const descriptionInput = document.getElementById("paymentDescription");
+    const message = document.getElementById("paymentMessage");
+
+    const amount = Number(amountInput?.value);
+    const description =
+        descriptionInput?.value?.trim() ||
+        "FranTett Healthcare payment";
+
+    if (!currentPatientId) {
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Please select a patient first.</span>';
+        }
+        return;
+    }
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Please enter a valid payment amount.</span>';
+        }
+        return;
+    }
+
+    const token =
+        localStorage.getItem("frantett_token") ||
+        localStorage.getItem("patientToken");
+
+    if (!token) {
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Your session has expired. Please log in again.</span>';
+        }
+        return;
+    }
+
+    try {
+
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#0d6efd;">Opening secure Stripe Checkout...</span>';
+        }
+
+        const response = await fetch(
+            `${API_URL}/api/payments/stripe/create-checkout-session`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({
+                    patient_id: currentPatientId,
+                    amount: amount,
+                    currency: "CAD",
+                    description: description
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Unable to create payment session."
+            );
+        }
+
+        if (!data.checkout_url) {
+            throw new Error(
+                "Stripe Checkout URL was not returned."
+            );
+        }
+
+        window.location.href = data.checkout_url;
+
+    } catch (error) {
+
+        console.error("Stripe payment error:", error);
+
+        if (message) {
+            message.innerHTML =
+                `<span style="color:#dc3545;">${error.message}</span>`;
+        }
+    }
+}
+
+async function startMtnMomoPayment() {
+
+    const amountInput =
+        document.getElementById("paymentAmount");
+
+    const descriptionInput =
+        document.getElementById("paymentDescription");
+
+    const phoneInput =
+        document.getElementById("mtnMomoPhone");
+
+    const message =
+        document.getElementById("paymentMessage");
+
+    const amount =
+        Number(amountInput?.value);
+
+    const description =
+        descriptionInput?.value?.trim() ||
+        "FranTett Healthcare payment";
+
+    const phone =
+        phoneInput?.value?.trim();
+
+
+    if (!currentPatientId) {
+
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Please select a patient first.</span>';
+        }
+
+        return;
+    }
+
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Please enter a valid payment amount.</span>';
+        }
+
+        return;
+    }
+
+
+    if (!phone) {
+
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Please enter the MTN MoMo phone number.</span>';
+        }
+
+        return;
+    }
+
+
+    if (!/^0\d{9}$/.test(phone)) {
+
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Please enter a valid Ghana phone number, e.g. 0241234567.</span>';
+        }
+
+        return;
+    }
+
+
+    const token =
+        localStorage.getItem("frantett_token") ||
+        localStorage.getItem("patientToken");
+
+
+    if (!token) {
+
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Your session has expired. Please log in again.</span>';
+        }
+
+        return;
+    }
+
+
+    try {
+
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#0d6efd;">Sending MTN MoMo payment request...</span>';
+        }
+
+
+        const response =
+            await fetch(
+                `${API_URL}/api/payments/mtn/create-request`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization":
+                            "Bearer " + token
+                    },
+
+                    body: JSON.stringify({
+                        patient_id:
+                            currentPatientId,
+
+                        amount:
+                            amount,
+
+                        currency:
+                            "EUR",
+
+                        payment_method:
+                            "mobile_money",
+
+                        payment_provider:
+                            "mtn_momo",
+
+                        payer_msisdn: phone,
+
+                        description:
+                            description
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                data.message ||
+                "Unable to create MTN MoMo payment."
+            );
+        }
+
+
+        const paymentId =
+            data.payment?.id ||
+            data.payment_id;
+
+
+        if (!paymentId) {
+
+            throw new Error(
+                "MTN MoMo payment was created but no payment ID was returned."
+            );
+        }
+
+
+        if (message) {
+
+            message.innerHTML =
+                '<span style="color:#0d6efd;">MTN MoMo request sent. Waiting for payment confirmation...</span>';
+        }
+
+
+        await checkMtnMomoPaymentStatus(
+            paymentId
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "MTN MoMo payment error:",
+            error
+        );
+
+
+        if (message) {
+
+            message.innerHTML =
+                `<span style="color:#dc3545;">${error.message}</span>`;
+        }
+
+    }
+}
+
+async function checkMtnMomoPaymentStatus(paymentId) {
+
+    const message =
+        document.getElementById("paymentMessage");
+
+    const token =
+        localStorage.getItem("frantett_token") ||
+        localStorage.getItem("patientToken");
+
+    if (!token) {
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#dc3545;">Your session has expired. Please log in again.</span>';
+        }
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/payments/mtn/status/${paymentId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error ||
+                data.message ||
+                "Unable to check MTN MoMo payment status."
+            );
+        }
+
+        const mtnStatus =
+            data.mtn_status ||
+            data.payment?.status ||
+            "PENDING";
+
+
+        if (mtnStatus === "SUCCESSFUL") {
+
+            if (message) {
+                message.innerHTML =
+                    '<span style="color:#198754;">MTN MoMo payment successful.</span>';
+            }
+
+            await loadPaymentHistory(
+                currentPatientId
+            );
+
+            return;
+        }
+
+
+        if (mtnStatus === "FAILED") {
+
+            if (message) {
+                message.innerHTML =
+                    '<span style="color:#dc3545;">MTN MoMo payment failed.</span>';
+            }
+
+            await loadPaymentHistory(
+                currentPatientId
+            );
+
+            return;
+        }
+
+
+        if (message) {
+            message.innerHTML =
+                '<span style="color:#0d6efd;">MTN MoMo payment is still pending. Please approve the payment on your phone.</span>';
+        }
+
+        setTimeout(
+            () => checkMtnMomoPaymentStatus(paymentId),
+            5000
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "MTN MoMo status error:",
+            error
+        );
+
+        if (message) {
+            message.innerHTML =
+                `<span style="color:#dc3545;">${error.message}</span>`;
+        }
+    }
+}
+
+/* =====================================================
+   FRANTETT PATIENT PAYMENTS TOGGLE
+===================================================== */
+
+function togglePatientPayments() {
+
+    const panel =
+        document.getElementById(
+            "patientPaymentsPanel"
+        );
+
+    const button =
+        document.getElementById(
+            "patientPaymentsToggle"
+        );
+
+    if (!panel || !button) {
+        return;
+    }
+
+
+    const isOpen =
+        panel.style.display === "block";
+
+
+    if (isOpen) {
+
+        panel.style.display =
+            "none";
+
+        button.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+        button.textContent =
+            "Payments";
+
+    } else {
+
+        panel.style.display =
+            "block";
+
+        button.setAttribute(
+            "aria-expanded",
+            "true"
+        );
+
+        button.textContent =
+            "Hide Payments";
+
+    }
+
+}
+
+
+/* =====================================================
+   CLOSE PAYMENTS POPUP WHEN CLICKING OUTSIDE
+===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const panel =
+            document.getElementById(
+                "patientPaymentsPanel"
+            );
+
+        const button =
+            document.getElementById(
+                "patientPaymentsToggle"
+            );
+
+        if (!panel) {
+            return;
+        }
+
+        if (
+            panel.style.display !==
+            "block"
+        ) {
+            return;
+        }
+
+
+        if (
+            panel.contains(
+                event.target
+            )
+        ) {
+            return;
+        }
+
+
+        if (
+            button &&
+            button.contains(
+                event.target
+            )
+        ) {
+            return;
+        }
+
+
+        panel.style.display =
+            "none";
+
+
+        if (button) {
+
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            button.textContent =
+                "Payments";
+
+        }
+
+    }
+);
+
+
+async function loadPaymentHistory(patientId = currentPatientId) {
+
+    const container =
+        document.getElementById("paymentHistory");
+
+    if (!container || !patientId) {
+        return;
+    }
+
+    const token =
+        localStorage.getItem("frantett_token") ||
+        localStorage.getItem("patientToken");
+
+    if (!token) {
+        container.innerHTML =
+            '<div style="color:#dc3545;">Unable to load payment history. Please log in again.</div>';
+        return;
+    }
+
+    try {
+
+        container.innerHTML =
+            '<div class="loading">Loading payment history...</div>';
+
+        const response = await fetch(
+            `${API_URL}/api/payments/patient/${patientId}`,
+            {
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Failed to load payment history."
+            );
+        }
+
+        const payments = Array.isArray(data)
+            ? data
+            : Array.isArray(data.data)
+                ? data.data
+                : [];
+
+        if (payments.length === 0) {
+            container.innerHTML =
+                '<div style="color:#64748b;">No payment history found.</div>';
+            return;
+        }
+
+        container.innerHTML = `
+            <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse:collapse;">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Date</th>
+                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Description</th>
+                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Method</th>
+                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Amount</th>
+                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        ${payments.map(payment => {
+
+                            const date =
+                                payment.paid_at ||
+                                payment.created_at;
+
+                            const formattedDate = date
+                                ? new Date(date).toLocaleString()
+                                : "-";
+
+                            const amount =
+                                Number(payment.amount || 0).toFixed(2);
+
+                            const currency =
+                                payment.currency || "CAD";
+
+                            return `
+                                <tr>
+                                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                                        ${formattedDate}
+                                    </td>
+                                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                                        ${payment.description || "-"}
+                                    </td>
+                                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                                        ${payment.payment_method || "-"}
+                                    </td>
+                                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                                        ${currency} ${amount}
+                                    </td>
+                                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                                        ${payment.status || "-"}
+                                    </td>
+                                </tr>
+                            `;
+
+                        }).join("")}
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error("Payment history error:", error);
+
+        container.innerHTML =
+            '<div style="color:#dc3545;">Failed to load payment history.</div>';
+    }
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const form =
+            document.getElementById(
+                "vitalSignsForm"
+            );
+
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                saveVitalSigns
+            );
+
+        }
+
+
+        const weight =
+            document.getElementById(
+                "vitalWeight"
+            );
+
+
+        const height =
+            document.getElementById(
+                "vitalHeight"
+            );
+
+
+        if (weight) {
+
+            weight.addEventListener(
+                "input",
+                calculateVitalBMI
+            );
+
+        }
+
+
+        if (height) {
+
+            height.addEventListener(
+                "input",
+                calculateVitalBMI
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   END VITAL SIGNS
+===================================================== */
+
+
+/* =====================================================
+   VIEW PATIENT
+===================================================== */
+
+
+</script>
+
+
+<!-- =========================================================
+     FRANTETT SUMMARY CARD NAVIGATION
+     Presentation / navigation enhancement only.
+     Existing APIs and clinical loaders are untouched.
+     ========================================================= -->
+
+
+
+
+
+
+
+<style id="frantett-summary-card-navigation">
+/* =========================================================
+   SUMMARY CARD NAVIGATION
+   ========================================================= */
+
+.ft-stat {
+    cursor: pointer !important;
+    user-select: none !important;
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease !important;
+}
+
+.ft-stat:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 22px rgba(20,50,40,.12) !important;
+}
+
+.ft-stat:focus {
+    outline: 3px solid rgba(22,101,52,.20) !important;
+    outline-offset: 2px !important;
+}
+
+.ft-stat:active {
+    transform: translateY(0) !important;
+}
+
+/*
+ * Keep the actual destination section visible below
+ * the fixed/sticky navigation areas.
+ */
+#appointments,
+#consultations,
+#prescriptions,
+#lab-results {
+    scroll-margin-top: 150px !important;
+}
+
+/*
+ * Briefly emphasize the exact destination after navigation.
+ */
+.ft-summary-target-highlight {
+    animation: frantettSummaryTarget .9s ease-out !important;
+}
+
+@keyframes frantettSummaryTarget {
+    0% {
+        box-shadow: 0 0 0 4px rgba(22,101,52,.22);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(22,101,52,0);
+    }
+}
+</style>
+<script id="frantett-summary-card-navigation">
+(function () {
+    "use strict";
+
+    function setupSummaryCardNavigation() {
+
+        const mappings = [
+            {
+                statId: "statAppointments",
+                sectionId: "appointments"
+            },
+            {
+                statId: "statConsultations",
+                sectionId: "consultations"
+            },
+            {
+                statId: "statPrescriptions",
+                sectionId: "prescriptions"
+            },
+            {
+                statId: "statLabResults",
+                sectionId: "lab-results"
+            }
+        ];
+
+        mappings.forEach(function (item) {
+
+            /*
+             * IMPORTANT:
+             * The actual card is the direct .ft-stat parent
+             * of each statistic value.
+             */
+            const statValue =
+                document.getElementById(item.statId);
+
+            const section =
+                document.getElementById(item.sectionId);
+
+            if (!statValue || !section) {
+                return;
+            }
+
+            const card =
+                statValue.closest(".ft-stat");
+
+            if (!card) {
+                return;
+            }
+
+            card.classList.add(
+                "ft-summary-card-clickable"
+            );
+
+            card.setAttribute(
+                "role",
+                "button"
+            );
+
+            card.setAttribute(
+                "tabindex",
+                "0"
+            );
+
+            card.setAttribute(
+                "aria-label",
+                "View " +
+                item.sectionId.replace("-", " ") +
+                " section"
+            );
+
+            function goToSection() {
+
+                /*
+                 * Directly target the actual section.
+                 *
+                 * scroll-margin-top handles the page's
+                 * top navigation without manually calculating
+                 * document coordinates.
+                 */
+                section.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+                /*
+                 * Put the URL hash on the actual destination.
+                 * This also makes the navigation state explicit.
+                 */
+                if (
+                    window.history &&
+                    window.history.replaceState
+                ) {
+                    window.history.replaceState(
+                        null,
+                        "",
+                        "#" + item.sectionId
+                    );
+                }
+
+                /*
+                 * Briefly highlight the exact destination.
+                 */
+                section.classList.add(
+                    "ft-summary-target-highlight"
+                );
+
+                window.setTimeout(function () {
+                    section.classList.remove(
+                        "ft-summary-target-highlight"
+                    );
+                }, 1000);
+            }
+
+            card.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        event.target.closest &&
+                        event.target.closest(
+                            "button, a, input, select, textarea"
+                        )
+                    ) {
+                        return;
+                    }
+
+                    goToSection();
+                }
+            );
+
+            card.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key === "Enter" ||
+                        event.key === " "
+                    ) {
+                        event.preventDefault();
+                        goToSection();
+                    }
+                }
+            );
+        });
+    }
+
+    if (
+        document.readyState === "loading"
+    ) {
+        document.addEventListener(
+            "DOMContentLoaded",
+            setupSummaryCardNavigation
+        );
+    } else {
+        setupSummaryCardNavigation();
+    }
+
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
