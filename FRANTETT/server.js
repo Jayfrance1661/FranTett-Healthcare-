@@ -1,4 +1,4 @@
-﻿const cors = require("cors");
+const cors = require("cors");
 const express = require("express");
 const https = require("https");
 const fs = require("fs");
@@ -3893,14 +3893,7 @@ const {
 // CHECK APPOINTMENT
 // ==================================
 
-if (!appointment_id) {
-
-    return res.status(400).json({
-        message:
-            "Appointment ID is required."
-    });
-
-}
+if (appointment_id) {
 
 const appointmentResult =
     await pool.query(
@@ -3941,7 +3934,7 @@ if (
 
 }
 
-
+}
             // ==================================
             // CREATE CONSULTATION
             // ==================================
