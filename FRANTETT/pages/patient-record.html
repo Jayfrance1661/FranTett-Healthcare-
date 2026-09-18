@@ -5633,6 +5633,26 @@ button.ft-nav-link {
                 <span class="ft-print-icon">&#128438;</span>
             </button>
 
+            <button
+    type="button"
+    class="ft-topbar-more"
+    onclick="toggleTopbarMore(event)"
+    aria-label="More patient record actions"
+    aria-expanded="false"
+>
+    &#8942;
+</button>
+
+<div class="ft-topbar-more-menu" id="ftTopbarMoreMenu">
+    <button type="button" onclick="openNewConsultation(); closeTopbarMore();">
+        + New Consultation
+    </button>
+
+    <button type="button" onclick="window.print(); closeTopbarMore();">
+        Print Record
+    </button>
+</div>
+
         </div>
 
     </div>
@@ -9456,7 +9476,76 @@ document.addEventListener(
         font-size: 10px;
     }
 }
+
+/* =========================================================
+   MOBILE TOPBAR MORE MENU
+   ========================================================= */
+
+.ft-topbar-more-menu {
+    display: none;
+}
+
+@media (max-width: 700px) {
+
+    header.ft-topbar .ft-topbar-actions {
+        position: relative !important;
+    }
+
+    header.ft-topbar .ft-topbar-new-consultation,
+    header.ft-topbar .ft-topbar-print {
+        display: none !important;
+    }
+
+    header.ft-topbar .ft-topbar-more {
+        display: flex !important;
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        padding: 0 !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    header.ft-topbar .ft-topbar-more-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        z-index: 1000;
+        width: 190px;
+        padding: 6px;
+        border-radius: 10px;
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+        border: 1px solid #e2e8f0;
+    }
+
+    header.ft-topbar .ft-topbar-more-menu button {
+        width: 100%;
+        min-height: 42px;
+        padding: 8px 12px;
+        border: 0;
+        border-radius: 7px;
+        background: transparent;
+        color: #1f2937;
+        text-align: left;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    header.ft-topbar .ft-topbar-more-menu button:hover {
+        background: #f0fdf4;
+    }
+
+        header.ft-topbar .ft-topbar-more-menu.is-open {
+        display: block !important;
+    }
+}
+
 </style>
+
 <script id="frantett-summary-card-navigation">
 (function () {
     "use strict";
@@ -9615,6 +9704,31 @@ document.addEventListener(
     }
 
 })();
+
+function toggleTopbarMore(event) {
+    event.stopPropagation();
+
+    const menu = document.getElementById("ftTopbarMoreMenu");
+    const button = document.querySelector(".ft-topbar-more");
+
+    if (!menu || !button) return;
+
+    const isOpen = menu.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", isOpen ? "true" : "false");
+}
+
+function closeTopbarMore() {
+    const menu = document.getElementById("ftTopbarMoreMenu");
+    const button = document.querySelector(".ft-topbar-more");
+
+    if (menu) menu.classList.remove("is-open");
+    if (button) button.setAttribute("aria-expanded", "false");
+}
+
+document.addEventListener("click", function () {
+    closeTopbarMore();
+});
+
 </script>
 </body>
 </html>
