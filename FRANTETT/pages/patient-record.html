@@ -1121,11 +1121,341 @@ body {
     }
 }
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
+<style id="frantett-consultation-status-style">
+.ft-consultation-status-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.ft-consultation-record-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+    .ft-consultation-status-group {
+        justify-content: flex-start;
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    .ft-consultation-record-status,
+    .ft-status {
+        font-size: 10px;
+    }
+}
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
+</style>
+<style id="frantett-clinical-alerts-style">
+
+.ft-clinical-alerts {
+    border-left: 4px solid #d97706 !important;
+}
+
+.ft-clinical-alerts-header {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+.ft-clinical-alerts-header h2 {
+    color: #92400e !important;
+}
+
+.ft-clinical-alerts-header p {
+    color: #6b7280 !important;
+}
+
+.ft-clinical-alerts-list {
+    display: grid !important;
+    gap: 10px !important;
+    width: 100% !important;
+}
+
+.ft-clinical-alert-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 13px 15px !important;
+    border: 1px solid #fde68a !important;
+    border-radius: 10px !important;
+    background: #fffbeb !important;
+    color: #78350f !important;
+    text-align: left !important;
+    cursor: pointer !important;
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        transform .18s ease !important;
+}
+
+.ft-clinical-alert-item:hover {
+    background: #fef3c7 !important;
+    border-color: #f59e0b !important;
+    transform: translateY(-1px) !important;
+}
+
+.ft-clinical-alert-icon {
+    flex: 0 0 auto !important;
+    width: 24px !important;
+    height: 24px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    background: #f59e0b !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+}
+
+.ft-clinical-alert-text {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    overflow-wrap: anywhere !important;
+}
+
+.ft-clinical-alert-arrow {
+    flex: 0 0 auto !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #b45309 !important;
+}
+
+@media (max-width: 700px) {
+
+    .ft-clinical-alerts-header {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    .ft-clinical-alerts-header p {
+        white-space: nowrap !important;
+        font-size: 12px !important;
+        line-height: 1.2 !important;
+        margin-top: 3px !important;
+    }
+
+    .ft-clinical-alert-item {
+        padding: 12px 13px !important;
+        gap: 10px !important;
+    }
+
+    .ft-clinical-alert-text {
+        font-size: 12px !important;
+    }
+
+}
+
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
+</style>
+
 <style id="FRANTETT-PATIENT-RECORD-V2">
 
 /* =========================================================
-   FRANTETT PATIENT RECORD â€” V2
+   FRANTETT PATIENT RECORD Ã¢â‚¬â€ V2
    Presentation-only redesign
 ========================================================= */
 
@@ -1715,7 +2045,7 @@ a {
 }
 
 /* =========================================================
-   MOBILE â€” REAL REORGANIZATION
+   MOBILE Ã¢â‚¬â€ REAL REORGANIZATION
 ========================================================= */
 
 @media (max-width: 900px) {
@@ -2043,6 +2373,68 @@ a {
     }
 }
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style><style id="FRANTETT-PATIENT-RECORD-V3">
 
 /* =========================================================
@@ -2780,6 +3172,68 @@ a {
     }
 }
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style><style id="frantett-payment-v3-styles">
 .patient-profile-section:has(#patientPaymentsPanel){margin-top:24px;padding:0;border:1px solid #d9e8df;border-radius:18px;background:#fff;box-shadow:0 8px 28px rgba(20,83,45,.08);overflow:hidden}
 .patient-profile-section:has(#patientPaymentsPanel) .patient-section-heading{padding:22px 24px 16px;margin:0;background:linear-gradient(135deg,#f2fbf5 0%,#fff 100%);border-bottom:1px solid #e1eee5}
@@ -2801,6 +3255,68 @@ a {
 #paymentHistory th{padding:12px 14px;background:#f0f8f2;color:#31543d;text-align:left;font-size:12px;font-weight:750;text-transform:uppercase;letter-spacing:.03em}
 #paymentHistory td{padding:13px 14px;border-top:1px solid #edf2ee;color:#475569;font-size:14px}
 @media(max-width:760px){.patient-payment-form{grid-template-columns:1fr}#patientPaymentsPanel{padding:0 16px 18px}.patient-profile-section:has(#patientPaymentsPanel) .patient-section-heading{padding:18px 16px 14px}#patientPaymentsToggle{margin:14px 16px}.patient-payment-actions{flex-direction:column}.patient-payment-actions button{width:100%}#paymentHistory{margin-top:8px}}
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
 <style id="frantett-vitals-top-meta">
 .ft-vitals-meta {
@@ -2829,6 +3345,68 @@ a {
     .ft-vitals-meta {
         grid-template-columns:1fr;
         gap:8px;
+    }
+}
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
     }
 }
 </style>
@@ -3193,6 +3771,68 @@ a {
 
 }
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
 <style id="frantett-topbar-visibility-fix">
 
@@ -3252,11 +3892,73 @@ header.ft-topbar .ft-topbar-brand-mark {
     border-color: rgba(255,255,255,0.30) !important;
 }
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
 <style id="frantett-clean-brand-topbar">
 
 /* =========================================================
-   FRANTETT HEALTHCARE â€” CLEAN PROFESSIONAL TOP BAR
+   FRANTETT HEALTHCARE Ã¢â‚¬â€ CLEAN PROFESSIONAL TOP BAR
    ========================================================= */
 
 header.ft-topbar {
@@ -3553,11 +4255,73 @@ header.ft-topbar .ft-print-icon {
 
 }
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
 <style id="frantett-final-topbar-alignment">
 
 /* =========================================================
-   FRANTETT HEALTHCARE â€” FINAL TOP BAR
+   FRANTETT HEALTHCARE Ã¢â‚¬â€ FINAL TOP BAR
    ========================================================= */
 
 header.ft-topbar {
@@ -3591,7 +4355,7 @@ header.ft-topbar .ft-topbar-inner {
 
 
 /* =========================================================
-   LEFT â€” PATIENTS
+   LEFT Ã¢â‚¬â€ PATIENTS
    ========================================================= */
 
 header.ft-topbar .ft-topbar-back {
@@ -3638,7 +4402,7 @@ header.ft-topbar .ft-back-arrow {
 
 
 /* =========================================================
-   CENTER â€” FRANTETT HEALTHCARE
+   CENTER Ã¢â‚¬â€ FRANTETT HEALTHCARE
    ========================================================= */
 
 header.ft-topbar .ft-topbar-brand {
@@ -3688,7 +4452,7 @@ header.ft-topbar .ft-topbar-brand-subtitle {
 
 
 /* =========================================================
-   RIGHT â€” PRINT
+   RIGHT Ã¢â‚¬â€ PRINT
    ========================================================= */
 
 header.ft-topbar .ft-topbar-actions {
@@ -3737,7 +4501,7 @@ header.ft-topbar .ft-print-icon {
 
 
 /* =========================================================
-   PHONE â€” EVERYTHING ON ONE LINE
+   PHONE Ã¢â‚¬â€ EVERYTHING ON ONE LINE
    ========================================================= */
 
 @media (max-width: 700px) {
@@ -3777,7 +4541,7 @@ header.ft-topbar .ft-print-icon {
     }
 
 
-    /* CENTER â€” ONE SINGLE LINE */
+    /* CENTER Ã¢â‚¬â€ ONE SINGLE LINE */
 
     header.ft-topbar .ft-topbar-brand {
         justify-self: center !important;
@@ -3814,7 +4578,7 @@ header.ft-topbar .ft-print-icon {
     }
 
 
-    /* RIGHT â€” PRINT ICON */
+    /* RIGHT Ã¢â‚¬â€ PRINT ICON */
 
     header.ft-topbar .ft-topbar-actions {
         justify-self: end !important;
@@ -3891,6 +4655,68 @@ header.ft-topbar .ft-print-icon {
 
 }
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
 
 <style id="frantett-nav-colour-only">
@@ -3916,6 +4742,68 @@ header.ft-topbar .ft-print-icon {
     font-weight: 800 !important;
 }
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
 <style id="frantett-nav-colour-final">
 
@@ -3954,6 +4842,68 @@ button.ft-nav-link {
     outline-offset: 2px !important;
 }
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
 <style id="frantett-section-nav-colour-final">
 
@@ -3992,6 +4942,68 @@ button.ft-nav-link {
     }
 }
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
 <style id="frantett-section-nav-desktop-spread">
 
@@ -4032,6 +5044,68 @@ button.ft-nav-link {
 
 
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
 <style id="frantett-clinical-text-wrap-fix">
 
@@ -4049,6 +5123,68 @@ button.ft-nav-link {
     text-indent: 0 !important;
 }
 
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style><style id="frantett-clinical-overview-grid-fix">
 /* Clinical Overview - clean two-column desktop / one-column mobile */
 .ft-clinical-overview-grid {
@@ -4118,6 +5254,68 @@ button.ft-nav-link {
         font-size: 13px !important;
     }
 }
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
 <style id="frantett-clinical-overview-heading-spacing">
 .ft-clinical-overview .ft-section-header {
@@ -4131,6 +5329,68 @@ button.ft-nav-link {
         padding-right: 8px !important;
     }
 }
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style><style id="frantett-clinical-overview-subtitle-nowrap">
 @media (max-width: 700px) {
     .ft-clinical-overview .ft-section-header p {
@@ -4141,7 +5401,194 @@ button.ft-nav-link {
         margin-top: 3px !important;
     }
 }
-</style></head>
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
+</style><style id="frantett-lab-result-status-badges">
+
+/* =====================================================
+   LAB RESULTS STATUS BADGES
+===================================================== */
+
+.ft-lab-status {
+    min-width: 72px;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+/* Final / completed laboratory result */
+.ft-lab-status[data-status="final"] {
+    background: #dcfce7 !important;
+    color: #166534 !important;
+    border: 1px solid #bbf7d0 !important;
+}
+
+/* Pending / awaiting result */
+.ft-lab-status[data-status="pending"],
+.ft-lab-status[data-status="awaiting-review"],
+.ft-lab-status[data-status="awaiting_review"] {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+    border: 1px solid #fde68a !important;
+}
+
+/* Available result requiring review */
+.ft-lab-status[data-status="available"],
+.ft-lab-status[data-status="unreviewed"],
+.ft-lab-status[data-status="not-reviewed"],
+.ft-lab-status[data-status="not_reviewed"] {
+    background: #dbeafe !important;
+    color: #1e40af !important;
+    border: 1px solid #bfdbfe !important;
+}
+
+/* Cancelled / rejected */
+.ft-lab-status[data-status="cancelled"],
+.ft-lab-status[data-status="canceled"],
+.ft-lab-status[data-status="rejected"] {
+    background: #fee2e2 !important;
+    color: #991b1b !important;
+    border: 1px solid #fecaca !important;
+}
+
+/* Missing / unrecorded status */
+.ft-lab-status[data-status="not recorded"] {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+@media (max-width: 700px) {
+
+    .ft-lab-status {
+        min-width: 64px;
+        font-size: 10px !important;
+    }
+
+}
+
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
+</style><style id="frantett-consultation-selector-style">.ft-consultation-selector{margin:0 0 18px;padding:14px 16px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px}.ft-consultation-selector label{display:block;margin-bottom:6px;color:#166534;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.ft-consultation-select{width:100%;min-height:42px;padding:9px 12px;border:1px solid #86efac;border-radius:8px;background:#fff;color:#166534;font-size:13px;font-weight:700;outline:none}.ft-consultation-select:focus{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.12)}.ft-consultation-selector-help{margin-top:6px;color:#64748b;font-size:11px}@media(max-width:700px){.ft-consultation-selector{padding:12px}.ft-consultation-select{font-size:12px}}</style></head>
 
 <body>
 
@@ -4155,7 +5602,7 @@ button.ft-nav-link {
             onclick="goBack()"
             aria-label="Back to Patients"
         >
-            <span class="ft-back-arrow">â†</span>
+            <span class="ft-back-arrow">Ã¢â€ Â</span>
             <span class="ft-back-label">Patients</span>
         </button>
 
@@ -4170,14 +5617,20 @@ button.ft-nav-link {
 
         <div class="ft-topbar-actions">
 
-            <button
+                        <button
                 type="button"
-                class="ft-topbar-print"
+                class="ft-topbar-new-consultation"
+                onclick="openNewConsultation()"
+                aria-label="Start a new consultation for this patient"
+            >
+                <span class="ft-new-consultation-label">+ New Consultation</span>
+            </button>
+<button type="button" class="ft-topbar-print"
                 onclick="window.print()"
                 aria-label="Print Patient Record"
             >
                 <span class="ft-print-label">Print Record</span>
-                <span class="ft-print-icon">â–£</span>
+                <span class="ft-print-icon">Ã¢â€“Â£</span>
             </button>
 
         </div>
@@ -4198,7 +5651,7 @@ button.ft-nav-link {
             Patients
         </button>
 
-        <span>â€º</span>
+        <span>Ã¢â‚¬Âº</span>
 
         <span>Patient Record</span>
 
@@ -4265,7 +5718,7 @@ button.ft-nav-link {
                 class="ft-stat-value"
                 id="statAppointments"
             >
-                â€”
+                Ã¢â‚¬â€
             </div>
         </div>
 
@@ -4277,7 +5730,7 @@ button.ft-nav-link {
                 class="ft-stat-value"
                 id="statConsultations"
             >
-                â€”
+                Ã¢â‚¬â€
             </div>
         </div>
 
@@ -4289,7 +5742,7 @@ button.ft-nav-link {
                 class="ft-stat-value"
                 id="statPrescriptions"
             >
-                â€”
+                Ã¢â‚¬â€
             </div>
         </div>
 
@@ -4301,7 +5754,7 @@ button.ft-nav-link {
                 class="ft-stat-value"
                 id="statLabResults"
             >
-                â€”
+                Ã¢â‚¬â€
             </div>
         </div>
 
@@ -4325,7 +5778,7 @@ button.ft-nav-link {
             <span class="ft-overview-label">Last Consultation</span>
 
             <span class="ft-overview-value"
-                  id="overviewLastConsultation">—</span>
+                  id="overviewLastConsultation">â€”</span>
 
         </button>
 
@@ -4336,7 +5789,7 @@ button.ft-nav-link {
             <span class="ft-overview-label">Upcoming Appointment</span>
 
             <span class="ft-overview-value"
-                  id="overviewNextAppointment">—</span>
+                  id="overviewNextAppointment">â€”</span>
 
         </button>
 
@@ -4347,7 +5800,7 @@ button.ft-nav-link {
             <span class="ft-overview-label">Presenting Complaint</span>
 
             <span class="ft-overview-value"
-                  id="overviewComplaint">—</span>
+                  id="overviewComplaint">â€”</span>
 
         </button>
 
@@ -4358,7 +5811,7 @@ button.ft-nav-link {
             <span class="ft-overview-label">Diagnosis</span>
 
             <span class="ft-overview-value"
-                  id="overviewDiagnosis">—</span>
+                  id="overviewDiagnosis">â€”</span>
 
         </button>
 
@@ -4369,7 +5822,7 @@ button.ft-nav-link {
             <span class="ft-overview-label">Follow-up</span>
 
             <span class="ft-overview-value"
-                  id="overviewFollowUp">—</span>
+                  id="overviewFollowUp">â€”</span>
 
         </button>
 
@@ -4380,7 +5833,7 @@ button.ft-nav-link {
             <span class="ft-overview-label">Laboratory Status</span>
 
             <span class="ft-overview-value"
-                  id="overviewLabStatus">—</span>
+                  id="overviewLabStatus">â€”</span>
 
         </button>
 
@@ -4391,7 +5844,27 @@ button.ft-nav-link {
 
     <!-- SECTION NAVIGATION -->
 
-    <nav class="ft-section-nav">
+    <section
+    class="ft-card ft-clinical-alerts"
+    id="frantett-clinical-alerts"
+    hidden
+>
+
+    <div class="ft-section-header ft-clinical-alerts-header">
+        <div>
+            <h2>Clinical Alerts</h2>
+            <p>Important items requiring attention in the patient record</p>
+        </div>
+    </div>
+
+    <div
+        class="ft-clinical-alerts-list"
+        id="clinicalAlertsList"
+    ></div>
+
+</section>
+
+<nav class="ft-section-nav">
 
         <a href="#overview">
             Overview
@@ -4463,7 +5936,7 @@ button.ft-nav-link {
                                 class="ft-info-value"
                                 id="infoPatientId"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
                         </div>
 
@@ -4475,7 +5948,7 @@ button.ft-nav-link {
                                 class="ft-info-value"
                                 id="infoGender"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
                         </div>
 
@@ -4487,7 +5960,7 @@ button.ft-nav-link {
                                 class="ft-info-value"
                                 id="infoDob"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
                         </div>
 
@@ -4499,7 +5972,7 @@ button.ft-nav-link {
                                 class="ft-info-value"
                                 id="infoPhone"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
                         </div>
 
@@ -4511,7 +5984,7 @@ button.ft-nav-link {
                                 class="ft-info-value"
                                 id="infoEmail"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
                         </div>
 
@@ -4523,7 +5996,7 @@ button.ft-nav-link {
                                 class="ft-info-value"
                                 id="infoAddress"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
                         </div>
 
@@ -4545,7 +6018,7 @@ button.ft-nav-link {
                                 class="ft-clinical-field-value"
                                 id="medicalHistory"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
 
                         </div>
@@ -4560,7 +6033,7 @@ button.ft-nav-link {
                                 class="ft-clinical-field-value"
                                 id="allergies"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
 
                         </div>
@@ -4575,7 +6048,7 @@ button.ft-nav-link {
                                 class="ft-clinical-field-value"
                                 id="medications"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
 
                         </div>
@@ -4590,7 +6063,7 @@ button.ft-nav-link {
                                 class="ft-clinical-field-value"
                                 id="patientNotes"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
 
                         </div>
@@ -4656,7 +6129,14 @@ button.ft-nav-link {
 
                 </div>
 
-                <div
+                <div class="ft-consultation-selector" id="consultationSelectorWrap" hidden>
+    <label for="consultationSelect">Select Consultation</label>
+    <select id="consultationSelect" class="ft-consultation-select"></select>
+    <div class="ft-consultation-selector-help" id="consultationSelectorHelp">
+        Select a consultation date to view that clinical record.
+    </div>
+</div>
+<div
                     class="ft-card-body"
                     id="consultationsContent"
                 >
@@ -4917,7 +6397,7 @@ button.ft-nav-link {
                                 class="ft-clinical-field-value"
                                 id="summaryName"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
 
                         </div>
@@ -4932,7 +6412,7 @@ button.ft-nav-link {
                                 class="ft-clinical-field-value"
                                 id="summaryId"
                             >
-                                â€”
+                                Ã¢â‚¬â€
                             </div>
 
                         </div>
@@ -4961,7 +6441,9 @@ button.ft-nav-link {
 let currentPatientId = null;
 
 const API_URL =
-    `${window.location.protocol}//${window.location.host}`;
+    window.location.port === "5500"
+        ? `https://${window.location.hostname}:3000`
+        : `${window.location.protocol}//${window.location.host}`;
 
 
 /* =====================================================
@@ -5047,7 +6529,7 @@ function formatDateTime(value) {
 function formatTime(value) {
 
     if (!value) {
-        return "â€”";
+        return "Ã¢â‚¬â€";
     }
 
     const parts =
@@ -5124,6 +6606,21 @@ function goBack() {
 
     window.location.href =
         "patients.html";
+}
+/* =====================================================
+   NEW CONSULTATION
+===================================================== */
+
+function openNewConsultation() {
+
+    if (!currentPatientId) {
+        alert("Patient information is not available.");
+        return;
+    }
+
+    window.location.href =
+        `/pages/consultation-form.html?patient_id=${encodeURIComponent(currentPatientId)}`;
+
 }
 
 
@@ -5417,6 +6914,68 @@ async function loadAppointments(patientId) {
    CONSULTATIONS
 ===================================================== */
 
+let selectedConsultationId = null;
+
+function populateConsultationSelector(consultations) {
+    const wrap = document.getElementById("consultationSelectorWrap");
+    const select = document.getElementById("consultationSelect");
+    const help = document.getElementById("consultationSelectorHelp");
+
+    if (!wrap || !select) {
+        console.warn("Consultation selector elements not found.");
+        return;
+    }
+
+    select.innerHTML = "";
+
+    consultations.forEach(function(consultation) {
+        const option = document.createElement("option");
+
+        option.value = String(consultation.id);
+
+        const date = consultation.consultation_date
+            ? formatDate(consultation.consultation_date)
+            : "Date not recorded";
+
+        const doctor = consultation.doctor
+            ? " · " + consultation.doctor
+            : "";
+
+        option.textContent = date + doctor;
+
+        select.appendChild(option);
+    });
+
+    if (selectedConsultationId != null) {
+        const existing = Array.from(select.options).find(
+            option =>
+                option.value ===
+                String(selectedConsultationId)
+        );
+
+        if (existing) {
+            select.value = String(selectedConsultationId);
+        }
+    }
+
+    if (!select.value && select.options.length) {
+        select.value = select.options[0].value;
+    }
+
+    selectedConsultationId =
+        select.value
+            ? Number(select.value)
+            : null;
+
+    wrap.hidden = consultations.length <= 1;
+
+    if (help) {
+        help.textContent =
+            consultations.length > 1
+                ? "Select a consultation date to view that clinical record."
+                : "This patient has one consultation record.";
+    }
+}
 async function loadConsultations(patientId) {
 
     const container =
@@ -5441,6 +7000,24 @@ async function loadConsultations(patientId) {
         ).textContent =
             consultations.length;
 
+        populateConsultationSelector(consultations);
+
+        const consultationSelect = document.getElementById("consultationSelect");
+
+        if (consultationSelect && !consultationSelect.dataset.bound) {
+            consultationSelect.dataset.bound = "true";
+            consultationSelect.addEventListener("change", function() {
+                selectedConsultationId = this.value ? Number(this.value) : null;
+                loadConsultations(patientId);
+        loadVitals(patientId);
+        loadLabRequests(patientId);
+        loadLabResults(patientId);
+        loadPrescriptions(patientId);
+
+
+            });
+        }
+
         if (!consultations.length) {
 
             container.innerHTML =
@@ -5449,8 +7026,18 @@ async function loadConsultations(patientId) {
             return;
         }
 
+        if (selectedConsultationId == null && consultations.length) {
+            selectedConsultationId = consultations[0].id;
+        }
+
         container.innerHTML =
-            consultations.map(
+            consultations
+                .filter(
+                    consultation =>
+                        String(consultation.id) ===
+                        String(selectedConsultationId)
+                )
+                .map(
                 consultation => `
 
                     <article class="ft-consultation">
@@ -5473,13 +7060,13 @@ async function loadConsultations(patientId) {
 
                                     ${
                                         consultation.doctor
-                                            ? ` Â· ${escapeHtml(consultation.doctor)}`
+                                            ? ` · ${escapeHtml(consultation.doctor)}`
                                             : ""
                                     }
 
                                     ${
                                         consultation.created_at
-                                            ? ` Â· Entered ${escapeHtml(formatDateTime(consultation.created_at))}`
+                                            ? ` · Entered ${escapeHtml(formatDateTime(consultation.created_at))}`
                                             : ""
                                     }
 
@@ -5487,11 +7074,16 @@ async function loadConsultations(patientId) {
 
                             </div>
 
-                            <span class="ft-status">
-                                Consultation #${escapeHtml(
-                                    consultation.id
-                                )}
-                            </span>
+                            <div class="ft-consultation-status-group">
+    <span class="ft-consultation-record-status">
+        Recorded
+    </span>
+    <span class="ft-status">
+        Consultation #${escapeHtml(
+            consultation.id
+        )}
+    </span>
+</div>
 
                         </div>
 
@@ -5661,7 +7253,7 @@ function vitalCard(
 
             <div class="ft-vital-value">
                 ${escapeHtml(
-                    value || "â€”"
+                    value || "Ã¢â‚¬â€"
                 )}
             </div>
 
@@ -5693,12 +7285,12 @@ function renderSnapshot(vital) {
             ${vitalCard(
                 "Temp",
                 vital.temperature != null
-                    ? `${Number(vital.temperature).toFixed(2)} Â°C`
+                    ? `${Number(vital.temperature).toFixed(2)} Ã‚Â°C`
                     : null
             )}
 
             ${vitalCard(
-                "SpOâ‚‚",
+                "SpOÃ¢â€šâ€š",
                 vital.oxygen_saturation != null
                     ? `${Number(vital.oxygen_saturation).toFixed(0)}%`
                     : null
@@ -5746,7 +7338,17 @@ async function loadVitals(patientId) {
                 ? data
                 : [];
 
-        if (!vitals.length) {
+
+        const consultationVitals =
+            selectedConsultationId == null
+                ? vitals
+                : vitals.filter(
+                    vital =>
+                        String(vital.consultation_id) ===
+                        String(selectedConsultationId)
+                );
+
+        if (!consultationVitals.length) {
 
             container.innerHTML =
                 `<div class="ft-empty">No vital signs recorded.</div>`;
@@ -5760,7 +7362,7 @@ async function loadVitals(patientId) {
         }
 
         const latest =
-            vitals[0];
+            consultationVitals[0];
 
         renderSnapshot(latest);
 
@@ -5782,12 +7384,12 @@ async function loadVitals(patientId) {
                 ${vitalCard(
                     "Temperature",
                     latest.temperature != null
-                        ? `${Number(latest.temperature).toFixed(2)} Â°C`
+                        ? `${Number(latest.temperature).toFixed(2)} Ã‚Â°C`
                         : null
                 )}
 
                 ${vitalCard(
-                    "SpOâ‚‚",
+                    "SpOÃ¢â€šâ€š",
                     latest.oxygen_saturation != null
                         ? `${Number(latest.oxygen_saturation).toFixed(0)}%`
                         : null
@@ -5840,7 +7442,7 @@ async function loadVitals(patientId) {
                     <strong>Recorded By:</strong>
                     <span>
                         ${escapeHtml(
-                            latest.recorded_by || "â€”"
+                            latest.recorded_by || "Ã¢â‚¬â€"
                         )}
                     </span>
                 </div>
@@ -5879,7 +7481,17 @@ async function loadLabRequests(patientId) {
                 ? data
                 : [];
 
-        if (!requests.length) {
+
+        const consultationRequests =
+            selectedConsultationId == null
+                ? requests
+                : requests.filter(
+                    request =>
+                        String(request.consultation_id) ===
+                        String(selectedConsultationId)
+                );
+
+        if (!consultationRequests.length) {
 
             container.innerHTML =
                 `<div class="ft-empty">No laboratory requests found.</div>`;
@@ -5890,7 +7502,7 @@ async function loadLabRequests(patientId) {
         container.innerHTML = `
             <div class="ft-record-list">
 
-                ${requests.map(
+                ${consultationRequests.map(
                     request => {
 
                         const investigations =
@@ -6065,7 +7677,17 @@ async function loadLabResults(patientId) {
                 ? data
                 : [];
 
-        document.getElementById(
+
+        const consultationReports =
+            selectedConsultationId == null
+                ? reports
+                : reports.filter(
+                    report =>
+                        String(report.consultation_id) ===
+                        String(selectedConsultationId)
+                );
+
+                document.getElementById(
             "statLabResults"
         ).textContent =
             reports.length;
@@ -6081,7 +7703,7 @@ async function loadLabResults(patientId) {
         container.innerHTML = `
             <div class="ft-record-list">
 
-                ${reports.map(
+                ${consultationReports.map(
                     report => {
 
                         const parameters =
@@ -6115,7 +7737,7 @@ async function loadLabResults(patientId) {
 
                                             ${
                                                 report.recorded_by
-                                                    ? ` Â· Recorded by ${escapeHtml(report.recorded_by)}`
+                                                    ? ` · Recorded by ${escapeHtml(report.recorded_by)}`
                                                     : ""
                                             }
 
@@ -6123,12 +7745,20 @@ async function loadLabResults(patientId) {
 
                                     </div>
 
-                                    <span class="ft-status">
-                                        ${escapeHtml(
-                                            report.status ||
-                                            "Final"
-                                        )}
-                                    </span>
+                                    <span
+    class="ft-status ft-lab-status"
+    data-status="${escapeHtml(
+        String(
+            report.status ||
+            "Not recorded"
+        ).trim().toLowerCase()
+    )}"
+>
+    ${escapeHtml(
+        report.status ||
+        "Not recorded"
+    )}
+</span>
 
                                 </div>
 
@@ -6179,21 +7809,31 @@ async function loadLabResults(patientId) {
                                                                         <td data-label="Unit">
                                                                             ${escapeHtml(
                                                                                 parameter.unit ||
-                                                                                "â€”"
+                                                                                "Ã¢â‚¬â€"
                                                                             )}
                                                                         </td>
 
                                                                         <td data-label="Flag">
-                                                                            ${escapeHtml(
-                                                                                parameter.flag ||
-                                                                                "â€”"
-                                                                            )}
-                                                                        </td>
+    <span
+        class="ft-lab-parameter-flag"
+        data-flag="${escapeHtml(
+            String(
+                parameter.flag ||
+                "Not recorded"
+            ).trim().toLowerCase()
+        )}"
+    >
+        ${escapeHtml(
+            parameter.flag ||
+            "Not recorded"
+        )}
+    </span>
+</td>
 
                                                                         <td data-label="Reference Range">
                                                                             ${escapeHtml(
                                                                                 parameter.reference_range ||
-                                                                                "â€”"
+                                                                                "Ã¢â‚¬â€"
                                                                             )}
                                                                         </td>
 
@@ -6279,7 +7919,17 @@ async function loadPrescriptions(patientId) {
                 ? data
                 : [];
 
-        document.getElementById(
+
+        const consultationPrescriptions =
+            selectedConsultationId == null
+                ? prescriptions
+                : prescriptions.filter(
+                    prescription =>
+                        String(prescription.consultation_id) ===
+                        String(selectedConsultationId)
+                );
+
+                document.getElementById(
             "statPrescriptions"
         ).textContent =
             prescriptions.length;
@@ -6295,7 +7945,7 @@ async function loadPrescriptions(patientId) {
         container.innerHTML = `
             <div class="ft-record-list">
 
-                ${prescriptions.map(
+                ${consultationPrescriptions.map(
                     prescription => {
 
                         const medications =
@@ -6327,7 +7977,7 @@ async function loadPrescriptions(patientId) {
 
                                             ${
                                                 prescription.doctor
-                                                    ? ` Â· ${escapeHtml(prescription.doctor)}`
+                                                    ? ` · ${escapeHtml(prescription.doctor)}`
                                                     : ""
                                             }
 
@@ -6715,6 +8365,209 @@ async function renderClinicalOverview(patientId) {
             "Unable to load";
     }
 }
+
+async function renderClinicalAlerts(patientId) {
+
+    const section =
+        document.getElementById("frantett-clinical-alerts");
+
+    const list =
+        document.getElementById("clinicalAlertsList");
+
+    if (!section || !list) {
+        console.warn("Clinical Alerts elements not found.");
+        return;
+    }
+
+    section.hidden = true;
+    list.innerHTML = "";
+
+    try {
+
+        const alerts = [];
+
+        // -------------------------------------------------
+        // ALLERGY INFORMATION
+        // -------------------------------------------------
+        // Reuse the Patient Overview DOM value already
+        // populated by loadPatient().
+        // -------------------------------------------------
+
+        const allergyElement =
+            document.getElementById("allergies");
+
+        const allergyText =
+            allergyElement
+                ? String(
+                    allergyElement.textContent || ""
+                ).trim()
+                : "";
+
+        const allergyMissing =
+            allergyText === "" ||
+            allergyText === "â€”" ||
+            allergyText === "-" ||
+            allergyText.toLowerCase() === "not recorded" ||
+            allergyText.toLowerCase() === "not documented";
+
+        if (allergyMissing) {
+
+            alerts.push({
+                text: "Allergy information not documented",
+                target: "overview"
+            });
+        }
+
+        // -------------------------------------------------
+        // LABORATORY RESULTS AWAITING REVIEW
+        // -------------------------------------------------
+
+        const labResults =
+            await apiGet(
+                API_URL +
+                "/api/patients/" +
+                patientId +
+                "/lab-reports"
+            );
+
+        const reports =
+            Array.isArray(labResults)
+                ? labResults
+                : [];
+
+        const reviewStatuses = [
+            "pending",
+            "available",
+            "awaiting review",
+            "awaiting_review",
+            "unreviewed",
+            "not reviewed",
+            "not_reviewed"
+        ];
+
+        let awaitingReview = 0;
+
+        reports.forEach(function(report) {
+
+            const status =
+                report &&
+                report.status != null
+                    ? String(
+                        report.status
+                    ).trim().toLowerCase()
+                    : "";
+
+            if (
+                reviewStatuses.indexOf(
+                    status
+                ) !== -1
+            ) {
+                awaitingReview++;
+            }
+
+        });
+
+        if (awaitingReview > 0) {
+
+            alerts.push({
+                text:
+                    String(awaitingReview) +
+                    " laboratory result" +
+                    (
+                        awaitingReview === 1
+                            ? ""
+                            : "s"
+                    ) +
+                    " awaiting review",
+                target: "lab-results"
+            });
+        }
+
+        // -------------------------------------------------
+        // NO ALERTS
+        // -------------------------------------------------
+
+        if (alerts.length === 0) {
+            section.hidden = true;
+            return;
+        }
+
+        // -------------------------------------------------
+        // RENDER
+        // -------------------------------------------------
+
+        list.innerHTML =
+            alerts.map(function(alert) {
+
+                return (
+                    '<button type="button" ' +
+                    'class="ft-clinical-alert-item" ' +
+                    'data-alert-target="' +
+                    escapeHtml(alert.target) +
+                    '">' +
+
+                    '<span class="ft-clinical-alert-icon" aria-hidden="true">âš </span>' +
+
+                    '<span class="ft-clinical-alert-text">' +
+                    escapeHtml(alert.text) +
+                    '</span>' +
+
+                    '<span class="ft-clinical-alert-arrow" aria-hidden="true">â†’</span>' +
+
+                    '</button>'
+                );
+
+            }).join("");
+
+        section.hidden = false;
+
+        const alertItems =
+            list.querySelectorAll(
+                ".ft-clinical-alert-item"
+            );
+
+        alertItems.forEach(function(item) {
+
+            item.addEventListener(
+                "click",
+                function() {
+
+                    const target =
+                        item.getAttribute(
+                            "data-alert-target"
+                        );
+
+                    const targetElement =
+                        document.getElementById(
+                            target
+                        );
+
+                    if (targetElement) {
+
+                        targetElement.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+
+                    }
+
+                }
+            );
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Clinical Alerts:",
+            error
+        );
+
+        section.hidden = true;
+        list.innerHTML = "";
+    }
+}
+
 async function initPatientRecord() {
 
     const params =
@@ -6756,6 +8609,7 @@ async function initPatientRecord() {
         ]);
 
         await renderClinicalOverview(patientId);
+        await renderClinicalAlerts(patientId);
 
     } catch (error) {
         console.error(
@@ -7541,6 +9395,68 @@ document.addEventListener(
         box-shadow: 0 0 0 0 rgba(22,101,52,0);
     }
 }
+/* =========================================================
+   LAB PARAMETER FLAG BADGES
+   ========================================================= */
+
+.ft-lab-parameter-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.ft-lab-parameter-flag[data-flag="normal"],
+.ft-lab-parameter-flag[data-flag="n"] {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.ft-lab-parameter-flag[data-flag="high"],
+.ft-lab-parameter-flag[data-flag="low"],
+.ft-lab-parameter-flag[data-flag="abnormal"],
+.ft-lab-parameter-flag[data-flag="critical"],
+.ft-lab-parameter-flag[data-flag="h"],
+.ft-lab-parameter-flag[data-flag="l"],
+.ft-lab-parameter-flag[data-flag="a"],
+.ft-lab-parameter-flag[data-flag="c"] {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.ft-lab-parameter-flag[data-flag="borderline"],
+.ft-lab-parameter-flag[data-flag="attention"] {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.ft-lab-parameter-flag[data-flag="not recorded"] {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+@media (max-width: 700px) {
+    .ft-lab-parameter-flag {
+        min-width: 58px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+}
 </style>
 <script id="frantett-summary-card-navigation">
 (function () {
@@ -7703,6 +9619,33 @@ document.addEventListener(
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

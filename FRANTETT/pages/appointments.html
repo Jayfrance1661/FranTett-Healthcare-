@@ -6396,7 +6396,7 @@ async function openConsultationForm(
         if (existingConsultation) {
 
             window.location.href =
-                `/consultation-form.html?appointment_id=${encodeURIComponent(appointmentId)}&patient_id=${encodeURIComponent(patientId)}&consultation_id=${encodeURIComponent(existingConsultation.id)}`;
+                `/pages/consultation-form.html?appointment_id=${encodeURIComponent(appointmentId)}&patient_id=${encodeURIComponent(patientId)}&consultation_id=${encodeURIComponent(existingConsultation.id)}`;
 
             return;
 
@@ -6410,7 +6410,7 @@ async function openConsultationForm(
          */
 
         window.location.href =
-            `/consultation-form.html?appointment_id=${encodeURIComponent(appointmentId)}&patient_id=${encodeURIComponent(patientId)}`;
+            `/pages/consultation-form.html?appointment_id=${encodeURIComponent(appointmentId)}&patient_id=${encodeURIComponent(patientId)}`;
 
     } catch (error) {
 
@@ -6568,6 +6568,7 @@ async function joinConsultation(
 </body>
 
 </html>
+
 
 
 
