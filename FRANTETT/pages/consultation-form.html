@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5000,7 +5000,7 @@ label:has(+ #linkedLabRecordedBy),
                     id="patientName"
                     class="info-value"
                 >
-                    ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â
+                    -
                 </div>
 
             </div>
@@ -5016,7 +5016,7 @@ label:has(+ #linkedLabRecordedBy),
                     id="patientIdDisplay"
                     class="info-value"
                 >
-                    ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â
+                    -
                 </div>
 
             </div>
@@ -5032,7 +5032,7 @@ label:has(+ #linkedLabRecordedBy),
                     id="appointmentIdDisplay"
                     class="info-value"
                 >
-                    ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â
+                    -
                 </div>
 
             </div>
@@ -8174,7 +8174,7 @@ function linkedEscape(value) {
 function linkedDate(value) {
 
     if (!value) {
-        return "Ã¢â‚¬â€";
+        return "-";
     }
 
     const date = new Date(value);
@@ -9739,7 +9739,7 @@ async function loadLinkedPrescriptions() {
                                 rows="1"
                                 onchange="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
                                 onblur="saveLinkedPrescriptionInline(${record.id}, this.closest('.inline-linked-record'))"
-                            >${linkedEscape(String(record.notes || "").replace(/Ã¢â‚¬â€|â€”|â€“/g, ""))}</textarea>
+                            >${linkedEscape(String(record.notes || ""))}</textarea>
 
                         </div>
 
@@ -9778,7 +9778,7 @@ async function loadLinkedClinicalRecords() {
 
     if (display) {
         display.textContent =
-            consultationId || "Ã¢â‚¬â€";
+            consultationId || "-";
     }
 
     if (!consultationId) {
