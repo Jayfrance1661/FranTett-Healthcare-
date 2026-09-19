@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -438,7 +438,77 @@
 
         }
 
-    </style>
+    
+/* FRANTETT-APPOINTMENT-ACTION-MENU */
+.table-container .appointment-action-menu {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-container .appointment-action-menu-trigger {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 8px !important;
+    background: #ffffff !important;
+    color: #374151 !important;
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    line-height: 30px !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.table-container .appointment-action-menu-trigger:hover {
+    background: #f3f4f6 !important;
+}
+
+.table-container .appointment-action-menu-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 1000;
+    min-width: 190px;
+    padding: 6px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.14);
+    display: none;
+    text-align: left;
+}
+
+.table-container .appointment-action-menu.open .appointment-action-menu-dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.table-container .appointment-action-menu-dropdown button {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 9px 11px !important;
+    border: 0 !important;
+    border-radius: 7px !important;
+    background: transparent !important;
+    color: #374151 !important;
+    text-align: left !important;
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+    cursor: pointer !important;
+}
+
+.table-container .appointment-action-menu-dropdown button:hover {
+    background: #f0fdf4 !important;
+}
+</style>
 
 <script id="frantett-mobile-navigation-script">
 (function () {
@@ -940,8 +1010,8 @@ table tbody tr:last-child td {
 /* ---------- ACTION AREA ---------- */
 
 #appointmentsTableBody td:last-child {
-    min-width: 260px !important;
-    max-width: 330px !important;
+    min-width: 0 !important;
+    max-width: none !important;
 }
 
 /* ---------- MODALS ---------- */
@@ -1058,7 +1128,7 @@ table tbody tr:last-child td {
     }
 
     #appointmentsTableBody td:last-child {
-        min-width: 255px !important;
+        min-width: 0 !important;
     }
 
     /* Add Appointment stays compact */
@@ -2287,10 +2357,2167 @@ nav h2 {
 
 }
 </style>
-</head>
+<style id="frantett-pc-staff-dashboard-shell">
+
+/* =========================================================
+   FRANTETT HEALTHCARE
+   PC STAFF DASHBOARD SHELL
+   Desktop only — existing mobile layout untouched
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+    :root {
+        --ft-green: #0b6b50;
+        --ft-green-dark: #07543f;
+        --ft-green-soft: #eef7f3;
+        --ft-page: #f5f8f7;
+        --ft-border: #dfe8e4;
+        --ft-text: #1d3029;
+        --ft-muted: #718078;
+        --ft-white: #ffffff;
+    }
+
+    body {
+        background: var(--ft-page) !important;
+        color: var(--ft-text) !important;
+    }
+
+    /* =====================================================
+       LEFT STAFF NAVIGATION
+       ===================================================== */
+
+    body > nav {
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        width: 238px !important;
+        height: 100vh !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        padding: 25px 14px 18px !important;
+        background: #ffffff !important;
+        border: 0 !important;
+        border-right: 1px solid var(--ft-border) !important;
+        box-shadow: 4px 0 18px rgba(24,48,39,.04) !important;
+        z-index: 1000 !important;
+    }
+
+    body > nav h2 {
+        margin: 0 10px 3px !important;
+        color: var(--ft-green) !important;
+        font-size: 18px !important;
+        font-weight: 800 !important;
+        letter-spacing: -.3px !important;
+    }
+
+    body > nav h2::after {
+        content: "Your Health, Our Priority";
+        display: block;
+        margin-top: 5px;
+        color: #89968f;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: .1px;
+    }
+
+    body > nav ul {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 3px !important;
+        width: 100% !important;
+        margin: 28px 0 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
+    }
+
+    body > nav li {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    body > nav li a {
+        display: flex !important;
+        align-items: center !important;
+        min-height: 40px !important;
+        box-sizing: border-box !important;
+        padding: 0 12px !important;
+        border-radius: 8px !important;
+        color: #5d6d66 !important;
+        font-size: 12.5px !important;
+        font-weight: 650 !important;
+        text-decoration: none !important;
+        transition: background .15s ease, color .15s ease !important;
+    }
+
+    body > nav li a:hover {
+        background: var(--ft-green-soft) !important;
+        color: var(--ft-green) !important;
+    }
+
+    body > nav li:nth-child(5) a {
+        background: var(--ft-green-soft) !important;
+        color: var(--ft-green) !important;
+        font-weight: 750 !important;
+    }
+
+    /* Hide the existing mobile menu trigger on desktop */
+    body > nav #frantettMobileMenuButton {
+        display: none !important;
+    }
+
+    /* =====================================================
+       MAIN WORKSPACE
+       ===================================================== */
+
+    body > .container {
+        width: calc(100% - 238px) !important;
+        max-width: none !important;
+        margin: 0 0 0 238px !important;
+        padding: 30px 34px 45px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* =====================================================
+       STAFF HEADER
+       ===================================================== */
+
+    .dashboard-header {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 25px !important;
+        min-height: 76px !important;
+        box-sizing: border-box !important;
+        margin: 0 0 20px !important;
+        padding: 17px 22px !important;
+        background: #ffffff !important;
+        border: 1px solid var(--ft-border) !important;
+        border-radius: 10px !important;
+        box-shadow: 0 2px 8px rgba(24,48,39,.035) !important;
+    }
+
+    .dashboard-header h1 {
+        margin: 0 0 3px !important;
+        color: var(--ft-text) !important;
+        font-size: 23px !important;
+        font-weight: 780 !important;
+        letter-spacing: -.35px !important;
+    }
+
+    .dashboard-header p {
+        margin: 0 !important;
+        color: var(--ft-muted) !important;
+        font-size: 12px !important;
+    }
+
+    .dashboard-header button {
+        margin: 0 !important;
+        flex: 0 0 auto !important;
+        min-height: 34px !important;
+        padding: 0 13px !important;
+        border: 1px solid #dce6e1 !important;
+        border-radius: 7px !important;
+        background: #ffffff !important;
+        color: #63726b !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        box-shadow: none !important;
+    }
+
+    .dashboard-header button:hover {
+        background: #f7faf8 !important;
+        color: var(--ft-green) !important;
+        transform: none !important;
+    }
+
+    /* =====================================================
+       EXISTING TABS
+       ===================================================== */
+
+    .tabs {
+        display: flex !important;
+        align-items: center !important;
+        gap: 2px !important;
+        margin: 0 0 18px !important;
+        padding: 3px !important;
+        width: fit-content !important;
+        background: #edf3f0 !important;
+        border-radius: 8px !important;
+    }
+
+    .tabs .tab-button {
+        min-height: 34px !important;
+        padding: 0 15px !important;
+        border: 0 !important;
+        border-radius: 6px !important;
+        background: transparent !important;
+        color: #687870 !important;
+        font-size: 11.5px !important;
+        font-weight: 700 !important;
+    }
+
+    .tabs .tab-button.active {
+        background: #ffffff !important;
+        color: var(--ft-green) !important;
+        box-shadow: 0 1px 4px rgba(20,45,35,.08) !important;
+    }
+
+    /* =====================================================
+       STATISTICS
+       ===================================================== */
+
+    .stats {
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        margin: 0 0 22px !important;
+    }
+
+    .stat-card {
+        min-height: 82px !important;
+        box-sizing: border-box !important;
+        padding: 14px 16px !important;
+        background: #ffffff !important;
+        border: 1px solid var(--ft-border) !important;
+        border-radius: 9px !important;
+        box-shadow: none !important;
+    }
+
+    .stat-card h3 {
+        margin: 0 0 8px !important;
+        color: #75827c !important;
+        font-size: 10px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: .55px !important;
+    }
+
+    .stat-number {
+        color: var(--ft-text) !important;
+        font-size: 25px !important;
+        font-weight: 800 !important;
+        line-height: 1 !important;
+    }
+
+    /* =====================================================
+       APPOINTMENT SECTION / ADD BUTTON
+       ===================================================== */
+
+    #appointmentsSection {
+        background: transparent !important;
+    }
+
+    #appointmentsSection > div:first-child {
+        margin-bottom: 12px !important;
+    }
+
+    #appointmentsSection h2,
+    #appointmentsSection h3 {
+        color: var(--ft-text) !important;
+        font-weight: 750 !important;
+    }
+
+    button[onclick="openStaffAddAppointmentModal()"] {
+        min-height: 35px !important;
+        padding: 0 14px !important;
+        border: 0 !important;
+        border-radius: 7px !important;
+        background: var(--ft-green) !important;
+        color: #ffffff !important;
+        font-size: 11.5px !important;
+        font-weight: 750 !important;
+        box-shadow: none !important;
+    }
+
+    button[onclick="openStaffAddAppointmentModal()"]:hover {
+        background: var(--ft-green-dark) !important;
+        transform: none !important;
+    }
+
+    /* =====================================================
+       FILTER TOOLBAR
+       ===================================================== */
+
+    .filters {
+        display: grid !important;
+        grid-template-columns: minmax(240px, 1.7fr) 150px minmax(150px, .8fr) minmax(150px, .8fr) !important;
+        gap: 8px !important;
+        align-items: center !important;
+        margin: 0 0 12px !important;
+        padding: 10px !important;
+        background: #ffffff !important;
+        border: 1px solid var(--ft-border) !important;
+        border-radius: 9px !important;
+    }
+
+    .filters input,
+    .filters select {
+        width: 100% !important;
+        min-height: 35px !important;
+        box-sizing: border-box !important;
+        padding: 0 10px !important;
+        border: 1px solid #dce5e1 !important;
+        border-radius: 7px !important;
+        background: #ffffff !important;
+        color: #34453e !important;
+        font-size: 11.5px !important;
+    }
+
+    .filters input:focus,
+    .filters select:focus {
+        outline: none !important;
+        border-color: #8bbbaa !important;
+        box-shadow: 0 0 0 2px rgba(11,107,80,.08) !important;
+    }
+
+    /* =====================================================
+       APPOINTMENT TABLE
+       ===================================================== */
+
+    .table-container {
+        background: #ffffff !important;
+        border: 1px solid var(--ft-border) !important;
+        border-radius: 10px !important;
+        overflow-x: auto !important;
+        box-shadow: 0 2px 8px rgba(24,48,39,.025) !important;
+    }
+
+    .table-container table {
+        width: 100% !important;
+        min-width: 1080px !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+    }
+
+    .table-container thead th {
+        height: 40px !important;
+        padding: 0 11px !important;
+        background: #f7faf8 !important;
+        border-bottom: 1px solid var(--ft-border) !important;
+        color: #6b7973 !important;
+        font-size: 9.5px !important;
+        font-weight: 750 !important;
+        text-transform: uppercase !important;
+        letter-spacing: .55px !important;
+        white-space: nowrap !important;
+    }
+
+    .table-container tbody td {
+        padding: 10px 11px !important;
+        border-bottom: 1px solid #edf2ef !important;
+        color: #35463f !important;
+        font-size: 11.5px !important;
+        vertical-align: middle !important;
+    }
+
+    .table-container tbody tr:not(.appointment-actions-row):hover {
+        background: #fbfdfc !important;
+    }
+
+    .table-container tbody tr:last-child td {
+        border-bottom: 0 !important;
+    }
+
+    /* Patient number */
+    .patient-number-badge {
+        width: 25px !important;
+        height: 25px !important;
+        min-width: 25px !important;
+        border-radius: 50% !important;
+        background: var(--ft-green) !important;
+        font-size: 10px !important;
+    }
+
+    /* Status */
+    .table-container .status {
+        display: inline-flex !important;
+        align-items: center !important;
+        min-height: 23px !important;
+        padding: 0 8px !important;
+        border-radius: 999px !important;
+        font-size: 9.5px !important;
+        font-weight: 750 !important;
+        border: 1px solid transparent !important;
+    }
+
+    .table-container .status-pending {
+        background: #fff8e7 !important;
+        color: #8a6916 !important;
+        border-color: #f0e2b7 !important;
+    }
+
+    .table-container .status-confirmed {
+        background: #edf8f3 !important;
+        color: #176b4d !important;
+        border-color: #d2eadd !important;
+    }
+
+    .table-container .status-cancelled {
+        background: #fff1f1 !important;
+        color: #a14343 !important;
+        border-color: #efd6d6 !important;
+    }
+
+    .table-container .status-completed {
+        background: #f0f3f8 !important;
+        color: #4f6176 !important;
+        border-color: #dce2e9 !important;
+    }
+
+    /* =====================================================
+       ACTION ROW
+       ===================================================== */
+
+    .appointment-actions-row td {
+        padding: 5px 11px 8px !important;
+        background: #fafcfb !important;
+        border-bottom: 1px solid #e6eeea !important;
+    }
+
+    .appointment-actions-row .actions {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        gap: 4px !important;
+    }
+
+    .appointment-actions-row button {
+        min-height: 27px !important;
+        margin: 0 !important;
+        padding: 0 8px !important;
+        border-radius: 6px !important;
+        font-size: 9.5px !important;
+        font-weight: 700 !important;
+        line-height: 1 !important;
+        box-shadow: none !important;
+    }
+
+    .appointment-actions-row button:hover {
+        transform: none !important;
+    }
+
+    /* =====================================================
+       MESSAGE
+       ===================================================== */
+
+    #message {
+        margin-bottom: 12px !important;
+        border-radius: 7px !important;
+    }
+
+}
+
+</style>
+<style id="frantett-pc-appointments-table-refinement">
+
+/* =========================================================
+   FRANTETT HEALTHCARE
+   APPOINTMENTS DESKTOP TABLE REFINEMENT
+   Presentation only — desktop only
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+    /* -----------------------------------------------------
+       FILTER TOOLBAR
+       ----------------------------------------------------- */
+
+    .filters {
+        grid-template-columns:
+            minmax(250px, 1.65fr)
+            minmax(145px, .8fr)
+            minmax(170px, .9fr)
+            minmax(170px, .9fr) !important;
+
+        gap: 8px !important;
+        padding: 9px !important;
+        margin-bottom: 14px !important;
+    }
+
+    .filters input,
+    .filters select {
+        min-height: 36px !important;
+        padding: 0 11px !important;
+        font-size: 11.5px !important;
+    }
+
+
+    /* -----------------------------------------------------
+       TABLE WIDTH / LAYOUT
+       ----------------------------------------------------- */
+
+    .table-container table {
+        min-width: 1160px !important;
+        table-layout: fixed !important;
+    }
+
+    /* No. */
+    .table-container th:nth-child(1),
+    .table-container td:nth-child(1) {
+        width: 54px !important;
+        text-align: center !important;
+    }
+
+    /* ID */
+    .table-container th:nth-child(2),
+    .table-container td:nth-child(2) {
+        width: 58px !important;
+        text-align: center !important;
+    }
+
+    /* Patient */
+    .table-container th:nth-child(3),
+    .table-container td:nth-child(3) {
+        width: 150px !important;
+    }
+
+    /* Email */
+    .table-container th:nth-child(4),
+    .table-container td:nth-child(4) {
+        width: 190px !important;
+    }
+
+    /* Phone */
+    .table-container th:nth-child(5),
+    .table-container td:nth-child(5) {
+        width: 120px !important;
+    }
+
+    /* Doctor */
+    .table-container th:nth-child(6),
+    .table-container td:nth-child(6) {
+        width: 130px !important;
+    }
+
+    /* Date */
+    .table-container th:nth-child(7),
+    .table-container td:nth-child(7) {
+        width: 105px !important;
+        white-space: nowrap !important;
+    }
+
+    /* Time */
+    .table-container th:nth-child(8),
+    .table-container td:nth-child(8) {
+        width: 82px !important;
+        white-space: nowrap !important;
+    }
+
+    /* Reason */
+    .table-container th:nth-child(9),
+    .table-container td:nth-child(9) {
+        width: 150px !important;
+    }
+
+    /* Status */
+    .table-container th:nth-child(10),
+    .table-container td:nth-child(10) {
+        width: 105px !important;
+    }
+
+
+    /* -----------------------------------------------------
+       DATA CELLS
+       ----------------------------------------------------- */
+
+    .table-container tbody td {
+        height: 48px !important;
+        box-sizing: border-box !important;
+        padding: 8px 10px !important;
+        font-size: 11.5px !important;
+        line-height: 1.35 !important;
+    }
+
+    .table-container tbody td:nth-child(3),
+    .table-container tbody td:nth-child(4),
+    .table-container tbody td:nth-child(5),
+    .table-container tbody td:nth-child(6),
+    .table-container tbody td:nth-child(9) {
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+
+
+    /* -----------------------------------------------------
+       HEADER
+       ----------------------------------------------------- */
+
+    .table-container thead th {
+        height: 38px !important;
+        padding: 0 10px !important;
+        font-size: 9px !important;
+    }
+
+
+    /* -----------------------------------------------------
+       PATIENT NUMBER
+       ----------------------------------------------------- */
+
+    .table-container td:first-child .patient-number-badge {
+        margin: 0 auto !important;
+    }
+
+
+    /* -----------------------------------------------------
+       STATUS
+       ----------------------------------------------------- */
+
+    .table-container .status {
+        min-height: 22px !important;
+        padding: 0 9px !important;
+        white-space: nowrap !important;
+    }
+
+
+    /* -----------------------------------------------------
+       ACTION ROW
+       ----------------------------------------------------- */
+
+    .appointment-actions-row td {
+        height: 38px !important;
+        padding: 5px 10px 7px !important;
+        background: #f8fbf9 !important;
+    }
+
+    .appointment-actions-row .actions {
+        min-height: 25px !important;
+        gap: 5px !important;
+    }
+
+    .appointment-actions-row button {
+        min-height: 25px !important;
+        padding: 0 9px !important;
+        border: 1px solid #d9e5df !important;
+        border-radius: 5px !important;
+        background: #ffffff !important;
+        color: #53635c !important;
+        font-size: 9px !important;
+        font-weight: 700 !important;
+    }
+
+    .appointment-actions-row button:hover {
+        background: #eef7f3 !important;
+        border-color: #b9d8cb !important;
+        color: #0b6b50 !important;
+    }
+
+
+    /* Keep the main clinical action visually distinct
+       without changing its JavaScript or behavior. */
+
+    .appointment-actions-row button[onclick*="joinConsultation"] {
+        background: #0b6b50 !important;
+        border-color: #0b6b50 !important;
+        color: #ffffff !important;
+    }
+
+    .appointment-actions-row button[onclick*="joinConsultation"]:hover {
+        background: #07543f !important;
+        border-color: #07543f !important;
+        color: #ffffff !important;
+    }
+
+
+    /* -----------------------------------------------------
+       SEPARATION BETWEEN APPOINTMENTS
+       ----------------------------------------------------- */
+
+    .appointment-actions-row td {
+        border-bottom: 1px solid #dfe8e4 !important;
+    }
+
+    .appointment-actions-row + tr:not(.appointment-actions-row) td {
+        border-top: 5px solid #f5f8f7 !important;
+    }
+
+}
+
+</style>
+
+<style id="frantett-real-staff-dashboard-shell">
+
+/* ============================================================
+   FRANTETT REAL STAFF DASHBOARD
+   Desktop shell
+   Existing application functionality intentionally preserved.
+   ============================================================ */
+
+@media (min-width: 769px) {
+
+    :root {
+        --frt-green: #0b6b50;
+        --frt-green-dark: #07523e;
+        --frt-green-soft: #edf8f4;
+        --frt-green-line: #d6ebe3;
+        --frt-text: #18352d;
+        --frt-muted: #6b7d76;
+        --frt-border: #e3ebe8;
+        --frt-bg: #f5f8f7;
+        --frt-white: #ffffff;
+        --frt-sidebar-width: 240px;
+    }
+
+    /* --------------------------------------------------------
+       PAGE
+       -------------------------------------------------------- */
+
+    html,
+    body {
+        background: var(--frt-bg) !important;
+    }
+
+    body {
+        margin: 0 !important;
+        min-height: 100vh !important;
+        color: var(--frt-text) !important;
+    }
+
+    /* --------------------------------------------------------
+       REMOVE PUBLIC WEBSITE NAVIGATION FROM DESKTOP
+       -------------------------------------------------------- */
+
+    body > nav {
+        display: none !important;
+    }
+
+    /* --------------------------------------------------------
+       LEFT STAFF SIDEBAR
+       -------------------------------------------------------- */
+
+    #frantett-real-staff-sidebar {
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        width: var(--frt-sidebar-width) !important;
+        height: 100vh !important;
+        box-sizing: border-box !important;
+        z-index: 10000 !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+
+        background: var(--frt-white) !important;
+        border-right: 1px solid var(--frt-border) !important;
+        box-shadow: 3px 0 18px rgba(20,60,48,.05) !important;
+    }
+
+    .frantett-sidebar-brand {
+        height: 82px !important;
+        min-height: 82px !important;
+        box-sizing: border-box !important;
+
+        display: flex !important;
+        align-items: center !important;
+        gap: 11px !important;
+
+        padding: 0 20px !important;
+
+        border-bottom: 1px solid var(--frt-border) !important;
+    }
+
+    .frantett-sidebar-logo {
+        width: 39px !important;
+        height: 39px !important;
+        min-width: 39px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        border-radius: 11px !important;
+        background: var(--frt-green) !important;
+        color: #fff !important;
+
+        font-size: 13px !important;
+        font-weight: 800 !important;
+        letter-spacing: .4px !important;
+    }
+
+    .frantett-sidebar-brand-text {
+        display: flex !important;
+        flex-direction: column !important;
+        line-height: 1.15 !important;
+    }
+
+    .frantett-sidebar-brand-text strong {
+        color: var(--frt-green-dark) !important;
+        font-size: 17px !important;
+        font-weight: 800 !important;
+    }
+
+    .frantett-sidebar-brand-text span {
+        color: var(--frt-muted) !important;
+        font-size: 11px !important;
+        margin-top: 3px !important;
+    }
+
+    .frantett-sidebar-section-label {
+        padding: 23px 20px 9px !important;
+
+        color: #91a39d !important;
+        font-size: 9px !important;
+        font-weight: 800 !important;
+        letter-spacing: 1.1px !important;
+    }
+
+    .frantett-sidebar-menu {
+        list-style: none !important;
+        margin: 0 !important;
+        padding: 0 11px !important;
+    }
+
+    .frantett-sidebar-menu li {
+        margin: 2px 0 !important;
+        padding: 0 !important;
+    }
+
+    .frantett-sidebar-link {
+        position: relative !important;
+
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+
+        width: 100% !important;
+        min-height: 43px !important;
+        box-sizing: border-box !important;
+
+        padding: 0 13px !important;
+
+        border-radius: 9px !important;
+
+        color: #53665f !important;
+        background: transparent !important;
+
+        text-decoration: none !important;
+
+        font-size: 13px !important;
+        font-weight: 600 !important;
+
+        transition:
+            background .16s ease,
+            color .16s ease !important;
+    }
+
+    .frantett-sidebar-link:hover {
+        background: var(--frt-green-soft) !important;
+        color: var(--frt-green-dark) !important;
+        text-decoration: none !important;
+    }
+
+    .frantett-sidebar-link.active {
+        background: #e8f5f0 !important;
+        color: var(--frt-green-dark) !important;
+        font-weight: 750 !important;
+    }
+
+    .frantett-sidebar-link.active::before {
+        content: "" !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 8px !important;
+        bottom: 8px !important;
+        width: 3px !important;
+        border-radius: 3px !important;
+        background: var(--frt-green) !important;
+    }
+
+    .frantett-sidebar-icon {
+        width: 21px !important;
+        min-width: 21px !important;
+
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        color: currentColor !important;
+
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        line-height: 1 !important;
+    }
+
+    .frantett-sidebar-disabled {
+        cursor: default !important;
+    }
+
+    .frantett-sidebar-disabled:hover {
+        background: #f7faf9 !important;
+        color: #64756f !important;
+    }
+
+    .frantett-sidebar-bottom {
+        margin-top: auto !important;
+        padding: 13px 11px 18px !important;
+        border-top: 1px solid var(--frt-border) !important;
+    }
+
+    .frantett-sidebar-logout {
+        width: 100% !important;
+        min-height: 43px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+
+        padding: 0 13px !important;
+
+        border: 0 !important;
+        border-radius: 9px !important;
+
+        background: transparent !important;
+        color: #65766f !important;
+
+        font-size: 13px !important;
+        font-weight: 650 !important;
+
+        cursor: pointer !important;
+        text-align: left !important;
+    }
+
+    .frantett-sidebar-logout:hover {
+        background: #fff3f2 !important;
+        color: #a33d37 !important;
+    }
+
+    /* --------------------------------------------------------
+       TOP BAR
+       -------------------------------------------------------- */
+
+    #frantett-real-staff-topbar {
+        position: fixed !important;
+        left: var(--frt-sidebar-width) !important;
+        right: 0 !important;
+        top: 0 !important;
+        height: 64px !important;
+        box-sizing: border-box !important;
+        z-index: 9999 !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+
+        padding: 0 28px !important;
+
+        background: #fff !important;
+        border-bottom: 1px solid var(--frt-border) !important;
+    }
+
+    .frantett-topbar-brand {
+        display: flex !important;
+        align-items: baseline !important;
+        gap: 10px !important;
+    }
+
+    .frantett-topbar-brand strong {
+        color: var(--frt-green-dark) !important;
+        font-size: 15px !important;
+        font-weight: 800 !important;
+    }
+
+    .frantett-topbar-brand span {
+        color: #91a09b !important;
+        font-size: 11px !important;
+    }
+
+    .frantett-topbar-right {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    .frantett-topbar-title {
+        color: #40564e !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+    }
+
+    .frantett-online-dot {
+        width: 8px !important;
+        height: 8px !important;
+        border-radius: 50% !important;
+        background: #22a06b !important;
+        box-shadow: 0 0 0 3px #e8f7f0 !important;
+    }
+
+    /* --------------------------------------------------------
+       MAIN CONTENT
+       -------------------------------------------------------- */
+
+    body > .container {
+        width: auto !important;
+        max-width: none !important;
+
+        margin: 0 !important;
+        margin-left: var(--frt-sidebar-width) !important;
+
+        padding: 88px 28px 35px !important;
+
+        box-sizing: border-box !important;
+    }
+
+    /* --------------------------------------------------------
+       DASHBOARD HEADER
+       -------------------------------------------------------- */
+
+    .dashboard-header {
+        position: relative !important;
+
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 0 17px !important;
+
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+
+        color: var(--frt-text) !important;
+    }
+
+    .dashboard-header h1 {
+        margin: 0 0 5px !important;
+
+        color: #173c31 !important;
+
+        font-size: 24px !important;
+        line-height: 1.2 !important;
+        font-weight: 800 !important;
+        letter-spacing: -.35px !important;
+    }
+
+    .dashboard-header p {
+        margin: 0 !important;
+
+        color: #74847e !important;
+
+        font-size: 12px !important;
+    }
+
+    .dashboard-header button[onclick*="logout"] {
+        display: none !important;
+    }
+
+    /* --------------------------------------------------------
+       OLD TABS
+       Sidebar now handles desktop navigation.
+       -------------------------------------------------------- */
+
+    .tabs {
+        display: none !important;
+    }
+
+    /* --------------------------------------------------------
+       MESSAGE
+       -------------------------------------------------------- */
+
+    #message {
+        margin-bottom: 12px !important;
+    }
+
+    /* --------------------------------------------------------
+       STATS
+       -------------------------------------------------------- */
+
+    .stats {
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 13px !important;
+
+        margin: 0 0 22px !important;
+    }
+
+    .stat-card {
+        min-height: 94px !important;
+        box-sizing: border-box !important;
+
+        padding: 17px 18px !important;
+
+        background: #fff !important;
+
+        border: 1px solid var(--frt-border) !important;
+        border-radius: 11px !important;
+
+        box-shadow: 0 3px 12px rgba(25,60,50,.045) !important;
+    }
+
+    .stat-card h3 {
+        margin: 0 0 9px !important;
+
+        color: #788982 !important;
+
+        font-size: 10px !important;
+        font-weight: 750 !important;
+        text-transform: uppercase !important;
+        letter-spacing: .45px !important;
+    }
+
+    .stat-number {
+        color: #173c31 !important;
+
+        font-size: 25px !important;
+        line-height: 1 !important;
+        font-weight: 800 !important;
+    }
+
+    /* --------------------------------------------------------
+       ADD APPOINTMENT
+       -------------------------------------------------------- */
+
+    body > .container > div[style*="justify-content:flex-end"] {
+        align-items: center !important;
+
+        margin: 0 0 12px !important;
+        padding: 0 !important;
+    }
+
+    body > .container > div[style*="justify-content:flex-end"]::before {
+        content: "Appointments" !important;
+        margin-right: auto !important;
+
+        color: #23463b !important;
+        font-size: 15px !important;
+        font-weight: 800 !important;
+    }
+
+    body > .container > div[style*="justify-content:flex-end"] .confirm-btn {
+        min-height: 36px !important;
+        padding: 0 14px !important;
+
+        border: 0 !important;
+        border-radius: 8px !important;
+
+        background: var(--frt-green) !important;
+        color: #fff !important;
+
+        font-size: 11px !important;
+        font-weight: 750 !important;
+
+        box-shadow: 0 3px 8px rgba(11,107,80,.15) !important;
+    }
+
+    body > .container > div[style*="justify-content:flex-end"] .confirm-btn:hover {
+        background: var(--frt-green-dark) !important;
+    }
+
+    /* --------------------------------------------------------
+       FILTER BAR
+       -------------------------------------------------------- */
+
+    .filters {
+        display: grid !important;
+
+        grid-template-columns:
+            minmax(220px, 1.5fr)
+            minmax(135px, .85fr)
+            minmax(155px, .9fr)
+            minmax(155px, .9fr) !important;
+
+        gap: 9px !important;
+
+        margin: 0 0 14px !important;
+        padding: 11px !important;
+
+        background: #fff !important;
+
+        border: 1px solid var(--frt-border) !important;
+        border-radius: 10px !important;
+
+        box-shadow: 0 2px 9px rgba(25,60,50,.035) !important;
+    }
+
+    .filters input,
+    .filters select {
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 37px !important;
+        box-sizing: border-box !important;
+
+        padding: 0 11px !important;
+
+        border: 1px solid #dce6e2 !important;
+        border-radius: 7px !important;
+
+        background: #fbfdfc !important;
+        color: #40574f !important;
+
+        font-size: 11px !important;
+        outline: none !important;
+    }
+
+    .filters input:focus,
+    .filters select:focus {
+        border-color: #75b7a1 !important;
+        box-shadow: 0 0 0 3px rgba(11,107,80,.08) !important;
+    }
+
+    /* --------------------------------------------------------
+       APPOINTMENT TABLE
+       -------------------------------------------------------- */
+
+    .table-container {
+        width: 100% !important;
+        box-sizing: border-box !important;
+
+        background: #fff !important;
+
+        border: 1px solid var(--frt-border) !important;
+        border-radius: 11px !important;
+
+        overflow-x: auto !important;
+
+        box-shadow: 0 3px 13px rgba(25,60,50,.045) !important;
+    }
+
+    .table-container table {
+        margin: 0 !important;
+    }
+
+    .table-container th {
+        background: #f3f8f6 !important;
+        color: #526760 !important;
+
+        border-bottom: 1px solid #dce7e3 !important;
+
+        font-size: 9px !important;
+        font-weight: 800 !important;
+        text-transform: uppercase !important;
+        letter-spacing: .45px !important;
+    }
+
+    .table-container td {
+        background: #fff !important;
+        color: #42574f !important;
+
+        font-size: 11px !important;
+    }
+
+    .table-container tbody tr:hover td {
+        background: #f8fcfa !important;
+    }
+
+    /* --------------------------------------------------------
+       ACTION ROW
+       -------------------------------------------------------- */
+
+    .appointment-actions-row td {
+        background: #fafcfb !important;
+        border-bottom: 1px solid #e3ebe8 !important;
+    }
+
+    .appointment-actions-row .actions {
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+        gap: 5px !important;
+        flex-wrap: wrap !important;
+    }
+
+    .appointment-actions-row button {
+        min-height: 27px !important;
+
+        padding: 0 8px !important;
+
+        border-radius: 6px !important;
+
+        font-size: 9px !important;
+        font-weight: 700 !important;
+    }
+
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    #frantett-real-staff-sidebar,
+    #frantett-real-staff-topbar {
+        display: none !important;
+    }
+
+}
+</style>
+<style id="frantett-desktop-appointment-refinement-v2">
+
+/* ============================================================
+   FRANTETT DESKTOP APPOINTMENT DASHBOARD
+   Presentation layer only.
+   Existing JS / API / database logic is preserved.
+   ============================================================ */
+
+@media (min-width: 769px) {
+
+    /* --------------------------------------------------------
+       MAIN PAGE AREA
+       -------------------------------------------------------- */
+
+    body > .container {
+        padding: 91px 32px 42px !important;
+        margin-left: 240px !important;
+        width: calc(100% - 240px) !important;
+        max-width: none !important;
+        box-sizing: border-box !important;
+    }
+
+    /* --------------------------------------------------------
+       DASHBOARD INTRO
+       -------------------------------------------------------- */
+
+    .dashboard-header {
+        margin: 0 0 22px !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .dashboard-header h1 {
+        margin: 0 0 5px !important;
+        color: #163d31 !important;
+        font-size: 25px !important;
+        line-height: 1.2 !important;
+        font-weight: 800 !important;
+        letter-spacing: -.4px !important;
+    }
+
+    .dashboard-header p {
+        margin: 0 !important;
+        color: #74857e !important;
+        font-size: 12px !important;
+        line-height: 1.5 !important;
+    }
+
+    /* Hide the old desktop logout control.
+       Sidebar contains the working logout control. */
+    .dashboard-header button[onclick*="logout"] {
+        display: none !important;
+    }
+
+    /* --------------------------------------------------------
+       KPI CARDS
+       -------------------------------------------------------- */
+
+    .stats {
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 14px !important;
+        margin: 0 0 27px !important;
+    }
+
+    .stat-card {
+        position: relative !important;
+        min-height: 102px !important;
+        padding: 17px 18px !important;
+        box-sizing: border-box !important;
+
+        background: #fff !important;
+        border: 1px solid #e1ebe7 !important;
+        border-radius: 12px !important;
+
+        box-shadow: 0 4px 14px rgba(24,66,53,.045) !important;
+    }
+
+    .stat-card::after {
+        content: "" !important;
+        position: absolute !important;
+        left: 18px !important;
+        bottom: 0 !important;
+        width: 25px !important;
+        height: 3px !important;
+        border-radius: 3px 3px 0 0 !important;
+        background: #0b6b50 !important;
+    }
+
+    .stat-card h3 {
+        margin: 0 0 11px !important;
+        color: #71837c !important;
+        font-size: 9px !important;
+        font-weight: 800 !important;
+        letter-spacing: .65px !important;
+        text-transform: uppercase !important;
+    }
+
+    .stat-number {
+        color: #173c31 !important;
+        font-size: 27px !important;
+        line-height: 1 !important;
+        font-weight: 800 !important;
+    }
+
+    /* --------------------------------------------------------
+       APPOINTMENT SECTION HEADER
+       -------------------------------------------------------- */
+
+    body > .container > div[style*="justify-content:flex-end"] {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+
+        min-height: 38px !important;
+
+        margin: 0 0 13px !important;
+        padding: 0 !important;
+    }
+
+    body > .container > div[style*="justify-content:flex-end"]::before {
+        content: "Appointments" !important;
+
+        display: block !important;
+
+        color: #24483c !important;
+        font-size: 17px !important;
+        line-height: 1.2 !important;
+        font-weight: 800 !important;
+    }
+
+    body > .container > div[style*="justify-content:flex-end"]::after {
+        content: "Manage scheduled patient appointments" !important;
+
+        position: absolute !important;
+        left: 0 !important;
+        margin-top: 34px !important;
+
+        color: #84928d !important;
+        font-size: 10px !important;
+        font-weight: 500 !important;
+    }
+
+    body > .container > div[style*="justify-content:flex-end"] {
+        position: relative !important;
+    }
+
+    body > .container > div[style*="justify-content:flex-end"] .confirm-btn {
+        min-height: 36px !important;
+        padding: 0 15px !important;
+
+        border: 0 !important;
+        border-radius: 8px !important;
+
+        background: #0b6b50 !important;
+        color: #fff !important;
+
+        font-size: 11px !important;
+        font-weight: 750 !important;
+
+        box-shadow: 0 3px 9px rgba(11,107,80,.16) !important;
+    }
+
+    /* --------------------------------------------------------
+       FILTERS
+       -------------------------------------------------------- */
+
+    .filters {
+        display: grid !important;
+
+        grid-template-columns:
+            minmax(250px, 1.7fr)
+            minmax(150px, .9fr)
+            minmax(165px, .95fr)
+            minmax(165px, .95fr) !important;
+
+        gap: 9px !important;
+
+        margin: 0 0 15px !important;
+        padding: 11px !important;
+
+        background: #fff !important;
+
+        border: 1px solid #e1ebe7 !important;
+        border-radius: 10px !important;
+
+        box-shadow: 0 3px 11px rgba(24,66,53,.035) !important;
+    }
+
+    .filters input,
+    .filters select {
+        min-height: 38px !important;
+        height: 38px !important;
+        box-sizing: border-box !important;
+
+        padding: 0 11px !important;
+
+        border: 1px solid #dce7e3 !important;
+        border-radius: 7px !important;
+
+        background: #fbfdfc !important;
+        color: #40574f !important;
+
+        font-size: 11px !important;
+    }
+
+    .filters input::placeholder {
+        color: #9aa9a4 !important;
+    }
+
+    .filters input:focus,
+    .filters select:focus {
+        border-color: #75b7a1 !important;
+        outline: none !important;
+        box-shadow: 0 0 0 3px rgba(11,107,80,.075) !important;
+    }
+
+    /* --------------------------------------------------------
+       TABLE OUTER CARD
+       -------------------------------------------------------- */
+
+    .table-container {
+        width: 100% !important;
+        box-sizing: border-box !important;
+
+        margin-top: 0 !important;
+
+        background: #fff !important;
+        border: 1px solid #dfeae6 !important;
+        border-radius: 12px !important;
+
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+
+        box-shadow: 0 4px 16px rgba(24,66,53,.045) !important;
+    }
+
+    .table-container table {
+        width: 100% !important;
+        min-width: 760px !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        table-layout: fixed !important;
+    }
+
+    /* --------------------------------------------------------
+       DESKTOP TABLE COLUMN PRESENTATION
+       
+       Existing HTML remains:
+       No | ID | Patient | Email | Phone | Doctor |
+       Date | Time | Reason | Status
+
+       We visually remove secondary contact/reason columns.
+       The underlying data and JS remain untouched.
+       -------------------------------------------------------- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* --------------------------------------------------------
+       TABLE HEADER
+       -------------------------------------------------------- */
+
+    .table-container thead th {
+        height: 39px !important;
+        box-sizing: border-box !important;
+
+        padding: 0 11px !important;
+
+        background: #f1f7f4 !important;
+        color: #52675f !important;
+
+        border-bottom: 1px solid #dce7e3 !important;
+
+        font-size: 9px !important;
+        font-weight: 800 !important;
+        letter-spacing: .55px !important;
+        text-transform: uppercase !important;
+
+        white-space: nowrap !important;
+        text-align: left !important;
+    }
+
+    /* --------------------------------------------------------
+       TABLE BODY
+       -------------------------------------------------------- */
+
+    .table-container tbody td {
+        height: 47px !important;
+        box-sizing: border-box !important;
+
+        padding: 7px 11px !important;
+
+        color: #42584f !important;
+
+        border-bottom: 1px solid #edf2f0 !important;
+
+        font-size: 11px !important;
+        vertical-align: middle !important;
+    }
+
+    .table-container tbody tr:hover td {
+        background: #f8fcfa !important;
+    }
+
+    .table-container tbody tr:last-child td {
+        border-bottom: 0 !important;
+    }
+
+    /* Patient name */
+    .table-container td:nth-child(3) {
+        color: #1f4639 !important;
+        font-weight: 750 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    /* ID */
+    .table-container td:nth-child(2) {
+        color: #71837c !important;
+        font-size: 10px !important;
+        font-weight: 700 !important;
+    }
+
+    /* Doctor */
+    .table-container td:nth-child(6) {
+        color: #456157 !important;
+        font-weight: 650 !important;
+        white-space: nowrap !important;
+    }
+
+    /* Date + time */
+    .table-container td:nth-child(7),
+    .table-container td:nth-child(8) {
+        color: #586b64 !important;
+        white-space: nowrap !important;
+        font-size: 10.5px !important;
+    }
+
+    /* --------------------------------------------------------
+       STATUS
+       -------------------------------------------------------- */
+
+    .table-container td:nth-child(10) {
+        white-space: nowrap !important;
+    }
+
+    .table-container td:nth-child(10) * {
+        font-size: 9px !important;
+    }
+
+    /* --------------------------------------------------------
+       ACTION ROW
+       -------------------------------------------------------- */
+
+    .appointment-actions-row td {
+        height: 38px !important;
+        padding: 5px 10px !important;
+
+        background: #fafcfb !important;
+
+        border-bottom: 1px solid #e2ebe8 !important;
+    }
+
+    .appointment-actions-row .actions {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 5px !important;
+        flex-wrap: wrap !important;
+    }
+
+    .appointment-actions-row button {
+        min-height: 25px !important;
+        height: 25px !important;
+
+        padding: 0 8px !important;
+
+        border-radius: 6px !important;
+
+        font-size: 9px !important;
+        font-weight: 700 !important;
+
+        box-shadow: none !important;
+    }
+
+    /* Make the consultation actions visually prominent */
+    .appointment-actions-row button[onclick*="joinConsultation"] {
+        background: #0b6b50 !important;
+        border-color: #0b6b50 !important;
+        color: #fff !important;
+    }
+
+    .appointment-actions-row button[onclick*="Clinical"],
+    .appointment-actions-row button[onclick*="clinical"] {
+        border-color: #79ad9b !important;
+        color: #0b6b50 !important;
+    }
+
+    /* --------------------------------------------------------
+       MOBILE SAFETY
+       This block deliberately does not alter mobile styling.
+       -------------------------------------------------------- */
+
+}
+
+@media (max-width: 768px) {
+
+    #frantett-desktop-appointment-refinement-v2 {
+        display: none !important;
+    }
+
+}
+
+</style>
+
+<style id="frantett-8column-desktop-table-final">
+/* =========================================================
+   FRANTETT APPOINTMENTS — FINAL 8-COLUMN DESKTOP TABLE
+   CSS ONLY — DOES NOT CHANGE JAVASCRIPT OR DATA
+   ========================================================= */
+
+@media (min-width: 769px) {
+
+    .table-container table {
+        width: 100% !important;
+        table-layout: fixed !important;
+    }
+
+    .table-container th,
+    .table-container td {
+        display: table-cell !important;
+        box-sizing: border-box !important;
+    }
+
+    /* No */
+    .table-container th:nth-child(1),
+    .table-container td:nth-child(1) {
+        width: 55px !important;
+    }
+
+    /* ID */
+    .table-container th:nth-child(2),
+    .table-container td:nth-child(2) {
+        width: 65px !important;
+    }
+
+    /* Patient */
+    .table-container th:nth-child(3),
+    .table-container td:nth-child(3) {
+        width: 170px !important;
+    }
+
+    /* Doctor */
+    .table-container th:nth-child(4),
+    .table-container td:nth-child(4) {
+        width: 130px !important;
+    }
+
+    /* Date */
+    .table-container th:nth-child(5),
+    .table-container td:nth-child(5) {
+        width: 120px !important;
+    }
+
+    /* Time */
+    .table-container th:nth-child(6),
+    .table-container td:nth-child(6) {
+        width: 95px !important;
+    }
+
+    /* Status */
+    .table-container th:nth-child(7),
+    .table-container td:nth-child(7) {
+        width: 110px !important;
+    }
+
+    /* Actions */
+    .table-container th:nth-child(8),
+    .table-container td:nth-child(8) {
+        width: auto !important;
+        min-width: 220px !important;
+    }
+
+    /* Keep appointment information readable */
+    .table-container tbody td {
+        vertical-align: middle !important;
+    }
+
+}
+</style>
+<style id="FRANTETT-CLEAN-8COLUMN-DESKTOP-TABLE-CSS">
+/* FRANTETT-CLEAN-8COLUMN-DESKTOP-TABLE-CSS */
+
+@media (min-width: 769px) {
+
+    /* Current desktop appointment table:
+       No. | ID | Patient | Doctor | Date | Time | Status | Actions */
+
+    .table-container table {
+        width: 100% !important;
+        table-layout: fixed !important;
+    }
+
+    .table-container table thead th,
+    .table-container table tbody td {
+        display: table-cell !important;
+        box-sizing: border-box !important;
+        vertical-align: middle !important;
+    }
+
+    .table-container table thead th:nth-child(1),
+    .table-container table tbody td:nth-child(1) {
+        width: 55px !important;
+    }
+
+    .table-container table thead th:nth-child(2),
+    .table-container table tbody td:nth-child(2) {
+        width: 65px !important;
+    }
+
+    .table-container table thead th:nth-child(3),
+    .table-container table tbody td:nth-child(3) {
+        width: 170px !important;
+    }
+
+    .table-container table thead th:nth-child(4),
+    .table-container table tbody td:nth-child(4) {
+        width: 130px !important;
+        display: table-cell !important;
+    }
+
+    .table-container table thead th:nth-child(5),
+    .table-container table tbody td:nth-child(5) {
+        width: 120px !important;
+        display: table-cell !important;
+    }
+
+    .table-container table thead th:nth-child(6),
+    .table-container table tbody td:nth-child(6) {
+        width: 95px !important;
+    }
+
+    .table-container table thead th:nth-child(7),
+    .table-container table tbody td:nth-child(7) {
+        width: 110px !important;
+    }
+
+    .table-container table thead th:nth-child(8),
+    .table-container table tbody td:nth-child(8) {
+        width: auto !important;
+        min-width: 220px !important;
+    }
+
+    /* Keep the current table's text readable */
+    .table-container table tbody td:nth-child(3),
+    .table-container table tbody td:nth-child(4),
+    .table-container table tbody td:nth-child(5),
+    .table-container table tbody td:nth-child(6),
+    .table-container table tbody td:nth-child(7) {
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+
+    /* Actions must remain visible */
+    .table-container table tbody td:nth-child(8) {
+        overflow: visible !important;
+        white-space: normal !important;
+    }
+}
+</style>
+<style id="frantett-desktop-action-dropdown-overflow-fix">
+/* FRANTETT DESKTOP ACTION DROPDOWN OVERFLOW FIX */
+@media (min-width: 769px) {
+
+    /* Allow the three-dot action menu to extend outside
+       the table's vertical clipping boundary. */
+    .table-container {
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+    }
+
+    .table-container .appointment-action-menu {
+        position: relative !important;
+        z-index: 5000 !important;
+    }
+
+    .table-container .appointment-action-menu-dropdown {
+        z-index: 99999 !important;
+    }
+
+}
+</style>
+<style id="frantett-desktop-action-button-stacking-fix">
+/* FRANTETT DESKTOP ACTION BUTTON ROW STACKING FIX */
+@media (min-width: 769px) {
+
+    .table-container table tbody tr {
+        position: relative !important;
+    }
+
+    .table-container table tbody tr:has(.appointment-action-menu.open) {
+        z-index: 5000 !important;
+    }
+
+    .table-container table tbody tr:has(.appointment-action-menu.open) td {
+        position: relative !important;
+        z-index: 5000 !important;
+    }
+
+    .table-container .appointment-action-menu {
+        position: relative !important;
+        z-index: 5001 !important;
+    }
+
+    .table-container .appointment-action-menu-trigger {
+        position: relative !important;
+        z-index: 5002 !important;
+    }
+
+}
+</style><style id="frantett-desktop-action-dropdown-side-position">
+/* FRANTETT DESKTOP ACTION DROPDOWN — OPEN BESIDE BUTTON */
+@media (min-width: 769px) {
+
+    .table-container .appointment-action-menu-dropdown {
+        top: calc(50% + 26px) !important;
+        right: auto !important;
+        left: calc(100% + 8px) !important;
+        transform: translateY(-50%) !important;
+        z-index: 99999 !important;
+    }
+
+}
+</style><style id="frantett-desktop-appointment-table-full-width">
+/* FRANTETT DESKTOP APPOINTMENT TABLE — TRUE FULL BAR WIDTH */
+@media (min-width: 769px) {
+
+    .table-container table {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        table-layout: fixed !important;
+    }
+
+    .table-container table th,
+    .table-container table td {
+        box-sizing: border-box !important;
+        white-space: nowrap !important;
+    }
+
+    /* No. */
+    .table-container table th:nth-child(1),
+    .table-container table td:nth-child(1) {
+        width: 6% !important;
+    }
+
+    /* ID */
+    .table-container table th:nth-child(2),
+    .table-container table td:nth-child(2) {
+        width: 8% !important;
+    }
+
+    /* Patient */
+    .table-container table th:nth-child(3),
+    .table-container table td:nth-child(3) {
+        width: 22% !important;
+    }
+
+    /* Doctor */
+    .table-container table th:nth-child(4),
+    .table-container table td:nth-child(4) {
+        width: 14% !important;
+    }
+
+    /* Date */
+    .table-container table th:nth-child(5),
+    .table-container table td:nth-child(5) {
+        width: 12% !important;
+    }
+
+    /* Time */
+    .table-container table th:nth-child(6),
+    .table-container table td:nth-child(6) {
+        width: 10% !important;
+    }
+
+    /* Status */
+    .table-container table th:nth-child(7),
+    .table-container table td:nth-child(7) {
+        width: 12% !important;
+    }
+
+    /* Actions */
+    .table-container table th:nth-child(8),
+    .table-container table td:nth-child(8) {
+        width: 16% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+
+}
+</style></head>
 
 
 <body>
+<!-- ============================================================
+     FRANTETT REAL STAFF DASHBOARD SIDEBAR
+     ============================================================ -->
+
+<aside
+    id="frantett-real-staff-sidebar"
+    class="frantett-real-staff-sidebar"
+    aria-label="Staff dashboard navigation"
+>
+
+    <div class="frantett-sidebar-brand">
+
+        <div class="frantett-sidebar-logo">
+            FT
+        </div>
+
+        <div class="frantett-sidebar-brand-text">
+            <strong>FranTett</strong>
+            <span>Healthcare</span>
+        </div>
+
+    </div>
+
+    <div class="frantett-sidebar-section-label">
+        STAFF MENU
+    </div>
+
+    <ul class="frantett-sidebar-menu">
+
+        <li>
+            <a
+                href="#"
+                class="frantett-sidebar-link active"
+                onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;"
+            >
+                <span class="frantett-sidebar-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <li>
+            <a
+                href="#"
+                class="frantett-sidebar-link"
+                onclick="showAppointments(); return false;"
+            >
+                <span class="frantett-sidebar-icon">▣</span>
+                <span>Appointments</span>
+            </a>
+        </li>
+
+        <li>
+            <a
+                href="#"
+                class="frantett-sidebar-link"
+                onclick="goToPatients(); return false;"
+            >
+                <span class="frantett-sidebar-icon">♙</span>
+                <span>Patients</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" class="frantett-sidebar-link frantett-sidebar-disabled" onclick="return false;">
+                <span class="frantett-sidebar-icon">◉</span>
+                <span>Consultations</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" class="frantett-sidebar-link frantett-sidebar-disabled" onclick="return false;">
+                <span class="frantett-sidebar-icon">⌁</span>
+                <span>Laboratory</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" class="frantett-sidebar-link frantett-sidebar-disabled" onclick="return false;">
+                <span class="frantett-sidebar-icon">Rx</span>
+                <span>Prescriptions</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" class="frantett-sidebar-link frantett-sidebar-disabled" onclick="return false;">
+                <span class="frantett-sidebar-icon">$</span>
+                <span>Payments</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" class="frantett-sidebar-link frantett-sidebar-disabled" onclick="return false;">
+                <span class="frantett-sidebar-icon">▤</span>
+                <span>Reports</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" class="frantett-sidebar-link frantett-sidebar-disabled" onclick="return false;">
+                <span class="frantett-sidebar-icon">⚙</span>
+                <span>Settings</span>
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="frantett-sidebar-bottom">
+
+        <button
+            type="button"
+            class="frantett-sidebar-logout"
+            onclick="logout()"
+        >
+            <span class="frantett-sidebar-icon">↪</span>
+            <span>Logout</span>
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- ============================================================
+     FRANTETT STAFF TOP BAR
+     ============================================================ -->
+
+<div
+    id="frantett-real-staff-topbar"
+    class="frantett-real-staff-topbar"
+>
+
+    <div class="frantett-topbar-brand">
+        <strong>FranTett Healthcare</strong>
+        <span>Staff Portal</span>
+    </div>
+
+    <div class="frantett-topbar-right">
+
+        <span class="frantett-topbar-title">
+            Staff Dashboard
+        </span>
+
+        <span
+            class="frantett-online-dot"
+            aria-label="Online"
+        ></span>
+
+    </div>
+
+</div>
+
 
 
 <!-- ==========================================
@@ -2369,7 +4596,7 @@ nav h2 {
         </h1>
 
         <p>
-            Manage FranTett Healthcare appointments and patients.
+            Appointment & Patient Management
         </p>
 
         <button
@@ -2588,23 +4815,14 @@ nav h2 {
 
                 <tr>
 
-                    <th>No.</th><th>ID</th>
-
+                    <th>No.</th>
+                    <th>ID</th>
                     <th>Patient</th>
-
-                    <th>Email</th>
-
-                    <th>Phone</th>
-
                     <th>Doctor</th>
-
                     <th>Date</th>
-
                     <th>Time</th>
-
-                    <th>Reason</th>
-
                     <th>Status</th>
+                    <th>Actions</th>
 
                 </tr>
 
@@ -2617,7 +4835,7 @@ nav h2 {
                 <tr>
 
                     <td
-                        colspan="10"
+                        colspan="8"
                         class="loading"
                     >
                         Loading appointments...
@@ -3840,7 +6058,7 @@ async function loadAppointments() {
     tableBody.innerHTML = `
         <tr>
             <td
-                colspan="10"
+                colspan="8"
                 class="loading"
             >
                 Loading appointments...
@@ -4440,6 +6658,30 @@ function renderMobileAppointmentCards(list) {
     }).join("");
 }
 
+/* FRANTETT-APPOINTMENT-ACTION-MENU-JS */
+function toggleAppointmentActionMenu(trigger) {
+    const currentMenu = trigger.closest(".appointment-action-menu");
+
+    if (!currentMenu) {
+        return;
+    }
+
+    document.querySelectorAll(".appointment-action-menu.open").forEach(function(menu) {
+        if (menu !== currentMenu) {
+            menu.classList.remove("open");
+        }
+    });
+
+    currentMenu.classList.toggle("open");
+}
+
+document.addEventListener("click", function(event) {
+    if (!event.target.closest(".appointment-action-menu")) {
+        document.querySelectorAll(".appointment-action-menu.open").forEach(function(menu) {
+            menu.classList.remove("open");
+        });
+    }
+});
 function renderAppointments(
     list
 ) {
@@ -4455,7 +6697,7 @@ function renderAppointments(
         tableBody.innerHTML = `
             <tr>
                 <td
-                    colspan="10"
+                    colspan="8"
                     style="
                         text-align:center;
                         padding:30px;
@@ -4474,7 +6716,7 @@ function renderAppointments(
 
     tableBody.innerHTML =
         list.map(
-            appointment => {
+            (appointment, index) => {
 
                 const status =
                     appointment.status ||
@@ -4490,7 +6732,7 @@ function renderAppointments(
                         );
 
 
-                                let actions = `
+                let primaryAction = `
                     <button
                         type="button"
                         class="view-btn"
@@ -4498,22 +6740,33 @@ function renderAppointments(
                     >
                         View
                     </button>
+                `;
+
+
+                let actions = `
+                    <button
+                        type="button"
+                        onclick="viewAppointment(${appointment.id})"
+                    >
+                        View
+                    </button>
 
                     <button
                         type="button"
-                        class="view-btn"
                         onclick="editAppointment(${appointment.id})"
                     >
                         Edit
                     </button>
                 `;
 
+
                 if (
                     status === "Pending"
                 ) {
 
-                    actions += `
+                    primaryAction = `
                         <button
+                            type="button"
                             class="confirm-btn"
                             onclick="updateAppointmentStatus(
                                 ${appointment.id},
@@ -4522,9 +6775,12 @@ function renderAppointments(
                         >
                             Confirm
                         </button>
+                    `;
 
+
+                    actions += `
                         <button
-                            class="cancel-btn"
+                            type="button"
                             onclick="updateAppointmentStatus(
                                 ${appointment.id},
                                 'Cancelled'
@@ -4534,7 +6790,7 @@ function renderAppointments(
                         </button>
 
                         <button
-                            class="complete-btn"
+                            type="button"
                             onclick="updateAppointmentStatus(
                                 ${appointment.id},
                                 'Completed'
@@ -4551,9 +6807,87 @@ function renderAppointments(
                     status === "Confirmed"
                 ) {
 
+                    if (
+                        appointment.meeting_room
+                    ) {
+
+                        primaryAction = `
+                            <button
+                                type="button"
+                                class="confirm-btn"
+                                onclick="joinConsultation(
+                                    ${appointment.id},
+                                    ${appointment.patient_id},
+                                    '${appointment.meeting_room}'
+                                )"
+                            >
+                                Join Consultation
+                            </button>
+                        `;
+
+                    }
+                    else if (
+                        appointment.patient_id
+                    ) {
+
+                        primaryAction = `
+                            <button
+                                type="button"
+                                class="confirm-btn"
+                                onclick="openConsultationForm(
+                                    ${appointment.id},
+                                    ${appointment.patient_id}
+                                )"
+                            >
+                                Clinical Consultation
+                            </button>
+                        `;
+
+                    }
+
+
+                    if (
+                        appointment.patient_id
+                    ) {
+
+                        actions += `
+                            <button
+                                type="button"
+                                onclick="openConsultationForm(
+                                    ${appointment.id},
+                                    ${appointment.patient_id}
+                                )"
+                            >
+                                Clinical Consultation
+                            </button>
+                        `;
+
+                    }
+
+
+                    if (
+                        appointment.meeting_room
+                    ) {
+
+                        actions += `
+                            <button
+                                type="button"
+                                onclick="joinConsultation(
+                                    ${appointment.id},
+                                    ${appointment.patient_id},
+                                    '${appointment.meeting_room}'
+                                )"
+                            >
+                                Join Consultation
+                            </button>
+                        `;
+
+                    }
+
+
                     actions += `
                         <button
-                            class="cancel-btn"
+                            type="button"
                             onclick="updateAppointmentStatus(
                                 ${appointment.id},
                                 'Cancelled'
@@ -4563,7 +6897,7 @@ function renderAppointments(
                         </button>
 
                         <button
-                            class="complete-btn"
+                            type="button"
                             onclick="updateAppointmentStatus(
                                 ${appointment.id},
                                 'Completed'
@@ -4575,45 +6909,11 @@ function renderAppointments(
 
                 }
 
-if (status === "Confirmed" && appointment.patient_id) {
-
-    actions += `
-        <button
-            type="button"
-            class="confirm-btn"
-            onclick="openConsultationForm(
-                ${appointment.id},
-                ${appointment.patient_id}
-            )"
-        >
-            Clinical Consultation
-        </button>
-    `;
-
-}
-
-                if (status === "Confirmed" && appointment.meeting_room) {
-
-                    actions += `
-                        <button
-                            type="button"
-                            class="confirm-btn"
-                            onclick="joinConsultation(
-    ${appointment.id},
-    ${appointment.patient_id},
-    '${appointment.meeting_room}'
-)"
-                        >
-                            Join Consultation
-                        </button>
-                    `;
-
-                }
-
 
                 actions += `
                     <button
-                        class="delete-btn"
+                        type="button"
+                        class="ft-danger"
                         onclick="deleteAppointment(
                             ${appointment.id}
                         )"
@@ -4628,7 +6928,12 @@ if (status === "Confirmed" && appointment.patient_id) {
                     <tr>
 
                         <td class="patient-number-cell">
-                            <span class="patient-number-badge" style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;min-width:28px;border-radius:50%;background:#2563eb;color:#ffffff;font-size:13px;font-weight:700;line-height:1;box-sizing:border-box;">${list.indexOf(appointment) + 1}</span>
+                            <span
+                                class="patient-number-badge"
+                                style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;min-width:28px;border-radius:50%;background:#2563eb;color:#ffffff;font-size:13px;font-weight:700;line-height:1;box-sizing:border-box;"
+                            >
+                                ${index + 1}
+                            </span>
                         </td>
 
                         <td>
@@ -4638,20 +6943,6 @@ if (status === "Confirmed" && appointment.patient_id) {
                         <td>
                             ${escapeHtml(
                                 appointment.name ||
-                                ""
-                            )}
-                        </td>
-
-                        <td>
-                            ${escapeHtml(
-                                appointment.email ||
-                                ""
-                            )}
-                        </td>
-
-                        <td>
-                            ${escapeHtml(
-                                appointment.phone ||
                                 ""
                             )}
                         </td>
@@ -4676,13 +6967,6 @@ if (status === "Confirmed" && appointment.patient_id) {
                         </td>
 
                         <td>
-                            ${escapeHtml(
-                                appointment.reason ||
-                                ""
-                            )}
-                        </td>
-
-                        <td>
 
                             <span
                                 class="
@@ -4695,30 +6979,39 @@ if (status === "Confirmed" && appointment.patient_id) {
 
                         </td>
 
-                        
+                        <td>
 
-                    
+                            <div class="appointment-action-menu">
 
-                    </tr>
+                                ${primaryAction}
+                                <button
+                                    type="button"
+                                    class="appointment-action-menu-trigger"
+                                    aria-label="Appointment actions"
+                                    title="Appointment actions"
+                                    onclick="toggleAppointmentActionMenu(this)"
+                                >
+                                    ⋮
+                                </button>
 
-                    <tr class="appointment-actions-row">
-                        <td colspan="10">
-                            <div class="actions">
-                                ${actions}
+                                <div class="appointment-action-menu-dropdown">
+                                    ${actions}
+                                </div>
+
                             </div>
+
                         </td>
+
                     </tr>
 
                 `;
 
             }
         ).join("");
+
     renderMobileAppointmentCards(list);
 
-}
-
-
-/* ==========================================
+}/* ==========================================
    VIEW APPOINTMENT
 ========================================== */
 
@@ -6611,3 +8904,109 @@ async function joinConsultation(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="FRANTETT-FINAL-DESKTOP-TABLE-FULL-WIDTH">
+/* FRANTETT — FINAL DESKTOP APPOINTMENT TABLE WIDTH */
+@media (min-width: 769px) {
+
+    .table-container {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+        box-sizing: border-box !important;
+    }
+
+    .table-container > table {
+        display: table !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        table-layout: fixed !important;
+        box-sizing: border-box !important;
+    }
+
+    .table-container > table > thead,
+    .table-container > table > tbody {
+        width: 100% !important;
+    }
+
+    .table-container > table > thead > tr,
+    .table-container > table > tbody > tr {
+        width: 100% !important;
+    }
+
+    .table-container > table > thead > tr > th,
+    .table-container > table > tbody > tr > td {
+        box-sizing: border-box !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+
+    /* Full-bar percentage distribution */
+    .table-container > table > thead > tr > th:nth-child(1),
+    .table-container > table > tbody > tr > td:nth-child(1) {
+        width: 6% !important;
+    }
+
+    .table-container > table > thead > tr > th:nth-child(2),
+    .table-container > table > tbody > tr > td:nth-child(2) {
+        width: 8% !important;
+    }
+
+    .table-container > table > thead > tr > th:nth-child(3),
+    .table-container > table > tbody > tr > td:nth-child(3) {
+        width: 22% !important;
+    }
+
+    .table-container > table > thead > tr > th:nth-child(4),
+    .table-container > table > tbody > tr > td:nth-child(4) {
+        width: 14% !important;
+    }
+
+    .table-container > table > thead > tr > th:nth-child(5),
+    .table-container > table > tbody > tr > td:nth-child(5) {
+        width: 12% !important;
+    }
+
+    .table-container > table > thead > tr > th:nth-child(6),
+    .table-container > table > tbody > tr > td:nth-child(6) {
+        width: 10% !important;
+    }
+
+    .table-container > table > thead > tr > th:nth-child(7),
+    .table-container > table > tbody > tr > td:nth-child(7) {
+        width: 12% !important;
+    }
+
+    .table-container > table > thead > tr > th:nth-child(8),
+    .table-container > table > tbody > tr > td:nth-child(8) {
+        width: 16% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        overflow: visible !important;
+    }
+
+}
+</style>
