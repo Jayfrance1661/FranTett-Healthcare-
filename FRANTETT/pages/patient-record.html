@@ -5622,7 +5622,45 @@ button.ft-nav-link {
         font-size: 10px;
     }
 }
-</style><style id="frantett-consultation-selector-style">.ft-consultation-selector{margin:0 0 18px;padding:14px 16px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px}.ft-consultation-selector label{display:block;margin-bottom:6px;color:#166534;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.ft-consultation-select{width:100%;min-height:42px;padding:9px 12px;border:1px solid #86efac;border-radius:8px;background:#fff;color:#166534;font-size:13px;font-weight:700;outline:none}.ft-consultation-select:focus{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.12)}.ft-consultation-selector-help{margin-top:6px;color:#64748b;font-size:11px}@media(max-width:700px){.ft-consultation-selector{padding:12px}.ft-consultation-select{font-size:12px}}</style></head>
+</style><style id="frantett-consultation-selector-style">.ft-consultation-selector{margin:0 0 18px;padding:14px 16px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px}.ft-consultation-selector label{display:block;margin-bottom:6px;color:#166534;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.ft-consultation-select{width:100%;min-height:42px;padding:9px 12px;border:1px solid #86efac;border-radius:8px;background:#fff;color:#166534;font-size:13px;font-weight:700;outline:none}.ft-consultation-select:focus{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.12)}.ft-consultation-selector-help{margin-top:6px;color:#64748b;font-size:11px}@media(max-width:700px){.ft-consultation-selector{padding:12px}.ft-consultation-select{font-size:12px}}</style>
+<!-- FRANTETT-MOBILE-PATIENT-STATUS-TOPRIGHT -->
+<style>
+@media (max-width: 600px) {
+
+    /* Keep the existing hero content intact */
+    .ft-patient-hero {
+        position: relative !important;
+        display: block !important;
+    }
+
+    /* Move Active Patient to the upper-right of the hero */
+    .ft-patient-hero .ft-patient-status {
+        position: absolute !important;
+        top: 17px !important;
+        right: 17px !important;
+
+        margin: 0 !important;
+
+        white-space: nowrap !important;
+        z-index: 5 !important;
+    }
+
+    /* Give the identity enough room so the status does not overlap
+       the Patient Record label on normal mobile widths */
+    .ft-patient-hero .ft-patient-identity {
+        padding-right: 118px !important;
+    }
+
+    /* Keep the patient name and details below the Patient Record line */
+    .ft-patient-hero .ft-patient-name,
+    .ft-patient-hero .ft-patient-meta {
+        max-width: 100% !important;
+    }
+
+}
+</style>
+<!-- END FRANTETT-MOBILE-PATIENT-STATUS-TOPRIGHT -->
+</head>
 
 <body>
 
@@ -10623,6 +10661,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 </body>
 </html>
+
 
 
 

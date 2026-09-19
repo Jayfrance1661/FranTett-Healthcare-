@@ -17,3 +17,34 @@ BACKUPS/
 # FranTett database backups
 *.dump
 *.backup
+
+# =====================================================
+# FranTett local development / safety backups
+# Keep these files on the development PC, not in Git
+# =====================================================
+
+# Timestamped backup files and folders
+*BACKUP*
+*backup*
+
+# Local backup directories
+BACKUPS/
+backup/
+database-backup/
+database-backups/
+
+# Database dumps / backup files
+*.dump
+*.backup
+
+# Environment / secret files
+.env
+.env.*
+!.env.example
+
+# Local certificates and private keys
+*.pem
+*.key
+
+# Local editor / operating-system files
+.vscode/
