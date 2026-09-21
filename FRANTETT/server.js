@@ -7,6 +7,7 @@ const { Pool } = require("pg");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 const { AccessToken } = require("livekit-server-sdk");
 const Stripe = require("stripe");
 require("dotenv").config();
@@ -88,7 +89,15 @@ async function getMtnAccessToken() {
 const app = express();
 
 
-app.use(cors());
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5500",
+            "http://127.0.0.1:5500"
+        ],
+        credentials: true
+    })
+);
 
 // Stripe webhook must receive the raw request body
 app.use(
@@ -1263,6 +1272,1566 @@ function requireAdmin(req, res, next) {
         });
 
     }
+
+
+/* ============================================================
+   FRANTETT-SECURITY-SETTINGS-API-BEGIN
+   Staff email/password security upgrade
+   ============================================================ */
+
+const SECURITY_CODE_EXPIRY_MINUTES = 10;
+const SECURITY_CODE_MAX_ATTEMPTS = 5;
+const SECURITY_CODE_RESEND_SECONDS = 60;
+
+function getSecurityMailTransporter() {
+
+    const host = process.env.SMTP_HOST;
+    const port = Number(process.env.SMTP_PORT || 587);
+    const secure =
+        String(process.env.SMTP_SECURE || "false").toLowerCase() === "true";
+    const user = process.env.SMTP_USER;
+    const password = process.env.SMTP_PASSWORD;
+
+    if (!host || !user || !password) {
+        return null;
+    }
+
+    return nodemailer.createTransport({
+        host,
+        port,
+        secure,
+        auth: {
+            user,
+            pass: password
+        }
+    });
+}
+
+function getSecurityMailFrom() {
+
+    return (
+        process.env.SMTP_FROM ||
+        process.env.SMTP_USER ||
+        ""
+    );
+}
+
+function normalizeSecurityEmail(email) {
+
+    return String(email || "")
+        .trim()
+        .toLowerCase();
+}
+
+function generateSecurityCode() {
+
+    return String(
+        crypto.randomInt(100000, 1000000)
+    );
+}
+
+function hashSecurityCode(code) {
+
+    return crypto
+        .createHmac(
+            "sha256",
+            JWT_SECRET
+        )
+        .update(String(code))
+        .digest("hex");
+}
+
+function isValidSecurityEmail(email) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        normalizeSecurityEmail(email)
+    );
+}
+
+async function sendSecurityEmail({
+    to,
+    subject,
+    title,
+    message,
+    code
+}) {
+
+    const transporter =
+        getSecurityMailTransporter();
+
+    const from =
+        getSecurityMailFrom();
+
+    if (!transporter || !from) {
+
+        const error =
+            new Error(
+                "Security email service is not configured."
+            );
+
+        error.code =
+            "SMTP_NOT_CONFIGURED";
+
+        throw error;
+    }
+
+    const codeSection = code
+        ? `
+            <div style="
+                margin:24px 0;
+                padding:20px;
+                background:#f0fdf4;
+                border:1px solid #bbf7d0;
+                border-radius:12px;
+                text-align:center;
+            ">
+                <div style="
+                    font-size:12px;
+                    color:#166534;
+                    text-transform:uppercase;
+                    letter-spacing:1px;
+                    font-weight:700;
+                ">
+                    Verification Code
+                </div>
+
+                <div style="
+                    margin-top:10px;
+                    font-size:32px;
+                    letter-spacing:8px;
+                    font-weight:800;
+                    color:#166534;
+                ">
+                    ${code}
+                </div>
+
+                <div style="
+                    margin-top:10px;
+                    font-size:13px;
+                    color:#475569;
+                ">
+                    This code expires in
+                    ${SECURITY_CODE_EXPIRY_MINUTES} minutes.
+                </div>
+            </div>
+        `
+        : "";
+
+    const html = `
+        <div style="
+            font-family:Arial,Helvetica,sans-serif;
+            max-width:620px;
+            margin:0 auto;
+            padding:30px;
+            color:#1f2937;
+        ">
+
+            <div style="
+                padding:22px;
+                background:#166534;
+                color:white;
+                border-radius:14px 14px 0 0;
+            ">
+                <div style="
+                    font-size:24px;
+                    font-weight:800;
+                ">
+                    FranTett Healthcare
+                </div>
+
+                <div style="
+                    margin-top:5px;
+                    opacity:.9;
+                    font-size:14px;
+                ">
+                    Your Health, Our Priority
+                </div>
+            </div>
+
+            <div style="
+                border:1px solid #e5e7eb;
+                border-top:0;
+                padding:28px;
+                border-radius:0 0 14px 14px;
+            ">
+
+                <h2 style="
+                    margin-top:0;
+                    color:#166534;
+                ">
+                    ${title}
+                </h2>
+
+                <p>
+                    ${message}
+                </p>
+
+                ${codeSection}
+
+                <p style="
+                    font-size:13px;
+                    color:#64748b;
+                    line-height:1.6;
+                ">
+                    If you did not request this security action,
+                    secure your account immediately by signing out
+                    and contacting your FranTett Healthcare administrator.
+                </p>
+
+                <p style="
+                    margin-top:24px;
+                    font-size:13px;
+                    color:#64748b;
+                ">
+                    This is an automated security message.
+                    Please do not reply to this email.
+                </p>
+
+            </div>
+        </div>
+    `;
+
+    await transporter.sendMail({
+        from,
+        to,
+        subject,
+        text:
+            `${title}\n\n` +
+            `${message}\n\n` +
+            (
+                code
+                    ? `Verification code: ${code}\n` +
+                      `Expires in ${SECURITY_CODE_EXPIRY_MINUTES} minutes.\n\n`
+                    : ""
+            ) +
+            `If you did not request this action, secure your account immediately.`,
+        html
+    });
+}
+
+async function requireStaffAccount(req, res, next) {
+
+    if (!req.user || !req.user.id) {
+
+        return res.status(401).json({
+            message: "Authentication required."
+        });
+    }
+
+    try {
+
+        const result = await pool.query(
+            `
+                SELECT
+                    id,
+                    email,
+                    role,
+                    full_name,
+                    phone,
+                    status
+                FROM users
+                WHERE id = $1
+                LIMIT 1
+            `,
+            [req.user.id]
+        );
+
+        if (result.rows.length === 0) {
+
+            return res.status(403).json({
+                message: "Staff account not found."
+            });
+        }
+
+        const account =
+            result.rows[0];
+
+        if (
+            String(account.status).toLowerCase() !==
+            "active"
+        ) {
+
+            return res.status(403).json({
+                message: "This staff account is not active."
+            });
+        }
+
+        req.staffAccount = account;
+
+        next();
+
+    } catch (error) {
+
+        console.error(
+            "Error verifying staff account:",
+            error
+        );
+
+        return res.status(500).json({
+            message: "Unable to verify staff account."
+        });
+    }
+}
+
+async function createSecurityVerificationCode({
+    userId,
+    purpose,
+    targetEmail,
+    pendingEmail
+}) {
+
+    const normalizedTarget =
+        normalizeSecurityEmail(targetEmail);
+
+    const normalizedPending =
+        pendingEmail
+            ? normalizeSecurityEmail(pendingEmail)
+            : null;
+
+    const recent =
+        await pool.query(
+            `
+                SELECT created_at
+                FROM security_verification_codes
+                WHERE user_id = $1
+                  AND purpose = $2
+                  AND consumed_at IS NULL
+                  AND verified_at IS NULL
+                ORDER BY created_at DESC
+                LIMIT 1
+            `,
+            [
+                userId,
+                purpose
+            ]
+        );
+
+    if (recent.rows.length > 0) {
+
+        const createdAt =
+            new Date(
+                recent.rows[0].created_at
+            );
+
+        const secondsSinceCreation =
+            (
+                Date.now() -
+                createdAt.getTime()
+            ) / 1000;
+
+        if (
+            secondsSinceCreation <
+            SECURITY_CODE_RESEND_SECONDS
+        ) {
+
+            const retryAfter =
+                Math.ceil(
+                    SECURITY_CODE_RESEND_SECONDS -
+                    secondsSinceCreation
+                );
+
+            const error =
+                new Error(
+                    `Please wait ${retryAfter} seconds before requesting another code.`
+                );
+
+            error.code =
+                "SECURITY_CODE_RATE_LIMITED";
+
+            throw error;
+        }
+    }
+
+    await pool.query(
+        `
+            UPDATE security_verification_codes
+            SET consumed_at = CURRENT_TIMESTAMP
+            WHERE user_id = $1
+              AND purpose = $2
+              AND consumed_at IS NULL
+              AND verified_at IS NULL
+        `,
+        [
+            userId,
+            purpose
+        ]
+    );
+
+    const code =
+        generateSecurityCode();
+
+    const codeHash =
+        hashSecurityCode(code);
+
+    await pool.query(
+        `
+            INSERT INTO security_verification_codes
+            (
+                user_id,
+                purpose,
+                code_hash,
+                target_email,
+                pending_email,
+                expires_at,
+                attempts,
+                max_attempts
+            )
+            VALUES
+            (
+                $1,
+                $2,
+                $3,
+                $4,
+                $5,
+                CURRENT_TIMESTAMP +
+                    INTERVAL '${SECURITY_CODE_EXPIRY_MINUTES} minutes',
+                0,
+                $6
+            )
+        `,
+        [
+            userId,
+            purpose,
+            codeHash,
+            normalizedTarget,
+            normalizedPending,
+            SECURITY_CODE_MAX_ATTEMPTS
+        ]
+    );
+
+    return {
+        code,
+        targetEmail: normalizedTarget
+    };
+}
+
+async function verifySecurityCode({
+    userId,
+    purpose,
+    code
+}) {
+
+    const result =
+        await pool.query(
+            `
+                SELECT
+                    id,
+                    code_hash,
+                    target_email,
+                    pending_email,
+                    expires_at,
+                    attempts,
+                    max_attempts
+                FROM security_verification_codes
+                WHERE user_id = $1
+                  AND purpose = $2
+                  AND consumed_at IS NULL
+                  AND verified_at IS NULL
+                ORDER BY created_at DESC
+                LIMIT 1
+            `,
+            [
+                userId,
+                purpose
+            ]
+        );
+
+    if (result.rows.length === 0) {
+
+        return {
+            ok: false,
+            status: 400,
+            message:
+                "No active verification code was found."
+        };
+    }
+
+    const record =
+        result.rows[0];
+
+    if (
+        new Date(record.expires_at).getTime() <=
+        Date.now()
+    ) {
+
+        await pool.query(
+            `
+                UPDATE security_verification_codes
+                SET consumed_at = CURRENT_TIMESTAMP
+                WHERE id = $1
+            `,
+            [record.id]
+        );
+
+        return {
+            ok: false,
+            status: 400,
+            message:
+                "The verification code has expired."
+        };
+    }
+
+    if (
+        Number(record.attempts) >=
+        Number(record.max_attempts)
+    ) {
+
+        await pool.query(
+            `
+                UPDATE security_verification_codes
+                SET consumed_at = CURRENT_TIMESTAMP
+                WHERE id = $1
+            `,
+            [record.id]
+        );
+
+        return {
+            ok: false,
+            status: 429,
+            message:
+                "Too many incorrect attempts. Please request a new code."
+        };
+    }
+
+    const suppliedHash =
+        hashSecurityCode(code);
+
+    if (
+        !crypto.timingSafeEqual(
+            Buffer.from(record.code_hash, "utf8"),
+            Buffer.from(suppliedHash, "utf8")
+        )
+    ) {
+
+        const updated =
+            await pool.query(
+                `
+                    UPDATE security_verification_codes
+                    SET attempts = attempts + 1
+                    WHERE id = $1
+                    RETURNING attempts, max_attempts
+                `,
+                [record.id]
+            );
+
+        const attempts =
+            Number(updated.rows[0].attempts);
+
+        const maxAttempts =
+            Number(updated.rows[0].max_attempts);
+
+        if (attempts >= maxAttempts) {
+
+            await pool.query(
+                `
+                    UPDATE security_verification_codes
+                    SET consumed_at = CURRENT_TIMESTAMP
+                    WHERE id = $1
+                `,
+                [record.id]
+            );
+
+            return {
+                ok: false,
+                status: 429,
+                message:
+                    "Too many incorrect attempts. Please request a new code."
+            };
+        }
+
+        return {
+            ok: false,
+            status: 400,
+            message:
+                `Incorrect verification code. ${maxAttempts - attempts} attempts remaining.`
+        };
+    }
+
+    await pool.query(
+        `
+            UPDATE security_verification_codes
+            SET
+                verified_at = CURRENT_TIMESTAMP,
+                consumed_at = CURRENT_TIMESTAMP
+            WHERE id = $1
+        `,
+        [record.id]
+    );
+
+    return {
+        ok: true,
+        targetEmail: record.target_email,
+        pendingEmail: record.pending_email
+    };
+}
+
+/* REQUEST EMAIL CHANGE — SEND CODE TO CURRENT EMAIL */
+
+app.post(
+    "/api/settings/email/request",
+    authenticateToken,
+    requireStaffAccount,
+    async (req, res) => {
+
+        try {
+
+            const newEmail =
+                normalizeSecurityEmail(
+                    req.body && req.body.new_email
+                );
+
+            if (!isValidSecurityEmail(newEmail)) {
+
+                return res.status(400).json({
+                    message:
+                        "Please enter a valid new email address."
+                });
+            }
+
+            const currentEmail =
+                normalizeSecurityEmail(
+                    req.staffAccount.email
+                );
+
+            if (newEmail === currentEmail) {
+
+                return res.status(400).json({
+                    message:
+                        "The new email address must be different from your current email."
+                });
+            }
+
+            const duplicate =
+                await pool.query(
+                    `
+                        SELECT id
+                        FROM users
+                        WHERE LOWER(email) = LOWER($1)
+                          AND id <> $2
+                        LIMIT 1
+                    `,
+                    [
+                        newEmail,
+                        req.staffAccount.id
+                    ]
+                );
+
+            if (duplicate.rows.length > 0) {
+
+                return res.status(409).json({
+                    message:
+                        "That email address is already associated with another account."
+                });
+            }
+
+            const securityCode =
+                await createSecurityVerificationCode({
+                    userId: req.staffAccount.id,
+                    purpose: "email_change_current",
+                    targetEmail: currentEmail,
+                    pendingEmail: newEmail
+                });
+
+            try {
+
+                await sendSecurityEmail({
+                    to: currentEmail,
+                    subject:
+                        "FranTett Healthcare — Email Change Verification",
+                    title:
+                        "Verify Your Email Change",
+                    message:
+                        "A request was made to change the email address on your FranTett Healthcare staff account. Enter the verification code in Settings to continue.",
+                    code: securityCode.code
+                });
+
+            } catch (mailError) {
+
+                await pool.query(
+                    `
+                        UPDATE security_verification_codes
+                        SET consumed_at = CURRENT_TIMESTAMP
+                        WHERE user_id = $1
+                          AND purpose = $2
+                          AND consumed_at IS NULL
+                          AND verified_at IS NULL
+                    `,
+                    [
+                        req.staffAccount.id,
+                        "email_change_current"
+                    ]
+                );
+
+                if (
+                    mailError.code ===
+                    "SMTP_NOT_CONFIGURED"
+                ) {
+
+                    return res.status(503).json({
+                        message:
+                            "Security email service is not configured yet. Add the SMTP settings to the local .env file before requesting verification codes."
+                    });
+                }
+
+                throw mailError;
+            }
+
+            return res.json({
+                success: true,
+                message:
+                    "A verification code was sent to your current email address.",
+                masked_email:
+                    currentEmail.replace(
+                        /^(.{1,2}).*(@.*)$/,
+                        "$1***$2"
+                    )
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error requesting email change verification:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to send the email-change verification code."
+            });
+        }
+    }
+);
+
+/* VERIFY CURRENT EMAIL CODE — SEND SECOND CODE TO NEW EMAIL */
+
+app.post(
+    "/api/settings/email/verify-current",
+    authenticateToken,
+    requireStaffAccount,
+    async (req, res) => {
+
+        try {
+
+            const code =
+                String(
+                    req.body && req.body.code || ""
+                ).trim();
+
+            if (!/^\d{6}$/.test(code)) {
+
+                return res.status(400).json({
+                    message:
+                        "Enter the 6-digit verification code."
+                });
+            }
+
+            const verification =
+                await verifySecurityCode({
+                    userId: req.staffAccount.id,
+                    purpose:
+                        "email_change_current",
+                    code
+                });
+
+            if (!verification.ok) {
+
+                return res.status(
+                    verification.status
+                ).json({
+                    message:
+                        verification.message
+                });
+            }
+
+            const newEmail =
+                normalizeSecurityEmail(
+                    verification.pendingEmail
+                );
+
+            if (
+                !newEmail ||
+                !isValidSecurityEmail(newEmail)
+            ) {
+
+                return res.status(400).json({
+                    message:
+                        "The pending email-change request is invalid."
+                });
+            }
+
+            const duplicate =
+                await pool.query(
+                    `
+                        SELECT id
+                        FROM users
+                        WHERE LOWER(email) = LOWER($1)
+                          AND id <> $2
+                        LIMIT 1
+                    `,
+                    [
+                        newEmail,
+                        req.staffAccount.id
+                    ]
+                );
+
+            if (duplicate.rows.length > 0) {
+
+                return res.status(409).json({
+                    message:
+                        "That email address is already associated with another account."
+                });
+            }
+
+            const newEmailCode =
+                await createSecurityVerificationCode({
+                    userId: req.staffAccount.id,
+                    purpose:
+                        "email_change_new",
+                    targetEmail: newEmail,
+                    pendingEmail: newEmail
+                });
+
+            try {
+
+                await sendSecurityEmail({
+                    to: newEmail,
+                    subject:
+                        "FranTett Healthcare — Confirm New Email Address",
+                    title:
+                        "Confirm Your New Email Address",
+                    message:
+                        "Your current email address has been verified. Enter the new verification code in FranTett Healthcare Settings to confirm ownership of this email address.",
+                    code: newEmailCode.code
+                });
+
+            } catch (mailError) {
+
+                await pool.query(
+                    `
+                        UPDATE security_verification_codes
+                        SET consumed_at = CURRENT_TIMESTAMP
+                        WHERE user_id = $1
+                          AND purpose = $2
+                          AND consumed_at IS NULL
+                          AND verified_at IS NULL
+                    `,
+                    [
+                        req.staffAccount.id,
+                        "email_change_new"
+                    ]
+                );
+
+                if (
+                    mailError.code ===
+                    "SMTP_NOT_CONFIGURED"
+                ) {
+
+                    return res.status(503).json({
+                        message:
+                            "Security email service is not configured yet."
+                    });
+                }
+
+                throw mailError;
+            }
+
+            return res.json({
+                success: true,
+                message:
+                    "Your current email was verified. A second verification code was sent to the new email address.",
+                masked_email:
+                    newEmail.replace(
+                        /^(.{1,2}).*(@.*)$/,
+                        "$1***$2"
+                    )
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error verifying current email:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to continue the email-change verification."
+            });
+        }
+    }
+);
+
+/* FRANTETT-SECURITY-EMAIL-RESEND-NEW-BEGIN */
+
+/* RESEND NEW-EMAIL VERIFICATION CODE */
+
+app.post(
+    "/api/settings/email/resend-new",
+    authenticateToken,
+    requireStaffAccount,
+    async (req, res) => {
+
+        try {
+
+            const pendingResult =
+                await pool.query(
+                    `
+                        SELECT
+                            id,
+                            target_email,
+                            pending_email,
+                            expires_at,
+                            created_at
+                        FROM security_verification_codes
+                        WHERE user_id = $1
+                          AND purpose = 'email_change_new'
+                          AND consumed_at IS NULL
+                          AND verified_at IS NULL
+                          AND pending_email IS NOT NULL
+                        ORDER BY created_at DESC
+                        LIMIT 1
+                    `,
+                    [
+                        req.staffAccount.id
+                    ]
+                );
+
+            if (pendingResult.rows.length === 0) {
+
+                return res.status(400).json({
+                    message:
+                        "There is no active new-email verification request to resend."
+                });
+
+            }
+
+            const pendingRecord =
+                pendingResult.rows[0];
+
+            const newEmail =
+                normalizeSecurityEmail(
+                    pendingRecord.pending_email
+                );
+
+            if (
+                !newEmail ||
+                !isValidSecurityEmail(newEmail)
+            ) {
+
+                return res.status(400).json({
+                    message:
+                        "The pending email-change request is invalid."
+                });
+
+            }
+
+            const duplicate =
+                await pool.query(
+                    `
+                        SELECT id
+                        FROM users
+                        WHERE LOWER(email) = LOWER($1)
+                          AND id <> $2
+                        LIMIT 1
+                    `,
+                    [
+                        newEmail,
+                        req.staffAccount.id
+                    ]
+                );
+
+            if (duplicate.rows.length > 0) {
+
+                return res.status(409).json({
+                    message:
+                        "That email address is already associated with another account."
+                });
+
+            }
+
+            const newEmailCode =
+                await createSecurityVerificationCode({
+                    userId:
+                        req.staffAccount.id,
+                    purpose:
+                        "email_change_new",
+                    targetEmail:
+                        newEmail,
+                    pendingEmail:
+                        newEmail
+                });
+
+            try {
+
+                await sendSecurityEmail({
+                    to:
+                        newEmail,
+                    subject:
+                        "FranTett Healthcare — Confirm New Email Address",
+                    title:
+                        "Confirm Your New Email Address",
+                    message:
+                        "A new verification code was requested for your FranTett Healthcare staff account. Enter the new verification code in Settings to confirm ownership of this email address.",
+                    code:
+                        newEmailCode.code
+                });
+
+            } catch (mailError) {
+
+                await pool.query(
+                    `
+                        UPDATE security_verification_codes
+                        SET consumed_at = CURRENT_TIMESTAMP
+                        WHERE user_id = $1
+                          AND purpose = 'email_change_new'
+                          AND consumed_at IS NULL
+                          AND verified_at IS NULL
+                    `,
+                    [
+                        req.staffAccount.id
+                    ]
+                );
+
+                if (
+                    mailError.code ===
+                    "SMTP_NOT_CONFIGURED"
+                ) {
+
+                    return res.status(503).json({
+                        message:
+                            "Security email service is not configured yet."
+                    });
+
+                }
+
+                throw mailError;
+            }
+
+            return res.json({
+                success: true,
+                message:
+                    "A new verification code was sent to your pending new email address.",
+                masked_email:
+                    newEmail.replace(
+                        /^(.{1,2}).*(@.*)$/,
+                        "$1***$2"
+                    )
+            });
+
+        } catch (error) {
+
+            if (
+                error &&
+                error.code ===
+                "SECURITY_CODE_RATE_LIMITED"
+            ) {
+
+                return res.status(429).json({
+                    message:
+                        error.message
+                });
+
+            }
+
+            console.error(
+                "Error resending new email verification:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to resend the new-email verification code."
+            });
+
+        }
+
+    }
+);
+
+/* FRANTETT-SECURITY-EMAIL-RESEND-NEW-END */
+/* VERIFY NEW EMAIL — COMPLETE EMAIL CHANGE */
+
+app.post(
+    "/api/settings/email/verify-new",
+    authenticateToken,
+    requireStaffAccount,
+    async (req, res) => {
+
+        try {
+
+            const code =
+                String(
+                    req.body && req.body.code || ""
+                ).trim();
+
+            if (!/^\d{6}$/.test(code)) {
+
+                return res.status(400).json({
+                    message:
+                        "Enter the 6-digit verification code."
+                });
+            }
+
+            const verification =
+                await verifySecurityCode({
+                    userId: req.staffAccount.id,
+                    purpose:
+                        "email_change_new",
+                    code
+                });
+
+            if (!verification.ok) {
+
+                return res.status(
+                    verification.status
+                ).json({
+                    message:
+                        verification.message
+                });
+            }
+
+            const newEmail =
+                normalizeSecurityEmail(
+                    verification.pendingEmail
+                );
+
+            if (
+                !newEmail ||
+                !isValidSecurityEmail(newEmail)
+            ) {
+
+                return res.status(400).json({
+                    message:
+                        "The new email address is invalid."
+                });
+            }
+
+            const duplicate =
+                await pool.query(
+                    `
+                        SELECT id
+                        FROM users
+                        WHERE LOWER(email) = LOWER($1)
+                          AND id <> $2
+                        LIMIT 1
+                    `,
+                    [
+                        newEmail,
+                        req.staffAccount.id
+                    ]
+                );
+
+            if (duplicate.rows.length > 0) {
+
+                return res.status(409).json({
+                    message:
+                        "That email address is already associated with another account."
+                });
+            }
+
+            const oldEmail =
+                normalizeSecurityEmail(
+                    req.staffAccount.email
+                );
+
+            await pool.query(
+                `
+                    UPDATE users
+                    SET email = $1
+                    WHERE id = $2
+                `,
+                [
+                    newEmail,
+                    req.staffAccount.id
+                ]
+            );
+
+            const role =
+                req.staffAccount.role;
+
+            const fullName =
+                req.staffAccount.full_name ||
+                "";
+
+            const isAdmin =
+                String(role).toLowerCase() ===
+                "admin";
+
+            const newToken =
+                jwt.sign(
+                    {
+                        id:
+                            req.staffAccount.id,
+                        email:
+                            newEmail,
+                        role,
+                        full_name:
+                            fullName,
+                        isAdmin
+                    },
+                    JWT_SECRET,
+                    {
+                        expiresIn: "2h"
+                    }
+                );
+
+            try {
+
+                await sendSecurityEmail({
+                    to: oldEmail,
+                    subject:
+                        "FranTett Healthcare — Email Address Changed",
+                    title:
+                        "Email Address Changed",
+                    message:
+                        `The email address for your FranTett Healthcare staff account was changed to ${newEmail}. If you did not make this change, secure your account immediately.`
+                });
+
+            } catch (notificationError) {
+
+                console.error(
+                    "Email-change notification could not be sent:",
+                    notificationError
+                );
+            }
+
+            return res.json({
+                success: true,
+                message:
+                    "Your email address has been changed successfully.",
+                email:
+                    newEmail,
+                token:
+                    newToken
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error completing email change:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to complete the email change."
+            });
+        }
+    }
+);
+
+/* REQUEST PASSWORD CHANGE — SEND CODE */
+
+app.post(
+    "/api/settings/password/request",
+    authenticateToken,
+    requireStaffAccount,
+    async (req, res) => {
+
+        try {
+
+            const currentEmail =
+                normalizeSecurityEmail(
+                    req.staffAccount.email
+                );
+
+            const securityCode =
+                await createSecurityVerificationCode({
+                    userId: req.staffAccount.id,
+                    purpose:
+                        "password_change",
+                    targetEmail: currentEmail
+                });
+
+            try {
+
+                await sendSecurityEmail({
+                    to: currentEmail,
+                    subject:
+                        "FranTett Healthcare — Password Change Verification",
+                    title:
+                        "Verify Your Password Change",
+                    message:
+                        "A request was made to change the password on your FranTett Healthcare staff account. Enter the verification code in Settings to continue.",
+                    code: securityCode.code
+                });
+
+            } catch (mailError) {
+
+                await pool.query(
+                    `
+                        UPDATE security_verification_codes
+                        SET consumed_at = CURRENT_TIMESTAMP
+                        WHERE user_id = $1
+                          AND purpose = $2
+                          AND consumed_at IS NULL
+                          AND verified_at IS NULL
+                    `,
+                    [
+                        req.staffAccount.id,
+                        "password_change"
+                    ]
+                );
+
+                if (
+                    mailError.code ===
+                    "SMTP_NOT_CONFIGURED"
+                ) {
+
+                    return res.status(503).json({
+                        message:
+                            "Security email service is not configured yet. Add the SMTP settings to the local .env file before requesting verification codes."
+                    });
+                }
+
+                throw mailError;
+            }
+
+            return res.json({
+                success: true,
+                message:
+                    "A password-change verification code was sent to your current email address.",
+                masked_email:
+                    currentEmail.replace(
+                        /^(.{1,2}).*(@.*)$/,
+                        "$1***$2"
+                    )
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error requesting password change verification:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to send the password-change verification code."
+            });
+        }
+    }
+);
+
+/* COMPLETE PASSWORD CHANGE */
+
+app.post(
+    "/api/settings/password/change",
+    authenticateToken,
+    requireStaffAccount,
+    async (req, res) => {
+
+        try {
+
+            const code =
+                String(
+                    req.body && req.body.code || ""
+                ).trim();
+
+            const currentPassword =
+                String(
+                    req.body && req.body.current_password || ""
+                );
+
+            const newPassword =
+                String(
+                    req.body && req.body.new_password || ""
+                );
+
+            const confirmPassword =
+                String(
+                    req.body && req.body.confirm_password || ""
+                );
+
+            if (!/^\d{6}$/.test(code)) {
+
+                return res.status(400).json({
+                    message:
+                        "Enter the 6-digit verification code."
+                });
+            }
+
+            if (!currentPassword) {
+
+                return res.status(400).json({
+                    message:
+                        "Enter your current password."
+                });
+            }
+
+            if (newPassword.length < 8) {
+
+                return res.status(400).json({
+                    message:
+                        "Your new password must be at least 8 characters long."
+                });
+            }
+
+            if (newPassword !== confirmPassword) {
+
+                return res.status(400).json({
+                    message:
+                        "The new password and confirmation do not match."
+                });
+            }
+
+            if (newPassword === currentPassword) {
+
+                return res.status(400).json({
+                    message:
+                        "Your new password must be different from your current password."
+                });
+            }
+
+            const verification =
+                await verifySecurityCode({
+                    userId: req.staffAccount.id,
+                    purpose:
+                        "password_change",
+                    code
+                });
+
+            if (!verification.ok) {
+
+                return res.status(
+                    verification.status
+                ).json({
+                    message:
+                        verification.message
+                });
+            }
+
+            const accountResult =
+                await pool.query(
+                    `
+                        SELECT password
+                        FROM users
+                        WHERE id = $1
+                        LIMIT 1
+                    `,
+                    [
+                        req.staffAccount.id
+                    ]
+                );
+
+            if (accountResult.rows.length === 0) {
+
+                return res.status(404).json({
+                    message:
+                        "Staff account could not be found."
+                });
+            }
+
+            const passwordMatches =
+                await bcrypt.compare(
+                    currentPassword,
+                    accountResult.rows[0].password
+                );
+
+            if (!passwordMatches) {
+
+                return res.status(401).json({
+                    message:
+                        "The current password is incorrect."
+                });
+            }
+
+            const hashedPassword =
+                await bcrypt.hash(
+                    newPassword,
+                    12
+                );
+
+            await pool.query(
+                `
+                    UPDATE users
+                    SET password = $1
+                    WHERE id = $2
+                `,
+                [
+                    hashedPassword,
+                    req.staffAccount.id
+                ]
+            );
+
+            const role =
+                req.staffAccount.role;
+
+            const fullName =
+                req.staffAccount.full_name ||
+                "";
+
+            const isAdmin =
+                String(role).toLowerCase() ===
+                "admin";
+
+            const newToken =
+                jwt.sign(
+                    {
+                        id:
+                            req.staffAccount.id,
+                        email:
+                            req.staffAccount.email,
+                        role,
+                        full_name:
+                            fullName,
+                        isAdmin
+                    },
+                    JWT_SECRET,
+                    {
+                        expiresIn: "2h"
+                    }
+                );
+
+            try {
+
+                await sendSecurityEmail({
+                    to:
+                        normalizeSecurityEmail(
+                            req.staffAccount.email
+                        ),
+                    subject:
+                        "FranTett Healthcare — Password Changed",
+                    title:
+                        "Password Changed Successfully",
+                    message:
+                        "Your FranTett Healthcare staff-account password was changed successfully. If you did not make this change, secure your account immediately."
+                });
+
+            } catch (notificationError) {
+
+                console.error(
+                    "Password-change notification could not be sent:",
+                    notificationError
+                );
+            }
+
+            return res.json({
+                success: true,
+                message:
+                    "Your password has been changed successfully.",
+                token:
+                    newToken
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error changing staff password:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to change your password."
+            });
+        }
+    }
+);
+
+/* ============================================================
+   FRANTETT-SECURITY-SETTINGS-API-END
+   ============================================================ */
 
     next();
 }
@@ -3705,6 +5274,56 @@ app.get(
 
 
 // ==========================================
+ // ==========================================
+ // GET ALL CONSULTATIONS — STAFF WORKSPACE
+ // ==========================================
+
+ app.get(
+     "/api/consultations",
+     authenticateToken,
+     async (req, res) => {
+
+         try {
+
+             const result = await pool.query(
+                "SELECT " +
+                "c.id, " +
+                "c.patient_id, " +
+                "c.appointment_id, " +
+                "p.first_name AS patient_first_name, " +
+                "p.last_name AS patient_last_name, " +
+                "c.doctor, " +
+                "c.consultation_date, " +
+                "c.chief_complaint, " +
+                "c.diagnosis, " +
+                "c.treatment, " +
+                "c.follow_up_date, " +
+                "c.created_at, " +
+                "c.updated_at " +
+                "FROM consultations c " +
+                "LEFT JOIN patients p ON c.patient_id = p.id " +
+                "ORDER BY c.consultation_date DESC, c.created_at DESC"
+            );
+
+             res.json(result.rows);
+
+         } catch (error) {
+
+             console.error(
+                 "Error loading all consultations:",
+                 error
+             );
+
+             res.status(500).json({
+                 message:
+                     "Failed to load consultation records."
+             });
+
+         }
+
+     }
+ );
+
 // GET ONE CONSULTATION
 // ==========================================
 
@@ -7763,6 +9382,48 @@ app.post(
 );
 
 
+/* GET ALL PAYMENTS — ADMIN STAFF WORKSPACE */
+app.get(
+    "/api/payments",
+    authenticateToken,
+    requireAdmin,
+    async (req, res) => {
+        try {
+            const result = await pool.query(`
+                SELECT
+                    pay.id,
+                    pay.patient_id,
+                    pay.appointment_id,
+                    pay.consultation_id,
+                    pay.amount,
+                    pay.currency,
+                    pay.payment_method,
+                    pay.payment_provider,
+                    pay.status,
+                    pay.transaction_id,
+                    pay.provider_payment_id,
+                    pay.description,
+                    pay.paid_at,
+                    pay.created_at,
+                    pay.updated_at,
+                    p.first_name AS patient_first_name,
+                    p.last_name AS patient_last_name
+                FROM payments pay
+                LEFT JOIN patients p
+                    ON pay.patient_id = p.id
+                ORDER BY pay.created_at DESC
+            `);
+
+            res.json(result.rows);
+        } catch (error) {
+            console.error("Error loading all payments:", error);
+
+            res.status(500).json({
+                message: "Failed to load payment records."
+            });
+        }
+    }
+);
 /* GET PAYMENTS FOR PATIENT */
 app.get(
     "/api/payments/patient/:patientId",
@@ -8564,6 +10225,9 @@ https.createServer(
 
     }
 );
+
+
+
 
 
 

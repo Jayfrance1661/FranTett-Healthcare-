@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Consultations | FranTett Healthcare</title>
+
+    <style>
+        :root {
+            --frantett-green: #0b6b50;
+            --frantett-dark: #07543f;
+            --frantett-light: #eef7f3;
+            --frantett-border: #d9e7e1;
+            --text-dark: #18352c;
+            --text-muted: #667a72;
+            --white: #ffffff;
+            --page-bg: #f5f8f7;
+            --danger: #b42318;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+            background: var(--page-bg);
+            color: var(--text-dark);
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        .staff-topbar {
+            min-height: 72px;
+            background: var(--frantett-green);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 14px 28px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.14);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 17px;
+            line-height: 1.2;
+        }
+
+        .brand-text span {
+            display: block;
+            margin-top: 2px;
+            color: #eef7f3;
+            font-size: 13px;
+        }
+
+        .topbar-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #eef7f3;
+        }
+
+        .page-shell {
+            width: min(1500px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 30px 0 50px;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .page-heading h1 {
+            margin: 0;
+            color: var(--frantett-dark);
+            font-size: 30px;
+            line-height: 1.2;
+        }
+
+        .page-heading p {
+            margin: 8px 0 0;
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        .summary-card {
+            min-width: 150px;
+            background: var(--white);
+            border: 1px solid var(--frantett-border);
+            border-radius: 12px;
+            padding: 14px 18px;
+            text-align: center;
+        }
+
+        .summary-number {
+            display: block;
+            color: var(--frantett-green);
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .summary-label {
+            display: block;
+            margin-top: 2px;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .workspace-card {
+            background: var(--white);
+            border: 1px solid var(--frantett-border);
+            border-radius: 14px;
+            box-shadow: 0 3px 14px rgba(25, 60, 48, 0.05);
+            overflow: hidden;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--frantett-border);
+            background: #fbfdfc;
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            max-width: 520px;
+        }
+
+        .search-wrap input {
+            width: 100%;
+            min-height: 42px;
+            border: 1px solid #cbdcd5;
+            border-radius: 8px;
+            padding: 10px 14px;
+            outline: none;
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .search-wrap input:focus {
+            border-color: var(--frantett-green);
+            box-shadow: 0 0 0 3px rgba(11, 107, 80, 0.1);
+        }
+
+        .refresh-btn {
+            min-height: 42px;
+            border: 1px solid var(--frantett-green);
+            border-radius: 8px;
+            padding: 9px 16px;
+            background: var(--white);
+            color: var(--frantett-green);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .refresh-btn:hover {
+            background: var(--frantett-light);
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1100px;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        thead th {
+            padding: 14px 12px;
+            background: var(--frantett-dark);
+            color: var(--white);
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.35px;
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #e5eeea;
+            vertical-align: top;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #fbfdfc;
+        }
+
+        .patient-name {
+            font-weight: 700;
+            color: var(--frantett-dark);
+        }
+
+        .secondary-text {
+            margin-top: 3px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .diagnosis {
+            font-weight: 600;
+        }
+
+        .follow-up {
+            white-space: nowrap;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .action-btn {
+            width: 100%;
+            min-height: 34px;
+            border-radius: 7px;
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .action-primary {
+            border: 1px solid var(--frantett-green);
+            background: var(--frantett-green);
+            color: var(--white);
+        }
+
+        .action-primary:hover {
+            background: var(--frantett-dark);
+        }
+
+        .action-secondary {
+            border: 1px solid #b9cec5;
+            background: var(--white);
+            color: var(--frantett-green);
+        }
+
+        .action-secondary:hover {
+            background: var(--frantett-light);
+        }
+
+        .empty-state,
+        .loading-state,
+        .error-state {
+            padding: 55px 25px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .error-state {
+            color: var(--danger);
+        }
+
+        .mobile-list {
+            display: none;
+        }
+
+        .mobile-card {
+            border-bottom: 1px solid var(--frantett-border);
+            padding: 18px;
+        }
+
+        .mobile-card:last-child {
+            border-bottom: 0;
+        }
+
+        .mobile-card-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .mobile-patient {
+            font-weight: 800;
+            color: var(--frantett-dark);
+        }
+
+        .mobile-id {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .mobile-field {
+            margin-top: 11px;
+        }
+
+        .mobile-label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.35px;
+            margin-bottom: 3px;
+        }
+
+        .mobile-value {
+            font-size: 14px;
+        }
+
+        .mobile-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .footer {
+            padding-top: 24px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        @media (max-width: 800px) {
+            .staff-topbar {
+                padding: 13px 16px;
+            }
+
+            .topbar-label {
+                display: none;
+            }
+
+            .page-shell {
+                width: min(100% - 24px, 700px);
+                padding-top: 20px;
+            }
+
+            .page-heading {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .page-heading h1 {
+                font-size: 25px;
+            }
+
+            .summary-card {
+                width: 100%;
+                text-align: left;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-wrap {
+                max-width: none;
+            }
+
+            .table-wrap {
+                display: none;
+            }
+
+            .mobile-list {
+                display: block;
+            }
+
+            .workspace-card {
+                border-radius: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="staff-topbar">
+        <div class="brand">
+            <div class="brand-mark">FT</div>
+
+            <div class="brand-text">
+                <strong>FranTett Healthcare</strong>
+                <span>Staff Portal</span>
+            </div>
+        </div>
+
+        <div class="topbar-label">
+            Consultations
+        </div>
+    </header>
+
+    <main class="page-shell">
+
+        <section class="page-heading">
+            <div>
+                <h1>Consultations</h1>
+
+                <p>
+                    Review and open clinical consultation records
+                    across FranTett Healthcare.
+                </p>
+            </div>
+
+            <div class="summary-card">
+                <span
+                    id="consultationCount"
+                    class="summary-number"
+                >
+                    0
+                </span>
+
+                <span class="summary-label">
+                    Records
+                </span>
+            </div>
+        </section>
+
+        <section class="workspace-card">
+
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <input
+                        id="consultationSearch"
+                        type="search"
+                        placeholder="Search patient, doctor, diagnosis or complaint..."
+                        autocomplete="off"
+                    >
+                </div>
+
+                <button
+                    id="refreshBtn"
+                    class="refresh-btn"
+                    type="button"
+                >
+                    Refresh
+                </button>
+            </div>
+
+            <div
+                id="desktopState"
+                class="loading-state"
+            >
+                Loading consultations...
+            </div>
+
+            <div
+                id="tableWrap"
+                class="table-wrap"
+                style="display:none;"
+            >
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:5%;">No.</th>
+                            <th style="width:9%;">ID</th>
+                            <th style="width:16%;">Patient</th>
+                            <th style="width:13%;">Doctor</th>
+                            <th style="width:11%;">Date</th>
+                            <th style="width:15%;">Chief Complaint</th>
+                            <th style="width:13%;">Diagnosis</th>
+                            <th style="width:9%;">Follow-up</th>
+                            <th style="width:9%;">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="consultationTableBody"></tbody>
+                </table>
+            </div>
+
+            <div
+                id="mobileList"
+                class="mobile-list"
+            ></div>
+
+        </section>
+
+        <div class="footer">
+            FranTett Healthcare &copy; 2026
+        </div>
+
+    </main>
+
+    <script>
+        window.FRANTETT_API =
+            "https://" +
+            window.location.hostname +
+            ":3000";
+
+        const API_URL = window.FRANTETT_API;
+        let consultationRecords = [];
+
+        const tableWrap =
+            document.getElementById(
+                "tableWrap"
+            );
+
+        const desktopState =
+            document.getElementById(
+                "desktopState"
+            );
+
+        const tableBody =
+            document.getElementById(
+                "consultationTableBody"
+            );
+
+        const mobileList =
+            document.getElementById(
+                "mobileList"
+            );
+
+        const searchInput =
+            document.getElementById(
+                "consultationSearch"
+            );
+
+        const countElement =
+            document.getElementById(
+                "consultationCount"
+            );
+
+        const refreshButton =
+            document.getElementById(
+                "refreshBtn"
+            );
+
+        function escapeHtml(value) {
+
+            return String(
+                value ?? ""
+            )
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+        function formatDate(value) {
+
+            if (!value) {
+                return "-";
+            }
+
+            const date = new Date(value);
+
+            if (Number.isNaN(date.getTime())) {
+                return "-";
+            }
+
+            return date.toLocaleDateString(
+                undefined,
+                {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric"
+                }
+            );
+
+        }
+
+        function patientName(record) {
+
+            const first =
+                record.patient_first_name || "";
+
+            const last =
+                record.patient_last_name || "";
+
+            const full =
+                `${first} ${last}`.trim();
+
+            return full || "Unknown Patient";
+
+        }
+
+        function openClinicalRecord(record) {
+
+            const params =
+                new URLSearchParams();
+
+            if (record.patient_id != null) {
+
+                params.set(
+                    "patient_id",
+                    String(record.patient_id)
+                );
+
+            }
+
+            if (record.id != null) {
+
+                params.set(
+                    "consultation_id",
+                    String(record.id)
+                );
+
+            }
+
+            if (record.appointment_id != null) {
+
+                params.set(
+                    "appointment_id",
+                    String(record.appointment_id)
+                );
+
+            }
+
+            window.location.href =
+                `/pages/consultation-form.html?${params.toString()}`;
+
+        }
+
+        function openPatientRecord(record) {
+
+            if (record.patient_id == null) {
+
+                return;
+
+            }
+
+            window.location.href =
+                `/pages/patient-record.html?patient_id=${encodeURIComponent(
+                    record.patient_id
+                )}`;
+
+        }
+
+        function matchesSearch(record, searchTerm) {
+
+            if (!searchTerm) {
+                return true;
+            }
+
+            const searchable = [
+
+                patientName(record),
+
+                record.doctor,
+
+                record.chief_complaint,
+
+                record.diagnosis,
+
+                record.treatment,
+
+                record.id,
+
+                record.patient_id,
+
+                record.appointment_id
+
+            ]
+                .filter(
+                    value => value != null
+                )
+                .join(" ")
+                .toLowerCase();
+
+            return searchable.includes(
+                searchTerm
+            );
+
+        }
+
+        function renderRecords() {
+
+            const searchTerm =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+            const filtered =
+                consultationRecords.filter(
+                    record =>
+                        matchesSearch(
+                            record,
+                            searchTerm
+                        )
+                );
+
+            countElement.textContent =
+                String(
+                    consultationRecords.length
+                );
+
+            if (!filtered.length) {
+
+                tableWrap.style.display =
+                    "none";
+
+                desktopState.style.display =
+                    "block";
+
+                desktopState.className =
+                    "empty-state";
+
+                desktopState.textContent =
+                    consultationRecords.length
+                        ? "No consultations match your search."
+                        : "No consultation records found.";
+
+                mobileList.innerHTML = "";
+
+                return;
+
+            }
+
+            desktopState.style.display =
+                "none";
+
+            tableWrap.style.display =
+                "block";
+
+            tableBody.innerHTML =
+                filtered
+                    .map(
+                        (record, index) => {
+
+                            const name =
+                                escapeHtml(
+                                    patientName(record)
+                                );
+
+                            const doctor =
+                                escapeHtml(
+                                    record.doctor || "-"
+                                );
+
+                            const complaint =
+                                escapeHtml(
+                                    record.chief_complaint || "-"
+                                );
+
+                            const diagnosis =
+                                escapeHtml(
+                                    record.diagnosis || "-"
+                                );
+
+                            const followUp =
+                                formatDate(
+                                    record.follow_up_date
+                                );
+
+                            return `
+                                <tr>
+                                    <td>${index + 1}</td>
+
+                                    <td>
+                                        <strong>#${escapeHtml(record.id)}</strong>
+
+                                        <div class="secondary-text">
+                                            Patient #${escapeHtml(record.patient_id)}
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="patient-name">
+                                            ${name}
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        ${doctor}
+                                    </td>
+
+                                    <td>
+                                        ${formatDate(record.consultation_date)}
+                                    </td>
+
+                                    <td>
+                                        ${complaint}
+                                    </td>
+
+                                    <td>
+                                        <span class="diagnosis">
+                                            ${diagnosis}
+                                        </span>
+                                    </td>
+
+                                    <td class="follow-up">
+                                        ${followUp}
+                                    </td>
+
+                                    <td>
+                                        <div class="actions">
+                                            <button
+                                                type="button"
+                                                class="action-btn action-primary"
+                                                data-action="clinical"
+                                                data-id="${escapeHtml(record.id)}"
+                                            >
+                                                Open Record
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn action-secondary"
+                                                data-action="patient"
+                                                data-id="${escapeHtml(record.id)}"
+                                            >
+                                                Patient
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+            mobileList.innerHTML =
+                filtered
+                    .map(
+                        record => {
+
+                            const name =
+                                escapeHtml(
+                                    patientName(record)
+                                );
+
+                            return `
+                                <article class="mobile-card">
+
+                                    <div class="mobile-card-header">
+                                        <div>
+                                            <div class="mobile-patient">
+                                                ${name}
+                                            </div>
+
+                                            <div class="mobile-id">
+                                                Consultation #${escapeHtml(record.id)}
+                                                · Patient #${escapeHtml(record.patient_id)}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mobile-field">
+                                        <span class="mobile-label">
+                                            Doctor
+                                        </span>
+
+                                        <div class="mobile-value">
+                                            ${escapeHtml(record.doctor || "-")}
+                                        </div>
+                                    </div>
+
+                                    <div class="mobile-field">
+                                        <span class="mobile-label">
+                                            Date
+                                        </span>
+
+                                        <div class="mobile-value">
+                                            ${formatDate(record.consultation_date)}
+                                        </div>
+                                    </div>
+
+                                    <div class="mobile-field">
+                                        <span class="mobile-label">
+                                            Chief Complaint
+                                        </span>
+
+                                        <div class="mobile-value">
+                                            ${escapeHtml(record.chief_complaint || "-")}
+                                        </div>
+                                    </div>
+
+                                    <div class="mobile-field">
+                                        <span class="mobile-label">
+                                            Diagnosis
+                                        </span>
+
+                                        <div class="mobile-value">
+                                            ${escapeHtml(record.diagnosis || "-")}
+                                        </div>
+                                    </div>
+
+                                    <div class="mobile-field">
+                                        <span class="mobile-label">
+                                            Follow-up
+                                        </span>
+
+                                        <div class="mobile-value">
+                                            ${formatDate(record.follow_up_date)}
+                                        </div>
+                                    </div>
+
+                                    <div class="mobile-actions">
+
+                                        <button
+                                            type="button"
+                                            class="action-btn action-primary"
+                                            data-action="clinical"
+                                            data-id="${escapeHtml(record.id)}"
+                                        >
+                                            Open Clinical Record
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="action-btn action-secondary"
+                                            data-action="patient"
+                                            data-id="${escapeHtml(record.id)}"
+                                        >
+                                            Patient Record
+                                        </button>
+
+                                    </div>
+
+                                </article>
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+        }
+
+        function showError(message) {
+
+            tableWrap.style.display =
+                "none";
+
+            desktopState.style.display =
+                "block";
+
+            desktopState.className =
+                "error-state";
+
+            desktopState.textContent =
+                message;
+
+            mobileList.innerHTML = "";
+
+        }
+
+        async function loadConsultations() {
+
+            const token =
+                localStorage.getItem(
+                    "frantett_token"
+                );
+
+            if (!token) {
+
+                showError(
+                    "Authentication required. Please sign in again."
+                );
+
+                return;
+
+            }
+
+            desktopState.style.display =
+                "block";
+
+            desktopState.className =
+                "loading-state";
+
+            desktopState.textContent =
+                "Loading consultations...";
+
+            tableWrap.style.display =
+                "none";
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/api/consultations`,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    `Bearer ${token}`
+                            },
+
+                            credentials: "include"
+                        }
+                    );
+
+                if (response.status === 401) {
+
+                    showError(
+                        "Your session has expired. Please sign in again."
+                    );
+
+                    return;
+
+                }
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Request failed with status ${response.status}.`
+                    );
+
+                }
+
+                const data =
+                    await response.json();
+
+                if (!Array.isArray(data)) {
+
+                    throw new Error(
+                        "The consultations response was not an array."
+                    );
+
+                }
+
+                consultationRecords = data;
+
+                renderRecords();
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading consultations:",
+                    error
+                );
+
+                showError(
+                    "Unable to load consultation records. Please try again."
+                );
+
+            }
+
+        }
+
+        document.addEventListener(
+            "click",
+            event => {
+
+                const button =
+                    event.target.closest(
+                        "[data-action]"
+                    );
+
+                if (!button) {
+                    return;
+                }
+
+                const id =
+                    Number(
+                        button.dataset.id
+                    );
+
+                const record =
+                    consultationRecords.find(
+                        item =>
+                            Number(item.id) === id
+                    );
+
+                if (!record) {
+                    return;
+                }
+
+                if (
+                    button.dataset.action ===
+                    "clinical"
+                ) {
+
+                    openClinicalRecord(
+                        record
+                    );
+
+                }
+
+                if (
+                    button.dataset.action ===
+                    "patient"
+                ) {
+
+                    openPatientRecord(
+                        record
+                    );
+
+                }
+
+            }
+        );
+
+        searchInput.addEventListener(
+            "input",
+            renderRecords
+        );
+
+        refreshButton.addEventListener(
+            "click",
+            loadConsultations
+        );
+
+        loadConsultations();
+    </script>
+
+</body>
+</html>
+
+
+

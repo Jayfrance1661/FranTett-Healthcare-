@@ -1,0 +1,3042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | FranTett Healthcare</title>
+
+    <style>
+        :root {
+            --frantett-green: #167c4a;
+            --frantett-green-dark: #0f633a;
+            --frantett-green-light: #eaf7f0;
+            --frantett-border: #dfe7e3;
+            --frantett-text: #20302a;
+            --frantett-muted: #68766f;
+            --frantett-bg: #f5f8f6;
+            --white: #ffffff;
+            --danger: #b42318;
+            --danger-light: #fff1f0;
+            --shadow: 0 8px 24px rgba(15, 99, 58, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--frantett-text);
+            background: var(--frantett-bg);
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =====================================================
+           STAFF TOPBAR
+        ===================================================== */
+
+        .staff-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 24px;
+            background: var(--frantett-green);
+            color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .brand-text {
+            min-width: 0;
+        }
+
+        .brand-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
+            margin: 3px 0 0;
+            font-size: 12px;
+            opacity: 0.88;
+        }
+
+        .topbar-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .topbar-user-name {
+            font-weight: 700;
+        }
+
+        .topbar-user-role {
+            opacity: 0.85;
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           PAGE LAYOUT
+        ===================================================== */
+
+        .page-shell {
+            display: flex;
+            min-height: calc(100vh - 68px);
+        }
+
+        .staff-sidebar {
+            width: 240px;
+            flex: 0 0 240px;
+            background: var(--white);
+            border-right: 1px solid var(--frantett-border);
+            padding: 20px 14px;
+        }
+
+        .sidebar-heading {
+            padding: 4px 12px 12px;
+            color: var(--frantett-muted);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin: 4px 0;
+        }
+
+        .frantett-sidebar-link {
+            width: 100%;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 9px;
+            color: #405049;
+            transition:
+                background 0.15s ease,
+                color 0.15s ease;
+        }
+
+        .frantett-sidebar-link:hover {
+            background: var(--frantett-green-light);
+            color: var(--frantett-green-dark);
+        }
+
+        .frantett-sidebar-link.active {
+            background: var(--frantett-green-light);
+            color: var(--frantett-green-dark);
+            font-weight: 700;
+        }
+
+        .frantett-sidebar-icon {
+            width: 22px;
+            flex: 0 0 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            margin: 16px 10px;
+            background: var(--frantett-border);
+        }
+
+        .logout-link {
+            color: #7b332e;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .logout-link:hover {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            padding: 30px;
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 30px;
+            line-height: 1.2;
+            color: #17352a;
+        }
+
+        .page-header p {
+            margin: 8px 0 0;
+            color: var(--frantett-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            max-width: 1180px;
+        }
+
+        .settings-card {
+            background: var(--white);
+            border: 1px solid var(--frantett-border);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .settings-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .card-header {
+            padding: 20px 22px 14px;
+            border-bottom: 1px solid #edf1ef;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #17352a;
+        }
+
+        .card-header p {
+            margin: 6px 0 0;
+            color: var(--frantett-muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .card-body {
+            padding: 20px 22px;
+        }
+
+        /* =====================================================
+           ACCOUNT INFORMATION
+        ===================================================== */
+
+        .account-layout {
+            display: grid;
+            grid-template-columns: 88px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .profile-avatar {
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--frantett-green-light);
+            color: var(--frantett-green-dark);
+            font-size: 27px;
+            font-weight: 700;
+            border: 1px solid #cce8d8;
+        }
+
+        .account-name {
+            margin: 0 0 4px;
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .account-email {
+            margin: 0 0 16px;
+            color: var(--frantett-muted);
+            font-size: 14px;
+            word-break: break-word;
+        }
+
+        .account-details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .detail-box {
+            padding: 13px;
+            border: 1px solid var(--frantett-border);
+            border-radius: 9px;
+            background: #fbfcfb;
+        }
+
+        .detail-label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--frantett-muted);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px;
+            border-radius: 9px;
+            background: var(--frantett-green-light);
+            border: 1px solid #cce8d8;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            flex: 0 0 10px;
+            border-radius: 50%;
+            background: var(--frantett-green);
+        }
+
+        .status-title {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--frantett-green-dark);
+        }
+
+        .status-description {
+            margin: 3px 0 0;
+            font-size: 12px;
+            color: #4d675a;
+        }
+
+        /* =====================================================
+           PREFERENCES
+        ===================================================== */
+
+        .preference-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid #edf1ef;
+        }
+
+        .preference-row:first-child {
+            padding-top: 0;
+        }
+
+        .preference-row:last-child {
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+
+        .preference-title {
+            margin: 0 0 4px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .preference-description {
+            margin: 0;
+            color: var(--frantett-muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .toggle {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            flex: 0 0 48px;
+        }
+
+        .toggle input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            cursor: pointer;
+            border-radius: 999px;
+            background: #cbd5d0;
+            transition: background 0.2s ease;
+        }
+
+        .toggle-slider::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 3px;
+            top: 3px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .toggle input:checked + .toggle-slider {
+            background: var(--frantett-green);
+        }
+
+        .toggle input:checked + .toggle-slider::before {
+            transform: translateX(22px);
+        }
+
+        /* =====================================================
+           SECURITY
+        ===================================================== */
+
+        .security-note {
+            padding: 14px;
+            margin-bottom: 16px;
+            border-radius: 9px;
+            background: #f7f9f8;
+            border: 1px solid var(--frantett-border);
+            color: #55645d;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn {
+            min-height: 42px;
+            padding: 9px 16px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            background: var(--frantett-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--frantett-green-dark);
+        }
+
+        .btn-secondary {
+            background: white;
+            border-color: var(--frantett-border);
+            color: #405049;
+        }
+
+        .btn-secondary:hover {
+            background: #f5f8f6;
+        }
+
+        .btn-danger {
+            background: var(--danger-light);
+            border-color: #f0c8c4;
+            color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #ffe4e1;
+        }
+
+        /* =====================================================
+           PORTAL INFORMATION
+        ===================================================== */
+
+        .portal-info {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .portal-item {
+            padding: 16px;
+            border-radius: 10px;
+            background: #fbfcfb;
+            border: 1px solid var(--frantett-border);
+        }
+
+        .portal-item strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .portal-item span {
+            display: block;
+            color: var(--frantett-muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .page-footer {
+            max-width: 1180px;
+            margin-top: 22px;
+            padding: 14px 0;
+            color: var(--frantett-muted);
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           MOBILE NAVIGATION
+        ===================================================== */
+
+        .mobile-nav-toggle {
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 7px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        @media (max-width: 900px) {
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-card.full-width {
+                grid-column: auto;
+            }
+
+            .portal-info {
+                grid-template-columns: 1fr;
+            }
+
+            .staff-sidebar {
+                width: 215px;
+                flex-basis: 215px;
+            }
+
+            .main-content {
+                padding: 24px 20px;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .staff-topbar {
+                min-height: 62px;
+                padding: 10px 14px;
+            }
+
+            .brand-subtitle,
+            .topbar-user {
+                display: none;
+            }
+
+            .mobile-nav-toggle {
+                display: block;
+            }
+
+            .page-shell {
+                display: block;
+            }
+
+            .staff-sidebar {
+                display: none;
+                width: 100%;
+                border-right: 0;
+                border-bottom: 1px solid var(--frantett-border);
+                padding: 12px;
+            }
+
+            .staff-sidebar.open {
+                display: block;
+            }
+
+            .main-content {
+                padding: 20px 14px;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+
+            .account-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .account-details {
+                grid-template-columns: 1fr;
+            }
+
+            .preference-row {
+                align-items: flex-start;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .button-row .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         STAFF TOPBAR
+    ====================================================== -->
+
+    <header class="staff-topbar">
+
+        <div class="brand">
+            <div class="brand-mark">F</div>
+
+            <div class="brand-text">
+                <p class="brand-title">FranTett Healthcare</p>
+                <p class="brand-subtitle">Your Health, Our Priority</p>
+            </div>
+        </div>
+
+        <div class="topbar-user">
+            <div>
+                <div class="topbar-user-name" id="topbarUserName">
+                    Staff
+                </div>
+                <div class="topbar-user-role" id="topbarUserRole">
+                    Staff Portal
+                </div>
+            </div>
+        </div>
+
+        <button
+            type="button"
+            class="mobile-nav-toggle"
+            id="mobileNavToggle"
+            aria-expanded="false"
+            aria-controls="staffSidebar"
+        >
+            &#9776; Menu
+        </button>
+
+    </header>
+
+    <div class="page-shell">
+
+        <!-- =================================================
+             STAFF SIDEBAR
+        ================================================== -->
+
+        <aside class="staff-sidebar" id="staffSidebar">
+
+            <div class="sidebar-heading">
+                Staff Portal
+            </div>
+
+            <ul class="sidebar-nav">
+
+                <li>
+                    <a
+                        href="dashboard.html"
+                        class="frantett-sidebar-link"
+                    >
+                        <span class="frantett-sidebar-icon">&#9635;</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="appointments.html"
+                        class="frantett-sidebar-link"
+                    >
+                        <span class="frantett-sidebar-icon">&#9635;</span>
+                        <span>Appointments</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="patients.html"
+                        class="frantett-sidebar-link"
+                    >
+                        <span class="frantett-sidebar-icon">&#9817;</span>
+                        <span>Patients</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="consultations.html"
+                        class="frantett-sidebar-link"
+                    >
+                        <span class="frantett-sidebar-icon">&#9673;</span>
+                        <span>Consultations</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="payments.html"
+                        class="frantett-sidebar-link"
+                    >
+                        <span class="frantett-sidebar-icon">$</span>
+                        <span>Payments</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="reports.html"
+                        class="frantett-sidebar-link"
+                    >
+                        <span class="frantett-sidebar-icon">&#9637;</span>
+                        <span>Reports</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="settings.html"
+                        class="frantett-sidebar-link active"
+                        aria-current="page"
+                    >
+                        <span class="frantett-sidebar-icon">&#9881;</span>
+                        <span>Settings</span>
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="sidebar-divider"></div>
+
+            <ul class="sidebar-nav">
+
+                <li>
+                    <button
+                        type="button"
+                        class="frantett-sidebar-link logout-link"
+                        onclick="logout()"
+                    >
+                        <span class="frantett-sidebar-icon">&#8618;</span>
+                        <span>Logout</span>
+                    </button>
+                </li>
+
+            </ul>
+
+        </aside>
+
+        <!-- =================================================
+             MAIN CONTENT
+        ================================================== -->
+
+        <main class="main-content">
+
+            <section class="page-header">
+
+                <h1>Settings</h1>
+
+                <p>
+                    Manage your FranTett Healthcare staff portal preferences,
+                    account information, and session settings.
+                </p>
+
+            </section>
+
+            <div class="settings-grid">
+
+                <!-- =========================================
+                     ACCOUNT
+                ========================================== -->
+
+                <section class="settings-card">
+
+                    <div class="card-header">
+                        <h2>Account Information</h2>
+                        <p>
+                            Information currently available from your
+                            authenticated staff session.
+                        </p>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="account-layout">
+
+                            <div
+                                class="profile-avatar"
+                                id="profileAvatar"
+                                aria-hidden="true"
+                            >
+                                S
+                            </div>
+
+                            <div>
+
+                                <h3
+                                    class="account-name"
+                                    id="accountName"
+                                >
+                                    Staff
+                                </h3>
+
+                                <p
+                                    class="account-email"
+                                    id="accountEmail"
+                                >
+                                    Not available
+                                </p>
+
+                                <div class="account-details">
+
+                                    <div class="detail-box">
+                                        <span class="detail-label">
+                                            Role
+                                        </span>
+
+                                        <span
+                                            class="detail-value"
+                                            id="accountRole"
+                                        >
+                                            Staff
+                                        </span>
+                                    </div>
+
+                                    <div class="detail-box">
+                                        <span class="detail-label">
+                                            Authentication
+                                        </span>
+
+                                        <span
+                                            class="detail-value"
+                                            id="accountAuth"
+                                        >
+                                            Active
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- =========================================
+                     SESSION
+                ========================================== -->
+
+                <section class="settings-card">
+
+                    <div class="card-header">
+                        <h2>Session &amp; Security</h2>
+                        <p>
+                            Information about the current authenticated
+                            session.
+                        </p>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="status-row">
+
+                            <span
+                                class="status-dot"
+                                aria-hidden="true"
+                            ></span>
+
+                            <div>
+                                <p
+                                    class="status-title"
+                                    id="sessionStatusTitle"
+                                >
+                                    Authenticated session
+                                </p>
+
+                                <p
+                                    class="status-description"
+                                    id="sessionStatusDescription"
+                                >
+                                    Your FranTett staff session is active.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="security-note">
+                            Your authentication token is stored locally by
+                            the FranTett login system. This Settings page does
+                            not display or expose the token itself.
+                        </div>
+
+                        <div class="button-row">
+
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                onclick="logout()"
+                            >
+                                Log Out
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- =========================================
+                     PREFERENCES
+                ========================================== -->
+
+                <section class="settings-card">
+
+                    <div class="card-header">
+                        <h2>Application Preferences</h2>
+                        <p>
+                            These preferences affect this browser only.
+                        </p>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="preference-row">
+
+                            <div>
+                                <p class="preference-title">
+                                    Remember Sidebar State
+                                </p>
+
+                                <p class="preference-description">
+                                    Remember whether the mobile staff
+                                    navigation was last opened.
+                                </p>
+                            </div>
+
+                            <label class="toggle">
+                                <input
+                                    type="checkbox"
+                                    id="rememberSidebar"
+                                >
+                                <span class="toggle-slider"></span>
+                            </label>
+
+                        </div>
+
+                        <div class="preference-row">
+
+                            <div>
+                                <p class="preference-title">
+                                    Compact Display
+                                </p>
+
+                                <p class="preference-description">
+                                    Use a more compact spacing preference
+                                    where supported by staff pages.
+                                </p>
+                            </div>
+
+                            <label class="toggle">
+                                <input
+                                    type="checkbox"
+                                    id="compactDisplay"
+                                >
+                                <span class="toggle-slider"></span>
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- =========================================
+                     STAFF PORTAL
+                ========================================== -->
+
+                <section class="settings-card">
+
+                    <div class="card-header">
+                        <h2>Staff Portal</h2>
+                        <p>
+                            FranTett Healthcare application information.
+                        </p>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="portal-info">
+
+                            <div class="portal-item">
+                                <strong>Application</strong>
+                                <span>
+                                    FranTett Healthcare
+                                </span>
+                            </div>
+
+                            <div class="portal-item">
+                                <strong>Portal</strong>
+                                <span>
+                                    Staff Administration
+                                </span>
+                            </div>
+
+                            <div class="portal-item">
+                                <strong>Purpose</strong>
+                                <span>
+                                    Healthcare appointments, clinical
+                                    records, payments, and reporting.
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- =========================================
+                     ACCOUNT MANAGEMENT NOTICE
+                ========================================== -->
+
+                <section class="settings-card full-width">
+
+                    <div class="card-header">
+                        <h2>Account Management</h2>
+                        <p>
+                            Profile and authentication management.
+                        </p>
+                    </div>
+
+<!-- FRANTETT-SECURITY-SETTINGS-UI-BEGIN -->
+
+<section class="settings-card frantett-security-card">
+
+    <div class="settings-card-header">
+        <div>
+            <h2>Account Security</h2>
+            <p>
+                Change your email address or password using
+                verification codes sent to your email.
+            </p>
+        </div>
+    </div>
+
+    <div class="security-action-grid">
+
+        <!-- CHANGE EMAIL -->
+
+        <div class="security-action">
+
+            <div class="security-action-icon">
+                @
+            </div>
+
+            <div class="security-action-content">
+
+                <h3>Email Address</h3>
+
+                <p>
+                    Change the email address associated with
+                    your FranTett Healthcare staff account.
+                </p>
+
+                <button
+                    type="button"
+                    class="frantett-security-button"
+                    id="changeEmailButton"
+                    onclick="openEmailChange()"
+                >
+                    Change Email
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- CHANGE PASSWORD -->
+
+        <div class="security-action">
+
+            <div class="security-action-icon">
+                *
+            </div>
+
+            <div class="security-action-content">
+
+                <h3>Password</h3>
+
+                <p>
+                    Change your account password after verifying
+                    your identity with a security code.
+                </p>
+
+                <button
+                    type="button"
+                    class="frantett-security-button"
+                    id="changePasswordButton"
+                    onclick="openPasswordChange()"
+                >
+                    Change Password
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- EMAIL CHANGE MODAL -->
+
+<div
+    id="emailChangeModal"
+    class="frantett-security-modal"
+    aria-hidden="true"
+>
+
+    <div
+        class="frantett-security-modal-backdrop"
+        onclick="closeSecurityModal('emailChangeModal')"
+    ></div>
+
+    <div
+        class="frantett-security-modal-content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="emailChangeTitle"
+    >
+
+        <button
+            type="button"
+            class="frantett-security-modal-close"
+            onclick="closeSecurityModal('emailChangeModal')"
+            aria-label="Close"
+        >
+            &#10005;
+        </button>
+
+        <h2 id="emailChangeTitle">
+            Change Email Address
+        </h2>
+
+        <p class="frantett-security-modal-description">
+            A verification code will be sent to your
+            current email address before the change can continue.
+        </p>
+
+        <div id="emailChangeMessage" class="frantett-security-message"></div>
+
+        <!-- STEP 1 -->
+
+        <div id="emailChangeStep1" class="security-step">
+
+            <label for="newEmailInput">
+                New Email Address
+            </label>
+
+            <input
+                type="email"
+                id="newEmailInput"
+                autocomplete="email"
+                placeholder="Enter your new email address"
+            >
+
+            <button
+                type="button"
+                class="frantett-security-primary"
+                id="requestEmailCodeButton"
+                onclick="requestEmailChangeCode()"
+            >
+                Send Verification Code
+            </button>
+
+        </div>
+
+        <!-- STEP 2 -->
+
+        <div
+            id="emailChangeStep2"
+            class="security-step"
+            hidden
+        >
+
+            <label for="currentEmailCodeInput">
+                Code Sent to Your Current Email
+            </label>
+
+            <input
+                type="text"
+                id="currentEmailCodeInput"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                maxlength="6"
+                placeholder="Enter 6-digit code"
+            >
+
+            <button
+                type="button"
+                class="frantett-security-primary"
+                id="verifyCurrentEmailButton"
+                onclick="verifyCurrentEmailCode()"
+            >
+                Verify Current Email
+            </button>
+
+            <button
+                type="button"
+                class="frantett-security-secondary"
+                onclick="requestEmailChangeCode(true)"
+            >
+                Resend Code
+            </button>
+
+        </div>
+
+        <!-- STEP 3 -->
+
+        <div
+            id="emailChangeStep3"
+            class="security-step"
+            hidden
+        >
+
+            <p class="security-step-note">
+                Your current email has been verified.
+                A second code has been sent to the new email address.
+            </p>
+
+            <label for="newEmailCodeInput">
+                Code Sent to New Email
+            </label>
+
+            <input
+                type="text"
+                id="newEmailCodeInput"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                maxlength="6"
+                placeholder="Enter 6-digit code"
+            >
+
+            <button
+                type="button"
+                class="frantett-security-primary"
+                id="verifyNewEmailButton"
+                onclick="verifyNewEmailCode()"
+            >
+                Confirm New Email
+            </button>
+
+            <button
+                type="button"
+                class="frantett-security-secondary"
+                onclick="resendNewEmailCode()"
+            >
+                Resend Code
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PASSWORD CHANGE MODAL -->
+
+<div
+    id="passwordChangeModal"
+    class="frantett-security-modal"
+    aria-hidden="true"
+>
+
+    <div
+        class="frantett-security-modal-backdrop"
+        onclick="closeSecurityModal('passwordChangeModal')"
+    ></div>
+
+    <div
+        class="frantett-security-modal-content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="passwordChangeTitle"
+    >
+
+        <button
+            type="button"
+            class="frantett-security-modal-close"
+            onclick="closeSecurityModal('passwordChangeModal')"
+            aria-label="Close"
+        >
+            &#10005;
+        </button>
+
+        <h2 id="passwordChangeTitle">
+            Change Password
+        </h2>
+
+        <p class="frantett-security-modal-description">
+            A 6-digit verification code will be sent to
+            your current email address.
+        </p>
+
+        <div id="passwordChangeMessage" class="frantett-security-message"></div>
+
+        <!-- PASSWORD STEP 1 -->
+
+        <div id="passwordStep1" class="security-step">
+
+            <button
+                type="button"
+                class="frantett-security-primary"
+                id="requestPasswordCodeButton"
+                onclick="requestPasswordChangeCode()"
+            >
+                Send Verification Code
+            </button>
+
+        </div>
+
+        <!-- PASSWORD STEP 2 -->
+
+        <div
+            id="passwordStep2"
+            class="security-step"
+            hidden
+        >
+
+            <label for="passwordCodeInput">
+                Verification Code
+            </label>
+
+            <input
+                type="text"
+                id="passwordCodeInput"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                maxlength="6"
+                placeholder="Enter 6-digit code"
+            >
+
+            <label for="currentPasswordInput">
+                Current Password
+            </label>
+
+            <input
+                type="password"
+                id="currentPasswordInput"
+                autocomplete="current-password"
+                placeholder="Enter current password"
+            >
+
+            <label for="newPasswordInput">
+                New Password
+            </label>
+
+            <input
+                type="password"
+                id="newPasswordInput"
+                autocomplete="new-password"
+                placeholder="Enter new password"
+            >
+
+            <label for="confirmPasswordInput">
+                Confirm New Password
+            </label>
+
+            <input
+                type="password"
+                id="confirmPasswordInput"
+                autocomplete="new-password"
+                placeholder="Confirm new password"
+            >
+
+            <button
+                type="button"
+                class="frantett-security-primary"
+                id="changePasswordSubmitButton"
+                onclick="changeStaffPassword()"
+            >
+                Change Password
+            </button>
+
+            <button
+                type="button"
+                class="frantett-security-secondary"
+                onclick="requestPasswordChangeCode(true)"
+            >
+                Resend Code
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style id="frantett-security-settings-ui-style">
+
+    .frantett-security-card {
+        margin-top: 24px;
+    }
+
+    .security-action-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .security-action {
+        display: flex;
+        gap: 16px;
+        padding: 20px;
+        border: 1px solid #dfe9e4;
+        border-radius: 14px;
+        background: #fbfefd;
+    }
+
+    .security-action-icon {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #e8f5ee;
+        color: #167a4a;
+        font-size: 21px;
+        font-weight: 700;
+    }
+
+    .security-action-content {
+        flex: 1;
+    }
+
+    .security-action-content h3 {
+        margin: 0 0 7px;
+        color: #173b2b;
+        font-size: 17px;
+    }
+
+    .security-action-content p {
+        margin: 0 0 16px;
+        color: #617269;
+        line-height: 1.55;
+        font-size: 14px;
+    }
+
+    .frantett-security-button,
+    .frantett-security-primary,
+    .frantett-security-secondary {
+        border: 0;
+        border-radius: 9px;
+        padding: 11px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .frantett-security-button,
+    .frantett-security-primary {
+        background: #16824f;
+        color: #ffffff;
+    }
+
+    .frantett-security-button:hover,
+    .frantett-security-primary:hover {
+        background: #116d42;
+    }
+
+    .frantett-security-secondary {
+        margin-top: 10px;
+        background: #edf3ef;
+        color: #24513b;
+    }
+
+    .frantett-security-secondary:hover {
+        background: #e0ebe4;
+    }
+
+    .frantett-security-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 100000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .frantett-security-modal.is-open {
+        display: flex;
+    }
+
+    .frantett-security-modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 31, 22, 0.58);
+    }
+
+    .frantett-security-modal-content {
+        position: relative;
+        z-index: 1;
+        width: min(520px, 100%);
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+        padding: 28px;
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+    }
+
+    .frantett-security-modal-content h2 {
+        margin: 0 40px 8px 0;
+        color: #173b2b;
+        font-size: 23px;
+    }
+
+    .frantett-security-modal-description {
+        margin: 0 0 20px;
+        color: #68776f;
+        line-height: 1.55;
+    }
+
+    .frantett-security-modal-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 38px;
+        height: 38px;
+        border: 0;
+        border-radius: 50%;
+        background: #edf3ef;
+        color: #294637;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .security-step {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .security-step label {
+        color: #294637;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .security-step input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px 13px;
+        border: 1px solid #ccd9d2;
+        border-radius: 9px;
+        background: #ffffff;
+        color: #20372a;
+        font-size: 15px;
+        outline: none;
+    }
+
+    .security-step input:focus {
+        border-color: #16824f;
+        box-shadow: 0 0 0 3px rgba(22, 130, 79, 0.10);
+    }
+
+    .security-step-note {
+        margin: 0 0 4px;
+        padding: 12px;
+        border-radius: 9px;
+        background: #eef8f2;
+        color: #315641;
+        line-height: 1.5;
+        font-size: 14px;
+    }
+
+    .frantett-security-message {
+        display: none;
+        margin-bottom: 16px;
+        padding: 12px 14px;
+        border-radius: 9px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .frantett-security-message.is-visible {
+        display: block;
+    }
+
+    .frantett-security-message.success {
+        background: #e9f7ef;
+        color: #17623c;
+        border: 1px solid #c9ead7;
+    }
+
+    .frantett-security-message.error {
+        background: #fff0f0;
+        color: #9a3030;
+        border: 1px solid #f1cccc;
+    }
+
+    @media (max-width: 760px) {
+
+        .security-action-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .security-action {
+            padding: 17px;
+        }
+
+        .frantett-security-modal {
+            padding: 12px;
+        }
+
+        .frantett-security-modal-content {
+            padding: 23px 18px;
+            border-radius: 15px;
+            max-height: calc(100vh - 24px);
+        }
+
+    }
+
+</style>
+
+
+<script id="frantett-security-settings-ui-script">
+
+(function () {
+
+    const API_URL =
+        window.FRANTETT_API ||
+        (
+            "https://" +
+            window.location.hostname +
+            ":3000"
+        );
+
+    let pendingNewEmail = "";
+
+    function getSecurityToken() {
+
+        return localStorage.getItem("frantett_token") || "";
+
+    }
+
+    function securityHeaders() {
+
+        const token = getSecurityToken();
+
+        return {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        };
+
+    }
+
+    function showSecurityMessage(
+        elementId,
+        message,
+        type
+    ) {
+
+        const element =
+            document.getElementById(elementId);
+
+        if (!element) {
+            return;
+        }
+
+        element.textContent = message || "";
+
+        element.className =
+            "frantett-security-message" +
+            (
+                message
+                    ? " is-visible " + type
+                    : ""
+            );
+
+    }
+
+    function setSecurityButtonBusy(
+        elementId,
+        busy,
+        busyText
+    ) {
+
+        const button =
+            document.getElementById(elementId);
+
+        if (!button) {
+            return;
+        }
+
+        if (!button.dataset.originalText) {
+            button.dataset.originalText =
+                button.textContent;
+        }
+
+        button.disabled = busy;
+
+        button.textContent =
+            busy
+                ? busyText
+                : button.dataset.originalText;
+
+    }
+
+    function openSecurityModal(
+        modalId
+    ) {
+
+        const modal =
+            document.getElementById(modalId);
+
+        if (!modal) {
+            return;
+        }
+
+        modal.classList.add("is-open");
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        document.body.style.overflow = "hidden";
+
+    }
+
+    window.closeSecurityModal =
+        function (modalId) {
+
+            const modal =
+                document.getElementById(modalId);
+
+            if (!modal) {
+                return;
+            }
+
+            modal.classList.remove("is-open");
+
+            modal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            if (
+                !document.querySelector(
+                    ".frantett-security-modal.is-open"
+                )
+            ) {
+                document.body.style.overflow = "";
+            }
+
+        };
+
+    window.openEmailChange =
+        function () {
+
+            pendingNewEmail = "";
+
+            document.getElementById(
+                "newEmailInput"
+            ).value = "";
+
+            document.getElementById(
+                "currentEmailCodeInput"
+            ).value = "";
+
+            document.getElementById(
+                "newEmailCodeInput"
+            ).value = "";
+
+            document.getElementById(
+                "emailChangeStep1"
+            ).hidden = false;
+
+            document.getElementById(
+                "emailChangeStep2"
+            ).hidden = true;
+
+            document.getElementById(
+                "emailChangeStep3"
+            ).hidden = true;
+
+            showSecurityMessage(
+                "emailChangeMessage",
+                "",
+                "success"
+            );
+
+            openSecurityModal(
+                "emailChangeModal"
+            );
+
+        };
+
+    window.requestEmailChangeCode =
+        async function (isResend) {
+
+            const newEmail =
+                document.getElementById(
+                    "newEmailInput"
+                ).value.trim();
+
+            if (!newEmail) {
+
+                showSecurityMessage(
+                    "emailChangeMessage",
+                    "Enter your new email address first.",
+                    "error"
+                );
+
+                return;
+            }
+
+            setSecurityButtonBusy(
+                "requestEmailCodeButton",
+                true,
+                "Sending..."
+            );
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/settings/email/request",
+                        {
+                            method: "POST",
+                            headers:
+                                securityHeaders(),
+                            body:
+                                JSON.stringify({
+                                    new_email:
+                                        newEmail
+                                })
+                        }
+                    );
+
+                const data =
+                    await response.json()
+                        .catch(
+                            () => ({})
+                        );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to request the verification code."
+                    );
+
+                }
+
+                pendingNewEmail = newEmail;
+
+                document.getElementById(
+                    "emailChangeStep1"
+                ).hidden = true;
+
+                document.getElementById(
+                    "emailChangeStep2"
+                ).hidden = false;
+
+                showSecurityMessage(
+                    "emailChangeMessage",
+                    data.message ||
+                    "A verification code was sent to your current email address.",
+                    "success"
+                );
+
+                document.getElementById(
+                    "currentEmailCodeInput"
+                ).focus();
+
+            } catch (error) {
+
+                showSecurityMessage(
+                    "emailChangeMessage",
+                    error.message ||
+                    "Unable to request the verification code.",
+                    "error"
+                );
+
+            } finally {
+
+                setSecurityButtonBusy(
+                    "requestEmailCodeButton",
+                    false,
+                    "Send Verification Code"
+                );
+
+            }
+
+        };
+
+    window.verifyCurrentEmailCode =
+        async function () {
+
+            const code =
+                document.getElementById(
+                    "currentEmailCodeInput"
+                ).value.trim();
+
+            if (!/^\d{6}$/.test(code)) {
+
+                showSecurityMessage(
+                    "emailChangeMessage",
+                    "Enter the 6-digit verification code.",
+                    "error"
+                );
+
+                return;
+            }
+
+            setSecurityButtonBusy(
+                "verifyCurrentEmailButton",
+                true,
+                "Verifying..."
+            );
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/settings/email/verify-current",
+                        {
+                            method: "POST",
+                            headers:
+                                securityHeaders(),
+                            body:
+                                JSON.stringify({
+                                    code
+                                })
+                        }
+                    );
+
+                const data =
+                    await response.json()
+                        .catch(
+                            () => ({})
+                        );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to verify the code."
+                    );
+
+                }
+
+                document.getElementById(
+                    "emailChangeStep2"
+                ).hidden = true;
+
+                document.getElementById(
+                    "emailChangeStep3"
+                ).hidden = false;
+
+                showSecurityMessage(
+                    "emailChangeMessage",
+                    data.message ||
+                    "Your current email was verified. A second code was sent to the new email address.",
+                    "success"
+                );
+
+                document.getElementById(
+                    "newEmailCodeInput"
+                ).focus();
+
+            } catch (error) {
+
+                showSecurityMessage(
+                    "emailChangeMessage",
+                    error.message ||
+                    "Unable to verify the code.",
+                    "error"
+                );
+
+            } finally {
+
+                setSecurityButtonBusy(
+                    "verifyCurrentEmailButton",
+                    false,
+                    "Verify Current Email"
+                );
+
+            }
+
+        };
+
+    window.resendNewEmailCode =
+    async function () {
+
+        if (!pendingNewEmail) {
+
+            showSecurityMessage(
+                "emailChangeMessage",
+                "The pending email-change request is no longer available. Start again.",
+                "error"
+            );
+
+            return;
+        }
+
+        const button =
+            document.getElementById(
+                "verifyNewEmailButton"
+            );
+
+        if (button) {
+            button.disabled = true;
+        }
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL +
+                    "/api/settings/email/resend-new",
+                    {
+                        method: "POST",
+                        headers:
+                            securityHeaders()
+                    }
+                );
+
+            const data =
+                await response.json()
+                    .catch(
+                        () => ({})
+                    );
+
+            if (!response.ok) {
+
+                showSecurityMessage(
+                    "emailChangeMessage",
+                    data.message ||
+                    "Unable to resend the new-email verification code.",
+                    "error"
+                );
+
+                return;
+            }
+
+            const codeInput =
+                document.getElementById(
+                    "newEmailCodeInput"
+                );
+
+            if (codeInput) {
+                codeInput.value = "";
+                codeInput.focus();
+            }
+
+            showSecurityMessage(
+                "emailChangeMessage",
+                data.message ||
+                "A new verification code was sent to the new email address.",
+                "success"
+            );
+
+        } catch (error) {
+
+            showSecurityMessage(
+                "emailChangeMessage",
+                "Unable to resend the new-email verification code.",
+                "error"
+            );
+
+        } finally {
+
+            if (button) {
+                button.disabled = false;
+            }
+
+        }
+
+    };
+
+    window.verifyNewEmailCode =
+        async function () {
+
+            const code =
+                document.getElementById(
+                    "newEmailCodeInput"
+                ).value.trim();
+
+            if (!/^\d{6}$/.test(code)) {
+
+                showSecurityMessage(
+                    "emailChangeMessage",
+                    "Enter the 6-digit verification code.",
+                    "error"
+                );
+
+                return;
+            }
+
+            setSecurityButtonBusy(
+                "verifyNewEmailButton",
+                true,
+                "Confirming..."
+            );
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/settings/email/verify-new",
+                        {
+                            method: "POST",
+                            headers:
+                                securityHeaders(),
+                            body:
+                                JSON.stringify({
+                                    code
+                                })
+                        }
+                    );
+
+                const data =
+                    await response.json()
+                        .catch(
+                            () => ({})
+                        );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to confirm the new email address."
+                    );
+
+                }
+
+                if (data.token) {
+
+                    localStorage.setItem(
+                        "frantett_token",
+                        data.token
+                    );
+
+                }
+
+                showSecurityMessage(
+                    "emailChangeMessage",
+                    "Your email address has been changed successfully.",
+                    "success"
+                );
+
+                setTimeout(
+                    function () {
+
+                        window.location.reload();
+
+                    },
+                    4000
+                );
+
+            } catch (error) {
+
+                showSecurityMessage(
+                    "emailChangeMessage",
+                    error.message ||
+                    "Unable to complete the email change.",
+                    "error"
+                );
+
+            } finally {
+
+                setSecurityButtonBusy(
+                    "verifyNewEmailButton",
+                    false,
+                    "Confirm New Email"
+                );
+
+            }
+
+        };
+
+    window.openPasswordChange =
+        function () {
+
+            document.getElementById(
+                "passwordCodeInput"
+            ).value = "";
+
+            document.getElementById(
+                "currentPasswordInput"
+            ).value = "";
+
+            document.getElementById(
+                "newPasswordInput"
+            ).value = "";
+
+            document.getElementById(
+                "confirmPasswordInput"
+            ).value = "";
+
+            document.getElementById(
+                "passwordStep1"
+            ).hidden = false;
+
+            document.getElementById(
+                "passwordStep2"
+            ).hidden = true;
+
+            showSecurityMessage(
+                "passwordChangeMessage",
+                "",
+                "success"
+            );
+
+            openSecurityModal(
+                "passwordChangeModal"
+            );
+
+        };
+
+    window.requestPasswordChangeCode =
+        async function (isResend) {
+
+            setSecurityButtonBusy(
+                "requestPasswordCodeButton",
+                true,
+                "Sending..."
+            );
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/settings/password/request",
+                        {
+                            method: "POST",
+                            headers:
+                                securityHeaders(),
+                            body:
+                                JSON.stringify({})
+                        }
+                    );
+
+                const data =
+                    await response.json()
+                        .catch(
+                            () => ({})
+                        );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to request the password verification code."
+                    );
+
+                }
+
+                document.getElementById(
+                    "passwordStep1"
+                ).hidden = true;
+
+                document.getElementById(
+                    "passwordStep2"
+                ).hidden = false;
+
+                showSecurityMessage(
+                    "passwordChangeMessage",
+                    data.message ||
+                    "A verification code was sent to your current email address.",
+                    "success"
+                );
+
+                document.getElementById(
+                    "passwordCodeInput"
+                ).focus();
+
+            } catch (error) {
+
+                showSecurityMessage(
+                    "passwordChangeMessage",
+                    error.message ||
+                    "Unable to request the verification code.",
+                    "error"
+                );
+
+            } finally {
+
+                setSecurityButtonBusy(
+                    "requestPasswordCodeButton",
+                    false,
+                    "Send Verification Code"
+                );
+
+            }
+
+        };
+
+    window.changeStaffPassword =
+        async function () {
+
+            const code =
+                document.getElementById(
+                    "passwordCodeInput"
+                ).value.trim();
+
+            const currentPassword =
+                document.getElementById(
+                    "currentPasswordInput"
+                ).value;
+
+            const newPassword =
+                document.getElementById(
+                    "newPasswordInput"
+                ).value;
+
+            const confirmPassword =
+                document.getElementById(
+                    "confirmPasswordInput"
+                ).value;
+
+            if (!/^\d{6}$/.test(code)) {
+
+                showSecurityMessage(
+                    "passwordChangeMessage",
+                    "Enter the 6-digit verification code.",
+                    "error"
+                );
+
+                return;
+            }
+
+            if (!currentPassword) {
+
+                showSecurityMessage(
+                    "passwordChangeMessage",
+                    "Enter your current password.",
+                    "error"
+                );
+
+                return;
+            }
+
+            if (newPassword.length < 8) {
+
+                showSecurityMessage(
+                    "passwordChangeMessage",
+                    "Your new password must be at least 8 characters long.",
+                    "error"
+                );
+
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+
+                showSecurityMessage(
+                    "passwordChangeMessage",
+                    "The new password and confirmation do not match.",
+                    "error"
+                );
+
+                return;
+            }
+
+            setSecurityButtonBusy(
+                "changePasswordSubmitButton",
+                true,
+                "Changing Password..."
+            );
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/settings/password/change",
+                        {
+                            method: "POST",
+                            headers:
+                                securityHeaders(),
+                            body:
+                                JSON.stringify({
+                                    code,
+                                    current_password:
+                                        currentPassword,
+                                    new_password:
+                                        newPassword,
+                                    confirm_password:
+                                        confirmPassword
+                                })
+                        }
+                    );
+
+                const data =
+                    await response.json()
+                        .catch(
+                            () => ({})
+                        );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to change the password."
+                    );
+
+                }
+
+                document.getElementById(
+                    "passwordCodeInput"
+                ).value = "";
+
+                document.getElementById(
+                    "currentPasswordInput"
+                ).value = "";
+
+                document.getElementById(
+                    "newPasswordInput"
+                ).value = "";
+
+                document.getElementById(
+                    "confirmPasswordInput"
+                ).value = "";
+
+                if (data.token) {
+
+                    localStorage.setItem(
+                        "frantett_token",
+                        data.token
+                    );
+
+                }
+
+                showSecurityMessage(
+                    "passwordChangeMessage",
+                    "Your password has been changed successfully. A security notification was sent to your email address.",
+                    "success"
+                );
+
+                setTimeout(
+                    function () {
+
+                        window.location.reload();
+
+                    },
+                    1500
+                );
+
+            } catch (error) {
+
+                showSecurityMessage(
+                    "passwordChangeMessage",
+                    error.message ||
+                    "Unable to change the password.",
+                    "error"
+                );
+
+            } finally {
+
+                setSecurityButtonBusy(
+                    "changePasswordSubmitButton",
+                    false,
+                    "Change Password"
+                );
+
+            }
+
+        };
+
+})();
+
+</script>
+
+<!-- FRANTETT-SECURITY-SETTINGS-UI-END -->
+
+                    <div class="card-body">
+
+                        <div class="security-note">
+                            The current FranTett application does not expose
+                            a staff profile-edit or password-change API.
+                            Therefore this page does not provide controls
+                            that appear editable but cannot actually save.
+                            Your existing authenticated account information
+                            is displayed above from the active login session.
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <div class="page-footer">
+                FranTett Healthcare &mdash; Your Health, Our Priority
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+        /* =====================================================
+           FRANTETT SETTINGS — AUTHENTICATION
+        ===================================================== */
+
+        const API_BASE_URL =
+            "https://" +
+            window.location.hostname +
+            ":3000";
+
+        function getToken() {
+
+            return localStorage.getItem(
+                "frantett_token"
+            );
+
+        }
+
+        function decodeToken(token) {
+
+            if (!token) {
+                return null;
+            }
+
+            try {
+
+                const payload =
+                    token.split(".")[1];
+
+                if (!payload) {
+                    return null;
+                }
+
+                const normalized =
+                    payload
+                        .replace(/-/g, "+")
+                        .replace(/_/g, "/");
+
+                const padded =
+                    normalized +
+                    "=".repeat(
+                        (4 - normalized.length % 4) % 4
+                    );
+
+                return JSON.parse(
+                    atob(padded)
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to decode authentication token:",
+                    error
+                );
+
+                return null;
+            }
+
+        }
+
+        function getRoleData() {
+
+            const possibleKeys = [
+                "token",
+                "authToken",
+                "accessToken",
+                "jwt",
+                "frantettToken",
+                "frantett_token"
+            ];
+
+            let token = null;
+
+            for (const key of possibleKeys) {
+
+                const value =
+                    localStorage.getItem(key);
+
+                if (value) {
+                    token = value;
+                    break;
+                }
+
+            }
+
+            if (!token) {
+
+                return {
+                    role: null,
+                    name: null,
+                    email: null
+                };
+
+            }
+
+            const payload =
+                decodeToken(token);
+
+            if (!payload) {
+
+                return {
+                    role: null,
+                    name: null,
+                    email: null
+                };
+
+            }
+
+            return {
+                role:
+                    payload.role ||
+                    payload.userRole ||
+                    payload.type ||
+                    null,
+
+                name:
+                    payload.full_name ||
+                    payload.fullName ||
+                    payload.name ||
+                    null,
+
+                email:
+                    payload.email ||
+                    payload.user_email ||
+                    null
+            };
+
+        }
+
+        function getRoleLabel(role) {
+
+            const labels = {
+                admin: "Admin",
+                doctor: "Doctor",
+                nurse: "Nurse",
+                staff: "Staff",
+                reception: "Reception",
+                receptionist: "Receptionist"
+            };
+
+            const normalized =
+                String(role || "")
+                    .trim()
+                    .toLowerCase();
+
+            return labels[normalized] ||
+                role ||
+                "Staff";
+
+        }
+
+        function getInitials(name, email) {
+
+            const source =
+                String(name || email || "Staff")
+                    .trim();
+
+            const parts =
+                source
+                    .split(/\s+/)
+                    .filter(Boolean);
+
+            if (parts.length >= 2) {
+
+                return (
+                    parts[0][0] +
+                    parts[parts.length - 1][0]
+                ).toUpperCase();
+
+            }
+
+            return source
+                .substring(0, 2)
+                .toUpperCase();
+
+        }
+
+        function applyIdentity() {
+
+            const user =
+                getRoleData();
+
+            const token =
+                getToken();
+
+            const name =
+                user.name ||
+                (
+                    user.email
+                        ? (
+                            {
+                                "jayfrance1661@gmail.com":
+                                    "Jay France",
+                                "emmanuel@gmail.com":
+                                    "Emmanuel",
+                                "ireenaasam@gmail.com":
+                                    "Ireena"
+                            }[
+                                user.email.toLowerCase()
+                            ] || user.email
+                        )
+                        : "Staff"
+                );
+
+            const role =
+                getRoleLabel(user.role);
+
+            const email =
+                user.email ||
+                "Not available";
+
+            document.getElementById(
+                "accountName"
+            ).textContent = name;
+
+            document.getElementById(
+                "accountEmail"
+            ).textContent = email;
+
+            document.getElementById(
+                "accountRole"
+            ).textContent = role;
+
+            document.getElementById(
+                "topbarUserName"
+            ).textContent = name;
+
+            document.getElementById(
+                "topbarUserRole"
+            ).textContent = role;
+
+            document.getElementById(
+                "profileAvatar"
+            ).textContent =
+                getInitials(name, email);
+
+            if (!token) {
+
+                document.getElementById(
+                    "accountAuth"
+                ).textContent =
+                    "Not authenticated";
+
+                document.getElementById(
+                    "sessionStatusTitle"
+                ).textContent =
+                    "No authenticated session";
+
+                document.getElementById(
+                    "sessionStatusDescription"
+                ).textContent =
+                    "Please log in to access the staff portal.";
+
+            }
+
+        }
+
+        /* =====================================================
+           LOCAL UI PREFERENCES
+        ===================================================== */
+
+        const PREF_REMEMBER_SIDEBAR =
+            "frantett_settings_remember_sidebar";
+
+        const PREF_COMPACT_DISPLAY =
+            "frantett_settings_compact_display";
+
+        function loadPreferences() {
+
+            const rememberSidebar =
+                localStorage.getItem(
+                    PREF_REMEMBER_SIDEBAR
+                ) === "true";
+
+            const compactDisplay =
+                localStorage.getItem(
+                    PREF_COMPACT_DISPLAY
+                ) === "true";
+
+            document.getElementById(
+                "rememberSidebar"
+            ).checked = rememberSidebar;
+
+            document.getElementById(
+                "compactDisplay"
+            ).checked = compactDisplay;
+
+        }
+
+        function savePreferences() {
+
+            localStorage.setItem(
+                PREF_REMEMBER_SIDEBAR,
+                String(
+                    document.getElementById(
+                        "rememberSidebar"
+                    ).checked
+                )
+            );
+
+            localStorage.setItem(
+                PREF_COMPACT_DISPLAY,
+                String(
+                    document.getElementById(
+                        "compactDisplay"
+                    ).checked
+                )
+            );
+
+        }
+
+        /* =====================================================
+           MOBILE NAVIGATION
+        ===================================================== */
+
+        function setupMobileNavigation() {
+
+            const toggle =
+                document.getElementById(
+                    "mobileNavToggle"
+                );
+
+            const sidebar =
+                document.getElementById(
+                    "staffSidebar"
+                );
+
+            if (!toggle || !sidebar) {
+                return;
+            }
+
+            const remembered =
+                localStorage.getItem(
+                    PREF_REMEMBER_SIDEBAR
+                ) === "true";
+
+            if (
+                remembered &&
+                window.innerWidth <= 700
+            ) {
+
+                sidebar.classList.add("open");
+
+                toggle.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
+
+            }
+
+            toggle.addEventListener(
+                "click",
+                function () {
+
+                    const isOpen =
+                        sidebar.classList.toggle(
+                            "open"
+                        );
+
+                    toggle.setAttribute(
+                        "aria-expanded",
+                        String(isOpen)
+                    );
+
+                    if (
+                        document.getElementById(
+                            "rememberSidebar"
+                        ).checked
+                    ) {
+
+                        localStorage.setItem(
+                            PREF_REMEMBER_SIDEBAR,
+                            String(isOpen)
+                        );
+
+                    }
+
+                }
+            );
+
+            sidebar
+                .querySelectorAll("a")
+                .forEach(function (link) {
+
+                    link.addEventListener(
+                        "click",
+                        function () {
+
+                            sidebar.classList.remove(
+                                "open"
+                            );
+
+                            toggle.setAttribute(
+                                "aria-expanded",
+                                "false"
+                            );
+
+                        }
+                    );
+
+                });
+
+        }
+
+        /* =====================================================
+           LOGOUT — SAME BEHAVIOR AS EXISTING STAFF PAGES
+        ===================================================== */
+
+        function logout() {
+
+            const confirmed =
+                window.confirm(
+                    "Are you sure you want to log out?"
+                );
+
+            if (!confirmed) {
+                return;
+            }
+
+            localStorage.removeItem(
+                "frantett_token"
+            );
+
+            window.location.href =
+                "../index.html";
+
+        }
+
+        /* =====================================================
+           INITIALIZE
+        ===================================================== */
+
+        function initializeSettings() {
+
+            applyIdentity();
+            loadPreferences();
+            setupMobileNavigation();
+
+            document
+                .getElementById("rememberSidebar")
+                .addEventListener(
+                    "change",
+                    savePreferences
+                );
+
+            document
+                .getElementById("compactDisplay")
+                .addEventListener(
+                    "change",
+                    savePreferences
+                );
+
+        }
+
+        if (
+            document.readyState === "loading"
+        ) {
+
+            document.addEventListener(
+                "DOMContentLoaded",
+                initializeSettings
+            );
+
+        } else {
+
+            initializeSettings();
+
+        }
+    </script>
+
+</body>
+</html>
+

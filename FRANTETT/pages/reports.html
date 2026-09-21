@@ -1,0 +1,1085 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - FranTett Healthcare</title>
+
+    <!-- FRANTETT-STAFF-REPORTS-WORKSPACE -->
+
+    <style>
+        :root {
+            --frantett-green: #0b6b50;
+            --frantett-green-dark: #07543f;
+            --frantett-green-soft: #eef7f3;
+            --frantett-border: #dfe8e4;
+            --frantett-text: #18342b;
+            --frantett-muted: #6b7d76;
+            --frantett-bg: #f5f8f7;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--frantett-bg);
+            color: var(--frantett-text);
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+        .frantett-staff-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            background: var(--frantett-green);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .frantett-brand {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .frantett-portal-label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .frantett-layout {
+            display: flex;
+            min-height: calc(100vh - 64px);
+        }
+
+        .frantett-real-staff-sidebar {
+            width: 245px;
+            flex: 0 0 245px;
+            background: #fff;
+            border-right: 1px solid var(--frantett-border);
+            padding: 22px 14px;
+        }
+
+        .frantett-sidebar-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .frantett-sidebar-list li {
+            margin-bottom: 5px;
+        }
+
+        .frantett-sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            width: 100%;
+            min-height: 44px;
+            padding: 10px 13px;
+            border-radius: 9px;
+            color: #36554b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .frantett-sidebar-link:hover {
+            background: var(--frantett-green-soft);
+            color: var(--frantett-green-dark);
+        }
+
+        .frantett-sidebar-link.active {
+            background: var(--frantett-green-soft);
+            color: var(--frantett-green-dark);
+        }
+
+        .frantett-sidebar-disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .frantett-sidebar-icon {
+            width: 20px;
+            text-align: center;
+            flex: 0 0 20px;
+        }
+
+        .frantett-sidebar-bottom {
+            margin-top: 28px;
+            padding-top: 18px;
+            border-top: 1px solid var(--frantett-border);
+        }
+
+        .frantett-sidebar-logout {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            min-height: 44px;
+            padding: 10px 13px;
+            border-radius: 9px;
+            color: #36554b;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .frantett-sidebar-logout:hover {
+            background: var(--frantett-green-soft);
+            color: var(--frantett-green-dark);
+        }
+
+        .frantett-main {
+            flex: 1;
+            min-width: 0;
+            padding: 30px;
+        }
+
+        .frantett-page-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 26px;
+        }
+
+        .frantett-page-title {
+            margin: 0 0 7px;
+            font-size: 30px;
+            color: var(--frantett-green-dark);
+        }
+
+        .frantett-page-description {
+            margin: 0;
+            color: var(--frantett-muted);
+            font-size: 14px;
+        }
+
+        .frantett-refresh-button {
+            border: 1px solid var(--frantett-green);
+            background: #fff;
+            color: var(--frantett-green);
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .frantett-refresh-button:hover {
+            background: var(--frantett-green-soft);
+        }
+
+        .frantett-status-message {
+            display: none;
+            margin-bottom: 20px;
+            padding: 13px 16px;
+            border-radius: 8px;
+            background: #fff;
+            border: 1px solid var(--frantett-border);
+            color: var(--frantett-muted);
+        }
+
+        .frantett-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .frantett-summary-card {
+            background: #fff;
+            border: 1px solid var(--frantett-border);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.03);
+        }
+
+        .frantett-summary-label {
+            color: var(--frantett-muted);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .frantett-summary-value {
+            color: var(--frantett-green-dark);
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .frantett-section {
+            background: #fff;
+            border: 1px solid var(--frantett-border);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .frantett-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--frantett-border);
+        }
+
+        .frantett-section-title {
+            margin: 0;
+            font-size: 18px;
+            color: var(--frantett-green-dark);
+        }
+
+        .frantett-section-body {
+            padding: 20px;
+        }
+
+        .frantett-breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .frantett-breakdown-item {
+            border: 1px solid var(--frantett-border);
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .frantett-breakdown-name {
+            color: var(--frantett-muted);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .frantett-breakdown-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--frantett-text);
+        }
+
+        .frantett-clinical-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .frantett-clinical-item {
+            border: 1px solid var(--frantett-border);
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .frantett-clinical-item strong {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--frantett-green-dark);
+        }
+
+        .frantett-clinical-count {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .frantett-table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .frantett-activity-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 720px;
+        }
+
+        .frantett-activity-table th,
+        .frantett-activity-table td {
+            padding: 13px 14px;
+            border-bottom: 1px solid var(--frantett-border);
+            text-align: left;
+            vertical-align: top;
+            font-size: 13px;
+        }
+
+        .frantett-activity-table th {
+            background: var(--frantett-green-soft);
+            color: var(--frantett-green-dark);
+            font-weight: 700;
+        }
+
+        .frantett-activity-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .frantett-empty {
+            padding: 28px;
+            text-align: center;
+            color: var(--frantett-muted);
+        }
+
+        .frantett-mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 1000px) {
+            .frantett-summary-grid,
+            .frantett-breakdown-grid,
+            .frantett-clinical-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 760px) {
+            .frantett-staff-topbar {
+                height: 58px;
+                padding: 0 15px;
+            }
+
+            .frantett-brand {
+                font-size: 17px;
+            }
+
+            .frantett-portal-label {
+                display: none;
+            }
+
+            .frantett-layout {
+                display: block;
+            }
+
+            .frantett-real-staff-sidebar {
+                display: none;
+            }
+
+            .frantett-mobile-menu {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 11px 15px;
+                background: #fff;
+                border-bottom: 1px solid var(--frantett-border);
+            }
+
+            .frantett-mobile-menu a {
+                color: var(--frantett-green-dark);
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 700;
+            }
+
+            .frantett-main {
+                padding: 20px 15px 30px;
+            }
+
+            .frantett-page-header {
+                align-items: stretch;
+                flex-direction: column;
+                margin-bottom: 20px;
+            }
+
+            .frantett-page-title {
+                font-size: 25px;
+            }
+
+            .frantett-refresh-button {
+                width: 100%;
+            }
+
+            .frantett-summary-grid,
+            .frantett-breakdown-grid,
+            .frantett-clinical-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .frantett-summary-card,
+            .frantett-breakdown-item,
+            .frantett-clinical-item {
+                padding: 14px;
+            }
+
+            .frantett-summary-value {
+                font-size: 25px;
+            }
+
+            .frantett-section-header,
+            .frantett-section-body {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .frantett-summary-grid,
+            .frantett-breakdown-grid,
+            .frantett-clinical-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="frantett-staff-topbar">
+    <div class="frantett-brand">FranTett Healthcare</div>
+    <div class="frantett-portal-label">Staff Portal</div>
+</header>
+
+<div class="frantett-mobile-menu">
+    <a href="dashboard.html">☰ Staff Menu</a>
+    <a href="reports.html">Reports</a>
+</div>
+
+<div class="frantett-layout">
+
+    <aside
+        id="frantett-real-staff-sidebar"
+        class="frantett-real-staff-sidebar"
+        aria-label="Staff dashboard navigation"
+    >
+        <ul class="frantett-sidebar-list">
+
+            <li>
+                <a
+                    href="dashboard.html"
+                    class="frantett-sidebar-link"
+                >
+                    <span class="frantett-sidebar-icon">&#9635;</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="appointments.html"
+                    class="frantett-sidebar-link"
+                >
+                    <span class="frantett-sidebar-icon">&#9635;</span>
+                    <span>Appointments</span>
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="patients.html"
+                    class="frantett-sidebar-link"
+                >
+                    <span class="frantett-sidebar-icon">&#9817;</span>
+                    <span>Patients</span>
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="consultations.html"
+                    class="frantett-sidebar-link"
+                >
+                    <span class="frantett-sidebar-icon">&#9673;</span>
+                    <span>Consultations</span>
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="payments.html"
+                    class="frantett-sidebar-link"
+                >
+                    <span class="frantett-sidebar-icon">$</span>
+                    <span>Payments</span>
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="reports.html"
+                    class="frantett-sidebar-link active"
+                    aria-current="page"
+                >
+                    <span class="frantett-sidebar-icon">&#9637;</span>
+                    <span>Reports</span>
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="#"
+                    class="frantett-sidebar-link frantett-sidebar-disabled"
+                    onclick="return false;"
+                >
+                    <span class="frantett-sidebar-icon">&#9881;</span>
+                    <span>Settings</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="frantett-sidebar-bottom">
+            <button
+                type="button"
+                class="frantett-sidebar-logout"
+                onclick="logout()"
+            >
+                <span class="frantett-sidebar-icon">&#8618;</span>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="frantett-main">
+
+        <div class="frantett-page-header">
+            <div>
+                <h1 class="frantett-page-title">Reports</h1>
+                <p class="frantett-page-description">
+                    Read-only operational and clinical activity overview for FranTett Healthcare.
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="frantett-refresh-button"
+                onclick="loadReports()"
+            >
+                Refresh
+            </button>
+        </div>
+
+        <div id="frantettStatusMessage" class="frantett-status-message"></div>
+
+        <section class="frantett-summary-grid">
+
+            <div class="frantett-summary-card">
+                <div class="frantett-summary-label">Total Patients</div>
+                <div id="totalPatients" class="frantett-summary-value">0</div>
+            </div>
+
+            <div class="frantett-summary-card">
+                <div class="frantett-summary-label">Total Appointments</div>
+                <div id="totalAppointments" class="frantett-summary-value">0</div>
+            </div>
+
+            <div class="frantett-summary-card">
+                <div class="frantett-summary-label">Total Consultations</div>
+                <div id="totalConsultations" class="frantett-summary-value">0</div>
+            </div>
+
+            <div class="frantett-summary-card">
+                <div class="frantett-summary-label">Total Payments</div>
+                <div id="totalPayments" class="frantett-summary-value">0</div>
+            </div>
+
+        </section>
+
+        <section class="frantett-section">
+            <div class="frantett-section-header">
+                <h2 class="frantett-section-title">Appointment Activity</h2>
+            </div>
+
+            <div class="frantett-section-body">
+                <div class="frantett-breakdown-grid">
+
+                    <div class="frantett-breakdown-item">
+                        <div class="frantett-breakdown-name">Pending</div>
+                        <div id="appointmentsPending" class="frantett-breakdown-value">0</div>
+                    </div>
+
+                    <div class="frantett-breakdown-item">
+                        <div class="frantett-breakdown-name">Confirmed</div>
+                        <div id="appointmentsConfirmed" class="frantett-breakdown-value">0</div>
+                    </div>
+
+                    <div class="frantett-breakdown-item">
+                        <div class="frantett-breakdown-name">Completed</div>
+                        <div id="appointmentsCompleted" class="frantett-breakdown-value">0</div>
+                    </div>
+
+                    <div class="frantett-breakdown-item">
+                        <div class="frantett-breakdown-name">Cancelled</div>
+                        <div id="appointmentsCancelled" class="frantett-breakdown-value">0</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="frantett-section">
+            <div class="frantett-section-header">
+                <h2 class="frantett-section-title">Payment Activity</h2>
+            </div>
+
+            <div class="frantett-section-body">
+                <div class="frantett-breakdown-grid">
+
+                    <div class="frantett-breakdown-item">
+                        <div class="frantett-breakdown-name">Paid</div>
+                        <div id="paymentsPaid" class="frantett-breakdown-value">0</div>
+                    </div>
+
+                    <div class="frantett-breakdown-item">
+                        <div class="frantett-breakdown-name">Pending</div>
+                        <div id="paymentsPending" class="frantett-breakdown-value">0</div>
+                    </div>
+
+                    <div class="frantett-breakdown-item">
+                        <div class="frantett-breakdown-name">Failed</div>
+                        <div id="paymentsFailed" class="frantett-breakdown-value">0</div>
+                    </div>
+
+                    <div class="frantett-breakdown-item">
+                        <div class="frantett-breakdown-name">Other Status</div>
+                        <div id="paymentsOther" class="frantett-breakdown-value">0</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="frantett-section">
+            <div class="frantett-section-header">
+                <h2 class="frantett-section-title">Clinical Activity</h2>
+            </div>
+
+            <div class="frantett-section-body">
+                <div class="frantett-clinical-grid">
+
+                    <div class="frantett-clinical-item">
+                        <strong>Consultations</strong>
+                        <span id="clinicalConsultations" class="frantett-clinical-count">0</span>
+                    </div>
+
+                    <div class="frantett-clinical-item">
+                        <strong>Laboratory Requests</strong>
+                        <span id="clinicalLabRequests" class="frantett-clinical-count">0</span>
+                    </div>
+
+                    <div class="frantett-clinical-item">
+                        <strong>Laboratory Reports</strong>
+                        <span id="clinicalLabReports" class="frantett-clinical-count">0</span>
+                    </div>
+
+                    <div class="frantett-clinical-item">
+                        <strong>Prescriptions</strong>
+                        <span id="clinicalPrescriptions" class="frantett-clinical-count">0</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="frantett-section">
+            <div class="frantett-section-header">
+                <h2 class="frantett-section-title">Recent Activity</h2>
+            </div>
+
+            <div id="recentActivityContainer">
+                <div class="frantett-empty">Loading activity...</div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    window.FRANTETT_API =
+        "https://" +
+        window.location.hostname +
+        ":3000";
+
+    const API_URL = window.FRANTETT_API;
+
+    function getToken() {
+        return localStorage.getItem("frantett_token");
+    }
+
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function normalizeStatus(value) {
+        return String(value || "")
+            .trim()
+            .toLowerCase();
+    }
+
+    async function fetchJson(url) {
+        const token = getToken();
+
+        if (!token) {
+            throw new Error("Authentication token not found.");
+        }
+
+        const response = await fetch(url, {
+            headers: {
+                "Authorization": "Bearer " + token
+            },
+            credentials: "include"
+        });
+
+        if (response.status === 401) {
+            throw new Error("Your session has expired. Please log in again.");
+        }
+
+        if (response.status === 403) {
+            throw new Error("You do not have permission to view this report.");
+        }
+
+        if (!response.ok) {
+            throw new Error("Request failed with status " + response.status);
+        }
+
+        return response.json();
+    }
+
+    function setStatus(message) {
+        const element = document.getElementById("frantettStatusMessage");
+
+        if (!element) {
+            return;
+        }
+
+        element.textContent = message || "";
+        element.style.display = message ? "block" : "none";
+    }
+
+    function formatDate(value) {
+        if (!value) {
+            return "—";
+        }
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+            return String(value);
+        }
+
+        return date.toLocaleDateString();
+    }
+
+    function patientName(patient) {
+        const name = [
+            patient.first_name,
+            patient.last_name
+        ].filter(Boolean).join(" ");
+
+        return name || "Unknown Patient";
+    }
+
+    function appointmentPatient(appointment) {
+        const name = [
+            appointment.patient_first_name,
+            appointment.patient_last_name
+        ].filter(Boolean).join(" ");
+
+        return name || "Unknown Patient";
+    }
+
+    function consultationPatient(consultation) {
+        const name = [
+            consultation.patient_first_name,
+            consultation.patient_last_name
+        ].filter(Boolean).join(" ");
+
+        return name || "Unknown Patient";
+    }
+
+    function renderRecentActivity(appointments, consultations, payments) {
+        const activities = [];
+
+        appointments.forEach(item => {
+            activities.push({
+                date: item.appointment_date || item.date || item.created_at,
+                type: "Appointment",
+                patient: appointmentPatient(item),
+                provider: item.doctor || "—",
+                description: item.reason || item.notes || "Appointment",
+                status: item.status || "—"
+            });
+        });
+
+        consultations.forEach(item => {
+            activities.push({
+                date: item.consultation_date || item.created_at,
+                type: "Consultation",
+                patient: consultationPatient(item),
+                provider: item.doctor || "—",
+                description:
+                    item.diagnosis ||
+                    item.chief_complaint ||
+                    "Clinical Consultation",
+                status: "Recorded"
+            });
+        });
+
+        payments.forEach(item => {
+            activities.push({
+                date: item.paid_at || item.created_at,
+                type: "Payment",
+                patient: [
+                    item.patient_first_name,
+                    item.patient_last_name
+                ].filter(Boolean).join(" ") || "Unknown Patient",
+                provider: item.payment_provider || "—",
+                description:
+                    (item.payment_method || "Payment") +
+                    " " +
+                    (item.currency || "") +
+                    " " +
+                    (item.amount ?? ""),
+                status: item.status || "—"
+            });
+        });
+
+        activities.sort((a, b) => {
+            const dateA = new Date(a.date || 0).getTime();
+            const dateB = new Date(b.date || 0).getTime();
+            return dateB - dateA;
+        });
+
+        const recent = activities.slice(0, 12);
+        const container = document.getElementById("recentActivityContainer");
+
+        if (!recent.length) {
+            container.innerHTML =
+                '<div class="frantett-empty">No recent activity found.</div>';
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="frantett-table-wrap">
+                <table class="frantett-activity-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Patient</th>
+                            <th>Provider</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${recent.map(item => `
+                            <tr>
+                                <td>${escapeHtml(formatDate(item.date))}</td>
+                                <td>${escapeHtml(item.type)}</td>
+                                <td>${escapeHtml(item.patient)}</td>
+                                <td>${escapeHtml(item.provider)}</td>
+                                <td>${escapeHtml(item.description)}</td>
+                                <td>${escapeHtml(item.status)}</td>
+                            </tr>
+                        `).join("")}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    async function loadClinicalCounts(patients) {
+        let labRequests = 0;
+        let labReports = 0;
+        let prescriptions = 0;
+
+        for (const patient of patients) {
+            try {
+                const patientId = patient.id;
+
+                const results = await Promise.allSettled([
+                    fetchJson(
+                        `${API_URL}/api/patients/${patientId}/lab-requests`
+                    ),
+                    fetchJson(
+                        `${API_URL}/api/patients/${patientId}/lab-reports`
+                    ),
+                    fetchJson(
+                        `${API_URL}/api/patients/${patientId}/prescriptions`
+                    )
+                ]);
+
+                if (results[0].status === "fulfilled") {
+                    const data = results[0].value;
+                    labRequests += Array.isArray(data) ? data.length : 0;
+                }
+
+                if (results[1].status === "fulfilled") {
+                    const data = results[1].value;
+                    labReports += Array.isArray(data) ? data.length : 0;
+                }
+
+                if (results[2].status === "fulfilled") {
+                    const data = results[2].value;
+                    prescriptions += Array.isArray(data) ? data.length : 0;
+                }
+            } catch (error) {
+                console.warn(
+                    "Clinical report data unavailable for patient:",
+                    patient.id,
+                    error
+                );
+            }
+        }
+
+        document.getElementById("clinicalLabRequests").textContent =
+            labRequests;
+
+        document.getElementById("clinicalLabReports").textContent =
+            labReports;
+
+        document.getElementById("clinicalPrescriptions").textContent =
+            prescriptions;
+    }
+
+    async function loadReports() {
+        setStatus("Loading report data...");
+
+        try {
+            const [
+                patients,
+                appointments,
+                consultations,
+                payments
+            ] = await Promise.all([
+                fetchJson(`${API_URL}/api/patients`),
+                fetchJson(`${API_URL}/api/appointments`),
+                fetchJson(`${API_URL}/api/consultations`),
+                fetchJson(`${API_URL}/api/payments`)
+            ]);
+
+            const patientList = Array.isArray(patients) ? patients : [];
+            const appointmentList =
+                Array.isArray(appointments) ? appointments : [];
+            const consultationList =
+                Array.isArray(consultations) ? consultations : [];
+            const paymentList =
+                Array.isArray(payments) ? payments : [];
+
+            document.getElementById("totalPatients").textContent =
+                patientList.length;
+
+            document.getElementById("totalAppointments").textContent =
+                appointmentList.length;
+
+            document.getElementById("totalConsultations").textContent =
+                consultationList.length;
+
+            document.getElementById("totalPayments").textContent =
+                paymentList.length;
+
+            const appointmentCounts = {
+                pending: 0,
+                confirmed: 0,
+                completed: 0,
+                cancelled: 0
+            };
+
+            appointmentList.forEach(item => {
+                const status = normalizeStatus(item.status);
+
+                if (Object.prototype.hasOwnProperty.call(
+                    appointmentCounts,
+                    status
+                )) {
+                    appointmentCounts[status]++;
+                }
+            });
+
+            document.getElementById("appointmentsPending").textContent =
+                appointmentCounts.pending;
+
+            document.getElementById("appointmentsConfirmed").textContent =
+                appointmentCounts.confirmed;
+
+            document.getElementById("appointmentsCompleted").textContent =
+                appointmentCounts.completed;
+
+            document.getElementById("appointmentsCancelled").textContent =
+                appointmentCounts.cancelled;
+
+            const paymentCounts = {
+                paid: 0,
+                pending: 0,
+                failed: 0,
+                other: 0
+            };
+
+            paymentList.forEach(item => {
+                const status = normalizeStatus(item.status);
+
+                if (status === "paid") {
+                    paymentCounts.paid++;
+                } else if (status === "pending") {
+                    paymentCounts.pending++;
+                } else if (status === "failed") {
+                    paymentCounts.failed++;
+                } else {
+                    paymentCounts.other++;
+                }
+            });
+
+            document.getElementById("paymentsPaid").textContent =
+                paymentCounts.paid;
+
+            document.getElementById("paymentsPending").textContent =
+                paymentCounts.pending;
+
+            document.getElementById("paymentsFailed").textContent =
+                paymentCounts.failed;
+
+            document.getElementById("paymentsOther").textContent =
+                paymentCounts.other;
+
+            document.getElementById("clinicalConsultations").textContent =
+                consultationList.length;
+
+            renderRecentActivity(
+                appointmentList,
+                consultationList,
+                paymentList
+            );
+
+            await loadClinicalCounts(patientList);
+
+            setStatus("");
+        } catch (error) {
+            console.error("Reports loading error:", error);
+
+            setStatus(
+                error.message ||
+                "Unable to load report data."
+            );
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem("frantett_token");
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+    }
+
+    document.addEventListener("DOMContentLoaded", loadReports);
+</script>
+
+</body>
+</html>
