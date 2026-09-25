@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -257,46 +257,408 @@
         "https://" +
         window.location.hostname +
         ":3000";
-</script></head>
+</script><style id="frantett-staff-login-design">
+/* FRANTETT-STAFF-LOGIN-DESIGN-V1 */
+
+html,
+body {
+    min-height:100%;
+}
+
+body {
+    margin:0 !important;
+    background:#F3F7F5 !important;
+}
+
+.frantett-staff-login {
+    min-height:100vh !important;
+    display:grid !important;
+    grid-template-columns:minmax(360px,0.9fr) minmax(420px,1.1fr) !important;
+    align-items:stretch !important;
+    background:#F3F7F5 !important;
+}
+
+.login-brand-panel {
+    position:relative !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important;
+    align-items:center !important;
+    text-align:center !important;
+    padding:60px 50px !important;
+    background:#12355B !important;
+    color:#FFFFFF !important;
+    overflow:hidden !important;
+}
+
+.login-brand-panel::before,
+.login-brand-panel::after {
+    content:"" !important;
+    position:absolute !important;
+    border:1px solid rgba(255,255,255,.10) !important;
+    border-radius:50% !important;
+}
+
+.login-brand-panel::before {
+    width:420px !important;
+    height:420px !important;
+    top:-170px !important;
+    left:-170px !important;
+}
+
+.login-brand-panel::after {
+    width:360px !important;
+    height:360px !important;
+    bottom:-160px !important;
+    right:-140px !important;
+}
+
+.login-brand-icon {
+    position:relative !important;
+    z-index:1 !important;
+    width:64px !important;
+    height:64px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    margin-bottom:24px !important;
+    border-radius:18px !important;
+    background:#FFFFFF !important;
+    color:#12355B !important;
+    font-size:42px !important;
+    font-weight:700 !important;
+    line-height:1 !important;
+}
+
+.login-brand-name,
+.login-brand-divider,
+.login-brand-label,
+.login-brand-panel p {
+    position:relative !important;
+    z-index:1 !important;
+}
+
+.login-brand-name {
+    font-size:32px !important;
+    font-weight:800 !important;
+    letter-spacing:-.6px !important;
+}
+
+.login-brand-divider {
+    width:52px !important;
+    height:3px !important;
+    margin:18px 0 !important;
+    border-radius:999px !important;
+    background:#2E8B57 !important;
+}
+
+.login-brand-label {
+    color:#D9F3E6 !important;
+    font-size:14px !important;
+    font-weight:800 !important;
+    letter-spacing:2px !important;
+    text-transform:uppercase !important;
+}
+
+.login-brand-panel p {
+    max-width:310px !important;
+    margin:16px 0 0 !important;
+    color:rgba(255,255,255,.78) !important;
+    font-size:15px !important;
+    line-height:1.7 !important;
+}
+
+.frantett-staff-login .login-card {
+    align-self:center !important;
+    width:min(100%,500px) !important;
+    box-sizing:border-box !important;
+    margin:40px auto !important;
+    padding:48px !important;
+    background:#FFFFFF !important;
+    border:1px solid #E3ECE7 !important;
+    border-radius:22px !important;
+    box-shadow:0 18px 50px rgba(18,53,91,.10) !important;
+}
+
+.login-card-header {
+    margin-bottom:30px !important;
+}
+
+.login-eyebrow {
+    display:inline-block !important;
+    margin-bottom:12px !important;
+    color:#2E8B57 !important;
+    font-size:12px !important;
+    font-weight:800 !important;
+    letter-spacing:1.8px !important;
+}
+
+.frantett-staff-login .login-card h1 {
+    margin:0 0 10px !important;
+    color:#12355B !important;
+    font-size:38px !important;
+    line-height:1.15 !important;
+    font-weight:800 !important;
+    letter-spacing:-.8px !important;
+}
+
+.frantett-staff-login .login-card h1::before {
+    display:none !important;
+    content:none !important;
+}
+
+.frantett-staff-login .login-card .subtitle {
+    margin:0 !important;
+    color:#66727D !important;
+    font-size:15px !important;
+    line-height:1.6 !important;
+}
+
+.frantett-staff-login .form-group {
+    margin-bottom:22px !important;
+}
+
+.frantett-staff-login .form-group label {
+    display:block !important;
+    margin-bottom:8px !important;
+    color:#12355B !important;
+    font-size:14px !important;
+    font-weight:700 !important;
+}
+
+.frantett-staff-login .form-group input {
+    width:100% !important;
+    min-height:52px !important;
+    box-sizing:border-box !important;
+    padding:14px 15px !important;
+    border:1px solid #D5E0DB !important;
+    border-radius:10px !important;
+    background:#FFFFFF !important;
+    color:#183247 !important;
+    font-size:15px !important;
+    outline:none !important;
+    transition:border-color .2s ease,box-shadow .2s ease !important;
+}
+
+.frantett-staff-login .form-group input::placeholder {
+    color:#9AA5AE !important;
+}
+
+.frantett-staff-login .form-group input:hover {
+    border-color:#AFC5B9 !important;
+}
+
+.frantett-staff-login .form-group input:focus {
+    border-color:#2E8B57 !important;
+    box-shadow:0 0 0 3px rgba(46,139,87,.12) !important;
+}
+
+.password-field {
+    position:relative !important;
+}
+
+.password-field input {
+    padding-right:52px !important;
+}
+
+.password-field .password-toggle {
+    position:absolute !important;
+    top:50% !important;
+    right:10px !important;
+    transform:translateY(-50%) !important;
+    width:38px !important;
+    height:38px !important;
+    padding:0 !important;
+    border:0 !important;
+    background:transparent !important;
+    color:#60717D !important;
+    cursor:pointer !important;
+}
+
+.password-field .password-toggle:hover {
+    color:#2E8B57 !important;
+}
+
+.frantett-staff-login .login-btn {
+    width:100% !important;
+    min-height:52px !important;
+    margin-top:4px !important;
+    border:0 !important;
+    border-radius:10px !important;
+    background:#2E8B57 !important;
+    color:#FFFFFF !important;
+    font-size:15px !important;
+    font-weight:800 !important;
+    letter-spacing:.2px !important;
+    cursor:pointer !important;
+    transition:background .2s ease,transform .2s ease,box-shadow .2s ease !important;
+}
+
+.frantett-staff-login .login-btn:hover {
+    background:#267449 !important;
+    transform:translateY(-1px) !important;
+    box-shadow:0 8px 18px rgba(46,139,87,.20) !important;
+}
+
+.frantett-staff-login .login-btn:active {
+    transform:translateY(0) !important;
+}
+
+.frantett-staff-login .back-link {
+    display:block !important;
+    margin-top:22px !important;
+    text-align:center !important;
+    color:#2E8B57 !important;
+    font-size:14px !important;
+    font-weight:700 !important;
+    text-decoration:none !important;
+}
+
+.frantett-staff-login .back-link:hover {
+    color:#12355B !important;
+    text-decoration:underline !important;
+}
+
+@media (max-width:800px) {
+    .frantett-staff-login {
+        min-height:100vh !important;
+        display:block !important;
+        padding:24px 16px !important;
+        box-sizing:border-box !important;
+    }
+
+    .login-brand-panel {
+        min-height:auto !important;
+        padding:28px 22px !important;
+        border-radius:18px !important;
+        margin-bottom:16px !important;
+    }
+
+    .login-brand-icon {
+        width:50px !important;
+        height:50px !important;
+        margin-bottom:14px !important;
+        border-radius:14px !important;
+        font-size:32px !important;
+    }
+
+    .login-brand-name {
+        font-size:23px !important;
+    }
+
+    .login-brand-divider {
+        margin:12px 0 !important;
+    }
+
+    .login-brand-label {
+        font-size:11px !important;
+    }
+
+    .login-brand-panel p {
+        margin-top:9px !important;
+        font-size:13px !important;
+    }
+
+    .frantett-staff-login .login-card {
+        width:100% !important;
+        margin:0 !important;
+        padding:30px 22px !important;
+        border-radius:18px !important;
+    }
+
+    .frantett-staff-login .login-card h1 {
+        font-size:30px !important;
+    }
+
+    .frantett-staff-login .login-card .subtitle {
+        font-size:14px !important;
+    }
+}
+</style>
+<style id="frantett-staff-login-equal-height">
+/* FRANTETT-STAFF-LOGIN-EQUAL-HEIGHT-V1 */
+
+@media (min-width: 801px) {
+    .frantett-staff-login {
+        align-items: stretch !important;
+    }
+
+    .frantett-staff-login .login-brand-panel,
+    .frantett-staff-login .login-card {
+        height: 100% !important;
+        min-height: 560px !important;
+        box-sizing: border-box !important;
+    }
+}
+</style>
+<style id="frantett-staff-login-card-footer">
+/* FRANTETT-STAFF-LOGIN-CARD-FOOTER-V1 */
+
+.frantett-staff-login .login-card {
+    display:flex !important;
+    flex-direction:column !important;
+}
+
+.frantett-staff-login .login-card .back-link {
+    margin-top:18px !important;
+}
+
+.frantett-staff-login .login-card::after {
+    content:"Your Health, Our Priority";
+    display:block !important;
+    margin-top:auto !important;
+    padding-top:24px !important;
+    border-top:2px solid #2E8B57 !important;
+    color:#12355B !important;
+    font-size:13px !important;
+    font-weight:700 !important;
+    letter-spacing:.5px !important;
+    text-align:center !important;
+}
+
+@media (max-width:800px) {
+    .frantett-staff-login .login-card::after {
+        margin-top:24px !important;
+        padding-top:18px !important;
+    }
+}
+</style>
+</head>
 
 
 <body>
 
-    <div class="login-container">
+    <div class="login-container frantett-staff-login">
 
-        <div class="login-card">
-
-            <h1>
-                FranTett Healthcare
-            </h1>
-
-            <p class="subtitle">
-                Staff Login
+        <section class="login-brand-panel">
+            <div class="login-brand-icon">+</div>
+            <div class="login-brand-name">FranTett Healthcare</div>
+            <div class="login-brand-divider"></div>
+            <div class="login-brand-label">Staff Portal</div>
+            <p>
+                Secure access for FranTett Healthcare professionals.
             </p>
+        </section>
 
+        <section class="login-card">
 
-            <!-- =========================
-                 MESSAGE
-            ========================= -->
+            <div class="login-card-header">
+                <span class="login-eyebrow">STAFF PORTAL</span>
+                <h1>Welcome Back</h1>
+                <p class="subtitle">
+                    Sign in to access your FranTett Healthcare staff portal.
+                </p>
+            </div>
 
             <div
                 id="message"
                 class="message"
             ></div>
 
-
-            <!-- =========================
-                 LOGIN FORM
-            ========================= -->
-
             <form id="loginForm">
 
                 <div class="form-group">
-
-                    <label for="email">
-                        Email
-                    </label>
-
+                    <label for="email">Email</label>
                     <input
                         type="email"
                         id="email"
@@ -304,26 +666,27 @@
                         autocomplete="email"
                         required
                     >
-
                 </div>
-
 
                 <div class="form-group">
-
-                    <label for="password">
-                        Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Enter your password"
-                        autocomplete="current-password"
-                        required
-                    >
-
+                    <label for="password">Password</label>
+                    <div class="password-field">
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            aria-label="Show password"
+                        >
+                            &#128065;
+                        </button>
+                    </div>
                 </div>
-
 
                 <button
                     type="submit"
@@ -335,19 +698,16 @@
 
             </form>
 
-
             <a
                 href="appointment.html"
                 class="back-link"
             >
-                Back to booking
+                &#8592; Back to booking
             </a>
 
-        </div>
+        </section>
 
     </div>
-
-
 <script>
 
     const API_URL = window.FRANTETT_API;
@@ -576,6 +936,26 @@
 
 </script>
 
+<script id="frantett-password-eye-fix">
+/* FRANTETT-PASSWORD-EYE-FIX-V1 */
+(function () {
+    const passwordInput = document.getElementById("password");
+    const toggleButton = document.querySelector(".password-toggle");
+
+    if (!passwordInput || !toggleButton) return;
+
+    toggleButton.addEventListener("click", function () {
+        const showing = passwordInput.type === "text";
+
+        passwordInput.type = showing ? "password" : "text";
+        toggleButton.innerHTML = showing ? "&#128065;" : "&#128064;";
+        toggleButton.setAttribute(
+            "aria-label",
+            showing ? "Show password" : "Hide password"
+        );
+    });
+})();
+</script>
 </body>
 
 </html>

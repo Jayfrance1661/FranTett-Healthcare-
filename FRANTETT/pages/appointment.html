@@ -1,94 +1,632 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Appointment - FranTett Healthcare</title>
 
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style.css">    <link rel="stylesheet" href="../frantett-theme.css">
+<style id="frantett-appointment-ui-v1">
+/* FRANTETT-APPOINTMENT-UI-V1 */
+
+.frantett-appointment-header {
+    background: #12355B !important;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+}
+
+.frantett-appointment-nav {
+    width: min(1180px, calc(100% - 40px));
+    min-height: 78px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.frantett-appointment-logo {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+}
+
+.frantett-appointment-logo-mark {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    color: #12355B;
+    border-radius: 10px;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.frantett-appointment-logo-text {
+    display: flex;
+    flex-direction: column;
+    color: #FFFFFF !important;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.frantett-appointment-logo-text small {
+    margin-top: 4px;
+    color: rgba(255,255,255,.82);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.frantett-appointment-links {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+}
+
+.frantett-appointment-links a {
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+    font-size: 14px;
+    font-weight: 700;
+    transition: opacity .2s ease;
+}
+
+.frantett-appointment-links a:hover,
+.frantett-appointment-links a.active {
+    opacity: .78;
+}
+
+.frantett-appointment-page {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 55px 0 70px;
+}
+
+.frantett-appointment-heading {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.frantett-appointment-kicker {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #16745F;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .12em;
+}
+
+.frantett-appointment-heading h1 {
+    margin: 0;
+    color: #17352D;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.12;
+    font-weight: 800;
+}
+
+.frantett-appointment-heading p {
+    margin: 12px auto 0;
+    max-width: 620px;
+    color: #61746D;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.frantett-appointment-card {
+    display: grid;
+    grid-template-columns: minmax(320px, .85fr) minmax(0, 1.35fr);
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 1px solid #DCE8E3;
+    border-radius: 24px;
+    box-shadow: 0 20px 55px rgba(18,53,91,.12);
+}
+
+.frantett-appointment-info {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(150deg, #08745F 0%, #0B5D50 100%);
+    color: #FFFFFF;
+    padding: 38px;
+}
+
+.frantett-appointment-info::after {
+    content: "";
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    right: -100px;
+    top: -100px;
+    border: 1px solid rgba(255,255,255,.13);
+    border-radius: 50%;
+}
+
+.frantett-appointment-info-content {
+    position: relative;
+    z-index: 2;
+}
+
+.frantett-info-badge {
+    display: inline-block;
+    padding: 7px 11px;
+    border: 1px solid rgba(255,255,255,.24);
+    border-radius: 999px;
+    background: rgba(255,255,255,.10);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .05em;
+}
+
+.frantett-appointment-info h2 {
+    margin: 24px 0 14px;
+    max-width: 390px;
+    color: #FFFFFF;
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+.frantett-info-description {
+    max-width: 420px;
+    margin: 0;
+    color: rgba(255,255,255,.82);
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.frantett-provider-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 58px;
+    padding: 15px;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 16px;
+    background: rgba(255,255,255,.10);
+    backdrop-filter: blur(8px);
+}
+
+.frantett-provider-avatar {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #FFFFFF;
+    color: #08745F;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.frantett-provider-card strong {
+    display: block;
+    color: #FFFFFF;
+    font-size: 14px;
+}
+
+.frantett-provider-card span {
+    display: block;
+    margin-top: 3px;
+    color: rgba(255,255,255,.72);
+    font-size: 11px;
+}
+
+.frantett-booking-benefits {
+    display: grid;
+    gap: 12px;
+    margin-top: 55px;
+}
+
+.frantett-booking-benefits div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255,255,255,.9);
+    font-size: 13px;
+}
+
+.frantett-booking-benefits div > span {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.frantett-appointment-form-panel {
+    padding: 38px;
+    background: #FFFFFF;
+}
+
+.frantett-form-header {
+    margin-bottom: 27px;
+}
+
+.frantett-form-header > span {
+    color: #168066;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.frantett-form-header h2 {
+    margin: 6px 0 6px;
+    color: #17352D;
+    font-size: 25px;
+}
+
+.frantett-form-header p {
+    margin: 0;
+    color: #71817B;
+    font-size: 13px;
+}
+
+.frantett-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 19px 18px;
+}
+
+.frantett-form-field {
+    min-width: 0;
+}
+
+.frantett-form-field-full {
+    grid-column: 1 / -1;
+}
+
+.frantett-form-field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #29453D;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.frantett-form-field input,
+.frantett-form-field select,
+.frantett-form-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #D6E3DE;
+    border-radius: 10px;
+    background: #FBFDFC;
+    color: #233A34;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.frantett-form-field input,
+.frantett-form-field select {
+    min-height: 48px;
+    padding: 0 13px;
+}
+
+.frantett-form-field textarea {
+    min-height: 120px;
+    padding: 12px 13px;
+    resize: vertical;
+}
+
+.frantett-form-field input:focus,
+.frantett-form-field select:focus,
+.frantett-form-field textarea:focus {
+    border-color: #168066;
+    box-shadow: 0 0 0 3px rgba(22,128,102,.10);
+}
+
+.frantett-schedule-message {
+    min-height: 18px;
+    margin: 7px 0 0;
+    color: #176B87;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.frantett-book-appointment-button {
+    width: 100%;
+    min-height: 52px;
+    margin-top: 25px;
+    border: 0;
+    border-radius: 11px;
+    background: #08745F;
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(8,116,95,.20);
+    transition: transform .2s ease, background .2s ease;
+}
+
+.frantett-book-appointment-button:hover {
+    background: #075F4F;
+    transform: translateY(-1px);
+}
+
+.frantett-appointment-message {
+    margin: 14px 0 0;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.frantett-appointment-footer {
+    padding: 24px 20px;
+    border-top: 1px solid #E1EAE6;
+    background: #F7FAF8;
+    color: #71817B;
+    text-align: center;
+    font-size: 12px;
+}
+
+@media (max-width: 800px) {
+    .frantett-appointment-nav {
+        width: calc(100% - 28px);
+        min-height: 68px;
+    }
+
+    .frantett-appointment-logo-text {
+        font-size: 16px;
+    }
+
+    .frantett-appointment-logo-text small {
+        display: none;
+    }
+
+    .frantett-appointment-links {
+        display: none;
+    }
+
+    .frantett-appointment-page {
+        width: calc(100% - 24px);
+        padding: 32px 0 45px;
+    }
+
+    .frantett-appointment-heading {
+        margin-bottom: 22px;
+    }
+
+    .frantett-appointment-heading h1 {
+        font-size: 30px;
+    }
+
+    .frantett-appointment-heading p {
+        font-size: 14px;
+    }
+
+    .frantett-appointment-card {
+        grid-template-columns: 1fr;
+        border-radius: 18px;
+    }
+
+    .frantett-appointment-info {
+        padding: 27px 22px;
+    }
+
+    .frantett-appointment-info h2 {
+        margin-top: 19px;
+        font-size: 25px;
+    }
+
+    .frantett-provider-card {
+        margin-top: 38px;
+    }
+
+    .frantett-booking-benefits {
+        margin-top: 38px;
+    }
+
+    .frantett-appointment-form-panel {
+        padding: 27px 20px 25px;
+    }
+
+    .frantett-form-grid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .frantett-form-field-full {
+        grid-column: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+    <header class="frantett-appointment-header">
+        <div class="frantett-appointment-nav">
+            <a href="home.html" class="frantett-appointment-logo">
+                <span class="frantett-appointment-logo-mark">+</span>
+                <span class="frantett-appointment-logo-text">
+                    FranTett Healthcare
+                    <small>Your Health, Our Priority</small>
+                </span>
+            </a>
+
+            <nav class="frantett-appointment-links" aria-label="Main navigation">
+                <a href="home.html">Home</a>
+                <a href="doctors.html">Doctors</a>
+                <a href="services.html">Services</a>
+                <a href="appointment.html" class="active">Appointments</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="frantett-appointment-page">
+
+        <div class="frantett-appointment-heading">
+            <span class="frantett-appointment-kicker">PATIENT APPOINTMENTS</span>
+            <h1>Book an Appointment</h1>
+            <p>Schedule your visit with a FranTett Healthcare provider.</p>
+        </div>
+
+        <section class="frantett-appointment-card">
+
+            <div class="frantett-appointment-info">
+                <div class="frantett-appointment-info-content">
+                    
+
+                    <h2>Healthcare that starts with the right appointment.</h2>
+
+                    <p class="frantett-info-description">
+                    </p>
+
+                    <div class="frantett-provider-card">
+                        <div class="frantett-provider-avatar">+</div>
+                        <div>
+                            <strong>FranTett Healthcare Providers</strong>
+                            <span>Professional care tailored to your needs</span>
+                        </div>
+                    </div>
+
+                    <div class="frantett-booking-benefits">
+                        <div>
+                            <span>✓</span>
+                            <strong>Trusted healthcare providers</strong>
+                        </div>
+                        <div>
+                            <span>✓</span>
+                            <strong>Flexible appointment scheduling</strong>
+                        </div>
+                        <div>
+                            <span>✓</span>
+                            <strong>Patient-centered care</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="frantett-appointment-form-panel">
+
+                <div class="frantett-form-header">
+                    <span>Appointment Details</span>
+                    <h2>Schedule Your Visit</h2>
+                    <p>Enter your information below to request an appointment.</p>
+                </div>
+
+                <form id="appointmentForm">
+
+                    <div class="frantett-form-grid">
+
+                        <div class="frantett-form-field">
+                            <label for="appointment-name">Full Name</label>
+                            <input
+                                type="text"
+                                id="appointment-name"
+                                name="name"
+                                placeholder="Enter your full name"
+                                required
+                            >
+                        </div>
+
+                        <div class="frantett-form-field">
+                            <label for="appointment-email">Email Address</label>
+                            <input
+                                type="email"
+                                id="appointment-email"
+                                name="email"
+                                placeholder="Enter your email address"
+                                required
+                            >
+                        </div>
+
+                        <div class="frantett-form-field">
+                            <label for="appointment-phone">Phone Number</label>
+                            <input
+                                type="tel"
+                                id="appointment-phone"
+                                name="phone"
+                                placeholder="Enter your phone number"
+                                required
+                            >
+                        </div>
+
+                        <div class="frantett-form-field frantett-form-field-full">
+                            <label for="doctorSelect">Select a Doctor</label>
+                            <select name="doctor" id="doctorSelect" required>
+                                <option value="">Loading doctors...</option>
+                            </select>
+                            <p
+                                id="doctorScheduleMessage"
+                                class="frantett-schedule-message"
+                            ></p>
+                        </div>
+
+                        <div class="frantett-form-field">
+                            <label for="appointment_date">Appointment Date</label>
+                            <input
+                                type="date"
+                                id="appointment_date"
+                                name="appointment_date"
+                                required
+                            >
+                        </div>
+
+                        <div class="frantett-form-field">
+                            <label for="appointment_time">Appointment Time</label>
+                            <input
+                                type="time"
+                                id="appointment_time"
+                                name="appointment_time"
+                                required
+                            >
+                        </div>
+
+                        <div class="frantett-form-field frantett-form-field-full">
+                            <label for="appointment-reason">Reason for Appointment</label>
+                            <textarea
+                                id="appointment-reason"
+                                name="reason"
+                                placeholder="Briefly describe the reason for your appointment"
+                                rows="5"
+                            ></textarea>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="frantett-book-appointment-button">
+                        Book Appointment
+                    </button>
+
+                </form>
+
+                <p id="message" class="frantett-appointment-message"></p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="frantett-appointment-footer">
+        © 2026 FranTett Healthcare. All rights reserved.
+    </footer>
+
+
+
 <script>
     window.FRANTETT_API =
         "https://" +
         window.location.hostname +
         ":3000";
-</script></head>
-
-<body>
-
-    <nav>
-        <h2>FranTett Healthcare</h2>
-
-        <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="doctors.html">Doctors</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="appointment.html">Appointments</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
-
-    <main>
-        <h1>Book an Appointment</h1>
-
-        <form id="appointmentForm">
-
-            <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                required
-            >
-
-            <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                required
-            >
-
-            <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                required
-            >
-
-            <label for="doctorSelect">Select a Doctor</label>
-            <select name="doctor" id="doctorSelect" required><option value="">Loading doctors...</option></select><p id="doctorScheduleMessage" style="margin:8px 0;font-size:14px;color:#176b87;"></p>
-
-            <label for="appointment_date">Appointment Date</label>
-
-            <input
-                type="date"
-                id="appointment_date"
-                name="appointment_date"
-                required
-            >
-
-            <label for="appointment_time">Appointment Time</label>
-
-            <input
-                type="time"
-                id="appointment_time"
-                name="appointment_time"
-                required
-            >
-
-            <textarea
-                name="reason"
-                placeholder="Reason for appointment"
-                rows="5"
-            ></textarea>
-
-            <button type="submit">Book Appointment</button>
-
-        </form>
-
-        <p id="message"></p>
-
-    </main>
-
-    <script>
+</script> <script>
         const form = document.getElementById("appointmentForm");
         const message = document.getElementById("message");
 
@@ -153,7 +691,7 @@
                         doctor.name +
                         (
                             doctor.specialty
-                                ? " â€” " + doctor.specialty
+                                ? " \u2014 " + doctor.specialty
                                 : ""
                         );
 
@@ -507,8 +1045,7 @@
                     "Unable to connect to the server.";
             }
         });
-    </script>
-
+    </script> <script src="../frantett-theme.js"></script>
 </body>
 </html>
 

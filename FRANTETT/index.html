@@ -1689,6 +1689,214 @@
 
         }
 </style>
+
+<style id="frantett-mobile-register-login">
+/* FRANTETT-MOBILE-REGISTER-LOGIN-SHORTCUT-V1 */
+
+.mobile-register-login {
+    display: none !important;
+}
+
+@media (max-width: 900px) {
+
+    .mobile-register-login {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        color: #FFFFFF !important;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.2;
+        text-decoration: none !important;
+        white-space: nowrap;
+        padding: 8px 10px;
+        border: 1px solid rgba(255,255,255,.60);
+        border-radius: 8px;
+        margin-left: auto;
+        margin-right: 8px;
+        flex: 0 0 auto;
+    }
+
+    .mobile-register-login:hover,
+    .mobile-register-login:focus {
+        color: #12355B !important;
+        background: #FFFFFF !important;
+    }
+
+}
+</style>
+
+<style id="frantett-mobile-navbar-spacing-fix">
+/* FRANTETT-MOBILE-NAVBAR-SPACING-FIX-V1 */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        gap: 6px !important;
+    }
+
+    .navbar .logo {
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+    }
+
+    .navbar .logo-text {
+        min-width: 0 !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .mobile-register-login {
+        margin-left: 0 !important;
+        margin-right: 4px !important;
+        flex: 0 0 auto !important;
+        font-size: 11px !important;
+        padding: 7px 8px !important;
+    }
+
+    .navbar .menu-toggle {
+        display: flex !important;
+        flex: 0 0 44px !important;
+        width: 44px !important;
+        min-width: 44px !important;
+        height: 44px !important;
+        min-height: 44px !important;
+        align-items: center !important;
+        justify-content: center !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        z-index: 10001 !important;
+    }
+
+}
+</style>
+<style id="frantett-mobile-brand-visibility">
+/* FRANTETT-MOBILE-BRAND-VISIBILITY-FIX-V1 */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        gap: 4px !important;
+    }
+
+    .navbar .logo {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+    }
+
+    .navbar .logo-text {
+        font-size: 16px !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+    }
+
+    .navbar .logo-text span {
+        display: none !important;
+    }
+
+    .mobile-register-login {
+        flex: 0 0 auto !important;
+        margin: 0 2px !important;
+        font-size: 10px !important;
+        padding: 6px 7px !important;
+    }
+
+    .navbar .menu-toggle {
+        flex: 0 0 42px !important;
+        width: 42px !important;
+        min-width: 42px !important;
+        height: 42px !important;
+        min-height: 42px !important;
+        padding: 0 !important;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+}
+</style>
+<style id="frantett-mobile-register-login-only">
+/* FRANTETT-MOBILE-REGISTER-LOGIN-ONLY-V1 */
+
+@media (max-width: 900px) {
+
+    #navMenu.frantett-login-only > li {
+        display: none !important;
+    }
+
+    #navMenu.frantett-login-only > li.top-login {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    #navMenu.frantett-login-only {
+        padding: 10px 14px !important;
+    }
+
+    #navMenu.frantett-login-only .top-login > button {
+        display: none !important;
+    }
+
+    #navMenu.frantett-login-only .top-login-menu {
+        display: flex !important;
+        position: static !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        flex-direction: column !important;
+    }
+
+    #navMenu.frantett-login-only .top-login-menu a {
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+}
+</style>
+<style id="frantett-mobile-login-text-visibility">
+/* FRANTETT-MOBILE-LOGIN-TEXT-VISIBILITY-V1 */
+
+@media (max-width: 900px) {
+
+    #navMenu.frantett-login-only .top-login-menu a {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        color: #FFFFFF !important;
+        background: transparent !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        line-height: 1.4 !important;
+        text-decoration: none !important;
+        padding: 13px 12px !important;
+        min-height: 44px !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    #navMenu.frantett-login-only .top-login-menu a:hover,
+    #navMenu.frantett-login-only .top-login-menu a:focus {
+        color: #12355B !important;
+        background: #FFFFFF !important;
+    }
+
+    #navMenu.frantett-login-only .top-login-menu .menu-divider {
+        display: block !important;
+        width: 100% !important;
+        height: 1px !important;
+        margin: 6px 0 !important;
+        background: rgba(255,255,255,.25) !important;
+    }
+
+}
+</style>
 </head>
 
 <body>
@@ -1718,6 +1926,14 @@
                 </div>
 
             </a>
+            <a
+                href="#"
+                class="mobile-register-login"
+                id="mobileRegisterLogin"
+                aria-label="Register or Log in"
+            >
+                Register / Log in
+            </a>
 
             <button
                 class="menu-toggle"
@@ -1740,26 +1956,26 @@
                 </li>
 
                 <li>
-                    <a href="pages/doctors.html">
+                    <a href="doctors.html">
                         Doctors
                     </a>
                 </li>
 
                 <li>
-                    <a href="pages/services.html">
+                    <a href="services.html">
                         Services
                     </a>
                 </li>
 
                 <li>
-                    <a href="pages/contact.html">
+                    <a href="contact.html">
                         Contact
                     </a>
                 </li>
 
                 <li>
                     <a
-                        href="pages/book-appointment.html"
+                        href="book-appointment.html"
                         class="nav-book"
                     >
                         Book Appointment
@@ -1780,21 +1996,21 @@
                         id="topLoginMenu"
                     >
 
-                        <a href="pages/patient-login.html">
+                        <a href="patient-login.html">
                             Patient Login
                         </a>
 
-                        <a href="pages/patient-register.html">
+                        <a href="patient-register.html">
                             Register
                         </a>
 
                         <div class="menu-divider"></div>
 
-                        <a href="pages/login.html">
+                        <a href="login.html">
                             Staff Login
                         </a>
 
-                        <a href="pages/staff-register.html">
+                        <a href="staff-register.html">
                             Staff Register
                         </a>
 
@@ -1847,14 +2063,14 @@
                     <div class="hero-buttons">
 
                         <a
-                            href="pages/book-appointment.html"
+                            href="book-appointment.html"
                             class="btn btn-primary"
                         >
                             📅 Book an Appointment
                         </a>
 
                         <a
-                            href="pages/doctors.html"
+                            href="doctors.html"
                             class="btn btn-outline"
                         >
                             👨‍⚕️ Meet Our Doctors
@@ -2070,7 +2286,7 @@
                         </p>
 
                         <a
-                            href="pages/services.html"
+                            href="services.html"
                             class="service-link"
                         >
                             Learn More →
@@ -2094,7 +2310,7 @@
                         </p>
 
                         <a
-                            href="pages/services.html"
+                            href="services.html"
                             class="service-link"
                         >
                             Learn More →
@@ -2119,7 +2335,7 @@
                         </p>
 
                         <a
-                            href="pages/services.html"
+                            href="services.html"
                             class="service-link"
                         >
                             Learn More →
@@ -2144,7 +2360,7 @@
                         </p>
 
                         <a
-                            href="pages/services.html"
+                            href="services.html"
                             class="service-link"
                         >
                             Learn More →
@@ -2168,7 +2384,7 @@
                         </p>
 
                         <a
-                            href="pages/services.html"
+                            href="services.html"
                             class="service-link"
                         >
                             Learn More →
@@ -2193,7 +2409,7 @@
                         </p>
 
                         <a
-                            href="pages/services.html"
+                            href="services.html"
                             class="service-link"
                         >
                             Learn More →
@@ -2621,14 +2837,14 @@
                                 <div class="portal-actions">
 
                                     <a
-                                        href="pages/patient-login.html"
+                                        href="patient-login.html"
                                         class="btn btn-primary"
                                     >
                                         Patient Sign In
                                     </a>
 
                                     <a
-                                        href="pages/patient-register.html"
+                                        href="patient-register.html"
                                         class="btn btn-outline"
                                     >
                                         Create Patient Account
@@ -2660,7 +2876,7 @@
                                 <div class="portal-actions">
 
                                     <a
-                                        href="pages/login.html"
+                                        href="login.html"
                                         class="btn btn-primary"
                                     >
                                         Staff Sign In
@@ -2695,7 +2911,7 @@
                     </div>
 
                     <a
-                        href="pages/book-appointment.html"
+                        href="book-appointment.html"
                         class="btn"
                     >
                         📅 Book Appointment
@@ -2796,7 +3012,7 @@
                 <div style="text-align:center; margin-top:30px;">
 
                     <a
-                        href="pages/contact.html"
+                        href="contact.html"
                         class="btn btn-primary"
                     >
                         Contact FranTett Healthcare
@@ -2848,19 +3064,19 @@
                     </li>
 
                     <li>
-                        <a href="pages/doctors.html">
+                        <a href="doctors.html">
                             Doctors
                         </a>
                     </li>
 
                     <li>
-                        <a href="pages/services.html">
+                        <a href="services.html">
                             Services
                         </a>
                     </li>
 
                     <li>
-                        <a href="pages/contact.html">
+                        <a href="contact.html">
                             Contact
                         </a>
                     </li>
@@ -2878,25 +3094,25 @@
                 <ul>
 
                     <li>
-                        <a href="pages/book-appointment.html">
+                        <a href="book-appointment.html">
                             Book Appointment
                         </a>
                     </li>
 
                     <li>
-                        <a href="pages/doctors.html">
+                        <a href="doctors.html">
                             Find a Doctor
                         </a>
                     </li>
 
                     <li>
-                        <a href="pages/services.html">
+                        <a href="services.html">
                             Healthcare Services
                         </a>
                     </li>
 
                     <li>
-                        <a href="pages/contact.html">
+                        <a href="contact.html">
                             Contact Us
                         </a>
                     </li>
@@ -2914,25 +3130,25 @@
                 <ul>
 
                     <li>
-                        <a href="pages/services.html">
+                        <a href="services.html">
                             General Consultation
                         </a>
                     </li>
 
                     <li>
-                        <a href="pages/services.html">
+                        <a href="services.html">
                             Preventive Care
                         </a>
                     </li>
 
                     <li>
-                        <a href="pages/services.html">
+                        <a href="services.html">
                             Follow-Up Care
                         </a>
                     </li>
 
                     <li>
-                        <a href="pages/contact.html">
+                        <a href="contact.html">
                             Support
                         </a>
                     </li>
@@ -3152,6 +3368,124 @@
 
         })();
     </script>
+
+<script>
+/* FRANTETT-MOBILE-REGISTER-LOGIN-SHORTCUT-JS-V1 */
+
+(function () {
+
+    const shortcut =
+        document.getElementById("mobileRegisterLogin");
+
+    const topLogin =
+        document.getElementById("topLogin");
+
+    const topLoginButton =
+        document.getElementById("topLoginButton");
+
+    if (!shortcut || !topLogin || !topLoginButton) {
+        return;
+    }
+
+    shortcut.addEventListener("click", function (event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const navMenu =
+            document.getElementById("navMenu");
+
+        if (navMenu) {
+            navMenu.classList.add("open");
+        }
+
+        topLogin.classList.add("open");
+
+        topLoginButton.setAttribute(
+            "aria-expanded",
+            "true"
+        );
+
+    });
+
+})();
+</script>
+<script>
+/* FRANTETT-MOBILE-REGISTER-LOGIN-ONLY-V1 */
+
+(function () {
+
+    const shortcut =
+        document.getElementById("mobileRegisterLogin");
+
+    const navMenu =
+        document.getElementById("navMenu");
+
+    const topLogin =
+        document.getElementById("topLogin");
+
+    const menuToggle =
+        document.getElementById("menuToggle");
+
+    if (!shortcut || !navMenu || !topLogin) {
+        return;
+    }
+
+    shortcut.addEventListener("click", function (event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        navMenu.classList.add("open");
+        navMenu.classList.add("frantett-login-only");
+
+        topLogin.classList.add("open");
+
+    });
+
+    if (menuToggle) {
+
+        menuToggle.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    navMenu.classList.contains(
+                        "frantett-login-only"
+                    )
+                ) {
+
+                    event.stopImmediatePropagation();
+
+                    navMenu.classList.remove(
+                        "frantett-login-only"
+                    );
+
+                    navMenu.classList.remove("open");
+
+                    topLogin.classList.remove("open");
+
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    menuToggle.setAttribute(
+                        "aria-label",
+                        "Open navigation menu"
+                    );
+
+                    return;
+                }
+
+            },
+            true
+        );
+
+    }
+
+})();
+</script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-const cors = require("cors");
+﻿const cors = require("cors");
 const express = require("express");
 const https = require("https");
 const fs = require("fs");
@@ -10,6 +10,7 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const { AccessToken } = require("livekit-server-sdk");
 const Stripe = require("stripe");
+const multer = require("multer");
 require("dotenv").config();
 
 // ==========================================
@@ -115,6 +116,65 @@ app.get(["/","/index.html"], (req, res) => {
 
 const PORT = 3000;
 
+// ==========================================
+// FRANTETT PATIENT DOCUMENT STORAGE
+// ==========================================
+// FRANTETT-PATIENT-DOCUMENT-STORAGE-V1
+
+const patientDocumentsDirectory =
+    path.join(__dirname, "private", "patient-documents");
+
+if (!fs.existsSync(patientDocumentsDirectory)) {
+    fs.mkdirSync(patientDocumentsDirectory, {
+        recursive: true
+    });
+}
+
+const patientDocumentStorage =
+    multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, patientDocumentsDirectory);
+        },
+
+        filename: (req, file, cb) => {
+            const extension =
+                path.extname(file.originalname).toLowerCase();
+
+            const uniqueName =
+                crypto.randomBytes(24).toString("hex") +
+                extension;
+
+            cb(null, uniqueName);
+        }
+    });
+
+const patientDocumentUpload =
+    multer({
+        storage: patientDocumentStorage,
+        limits: {
+            fileSize: 10 * 1024 * 1024
+        },
+        fileFilter: (req, file, cb) => {
+            const allowedTypes = [
+                "application/pdf",
+                "image/jpeg",
+                "image/png",
+                "image/webp",
+                "application/msword",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            ];
+
+            if (!allowedTypes.includes(file.mimetype)) {
+                return cb(
+                    new Error(
+                        "Unsupported document type."
+                    )
+                );
+            }
+
+            cb(null, true);
+        }
+    });
 // ==========================================
 // JWT SECRET
 // ==========================================
@@ -636,19 +696,57 @@ app.put(
 
             }
 
-            await client.query(
-                `
-                INSERT INTO users
-                    (email, password, role)
-                VALUES
-                    ($1, $2, $3)
-                `,
-                [
-                    request.email.toLowerCase(),
-                    request.password,
-                    request.role
-                ]
-            );
+            const newUserResult =
+                await client.query(
+                    `
+                    INSERT INTO users
+                        (email, password, role, full_name, phone)
+                    VALUES
+                        ($1, $2, $3, $4, $5)
+                    RETURNING id
+                    `,
+                    [
+                        request.email.toLowerCase(),
+                        request.password,
+                        request.role,
+                        request.full_name,
+                        request.phone
+                    ]
+                );
+
+            const newUserId =
+                newUserResult.rows[0].id;
+
+            // ----------------------------------
+            // DOCTOR ACCOUNT â†’ DOCTOR PROFILE
+            // ----------------------------------
+            if (
+                String(request.role).trim().toLowerCase() ===
+                "doctor"
+            ) {
+
+                await client.query(
+                    `
+                    INSERT INTO doctors
+                        (
+                            name,
+                            email,
+                            phone,
+                            user_id,
+                            status
+                        )
+                    VALUES
+                        ($1, $2, $3, $4, 'Active')
+                    `,
+                    [
+                        request.full_name,
+                        request.email.toLowerCase(),
+                        request.phone,
+                        newUserId
+                    ]
+                );
+
+            }
 
             await client.query(
                 `
@@ -1272,7 +1370,9 @@ function requireAdmin(req, res, next) {
         });
 
     }
-
+}
+
+
 
 /* ============================================================
    FRANTETT-SECURITY-SETTINGS-API-BEGIN
@@ -1509,6 +1609,87 @@ async function sendSecurityEmail({
     });
 }
 
+async function requireDoctorAccount(req, res, next) {
+
+    if (!req.user || !req.user.id) {
+
+        return res.status(401).json({
+            message: "Authentication required."
+        });
+
+    }
+
+    try {
+
+        const result =
+            await pool.query(
+                `
+                SELECT
+                    u.id AS user_id,
+                    u.email AS user_email,
+                    u.full_name AS user_name,
+                    u.phone AS user_phone,
+                    u.role AS user_role,
+                    u.status AS user_status,
+
+                    d.id AS doctor_id,
+                    d.name AS doctor_name,
+                    d.email AS doctor_email,
+                    d.phone AS doctor_phone,
+                    d.specialty,
+                    d.license_number,
+                    d.status AS doctor_status
+
+                FROM users u
+
+                INNER JOIN doctors d
+                    ON d.user_id = u.id
+
+                WHERE u.id = $1
+
+                  AND LOWER(TRIM(u.role)) =
+                      'doctor'
+
+                  AND LOWER(TRIM(u.status)) =
+                      'active'
+
+                  AND LOWER(TRIM(d.status)) =
+                      'active'
+
+                LIMIT 1
+                `,
+                [req.user.id]
+            );
+
+        if (result.rows.length === 0) {
+
+            return res.status(403).json({
+                message:
+                    "Active Doctor account is not linked to a Doctor profile."
+            });
+
+        }
+
+        req.doctorAccount =
+            result.rows[0];
+
+        next();
+
+    } catch (error) {
+
+        console.error(
+            "Error verifying Doctor account:",
+            error
+        );
+
+        return res.status(500).json({
+            message:
+                "Unable to verify Doctor account."
+        });
+
+    }
+
+}
 async function requireStaffAccount(req, res, next) {
 
     if (!req.user || !req.user.id) {
@@ -1865,7 +2046,7 @@ async function verifySecurityCode({
     };
 }
 
-/* REQUEST EMAIL CHANGE — SEND CODE TO CURRENT EMAIL */
+/* REQUEST EMAIL CHANGE Ã¢â‚¬â€ SEND CODE TO CURRENT EMAIL */
 
 app.post(
     "/api/settings/email/request",
@@ -1937,7 +2118,7 @@ app.post(
                 await sendSecurityEmail({
                     to: currentEmail,
                     subject:
-                        "FranTett Healthcare — Email Change Verification",
+                        "FranTett Healthcare Ã¢â‚¬â€ Email Change Verification",
                     title:
                         "Verify Your Email Change",
                     message:
@@ -2002,7 +2183,7 @@ app.post(
     }
 );
 
-/* VERIFY CURRENT EMAIL CODE — SEND SECOND CODE TO NEW EMAIL */
+/* VERIFY CURRENT EMAIL CODE Ã¢â‚¬â€ SEND SECOND CODE TO NEW EMAIL */
 
 app.post(
     "/api/settings/email/verify-current",
@@ -2096,7 +2277,7 @@ app.post(
                 await sendSecurityEmail({
                     to: newEmail,
                     subject:
-                        "FranTett Healthcare — Confirm New Email Address",
+                        "FranTett Healthcare Ã¢â‚¬â€ Confirm New Email Address",
                     title:
                         "Confirm Your New Email Address",
                     message:
@@ -2267,7 +2448,7 @@ app.post(
                     to:
                         newEmail,
                     subject:
-                        "FranTett Healthcare — Confirm New Email Address",
+                        "FranTett Healthcare Ã¢â‚¬â€ Confirm New Email Address",
                     title:
                         "Confirm Your New Email Address",
                     message:
@@ -2349,7 +2530,7 @@ app.post(
 );
 
 /* FRANTETT-SECURITY-EMAIL-RESEND-NEW-END */
-/* VERIFY NEW EMAIL — COMPLETE EMAIL CHANGE */
+/* VERIFY NEW EMAIL Ã¢â‚¬â€ COMPLETE EMAIL CHANGE */
 
 app.post(
     "/api/settings/email/verify-new",
@@ -2480,7 +2661,7 @@ app.post(
                 await sendSecurityEmail({
                     to: oldEmail,
                     subject:
-                        "FranTett Healthcare — Email Address Changed",
+                        "FranTett Healthcare Ã¢â‚¬â€ Email Address Changed",
                     title:
                         "Email Address Changed",
                     message:
@@ -2520,7 +2701,7 @@ app.post(
     }
 );
 
-/* REQUEST PASSWORD CHANGE — SEND CODE */
+/* REQUEST PASSWORD CHANGE Ã¢â‚¬â€ SEND CODE */
 
 app.post(
     "/api/settings/password/request",
@@ -2548,7 +2729,7 @@ app.post(
                 await sendSecurityEmail({
                     to: currentEmail,
                     subject:
-                        "FranTett Healthcare — Password Change Verification",
+                        "FranTett Healthcare Ã¢â‚¬â€ Password Change Verification",
                     title:
                         "Verify Your Password Change",
                     message:
@@ -2791,7 +2972,7 @@ app.post(
                             req.staffAccount.email
                         ),
                     subject:
-                        "FranTett Healthcare — Password Changed",
+                        "FranTett Healthcare Ã¢â‚¬â€ Password Changed",
                     title:
                         "Password Changed Successfully",
                     message:
@@ -2833,8 +3014,6 @@ app.post(
    FRANTETT-SECURITY-SETTINGS-API-END
    ============================================================ */
 
-    next();
-}
 function authenticatePatient(
     req,
     res,
@@ -2892,6 +3071,915 @@ function authenticatePatient(
 
 }
 
+// ==========================================
+// FRANTETT PATIENT DOCUMENT API
+// ==========================================
+// FRANTETT-PATIENT-DOCUMENT-API-V1
+
+// Patient: upload a document for their own patient record.
+app.post(
+    "/api/patient/documents",
+    authenticatePatient,
+    patientDocumentUpload.single("document"),
+    async (req, res) => {
+
+        try {
+
+            if (!req.file) {
+                return res.status(400).json({
+                    message:
+                        "A document file is required."
+                });
+            }
+
+            const patientId =
+                Number(req.patient.id);
+
+            if (
+                !Number.isInteger(patientId) ||
+                patientId <= 0
+            ) {
+
+                fs.unlink(
+                    req.file.path,
+                    () => {}
+                );
+
+                return res.status(400).json({
+                    message:
+                        "Invalid patient account."
+                });
+            }
+
+            const {
+                document_name,
+                appointment_id,
+                consultation_id
+            } = req.body;
+
+            const documentName =
+                String(
+                    document_name ||
+                    req.file.originalname
+                ).trim();
+
+            if (!documentName) {
+
+                fs.unlink(
+                    req.file.path,
+                    () => {}
+                );
+
+                return res.status(400).json({
+                    message:
+                        "Document name is required."
+                });
+            }
+
+            const appointmentId =
+                appointment_id
+                    ? Number(appointment_id)
+                    : null;
+
+            const consultationId =
+                consultation_id
+                    ? Number(consultation_id)
+                    : null;
+
+            const result =
+                await pool.query(
+                    `
+                    INSERT INTO patient_documents (
+                        patient_id,
+                        appointment_id,
+                        consultation_id,
+                        document_name,
+                        original_filename,
+                        stored_filename,
+                        mime_type,
+                        file_size,
+                        uploaded_by_type,
+                        uploaded_by_id
+                    )
+                    VALUES (
+                        $1,
+                        $2,
+                        $3,
+                        $4,
+                        $5,
+                        $6,
+                        $7,
+                        $8,
+                        $9,
+                        $10
+                    )
+                    RETURNING
+                        id,
+                        patient_id,
+                        appointment_id,
+                        consultation_id,
+                        document_name,
+                        original_filename,
+                        mime_type,
+                        file_size,
+                        uploaded_by_type,
+                        uploaded_at
+                    `,
+                    [
+                        patientId,
+                        Number.isInteger(appointmentId)
+                            ? appointmentId
+                            : null,
+                        Number.isInteger(consultationId)
+                            ? consultationId
+                            : null,
+                        documentName,
+                        req.file.originalname,
+                        req.file.filename,
+                        req.file.mimetype,
+                        req.file.size,
+                        "patient",
+                        patientId
+                    ]
+                );
+
+            return res.status(201).json({
+                success: true,
+                document: result.rows[0]
+            });
+
+        } catch (error) {
+
+            if (req.file && req.file.path) {
+                fs.unlink(
+                    req.file.path,
+                    () => {}
+                );
+            }
+
+            console.error(
+                "Error uploading patient document:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to upload document."
+            });
+        }
+    }
+);
+
+
+// Patient: list only their own documents.
+app.get(
+    "/api/patient/documents",
+    authenticatePatient,
+    async (req, res) => {
+
+        try {
+
+            const patientId =
+                Number(req.patient.id);
+
+            if (
+                !Number.isInteger(patientId) ||
+                patientId <= 0
+            ) {
+                return res.status(400).json({
+                    message:
+                        "Invalid patient account."
+                });
+            }
+
+            const result =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        patient_id,
+                        appointment_id,
+                        consultation_id,
+                        document_name,
+                        original_filename,
+                        mime_type,
+                        file_size,
+                        uploaded_by_type,
+                        uploaded_at
+                    FROM patient_documents
+                    WHERE patient_id = $1
+                    ORDER BY uploaded_at DESC, id DESC
+                    `,
+                    [patientId]
+                );
+
+            return res.json({
+                success: true,
+                documents: result.rows
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error loading patient documents:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to load documents."
+            });
+        }
+    }
+);
+// ==========================================
+// FRANTETT DOCTOR APPOINTMENT DOCUMENT ACCESS
+// ==========================================
+// FRANTETT-DOCTOR-APPOINTMENT-DOCUMENT-LIST-V1
+//
+// Doctors may only list documents attached
+// to appointments assigned to their own
+// linked Doctor profile.
+// ==========================================
+
+app.get(
+    "/api/doctor/appointments/:appointmentId/documents",
+    authenticateToken,
+    requireDoctorAccount,
+    async (req, res) => {
+
+        try {
+
+            const appointmentId =
+                Number(req.params.appointmentId);
+
+            if (
+                !Number.isInteger(appointmentId) ||
+                appointmentId <= 0
+            ) {
+
+                return res.status(400).json({
+                    message:
+                        "Valid appointment ID is required."
+                });
+
+            }
+
+            const result =
+                await pool.query(
+                    `
+                    SELECT
+                        pd.id,
+                        pd.patient_id,
+                        pd.appointment_id,
+                        pd.consultation_id,
+                        pd.document_name,
+                        pd.original_filename,
+                        pd.mime_type,
+                        pd.file_size,
+                        pd.uploaded_by_type,
+                        pd.uploaded_at
+
+                    FROM patient_documents pd
+
+                    INNER JOIN appointments a
+                        ON a.id = pd.appointment_id
+
+                    WHERE pd.appointment_id = $1
+
+                      AND a.doctor_id =
+                          $2
+
+                    ORDER BY
+                        pd.uploaded_at DESC,
+                        pd.id DESC
+                    `,
+                    [
+                        appointmentId,
+                        req.doctorAccount.doctor_id
+                    ]
+                );
+
+            return res.json(
+                result.rows
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Error loading Doctor appointment documents:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to load appointment documents."
+            });
+
+        }
+
+    }
+);
+
+// ==========================================
+// ==========================================
+// FRANTETT STAFF DOCUMENT ACCESS
+// ==========================================
+// FRANTETT-STAFF-DOCUMENT-ACCESS-V1
+
+// Staff/doctor: list documents belonging to a patient.
+app.get(
+    "/api/patients/:patientId/documents",
+    authenticateToken,
+    async (req, res) => {
+
+        try {
+
+            const patientId =
+                Number(req.params.patientId);
+
+            if (
+                !Number.isInteger(patientId) ||
+                patientId <= 0
+            ) {
+                return res.status(400).json({
+                    message:
+                        "Valid patient ID is required."
+                });
+            }
+
+            const patientResult =
+                await pool.query(
+                    `
+                    SELECT id
+                    FROM patients
+                    WHERE id = $1
+                    `,
+                    [patientId]
+                );
+
+            if (patientResult.rows.length === 0) {
+                return res.status(404).json({
+                    message:
+                        "Patient not found."
+                });
+            }
+
+            const result =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        patient_id,
+                        appointment_id,
+                        consultation_id,
+                        document_name,
+                        original_filename,
+                        mime_type,
+                        file_size,
+                        uploaded_by_type,
+                        uploaded_at
+                    FROM patient_documents
+                    WHERE patient_id = $1
+                    ORDER BY uploaded_at DESC, id DESC
+                    `,
+                    [patientId]
+                );
+
+            return res.json({
+                success: true,
+                documents: result.rows
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error loading staff patient documents:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to load patient documents."
+            });
+        }
+    }
+);
+
+
+// ==========================================
+// FRANTETT DOCTOR APPOINTMENT DOCUMENT FILE
+// ==========================================
+// FRANTETT-DOCTOR-APPOINTMENT-DOCUMENT-FILE-V1
+//
+// Doctors may only open documents attached
+// to appointments assigned to their own
+// linked Doctor profile.
+// ==========================================
+
+app.get(
+    "/api/doctor/appointment-documents/:id/file",
+    authenticateToken,
+    requireDoctorAccount,
+    async (req, res) => {
+
+        try {
+
+            const documentId =
+                Number(req.params.id);
+
+            if (
+                !Number.isInteger(documentId) ||
+                documentId <= 0
+            ) {
+
+                return res.status(400).json({
+                    message:
+                        "Valid document ID is required."
+                });
+
+            }
+
+            const result =
+                await pool.query(
+                    `
+                    SELECT
+                        pd.id,
+                        pd.original_filename,
+                        pd.stored_filename,
+                        pd.mime_type,
+                        pd.file_size
+
+                    FROM patient_documents pd
+
+                    INNER JOIN appointments a
+                        ON a.id = pd.appointment_id
+
+                    WHERE pd.id = $1
+
+                      AND a.doctor_id =
+                          $2
+
+                    LIMIT 1
+                    `,
+                    [
+                        documentId,
+                        req.doctorAccount.doctor_id
+                    ]
+                );
+
+            if (result.rows.length === 0) {
+
+                return res.status(404).json({
+                    message:
+                        "Document not found or not assigned to this Doctor."
+                });
+
+            }
+
+            const document =
+                result.rows[0];
+
+            const filePath =
+                path.join(
+                    patientDocumentsDirectory,
+                    document.stored_filename
+                );
+
+            if (!fs.existsSync(filePath)) {
+
+                return res.status(404).json({
+                    message:
+                        "Document file is unavailable."
+                });
+
+            }
+
+            res.setHeader(
+                "Content-Type",
+                document.mime_type
+            );
+
+            res.setHeader(
+                "Content-Length",
+                String(document.file_size)
+            );
+
+            res.setHeader(
+                "Content-Disposition",
+                `inline; filename="${document.original_filename.replace(/"/g, "")}"`
+            );
+
+            return res.sendFile(filePath);
+
+        } catch (error) {
+
+            console.error(
+                "Error loading Doctor appointment document file:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to open appointment document."
+            });
+
+        }
+
+    }
+);
+
+// ==========================================
+// Staff/doctor: securely view a patient's document file.
+app.get(
+    "/api/patient-documents/:id/file",
+    authenticateToken,
+    async (req, res) => {
+
+        try {
+
+            const documentId =
+                Number(req.params.id);
+
+            if (
+                !Number.isInteger(documentId) ||
+                documentId <= 0
+            ) {
+                return res.status(400).json({
+                    message:
+                        "Valid document ID is required."
+                });
+            }
+
+            const result =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        original_filename,
+                        stored_filename,
+                        mime_type,
+                        file_size
+                    FROM patient_documents
+                    WHERE id = $1
+                    `,
+                    [documentId]
+                );
+
+            if (result.rows.length === 0) {
+                return res.status(404).json({
+                    message:
+                        "Document not found."
+                });
+            }
+
+            const document =
+                result.rows[0];
+
+            const filePath =
+                path.join(
+                    patientDocumentsDirectory,
+                    document.stored_filename
+                );
+
+            if (!fs.existsSync(filePath)) {
+                return res.status(404).json({
+                    message:
+                        "Document file is unavailable."
+                });
+            }
+
+            res.setHeader(
+                "Content-Type",
+                document.mime_type
+            );
+
+            res.setHeader(
+                "Content-Length",
+                String(document.file_size)
+            );
+
+            res.setHeader(
+                "Content-Disposition",
+                `inline; filename="${document.original_filename.replace(/"/g, "")}"`
+            );
+
+            return res.sendFile(filePath);
+
+        } catch (error) {
+
+            console.error(
+                "Error viewing patient document:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to open document."
+            });
+        }
+    }
+);
+// ==========================================
+// ==========================================
+// FRANTETT PATIENT DOCUMENT VIEW API
+// ==========================================
+// FRANTETT PATIENT DOCUMENT VIEW API V1
+
+app.get(
+    "/api/patient/documents/:id/file",
+    authenticatePatient,
+    async (req, res) => {
+
+        try {
+
+            const documentId =
+                Number(req.params.id);
+
+            if (
+                !Number.isInteger(documentId) ||
+                documentId <= 0
+            ) {
+                return res.status(400).json({
+                    message:
+                        "Valid document ID is required."
+                });
+            }
+
+            const patientId =
+                Number(req.patient.id);
+
+            if (
+                !Number.isInteger(patientId) ||
+                patientId <= 0
+            ) {
+                return res.status(403).json({
+                    message:
+                        "Patient identity is invalid."
+                });
+            }
+
+            const result =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        patient_id,
+                        original_filename,
+                        stored_filename,
+                        mime_type,
+                        file_size
+                    FROM patient_documents
+                    WHERE id = $1
+                      AND patient_id = $2
+                    `,
+                    [documentId, patientId]
+                );
+
+            if (result.rows.length === 0) {
+                return res.status(404).json({
+                    message:
+                        "Document not found."
+                });
+            }
+
+            const document =
+                result.rows[0];
+
+            const filePath =
+                path.join(
+                    patientDocumentsDirectory,
+                    document.stored_filename
+                );
+
+            if (!fs.existsSync(filePath)) {
+                return res.status(404).json({
+                    message:
+                        "Document file is unavailable."
+                });
+            }
+
+            res.setHeader(
+                "Content-Type",
+                document.mime_type
+            );
+
+            res.setHeader(
+                "Content-Length",
+                String(document.file_size)
+            );
+
+            res.setHeader(
+                "Content-Disposition",
+                `inline; filename="${document.original_filename.replace(/"/g, "")}"`
+            );
+
+            return res.sendFile(filePath);
+
+        } catch (error) {
+
+            console.error(
+                "Error viewing patient document:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to open document."
+            });
+        }
+    }
+);
+
+
+    // Patient: delete only their own uploaded document.
+    app.delete(
+        "/api/patient/documents/:id",
+        authenticatePatient,
+        async (req, res) => {
+
+            try {
+
+                const patientId =
+                    Number(req.patient.id);
+
+                const documentId =
+                    Number(req.params.id);
+
+                if (
+                    !Number.isInteger(patientId) ||
+                    patientId <= 0
+                ) {
+                    return res.status(400).json({
+                        message:
+                            "Invalid patient account."
+                    });
+                }
+
+                if (
+                    !Number.isInteger(documentId) ||
+                    documentId <= 0
+                ) {
+                    return res.status(400).json({
+                        message:
+                            "Invalid document ID."
+                    });
+                }
+
+                const result =
+                    await pool.query(
+                        `
+                        SELECT
+                            id,
+                            stored_filename
+                        FROM patient_documents
+                        WHERE id = $1
+                          AND patient_id = $2
+                        `,
+                        [
+                            documentId,
+                            patientId
+                        ]
+                    );
+
+                if (result.rows.length === 0) {
+                    return res.status(404).json({
+                        message:
+                            "Document not found."
+                    });
+                }
+
+                const document =
+                    result.rows[0];
+
+                const filePath =
+                    path.join(
+                        patientDocumentsDirectory,
+                        document.stored_filename
+                    );
+
+                if (fs.existsSync(filePath)) {
+                    fs.unlinkSync(filePath);
+                }
+
+                await pool.query(
+                    `
+                    DELETE FROM patient_documents
+                    WHERE id = $1
+                      AND patient_id = $2
+                    `,
+                    [
+                        documentId,
+                        patientId
+                    ]
+                );
+
+                return res.json({
+                    success: true,
+                    message:
+                        "Document removed successfully."
+                });
+
+            } catch (error) {
+
+                console.error(
+                    "Error removing patient document:",
+                    error
+                );
+
+                return res.status(500).json({
+                    message:
+                        "Unable to remove document."
+                });
+            }
+        }
+    );
+
+// FRANTETT DOCUMENT DELETE API
+// ==========================================
+// FRANTETT-DOCUMENT-DELETE-API-V1
+
+// Staff/doctor: delete a patient document.
+app.delete(
+    "/api/patient-documents/:id",
+    authenticateToken,
+    async (req, res) => {
+
+        try {
+
+            const documentId =
+                Number(req.params.id);
+
+            if (
+                !Number.isInteger(documentId) ||
+                documentId <= 0
+            ) {
+                return res.status(400).json({
+                    message:
+                        "Valid document ID is required."
+                });
+            }
+
+            const result =
+                await pool.query(
+                    `
+                    SELECT
+                        id,
+                        stored_filename
+                    FROM patient_documents
+                    WHERE id = $1
+                    `,
+                    [documentId]
+                );
+
+            if (result.rows.length === 0) {
+                return res.status(404).json({
+                    message:
+                        "Document not found."
+                });
+            }
+
+            const document =
+                result.rows[0];
+
+            const filePath =
+                path.join(
+                    patientDocumentsDirectory,
+                    document.stored_filename
+                );
+
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
+
+            await pool.query(
+                `
+                DELETE FROM patient_documents
+                WHERE id = $1
+                `,
+                [documentId]
+            );
+
+            return res.json({
+                success: true,
+                message:
+                    "Document deleted successfully."
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error deleting patient document:",
+                error
+            );
+
+            return res.status(500).json({
+                message:
+                    "Unable to delete document."
+            });
+        }
+    }
+);
 // ==========================================
 // ==========================================
 // PATIENT LIVEKIT VIDEO TOKEN
@@ -4454,7 +5542,84 @@ app.get(
     authenticateToken,
     async (req, res) => {
 
-        try {
+        try { 
+            // ------------------------------------------
+            // DOCTOR APPOINTMENT ACCESS
+            // ------------------------------------------
+            // Doctors only receive appointments assigned
+            // to their linked Doctor profile.
+            // Admin/Staff continue through the existing
+            // appointment query below.
+            // ------------------------------------------
+
+            if (
+                String(req.user?.role || "")
+                    .trim()
+                    .toLowerCase() ===
+                "doctor"
+            ) {
+
+                const doctorResult =
+                    await pool.query(
+                        `
+                        SELECT
+                            d.id AS doctor_id,
+                            d.status AS doctor_status
+                        FROM doctors d
+                        INNER JOIN users u
+                            ON d.user_id = u.id
+                        WHERE d.user_id = $1
+                          AND LOWER(TRIM(u.role)) = 'doctor'
+                          AND LOWER(TRIM(u.status)) = 'active'
+                          AND LOWER(TRIM(d.status)) = 'active'
+                        LIMIT 1
+                        `,
+                        [req.user.id]
+                    );
+
+                if (doctorResult.rows.length === 0) {
+
+                    return res.status(403).json({
+                        message:
+                            "Active Doctor account is not linked to an active Doctor profile."
+                    });
+
+                }
+
+                const doctorId =
+                    doctorResult.rows[0].doctor_id;
+
+                const doctorAppointments =
+                    await pool.query(
+                        `
+                        SELECT
+                            a.*,
+                            p.first_name AS patient_first_name,
+                            p.last_name AS patient_last_name,
+                            p.email AS patient_email,
+                            p.phone AS patient_phone,
+                            p.date_of_birth AS patient_date_of_birth,
+                            p.gender AS patient_gender,
+                            p.address AS patient_address,
+                            p.medical_history AS patient_medical_history,
+                            p.allergies AS patient_allergies,
+                            p.medications AS patient_medications,
+                            p.notes AS patient_notes
+                        FROM appointments a
+                        LEFT JOIN patients p
+                            ON a.patient_id = p.id
+                        WHERE a.doctor_id = $1
+                        ORDER BY a.created_at DESC
+                        `,
+                        [doctorId]
+                    );
+
+                return res.json(
+                    doctorAppointments.rows
+                );
+
+            }
+
 
             const result =
                 await pool.query(
@@ -5275,7 +6440,7 @@ app.get(
 
 // ==========================================
  // ==========================================
- // GET ALL CONSULTATIONS — STAFF WORKSPACE
+ // GET ALL CONSULTATIONS Ã¢â‚¬â€ STAFF WORKSPACE
  // ==========================================
 
  app.get(
@@ -6594,7 +7759,7 @@ app.get(
                         (
                             SELECT string_agg(
                                 pi.medication_name,
-                                ' • '
+                                ' Ã¢â‚¬Â¢ '
                                 ORDER BY pi.id
                             )
                             FROM prescription_items pi
@@ -9382,7 +10547,7 @@ app.post(
 );
 
 
-/* GET ALL PAYMENTS — ADMIN STAFF WORKSPACE */
+/* GET ALL PAYMENTS Ã¢â‚¬â€ ADMIN STAFF WORKSPACE */
 app.get(
     "/api/payments",
     authenticateToken,
@@ -10225,6 +11390,9 @@ https.createServer(
 
     }
 );
+
+
+
 
 
 

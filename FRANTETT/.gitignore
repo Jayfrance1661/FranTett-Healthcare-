@@ -48,3 +48,8 @@ database-backups/
 
 # Local editor / operating-system files
 .vscode/
+
+# =====================================================
+# Private patient documents — NEVER commit to Git
+# =====================================================
+private/

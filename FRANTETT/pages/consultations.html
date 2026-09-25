@@ -404,7 +404,7 @@
             }
 
             .table-wrap {
-                display: none;
+                display: none !important;
             }
 
             .mobile-list {
@@ -416,11 +416,590 @@
             }
         }
     </style>
+<!-- FRANTETT-NAVY-STAFF-SIDEBAR-BEGIN -->
+<style id="frantett-navy-staff-sidebar">
+    /*
+       FranTett Staff Portal
+       Navy sidebar — CSS-only visual override
+       No JavaScript, API, database, or navigation changes.
+    */
+
+    .frantett-sidebar,
+    aside.frantett-sidebar,
+    .sidebar.frantett-sidebar {
+        background: #0B1F3A !important;
+        color: #FFFFFF !important;
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-brand {
+        background: #0B1F3A !important;
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-brand-text strong {
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-brand-text span {
+        color: #B8C6D6 !important;
+    }
+
+    .frantett-sidebar-section-label {
+        color: #91A7BF !important;
+    }
+
+    .frantett-sidebar-link {
+        color: #D7E1EC !important;
+        background: transparent !important;
+    }
+
+    .frantett-sidebar-link:hover {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-link.active {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-link.active::before {
+        background: var(--frt-green, #2E7D32) !important;
+    }
+
+    .frantett-sidebar-icon {
+        color: currentColor !important;
+    }
+
+    .frantett-sidebar-logout {
+        background: transparent !important;
+        color: #D7E1EC !important;
+    }
+
+    .frantett-sidebar-logout:hover {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-bottom {
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-disabled {
+        color: #7F93A8 !important;
+    }
+
+    .frantett-sidebar-disabled:hover {
+        background: rgba(255,255,255,0.05) !important;
+        color: #A9B8C8 !important;
+    }
+</style>
+<!-- FRANTETT-NAVY-STAFF-SIDEBAR-END -->
+<!-- FRANTETT-REAL-SIDEBAR-NAVY-FIX-BEGIN -->
+<style id="frantett-real-sidebar-navy-fix">
+    #frantett-real-staff-sidebar {
+        background: #0B1F3A !important;
+        border-right-color: rgba(255,255,255,0.10) !important;
+        box-shadow: 3px 0 18px rgba(11,31,58,0.18) !important;
+    }
+<style id="FRANTETT-MOBILE-CONSULTATIONS-DESIGN-V1">
+/*
+    FranTett Consultations
+    Mobile presentation only.
+    Existing desktop table and rendering logic are preserved.
+*/
+
+@media (max-width: 800px) {
+
+    /* --------------------------------------------------------
+       MOBILE PAGE CONTAINER
+       -------------------------------------------------------- */
+
+    .page-shell {
+        width: calc(100% - 24px) !important;
+        max-width: 700px !important;
+        padding-top: 16px !important;
+    }
+
+    .page-heading {
+        gap: 12px !important;
+    }
+
+    .page-heading h1 {
+        font-size: 24px !important;
+        line-height: 1.2 !important;
+        margin-bottom: 4px !important;
+    }
+
+    .page-heading p {
+        font-size: 13px !important;
+        line-height: 1.45 !important;
+    }
+
+    .summary-card {
+        width: 100% !important;
+        padding: 13px 15px !important;
+        border-radius: 10px !important;
+    }
+
+    /* --------------------------------------------------------
+       MOBILE LIST
+       -------------------------------------------------------- */
+
+    .mobile-list {
+        display: block !important;
+        width: 100% !important;
+        background: transparent !important;
+    }
+
+    /* --------------------------------------------------------
+       CONSULTATION CARD
+       -------------------------------------------------------- */
+
+    .mobile-card {
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        margin: 0 0 12px 0 !important;
+        padding: 16px !important;
+
+        background: var(--frantett-theme-surface, #ffffff) !important;
+        color: var(--frantett-theme-text, #20302a) !important;
+
+        border: 1px solid
+            var(--frantett-theme-border, #dfe7e3) !important;
+
+        border-radius: 14px !important;
+
+        box-shadow:
+            0 2px 8px rgba(15, 99, 58, 0.06) !important;
+    }
+
+    .mobile-card:last-child {
+        margin-bottom: 0 !important;
+        border-bottom: 1px solid
+            var(--frantett-theme-border, #dfe7e3) !important;
+    }
+
+    /* --------------------------------------------------------
+       PATIENT / CONSULTATION HEADER
+       -------------------------------------------------------- */
+
+    .mobile-card-header {
+        display: block !important;
+        margin: 0 0 15px 0 !important;
+        padding: 0 0 13px 0 !important;
+
+        border-bottom: 1px solid
+            var(--frantett-theme-border, #dfe7e3) !important;
+    }
+
+    .mobile-patient {
+        font-size: 18px !important;
+        line-height: 1.3 !important;
+        font-weight: 800 !important;
+
+        color:
+            var(--frantett-theme-heading, #173b2b) !important;
+    }
+
+    .mobile-id {
+        margin-top: 5px !important;
+
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+
+        color:
+            var(--frantett-theme-muted, #68766f) !important;
+    }
+
+    /* --------------------------------------------------------
+       CLINICAL INFORMATION
+       -------------------------------------------------------- */
+
+    .mobile-field {
+        margin-top: 13px !important;
+    }
+
+    .mobile-label {
+        display: block !important;
+        margin: 0 0 4px 0 !important;
+
+        font-size: 10px !important;
+        line-height: 1.3 !important;
+        font-weight: 800 !important;
+
+        letter-spacing: 0.55px !important;
+        text-transform: uppercase !important;
+
+        color:
+            var(--frantett-theme-muted, #68766f) !important;
+    }
+
+    .mobile-value {
+        font-size: 14px !important;
+        line-height: 1.45 !important;
+
+        color:
+            var(--frantett-theme-text, #20302a) !important;
+
+        overflow-wrap: anywhere !important;
+        word-break: normal !important;
+    }
+
+    /* Diagnosis gets stronger visual emphasis. */
+    .mobile-field:nth-of-type(5) .mobile-value {
+        font-weight: 800 !important;
+        color:
+            var(--frantett-theme-heading, #173b2b) !important;
+    }
+
+    /* --------------------------------------------------------
+       ACTION BUTTONS
+       -------------------------------------------------------- */
+
+    .mobile-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+
+        margin-top: 17px !important;
+        padding-top: 14px !important;
+
+        border-top: 1px solid
+            var(--frantett-theme-border, #dfe7e3) !important;
+    }
+
+    .mobile-actions .action-btn {
+        width: 100% !important;
+        min-height: 44px !important;
+        box-sizing: border-box !important;
+
+        padding: 10px 8px !important;
+
+        border-radius: 9px !important;
+
+        font-size: 11.5px !important;
+        line-height: 1.25 !important;
+        font-weight: 800 !important;
+    }
+
+    .mobile-actions .action-primary {
+        background:
+            var(--frantett-theme-green, #167c4a) !important;
+
+        border-color:
+            var(--frantett-theme-green, #167c4a) !important;
+
+        color: #ffffff !important;
+    }
+
+    .mobile-actions .action-secondary {
+        background:
+            var(--frantett-theme-surface-soft, #f8fbf9) !important;
+
+        border-color:
+            var(--frantett-theme-border, #dfe7e3) !important;
+
+        color:
+            var(--frantett-theme-green, #167c4a) !important;
+    }
+
+    /* --------------------------------------------------------
+       DARK THEME
+       -------------------------------------------------------- */
+
+    html[data-theme="dark"] .mobile-card {
+        box-shadow:
+            0 2px 10px rgba(0, 0, 0, 0.22) !important;
+    }
+
+    html[data-theme="dark"] .mobile-actions .action-secondary {
+        background: #182230 !important;
+        border-color: #374151 !important;
+        color: #86efac !important;
+    }
+}
+</style>
+</style>
+<!-- FRANTETT-REAL-SIDEBAR-NAVY-FIX-END -->
+    <link rel="stylesheet" href="../frantett-theme.css">
+<style id="FRANTETT-MOBILE-STAFF-NAV-CSS-V1">
+.frantett-mobile-nav-toggle,
+.frantett-mobile-nav,
+.frantett-mobile-nav-overlay {
+    display: none;
+}
+
+@media (max-width: 800px) {
+
+    .frantett-mobile-nav-toggle {
+        display: flex !important;
+        width: 42px;
+        height: 42px;
+        margin-left: auto;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        border: 1px solid rgba(22,124,74,0.25);
+        border-radius: 10px;
+        background: #FFFFFF;
+        cursor: pointer;
+        flex-shrink: 0;
+        padding: 0;
+    }
+
+    .frantett-mobile-nav-toggle span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        border-radius: 2px;
+        background: #167C4A;
+    }
+
+    .frantett-mobile-nav-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9998;
+        background: rgba(11,31,58,0.48);
+    }
+
+    .frantett-mobile-nav-overlay.is-open {
+        display: block !important;
+    }
+
+    .frantett-mobile-nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: min(82vw, 330px);
+        height: 100vh;
+        z-index: 9999;
+        display: flex !important;
+        flex-direction: column;
+        background: #FFFFFF;
+        box-shadow: -8px 0 28px rgba(11,31,58,0.20);
+        transform: translateX(105%);
+        transition: transform 0.22s ease;
+        overflow-y: auto;
+    }
+
+    .frantett-mobile-nav.is-open {
+        transform: translateX(0);
+    }
+
+    .frantett-mobile-nav-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 20px 18px;
+        background: #0B1F3A;
+        color: #FFFFFF;
+    }
+
+    .frantett-mobile-nav-header strong {
+        display: block;
+        font-size: 16px;
+        line-height: 1.3;
+    }
+
+    .frantett-mobile-nav-header span {
+        display: block;
+        margin-top: 3px;
+        font-size: 11px;
+        color: #B8C6D6;
+    }
+
+    .frantett-mobile-nav-close {
+        border: 1px solid rgba(255,255,255,0.25);
+        border-radius: 8px;
+        background: transparent;
+        color: #FFFFFF;
+        padding: 8px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .frantett-mobile-nav-links {
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+        gap: 4px;
+    }
+
+    .frantett-mobile-nav-links a,
+    .frantett-mobile-nav-logout {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 48px;
+        box-sizing: border-box;
+        padding: 12px 14px;
+        border: 0;
+        border-radius: 9px;
+        background: transparent;
+        color: #243447;
+        text-decoration: none;
+        text-align: left;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .frantett-mobile-nav-links a:hover,
+    .frantett-mobile-nav-links a:focus-visible {
+        background: #E8F5EE;
+        color: #167C4A;
+    }
+
+    .frantett-mobile-nav-logout {
+        margin-top: 8px;
+        border-top: 1px solid #E5EAF0;
+        border-radius: 0;
+        color: #B42318;
+    }
+
+    html[data-theme="dark"] .frantett-mobile-nav {
+        background: #111827;
+    }
+
+    html[data-theme="dark"] .frantett-mobile-nav-toggle {
+        background: #111827;
+        border-color: rgba(134,239,172,0.30);
+    }
+
+    html[data-theme="dark"] .frantett-mobile-nav-toggle span {
+        background: #86EFAC;
+    }
+
+    html[data-theme="dark"] .frantett-mobile-nav-links a,
+    html[data-theme="dark"] .frantett-mobile-nav-logout {
+        color: #E5E7EB;
+    }
+
+    html[data-theme="dark"] .frantett-mobile-nav-links a:hover,
+    html[data-theme="dark"] .frantett-mobile-nav-links a:focus-visible {
+        background: #173B2A;
+        color: #86EFAC;
+    }
+
+    html[data-theme="dark"] .frantett-mobile-nav-logout {
+        border-top-color: rgba(255,255,255,0.10);
+    }
+}
+</style>
+<style id="FRANTETT-CONSULTATIONS-MOBILE-FIELD-HEADINGS-V1">
+@media (max-width: 800px) {
+    .mobile-label {
+        color: #167c4a !important;
+    }
+
+    html[data-theme="dark"] .mobile-label {
+        color: #86efac !important;
+    }
+}
+</style>
+
+<style id="FRANTETT-MOBILE-MENU-LEFT-CENTER-V1">
+@media (max-width: 800px) {
+
+    .staff-topbar {
+        position: relative !important;
+    }
+
+    .staff-topbar .frantett-mobile-nav-toggle {
+        position: absolute !important;
+        left: 12px !important;
+        right: auto !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .staff-topbar .brand {
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        margin: 0 !important;
+        width: max-content !important;
+    }
+
+}
+</style>
+
+<style id="FRANTETT-MOBILE-HEADER-NO-FT-V1">
+@media (max-width: 800px) {
+
+    .staff-topbar .brand-mark {
+        display: none !important;
+    }
+
+    .staff-topbar .brand-text {
+        text-align: left !important;
+    }
+
+    .staff-topbar .brand-text strong {
+        display: block !important;
+        text-align: center !important;
+    }
+
+    .staff-topbar .brand-text span {
+        display: block !important;
+        text-align: left !important;
+        margin-top: 2px !important;
+    }
+
+}
+</style>
+
+<style id="FRANTETT-MOBILE-HEADER-SAME-LINE-V1">
+@media (max-width: 800px) {
+
+    .staff-topbar .brand-text {
+        display: flex !important;
+        align-items: baseline !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        white-space: nowrap !important;
+    }
+
+    .staff-topbar .brand-text strong {
+        display: inline !important;
+        text-align: center !important;
+    }
+
+    .staff-topbar .brand-text span {
+        display: inline !important;
+        margin-top: 0 !important;
+        text-align: left !important;
+        white-space: nowrap !important;
+    }
+
+}
+</style>
 </head>
 
 <body>
 
     <header class="staff-topbar">
+        <button
+            type="button"
+            id="frantettMobileNavToggle"
+            class="frantett-mobile-nav-toggle"
+            aria-label="Open navigation"
+            aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <div class="brand">
             <div class="brand-mark">FT</div>
 
@@ -433,7 +1012,72 @@
         <div class="topbar-label">
             Consultations
         </div>
-    </header>
+    </header>    <!-- FRANTETT-MOBILE-STAFF-NAV-V1 -->
+    <div
+        id="frantettMobileNavOverlay"
+        class="frantett-mobile-nav-overlay"
+        aria-hidden="true"></div>
+
+    <aside
+        id="frantettMobileNav"
+        class="frantett-mobile-nav"
+        aria-hidden="true">
+
+        <div class="frantett-mobile-nav-header">
+            <div>
+                <strong>FranTett Healthcare</strong>
+                <span>Staff Portal</span>
+            </div>
+
+            <button
+                type="button"
+                id="frantettMobileNavClose"
+                class="frantett-mobile-nav-close"
+                aria-label="Close navigation">
+                Close
+            </button>
+        </div>
+
+        <nav class="frantett-mobile-nav-links" aria-label="Staff navigation">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="./doctors.html?staff=true">
+                Doctors
+            </a>
+
+            <a href="./services.html">
+                Services
+            </a>
+
+            <a href="./appointments.html">
+                Book Appointment
+            </a>
+
+            <a href="./dashboard.html">
+                Staff Dashboard
+            </a>
+
+            <a href="./settings.html">
+                Settings
+            </a>
+
+            <a href="./contact.html">
+                Contact
+            </a>
+
+            <button
+                type="button"
+                class="frantett-mobile-nav-logout"
+                onclick="logout()">
+                Logout
+            </button>
+
+        </nav>
+    </aside>
+    <!-- FRANTETT-MOBILE-STAFF-NAV-V1-END -->
 
     <main class="page-shell">
 
@@ -654,7 +1298,7 @@
             }
 
             window.location.href =
-                `/pages/consultation-form.html?${params.toString()}`;
+                `/consultation-form.html?${params.toString()}`;
 
         }
 
@@ -667,7 +1311,7 @@
             }
 
             window.location.href =
-                `/pages/patient-record.html?patient_id=${encodeURIComponent(
+                `/patient-record.html?patient_id=${encodeURIComponent(
                     record.patient_id
                 )}`;
 
@@ -1142,8 +1786,67 @@
         loadConsultations();
     </script>
 
+    <script>
+/* FRANTETT-MOBILE-STAFF-NAV-JS-V1 */
+(function () {
+    const toggle = document.getElementById("frantettMobileNavToggle");
+    const drawer = document.getElementById("frantettMobileNav");
+    const overlay = document.getElementById("frantettMobileNavOverlay");
+    const closeButton = document.getElementById("frantettMobileNavClose");
+
+    if (!toggle || !drawer || !overlay || !closeButton) {
+        return;
+    }
+
+    function openMobileNav() {
+        drawer.classList.add("is-open");
+        overlay.classList.add("is-open");
+        drawer.setAttribute("aria-hidden", "false");
+        overlay.setAttribute("aria-hidden", "false");
+        toggle.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeMobileNav() {
+        drawer.classList.remove("is-open");
+        overlay.classList.remove("is-open");
+        drawer.setAttribute("aria-hidden", "true");
+        overlay.setAttribute("aria-hidden", "true");
+        toggle.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+    }
+
+    toggle.addEventListener("click", openMobileNav);
+    closeButton.addEventListener("click", closeMobileNav);
+    overlay.addEventListener("click", closeMobileNav);
+
+    drawer.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", closeMobileNav);
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeMobileNav();
+        }
+    });
+
+    window.addEventListener("resize", function () {
+        if (window.innerWidth > 800) {
+            closeMobileNav();
+        }
+    });
+})();
+</script>
+<script src="../frantett-theme.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -651,6 +651,142 @@
             }
         }
     </style>
+<!-- FRANTETT-NAVY-STAFF-SIDEBAR-BEGIN -->
+<style id="frantett-navy-staff-sidebar">
+    /*
+       FranTett Staff Portal
+       Navy sidebar -
+       No JavaScript, API, database, or navigation changes.
+    */
+
+    .frantett-sidebar,
+    aside.frantett-sidebar,
+    .sidebar.frantett-sidebar {
+        background: #0B1F3A !important;
+        color: #FFFFFF !important;
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-brand {
+        background: #0B1F3A !important;
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-brand-text strong {
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-brand-text span {
+        color: #B8C6D6 !important;
+    }
+
+    .frantett-sidebar-section-label {
+        color: #91A7BF !important;
+    }
+
+    .frantett-sidebar-link {
+        color: #D7E1EC !important;
+        background: transparent !important;
+    }
+
+    .frantett-sidebar-link:hover {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-link.active {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-link.active::before {
+        background: var(--frt-green, #2E7D32) !important;
+    }
+
+    .frantett-sidebar-icon {
+        color: currentColor !important;
+    }
+
+    .frantett-sidebar-logout {
+        background: transparent !important;
+        color: #D7E1EC !important;
+    }
+
+    .frantett-sidebar-logout:hover {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-bottom {
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-disabled {
+        color: #7F93A8 !important;
+    }
+
+    .frantett-sidebar-disabled:hover {
+        background: rgba(255,255,255,0.05) !important;
+        color: #A9B8C8 !important;
+    }
+</style>
+<!-- FRANTETT-NAVY-STAFF-SIDEBAR-END -->
+<!-- FRANTETT-REAL-SIDEBAR-NAVY-FIX-BEGIN -->
+<style id="frantett-real-sidebar-navy-fix">
+    #frantett-real-staff-sidebar {
+        background: #0B1F3A !important;
+        border-right-color: rgba(255,255,255,0.10) !important;
+        box-shadow: 3px 0 18px rgba(11,31,58,0.18) !important;
+    }
+</style>
+<!-- FRANTETT-REAL-SIDEBAR-NAVY-FIX-END -->
+<!-- FRANTETT-SETTINGS-STAFF-SIDEBAR-NAVY-FIX-BEGIN -->
+<style id="frantett-settings-staff-sidebar-navy-fix">
+    .staff-sidebar {
+        background: #0B1F3A !important;
+        border-right-color: rgba(255,255,255,0.10) !important;
+        color: #FFFFFF !important;
+    }
+
+    .staff-sidebar .sidebar-heading {
+        color: #91A7BF !important;
+    }
+
+    .staff-sidebar .frantett-sidebar-link {
+        color: #D7E1EC !important;
+        background: transparent !important;
+    }
+
+    .staff-sidebar .frantett-sidebar-link:hover {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .staff-sidebar .frantett-sidebar-link.active {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .staff-sidebar .frantett-sidebar-icon {
+        color: currentColor !important;
+    }
+
+    .staff-sidebar .sidebar-divider {
+        background: rgba(255,255,255,0.10) !important;
+    }
+
+    .staff-sidebar .logout-link {
+        background: transparent !important;
+        color: #D7E1EC !important;
+    }
+
+    .staff-sidebar .logout-link:hover {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+</style>
+<!-- FRANTETT-SETTINGS-STAFF-SIDEBAR-NAVY-FIX-END -->
+    <link rel="stylesheet" href="../frantett-theme.css">
 </head>
 
 <body>
@@ -1075,7 +1211,458 @@
                      ACCOUNT MANAGEMENT NOTICE
                 ========================================== -->
 
-                <section class="settings-card full-width">
+                <!-- FRANTETT-SETTINGS-CENTER-STYLES-BEGIN -->
+<style id="frantett-settings-center-styles">
+
+    .frantett-settings-center-card {
+        min-width: 0 !important;
+    }
+
+    .settings-option-list {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    .settings-option-row {
+        display: grid !important;
+        grid-template-columns: 42px minmax(0, 1fr) auto !important;
+        align-items: center !important;
+        gap: 13px !important;
+        padding: 14px !important;
+        border: 1px solid #E4EAF0 !important;
+        border-radius: 12px !important;
+        background: #FAFCFD !important;
+        min-width: 0 !important;
+    }
+
+    .settings-option-icon {
+        width: 38px !important;
+        height: 38px !important;
+        display: grid !important;
+        place-items: center !important;
+        border-radius: 10px !important;
+        background: #EAF5EF !important;
+        color: #116D42 !important;
+        font-weight: 800 !important;
+        font-size: 15px !important;
+    }
+
+    .settings-option-content {
+        min-width: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 3px !important;
+    }
+
+    .settings-option-content strong {
+        color: #173B2B !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+    }
+
+    .settings-option-content span {
+        color: #68776F !important;
+        font-size: 12px !important;
+        line-height: 1.45 !important;
+    }
+
+    .settings-status-badge {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+        padding: 5px 9px !important;
+        border-radius: 999px !important;
+        background: #EAF5EF !important;
+        color: #116D42 !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+    }
+
+    .settings-status-planned {
+        background: #F1F5F9 !important;
+        color: #64748B !important;
+    }
+
+    .settings-info-note {
+        margin-top: 14px !important;
+        padding: 12px 14px !important;
+        border-radius: 10px !important;
+        background: #F8FAFC !important;
+        border: 1px solid #E2E8F0 !important;
+        color: #68776F !important;
+        font-size: 12px !important;
+        line-height: 1.5 !important;
+    }
+
+    .clinical-workflow-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+    }
+
+    .clinical-workflow-item {
+        min-width: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 5px !important;
+        padding: 15px !important;
+        border: 1px solid #E4EAF0 !important;
+        border-radius: 12px !important;
+        background: #FAFCFD !important;
+    }
+
+    .clinical-workflow-icon {
+        width: 34px !important;
+        height: 34px !important;
+        display: grid !important;
+        flex: 0 0 34px !important;
+        align-self: flex-start !important;
+        place-items: center !important;
+        border-radius: 9px !important;
+        background: #EAF5EF !important;
+        color: #116D42 !important;
+        font-size: 14px !important;
+        font-weight: 800 !important;
+        margin-bottom: 3px !important;
+    }
+
+    .clinical-workflow-item strong {
+        color: #173B2B !important;
+        font-size: 14px !important;
+    }
+
+    .clinical-workflow-item > span:last-child {
+        color: #68776F !important;
+        font-size: 12px !important;
+        line-height: 1.45 !important;
+    }
+
+    .system-information-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+    }
+
+    .system-information-item {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 4px !important;
+        min-width: 0 !important;
+        padding: 13px 14px !important;
+        border: 1px solid #E4EAF0 !important;
+        border-radius: 11px !important;
+        background: #FAFCFD !important;
+    }
+
+    .system-information-item span {
+        color: #7A8780 !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: .04em !important;
+    }
+
+    .system-information-item strong {
+        color: #173B2B !important;
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .settings-landing-page-row {
+        background: #F8FBF9 !important;
+        border-color: #D9E9DF !important;
+    }
+
+    @media (max-width: 760px) {
+
+        .settings-option-row {
+            grid-template-columns: 38px minmax(0, 1fr) !important;
+            align-items: start !important;
+        }
+
+        .settings-option-row .settings-status-badge {
+            grid-column: 2 !important;
+            justify-self: start !important;
+        }
+
+        .clinical-workflow-grid,
+        .system-information-grid {
+            grid-template-columns: 1fr !important;
+        }
+
+    }
+
+    @media (max-width: 430px) {
+
+        .settings-option-row {
+            padding: 12px !important;
+            gap: 10px !important;
+        }
+
+        .settings-option-icon {
+            width: 34px !important;
+            height: 34px !important;
+            font-size: 13px !important;
+        }
+
+        .settings-option-content strong {
+            font-size: 13px !important;
+        }
+
+        .settings-option-content span {
+            font-size: 11px !important;
+        }
+
+        .clinical-workflow-item {
+            padding: 13px !important;
+        }
+
+        .system-information-item {
+            padding: 12px !important;
+        }
+
+    }
+
+</style>
+<!-- FRANTETT-SETTINGS-CENTER-STYLES-END -->
+<!-- FRANTETT-SETTINGS-COMPLETE-CENTER-BEGIN -->
+
+<!-- =========================================================
+     APPEARANCE
+     Informational until a persistent appearance preference
+     is connected to the staff portal.
+     ========================================================= -->
+<section class="settings-card frantett-settings-center-card">
+    <div class="card-header">
+        <h2>Appearance</h2>
+        <p>Visual preferences for the FranTett staff portal.</p>
+    </div>
+
+    <div class="card-body">
+        <div class="settings-option-list">
+
+            <div class="settings-option-row">
+                <div class="settings-option-icon">T</div>
+                <div class="settings-option-content">
+                    <strong>Theme</strong>
+                    <span id="themeStatus">FranTett staff portal theme</span>
+                </div>
+                <label class="toggle">
+                    <input
+                        type="checkbox"
+                        id="themeToggle"
+                        aria-label="Dark Theme"
+                    >
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="settings-option-row">
+                <div class="settings-option-icon">Aa</div>
+                <div class="settings-option-content">
+                    <strong>Interface Density</strong>
+                    <span id="appearanceDensityStatus">Standard spacing</span>
+                </div>
+
+                <label class="toggle">
+                    <input
+                        type="checkbox"
+                        id="appearanceCompactDisplay"
+                        aria-label="Compact Display"
+                    >
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="settings-option-row">
+                <div class="settings-option-icon">R</div>
+                <div class="settings-option-content">
+                    <strong>Responsive Layout</strong>
+                    <span>The staff portal adapts its layout for desktop and mobile screens.</span>
+                </div>
+                <span class="settings-status-badge">Active</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     NOTIFICATIONS
+     Informational only -
+     claimed or created by this UI expansion.
+     ========================================================= -->
+<section class="settings-card frantett-settings-center-card">
+    <div class="card-header">
+        <h2>Notifications</h2>
+        <p>Notification categories relevant to staff operations.</p>
+    </div>
+
+    <div class="card-body">
+        <div class="settings-option-list">
+
+            <div class="settings-option-row">
+                <div class="settings-option-icon">A</div>
+                <div class="settings-option-content">
+                    <strong>Appointments</strong>
+                    <span>Appointment reminders and status notifications.</span>
+                </div>
+                <span class="settings-status-badge settings-status-planned">Not configured</span>
+            </div>
+
+            <div class="settings-option-row">
+                <div class="settings-option-icon">CR</div>
+                <div class="settings-option-content">
+                    <strong>Clinical Records</strong>
+                    <span>Updates related to consultations and patient records.</span>
+                </div>
+                <span class="settings-status-badge settings-status-planned">Not configured</span>
+            </div>
+
+            <div class="settings-option-row">
+                <div class="settings-option-icon">$</div>
+                <div class="settings-option-content">
+                    <strong>Payments</strong>
+                    <span>Payment and transaction-related notifications.</span>
+                </div>
+                <span class="settings-status-badge settings-status-planned">Not configured</span>
+            </div>
+
+            <div class="settings-option-row">
+                <div class="settings-option-icon">L</div>
+                <div class="settings-option-content">
+                    <strong>Laboratory</strong>
+                    <span>Laboratory request and result notifications.</span>
+                </div>
+                <span class="settings-status-badge settings-status-planned">Not configured</span>
+            </div>
+
+        </div>
+
+        <div class="settings-info-note">
+            Notification controls are not currently connected to a notification service.
+            This section does not create or imply notification delivery functionality.
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     CLINICAL WORKFLOW
+     ========================================================= -->
+<section class="settings-card frantett-settings-center-card">
+    <div class="card-header">
+        <h2>Clinical Workflow</h2>
+        <p>Clinical areas supported by the FranTett healthcare workflow.</p>
+    </div>
+
+    <div class="card-body">
+        <div class="clinical-workflow-grid">
+
+            <div class="clinical-workflow-item">
+                <span class="clinical-workflow-icon">PR</span>
+                <strong>Patient Records</strong>
+                <span>Patient profiles and electronic medical records.</span>
+            </div>
+
+            <div class="clinical-workflow-item">
+                <span class="clinical-workflow-icon">C</span>
+                <strong>Consultations</strong>
+                <span>Clinical consultation records and follow-up information.</span>
+            </div>
+
+            <div class="clinical-workflow-item">
+                <span class="clinical-workflow-icon">L</span>
+                <strong>Laboratory</strong>
+                <span>Laboratory requests and laboratory reports.</span>
+            </div>
+
+            <div class="clinical-workflow-item">
+                <span class="clinical-workflow-icon">Rx</span>
+                <strong>Prescriptions</strong>
+                <span>Prescription records associated with clinical care.</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     SYSTEM INFORMATION
+     ========================================================= -->
+<section class="settings-card frantett-settings-center-card">
+    <div class="card-header">
+        <h2>System Information</h2>
+        <p>Information about this FranTett staff portal.</p>
+    </div>
+
+    <div class="card-body">
+        <div class="system-information-grid">
+
+            <div class="system-information-item">
+                <span>Application</span>
+                <strong>FranTett Healthcare</strong>
+            </div>
+
+            <div class="system-information-item">
+                <span>Portal</span>
+                <strong>Staff Administration</strong>
+            </div>
+
+            <div class="system-information-item">
+                <span>Purpose</span>
+                <strong>Healthcare administration</strong>
+            </div>
+
+            <div class="system-information-item">
+                <span>Clinical Areas</span>
+                <strong>Records, Consultations, Labs &amp; Prescriptions</strong>
+            </div>
+
+            <div class="system-information-item">
+                <span>Payments</span>
+                <strong>Payment administration available</strong>
+            </div>
+
+            <div class="system-information-item">
+                <span>Reports</span>
+                <strong>Staff reporting available</strong>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     LANDING PAGE INFORMATION
+     ========================================================= -->
+<section class="settings-card frantett-settings-center-card">
+    <div class="card-header">
+        <h2>Landing Page</h2>
+        <p>Current staff portal entry behavior.</p>
+    </div>
+
+    <div class="card-body">
+        <div class="settings-option-row settings-landing-page-row">
+            <div class="settings-option-icon">LP</div>
+
+            <div class="settings-option-content">
+                <strong>Staff Dashboard</strong>
+                <span>
+                    The Staff Dashboard is the current portal landing page.
+                    A selectable landing-page preference is not currently configured.
+                </span>
+            </div>
+
+            <span class="settings-status-badge">Current</span>
+        </div>
+    </div>
+</section>
+
+<!-- FRANTETT-SETTINGS-COMPLETE-CENTER-END -->
+<section class="settings-card full-width">
 
                     <div class="card-header">
                         <h2>Account Management</h2>
@@ -2544,14 +3131,9 @@
 
                     <div class="card-body">
 
-                        <div class="security-note">
-                            The current FranTett application does not expose
-                            a staff profile-edit or password-change API.
-                            Therefore this page does not provide controls
-                            that appear editable but cannot actually save.
-                            Your existing authenticated account information
-                            is displayed above from the active login session.
-                        </div>
+                        <div class="security-note"><div class="security-note">
+                            Staff profile editing is not currently available through the staff portal. Password changes are supported through the verified security workflow above. Your existing authenticated account information is displayed above from the active login session.
+                         </div>
 
                     </div>
 
@@ -2569,7 +3151,7 @@
 
     <script>
         /* =====================================================
-           FRANTETT SETTINGS — AUTHENTICATION
+           FRANTETT SETTINGS -
         ===================================================== */
 
         const API_BASE_URL =
@@ -2972,7 +3554,7 @@
         }
 
         /* =====================================================
-           LOGOUT — SAME BEHAVIOR AS EXISTING STAFF PAGES
+           LOGOUT -
         ===================================================== */
 
         function logout() {
@@ -2999,11 +3581,118 @@
            INITIALIZE
         ===================================================== */
 
+        function setupAppearanceDensity() {
+
+            const appearanceToggle =
+                document.getElementById(
+                    "appearanceCompactDisplay"
+                );
+
+            const existingCompactDisplay =
+                document.getElementById(
+                    "compactDisplay"
+                );
+
+            const appearanceStatus =
+                document.getElementById(
+                    "appearanceDensityStatus"
+                );
+
+            if (
+                !appearanceToggle ||
+                !existingCompactDisplay ||
+                !appearanceStatus
+            ) {
+                return;
+            }
+
+            function syncAppearanceDensity() {
+
+                appearanceToggle.checked =
+                    existingCompactDisplay.checked;
+
+                appearanceStatus.textContent =
+                    appearanceToggle.checked
+                        ? "Compact spacing"
+                        : "Standard spacing";
+            }
+
+            syncAppearanceDensity();
+
+            appearanceToggle.addEventListener(
+                "change",
+                function () {
+
+                    existingCompactDisplay.checked =
+                        appearanceToggle.checked;
+
+                    savePreferences();
+
+                    syncAppearanceDensity();
+                }
+            );
+
+            existingCompactDisplay.addEventListener(
+                "change",
+                syncAppearanceDensity
+            );
+        }
+
+        function setupTheme() {
+
+            const themeToggle =
+                document.getElementById("themeToggle");
+
+            const themeStatus =
+                document.getElementById("themeStatus");
+
+            if (!themeToggle || !themeStatus) {
+                return;
+            }
+
+            const THEME_KEY = "frantett_settings_theme";
+
+            function applyTheme(isDark) {
+
+                document.documentElement.setAttribute(
+                    "data-theme",
+                    isDark ? "dark" : "light"
+                );
+
+                themeToggle.checked = isDark;
+                themeStatus.textContent = isDark
+                    ? "Dark theme"
+                    : "Light theme";
+            }
+
+            const savedTheme =
+                localStorage.getItem(THEME_KEY);
+
+            applyTheme(savedTheme === "dark");
+
+            themeToggle.addEventListener(
+                "change",
+                function () {
+
+                    const isDark =
+                        themeToggle.checked;
+
+                    localStorage.setItem(
+                        THEME_KEY,
+                        isDark ? "dark" : "light"
+                    );
+
+                    applyTheme(isDark);
+                }
+            );
+        }
         function initializeSettings() {
 
             applyIdentity();
             loadPreferences();
+            setupTheme();
             setupMobileNavigation();
+            setupAppearanceDensity();
 
             document
                 .getElementById("rememberSidebar")
@@ -3037,6 +3726,463 @@
         }
     </script>
 
+    <script src="../frantett-theme.js"></script>
 </body>
 </html>
+
+
+<!-- FRANTETT-SETTINGS-COMPREHENSIVE-DESIGN-BEGIN -->
+<style id="frantett-settings-comprehensive-design">
+
+/* ============================================================
+   FRANTETT SETTINGS CENTER
+   CSS-ONLY PRESENTATION LAYER
+   No JavaScript / API / database changes
+   ============================================================ */
+
+:root {
+    --frt-settings-green: #2E7D32;
+    --frt-settings-green-dark: #256628;
+    --frt-settings-green-soft: #EAF5EC;
+    --frt-settings-navy: #0B1F3A;
+    --frt-settings-navy-soft: #163A63;
+    --frt-settings-text: #1F2937;
+    --frt-settings-muted: #64748B;
+    --frt-settings-border: #E2E8F0;
+    --frt-settings-surface: #FFFFFF;
+    --frt-settings-page: #F5F7FA;
+}
+
+/* ------------------------------------------------------------
+   PAGE BACKGROUND
+   ------------------------------------------------------------ */
+
+body {
+    background: var(--frt-settings-page) !important;
+    color: var(--frt-settings-text) !important;
+}
+
+/* ------------------------------------------------------------
+   MAIN SETTINGS AREA
+   ------------------------------------------------------------ */
+
+.settings-grid {
+    width: 100% !important;
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding: 24px !important;
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+    align-items: start !important;
+}
+
+/* ------------------------------------------------------------
+   SETTINGS CARDS
+   ------------------------------------------------------------ */
+
+.settings-grid .settings-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    background: var(--frt-settings-surface) !important;
+    border: 1px solid var(--frt-settings-border) !important;
+    border-radius: 16px !important;
+    padding: 22px !important;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05) !important;
+    overflow: hidden !important;
+    transition: box-shadow 0.18s ease, transform 0.18s ease !important;
+}
+
+.settings-grid .settings-card:hover {
+    box-shadow: 0 8px 26px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Full-width cards remain full-width */
+
+.settings-grid .settings-card.full-width {
+    grid-column: 1 / -1 !important;
+}
+
+/* ------------------------------------------------------------
+   CARD HEADINGS
+   ------------------------------------------------------------ */
+
+.settings-grid .settings-card h2 {
+    margin: 0 0 6px 0 !important;
+    color: var(--frt-settings-navy) !important;
+    font-size: 19px !important;
+    line-height: 1.3 !important;
+    font-weight: 700 !important;
+}
+
+.settings-grid .settings-card h3 {
+    color: var(--frt-settings-navy) !important;
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+    font-weight: 700 !important;
+}
+
+.settings-grid .settings-card p {
+    color: var(--frt-settings-muted) !important;
+}
+
+/* ------------------------------------------------------------
+   ACCOUNT INFORMATION
+   ------------------------------------------------------------ */
+
+.account-layout {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    gap: 18px !important;
+    align-items: center !important;
+}
+
+.account-details {
+    min-width: 0 !important;
+}
+
+#profileAvatar {
+    flex-shrink: 0 !important;
+    border: 3px solid var(--frt-settings-green-soft) !important;
+    box-shadow: 0 0 0 1px rgba(46, 125, 50, 0.18) !important;
+}
+
+/* ------------------------------------------------------------
+   PREFERENCE ROWS
+   ------------------------------------------------------------ */
+
+.preference-row {
+    min-height: 58px !important;
+    padding: 12px 0 !important;
+    border-bottom: 1px solid #EEF2F7 !important;
+    gap: 16px !important;
+}
+
+.preference-row:last-child {
+    border-bottom: 0 !important;
+}
+
+.preference-row label {
+    color: var(--frt-settings-text) !important;
+    font-weight: 600 !important;
+}
+
+.preference-row small,
+.preference-row p {
+    color: var(--frt-settings-muted) !important;
+}
+
+/* ------------------------------------------------------------
+   CHECKBOXES
+   ------------------------------------------------------------ */
+
+.settings-grid input[type="checkbox"] {
+    accent-color: var(--frt-settings-green) !important;
+}
+
+/* ------------------------------------------------------------
+   PORTAL INFORMATION
+   ------------------------------------------------------------ */
+
+.portal-info {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+}
+
+.portal-item {
+    min-width: 0 !important;
+    background: #F8FAFC !important;
+    border: 1px solid #E8EDF3 !important;
+    border-radius: 12px !important;
+    padding: 14px !important;
+    box-sizing: border-box !important;
+}
+
+.portal-item strong {
+    color: var(--frt-settings-navy) !important;
+}
+
+.portal-item span,
+.portal-item p {
+    color: var(--frt-settings-muted) !important;
+}
+
+/* ------------------------------------------------------------
+   SECURITY CARD
+   ------------------------------------------------------------ */
+
+.frantett-security-card {
+    border-top: 4px solid var(--frt-settings-green) !important;
+}
+
+.settings-card-header {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    margin-bottom: 18px !important;
+}
+
+.security-action-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+}
+
+.security-action {
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    border: 1px solid var(--frt-settings-border) !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    padding: 17px !important;
+    transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease !important;
+}
+
+.security-action:hover {
+    border-color: rgba(46, 125, 50, 0.45) !important;
+    background: #FBFEFB !important;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06) !important;
+}
+
+.security-action-icon {
+    width: 42px !important;
+    height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+    background: var(--frt-settings-green-soft) !important;
+    color: var(--frt-settings-green) !important;
+    margin-bottom: 12px !important;
+}
+
+.security-action-content {
+    min-width: 0 !important;
+}
+
+.security-action-content h3 {
+    margin: 0 0 5px 0 !important;
+}
+
+.security-action-content p {
+    margin: 0 0 14px 0 !important;
+    color: var(--frt-settings-muted) !important;
+}
+
+/* ------------------------------------------------------------
+   SECURITY / ACCOUNT BUTTONS
+   ------------------------------------------------------------ */
+
+.settings-grid button {
+    border-radius: 9px !important;
+    font-weight: 600 !important;
+}
+
+.settings-grid button:not(.logout-link) {
+    transition: all 0.18s ease !important;
+}
+
+/* ------------------------------------------------------------
+   SECURITY NOTES
+   ------------------------------------------------------------ */
+
+.security-note {
+    margin-top: 14px !important;
+    padding: 13px 15px !important;
+    border-radius: 10px !important;
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    color: var(--frt-settings-muted) !important;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+}
+
+/* ------------------------------------------------------------
+   ACCOUNT MANAGEMENT / SECURITY
+   ------------------------------------------------------------ */
+
+.settings-card.full-width {
+    margin-top: 0 !important;
+}
+
+.settings-card.full-width .security-action-grid {
+    margin-top: 4px !important;
+}
+
+/* ------------------------------------------------------------
+   FORM CONTROLS
+   ------------------------------------------------------------ */
+
+.settings-grid input:not([type="checkbox"]),
+.settings-grid select,
+.settings-grid textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 9px !important;
+    background: #FFFFFF !important;
+}
+
+.settings-grid input:not([type="checkbox"]):focus,
+.settings-grid select:focus,
+.settings-grid textarea:focus {
+    border-color: var(--frt-settings-green) !important;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.10) !important;
+    outline: none !important;
+}
+
+/* ------------------------------------------------------------
+   MOBILE / TABLET
+   ------------------------------------------------------------ */
+
+@media (max-width: 900px) {
+
+    .settings-grid {
+        grid-template-columns: 1fr !important;
+        padding: 18px !important;
+        gap: 16px !important;
+    }
+
+    .settings-grid .settings-card.full-width {
+        grid-column: auto !important;
+    }
+
+    .security-action-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .settings-grid {
+        padding: 14px !important;
+        gap: 14px !important;
+    }
+
+    .settings-grid .settings-card {
+        padding: 18px !important;
+        border-radius: 14px !important;
+    }
+
+    .account-layout {
+        grid-template-columns: 1fr !important;
+        text-align: center !important;
+    }
+
+    #profileAvatar {
+        margin: 0 auto !important;
+    }
+
+    .portal-info {
+        grid-template-columns: 1fr !important;
+    }
+
+    .security-action-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .settings-card-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .settings-grid {
+        padding: 10px !important;
+        gap: 12px !important;
+    }
+
+    .settings-grid .settings-card {
+        padding: 15px !important;
+        border-radius: 12px !important;
+    }
+
+    .settings-grid .settings-card h2 {
+        font-size: 17px !important;
+    }
+
+    .preference-row {
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+
+    .security-action {
+        padding: 14px !important;
+    }
+}
+
+/* ------------------------------------------------------------
+   HARD MOBILE SAFETY
+   ------------------------------------------------------------ */
+
+.settings-grid,
+.settings-grid * {
+    max-width: 100% !important;
+}
+
+.settings-grid {
+    overflow-x: hidden !important;
+}
+
+
+/* ============================================================
+   FRANTETT-DARK-THEME-BEGIN
+   Dark theme presentation layer
+   ============================================================ */
+
+html[data-theme="dark"] body {
+    background: #111827 !important;
+    color: #E5E7EB !important;
+}
+
+html[data-theme="dark"] .settings-grid .settings-card {
+    background: #1F2937 !important;
+    border-color: #374151 !important;
+    color: #E5E7EB !important;
+}
+
+html[data-theme="dark"] .settings-option-row,
+html[data-theme="dark"] .clinical-workflow-item {
+    background: #111827 !important;
+    border-color: #374151 !important;
+}
+
+html[data-theme="dark"] .settings-option-content strong,
+html[data-theme="dark"] .clinical-workflow-item strong {
+    color: #F3F4F6 !important;
+}
+
+html[data-theme="dark"] .settings-option-content span,
+html[data-theme="dark"] .clinical-workflow-item span {
+    color: #9CA3AF !important;
+}
+
+html[data-theme="dark"] .settings-option-icon,
+html[data-theme="dark"] .clinical-workflow-icon {
+    background: #173B2B !important;
+    color: #86EFAC !important;
+}
+
+html[data-theme="dark"] .settings-status-badge {
+    background: #173B2B !important;
+    color: #86EFAC !important;
+}
+
+html[data-theme="dark"] .settings-note,
+html[data-theme="dark"] .settings-info,
+html[data-theme="dark"] .settings-description {
+    color: #9CA3AF !important;
+}
+
+/* FRANTETT-DARK-THEME-END */
+</style>
+<!-- FRANTETT-SETTINGS-COMPREHENSIVE-DESIGN-END -->
+
 

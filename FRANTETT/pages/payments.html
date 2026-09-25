@@ -847,6 +847,96 @@
         }
     </style>
     <!-- END FRANTETT-STAFF-PAYMENTS-WORKSPACE -->
+<!-- FRANTETT-NAVY-STAFF-SIDEBAR-BEGIN -->
+<style id="frantett-navy-staff-sidebar">
+    /*
+       FranTett Staff Portal
+       Navy sidebar — CSS-only visual override
+       No JavaScript, API, database, or navigation changes.
+    */
+
+    .frantett-sidebar,
+    aside.frantett-sidebar,
+    .sidebar.frantett-sidebar {
+        background: #0B1F3A !important;
+        color: #FFFFFF !important;
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-brand {
+        background: #0B1F3A !important;
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-brand-text strong {
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-brand-text span {
+        color: #B8C6D6 !important;
+    }
+
+    .frantett-sidebar-section-label {
+        color: #91A7BF !important;
+    }
+
+    .frantett-sidebar-link {
+        color: #D7E1EC !important;
+        background: transparent !important;
+    }
+
+    .frantett-sidebar-link:hover {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-link.active {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-link.active::before {
+        background: var(--frt-green, #2E7D32) !important;
+    }
+
+    .frantett-sidebar-icon {
+        color: currentColor !important;
+    }
+
+    .frantett-sidebar-logout {
+        background: transparent !important;
+        color: #D7E1EC !important;
+    }
+
+    .frantett-sidebar-logout:hover {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-bottom {
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-disabled {
+        color: #7F93A8 !important;
+    }
+
+    .frantett-sidebar-disabled:hover {
+        background: rgba(255,255,255,0.05) !important;
+        color: #A9B8C8 !important;
+    }
+</style>
+<!-- FRANTETT-NAVY-STAFF-SIDEBAR-END -->
+<!-- FRANTETT-REAL-SIDEBAR-NAVY-FIX-BEGIN -->
+<style id="frantett-real-sidebar-navy-fix">
+    #frantett-real-staff-sidebar {
+        background: #0B1F3A !important;
+        border-right-color: rgba(255,255,255,0.10) !important;
+        box-shadow: 3px 0 18px rgba(11,31,58,0.18) !important;
+    }
+</style>
+<!-- FRANTETT-REAL-SIDEBAR-NAVY-FIX-END -->
+    <link rel="stylesheet" href="../frantett-theme.css">
 </head>
 
 <body>
@@ -961,26 +1051,24 @@
             </li>
 
             <li>
-                <a
-                    href="#"
-                    class="frantett-sidebar-link"
-                    onclick="return false;"
-                >
-                    <span class="frantett-sidebar-icon">&#9637;</span>
-                    <span>Reports</span>
-                </a>
-            </li>
+    <a
+        href="reports.html"
+        class="frantett-sidebar-link"
+    >
+        <span class="frantett-sidebar-icon">&#9637;</span>
+        <span>Reports</span>
+    </a>
+</li>
 
             <li>
-                <a
-                    href="#"
-                    class="frantett-sidebar-link"
-                    onclick="return false;"
-                >
-                    <span class="frantett-sidebar-icon">&#9881;</span>
-                    <span>Settings</span>
-                </a>
-            </li>
+    <a
+        href="settings.html"
+        class="frantett-sidebar-link"
+    >
+        <span class="frantett-sidebar-icon">&#9881;</span>
+        <span>Settings</span>
+    </a>
+</li>
 
         </ul>
 
@@ -2004,5 +2092,8 @@
         loadPayments();
     </script>
 
+    <script src="../frantett-theme.js"></script>
 </body>
 </html>
+
+

@@ -434,19 +434,418 @@
             }
         }
     </style>
+<!-- FRANTETT-NAVY-STAFF-SIDEBAR-BEGIN -->
+<style id="frantett-navy-staff-sidebar">
+    /*
+       FranTett Staff Portal
+       Navy sidebar — CSS-only visual override
+       No JavaScript, API, database, or navigation changes.
+    */
+
+    .frantett-sidebar,
+    aside.frantett-sidebar,
+    .sidebar.frantett-sidebar {
+        background: #0B1F3A !important;
+        color: #FFFFFF !important;
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-brand {
+        background: #0B1F3A !important;
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-brand-text strong {
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-brand-text span {
+        color: #B8C6D6 !important;
+    }
+
+    .frantett-sidebar-section-label {
+        color: #91A7BF !important;
+    }
+
+    .frantett-sidebar-link {
+        color: #D7E1EC !important;
+        background: transparent !important;
+    }
+
+    .frantett-sidebar-link:hover {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-link.active {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-link.active::before {
+        background: var(--frt-green, #2E7D32) !important;
+    }
+
+    .frantett-sidebar-icon {
+        color: currentColor !important;
+    }
+
+    .frantett-sidebar-logout {
+        background: transparent !important;
+        color: #D7E1EC !important;
+    }
+
+    .frantett-sidebar-logout:hover {
+        background: #163A63 !important;
+        color: #FFFFFF !important;
+    }
+
+    .frantett-sidebar-bottom {
+        border-color: rgba(255,255,255,0.10) !important;
+    }
+
+    .frantett-sidebar-disabled {
+        color: #7F93A8 !important;
+    }
+
+    .frantett-sidebar-disabled:hover {
+        background: rgba(255,255,255,0.05) !important;
+        color: #A9B8C8 !important;
+    }
+</style>
+<!-- FRANTETT-NAVY-STAFF-SIDEBAR-END -->
+<!-- FRANTETT-REAL-SIDEBAR-NAVY-FIX-BEGIN -->
+<style id="frantett-real-sidebar-navy-fix">
+    #frantett-real-staff-sidebar {
+        background: #0B1F3A !important;
+        border-right-color: rgba(255,255,255,0.10) !important;
+        box-shadow: 3px 0 18px rgba(11,31,58,0.18) !important;
+    }
+</style>
+<!-- FRANTETT-REAL-SIDEBAR-NAVY-FIX-END -->
+<!-- FRANTETT-REPORTS-MOBILE-REDESIGN-BEGIN -->
+<style id="frantett-reports-mobile-redesign">
+    /*
+     * Desktop remains unchanged.
+     * These rules only affect the Reports workspace at 760px and below.
+     */
+
+    .frantett-mobile-activity-list {
+        display: none;
+    }
+
+    @media (max-width: 760px) {
+
+        .frantett-main {
+            padding: 18px 12px 28px !important;
+        }
+
+        .frantett-page-title {
+            font-size: 24px !important;
+            line-height: 1.2 !important;
+        }
+
+        .frantett-page-description {
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+        }
+
+        .frantett-summary-grid,
+        .frantett-breakdown-grid,
+        .frantett-clinical-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 10px !important;
+        }
+
+        .frantett-summary-card {
+            min-width: 0 !important;
+            padding: 13px 11px !important;
+            border-radius: 12px !important;
+        }
+
+        .frantett-summary-label {
+            font-size: 12px !important;
+            line-height: 1.3 !important;
+        }
+
+        .frantett-summary-value {
+            font-size: 24px !important;
+            line-height: 1.1 !important;
+            margin-top: 5px !important;
+        }
+
+        .frantett-section {
+            margin-top: 14px !important;
+            border-radius: 12px !important;
+        }
+
+        .frantett-section-header {
+            padding: 13px 14px !important;
+        }
+
+        .frantett-section-body {
+            padding: 12px !important;
+        }
+
+        .frantett-section-title {
+            font-size: 16px !important;
+        }
+
+        .frantett-breakdown-item {
+            min-width: 0 !important;
+            padding: 12px 10px !important;
+            border-radius: 10px !important;
+        }
+
+        .frantett-breakdown-name {
+            font-size: 12px !important;
+            line-height: 1.25 !important;
+        }
+
+        .frantett-breakdown-value {
+            font-size: 21px !important;
+            margin-top: 4px !important;
+        }
+
+        .frantett-clinical-item {
+            min-width: 0 !important;
+            padding: 12px 10px !important;
+            border-radius: 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 8px !important;
+        }
+
+        .frantett-clinical-item strong {
+            font-size: 12px !important;
+            line-height: 1.3 !important;
+        }
+
+        .frantett-clinical-count {
+            flex: 0 0 auto !important;
+            font-size: 20px !important;
+            font-weight: 800 !important;
+        }
+
+        .frantett-desktop-activity {
+            display: none !important;
+        }
+
+        .frantett-mobile-activity-list {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            padding: 12px !important;
+        }
+
+        .frantett-mobile-activity-card {
+            background: #FFFFFF;
+            border: 1px solid var(--frantett-border);
+            border-radius: 12px;
+            padding: 13px;
+            box-shadow: 0 2px 8px rgba(20, 60, 48, 0.05);
+        }
+
+        .frantett-mobile-activity-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 9px;
+        }
+
+        .frantett-mobile-activity-type {
+            color: var(--frantett-green-dark);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .frantett-mobile-activity-status {
+            color: #475569;
+            background: #F1F5F9;
+            border-radius: 999px;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .frantett-mobile-activity-patient {
+            color: #16251F;
+            font-size: 16px;
+            line-height: 1.3;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .frantett-mobile-activity-details {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 10px;
+            padding-top: 9px;
+            border-top: 1px solid #E8ECEA;
+        }
+
+        .frantett-mobile-activity-details > div {
+            min-width: 0;
+        }
+
+        .frantett-mobile-activity-label {
+            display: block;
+            color: #718078;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 3px;
+        }
+
+        .frantett-mobile-activity-details strong {
+            display: block;
+            color: #26342E;
+            font-size: 12px;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+
+        .frantett-mobile-activity-description {
+            margin-top: 10px;
+            padding-top: 9px;
+            border-top: 1px solid #E8ECEA;
+            color: #53625B;
+            font-size: 12px;
+            line-height: 1.45;
+            overflow-wrap: anywhere;
+        }
+    }
+
+    @media (max-width: 360px) {
+
+        .frantett-main {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+
+        .frantett-summary-grid,
+        .frantett-breakdown-grid,
+        .frantett-clinical-grid {
+            gap: 8px !important;
+        }
+
+        .frantett-summary-card,
+        .frantett-breakdown-item,
+        .frantett-clinical-item {
+            padding-left: 9px !important;
+            padding-right: 9px !important;
+        }
+
+        .frantett-clinical-item strong {
+            font-size: 11px !important;
+        }
+    }
+</style>
+<!-- FRANTETT-REPORTS-MOBILE-REDESIGN-END -->
+    <link rel="stylesheet" href="../frantett-theme.css">
+<!-- FRANTETT-REPORTS-MOBILE-STAFF-MENU-FIX-V1 -->
+<style id="frantett-reports-mobile-staff-menu-fix">
+.frantett-reports-staff-menu-toggle {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+@media (max-width: 800px) {
+    .frantett-reports-staff-menu-toggle {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 42px !important;
+        padding: 8px 12px !important;
+    }
+
+    #frantett-real-staff-sidebar {
+        display: none !important;
+    }
+
+    #frantett-real-staff-sidebar.frantett-mobile-sidebar-open {
+        display: block !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: min(290px, 82vw) !important;
+        height: 100vh !important;
+        z-index: 10000 !important;
+        overflow-y: auto !important;
+    }
+}
+</style>
+<!-- FRANTETT-REPORTS-STAFF-MENU-NAVBAR-V2 -->
+<style id="frantett-reports-staff-menu-navbar-v2">
+.frantett-staff-topbar {
+    position: relative;
+}
+
+@media (min-width: 801px) {
+    .frantett-staff-topbar .frantett-reports-staff-menu-toggle {
+        display: none !important;
+    }
+}
+
+@media (max-width: 800px) {
+    .frantett-staff-topbar {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        padding: 10px 14px !important;
+    }
+
+    .frantett-staff-topbar .frantett-reports-staff-menu-toggle {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 auto !important;
+        min-height: 42px !important;
+        padding: 8px 10px !important;
+        white-space: nowrap !important;
+        z-index: 10001 !important;
+    }
+
+    .frantett-staff-topbar .frantett-brand {
+        flex: 1 1 auto !important;
+        text-align: center !important;
+    }
+
+    .frantett-staff-topbar .frantett-portal-label {
+        flex: 0 0 auto !important;
+        white-space: nowrap !important;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <header class="frantett-staff-topbar">
+    <button
+        type="button"
+        id="frantettReportsStaffMenuToggle"
+        class="frantett-reports-staff-menu-toggle"
+        aria-expanded="false"
+        aria-controls="frantett-real-staff-sidebar"
+    >
+        ☰
+    </button>
+
     <div class="frantett-brand">FranTett Healthcare</div>
     <div class="frantett-portal-label">Staff Portal</div>
 </header>
 
-<div class="frantett-mobile-menu">
-    <a href="dashboard.html">☰ Staff Menu</a>
-    <a href="reports.html">Reports</a>
-</div>
+
 
 <div class="frantett-layout">
 
@@ -519,15 +918,14 @@
             </li>
 
             <li>
-                <a
-                    href="#"
-                    class="frantett-sidebar-link frantett-sidebar-disabled"
-                    onclick="return false;"
-                >
-                    <span class="frantett-sidebar-icon">&#9881;</span>
-                    <span>Settings</span>
-                </a>
-            </li>
+    <a
+        href="settings.html"
+        class="frantett-sidebar-link"
+    >
+        <span class="frantett-sidebar-icon">&#9881;</span>
+        <span>Settings</span>
+    </a>
+</li>
 
         </ul>
 
@@ -806,96 +1204,148 @@
     }
 
     function renderRecentActivity(appointments, consultations, payments) {
-        const activities = [];
+    const activities = [];
 
-        appointments.forEach(item => {
-            activities.push({
-                date: item.appointment_date || item.date || item.created_at,
-                type: "Appointment",
-                patient: appointmentPatient(item),
-                provider: item.doctor || "—",
-                description: item.reason || item.notes || "Appointment",
-                status: item.status || "—"
-            });
+    appointments.forEach(item => {
+        activities.push({
+            date: item.appointment_date || item.date || item.created_at,
+            type: "Appointment",
+            patient: appointmentPatient(item),
+            provider: item.doctor || "—",
+            description: item.reason || item.notes || "Appointment",
+            status: item.status || "—"
         });
+    });
 
-        consultations.forEach(item => {
-            activities.push({
-                date: item.consultation_date || item.created_at,
-                type: "Consultation",
-                patient: consultationPatient(item),
-                provider: item.doctor || "—",
-                description:
-                    item.diagnosis ||
-                    item.chief_complaint ||
-                    "Clinical Consultation",
-                status: "Recorded"
-            });
+    consultations.forEach(item => {
+        activities.push({
+            date: item.consultation_date || item.created_at,
+            type: "Consultation",
+            patient: consultationPatient(item),
+            provider: item.doctor || "—",
+            description: item.diagnosis || item.chief_complaint || "Clinical Consultation",
+            status: "Recorded"
         });
+    });
 
-        payments.forEach(item => {
-            activities.push({
-                date: item.paid_at || item.created_at,
-                type: "Payment",
-                patient: [
-                    item.patient_first_name,
-                    item.patient_last_name
-                ].filter(Boolean).join(" ") || "Unknown Patient",
-                provider: item.payment_provider || "—",
-                description:
-                    (item.payment_method || "Payment") +
-                    " " +
-                    (item.currency || "") +
-                    " " +
-                    (item.amount ?? ""),
-                status: item.status || "—"
-            });
+    payments.forEach(item => {
+        activities.push({
+            date: item.paid_at || item.created_at,
+            type: "Payment",
+            patient:
+                [item.patient_first_name, item.patient_last_name]
+                    .filter(Boolean)
+                    .join(" ") || "Unknown Patient",
+            provider: item.payment_provider || "—",
+            description:
+                (item.payment_method || "Payment") +
+                " " +
+                (item.currency || "") +
+                "" +
+                (item.amount ?? ""),
+            status: item.status || "—"
         });
+    });
 
-        activities.sort((a, b) => {
-            const dateA = new Date(a.date || 0).getTime();
-            const dateB = new Date(b.date || 0).getTime();
-            return dateB - dateA;
-        });
+    activities.sort((a, b) => {
+        const dateA = new Date(a.date || 0).getTime();
+        const dateB = new Date(b.date || 0).getTime();
+        return dateB - dateA;
+    });
 
-        const recent = activities.slice(0, 12);
-        const container = document.getElementById("recentActivityContainer");
+    const recent = activities.slice(0, 12);
+    const container = document.getElementById("recentActivityContainer");
 
-        if (!recent.length) {
-            container.innerHTML =
-                '<div class="frantett-empty">No recent activity found.</div>';
-            return;
-        }
-
-        container.innerHTML = `
-            <div class="frantett-table-wrap">
-                <table class="frantett-activity-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Patient</th>
-                            <th>Provider</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${recent.map(item => `
-                            <tr>
-                                <td>${escapeHtml(formatDate(item.date))}</td>
-                                <td>${escapeHtml(item.type)}</td>
-                                <td>${escapeHtml(item.patient)}</td>
-                                <td>${escapeHtml(item.provider)}</td>
-                                <td>${escapeHtml(item.description)}</td>
-                                <td>${escapeHtml(item.status)}</td>
-                            </tr>
-                        `).join("")}
-                    </tbody>
-                </table>
-            </div>
-        `;
+    if (!recent.length) {
+        container.innerHTML =
+            '<div class="frantett-empty">No recent activity found.</div>';
+        return;
     }
+
+    const desktopRows = recent
+        .map(
+            item => `
+                <tr>
+                    <td>${escapeHtml(formatDate(item.date))}</td>
+                    <td>${escapeHtml(item.type)}</td>
+                    <td>${escapeHtml(item.patient)}</td>
+                    <td>${escapeHtml(item.provider)}</td>
+                    <td>${escapeHtml(item.description)}</td>
+                    <td>${escapeHtml(item.status)}</td>
+                </tr>
+            `
+        )
+        .join("");
+
+    const mobileCards = recent
+        .map(
+            item => `
+                <article class="frantett-mobile-activity-card">
+                    <div class="frantett-mobile-activity-top">
+                        <span class="frantett-mobile-activity-type">
+                            ${escapeHtml(item.type)}
+                        </span>
+                        <span class="frantett-mobile-activity-status">
+                            ${escapeHtml(item.status)}
+                        </span>
+                    </div>
+
+                    <div class="frantett-mobile-activity-patient">
+                        ${escapeHtml(item.patient)}
+                    </div>
+
+                    <div class="frantett-mobile-activity-details">
+                        <div>
+                            <span class="frantett-mobile-activity-label">
+                                Provider
+                            </span>
+                            <strong>
+                                ${escapeHtml(item.provider)}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span class="frantett-mobile-activity-label">
+                                Date
+                            </span>
+                            <strong>
+                                ${escapeHtml(formatDate(item.date))}
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="frantett-mobile-activity-description">
+                        ${escapeHtml(item.description)}
+                    </div>
+                </article>
+            `
+        )
+        .join("");
+
+    container.innerHTML = `
+        <div class="frantett-table-wrap frantett-desktop-activity">
+            <table class="frantett-activity-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Patient</th>
+                        <th>Provider</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${desktopRows}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="frantett-mobile-activity-list">
+            ${mobileCards}
+        </div>
+    `;
+}
 
     async function loadClinicalCounts(patients) {
         let labRequests = 0;
@@ -1081,5 +1531,70 @@
     document.addEventListener("DOMContentLoaded", loadReports);
 </script>
 
+    <script src="../frantett-theme.js"></script>
+<script id="frantett-reports-mobile-menu-js">
+(function () {
+    const toggle =
+        document.getElementById("frantettReportsStaffMenuToggle");
+
+    const sidebar =
+        document.getElementById("frantett-real-staff-sidebar");
+
+    if (!toggle || !sidebar) {
+        return;
+    }
+
+    function closeMenu() {
+        sidebar.classList.remove("frantett-mobile-sidebar-open");
+        toggle.setAttribute("aria-expanded", "false");
+    }
+
+    toggle.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const isOpen =
+            sidebar.classList.toggle(
+                "frantett-mobile-sidebar-open"
+            );
+
+        toggle.setAttribute(
+            "aria-expanded",
+            isOpen ? "true" : "false"
+        );
+    });
+
+    sidebar.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            closeMenu();
+        });
+    });
+
+    window.addEventListener("resize", function () {
+        if (window.innerWidth > 800) {
+            closeMenu();
+        }
+    });
+
+    document.addEventListener("click", function (event) {
+        if (
+            !event.target.closest(
+                "#frantettReportsStaffMenuToggle"
+            ) &&
+            !event.target.closest(
+                "#frantett-real-staff-sidebar"
+            )
+        ) {
+            closeMenu();
+        }
+    });
+})();
+</script>
 </body>
 </html>
+
+
+
+
+
+
