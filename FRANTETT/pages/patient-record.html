@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -5648,7 +5648,16 @@ button.ft-nav-link {
     /* Give the identity enough room so the status does not overlap
        the Patient Record label on normal mobile widths */
     .ft-patient-hero .ft-patient-identity {
-        padding-right: 118px !important;
+        padding-right: 0 !important;
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .ft-patient-hero .ft-patient-identity > div:last-child {
+        flex: 1 1 auto !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: none !important;
     }
 
     /* Keep the patient name and details below the Patient Record line */
@@ -5660,6 +5669,40 @@ button.ft-nav-link {
 }
 </style>
 <!-- END FRANTETT-MOBILE-PATIENT-STATUS-TOPRIGHT -->
+<style id="frantett-mobile-patient-header-meta-layout">
+@media (max-width: 600px) {
+
+    .ft-patient-hero .ft-patient-meta {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        gap: 5px 12px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+    }
+
+    .ft-patient-hero .ft-patient-meta > span {
+        display: inline-flex !important;
+        align-items: center !important;
+        white-space: nowrap !important;
+        flex: 0 0 auto !important;
+        width: auto !important;
+        max-width: none !important;
+    }
+
+    .ft-patient-hero .ft-patient-contact-item {
+        display: inline-flex !important;
+        flex: 0 0 auto !important;
+        width: auto !important;
+        max-width: none !important;
+        white-space: nowrap !important;
+    }
+
+}
+</style>
     <link rel="stylesheet" href="../frantett-theme.css">
 <style id="frantett-mobile-appointment-alignment">
 /* FRANTETT-MOBILE-APPOINTMENT-ALIGNMENT-V1 */
@@ -5966,7 +6009,37 @@ button.ft-nav-link {
                     class="ft-patient-meta"
                     id="patientMeta"
                 >
-                    Loading...
+                    <span>
+                        Patient #
+                        <span id="infoPatientId">-</span>
+                    </span>
+
+                    <span id="infoGender">-</span>
+
+                    <span>
+                        DOB:
+                        <span id="infoDob">-</span>
+                    </span>
+                </div>
+
+                <div
+                    class="ft-patient-meta"
+                    aria-label="Patient contact information"
+                >
+                    <span class="ft-patient-contact-item">
+                        Phone:
+                        <span id="infoPhone">-</span>
+                    </span>
+
+                    <span class="ft-patient-contact-item">
+                        Email:
+                        <span id="infoEmail">-</span>
+                    </span>
+
+                    <span class="ft-patient-contact-item">
+                        Address:
+                        <span id="infoAddress">-</span>
+                    </span>
                 </div>
 
             </div>
@@ -6144,7 +6217,7 @@ button.ft-nav-link {
 
 <nav class="ft-section-nav">
 
-        <a href="#overview">
+        <a href="#frantett-clinical-overview">
             Overview
         </a>
 
@@ -6182,120 +6255,6 @@ button.ft-nav-link {
     <div class="ft-main-grid">
 
         <div class="ft-main-column">
-
-
-            <!-- OVERVIEW -->
-
-            <section
-                class="ft-card"
-                id="overview"
-            >
-
-                <div class="ft-card-header">
-
-                    <div>
-                        <h2 class="ft-card-title">
-                            Patient Overview
-                        </h2>
-
-                        <div class="ft-card-subtitle">
-                            Personal and clinical information
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="ft-card-body">
-
-                    <div class="ft-info-grid">
-
-                        <div class="ft-info-item">
-                            <div class="ft-info-label">
-                                Patient ID
-                            </div>
-                            <div
-                                class="ft-info-value"
-                                id="infoPatientId"
-                            >
-                                -
-                            </div>
-                        </div>
-
-                        <div class="ft-info-item">
-                            <div class="ft-info-label">
-                                Gender
-                            </div>
-                            <div
-                                class="ft-info-value"
-                                id="infoGender"
-                            >
-                                -
-                            </div>
-                        </div>
-
-                        <div class="ft-info-item">
-                            <div class="ft-info-label">
-                                Date of Birth
-                            </div>
-                            <div
-                                class="ft-info-value"
-                                id="infoDob"
-                            >
-                                -
-                            </div>
-                        </div>
-
-                        <div class="ft-info-item">
-                            <div class="ft-info-label">
-                                Phone
-                            </div>
-                            <div
-                                class="ft-info-value"
-                                id="infoPhone"
-                            >
-                                -
-                            </div>
-                        </div>
-
-                        <div class="ft-info-item">
-                            <div class="ft-info-label">
-                                Email
-                            </div>
-                            <div
-                                class="ft-info-value"
-                                id="infoEmail"
-                            >
-                                -
-                            </div>
-                        </div>
-
-                        <div class="ft-info-item">
-                            <div class="ft-info-label">
-                                Address
-                            </div>
-                            <div
-                                class="ft-info-value"
-                                id="infoAddress"
-                            >
-                                -
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        class="ft-clinical-info"
-                        style="margin-top:22px;"
-                    >
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
             <!-- APPOINTMENTS -->
 
             <section
@@ -6953,16 +6912,7 @@ async function loadPatient(patientId) {
             patient.first_name,
             patient.last_name
         );
-
-    document.getElementById(
-        "patientMeta"
-    ).innerHTML = `
-        <span>Patient #${escapeHtml(patient.id || patientId)}</span>
-        <span>${escapeHtml(patient.gender || "Gender not recorded")}</span>
-        <span>DOB: ${escapeHtml(formatDate(patient.date_of_birth))}</span>
-    `;
-
-    document.getElementById(
+document.getElementById(
         "infoPatientId"
     ).textContent =
         patient.id || patientId;
@@ -8877,7 +8827,7 @@ async function renderClinicalAlerts(patientId) {
 
             alerts.push({
                 text: "Allergy information not documented",
-                target: "overview"
+                target: "frantett-clinical-overview"
             });
         }
 

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5947,6 +5947,77 @@ label:has(+ #linkedLabRecordedBy),
         font-size: 11px !important;
         text-align: center !important;
     }
+}
+</style>
+
+<style id="frantett-mobile-patient-grid-horizontal">
+@media (max-width: 700px) {
+
+    /* Keep Patient & Appointment Information horizontal on phones */
+    .patient-card .patient-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(120px, 1fr)) !important;
+        gap: 10px !important;
+        width: max-content !important;
+        min-width: 100% !important;
+        overflow: visible !important;
+    }
+
+    .patient-card .patient-grid .info-box {
+        min-width: 120px !important;
+        width: auto !important;
+    }
+
+}
+</style>
+
+<style id="frantett-mobile-patient-grid-value-fit">
+@media (max-width: 700px) {
+
+    /* Keep values contained inside their four horizontal boxes */
+    .patient-card .patient-grid .info-box {
+        min-width: 120px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    .patient-card .patient-grid .info-value {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow-wrap: anywhere !important;
+        word-break: break-word !important;
+        box-sizing: border-box !important;
+    }
+
+}
+</style>
+<style id="frantett-mobile-consultation-id-second-line">
+@media (max-width: 700px) {
+
+    /* Put Consultation ID on its own row on phones */
+    .patient-card .patient-grid .info-box:nth-child(4) {
+        grid-column: 1 !important;
+    }
+
+}
+</style>
+
+<style id="frantett-mobile-show-consultation-id">
+@media (max-width: 700px) {
+
+    /* Replace visible Appointment ID with Consultation ID */
+    .patient-card .patient-grid .info-box:nth-child(3) {
+        display: none !important;
+    }
+
+    .patient-card .patient-grid .info-box:nth-child(4) {
+        grid-column: 3 !important;
+        width: auto !important;
+        min-width: 120px !important;
+        max-width: none !important;
+        justify-self: stretch !important;
+    }
+
 }
 </style>
 </head>
@@ -15743,6 +15814,10 @@ label:has(+ #linkedLabRecordedBy),
     }
 }
 </style>
+
+
+
+
 </head>
         <body>
             ${printable.innerHTML}
@@ -16221,6 +16296,10 @@ function enableConsultationEditMode() {
     <script src="../frantett-theme.js"></script>
 </body>
 </html>
+
+
+
+
 
 
 

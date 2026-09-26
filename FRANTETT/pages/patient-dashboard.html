@@ -4200,6 +4200,17 @@
 /* Mobile */
 @media (max-width: 600px) {
 
+    #appointmentsSection .appointment-actions-desktop {
+        display: none !important;
+    }
+
+    #appointmentsSection .ft-mobile-more-wrap {
+        display: inline-flex !important;
+    }
+
+}
+@media (max-width: 600px) {
+
     #dashboardSection #dashboardLabRequests .dashboard-lab-row {
         padding: 17px 16px 17px 50px !important;
         min-height: 0 !important;
@@ -8332,6 +8343,220 @@ header button[aria-label*="menu" i] svg {
 }
 
         </style>
+<style id="frantett-dashboard-mobile-appointment-info-layout">
+@media (max-width: 600px) {
+
+    #dashboardSection .appointment-item {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) auto !important;
+        column-gap: 12px !important;
+        row-gap: 10px !important;
+        align-items: start !important;
+    }
+
+    #dashboardSection .appointment-main {
+        grid-column: 1 / 2 !important;
+        grid-row: 1 !important;
+        min-width: 0 !important;
+    }
+
+    #dashboardSection .appointment-date {
+        display: inline !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        line-height: 1.35 !important;
+        color: #173f45 !important;
+    }
+
+    #dashboardSection .appointment-date::after {
+        content: " · " !important;
+        color: #71848a !important;
+        font-weight: 600 !important;
+    }
+
+    #dashboardSection .appointment-meta {
+        display: inline !important;
+        margin-top: 0 !important;
+        font-size: 13px !important;
+        line-height: 1.35 !important;
+        color: #71848a !important;
+    }
+
+    #dashboardSection .appointment-time {
+        display: inline !important;
+        font-weight: 600 !important;
+        color: #526970 !important;
+    }
+
+    #dashboardSection .appointment-time::after {
+        content: "" !important;
+    }
+
+    #dashboardSection .appointment-reason {
+        display: inline !important;
+        margin-left: 6px !important;
+        white-space: nowrap !important;
+    }
+
+    #dashboardSection .appointment-doctor {
+        display: block !important;
+        margin-top: 4px !important;
+        font-size: 15px !important;
+        line-height: 1.35 !important;
+        font-weight: 700 !important;
+        color: #173f45 !important;
+    }
+
+    #dashboardSection .appointment-doctor-title {
+        display: inline !important;
+        font-size: 12px !important;
+        line-height: 1.35 !important;
+        color: #71848a !important;
+    }
+
+    #dashboardSection .appointment-doctor-title::after {
+        content: " · " !important;
+        color: #a0afb3 !important;
+    }
+
+    #dashboardSection .appointment-status-wrap {
+        grid-column: 2 / 3 !important;
+        grid-row: 1 !important;
+        align-self: start !important;
+        justify-self: end !important;
+    }
+
+    #dashboardSection .appointment-status {
+        white-space: nowrap !important;
+    }
+
+    #dashboardSection .appointment-actions {
+        grid-column: 1 / -1 !important;
+        grid-row: 2 !important;
+        width: 100% !important;
+        margin-top: 0 !important;
+    }
+
+}
+</style>
+<style id="frantett-dashboard-upcoming-appointments-more-menu">
+@media (max-width: 600px) {
+
+    #dashboardSection .appointment-actions-desktop {
+        display: none !important;
+    }
+
+    #dashboardSection .ft-mobile-more-wrap {
+        display: inline-flex !important;
+    }
+
+}
+@media (max-width: 600px) {
+
+    #dashboardSection .appointment-actions {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 10px !important;
+        margin-top: 15px !important;
+        padding-top: 13px !important;
+        border-top: 1px solid #F1F5F9 !important;
+        flex-wrap: wrap !important;
+    }
+
+    #dashboardSection .ft-mobile-more-wrap {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    #dashboardSection .ft-mobile-primary-action,
+    #dashboardSection .ft-mobile-more {
+        min-height: 38px !important;
+        padding: 8px 12px !important;
+        border: 1px solid #D7E4E4 !important;
+        border-radius: 9px !important;
+        background: #FFFFFF !important;
+        color: #087F76 !important;
+        font-size: 12px !important;
+        font-weight: 800 !important;
+        line-height: 1.2 !important;
+        cursor: pointer !important;
+        white-space: nowrap !important;
+    }
+
+    #dashboardSection .ft-mobile-primary-action {
+        background: #2E8B57 !important;
+        border-color: #2E8B57 !important;
+        color: #FFFFFF !important;
+    }
+
+    #dashboardSection .ft-mobile-more {
+        color: #334155 !important;
+    }
+
+    #dashboardSection .ft-mobile-more:hover,
+    #dashboardSection .ft-mobile-primary-action:hover {
+        transform: translateY(-1px) !important;
+    }
+
+    #dashboardSection .ft-mobile-menu {
+        position: absolute !important;
+        right: 0 !important;
+        bottom: calc(100% + 8px) !important;
+        z-index: 1200 !important;
+        display: none !important;
+        min-width: 155px !important;
+        padding: 6px !important;
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 11px !important;
+        background: #FFFFFF !important;
+        box-shadow: 0 10px 28px rgba(15, 23, 42, .14) !important;
+    }
+
+    #dashboardSection .ft-mobile-menu.open {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 3px !important;
+    }
+
+    #dashboardSection .ft-mobile-menu button {
+        display: flex !important;
+        flex: 0 0 auto !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        width: 100% !important;
+        min-height: 40px !important;
+        margin: 0 !important;
+        padding: 9px 11px !important;
+        border: 0 !important;
+        border-radius: 7px !important;
+        background: transparent !important;
+        color: #334155 !important;
+        text-align: left !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+    }
+
+    #dashboardSection .ft-mobile-menu button:hover {
+        background: #F1F7F6 !important;
+        color: #087F76 !important;
+    }
+
+}
+
+@media (min-width: 601px) {
+
+    #dashboardSection .ft-mobile-more-wrap {
+        display: none !important;
+    }
+
+}
+</style>
 </head>
 
 <body>
@@ -10515,6 +10740,52 @@ function closeAppointmentDetails() {
         "none";
 }
 
+function closeMobileAppointmentMenus() {
+    document
+        .querySelectorAll("#dashboardSection .ft-mobile-menu.open")
+        .forEach(menu => menu.classList.remove("open"));
+}
+
+document.addEventListener("click", function(event) {
+    if (!event.target.closest("#dashboardSection .ft-mobile-more-wrap")) {
+        closeMobileAppointmentMenus();
+    }
+});
+
+function toggleMobileAppointmentMenu(menuId) {
+    const menu = document.getElementById(menuId);
+
+    if (!menu) {
+        return;
+    }
+
+    const wasOpen = menu.classList.contains("open");
+
+    closeMobileAppointmentMenus();
+
+    if (!wasOpen) {
+        menu.classList.add("open");
+    }
+}
+
+function mobilePatientAppointmentAction(action, appointmentId) {
+    closeMobileAppointmentMenus();
+
+    if (action === "view") {
+        openAppointmentDetails(appointmentId);
+        return;
+    }
+
+    if (action === "cancel") {
+        cancelPatientAppointment(appointmentId);
+        return;
+    }
+
+    if (action === "join") {
+        joinPatientVideo(appointmentId);
+        return;
+    }
+}
 function appointmentHTML(
     appointment
 ) {
@@ -10545,6 +10816,64 @@ function appointmentHTML(
     const appointmentStatus =
         appointment.status ||
         "Pending";
+
+    const appointmentId =
+        Number(appointment.id);
+
+    const menuId =
+        `patientMobileAppointmentMenu_${appointmentId}`;
+
+    const isConfirmed =
+        appointmentStatus === "Confirmed";
+
+    const canCancel =
+        ["Pending", "Confirmed"].includes(
+            appointmentStatus
+        );
+
+    const primaryAction =
+        isConfirmed
+            ? `
+                <button
+                    type="button"
+                    class="ft-mobile-primary-action"
+                    onclick="mobilePatientAppointmentAction('join', ${appointmentId})"
+                >
+                    Join Video
+                </button>
+            `
+            : "";
+
+    let menuItems = `
+        <button
+            type="button"
+            onclick="mobilePatientAppointmentAction('view', ${appointmentId})"
+        >
+            View Details
+        </button>
+    `;
+
+    if (canCancel) {
+        menuItems += `
+            <button
+                type="button"
+                onclick="mobilePatientAppointmentAction('cancel', ${appointmentId})"
+            >
+                Cancel
+            </button>
+        `;
+    }
+
+    if (isConfirmed) {
+        menuItems += `
+            <button
+                type="button"
+                onclick="mobilePatientAppointmentAction('join', ${appointmentId})"
+            >
+                Join Video
+            </button>
+        `;
+    }
 
     return `
 
@@ -10602,36 +10931,60 @@ function appointmentHTML(
 
             <div class="appointment-actions">
 
-                <button
-                    type="button"
-                    class="view-link"
-                    onclick="openAppointmentDetails(${Number(appointment.id)})"
-                >
-                    View Details
-                </button>
+                <div class="appointment-actions-desktop">
 
-                ${["Pending", "Confirmed"].includes(
-                    appointment.status
-                ) ? `
                     <button
                         type="button"
                         class="view-link"
-                        onclick="cancelPatientAppointment(${Number(appointment.id)})"
+                        onclick="openAppointmentDetails(${appointmentId})"
                     >
-                        Cancel
+                        View Details
                     </button>
-                ` : ""}
 
-                ${appointment.status === "Confirmed" ? `
+                    ${canCancel ? `
+                        <button
+                            type="button"
+                            class="view-link"
+                            onclick="cancelPatientAppointment(${appointmentId})"
+                        >
+                            Cancel
+                        </button>
+                    ` : ""}
+
+                    ${isConfirmed ? `
+                        <button
+                            type="button"
+                            class="view-link"
+                            onclick="joinPatientVideo(${appointmentId})"
+                        >
+                            Join Video
+                            <span aria-hidden="true">&rarr;</span>
+                        </button>
+                    ` : ""}
+
+                </div>
+
+                <div class="ft-mobile-more-wrap">
+
+                    ${primaryAction}
+
                     <button
                         type="button"
-                        class="view-link"
-                        onclick="joinPatientVideo(${Number(appointment.id)})"
+                        class="ft-mobile-more"
+                        onclick="toggleMobileAppointmentMenu('${menuId}')"
+                        aria-label="More appointment actions"
                     >
-                        Join Video
-                        <span aria-hidden="true">&rarr;</span>
+                        More &#8942;
                     </button>
-                ` : ""}
+
+                    <div
+                        id="${menuId}"
+                        class="ft-mobile-menu"
+                    >
+                        ${menuItems}
+                    </div>
+
+                </div>
 
             </div>
 
@@ -10640,7 +10993,6 @@ function appointmentHTML(
     `;
 
 }
-
 
 /* ==========================================
    LOAD CONSULTATIONS
@@ -14349,6 +14701,9 @@ window.addEventListener("load",function(){
         </script>
 </body>
 </html>
+
+
+
 
 
 
