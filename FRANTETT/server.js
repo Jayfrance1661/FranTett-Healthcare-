@@ -94,7 +94,8 @@ app.use(
     cors({
         origin: [
             "http://localhost:5500",
-            "http://127.0.0.1:5500"
+            "http://127.0.0.1:5500",
+            "http://10.0.0.63:5500"
         ],
         credentials: true
     })
@@ -11390,6 +11391,7 @@ https.createServer(
 
     }
 );
+
 
 
 

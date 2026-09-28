@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -770,6 +770,9 @@
         @media (max-width: 800px) {
 
             header {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
                 padding: 15px 20px;
                 flex-wrap: wrap;
             }
@@ -781,6 +784,10 @@
             nav {
                 display: none;
                 width: 100%;
+                max-width: 100%;
+                min-width: 0;
+                box-sizing: border-box;
+                flex: 0 0 100%;
                 flex-direction: column;
                 align-items: stretch;
                 gap: 4px;
@@ -854,8 +861,225 @@
 
             .appointments-section,
             .messages-section {
+                width: 100%;
+                max-width: 100%;
+                min-width: 0;
+                box-sizing: border-box;
+                overflow: hidden;
                 padding: 18px;
             }
+
+            /* =========================================
+               MOBILE DASHBOARD TABLE CARDS
+               CSS ONLY ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â DESKTOP UNCHANGED
+            ========================================= */
+
+            .appointments-section .table-wrapper,
+            .messages-section .table-wrapper {
+                overflow: visible;
+            }
+
+            .appointments-section table,
+            .messages-section table {
+                border: 0;
+                width: 100%;
+            }
+
+            .appointments-section thead,
+            .messages-section thead {
+                display: none;
+            }
+
+            .appointments-section tbody,
+            .appointments-section tbody tr,
+            .messages-section tbody,
+            .messages-section tbody tr {
+                display: block;
+                width: 100%;
+            }
+
+            .appointments-section tbody tr,
+            .messages-section tbody tr {
+                margin-bottom: 16px;
+                padding: 16px;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                background: #ffffff;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            }
+
+            .appointments-section tbody td,
+            .messages-section tbody td {
+                display: block;
+                width: 100%;
+                padding: 5px 0;
+                border: 0;
+                text-align: left;
+                vertical-align: top;
+                word-break: break-word;
+            }
+
+            .appointments-section tbody td::before,
+            .messages-section tbody td::before {
+                display: block;
+                margin-bottom: 2px;
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                color: #6b7280;
+            }
+
+            /* Recent Appointments */
+
+            .appointments-section tbody td:nth-child(1)::before {
+                content: "ID";
+            }
+
+            .appointments-section tbody td:nth-child(2)::before {
+                content: "Patient";
+            }
+
+            .appointments-section tbody td:nth-child(3)::before {
+                content: "Doctor";
+            }
+
+            .appointments-section tbody td:nth-child(4)::before {
+                content: "Date";
+            }
+
+            .appointments-section tbody td:nth-child(5)::before {
+                content: "Time";
+            }
+
+            .appointments-section tbody td:nth-child(6)::before {
+                content: "Reason";
+            }
+
+            .appointments-section tbody td:nth-child(7)::before {
+                content: "Status";
+            }
+
+            .appointments-section tbody td:first-child {
+                padding-top: 0;
+                font-weight: 700;
+            }
+
+            .appointments-section tbody td:last-child {
+                padding-bottom: 0;
+            }
+
+            /* Contact Messages */
+
+            .messages-section tbody td:nth-child(1)::before {
+                content: "ID";
+            }
+
+            .messages-section tbody td:nth-child(2)::before {
+                content: "Name";
+            }
+
+            .messages-section tbody td:nth-child(3)::before {
+                content: "Email";
+            }
+
+            .messages-section tbody td:nth-child(4)::before {
+                content: "Subject";
+            }
+
+            .messages-section tbody td:nth-child(5)::before {
+                content: "Status";
+            }
+
+            .messages-section tbody td:nth-child(6)::before {
+                content: "Date";
+            }
+
+            .messages-section tbody td:nth-child(7)::before {
+                content: "Actions";
+            }
+
+            .messages-section tbody td:last-child {
+                padding-top: 10px;
+                padding-bottom: 0;
+            }
+
+            .appointments-section .status-badge,
+            .messages-section .status-badge {
+                display: inline-block;
+                margin-top: 2px;
+            }
+
+            .messages-section .table-actions {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+                max-width: 100%;
+                position: relative;
+                overflow: visible;
+            }
+
+            .messages-section .table-actions > .small-btn,
+            .messages-section .mobile-message-more {
+                flex: 0 0 auto;
+                min-width: 0;
+            }
+
+            .messages-section .table-actions > .small-btn {
+                max-width: 110px;
+                white-space: nowrap;
+            }
+
+            .messages-section .mobile-message-more {
+                max-width: 110px;
+            }
+
+            .messages-section .mobile-message-more {
+                position: relative;
+            }
+
+            .messages-section .mobile-message-more > summary {
+                list-style: none;
+                width: 100%;
+                min-width: 0;
+                box-sizing: border-box;
+                text-align: center;
+                cursor: pointer;
+            }
+
+            .messages-section .mobile-message-more > summary::-webkit-details-marker {
+                display: none;
+            }
+
+            .messages-section .mobile-message-menu {
+                position: absolute;
+                right: 0;
+                top: calc(100% + 6px);
+                width: 150px;
+                max-width: calc(100vw - 48px);
+                padding: 6px;
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+                background: #ffffff;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+                z-index: 50;
+                box-sizing: border-box;
+            }
+
+            .messages-section .mobile-message-menu .small-btn {
+                display: block;
+                width: 100%;
+                min-width: 0;
+                margin: 0;
+                box-sizing: border-box;
+                text-align: left;
+            }
+
+            .messages-section .mobile-message-menu .small-btn + .small-btn {
+                margin-top: 4px;
+            }
+
 
             .toast {
                 left: 15px;
@@ -1728,7 +1952,7 @@
                     type="button"
                     onclick="closeMessageModal()"
                     aria-label="Close">
-                    ×
+                    ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â
                 </button>
 
             </div>
@@ -2706,7 +2930,7 @@
 
                 document.getElementById(
                     "totalPatients"
-                ).textContent = "Ã¢â‚¬â€";
+                ).textContent = "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â";
 
             }
 
@@ -3482,50 +3706,60 @@
                                         View
                                     </button>
 
-                                    ${
-                                        isNew
-                                        ? `
+                                    <details class="mobile-message-more">
+
+                                        <summary class="small-btn more">
+                                            More &#8942;
+                                        </summary>
+
+                                        <div class="mobile-message-menu">
+
+                                            ${
+                                                isNew
+                                                ? `
+                                                    <button
+                                                        class="small-btn read"
+                                                        type="button"
+                                                        onclick="updateMessageStatus(${Number(
+                                                            contactMessage.id
+                                                        )}, 'Read')">
+                                                        Read
+                                                    </button>
+                                                `
+                                                : ""
+                                            }
+
+                                            ${
+                                                String(
+                                                    contactMessage.status || ""
+                                                ).toLowerCase() !== "replied"
+                                                ? `
+                                                    <button
+                                                        class="small-btn replied"
+                                                        type="button"
+                                                        onclick="updateMessageStatus(${Number(
+                                                            contactMessage.id
+                                                        )}, 'Replied')">
+                                                        Replied
+                                                    </button>
+                                                `
+                                                : ""
+                                            }
+
                                             <button
-                                                class="small-btn read"
+                                                class="small-btn delete"
                                                 type="button"
-                                                onclick="updateMessageStatus(${Number(
+                                                onclick="deleteContactMessage(${Number(
                                                     contactMessage.id
-                                                )}, 'Read')">
-                                                Read
+                                                )})">
+                                                Delete
                                             </button>
-                                        `
-                                        : ""
-                                    }
 
-                                    ${
-                                        String(
-                                            contactMessage.status || ""
-                                        ).toLowerCase() !== "replied"
-                                        ? `
-                                            <button
-                                                class="small-btn replied"
-                                                type="button"
-                                                onclick="updateMessageStatus(${Number(
-                                                    contactMessage.id
-                                                )}, 'Replied')">
-                                                Replied
-                                            </button>
-                                        `
-                                        : ""
-                                    }
+                                        </div>
 
-                                    <button
-                                        class="small-btn delete"
-                                        type="button"
-                                        onclick="deleteContactMessage(${Number(
-                                            contactMessage.id
-                                        )})">
-                                        Delete
-                                    </button>
+                                    </details>
 
-                                </div>
-
-                            </td>
+                                </div></td>
 
                         `;
 
@@ -3587,7 +3821,7 @@
                 document.getElementById(
                     "newMessagesCount"
                 ).textContent =
-                    "Ã¢â‚¬â€";
+                    "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â";
 
             }
 
@@ -4344,7 +4578,7 @@ else if (
 
                             <td style="padding:12px;">
                                 ${escapeHtml(
-                                    request.phone || "Ã¢â‚¬â€"
+                                    request.phone || "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â"
                                 )}
                             </td>
 
@@ -4557,14 +4791,14 @@ else if (
         function formatStaffDate(value) {
 
             if (!value) {
-                return "Ã¢â‚¬â€";
+                return "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â";
             }
 
             const date =
                 new Date(value);
 
             if (isNaN(date.getTime())) {
-                return "Ã¢â‚¬â€";
+                return "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â";
             }
 
             return date.toLocaleString(
@@ -5025,8 +5259,6 @@ else if (
     <script src="../frantett-theme.js"></script>
 </body>
 </html>
-
-
 
 
 
