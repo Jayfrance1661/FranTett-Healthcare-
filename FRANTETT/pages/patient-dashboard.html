@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1901,36 +1901,349 @@
     }
 }
 </style><style id="ft-lab-result-table-fix">.ft-lab-result-table{table-layout:auto;width:100%;}.ft-lab-result-table th,.ft-lab-result-table td{white-space:normal;vertical-align:top;padding:10px 12px;}.ft-lab-result-table th:nth-child(1),.ft-lab-result-table td:nth-child(1){min-width:120px;}.ft-lab-result-table th:nth-child(2),.ft-lab-result-table td:nth-child(2){min-width:70px;}.ft-lab-result-table th:nth-child(3),.ft-lab-result-table td:nth-child(3){min-width:60px;}.ft-lab-result-table th:nth-child(4),.ft-lab-result-table td:nth-child(4){min-width:70px;}.ft-lab-result-table th:nth-child(5),.ft-lab-result-table td:nth-child(5){min-width:120px;}</style><style id="safe-lab-result-header-css">
-/* Professional Laboratory Result header - SAFE */
+
+/* =========================================================
+   FRANTETT LABORATORY RESULT DOCUMENT
+   Visual-only redesign
+   ========================================================= */
+
+#ftLabResultModal .ft-document-panel {
+    width: min(900px, 100%) !important;
+    padding: 0 !important;
+    overflow-y: auto !important;
+    background: #ffffff !important;
+    border: 1px solid #dce8e2 !important;
+    border-radius: 18px !important;
+}
+
 #ftLabResultModal .ft-document-header {
-    justify-content: center;
-    text-align: center;
-    padding: 24px 28px 20px;
-    border-bottom: 1px solid #e5e7eb;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 22px 28px !important;
+    margin: 0 !important;
+    border-bottom: 1px solid #e5eee9 !important;
+    background: #ffffff !important;
 }
 
 #ftLabResultModal .ft-document-header > div {
-    width: 100%;
-    text-align: center;
+    width: auto !important;
+    text-align: left !important;
 }
 
 #ftLabResultModal .ft-document-brand {
-    text-align: center;
-    font-size: 26px;
-    font-weight: 800;
-    letter-spacing: 1.2px;
-    line-height: 1.2;
-    margin-bottom: 6px;
+    color: #24523d !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.5px !important;
+    line-height: 1.3 !important;
+    margin: 0 0 4px 0 !important;
 }
 
 #ftLabResultModal .ft-document-title {
-    text-align: center;
-    font-size: 17px;
-    font-weight: 500;
-    letter-spacing: .2px;
-    margin: 0;
-    color: #4b5563;
+    color: #6f8179 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    letter-spacing: .2px !important;
+    margin: 0 !important;
 }
+
+#ftLabResultModal .ft-document-close {
+    flex: 0 0 auto !important;
+    width: 38px !important;
+    height: 38px !important;
+    border: 1px solid #dce8e2 !important;
+    border-radius: 10px !important;
+    background: #f7faf8 !important;
+    color: #527066 !important;
+    font-size: 24px !important;
+    line-height: 1 !important;
+}
+
+#ftLabResultModal #ftLabResultContent {
+    padding: 0 !important;
+}
+
+#ftLabResultModal .ft-lab-result-document {
+    padding: 28px !important;
+}
+
+#ftLabResultModal .ft-lab-result-hero {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+    padding: 24px !important;
+    margin-bottom: 26px !important;
+    background: linear-gradient(135deg, #f4faf7 0%, #ffffff 100%) !important;
+    border: 1px solid #dcebe3 !important;
+    border-radius: 15px !important;
+}
+
+#ftLabResultModal .ft-lab-result-eyebrow {
+    margin-bottom: 7px !important;
+    color: #2e8b57 !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.2px !important;
+}
+
+#ftLabResultModal .ft-lab-result-test {
+    color: #193d2d !important;
+    font-size: 27px !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+}
+
+#ftLabResultModal .ft-lab-result-subtitle {
+    margin-top: 7px !important;
+    color: #71837b !important;
+    font-size: 12px !important;
+}
+
+#ftLabResultModal .ft-lab-result-status {
+    flex: 0 0 auto !important;
+    padding: 7px 13px !important;
+    border: 1px solid #b9dcc8 !important;
+    border-radius: 999px !important;
+    background: #eaf7ef !important;
+    color: #247247 !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: .8px !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+}
+
+#ftLabResultModal .ft-lab-result-section {
+    margin-top: 26px !important;
+}
+
+#ftLabResultModal .ft-lab-result-section-heading {
+    margin-bottom: 12px !important;
+    color: #28543f !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: .9px !important;
+    text-transform: uppercase !important;
+}
+
+#ftLabResultModal .ft-lab-result-meta-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+}
+
+#ftLabResultModal .ft-lab-result-meta-field {
+    min-width: 0 !important;
+    padding: 14px 16px !important;
+    background: #f8faf9 !important;
+    border: 1px solid #e3ece7 !important;
+    border-radius: 11px !important;
+}
+
+#ftLabResultModal .ft-document-label {
+    margin-bottom: 6px !important;
+    color: #7b8b84 !important;
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    letter-spacing: .7px !important;
+    text-transform: uppercase !important;
+}
+
+#ftLabResultModal .ft-document-value {
+    color: #263d33 !important;
+    font-size: 13px !important;
+    font-weight: 650 !important;
+    line-height: 1.45 !important;
+    overflow-wrap: anywhere !important;
+}
+
+#ftLabResultModal .ft-lab-findings-section {
+    margin-top: 30px !important;
+}
+
+#ftLabResultModal .ft-lab-result-table-wrap {
+    width: 100% !important;
+    overflow-x: auto !important;
+    border: 1px solid #dfe9e4 !important;
+    border-radius: 12px !important;
+}
+
+#ftLabResultModal .ft-lab-result-scroll-indicator {
+    display: none;
+    margin-top: 7px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #718078;
+    letter-spacing: .1px;
+}
+
+#ftLabResultModal .ft-lab-result-scroll-indicator span {
+    font-size: 15px;
+    margin-right: 4px;
+}
+
+#ftLabResultModal .ft-lab-result-table {
+    width: 100% !important;
+    min-width: 650px !important;
+    margin: 0 !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+
+#ftLabResultModal .ft-lab-result-table th {
+    padding: 12px 13px !important;
+    background: #f3f7f5 !important;
+    border-bottom: 1px solid #dce7e1 !important;
+    color: #486358 !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: .45px !important;
+    text-transform: uppercase !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+}
+
+#ftLabResultModal .ft-lab-result-table td {
+    padding: 13px !important;
+    border-bottom: 1px solid #edf2ef !important;
+    color: #33473f !important;
+    font-size: 12px !important;
+    vertical-align: middle !important;
+}
+
+#ftLabResultModal .ft-lab-result-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+#ftLabResultModal .ft-lab-result-table tbody tr:hover {
+    background: #fbfdfc !important;
+}
+
+#ftLabResultModal .ft-lab-result-number {
+    font-weight: 750 !important;
+    color: #1f4635 !important;
+}
+
+#ftLabResultModal .ft-lab-result-flag {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 27px !important;
+    min-height: 24px !important;
+    padding: 3px 7px !important;
+    border-radius: 6px !important;
+    background: #f2f5f3 !important;
+    color: #52665d !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+}
+
+#ftLabResultModal .ft-lab-result-empty {
+    padding: 18px !important;
+    background: #f8faf9 !important;
+    border: 1px solid #e3ece7 !important;
+    border-radius: 11px !important;
+    color: #71817a !important;
+    font-size: 12px !important;
+}
+
+#ftLabResultModal .ft-lab-notes-section {
+    margin-top: 26px !important;
+}
+
+#ftLabResultModal .ft-lab-result-notes {
+    padding: 15px 17px !important;
+    background: #f8faf9 !important;
+    border-left: 3px solid #2e8b57 !important;
+    border-radius: 0 10px 10px 0 !important;
+    color: #4d6058 !important;
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+    overflow-wrap: anywhere !important;
+}
+
+#ftLabResultModal .ft-document-actions {
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+    margin: 0 !important;
+    padding: 18px 28px 24px !important;
+    border-top: 1px solid #e5eee9 !important;
+}
+
+#ftLabResultModal .ft-print-button {
+    border: none !important;
+    border-radius: 9px !important;
+    padding: 11px 18px !important;
+    background: #2e8b57 !important;
+    color: #ffffff !important;
+    font-size: 12px !important;
+    font-weight: 750 !important;
+}
+
+@media (max-width: 600px) {
+
+    #ftLabResultModal {
+        padding: 10px !important;
+    }
+
+    #ftLabResultModal .ft-document-panel {
+        max-height: 94vh !important;
+        border-radius: 15px !important;
+    }
+
+    #ftLabResultModal .ft-document-header {
+        padding: 17px 18px !important;
+    }
+
+    #ftLabResultModal .ft-lab-result-document {
+        padding: 18px !important;
+    }
+
+    #ftLabResultModal .ft-lab-result-hero {
+        display: block !important;
+        padding: 18px !important;
+        margin-bottom: 22px !important;
+    }
+
+    #ftLabResultModal .ft-lab-result-test {
+        font-size: 23px !important;
+    }
+
+    #ftLabResultModal .ft-lab-result-status {
+        display: inline-flex !important;
+        margin-top: 14px !important;
+    }
+
+    #ftLabResultModal .ft-lab-result-meta-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+
+    #ftLabResultModal .ft-lab-result-section {
+        margin-top: 22px !important;
+    }
+
+    #ftLabResultModal .ft-lab-result-table-wrap {
+        border-radius: 10px !important;
+    }
+
+    #ftLabResultModal .ft-lab-result-scroll-indicator {
+        display: block;
+    }
+
+    #ftLabResultModal .ft-document-actions {
+        padding: 16px 18px 20px !important;
+    }
+
+    #ftLabResultModal .ft-print-button {
+        width: 100% !important;
+    }
+}
+
 </style><style id="frantett-patient-section-design-v1">
 
 /* =========================================================
@@ -4200,12 +4513,69 @@
 /* Mobile */
 @media (max-width: 600px) {
 
+    #appointmentsSection .card {
+        overflow: visible !important;
+    }
+
     #appointmentsSection .appointment-actions-desktop {
+        display: none !important;
+    }
+
+    #appointmentsSection .appointment-actions > .appointment-actions-desktop {
         display: none !important;
     }
 
     #appointmentsSection .ft-mobile-more-wrap {
         display: inline-flex !important;
+        position: relative !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    #appointmentsSection .ft-mobile-menu {
+        position: absolute !important;
+        right: 0 !important;
+        top: calc(100% + 8px) !important;
+        bottom: auto !important;
+        z-index: 1200 !important;
+        display: none !important;
+        min-width: 155px !important;
+        padding: 6px !important;
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 11px !important;
+        background: #FFFFFF !important;
+        box-shadow: 0 10px 28px rgba(15, 23, 42, .14) !important;
+    }
+
+    #appointmentsSection .ft-mobile-menu.open {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 3px !important;
+    }
+
+    #appointmentsSection .ft-mobile-menu button {
+        display: flex !important;
+        flex: 0 0 auto !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        width: 100% !important;
+        min-height: 40px !important;
+        margin: 0 !important;
+        padding: 9px 11px !important;
+        border: 0 !important;
+        border-radius: 7px !important;
+        background: transparent !important;
+        color: #334155 !important;
+        text-align: left !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+    }
+
+    #appointmentsSection .ft-mobile-menu button:hover {
+        background: #F1F7F6 !important;
     }
 
 }
@@ -6579,7 +6949,7 @@ header button[aria-label*="menu" i] svg {
 }
 
 #prescriptionsSection .ft-prescription-status::before {
-    content: " ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ";
+    content: none;
     color: #94A3B8;
     white-space: pre;
 }
@@ -6627,7 +6997,7 @@ header button[aria-label*="menu" i] svg {
 
 /* Separator before doctor */
 #prescriptionsSection .ft-prescription-info:nth-child(2)::before {
-    content: " ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ";
+    content: none;
     color: #94A3B8;
     white-space: pre;
 }
@@ -6648,7 +7018,7 @@ header button[aria-label*="menu" i] svg {
 }
 
 #prescriptionsSection .ft-prescription-view-button::after {
-    content: " ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢";
+    content: none;
     font-size: 16px;
     margin-left: 3px;
 }
@@ -10742,31 +11112,20 @@ function closeAppointmentDetails() {
 
 function closeMobileAppointmentMenus() {
     document
-        .querySelectorAll("#dashboardSection .ft-mobile-menu.open")
+        .querySelectorAll(
+            "#dashboardSection .ft-mobile-menu.open, #appointmentsSection .ft-mobile-menu.open"
+        )
         .forEach(menu => menu.classList.remove("open"));
 }
 
 document.addEventListener("click", function(event) {
-    if (!event.target.closest("#dashboardSection .ft-mobile-more-wrap")) {
+    if (
+        !event.target.closest("#dashboardSection .ft-mobile-more-wrap") &&
+        !event.target.closest("#appointmentsSection .ft-mobile-more-wrap")
+    ) {
         closeMobileAppointmentMenus();
     }
 });
-
-function toggleMobileAppointmentMenu(menuId) {
-    const menu = document.getElementById(menuId);
-
-    if (!menu) {
-        return;
-    }
-
-    const wasOpen = menu.classList.contains("open");
-
-    closeMobileAppointmentMenus();
-
-    if (!wasOpen) {
-        menu.classList.add("open");
-    }
-}
 
 function mobilePatientAppointmentAction(action, appointmentId) {
     closeMobileAppointmentMenus();
@@ -10971,7 +11330,7 @@ function appointmentHTML(
                     <button
                         type="button"
                         class="ft-mobile-more"
-                        onclick="toggleMobileAppointmentMenu('${menuId}')"
+                        onclick="event.stopPropagation(); this.nextElementSibling.classList.toggle('open')"
                         aria-label="More appointment actions"
                     >
                         More &#8942;
@@ -11302,10 +11661,6 @@ function openFTLabRequest(id) {
                     <div>
                         <span class="ft-lab-field-label">Requesting Clinician</span>
                         <strong>${escapeHTML(request.requested_by || "Healthcare Provider")}</strong>
-                    </div>
-                    <div>
-                        <span class="ft-lab-field-label">Request Date</span>
-                        <strong>${escapeHTML(formatDate(request.request_date))}</strong>
                     </div>
                 </div>
 
@@ -11769,7 +12124,7 @@ window.openFTPrescription = function(id) {
                                 ${escapeHTML(
                                     String(
                                         prescription.id ||
-                                        "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â"
+                                        "Unknown"
                                     )
                                 )}
                             </div>
@@ -11777,7 +12132,8 @@ window.openFTPrescription = function(id) {
 
                     </div>
 
-                    <table class="ft-document-table">
+                    <div class="ft-prescription-table-wrap">
+                        <table class="ft-document-table ft-prescription-table">
 
                         <thead>
                             <tr>
@@ -11800,7 +12156,7 @@ window.openFTPrescription = function(id) {
                                                 <td>
                                                     ${escapeHTML(
                                                         medication.medication_name ||
-                                                        "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â"
+                                                        "Medication"
                                                     )}
                                                 </td>
                                                 <td>
@@ -11847,7 +12203,12 @@ window.openFTPrescription = function(id) {
 
                         </tbody>
 
-                    </table>
+                        </table>
+                    </div>
+
+                    <div class="ft-prescription-scroll-indicator" aria-hidden="true">
+                        <span>↔</span> Swipe to view more
+                    </div>
 
                     ${
                         prescription.instructions
@@ -12002,6 +12363,20 @@ window.openFTPrescription = function(id) {
                         item.instructions ||
                         item.frequency ||
                         "";
+
+                                    /*
+                     * Repair the known prescription-title mojibake
+                     * only for this timeline display.
+                     */
+                    if (
+                        typeof title === "string" &&
+                        title.includes("\u00C3\u00A2\u00E2\u201A\u00AC\u00C2\u00A2")
+                    ) {
+                        title = title.replaceAll(
+                            "\u00C3\u00A2\u00E2\u201A\u00AC\u00C2\u00A2",
+                            "\u2022"
+                        );
+                    }
 
                 }
 
@@ -13344,6 +13719,39 @@ function switchPatientVideoFocus() {
     </div>
 </div>
 
+<style id="safe-prescription-table-scroll-css">
+#ftPrescriptionModal .ft-prescription-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#ftPrescriptionModal .ft-prescription-table {
+    min-width: 700px;
+}
+
+#ftPrescriptionModal .ft-prescription-scroll-indicator {
+    display: none;
+}
+
+#ftPrescriptionModal .ft-prescription-scroll-indicator span {
+    display: inline-block;
+    margin-right: 6px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+@media (max-width: 600px) {
+    #ftPrescriptionModal .ft-prescription-scroll-indicator {
+        display: block;
+        margin-top: 8px;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 700;
+        color: #667085;
+    }
+}
+</style>
 <div id="ftPrescriptionModal" class="ft-document-modal" onclick="if(event.target===this) closeFTDocumentModal('ftPrescriptionModal')">
     <div class="ft-document-panel">
         <div class="ft-document-header">
@@ -13379,45 +13787,97 @@ window.openFTLabResult = function(id) {
     const parameters = Array.isArray(report.parameters) ? report.parameters : [];
 
     document.getElementById("ftLabResultContent").innerHTML = `
-        <div class="ft-document-grid" style="grid-template-columns:repeat(5,minmax(0,1fr));">
-            <div class="ft-document-field">
-                <div class="ft-document-label">Patient</div>
-                <div class="ft-document-value">${escapeHTML(report.patient_name || "Patient")}</div>
+    <div class="ft-lab-result-document">
+
+        <div class="ft-lab-result-hero">
+
+            <div class="ft-lab-result-hero-main">
+                <div class="ft-lab-result-eyebrow">
+                    LABORATORY RESULT
+                </div>
+
+                <div class="ft-lab-result-test">
+                    ${escapeHTML(report.test_name || "Laboratory Test")}
+                </div>
+
+                <div class="ft-lab-result-subtitle">
+                    Clinical laboratory findings
+                </div>
             </div>
 
-            <div class="ft-document-field">
-                <div class="ft-document-label">Result Date</div>
-                <div class="ft-document-value">${escapeHTML((report.result_date || report.created_at || "Not recorded").split("T")[0])}</div>
+            <div class="ft-lab-result-status">
+                ${escapeHTML(report.status || "Completed")}
             </div>
 
-            <div class="ft-document-field">
-                <div class="ft-document-label">Status</div>
-                <div class="ft-document-value">${escapeHTML(report.status || "Completed")}</div>
-            </div>
-
-            <div class="ft-document-field">
-                <div class="ft-document-label">Recorded By</div>
-                <div class="ft-document-value">${escapeHTML(report.recorded_by || "Not recorded")}</div>
-            </div>
-
-            <div class="ft-document-field">
-                <div class="ft-document-label">Report ID</div>
-                <div class="ft-document-value">${escapeHTML(String(report.id))}</div>
-            </div>
         </div>
 
-        <div class="ft-document-field full" style="margin-top:20px;">
-            <div class="ft-document-label">Test</div>
-            <div class="ft-document-value" style="font-size:18px;font-weight:700;">${escapeHTML(report.test_name || "Laboratory Test")}</div>
-        </div>
 
-        <div style="margin-top:20px;">
-            <div class="ft-document-label" style="margin-bottom:8px;">Laboratory Findings</div>
+        <section class="ft-lab-result-section">
+
+            <div class="ft-lab-result-section-heading">
+                Patient Information
+            </div>
+
+            <div class="ft-lab-result-meta-grid">
+
+                <div class="ft-lab-result-meta-field">
+                    <div class="ft-document-label">
+                        Patient
+                    </div>
+                    <div class="ft-document-value">
+                        ${escapeHTML((patient?.first_name && patient?.last_name) ? `${patient.first_name} ${patient.last_name}` : (patient?.first_name || patient?.last_name || "Patient"))}
+                    </div>
+                </div>
+
+                <div class="ft-lab-result-meta-field">
+                    <div class="ft-document-label">
+                        Result Date
+                    </div>
+                    <div class="ft-document-value">
+                        ${escapeHTML(
+                            (report.result_date ||
+                             report.created_at ||
+                             "Not recorded").split("T")[0]
+                        )}
+                    </div>
+                </div>
+
+                <div class="ft-lab-result-meta-field">
+                    <div class="ft-document-label">
+                        Recorded By
+                    </div>
+                    <div class="ft-document-value">
+                        ${escapeHTML(report.recorded_by || "Not recorded")}
+                    </div>
+                </div>
+
+                <div class="ft-lab-result-meta-field">
+                    <div class="ft-document-label">
+                        Report ID
+                    </div>
+                    <div class="ft-document-value">
+                        #${escapeHTML(String(report.id))}
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="ft-lab-result-section ft-lab-findings-section">
+
+            <div class="ft-lab-result-section-heading">
+                Laboratory Findings
+            </div>
+
             ${
                 parameters.length
                 ? `
-                    <div style="overflow-x:auto;">
-                        <table class="ft-document-table ft-lab-result-table" style="table-layout:auto;width:100%;">
+                    <div class="ft-lab-result-table-wrap">
+
+                        <table class="ft-document-table ft-lab-result-table">
+
                             <thead>
                                 <tr>
                                     <th>Parameter</th>
@@ -13427,31 +13887,58 @@ window.openFTLabResult = function(id) {
                                     <th>Reference Range</th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 ${parameters.map(p => `
                                     <tr>
                                         <td>${escapeHTML(p.parameter_name || "")}</td>
-                                        <td>${escapeHTML(p.result_value || "")}</td>
+                                        <td class="ft-lab-result-number">
+                                            ${escapeHTML(p.result_value || "")}
+                                        </td>
                                         <td>${escapeHTML(p.unit || "")}</td>
-                                        <td>${escapeHTML(p.flag || "")}</td>
+                                        <td>
+                                            <span class="ft-lab-result-flag">
+                                                ${escapeHTML(p.flag || "")}
+                                            </span>
+                                        </td>
                                         <td>${escapeHTML(p.reference_range || "")}</td>
                                     </tr>
                                 `).join("")}
                             </tbody>
+
                         </table>
+
+                    </div>
+
+                    <div class="ft-lab-result-scroll-indicator" aria-hidden="true">
+                        <span>↔</span> Swipe to view more
                     </div>
                 `
-                : '<div class="empty-state">No individual laboratory parameters recorded.</div>'
+                : `
+                    <div class="ft-lab-result-empty">
+                        No individual laboratory parameters recorded.
+                    </div>
+                `
             }
-        </div>
 
-        <div class="ft-document-field full" style="margin-top:20px;">
-            <div class="ft-document-label">Notes</div>
-            <div class="ft-document-value">${escapeHTML(report.notes || "No notes recorded.")}</div>
-        </div>
-    `;
+        </section>
 
-    document.getElementById("ftLabResultModal").style.display = "flex";
+
+        <section class="ft-lab-result-section ft-lab-notes-section">
+
+            <div class="ft-lab-result-section-heading">
+                Notes
+            </div>
+
+            <div class="ft-lab-result-notes">
+                ${escapeHTML(report.notes || "No notes recorded.")}
+            </div>
+
+        </section>
+
+    </div>
+`;
+document.getElementById("ftLabResultModal").style.display = "flex";
 };</script>
 
 <script id="frantett-dashboard-labs-v1">
