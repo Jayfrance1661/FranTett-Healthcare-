@@ -1,4 +1,4 @@
-﻿const cors = require("cors");
+const cors = require("cors");
 const express = require("express");
 const https = require("https");
 const fs = require("fs");
@@ -719,7 +719,7 @@ app.put(
                 newUserResult.rows[0].id;
 
             // ----------------------------------
-            // DOCTOR ACCOUNT â†’ DOCTOR PROFILE
+            // DOCTOR ACCOUNT Ã¢â€ â€™ DOCTOR PROFILE
             // ----------------------------------
             if (
                 String(request.role).trim().toLowerCase() ===
@@ -1371,6 +1371,7 @@ function requireAdmin(req, res, next) {
         });
 
     }
+    next();
 }
 
 
@@ -1690,6 +1691,114 @@ async function requireDoctorAccount(req, res, next) {
 
     }
 
+}
+/* ============================================================
+   DOCTOR -> PATIENT RECORD AUTHORIZATION
+   A doctor may access a patient's clinical records only when
+   that patient has an appointment assigned to that doctor.
+   ============================================================ */
+
+async function requireDoctorPatientAccess(req, res, next) {
+
+    /*
+     * Staff/admin users retain their existing access.
+     * Doctor users must be verified and must have an
+     * appointment relationship with the requested patient.
+     */
+
+    const userRole =
+        String(req.user?.role || "")
+            .trim()
+            .toLowerCase();
+
+    if (userRole !== "doctor") {
+        return next();
+    }
+
+    try {
+
+        /*
+         * Verify the authenticated user is actually linked
+         * to an active Doctor profile.
+         */
+        if (
+            !req.doctorAccount ||
+            !req.doctorAccount.doctor_id
+        ) {
+
+            let verificationComplete = false;
+            let verificationError = null;
+
+            await requireDoctorAccount(
+                req,
+                res,
+                () => {
+                    verificationComplete = true;
+                }
+            );
+
+            if (!verificationComplete) {
+                return;
+            }
+
+        }
+
+        const patientId =
+            parseInt(
+                req.params.patientId || req.params.id,
+                10
+            );
+
+        if (isNaN(patientId)) {
+
+            return res.status(400).json({
+                message:
+                    "Invalid patient ID."
+            });
+
+        }
+
+        const accessResult =
+            await pool.query(
+                `
+                SELECT 1
+                FROM appointments
+                WHERE patient_id = $1
+                  AND doctor_id = $2
+                LIMIT 1
+                `,
+                [
+                    patientId,
+                    req.doctorAccount.doctor_id
+                ]
+            );
+
+        if (accessResult.rows.length === 0) {
+
+            return res.status(403).json({
+                message:
+                    "You are not authorized to access this patient's records."
+            });
+
+        }
+
+        req.authorizedPatientId = patientId;
+
+        next();
+
+    } catch (error) {
+
+        console.error(
+            "Doctor patient authorization error:",
+            error
+        );
+
+        return res.status(500).json({
+            message:
+                "Unable to verify patient access."
+        });
+
+    }
 }
 async function requireStaffAccount(req, res, next) {
 
@@ -2047,7 +2156,7 @@ async function verifySecurityCode({
     };
 }
 
-/* REQUEST EMAIL CHANGE Ã¢â‚¬â€ SEND CODE TO CURRENT EMAIL */
+/* REQUEST EMAIL CHANGE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â SEND CODE TO CURRENT EMAIL */
 
 app.post(
     "/api/settings/email/request",
@@ -2119,7 +2228,7 @@ app.post(
                 await sendSecurityEmail({
                     to: currentEmail,
                     subject:
-                        "FranTett Healthcare Ã¢â‚¬â€ Email Change Verification",
+                        "FranTett Healthcare ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Email Change Verification",
                     title:
                         "Verify Your Email Change",
                     message:
@@ -2184,7 +2293,7 @@ app.post(
     }
 );
 
-/* VERIFY CURRENT EMAIL CODE Ã¢â‚¬â€ SEND SECOND CODE TO NEW EMAIL */
+/* VERIFY CURRENT EMAIL CODE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â SEND SECOND CODE TO NEW EMAIL */
 
 app.post(
     "/api/settings/email/verify-current",
@@ -2278,7 +2387,7 @@ app.post(
                 await sendSecurityEmail({
                     to: newEmail,
                     subject:
-                        "FranTett Healthcare Ã¢â‚¬â€ Confirm New Email Address",
+                        "FranTett Healthcare ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Confirm New Email Address",
                     title:
                         "Confirm Your New Email Address",
                     message:
@@ -2449,7 +2558,7 @@ app.post(
                     to:
                         newEmail,
                     subject:
-                        "FranTett Healthcare Ã¢â‚¬â€ Confirm New Email Address",
+                        "FranTett Healthcare ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Confirm New Email Address",
                     title:
                         "Confirm Your New Email Address",
                     message:
@@ -2531,7 +2640,7 @@ app.post(
 );
 
 /* FRANTETT-SECURITY-EMAIL-RESEND-NEW-END */
-/* VERIFY NEW EMAIL Ã¢â‚¬â€ COMPLETE EMAIL CHANGE */
+/* VERIFY NEW EMAIL ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â COMPLETE EMAIL CHANGE */
 
 app.post(
     "/api/settings/email/verify-new",
@@ -2662,7 +2771,7 @@ app.post(
                 await sendSecurityEmail({
                     to: oldEmail,
                     subject:
-                        "FranTett Healthcare Ã¢â‚¬â€ Email Address Changed",
+                        "FranTett Healthcare ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Email Address Changed",
                     title:
                         "Email Address Changed",
                     message:
@@ -2702,7 +2811,7 @@ app.post(
     }
 );
 
-/* REQUEST PASSWORD CHANGE Ã¢â‚¬â€ SEND CODE */
+/* REQUEST PASSWORD CHANGE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â SEND CODE */
 
 app.post(
     "/api/settings/password/request",
@@ -2730,7 +2839,7 @@ app.post(
                 await sendSecurityEmail({
                     to: currentEmail,
                     subject:
-                        "FranTett Healthcare Ã¢â‚¬â€ Password Change Verification",
+                        "FranTett Healthcare ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Password Change Verification",
                     title:
                         "Verify Your Password Change",
                     message:
@@ -2973,7 +3082,7 @@ app.post(
                             req.staffAccount.email
                         ),
                     subject:
-                        "FranTett Healthcare Ã¢â‚¬â€ Password Changed",
+                        "FranTett Healthcare ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Password Changed",
                     title:
                         "Password Changed Successfully",
                     message:
@@ -3392,6 +3501,7 @@ app.get(
 app.get(
     "/api/patients/:patientId/documents",
     authenticateToken,
+    requireDoctorPatientAccess,
     async (req, res) => {
 
         try {
@@ -6225,6 +6335,7 @@ app.get(
 app.get(
     "/api/patients/:id",
     authenticateToken,
+    requireDoctorPatientAccess,
     async (req, res) => {
 
         try {
@@ -6441,7 +6552,7 @@ app.get(
 
 // ==========================================
  // ==========================================
- // GET ALL CONSULTATIONS Ã¢â‚¬â€ STAFF WORKSPACE
+ // GET ALL CONSULTATIONS ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â STAFF WORKSPACE
  // ==========================================
 
  app.get(
@@ -7760,7 +7871,7 @@ app.get(
                         (
                             SELECT string_agg(
                                 pi.medication_name,
-                                ' Ã¢â‚¬Â¢ '
+                                ' ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ '
                                 ORDER BY pi.id
                             )
                             FROM prescription_items pi
@@ -9564,7 +9675,7 @@ app.delete(
 // ============================================================
 
 // Get complete laboratory reports with parameters
-app.get("/api/patients/:patientId/lab-reports", async (req, res) => {
+app.get("/api/patients/:patientId/lab-reports", authenticateToken, requireDoctorPatientAccess, async (req, res) => {
     try {
 
         const patientId = Number(req.params.patientId);
@@ -9634,7 +9745,7 @@ app.get("/api/patients/:patientId/lab-reports", async (req, res) => {
 
 
 // Create a complete laboratory report
-app.post("/api/patients/:patientId/lab-reports", async (req, res) => {
+app.post("/api/patients/:patientId/lab-reports", authenticateToken, requireDoctorPatientAccess, async (req, res) => {
 
     const client = await pool.connect();
 
@@ -10061,56 +10172,129 @@ app.put(
     }
 );
 
-app.delete("/api/lab-reports/:id", async (req, res) => {
+app.delete(
+    "/api/lab-reports/:id",
+    authenticateToken,
+    async (req, res) => {
 
-    try {
+        try {
 
-        const id = Number(req.params.id);
+            const id = Number(req.params.id);
 
-        if (!Number.isInteger(id) || id <= 0) {
-            return res.status(400).json({
-                message: "Invalid laboratory report ID."
+            if (!Number.isInteger(id) || id <= 0) {
+                return res.status(400).json({
+                    message: "Invalid laboratory report ID."
+                });
+            }
+
+            const reportResult = await pool.query(
+                `
+                SELECT patient_id
+                FROM lab_reports
+                WHERE id = $1
+                `,
+                [id]
+            );
+
+            if (reportResult.rows.length === 0) {
+                return res.status(404).json({
+                    message: "Laboratory report not found."
+                });
+            }
+
+            const patientId =
+                Number(reportResult.rows[0].patient_id);
+
+            const userRole =
+                String(req.user?.role || "")
+                    .trim()
+                    .toLowerCase();
+
+            if (userRole === "doctor") {
+
+                if (
+                    !req.doctorAccount ||
+                    !req.doctorAccount.doctor_id
+                ) {
+
+                    let verificationComplete = false;
+
+                    await requireDoctorAccount(
+                        req,
+                        res,
+                        () => {
+                            verificationComplete = true;
+                        }
+                    );
+
+                    if (!verificationComplete) {
+                        return;
+                    }
+                }
+
+                const accessResult =
+                    await pool.query(
+                        `
+                        SELECT 1
+                        FROM appointments
+                        WHERE patient_id = $1
+                          AND doctor_id = $2
+                        LIMIT 1
+                        `,
+                        [
+                            patientId,
+                            req.doctorAccount.doctor_id
+                        ]
+                    );
+
+                if (accessResult.rows.length === 0) {
+                    return res.status(403).json({
+                        message:
+                            "You are not authorized to access this patient's records."
+                    });
+                }
+            }
+
+            const result = await pool.query(
+                `
+                DELETE FROM lab_reports
+                WHERE id = $1
+                RETURNING id
+                `,
+                [id]
+            );
+
+            if (result.rowCount === 0) {
+                return res.status(404).json({
+                    message: "Laboratory report not found."
+                });
+            }
+
+            res.json({
+                message:
+                    "Laboratory report deleted successfully."
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Delete lab report error:",
+                error
+            );
+
+            res.status(500).json({
+                message:
+                    "Failed to delete laboratory report."
             });
         }
-
-        const result = await pool.query(
-            `
-            DELETE FROM lab_reports
-            WHERE id = $1
-            RETURNING id
-            `,
-            [id]
-        );
-
-        if (result.rowCount === 0) {
-            return res.status(404).json({
-                message: "Laboratory report not found."
-            });
-        }
-
-        res.json({
-            message: "Laboratory report deleted successfully."
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Delete lab report error:",
-            error
-        );
-
-        res.status(500).json({
-            message: "Failed to delete laboratory report."
-        });
     }
-});
-
+);
 
 // EMR - LAB RESULTS
 // ============================================================
 
 // Get laboratory results for a patient
-app.get("/api/patients/:patientId/labs", async (req, res) => {
+app.get("/api/patients/:patientId/labs", authenticateToken, requireDoctorPatientAccess, async (req, res) => {
     try {
         const patientId = Number(req.params.patientId);
 
@@ -10154,7 +10338,7 @@ app.get("/api/patients/:patientId/labs", async (req, res) => {
 
 
 // Add laboratory result
-app.post("/api/patients/:patientId/labs", async (req, res) => {
+app.post("/api/patients/:patientId/labs", authenticateToken, requireDoctorPatientAccess, async (req, res) => {
     try {
         const patientId = Number(req.params.patientId);
 
@@ -10228,7 +10412,7 @@ app.post("/api/patients/:patientId/labs", async (req, res) => {
 
 
 // Update laboratory result
-app.put("/api/labs/:id", async (req, res) => {
+app.put("/api/labs/:id", authenticateToken, async (req, res) => {
     try {
         const id = Number(req.params.id);
 
@@ -10238,6 +10422,73 @@ app.put("/api/labs/:id", async (req, res) => {
             });
         }
 
+        const patientResult = await pool.query(
+            `
+            SELECT patient_id
+            FROM lab_results
+            WHERE id = $1
+            `,
+            [id]
+        );
+
+        if (patientResult.rows.length === 0) {
+            return res.status(404).json({
+                message: "Laboratory result not found."
+            });
+        }
+
+        const patientId =
+            Number(patientResult.rows[0].patient_id);
+
+        const userRole =
+            String(req.user?.role || "")
+                .trim()
+                .toLowerCase();
+
+        if (userRole === "doctor") {
+
+            if (
+                !req.doctorAccount ||
+                !req.doctorAccount.doctor_id
+            ) {
+
+                let verificationComplete = false;
+
+                await requireDoctorAccount(
+                    req,
+                    res,
+                    () => {
+                        verificationComplete = true;
+                    }
+                );
+
+                if (!verificationComplete) {
+                    return;
+                }
+            }
+
+            const accessResult =
+                await pool.query(
+                    `
+                    SELECT 1
+                    FROM appointments
+                    WHERE patient_id = $1
+                      AND doctor_id = $2
+                    LIMIT 1
+                    `,
+                    [
+                        patientId,
+                        req.doctorAccount.doctor_id
+                    ]
+                );
+
+            if (accessResult.rows.length === 0) {
+                return res.status(403).json({
+                    message:
+                        "You are not authorized to access this patient's records."
+                });
+            }
+        }
         const {
             test_name,
             result_value,
@@ -10301,7 +10552,7 @@ app.put("/api/labs/:id", async (req, res) => {
 
 
 // Delete laboratory result
-app.delete("/api/labs/:id", async (req, res) => {
+app.delete("/api/labs/:id", authenticateToken, async (req, res) => {
     try {
         const id = Number(req.params.id);
 
@@ -10311,6 +10562,73 @@ app.delete("/api/labs/:id", async (req, res) => {
             });
         }
 
+        const patientResult = await pool.query(
+            `
+            SELECT patient_id
+            FROM lab_results
+            WHERE id = $1
+            `,
+            [id]
+        );
+
+        if (patientResult.rows.length === 0) {
+            return res.status(404).json({
+                message: "Laboratory result not found."
+            });
+        }
+
+        const patientId =
+            Number(patientResult.rows[0].patient_id);
+
+        const userRole =
+            String(req.user?.role || "")
+                .trim()
+                .toLowerCase();
+
+        if (userRole === "doctor") {
+
+            if (
+                !req.doctorAccount ||
+                !req.doctorAccount.doctor_id
+            ) {
+
+                let verificationComplete = false;
+
+                await requireDoctorAccount(
+                    req,
+                    res,
+                    () => {
+                        verificationComplete = true;
+                    }
+                );
+
+                if (!verificationComplete) {
+                    return;
+                }
+            }
+
+            const accessResult =
+                await pool.query(
+                    `
+                    SELECT 1
+                    FROM appointments
+                    WHERE patient_id = $1
+                      AND doctor_id = $2
+                    LIMIT 1
+                    `,
+                    [
+                        patientId,
+                        req.doctorAccount.doctor_id
+                    ]
+                );
+
+            if (accessResult.rows.length === 0) {
+                return res.status(403).json({
+                    message:
+                        "You are not authorized to access this patient's records."
+                });
+            }
+        }
         const result = await pool.query(
             `
             DELETE FROM lab_results
@@ -10365,6 +10683,8 @@ app.post(
                 `
                 SELECT
                     id,
+                    patient_id,
+                    doctor_id,
                     meeting_room,
                     meeting_provider,
                     status
@@ -10382,6 +10702,83 @@ app.post(
             }
 
             const appointment = result.rows[0];
+            // ------------------------------------------
+            // VERIFY APPOINTMENT PARTICIPANT ACCESS
+            // ------------------------------------------
+
+            const userRole =
+                String(req.user?.role || "")
+                    .trim()
+                    .toLowerCase();
+
+            const accountType =
+                String(req.user?.account_type || "")
+                    .trim()
+                    .toLowerCase();
+
+            if (accountType === "patient") {
+
+                const authenticatedPatientId =
+                    Number(req.user.id);
+
+                const appointmentPatientId =
+                    Number(appointment.patient_id);
+
+                if (
+                    !Number.isInteger(authenticatedPatientId) ||
+                    authenticatedPatientId !== appointmentPatientId
+                ) {
+                    return res.status(403).json({
+                        message:
+                            "You are not authorized to join this appointment."
+                    });
+                }
+
+            } else if (userRole === "doctor") {
+
+                if (
+                    !req.doctorAccount ||
+                    !req.doctorAccount.doctor_id
+                ) {
+
+                    let verificationComplete = false;
+
+                    await requireDoctorAccount(
+                        req,
+                        res,
+                        () => {
+                            verificationComplete = true;
+                        }
+                    );
+
+                    if (!verificationComplete) {
+                        return;
+                    }
+                }
+
+                const authenticatedDoctorId =
+                    Number(req.doctorAccount.doctor_id);
+
+                const appointmentDoctorId =
+                    Number(appointment.doctor_id);
+
+                if (
+                    !Number.isInteger(authenticatedDoctorId) ||
+                    authenticatedDoctorId !== appointmentDoctorId
+                ) {
+                    return res.status(403).json({
+                        message:
+                            "You are not authorized to join this appointment."
+                    });
+                }
+
+            } else {
+
+                return res.status(403).json({
+                    message:
+                        "You are not authorized to join this appointment."
+                });
+            }
 
             if (!appointment.meeting_room) {
                 return res.status(400).json({
@@ -10548,7 +10945,7 @@ app.post(
 );
 
 
-/* GET ALL PAYMENTS Ã¢â‚¬â€ ADMIN STAFF WORKSPACE */
+/* GET ALL PAYMENTS ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ADMIN STAFF WORKSPACE */
 app.get(
     "/api/payments",
     authenticateToken,
