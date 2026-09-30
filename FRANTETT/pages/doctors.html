@@ -857,6 +857,29 @@
     const API_URL =
         window.FRANTETT_API + "/api/doctors";
 
+    /* =========================
+       AUTH HEADERS
+    ========================= */
+
+    function getAuthHeaders() {
+
+        const token =
+            localStorage.getItem(
+                "frantett_token"
+            );
+
+        return {
+
+            "Content-Type":
+                "application/json",
+
+            "Authorization":
+                `Bearer ${token}`
+
+        };
+
+    }
+
 
     let doctors = [];
 
@@ -1473,10 +1496,7 @@
                     {
                         method: "POST",
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+                        headers: getAuthHeaders(),
 
                         body: JSON.stringify({
                             day_of_week: day,
@@ -1538,7 +1558,9 @@
                 await fetch(
                     `${API_URL}/${selectedScheduleDoctorId}/availability/${availabilityId}`,
                     {
-                        method: "DELETE"
+                        method: "DELETE",
+                    
+                        headers: getAuthHeaders()
                     }
                 );
 
@@ -1698,10 +1720,7 @@
                     {
                         method: "POST",
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+                        headers: getAuthHeaders(),
 
                         body: JSON.stringify({
                             leave_date: leaveDate,
@@ -1768,7 +1787,9 @@
                 await fetch(
                     `${API_URL}/${selectedScheduleDoctorId}/leave-days/${leaveId}`,
                     {
-                        method: "DELETE"
+                        method: "DELETE",
+                    
+                        headers: getAuthHeaders()
                     }
                 );
 
@@ -2031,7 +2052,9 @@ function bookAppointment(
                 await fetch(
                     `${API_URL}/${id}`,
                     {
-                        method: "DELETE"
+                        method: "DELETE",
+                    
+                        headers: getAuthHeaders()
                     }
                 );
 
@@ -2109,10 +2132,7 @@ function bookAppointment(
 
                         method: "PATCH",
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+                        headers: getAuthHeaders(),
 
                         body:
                             JSON.stringify({
@@ -2228,10 +2248,7 @@ function bookAppointment(
                                         ? "PUT"
                                         : "POST",
 
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
+                                headers: getAuthHeaders(),
 
                                 body:
                                     JSON.stringify(
